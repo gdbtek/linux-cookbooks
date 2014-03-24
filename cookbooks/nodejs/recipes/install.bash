@@ -8,6 +8,12 @@ function getLatestVersionNumber()
     echo "${shaSums256}" | egrep -o "node-v${versionPattern}\.tar\.gz" | egrep -o "${versionPattern}"
 }
 
+function installDependencies()
+{
+    apt-get update
+    apt-get install -y build-essential
+}
+
 function install()
 {
     local latestVersionNumber="$(getLatestVersionNumber)"
@@ -28,7 +34,9 @@ function main()
     source "${appPath}/../attributes/default.bash" || exit 1
 
     header 'INSTALLING NODEJS'
+
+    installDependencies
     install
 }
 
-main
+main "${@}"
