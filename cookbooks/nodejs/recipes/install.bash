@@ -28,13 +28,14 @@ function install()
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${0}")" && pwd)"
+    appPath="$(cd "$(dirname "${0}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
 
     header 'INSTALLING NODEJS'
 
+    checkRequireRootUser
     installDependencies
     install
 }

@@ -42,3 +42,16 @@ function isEmptyString()
         echo 'false'
     fi
 }
+
+function addSystemUser()
+{
+    adduser --system --no-create-home --disabled-login --disabled-password --group "${1}" >> /dev/null 2>&1
+}
+
+function checkRequireRootUser
+{
+    if [[ "$(whoami)" != 'root' ]]
+    then
+        fatal "ERROR: please run this program as 'root'"
+    fi
+}
