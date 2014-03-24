@@ -33,7 +33,7 @@ function main()
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
 
-    header 'INSTALLING NODEJS'
+    header 'INSTALLING NODE-JS'
 
     checkRequireRootUser
     installDependencies
