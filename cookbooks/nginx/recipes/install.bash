@@ -29,9 +29,9 @@ function install()
     cd "${currentPath}"
 
     echo "export PATH=\"${installFolder}/sbin:\$PATH\"" > "${etcProfileFile}"
-
     cp -f "${appPath}/../files/upstart/nginx.conf" "${etcInitFolder}"
     cp -f "${appPath}/../files/conf/nginx.conf" "${configFolder}"
+
     start nginx
 }
 
