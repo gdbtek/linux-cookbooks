@@ -55,3 +55,10 @@ function checkRequireRootUser
         fatal "ERROR: please run this program as 'root'"
     fi
 }
+
+function getFileName()
+{
+    local fullFileName="$(basename "${1}")"
+
+    echo "${fullFileName%.*}"
+}

@@ -5,6 +5,7 @@ function installDependencies()
     apt-get update
 
     apt-get install -y build-essential
+    apt-get install -y curl
     apt-get install -y libpcre3-dev
     apt-get install -y libssl-dev
 }
@@ -29,10 +30,10 @@ function install()
     cd "${currentPath}"
 
     echo "export PATH=\"${installFolder}/sbin:\$PATH\"" > "${etcProfileFile}"
-    cp -f "${appPath}/../files/upstart/nginx.conf" "${etcInitFolder}"
-    cp -f "${appPath}/../files/conf/nginx.conf" "${configFolder}"
+    cp -f "${appPath}/../files/upstart/nginx.conf" "${etcInitFile}"
+    cp -f "${appPath}/../files/conf/nginx.conf" "${installConfigFolder}"
 
-    start nginx
+    start "$(getFileName "${etcInitFile}")"
 }
 
 function main()
