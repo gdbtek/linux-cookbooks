@@ -10,3 +10,5 @@ installFolder='/opt/redis'
 installBinFolder="${installFolder}/bin"
 installConfigFolder="${installFolder}/config"
 installDataFolder="${installFolder}/data"
+
+systemConfigFile='/etc/sysctl.conf'

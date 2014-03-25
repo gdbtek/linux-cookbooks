@@ -30,6 +30,12 @@ function install()
     cp -f "${appPath}/../files/upstart/redis.conf" "${etcInitFile}"
     cp -f "${appPath}/../files/conf/redis.conf" "${installConfigFolder}"
 
+    if [[ "$(grep "^\s*vm.overcommit_memory\s*=\s*1\s*$" "${systemConfigFile}")" = '' ]]
+    then
+        echo -e "\nvm.overcommit_memory = 1" >> "${systemConfigFile}"
+        sysctl vm.overcommit_memory=1
+    fi
+
     start "$(getFileName "${etcInitFile}")"
 }
 
