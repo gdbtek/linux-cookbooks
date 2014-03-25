@@ -28,6 +28,7 @@ function main()
 
     install
 
+    sleep 3
     displayOpenPorts
 }
 
