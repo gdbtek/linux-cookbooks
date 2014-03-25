@@ -83,3 +83,17 @@ function checkPortRequirement
         exit 1
     fi
 }
+
+function getProfileFile()
+{
+    local bashProfileFile="${HOME}/.bash_profile"
+    local profileFile="${HOME}/.profile"
+    local defaultStartUpFile="${bashProfileFile}"
+
+    if [[ ! -f "${bashProfileFile}" && -f "${profileFile}" ]]
+    then
+        defaultStartUpFile="${profileFile}"
+    fi
+
+    echo "${defaultStartUpFile}"
+}
