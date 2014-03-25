@@ -46,6 +46,8 @@ function main()
     header 'INSTALLING NGINX'
 
     checkRequireRootUser
+    checkPortRequirement "${requirePorts[@]}"
+
     installDependencies
     install
     displayOpenPorts

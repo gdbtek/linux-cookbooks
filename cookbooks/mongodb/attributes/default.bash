@@ -7,3 +7,5 @@ etcProfileFile='/etc/profile.d/mongodb.sh'
 
 installFolder='/opt/mongodb'
 installDataFolder="${installFolder}/data"
+
+requirePorts=(27017 28017)

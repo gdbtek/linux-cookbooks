@@ -12,3 +12,5 @@ installConfigFolder="${installFolder}/config"
 installDataFolder="${installFolder}/data"
 
 systemConfigFile='/etc/sysctl.conf'
+
+requirePorts=(6379)

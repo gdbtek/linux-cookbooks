@@ -49,8 +49,11 @@ function main()
     header 'INSTALLING REDIS'
 
     checkRequireRootUser
+    checkPortRequirement "${requirePorts[@]}"
+
     installDependencies
     install
+
     displayOpenPorts
 }
 

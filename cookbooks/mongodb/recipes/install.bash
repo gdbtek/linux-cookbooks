@@ -24,7 +24,10 @@ function main()
     header 'INSTALLING MONGODB'
 
     checkRequireRootUser
+    checkPortRequirement "${requirePorts[@]}"
+
     install
+
     displayOpenPorts
 }
 
