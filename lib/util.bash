@@ -62,3 +62,10 @@ function getFileName()
 
     echo "${fullFileName%.*}"
 }
+
+function displayOpenPorts
+{
+    header 'LIST OPEN PORTS'
+
+    lsof -P -i | grep ' (LISTEN)$' | sort
+}

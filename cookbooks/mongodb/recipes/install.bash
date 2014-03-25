@@ -25,6 +25,7 @@ function main()
 
     checkRequireRootUser
     install
+    displayOpenPorts
 }
 
 main "${@}"
