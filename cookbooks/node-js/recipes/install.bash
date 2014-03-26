@@ -38,6 +38,7 @@ function main()
     header 'INSTALLING NODE-JS'
 
     checkRequireRootUser
+
     installDependencies
     install
 }
