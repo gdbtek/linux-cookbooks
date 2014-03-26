@@ -1,6 +1,6 @@
 #!/bin/bash
 
-downloadURL=''
+downloadURL='https://db.tt/TWRfSdZU'
 
 etcProfileFile='/etc/profile.d/jdk.sh'
 

@@ -8,6 +8,8 @@ function install()
     curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
 
     echo "export PATH=\"${installFolder}/bin:\$PATH\"" > "${etcProfileFile}"
+    echo "export JAVA_HOME='${installFolder}'" >> "${etcProfileFile}"
+    echo "export JRE_HOME='${installFolder}/jre'" >> "${etcProfileFile}"
 }
 
 function main()
