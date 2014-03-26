@@ -5,9 +5,9 @@ function install()
     rm -rf "${installFolder}"
     mkdir -p "${installFolder}"
 
-    curl -L "${downloadURL}" | tar xz --strip 1 -C "${tempFolder}"
+    curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
 
-    echo "export PATH=\"${installFolder}/sbin:\$PATH\"" > "${etcProfileFile}"
+    echo "export PATH=\"${installFolder}/bin:\$PATH\"" > "${etcProfileFile}"
 }
 
 function main()
