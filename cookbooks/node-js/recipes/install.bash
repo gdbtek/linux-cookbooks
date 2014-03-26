@@ -22,7 +22,8 @@ function install()
     rm -rf "${installFolder}"
     mkdir -p "${installFolder}"
 
-    curl -L "http://nodejs.org/dist/v${latestVersionNumber}/node-v${latestVersionNumber}-linux-x64.tar.gz" | tar xz --strip 1 -C "${installFolder}"
+    curl -L "http://nodejs.org/dist/v${latestVersionNumber}/node-v${latestVersionNumber}-linux-x64.tar.gz" | \
+    tar xz --strip 1 -C "${installFolder}"
 
     echo "export PATH=\"${installFolder}/bin:\$PATH\"" > "${etcProfileFile}"
 }
