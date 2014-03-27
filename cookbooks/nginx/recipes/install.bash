@@ -34,6 +34,7 @@ function install()
     cp -f "${appPath}/../files/conf/nginx.conf" "${installConfigFolder}"
 
     start "$(getFileName "${etcInitFile}")"
+    chown -R "${user}" "${installLogFolder}"
 }
 
 function main()

@@ -8,5 +8,6 @@ etcProfileFile='/etc/profile.d/nginx.sh'
 
 installFolder='/opt/nginx'
 installConfigFolder="${installFolder}/conf"
+installLogFolder="${installFolder}/logs"
 
 requirePorts=(80)
