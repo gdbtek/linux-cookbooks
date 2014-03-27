@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    local currentPath="$(pwd)"
+
     rm -rf "${installFolder}"
     rm -f "/usr/local/$(getFileName "${installFolder}")"
     mkdir -p "${installFolder}"
@@ -20,11 +22,13 @@ function install()
     ln -s "${installFolder}" "/usr/local/$(getFileName "${installFolder}")"
     chown -R "${user}" "${installFolder}"
     chgrp -R "${user}" "${installFolder}"
+    cd "${installFolder}"
     "${installFolder}/scripts/mysql_install_db" --user="${user}"
     chown -R "$(whoami)" "${installFolder}"
     chown -R "${user}" "${installFolder}/data"
     cp "${installFolder}/support-files/mysql.server" "${etcInitFile}"
     service "$(getFileName "${installFolder}")" start
+    cd "${currentPath}"
 
     echo "export PATH=\"${installBinFolder}:\$PATH\"" > "${etcProfileFile}"
 }
