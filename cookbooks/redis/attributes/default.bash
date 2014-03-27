@@ -11,6 +11,7 @@ installBinFolder="${installFolder}/bin"
 installConfigFolder="${installFolder}/config"
 installDataFolder="${installFolder}/data"
 
+systemConfigFile='/etc/sysctl.conf'
 fsFileMax=100000
 vmOverCommitMemory=1
 

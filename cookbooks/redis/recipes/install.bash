@@ -30,8 +30,17 @@ function install()
     cp -f "${appPath}/../files/upstart/redis.conf" "${etcInitFile}"
     cp -f "${appPath}/../files/conf/redis.conf" "${installConfigFolder}"
 
-    sysctl vm.overcommit_memory="${vmOverCommitMemory}"
-    sysctl -w fs.file-max="${fsFileMax}"
+    if [[ "$(grep "^\s*fs.file-max\s*=\s*${fsFileMax}\s*$" "${systemConfigFile}")" = '' ]]
+    then
+        echo -e "\nfs.file-max = ${fsFileMax}" >> "${systemConfigFile}"
+        sysctl fs.file-max="${fsFileMax}"
+    fi
+
+    if [[ "$(grep "^\s*vm.overcommit_memory\s*=\s*${vmOverCommitMemory}\s*$" "${systemConfigFile}")" = '' ]]
+    then
+        echo -e "\nvm.overcommit_memory = ${vmOverCommitMemory}" >> "${systemConfigFile}"
+        sysctl vm.overcommit_memory="${vmOverCommitMemory}"
+    fi
 
     start "$(getFileName "${etcInitFile}")"
 }
