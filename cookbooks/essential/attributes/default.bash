@@ -7,4 +7,5 @@ essentialPackages=(
     sysv-rc-conf
     tree
     wget
+    unzip
 )
