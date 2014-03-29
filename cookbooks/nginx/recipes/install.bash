@@ -52,7 +52,6 @@ function main()
     installDependencies
     install
 
-    sleep 3
     displayOpenPorts
 }
 

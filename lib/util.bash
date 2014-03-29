@@ -33,7 +33,16 @@ function isEmptyString()
 
 function addSystemUser()
 {
-    adduser --system --no-create-home --disabled-login --disabled-password --group "${1}" >> /dev/null 2>&1
+    local uid="${1}"
+    local gid="${2}"
+
+    if [[ "${uid}" = "${gid}" ]]
+    then
+        adduser --system --no-create-home --disabled-login --disabled-password --group "${gid}" >> /dev/null 2>&1
+    else
+        addgroup "${gid}" >> /dev/null 2>&1
+        adduser --system --no-create-home --disabled-login --disabled-password --ingroup "${gid}" "${uid}" >> /dev/null 2>&1
+    fi
 }
 
 function checkRequireRootUser
@@ -55,6 +64,7 @@ function displayOpenPorts
 {
     header 'LIST OPEN PORTS'
 
+    sleep 5
     lsof -P -i | grep ' (LISTEN)$' | sort
 }
 
@@ -101,4 +111,37 @@ function getProfileFile()
 function escapeSearchPattern()
 {
     echo "$(echo "${1}" | sed "s@\[@\\\\[@g" | sed "s@\*@\\\\*@g" | sed "s@\%@\\\\%@g")"
+}
+
+function safeCopyFile()
+{
+    local sourceFilePath="${1}"
+    local destinationFilePath="${2}"
+
+    safeOpFile 'cp' "${sourceFilePath}" "${destinationFilePath}"
+}
+
+function safeMoveFile()
+{
+    local sourceFilePath="${1}"
+    local destinationFilePath="${2}"
+
+    safeOpFile 'mv' "${sourceFilePath}" "${destinationFilePath}"
+}
+
+function safeOpFile()
+{
+    local action="${1}"
+    local sourceFilePath="${2}"
+    local destinationFilePath="${3}"
+
+    if [[ -f "${sourceFilePath}" ]]
+    then
+        if [[ -f "${destinationFilePath}" ]]
+        then
+            mv "${destinationFilePath}" "${destinationFilePath}_$(date +%m%d%Y)_$(date +%H%M%S).BAK"
+        fi
+
+        "${action}" "${sourceFilePath}" "${destinationFilePath}"
+    fi
 }
