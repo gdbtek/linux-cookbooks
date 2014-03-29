@@ -79,13 +79,13 @@ function checkPortRequirement
     do
         local found="$(echo "${status}" | grep ":${port} (LISTEN)$")"
 
-        if [[ "${found}" != '' ]]
+        if [[ "$(isEmptyString "${found}")" = 'false' ]]
         then
             open="${open}\n${found}"
         fi
     done
 
-    if [[ "${open}" != '' ]]
+    if [[ "$(isEmptyString "${open}")" = 'false' ]]
     then
         echo -e  "\033[1;31mFollowing ports are still opened. Make sure you uninstall or stop them before a new installation!\033[0m"
         echo -en "\033[1;34m\n$(echo "${status}" | grep "${headerRegex}")\033[0m"
