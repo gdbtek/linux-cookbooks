@@ -4,8 +4,9 @@ packages=(
     curl
     git
     iptables
+    screen
     sysv-rc-conf
     tree
-    wget
     unzip
+    wget
 )
