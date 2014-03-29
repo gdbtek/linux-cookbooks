@@ -8,7 +8,7 @@ function installDependencies()
 function install()
 {
     apt-get install -y vim
-    cp -f "${appPath}/../files/conf/vimrc.local" "${installConfigFolder}"
+    cp -f "${appPath}/../files/conf/vimrc.local" '/etc/vim/vimrc.local'
 }
 
 function main()
@@ -16,7 +16,6 @@ function main()
     appPath="$(cd "$(dirname "${0}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash" || exit 1
-    source "${appPath}/../attributes/default.bash" || exit 1
 
     header 'INSTALLING VIM'
 
