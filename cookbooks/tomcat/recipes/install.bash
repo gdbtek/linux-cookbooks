@@ -14,10 +14,10 @@ function install()
     # Config Server
 
     local serverConfigData=(
-        8009 ${ajpPort}
-        8005 ${commandPort}
-        8080 ${httpPort}
-        8443 ${httpsPort}
+        8009 "${ajpPort}"
+        8005 "${commandPort}"
+        8080 "${httpPort}"
+        8443 "${httpsPort}"
     )
 
     updateTemplateFile "${installFolder}/conf/server.xml" "${installFolder}/conf/server.xml" "${serverConfigData[@]}"
