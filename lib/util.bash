@@ -145,3 +145,27 @@ function safeOpFile()
         "${action}" "${sourceFilePath}" "${destinationFilePath}"
     fi
 }
+
+function updateTemplateFile()
+{
+    local sourceFile="${1}"
+    local destinationFile="${2}"
+    local data=("${@:3}")
+
+    if [[ -f "${sourceFile}" ]]
+    then
+        local content="$(cat "${sourceFile}")"
+
+        for ((i = 0; i < ${#data[@]}; i = i + 2))
+        do
+            local oldValue="$(escapeSearchPattern "${data[${i}]}")"
+            local newValue="$(escapeSearchPattern "${data[${i} + 1]}")"
+
+            content="$(echo "${content}" | sed "s@${oldValue}@${newValue}@g")"
+        done
+
+        echo "${content}" > "${destinationFile}"
+    else
+        fatal "ERROR: file '${sourceFile}' not found!"
+    fi
+}

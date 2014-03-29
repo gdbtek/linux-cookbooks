@@ -2,40 +2,44 @@
 
 function install()
 {
+    # Clean Up
+
     rm -rf "${installFolder}"
     mkdir -p "${installFolder}"
+
+    # Install
 
     curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
 
     # Config Server
 
-    local tempFile="$(mktemp)"
+    local serverConfigData=(
+        8009 ${ajpPort}
+        8005 ${commandPort}
+        8080 ${httpPort}
+        8443 ${httpsPort}
+    )
 
-    sed "s@8009@${ajpPort}@g" "${installFolder}/conf/server.xml" | \
-    sed "s@8005@${commandPort}@g" | \
-    sed "s@8080@${httpPort}@g" | \
-    sed "s@8443@${httpsPort}@g" \
-    > "${tempFile}"
-    mv "${tempFile}" "${installFolder}/conf/server.xml"
+    updateTemplateFile "${installFolder}/conf/server.xml" "${installFolder}/conf/server.xml" "${serverConfigData[@]}"
 
     # Config Profile
 
-    local newInstallFolder="$(escapeSearchPattern "${installFolder}")"
+    local profileConfigData=(
+        '__INSTALL_FOLDER__' "${installFolder}"
+    )
 
-    sed "s@__INSTALL_FOLDER__@${newInstallFolder}@g" "${appPath}/../files/profile/tomcat.sh" \
-    > '/etc/profile.d/tomcat.sh'
+    updateTemplateFile "${appPath}/../files/profile/tomcat.sh" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
-    local newJDKFolder="$(escapeSearchPattern "${jdkFolder}")"
-    local newUID="$(escapeSearchPattern "${uid}")"
-    local newGID="$(escapeSearchPattern "${gid}")"
+    local upstartConfigData=(
+        '__INSTALL_FOLDER__' "${installFolder}"
+        '__JDK_FOLDER__' "${jdkFolder}"
+        '__UID__' "${uid}"
+        '__GID__' "${gid}"
+    )
 
-    sed "s@__INSTALL_FOLDER__@${newInstallFolder}@g" "${appPath}/../files/upstart/tomcat.conf" | \
-    sed "s@__JDK_FOLDER__@${newJDKFolder}@g" | \
-    sed "s@__UID__@${newUID}@g" | \
-    sed "s@__GID__@${newGID}@g" \
-    > "/etc/init/${serviceName}.conf"
+    updateTemplateFile "${appPath}/../files/upstart/tomcat.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
