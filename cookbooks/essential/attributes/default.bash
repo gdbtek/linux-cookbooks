@@ -1,6 +1,6 @@
 #!/bin/bash
 
-essentialPackages=(
+packages=(
     curl
     git
     iptables

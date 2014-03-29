@@ -7,7 +7,7 @@ function installDependencies()
 
 function install()
 {
-    apt-get install -y "${essentialPackages[@]}"
+    apt-get install -y "${packages[@]}"
 }
 
 function main()
