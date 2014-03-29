@@ -20,13 +20,13 @@ function install()
     # Install
 
     curl -L "${downloadURL}" -o "${zipFile}"
-    unzip "${zipFile}" -d "${installFolder}"
+    unzip -q "${zipFile}" -d "${installFolder}"
     rm -f "${zipFile}"
     cd "${installFolder}"
-    npm install --production
+    npm install --production --silent
     cd "${currentPath}"
 
-    # Config
+    # Config Server File
 
     local oldURL="$(escapeSearchPattern 'http://my-ghost-blog.com')"
     local newURL="$(escapeSearchPattern "${url}")"
@@ -38,11 +38,22 @@ function install()
     sed "s@2369@${port}@g" \
     > "${installFolder}/config.js"
 
-    cp -f "${appPath}/../files/upstart/ghost.conf" "/etc/init/${serviceName}.conf"
+    # Config Upstart File
+
+    local newInstallFolder="$(escapeSearchPattern "${installFolder}")"
+    local newUID="$(escapeSearchPattern "${uid}")"
+    local newGID="$(escapeSearchPattern "${gid}")"
+
+    sed "s@__INSTALL_FOLDER__@${newInstallFolder}@g" "${appPath}/../files/upstart/ghost.conf" | \
+    sed "s@__UID__@${newUID}@g" | \
+    sed "s@__GID__@${newGID}@g" \
+    > "/etc/init/${serviceName}.conf"
 
     # Start
 
-    start ghost
+    addSystemUser "${uid}" "${gid}"
+    chown -R "${uid}":"${gid}" "${installFolder}"
+    start "${serviceName}"
 }
 
 function main()
