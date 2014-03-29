@@ -7,7 +7,7 @@ function install()
 
     curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
 
-    # Config Server File
+    # Config Server
 
     local tempFile="$(mktemp)"
 
@@ -18,14 +18,14 @@ function install()
     > "${tempFile}"
     mv "${tempFile}" "${installFolder}/conf/server.xml"
 
-    # Config Profile File
+    # Config Profile
 
     local newInstallFolder="$(escapeSearchPattern "${installFolder}")"
 
     sed "s@__INSTALL_FOLDER__@${newInstallFolder}@g" "${appPath}/../files/profile/tomcat.sh" \
     > '/etc/profile.d/tomcat.sh'
 
-    # Config Upstart File
+    # Config Upstart
 
     local newJDKFolder="$(escapeSearchPattern "${jdkFolder}")"
     local newUID="$(escapeSearchPattern "${uid}")"

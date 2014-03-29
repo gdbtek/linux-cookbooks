@@ -26,7 +26,7 @@ function install()
     npm install --production --silent
     cd "${currentPath}"
 
-    # Config Server File
+    # Config Server
 
     local oldURL="$(escapeSearchPattern 'http://my-ghost-blog.com')"
     local newURL="$(escapeSearchPattern "${url}")"
@@ -38,7 +38,7 @@ function install()
     sed "s@2369@${port}@g" \
     > "${installFolder}/config.js"
 
-    # Config Upstart File
+    # Config Upstart
 
     local newInstallFolder="$(escapeSearchPattern "${installFolder}")"
     local newUID="$(escapeSearchPattern "${uid}")"
