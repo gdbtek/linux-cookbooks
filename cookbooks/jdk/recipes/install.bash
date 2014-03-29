@@ -2,14 +2,21 @@
 
 function install()
 {
+    # Clean Up
+
     rm -rf "${installFolder}"
     mkdir -p "${installFolder}"
 
+    # Install
+
     curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
 
-    echo "export PATH=\"${installFolder}/bin:\$PATH\"" > "${etcProfileFile}"
-    echo "export JAVA_HOME='${installFolder}'" >> "${etcProfileFile}"
-    echo "export JRE_HOME='${installFolder}/jre'" >> "${etcProfileFile}"
+    # Config Profile
+
+    local newInstallFolder="$(escapeSearchPattern "${installFolder}")"
+
+    sed "s@__INSTALL_FOLDER__@${newInstallFolder}@g" "${appPath}/../files/profile/jdk.sh" \
+    > '/etc/profile.d/jdk.sh'
 }
 
 function main()
