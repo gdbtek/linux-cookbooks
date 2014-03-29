@@ -4,7 +4,7 @@ downloadURL='https://ghost.org/zip/ghost-latest.zip'
 
 installFolder='/opt/ghost'
 
-etcInitFile='/etc/init/ghost.conf'
+serviceName='ghost'
 
 url='http://hoainam.net'
 host='hoainam.net'

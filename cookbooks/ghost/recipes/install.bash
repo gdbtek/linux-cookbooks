@@ -12,8 +12,12 @@ function install()
     local currentPath="$(pwd)"
     local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
+    # Clean Up
+
     rm -rf "${installFolder}"
     mkdir -p "${installFolder}"
+
+    # Install
 
     curl -L "${downloadURL}" -o "${zipFile}"
     unzip "${zipFile}" -d "${installFolder}"
@@ -22,26 +26,21 @@ function install()
     npm install --production
     cd "${currentPath}"
 
-    # Update Config File
-
-    local tempFile="$(mktemp)"
+    # Config
 
     local oldURL="$(escapeSearchPattern 'http://my-ghost-blog.com')"
     local newURL="$(escapeSearchPattern "${url}")"
-
     local oldHost="$(escapeSearchPattern '127.0.0.1')"
     local newHost="$(escapeSearchPattern "${host}")"
 
-    local oldPort="$(escapeSearchPattern '2369')"
-    local newPort="$(escapeSearchPattern "${port}")"
-
     sed "s@${oldURL}@${newURL}@g" "${installFolder}/config.example.js" | \
     sed "s@${oldHost}@${newHost}@g" | \
-    sed "s@${oldPort}@${newPort}@g" | \
-    tee "${tempFile}"
+    sed "s@2369@${port}@g" \
+    > "${installFolder}/config.js"
 
-    mv -f "${tempFile}" "${installFolder}/config.js"
-    cp -f "${appPath}/../files/upstart/ghost.conf" "${etcInitFile}"
+    cp -f "${appPath}/../files/upstart/ghost.conf" "/etc/init/${serviceName}.conf"
+
+    # Start
 
     start ghost
 }
