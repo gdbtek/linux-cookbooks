@@ -7,7 +7,7 @@ function installDependencies()
 
 function install()
 {
-    echo "${timeZone}" > "${etcTimeZoneFile}"
+    echo "${timeZone}" > '/etc/timezone'
     dpkg-reconfigure -f noninteractive tzdata
     apt-get install -y ntp
 }
