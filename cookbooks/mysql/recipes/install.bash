@@ -10,27 +10,48 @@ function installDependencies()
 
 function install()
 {
-    local currentPath="$(pwd)"
+    # Clean Up
 
-    rm -rf "${installFolder}"
-    rm -f "/usr/local/$(getFileName "${installFolder}")"
+    rm -rf "${installFolder}" "/usr/local/$(getFileName "${installFolder}")"
     mkdir -p "${installFolder}"
 
-    curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
+    # Install
 
-    addSystemUser "${user}"
+    local currentPath="$(pwd)"
+
+    curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
+    addSystemUser "${uid}" "${gid}"
     ln -s "${installFolder}" "/usr/local/$(getFileName "${installFolder}")"
-    chown -R "${user}" "${installFolder}"
-    chgrp -R "${user}" "${installFolder}"
+    chown -R "${uid}":"${gid}" "${installFolder}"
     cd "${installFolder}"
-    "${installFolder}/scripts/mysql_install_db" --user="${user}"
+    "${installFolder}/scripts/mysql_install_db" --user="${uid}"
     chown -R "$(whoami)" "${installFolder}"
-    chown -R "${user}" "${installFolder}/data"
-    cp "${installFolder}/support-files/mysql.server" "${etcInitFile}"
-    service "$(getFileName "${installFolder}")" start
+    chown -R "${uid}" "${installFolder}/data"
     cd "${currentPath}"
 
-    echo "export PATH=\"${installBinFolder}:\$PATH\"" > "${etcProfileFile}"
+    # Config Server
+
+    local serverConfigData=(
+        '__PORT__' "${port}"
+    )
+
+    updateTemplateFile "${appPath}/../files/conf/my.cnf" "${installFolder}/my.cnf" "${serverConfigData[@]}"
+
+    # Config Service
+
+    cp "${installFolder}/support-files/mysql.server" "/etc/init.d/${serviceName}"
+
+    # Config Profile
+
+    local profileConfigData=(
+        '__INSTALL_FOLDER__' "${installFolder}"
+    )
+
+    updateTemplateFile "${appPath}/../files/profile/mysql.sh" '/etc/profile.d/mysql.sh' "${profileConfigData[@]}"
+
+    # Start
+
+    service "${serviceName}" start
 }
 
 function main()
@@ -43,7 +64,7 @@ function main()
     header 'INSTALLING MYSQL'
 
     checkRequireRootUser
-    checkPortRequirement "${requirePorts[@]}"
+    checkPortRequirement "${port}"
 
     installDependencies
     install
