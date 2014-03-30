@@ -9,7 +9,7 @@ function install()
 
     # Install
 
-    curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
+    unzipRemoteFile "${downloadURL}" "${installFolder}"
 
     # Config Server
 

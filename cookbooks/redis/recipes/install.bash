@@ -5,7 +5,6 @@ function installDependencies()
     apt-get update
 
     apt-get install -y build-essential
-    apt-get install -y curl
 }
 
 function install()
@@ -20,7 +19,7 @@ function install()
     local currentPath="$(pwd)"
     local tempFolder="$(mktemp -d)"
 
-    curl -L "${downloadURL}" | tar xz --strip 1 -C "${tempFolder}"
+    unzipRemoteFile "${downloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make
     find "${tempFolder}/src" -type f ! -name "*.sh" -perm -u+x -exec cp -f {} "${installBinFolder}" \;

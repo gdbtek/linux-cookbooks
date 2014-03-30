@@ -4,7 +4,6 @@ function installDependencies()
 {
     apt-get update
 
-    apt-get install -y curl
     apt-get install -y libaio-dev
     apt-get install -y sysv-rc-conf
 }
@@ -20,7 +19,7 @@ function install()
 
     local currentPath="$(pwd)"
 
-    curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
+    unzipRemoteFile "${downloadURL}" "${installFolder}"
     addSystemUser "${uid}" "${gid}"
     ln -s "${installFolder}" "/usr/local/$(getFileName "${installFolder}")"
     chown -R "${uid}":"${gid}" "${installFolder}"

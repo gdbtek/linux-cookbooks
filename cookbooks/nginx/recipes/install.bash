@@ -5,7 +5,6 @@ function installDependencies()
     apt-get update
 
     apt-get install -y build-essential
-    apt-get install -y curl
     apt-get install -y libpcre3-dev
     apt-get install -y libssl-dev
 }
@@ -22,7 +21,7 @@ function install()
     local currentPath="$(pwd)"
     local tempFolder="$(mktemp -d)"
 
-    curl -L "${downloadURL}" | tar xz --strip 1 -C "${tempFolder}"
+    unzipRemoteFile "${downloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     "${tempFolder}/configure" --user="${uid}" --group="${gid}" --prefix="${installFolder}" --with-http_ssl_module
     make
