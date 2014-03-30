@@ -9,15 +9,15 @@ function installDependencies()
 
 function install()
 {
-    local currentPath="$(pwd)"
-    local zipFile="${installFolder}/$(basename "${downloadURL}")"
-
     # Clean Up
 
     rm -rf "${installFolder}"
     mkdir -p "${installFolder}"
 
     # Install
+
+    local currentPath="$(pwd)"
+    local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
     curl -L "${downloadURL}" -o "${zipFile}"
     unzip -q "${zipFile}" -d "${installFolder}"
