@@ -12,29 +12,53 @@ function installDependencies()
 
 function install()
 {
-    local currentPath="$(pwd)"
-    local tempFolder="$(mktemp -d)"
+    # Clean Up
 
     rm -rf "${installFolder}"
     mkdir -p "${installFolder}"
 
-    curl -L "${downloadURL}" | tar xz --strip 1 -C "${tempFolder}"
+    # Install
 
-    addSystemUser "${user}"
+    local currentPath="$(pwd)"
+    local tempFolder="$(mktemp -d)"
+
+    curl -L "${downloadURL}" | tar xz --strip 1 -C "${tempFolder}"
     cd "${tempFolder}"
-    ./configure --user="${user}" --group="${user}" --prefix="${installFolder}" --with-http_ssl_module
+    "${tempFolder}/configure" --user="${uid}" --group="${gid}" --prefix="${installFolder}" --with-http_ssl_module
     make
     make install
-
     rm -rf "${tempFolder}"
     cd "${currentPath}"
 
-    echo "export PATH=\"${installFolder}/sbin:\$PATH\"" > "${etcProfileFile}"
-    cp -f "${appPath}/../files/upstart/nginx.conf" "${etcInitFile}"
-    cp -f "${appPath}/../files/conf/nginx.conf" "${installConfigFolder}"
+    # Config Server
 
-    start "$(getFileName "${etcInitFile}")"
-    chown -R "${user}" "${installLogFolder}"
+    local serverConfigData=(
+        '__PORT__' "${port}"
+    )
+
+    updateTemplateFile  "${appPath}/../files/conf/nginx.conf" "${installFolder}/conf/nginx.conf" "${serverConfigData[@]}"
+
+    # Config Profile
+
+    local profileConfigData=(
+        '__INSTALL_FOLDER__' "${installFolder}"
+    )
+
+    updateTemplateFile "${appPath}/../files/profile/nginx.sh" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
+
+    # Config Upstart
+
+    local upstartConfigData=(
+        '__INSTALL_FOLDER__' "${installFolder}"
+    )
+
+    updateTemplateFile "${appPath}/../files/upstart/nginx.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+
+    # Start
+
+    addSystemUser "${uid}" "${gid}"
+    chown -R "${uid}":"${gid}" "${installFolder}"
+    start "${serviceName}"
 }
 
 function main()
@@ -47,7 +71,7 @@ function main()
     header 'INSTALLING NGINX'
 
     checkRequireRootUser
-    checkPortRequirement "${requirePorts[@]}"
+    checkPortRequirement "${port}"
 
     installDependencies
     install
