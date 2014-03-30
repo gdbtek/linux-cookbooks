@@ -20,13 +20,13 @@ function install()
         8443 "${httpsPort}"
     )
 
-    updateTemplateFile "${installFolder}/conf/server.xml" "${installFolder}/conf/server.xml" "${serverConfigData[@]}"
+    createFileFromTemplate "${installFolder}/conf/server.xml" "${installFolder}/conf/server.xml" "${serverConfigData[@]}"
 
     # Config Profile
 
     local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
-    updateTemplateFile "${appPath}/../files/profile/tomcat.sh" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/profile/tomcat.sh" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -35,9 +35,8 @@ function install()
         '__JDK_FOLDER__' "${jdkFolder}"
         '__UID__' "${uid}"
         '__GID__' "${gid}"
-    )
 
-    updateTemplateFile "${appPath}/../files/upstart/tomcat.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/tomcat.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 

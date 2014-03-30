@@ -34,7 +34,7 @@ function install()
         2369 "${port}"
     )
 
-    updateTemplateFile "${installFolder}/config.example.js" "${installFolder}/config.js" "${serverConfigData[@]}"
+    createFileFromTemplate "${installFolder}/config.example.js" "${installFolder}/config.js" "${serverConfigData[@]}"
 
     # Config Upstart
 
@@ -44,7 +44,7 @@ function install()
         '__GID__' "${gid}"
     )
 
-    updateTemplateFile "${appPath}/../files/upstart/ghost.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/ghost.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 

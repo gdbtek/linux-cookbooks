@@ -16,7 +16,7 @@ function install()
 
     local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
-    updateTemplateFile "${appPath}/../files/profile/mongodb.sh" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/profile/mongodb.sh" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -26,7 +26,7 @@ function install()
         '__PORT__' "${port}"
     )
 
-    updateTemplateFile "${appPath}/../files/upstart/mongodb.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/mongodb.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 

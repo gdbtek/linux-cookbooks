@@ -147,7 +147,7 @@ function safeOpFile()
     fi
 }
 
-function updateTemplateFile()
+function createFileFromTemplate()
 {
     local sourceFile="${1}"
     local destinationFile="${2}"

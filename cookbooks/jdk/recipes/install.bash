@@ -15,7 +15,7 @@ function install()
 
     local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
-    updateTemplateFile "${appPath}/../files/profile/jdk.sh" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/profile/jdk.sh" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
 }
 
 function main()

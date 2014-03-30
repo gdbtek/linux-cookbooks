@@ -34,13 +34,13 @@ function install()
         6379 "${port}"
     )
 
-    updateTemplateFile "${appPath}/../files/conf/redis.conf" "${installConfigFolder}/redis.conf" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/conf/redis.conf" "${installConfigFolder}/redis.conf" "${serverConfigData[@]}"
 
     # Config Profile
 
     local profileConfigData=('__INSTALL_BIN_FOLDER__' "${installBinFolder}")
 
-    updateTemplateFile "${appPath}/../files/profile/redis.sh" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/profile/redis.sh" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -51,7 +51,7 @@ function install()
         '__GID__' "${gid}"
     )
 
-    updateTemplateFile "${appPath}/../files/upstart/redis.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/redis.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
 
     # Config System
 
