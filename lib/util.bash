@@ -60,6 +60,13 @@ function getFileName()
     echo "${fullFileName%.*}"
 }
 
+function getFileExtension()
+{
+    local fullFileName="$(basename "${1}")"
+
+    echo "${fullFileName##*.}"
+}
+
 function displayOpenPorts
 {
     header 'LIST OPEN PORTS'
@@ -168,5 +175,18 @@ function createFileFromTemplate()
         echo "${content}" > "${destinationFile}"
     else
         fatal "ERROR: file '${sourceFile}' not found!"
+    fi
+}
+
+function unzipRemoteFile()
+{
+    local downloadURL="${1}"
+    local installFolder="${2}"
+
+    local extension="$(getFileExtension "${downloadURL}")"
+
+    if [[ "${extension}" = 'gz' ]]
+    then
+        curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
     fi
 }
