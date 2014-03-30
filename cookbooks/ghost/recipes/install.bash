@@ -28,26 +28,23 @@ function install()
 
     # Config Server
 
-    local oldURL="$(escapeSearchPattern 'http://my-ghost-blog.com')"
-    local newURL="$(escapeSearchPattern "${url}")"
-    local oldHost="$(escapeSearchPattern '127.0.0.1')"
-    local newHost="$(escapeSearchPattern "${host}")"
+    local serverConfigData=(
+        'http://my-ghost-blog.com' "${url}"
+        '127.0.0.1' "${host}"
+        2369 "${port}"
+    )
 
-    sed "s@${oldURL}@${newURL}@g" "${installFolder}/config.example.js" | \
-    sed "s@${oldHost}@${newHost}@g" | \
-    sed "s@2369@${port}@g" \
-    > "${installFolder}/config.js"
+    updateTemplateFile "${installFolder}/config.example.js" "${installFolder}/config.js" "${serverConfigData[@]}"
 
     # Config Upstart
 
-    local newInstallFolder="$(escapeSearchPattern "${installFolder}")"
-    local newUID="$(escapeSearchPattern "${uid}")"
-    local newGID="$(escapeSearchPattern "${gid}")"
+    local upstartConfigData=(
+        '__INSTALL_FOLDER__' "${installFolder}"
+        '__UID__' "${uid}"
+        '__GID__' "${gid}"
+    )
 
-    sed "s@__INSTALL_FOLDER__@${newInstallFolder}@g" "${appPath}/../files/upstart/ghost.conf" | \
-    sed "s@__UID__@${newUID}@g" | \
-    sed "s@__GID__@${newGID}@g" \
-    > "/etc/init/${serviceName}.conf"
+    updateTemplateFile "${appPath}/../files/upstart/ghost.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
