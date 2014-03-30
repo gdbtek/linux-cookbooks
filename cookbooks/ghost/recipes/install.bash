@@ -1,12 +1,5 @@
 #!/bin/bash
 
-function installDependencies()
-{
-    apt-get update
-
-    apt-get install -y unzip
-}
-
 function install()
 {
     # Clean Up
@@ -62,7 +55,6 @@ function main()
     checkRequireRootUser
     checkPortRequirement "${port}"
 
-    installDependencies
     install
 
     displayOpenPorts
