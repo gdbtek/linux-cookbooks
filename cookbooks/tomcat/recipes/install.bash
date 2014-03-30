@@ -35,6 +35,7 @@ function install()
         '__JDK_FOLDER__' "${jdkFolder}"
         '__UID__' "${uid}"
         '__GID__' "${gid}"
+    )
 
     createFileFromTemplate "${appPath}/../files/upstart/tomcat.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
 
