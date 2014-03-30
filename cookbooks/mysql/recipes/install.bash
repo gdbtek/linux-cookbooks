@@ -6,6 +6,7 @@ function installDependencies()
 
     apt-get install -y curl
     apt-get install -y libaio-dev
+    apt-get install -y sysv-rc-conf
 }
 
 function install()
@@ -40,6 +41,7 @@ function install()
     # Config Service
 
     cp "${installFolder}/support-files/mysql.server" "/etc/init.d/${serviceName}"
+    sysv-rc-conf --level 2345 "${serviceName}" on
 
     # Config Profile
 
