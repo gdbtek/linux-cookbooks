@@ -17,11 +17,8 @@ function install()
     # Install
 
     local currentPath="$(pwd)"
-    local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
-    curl -L "${downloadURL}" -o "${zipFile}"
-    unzip -q "${zipFile}" -d "${installFolder}"
-    rm -f "${zipFile}"
+    unzipRemoteFile "${downloadURL}" "${installFolder}"
     cd "${installFolder}"
     npm install --production --silent
     cd "${currentPath}"

@@ -188,6 +188,13 @@ function unzipRemoteFile()
     if [[ "${extension}" = 'gz' ]]
     then
         curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
+    elif [[ "${extension}" = 'zip' ]]
+    then
+        local zipFile="${installFolder}/$(basename "${downloadURL}")"
+
+        curl -L "${downloadURL}" -o "${zipFile}"
+        unzip -q "${zipFile}" -d "${installFolder}"
+        rm -f "${zipFile}"
     fi
 }
 
