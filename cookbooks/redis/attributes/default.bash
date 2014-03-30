@@ -1,18 +1,17 @@
 #!/bin/bash
 
 downloadURL='http://download.redis.io/releases/redis-stable.tar.gz'
-user='redis'
 
-etcInitFile='/etc/init/redis.conf'
-etcProfileFile='/etc/profile.d/redis.sh'
+serviceName='redis'
 
-installFolder='/opt/redis'
-installBinFolder="${installFolder}/bin"
-installConfigFolder="${installFolder}/config"
-installDataFolder="${installFolder}/data"
+uid='redis'
+gid='redis'
 
-systemConfigFile='/etc/sysctl.conf'
+port=6379
+
+installBinFolder="/opt/redis/bin"
+installConfigFolder="/opt/redis/config"
+installDataFolder="/opt/redis/data"
+
 fsFileMax=100000
 vmOverCommitMemory=1
-
-requirePorts=(6379)

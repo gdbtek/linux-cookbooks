@@ -10,39 +10,70 @@ function installDependencies()
 
 function install()
 {
+    # Clean Up
+
+    rm -rf "${installBinFolder}" "${installConfigFolder}" "${installDataFolder}"
+    mkdir -p "${installBinFolder}" "${installConfigFolder}" "${installDataFolder}"
+
+    # Install
+
     local currentPath="$(pwd)"
     local tempFolder="$(mktemp -d)"
 
-    rm -rf "${installFolder}"
-    mkdir -p "${installBinFolder}" "${installConfigFolder}" "${installDataFolder}"
-
     curl -L "${downloadURL}" | tar xz --strip 1 -C "${tempFolder}"
-
-    addSystemUser "${user}"
     cd "${tempFolder}"
     make
     find "${tempFolder}/src" -type f ! -name "*.sh" -perm -u+x -exec cp -f {} "${installBinFolder}" \;
-
     rm -rf "${tempFolder}"
     cd "${currentPath}"
 
-    echo "export PATH=\"${installBinFolder}:\$PATH\"" > "${etcProfileFile}"
-    cp -f "${appPath}/../files/upstart/redis.conf" "${etcInitFile}"
-    cp -f "${appPath}/../files/conf/redis.conf" "${installConfigFolder}"
+    # Config Server
 
-    if [[ "$(grep "^\s*fs.file-max\s*=\s*${fsFileMax}\s*$" "${systemConfigFile}")" = '' ]]
+    local serverConfigData=(
+        '__INSTALL_DATA_FOLDER__' "${installDataFolder}"
+        6379 "${port}"
+    )
+
+    updateTemplateFile "${appPath}/../files/conf/redis.conf" "${installConfigFolder}/redis.conf" "${serverConfigData[@]}"
+
+    # Config Profile
+
+    local profileConfigData=(
+        '__INSTALL_BIN_FOLDER__' "${installBinFolder}"
+    )
+
+    updateTemplateFile "${appPath}/../files/profile/redis.sh" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
+
+    # Config Upstart
+
+    local upstartConfigData=(
+        '__INSTALL_BIN_FOLDER__' "${installBinFolder}"
+        '__INSTALL_CONFIG_FOLDER__' "${installConfigFolder}"
+        '__UID__' "${uid}"
+        '__GID__' "${gid}"
+    )
+
+    updateTemplateFile "${appPath}/../files/upstart/redis.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+
+    # Config System
+
+    if [[ "$(grep "^\s*fs.file-max\s*=\s*${fsFileMax}\s*$" '/etc/sysctl.conf')" = '' ]]
     then
-        echo -e "\nfs.file-max = ${fsFileMax}" >> "${systemConfigFile}"
+        echo -e "\nfs.file-max = ${fsFileMax}" >> '/etc/sysctl.conf'
         sysctl fs.file-max="${fsFileMax}"
     fi
 
-    if [[ "$(grep "^\s*vm.overcommit_memory\s*=\s*${vmOverCommitMemory}\s*$" "${systemConfigFile}")" = '' ]]
+    if [[ "$(grep "^\s*vm.overcommit_memory\s*=\s*${vmOverCommitMemory}\s*$" '/etc/sysctl.conf')" = '' ]]
     then
-        echo -e "\nvm.overcommit_memory = ${vmOverCommitMemory}" >> "${systemConfigFile}"
+        echo -e "\nvm.overcommit_memory = ${vmOverCommitMemory}" >> '/etc/sysctl.conf'
         sysctl vm.overcommit_memory="${vmOverCommitMemory}"
     fi
 
-    start "$(getFileName "${etcInitFile}")"
+    # Start
+
+    addSystemUser "${uid}" "${gid}"
+    chown -R "${uid}":"${gid}" "${installBinFolder}" "${installConfigFolder}" "${installDataFolder}"
+    start "${serviceName}"
 }
 
 function main()
@@ -55,7 +86,7 @@ function main()
     header 'INSTALLING REDIS'
 
     checkRequireRootUser
-    checkPortRequirement "${requirePorts[@]}"
+    checkPortRequirement "${port}"
 
     installDependencies
     install
