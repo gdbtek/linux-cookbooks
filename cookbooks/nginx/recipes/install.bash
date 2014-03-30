@@ -32,25 +32,19 @@ function install()
 
     # Config Server
 
-    local serverConfigData=(
-        '__PORT__' "${port}"
-    )
+    local serverConfigData=('__PORT__' "${port}")
 
     updateTemplateFile  "${appPath}/../files/conf/nginx.conf" "${installFolder}/conf/nginx.conf" "${serverConfigData[@]}"
 
     # Config Profile
 
-    local profileConfigData=(
-        '__INSTALL_FOLDER__' "${installFolder}"
-    )
+    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
     updateTemplateFile "${appPath}/../files/profile/nginx.sh" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
-    local upstartConfigData=(
-        '__INSTALL_FOLDER__' "${installFolder}"
-    )
+    local upstartConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
     updateTemplateFile "${appPath}/../files/upstart/nginx.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
 

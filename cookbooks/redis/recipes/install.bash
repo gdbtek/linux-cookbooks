@@ -38,9 +38,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=(
-        '__INSTALL_BIN_FOLDER__' "${installBinFolder}"
-    )
+    local profileConfigData=('__INSTALL_BIN_FOLDER__' "${installBinFolder}")
 
     updateTemplateFile "${appPath}/../files/profile/redis.sh" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
 

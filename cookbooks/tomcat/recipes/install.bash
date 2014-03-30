@@ -24,9 +24,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=(
-        '__INSTALL_FOLDER__' "${installFolder}"
-    )
+    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
     updateTemplateFile "${appPath}/../files/profile/tomcat.sh" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 

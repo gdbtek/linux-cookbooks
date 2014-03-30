@@ -32,9 +32,7 @@ function install()
 
     # Config Server
 
-    local serverConfigData=(
-        '__PORT__' "${port}"
-    )
+    local serverConfigData=('__PORT__' "${port}")
 
     updateTemplateFile "${appPath}/../files/conf/my.cnf" "${installFolder}/my.cnf" "${serverConfigData[@]}"
 
@@ -45,9 +43,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=(
-        '__INSTALL_FOLDER__' "${installFolder}"
-    )
+    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
     updateTemplateFile "${appPath}/../files/profile/mysql.sh" '/etc/profile.d/mysql.sh' "${profileConfigData[@]}"
 
