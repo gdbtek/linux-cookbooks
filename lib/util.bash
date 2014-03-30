@@ -190,3 +190,10 @@ function unzipRemoteFile()
         curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
     fi
 }
+
+function getRemoteFileContent()
+{
+    local url="${1}"
+
+    curl -s -X 'GET' "${url}"
+}

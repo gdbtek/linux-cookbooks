@@ -32,9 +32,9 @@ function install()
 function getLatestVersionNumber()
 {
     local versionPattern='[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,3}'
-    local shaSums256="$(curl -s -X 'GET' 'http://nodejs.org/dist/latest/SHASUMS256.txt.asc')"
+    local shaSum256="$(getRemoteFileContent 'http://nodejs.org/dist/latest/SHASUMS256.txt.asc')"
 
-    echo "${shaSums256}" | egrep -o "node-v${versionPattern}\.tar\.gz" | egrep -o "${versionPattern}"
+    echo "${shaSum256}" | egrep -o "node-v${versionPattern}\.tar\.gz" | egrep -o "${versionPattern}"
 }
 
 function main()
