@@ -9,9 +9,9 @@ gid='redis'
 
 port=6379
 
-installBinFolder="/opt/redis/bin"
-installConfigFolder="/opt/redis/config"
-installDataFolder="/opt/redis/data"
+installBinFolder='/opt/redis/bin'
+installConfigFolder='/opt/redis/config'
+installDataFolder='/opt/redis/data'
 
 fsFileMax=100000
 vmOverCommitMemory=1
