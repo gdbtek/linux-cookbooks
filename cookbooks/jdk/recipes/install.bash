@@ -13,10 +13,11 @@ function install()
 
     # Config Profile
 
-    local newInstallFolder="$(escapeSearchPattern "${installFolder}")"
+    local profileConfigData=(
+        '__INSTALL_FOLDER__' "${installFolder}"
+    )
 
-    sed "s@__INSTALL_FOLDER__@${newInstallFolder}@g" "${appPath}/../files/profile/jdk.sh" \
-    > '/etc/profile.d/jdk.sh'
+    updateTemplateFile "${appPath}/../files/profile/jdk.sh" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
 }
 
 function main()
