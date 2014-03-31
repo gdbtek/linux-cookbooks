@@ -1,6 +1,6 @@
 #!/bin/bash
 
-downloadURL='http://mirrors.advancedhosters.com/apache/tomcat/tomcat-8/v8.0.5/bin/apache-tomcat-8.0.5.tar.gz'
+downloadURL='http://www.us.apache.org/dist/tomcat/tomcat-8/v8.0.5/bin/apache-tomcat-8.0.5.tar.gz'
 
 installFolder='/opt/tomcat'
 jdkFolder='/opt/jdk'
