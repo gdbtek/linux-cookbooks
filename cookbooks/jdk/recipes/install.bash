@@ -16,6 +16,7 @@ function install()
     local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/jdk.sh" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
+    chown -R "$(whoami)":"$(whoami)" "${installFolder}"
 }
 
 function main()

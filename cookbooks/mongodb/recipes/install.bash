@@ -27,6 +27,7 @@ function install()
     )
 
     createFileFromTemplate "${appPath}/../files/upstart/mongodb.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+    chown -R "$(whoami)":"$(whoami)" "${installFolder}"
 
     # Start
 
