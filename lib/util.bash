@@ -185,16 +185,18 @@ function unzipRemoteFile()
 
     local extension="$(getFileExtension "${downloadURL}")"
 
-    if [[ "${extension}" = 'gz' || "${extension}" = 'tgz' ]]
+    if [[ "${extension,,}" = 'tgz' || "$(echo "${downloadURL,,}" | grep -o ".tar.gz$")" != '' ]]
     then
         curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
-    elif [[ "${extension}" = 'zip' ]]
+    elif [[ "${extension,,}" = 'zip' ]]
     then
         local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
         curl -L "${downloadURL}" -o "${zipFile}"
         unzip -q "${zipFile}" -d "${installFolder}"
         rm -f "${zipFile}"
+    else
+        fatal "ERROR: file extension '${extension}' is not supported to unzip!"
     fi
 }
 
