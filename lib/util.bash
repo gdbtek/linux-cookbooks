@@ -196,13 +196,11 @@ function unzipRemoteFile()
         unzip -q "${zipFile}" -d "${installFolder}"
         rm -f "${zipFile}"
     else
-        fatal "ERROR: file extension '${extension}' is not supported to unzip!"
+        fatal "ERROR: file extension '${extension}' is not yet supported to unzip!"
     fi
 }
 
 function getRemoteFileContent()
 {
-    local url="${1}"
-
-    curl -s -X 'GET' "${url}"
+    curl -s -X 'GET' "${1}"
 }
