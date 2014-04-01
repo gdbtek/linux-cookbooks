@@ -4,7 +4,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}"
+    rm -rf "${installFolder}" '/usr/local/bin/java' '/usr/local/bin/javac'
     mkdir -p "${installFolder}"
 
     # Install
