@@ -11,12 +11,17 @@ function install()
 
     unzipRemoteFile "${downloadURL}" "${installFolder}"
 
+    # Config Lib
+
+    chown -R "$(whoami)":"$(whoami)" "${installFolder}"
+    ln -s "${installFolder}/bin/java" '/usr/local/bin/java'
+    ln -s "${installFolder}/bin/javac" '/usr/local/bin/javac'
+
     # Config Profile
 
     local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/jdk.sh" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
-    chown -R "$(whoami)":"$(whoami)" "${installFolder}"
 }
 
 function main()
