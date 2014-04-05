@@ -4,6 +4,7 @@ packages=(
     'curl'
     'git'
     'iptables'
+    'rsync'
     'screen'
     'siege'
     'sysv-rc-conf'
