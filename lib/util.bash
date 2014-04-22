@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function header
+function header()
 {
     echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${1}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
 }
@@ -45,7 +45,7 @@ function addSystemUser()
     fi
 }
 
-function checkRequireRootUser
+function checkRequireRootUser()
 {
     if [[ "$(whoami)" != 'root' ]]
     then
@@ -67,7 +67,7 @@ function getFileExtension()
     echo "${fullFileName##*.}"
 }
 
-function displayOpenPorts
+function displayOpenPorts()
 {
     header 'LIST OPEN PORTS'
 
@@ -75,7 +75,7 @@ function displayOpenPorts
     lsof -P -i | grep ' (LISTEN)$' | sort
 }
 
-function checkPortRequirement
+function checkPortRequirement()
 {
     local ports="${@:1}"
 
@@ -203,4 +203,9 @@ function unzipRemoteFile()
 function getRemoteFileContent()
 {
     curl -s -X 'GET' "${1}"
+}
+
+function getTemporaryFolder()
+{
+    mktemp -d "/tmp/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
 }

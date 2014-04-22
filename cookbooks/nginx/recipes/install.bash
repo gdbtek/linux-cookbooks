@@ -19,7 +19,7 @@ function install()
     # Install
 
     local currentPath="$(pwd)"
-    local tempFolder="$(mktemp -d)"
+    local tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${downloadURL}" "${tempFolder}"
     cd "${tempFolder}"
