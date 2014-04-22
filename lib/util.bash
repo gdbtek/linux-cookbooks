@@ -121,39 +121,6 @@ function escapeSearchPattern()
     echo "$(echo "${1}" | sed "s@\[@\\\\[@g" | sed "s@\*@\\\\*@g" | sed "s@\%@\\\\%@g")"
 }
 
-function safeCopyFile()
-{
-    local sourceFilePath="${1}"
-    local destinationFilePath="${2}"
-
-    safeOpFile 'cp' "${sourceFilePath}" "${destinationFilePath}"
-}
-
-function safeMoveFile()
-{
-    local sourceFilePath="${1}"
-    local destinationFilePath="${2}"
-
-    safeOpFile 'mv' "${sourceFilePath}" "${destinationFilePath}"
-}
-
-function safeOpFile()
-{
-    local action="${1}"
-    local sourceFilePath="${2}"
-    local destinationFilePath="${3}"
-
-    if [[ -f "${sourceFilePath}" ]]
-    then
-        if [[ -f "${destinationFilePath}" ]]
-        then
-            mv "${destinationFilePath}" "${destinationFilePath}_$(date +%m%d%Y)_$(date +%H%M%S).BAK"
-        fi
-
-        "${action}" "${sourceFilePath}" "${destinationFilePath}"
-    fi
-}
-
 function createFileFromTemplate()
 {
     local sourceFile="${1}"
