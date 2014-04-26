@@ -1,6 +1,6 @@
 #!/bin/bash
 
-downloadURL='http://nginx.org/download/nginx-1.5.13.tar.gz'
+downloadURL='http://nginx.org/download/nginx-1.7.0.tar.gz'
 
 installFolder='/opt/nginx'
 
