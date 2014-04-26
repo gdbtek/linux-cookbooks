@@ -8,7 +8,6 @@ function installDependencies()
 function install()
 {
     apt-get install -y ufw
-    ufw reset --force
 
     for policy in "${policies[@]}"
     do
