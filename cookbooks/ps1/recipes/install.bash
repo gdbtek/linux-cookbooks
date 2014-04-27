@@ -5,7 +5,7 @@ function install()
     local profileFile="$(getProfileFile)"
     local prompt="export PS1=\"${rootPrompt}\""
 
-    appendToFileIfNotFound "${profileFile}" "'^\s*${prompt}\s*$'" "'\n${prompt}'"
+    appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false'
 }
 
 function main()
