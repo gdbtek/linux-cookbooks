@@ -35,7 +35,7 @@ function getLatestVersionNumber()
     local versionPattern='[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,3}'
     local shaSum256="$(getRemoteFileContent 'http://nodejs.org/dist/latest/SHASUMS256.txt.asc')"
 
-    echo "${shaSum256}" | egrep -o "node-v${versionPattern}\.tar\.gz" | egrep -o "${versionPattern}"
+    echo "${shaSum256}" | grep -Eo "node-v${versionPattern}\.tar\.gz" | grep -Eo "${versionPattern}"
 }
 
 function main()
