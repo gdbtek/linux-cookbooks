@@ -177,3 +177,22 @@ function getTemporaryFolder()
 {
     mktemp -d "/tmp/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
 }
+
+function appendToFileIfNotFound()
+{
+    local file="${1}"
+    local pattern="${2}"
+    local string="${3}"
+
+    if [[ -f "${file}" ]]
+    then
+        local found="$(grep -Eo "${pattern}" "${file}")"
+
+        if [[ "$(isEmptyString "${found}")" = 'true' ]]
+        then
+            echo -e "${string}" >> "${file}"
+        fi
+    else
+        fatal "ERROR: file '${file}' not found!"
+    fi
+}

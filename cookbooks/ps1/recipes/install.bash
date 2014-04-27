@@ -5,11 +5,7 @@ function install()
     local profileFile="$(getProfileFile)"
     local prompt="export PS1=\"${rootPrompt}\""
 
-    if [[ "$(grep -F "${prompt}" "${profileFile}")" = '' ]]
-    then
-        echo >> "${profileFile}"
-        echo "${prompt}" >> "${profileFile}"
-    fi
+    appendToFileIfNotFound "${profileFile}" "'^\s*${prompt}\s*$'" "'\n${prompt}'"
 }
 
 function main()
