@@ -18,7 +18,8 @@ function install()
     dpkg -i "${serverPackageFile}"
 
     curl -L "${agentDownloadURL}" -o "${agentPackageFile}" &&
-    dpkg -i "${agentPackageFile}"
+    dpkg -i "${agentPackageFile}" &&
+    service go-agent start
 
     rm -f "${serverPackageFile}" "${agentPackageFile}"
 }
