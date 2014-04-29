@@ -34,7 +34,7 @@ function install()
         mkdir -p "${goAgentFolder}" &&
         chown -R 'go:go' "${goAgentFolder}" &&
         cd "${goAgentFolder}" &&
-        nohup su - go java -jar '/usr/share/go-agent/agent-bootstrapper.jar' 127.0.0.1 &
+        sudo -u go nohup java -jar /usr/share/go-agent/agent-bootstrapper.jar 127.0.0.1 &
     done
 
     cd "${currentPath}"
