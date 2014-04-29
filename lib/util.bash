@@ -178,6 +178,18 @@ function getTemporaryFolder()
     mktemp -d "/tmp/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
 }
 
+function getTemporaryFile()
+{
+    local extension="${1}"
+
+    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(echo "${extension}" | grep -io "^.")" != '.' ]]
+    then
+        extension=".${extension}"
+    fi
+
+    mktemp "/tmp/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX${extension}"
+}
+
 function appendToFileIfNotFound()
 {
     local file="${1}"
