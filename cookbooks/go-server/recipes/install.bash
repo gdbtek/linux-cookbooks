@@ -22,6 +22,22 @@ function install()
     service go-agent start
 
     rm -f "${serverPackageFile}" "${agentPackageFile}"
+
+    # http://www.thoughtworks.com/products/docs/go/current/help/admin_install_multiple_agents.html
+
+    local currentPath="$(pwd)"
+
+    for ((i = 1; i <= numberOfAgent; i++))
+    do
+        local goAgentFolder="/var/lib/go-agent-${i}"
+
+        mkdir -p "${goAgentFolder}" &&
+        chown -R 'go:go' "${goAgentFolder}" &&
+        cd "${goAgentFolder}" &&
+        nohup su - go java -jar '/usr/share/go-agent/agent-bootstrapper.jar' 127.0.0.1 &
+    done
+
+    cd "${currentPath}"
 }
 
 function main()
@@ -31,7 +47,7 @@ function main()
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
 
-    header 'INSTALLING GO SERVER/AGENT'
+    header 'INSTALLING GO-SERVER'
 
     checkRequireRootUser
     checkPortRequirement "${port}"
