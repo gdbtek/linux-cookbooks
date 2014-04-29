@@ -15,7 +15,8 @@ function install()
     local agentPackageFile="$(getTemporaryFile "$(getFileExtension "${agentDownloadURL}")")"
 
     curl -L "${serverDownloadURL}" -o "${serverPackageFile}" &&
-    dpkg -i "${serverPackageFile}"
+    dpkg -i "${serverPackageFile}" &&
+    service go-server start
 
     curl -L "${agentDownloadURL}" -o "${agentPackageFile}" &&
     dpkg -i "${agentPackageFile}" &&
