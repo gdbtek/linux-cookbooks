@@ -30,7 +30,6 @@ function main()
     header 'STARTING GO-AGENT'
 
     checkRequireUser 'go'
-    checkPortRequirement "${agentPort}"
 
     start
 
