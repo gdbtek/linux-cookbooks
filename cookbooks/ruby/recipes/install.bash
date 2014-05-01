@@ -5,6 +5,8 @@ function installDependencies()
     apt-get update
 
     apt-get install -y build-essential
+    apt-get install -y libgdbm-dev
+    apt-get install -y libssl-dev
 }
 
 function install()
