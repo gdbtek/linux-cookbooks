@@ -229,3 +229,16 @@ function appendToFileIfNotFound()
         fatal "ERROR: file '${file}' not found!"
     fi
 }
+
+function symlinkLocalBin()
+{
+    local sourceBinFolder="${1}"
+
+    for file in $(find "${sourceBinFolder}" -maxdepth 1 -type f -perm -u+x)
+    do
+        local localBinFile="/usr/local/bin/$(basename "${file}")"
+
+        rm -f "${localBinFile}"
+        ln -s "${file}" "${localBinFile}"
+    done
+}

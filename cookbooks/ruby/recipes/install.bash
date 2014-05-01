@@ -24,6 +24,7 @@ function install()
     "${tempFolder}/configure" --prefix="${installFolder}"
     make
     make install
+    symlinkLocalBin "${installFolder}/bin"
     rm -rf "${tempFolder}"
     cd "${currentPath}"
 
