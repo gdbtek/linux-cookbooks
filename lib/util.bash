@@ -156,14 +156,23 @@ function unzipRemoteFile()
 {
     local downloadURL="${1}"
     local installFolder="${2}"
+    local extension="${3}"
 
-    local extension="$(getFileExtension "${downloadURL}")"
+    # Find Extension
 
-    if [[ "$(echo "${extension}" | grep -i 'tgz')" != '' ||
-          "$(echo "${downloadURL}" | grep -io ".tar.gz$")" != '' ]]
+    if [[ "$(isEmptyString "${extension}")" = 'true' ]]
+    then
+        extension="$(getFileExtension "${downloadURL}")"
+    fi
+
+    # Unzip
+
+    if [[ "$(echo "${extension}" | grep -i '^tgz$')" != '' ||
+          "$(echo "${extension}" | grep -i '^tar\.gz$')" != '' ||
+          "$(echo "${extension}" | grep -i '^gz$')" != '' ]]
     then
         curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
-    elif [[ "$(echo "${extension}" | grep -i 'zip')" != '' ]]
+    elif [[ "$(echo "${extension}" | grep -i '^zip$')" != '' ]]
     then
         local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
