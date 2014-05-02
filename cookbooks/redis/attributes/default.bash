@@ -13,5 +13,4 @@ installBinFolder='/opt/redis/bin'
 installConfigFolder='/opt/redis/config'
 installDataFolder='/opt/redis/data'
 
-fsFileMax=100000
-vmOverCommitMemory=1
+nofileLimit=100000

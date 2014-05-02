@@ -54,16 +54,7 @@ function install()
 
     # Config System
 
-    local sysControlFile='/etc/sysctl.conf'
-
-    local fsFileMaxConfig="fs.file-max=${fsFileMax}"
-    local overCommitMemoryConfig="vm.overcommit_memory=${vmOverCommitMemory}"
-
-    appendToFileIfNotFound "${sysControlFile}" "^\s*fs.file-max\s*=\s*${fsFileMax}\s*$" "\n${fsFileMaxConfig}" 'true' 'true'
-    appendToFileIfNotFound "${sysControlFile}" "^\s*vm.overcommit_memory\s*=\s*${vmOverCommitMemory}\s*$" "\n${overCommitMemoryConfig}" 'true' 'true'
-
-    sysctl "${fsFileMaxConfig}"
-    sysctl "${overCommitMemoryConfig}"
+    updateUserNoFileLimitConfig "${uid}" "${nofileLimit}"
 
     # Start
 
