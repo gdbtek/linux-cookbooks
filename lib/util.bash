@@ -252,27 +252,3 @@ function symlinkLocalBin()
         ln -s "${file}" "${localBinFile}"
     done
 }
-
-function updateSecurityLimitConfig()
-{
-    local domain="${1}"
-    local kind="${2}"
-    local item="${3}"
-    local value="${4}"
-
-    appendToFileIfNotFound '/etc/security/limits.conf' "^\s*${domain}\s+${kind}\s+${item}\s+${value}\s*$" "\n${domain} ${kind} ${item} ${value}" 'true' 'true'
-
-    for file in /etc/pam.d/common-session*
-    do
-        appendToFileIfNotFound "${file}" '^\s*session\s+required\s+pam_limits\.so\s*$' '\nsession required pam_limits.so' 'true' 'true'
-    done
-}
-
-function updateUserNoFileLimitConfig()
-{
-    local user="${1}"
-    local noFileLimit="${2}"
-
-    updateSecurityLimitConfig "${user}" 'soft' 'nofile' "${noFileLimit}"
-    updateSecurityLimitConfig "${user}" 'hard' 'nofile' "${noFileLimit}"
-}

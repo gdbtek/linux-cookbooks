@@ -48,15 +48,13 @@ function install()
         '__INSTALL_CONFIG_FOLDER__' "${installConfigFolder}"
         '__UID__' "${uid}"
         '__GID__' "${gid}"
+        '__SOFT_NO_FILE_LIMIT__' "${softNoFileLimit}"
+        '__HARD_NO_FILE_LIMIT__' "${hardNoFileLimit}"
     )
 
     createFileFromTemplate "${appPath}/../files/upstart/redis.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
 
-    # Config System - Open File Limit
-
-    updateUserNoFileLimitConfig "${uid}" "${nofileLimit}"
-
-    # Config System - Over Commit Memory
+    # Config System
 
     local overCommitMemoryConfig="vm.overcommit_memory=${vmOverCommitMemory}"
 
