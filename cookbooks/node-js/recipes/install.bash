@@ -20,8 +20,7 @@ function install()
 
     unzipRemoteFile "http://nodejs.org/dist/latest/node-v${latestVersionNumber}-linux-x64.tar.gz" "${installFolder}"
     chown -R "$(whoami)":"$(whoami)" "${installFolder}"
-    ln -s "${installFolder}/bin/node" '/usr/local/bin/node'
-    ln -s "${installFolder}/bin/npm" '/usr/local/bin/npm'
+    symlinkLocalBin "${installFolder}/bin"
 
     # Config Profile
 
