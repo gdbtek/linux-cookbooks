@@ -52,9 +52,16 @@ function install()
 
     createFileFromTemplate "${appPath}/../files/upstart/redis.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
 
-    # Config System
+    # Config System - Open File Limit
 
     updateUserNoFileLimitConfig "${uid}" "${nofileLimit}"
+
+    # Config System - Over Commit Memory
+
+    local overCommitMemoryConfig="vm.overcommit_memory=${vmOverCommitMemory}"
+
+    appendToFileIfNotFound '/etc/sysctl.conf' "^\s*vm.overcommit_memory\s*=\s*${vmOverCommitMemory}\s*$" "\n${overCommitMemoryConfig}" 'true' 'true'
+    sysctl "${overCommitMemoryConfig}"
 
     # Start
 
