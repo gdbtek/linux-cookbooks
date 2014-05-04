@@ -8,6 +8,7 @@ function main()
 
     "${appPath}/../cookbooks/jdk/recipes/install.bash" || exit 1
     "${appPath}/../cookbooks/tomcat/recipes/install.bash" || exit 1
+    "${appPath}/../cookbooks/nginx/recipes/install.bash" || exit 1
 }
 
 main
