@@ -1,1 +1,2 @@
-export PATH="__INSTALL_FOLDER__/bin:$PATH"
+export GOROOT='__INSTALL_FOLDER__'
+export PATH="${GOROOT}/bin:$PATH"
