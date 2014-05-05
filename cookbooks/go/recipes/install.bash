@@ -4,7 +4,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}"
+    rm -rf "${installFolder}" '/usr/local/bin/go' '/usr/local/bin/godoc' '/usr/local/bin/gofmt'
     mkdir -p "${installFolder}"
 
     # Install
