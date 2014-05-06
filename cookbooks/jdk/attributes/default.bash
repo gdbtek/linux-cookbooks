@@ -1,5 +1,5 @@
 #!/bin/bash
 
-downloadURL='https://www.dropbox.com/s/2mxjz2ep6fq376c/jdk-linux-x64.tar.gz'
+downloadURL='https://dl.dropboxusercontent.com/u/15529567/downloads/jdk-linux-x64.tar.gz'
 
 installFolder='/opt/jdk'
