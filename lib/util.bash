@@ -5,6 +5,11 @@ function header()
     echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${1}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
 }
 
+function warn()
+{
+    echo -e "\033[1;33m${1}\033[0m" 1>&2
+}
+
 function error()
 {
     echo -e "\033[1;31m${1}\033[0m" 1>&2
@@ -256,4 +261,14 @@ function symlinkLocalBin()
 function installCleanUp()
 {
     apt-get clean
+}
+
+function getMachineRelease()
+{
+    lsb_release --release --short
+}
+
+function getMachineDescription()
+{
+    lsb_release --description --short
 }
