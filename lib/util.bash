@@ -265,10 +265,10 @@ function installCleanUp()
 
 function getMachineRelease()
 {
-    lsb_release --release --short
+    lsb_release --short --release
 }
 
 function getMachineDescription()
 {
-    lsb_release --description --short
+    lsb_release --short --description
 }
