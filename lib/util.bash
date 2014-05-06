@@ -252,3 +252,8 @@ function symlinkLocalBin()
         ln -s "${file}" "${localBinFile}"
     done
 }
+
+function installCleanUp()
+{
+    apt-get clean
+}

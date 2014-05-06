@@ -34,7 +34,9 @@ function main()
     header 'INSTALLING JDK'
 
     checkRequireRootUser
+
     install
+    installCleanUp
 }
 
 main "${@}"

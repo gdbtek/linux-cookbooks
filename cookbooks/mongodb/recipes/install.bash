@@ -47,6 +47,7 @@ function main()
     checkPortRequirement "${port}"
 
     install
+    installCleanUp
 
     displayOpenPorts
 }

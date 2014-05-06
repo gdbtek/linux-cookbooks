@@ -50,6 +50,7 @@ function main()
 
     installDependencies
     install
+    installCleanUp
 }
 
 main "${@}"

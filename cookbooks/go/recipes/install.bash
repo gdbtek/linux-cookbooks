@@ -30,7 +30,9 @@ function main()
     header 'INSTALLING GO'
 
     checkRequireRootUser
+
     install
+    installCleanUp
 }
 
 main "${@}"

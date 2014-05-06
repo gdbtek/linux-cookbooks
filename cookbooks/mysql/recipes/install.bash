@@ -65,6 +65,7 @@ function main()
 
     installDependencies
     install
+    installCleanUp
 
     displayOpenPorts
 }

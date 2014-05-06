@@ -18,7 +18,9 @@ function main()
     header 'INSTALLING PS1'
 
     checkRequireRootUser
+
     install
+    installCleanUp
 }
 
 main "${@}"

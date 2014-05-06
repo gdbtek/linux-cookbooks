@@ -59,6 +59,7 @@ function main()
     checkPortRequirement "${ajpPort} ${commandPort} ${httpPort} ${httpsPort}"
 
     install
+    installCleanUp
 
     displayOpenPorts
 }
