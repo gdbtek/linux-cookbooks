@@ -2,6 +2,7 @@
 
 packages=(
     'curl'
+    'dialog'
     'git'
     'iptables'
     'rsync'
