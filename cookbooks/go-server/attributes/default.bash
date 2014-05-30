@@ -6,4 +6,7 @@ agentDownloadURL='http://download01.thoughtworks.com/go/14.1.0/ga/go-agent-14.1.
 serverInstallFolder='/opt/go/go-server'
 agentInstallFolder='/opt/go/go-agents'
 
+serverPort=8153
+agentPort=8154
+
 numberOfAgent=10
