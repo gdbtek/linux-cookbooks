@@ -9,6 +9,26 @@ function installDependencies()
 
 function install()
 {
+    # Clean Up
+
+    rm -rf "${serverInstallFolder}" "${agentInstallFolder}"
+    mkdir -p "${serverInstallFolder}" "${agentInstallFolder}"
+
+    ln -s "${serverInstallFolder}" '/var/lib/go-server'
+
+    for ((i = 0; i <= ${numberOfAgent}; i++))
+    do
+        if [[ ${i} -eq 0 ]]
+        then
+            local agentFolderName='go-agent'
+        else
+            local agentFolderName="go-agent-${i}"
+        fi
+
+        mkdir -p "${agentInstallFolder}/${agentFolderName}" &&
+        ln -s "${agentInstallFolder}/${agentFolderName}" "/var/lib/${agentFolderName}"
+    done
+
     # Install
 
     local serverPackageFile="$(getTemporaryFile "$(getFileExtension "${serverDownloadURL}")")"
@@ -16,23 +36,15 @@ function install()
 
     curl -L "${serverDownloadURL}" -o "${serverPackageFile}" &&
     dpkg -i "${serverPackageFile}" &&
+    chown -R 'go:go' "${serverInstallFolder}" &&
     service go-server start
 
     curl -L "${agentDownloadURL}" -o "${agentPackageFile}" &&
     dpkg -i "${agentPackageFile}" &&
+    chown -R 'go:go' "${agentInstallFolder}" &&
     service go-agent start
 
     rm -f "${serverPackageFile}" "${agentPackageFile}"
-
-    # Only Create Go-Agent Folder Structure
-
-    for ((i = 1; i <= numberOfAgent; i++))
-    do
-        local goAgentFolder="/var/lib/go-agent-${i}"
-
-        mkdir -p "${goAgentFolder}" &&
-        chown -R 'go:go' "${goAgentFolder}"
-    done
 }
 
 function main()
