@@ -67,7 +67,7 @@ function startAgents()
         if [[ -d "/var/lib/go-agent-${i}" ]]
         then
             cd "${agentFolder}" &&
-            su - go -c 'nohup java -jar /usr/share/go-agent/agent-bootstrapper.jar 127.0.0.1 &'
+            su -c 'nohup java -jar /usr/share/go-agent/agent-bootstrapper.jar 127.0.0.1 &' go
         else
             error "ERROR: directory '${agentFolder}' not found!"
         fi
