@@ -17,7 +17,7 @@ function install()
 
     local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
-    createFileFromTemplate "${appPath}/../files/profile/go.sh" '/etc/profile.d/go.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/profile/go-lang.sh" '/etc/profile.d/go-lang.sh' "${profileConfigData[@]}"
 }
 
 function main()
@@ -27,7 +27,7 @@ function main()
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
 
-    header 'INSTALLING GO'
+    header 'INSTALLING GO-LANG'
 
     checkRequireRootUser
 
