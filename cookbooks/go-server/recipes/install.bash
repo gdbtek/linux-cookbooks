@@ -36,15 +36,44 @@ function install()
 
     curl -L "${serverDownloadURL}" -o "${serverPackageFile}" &&
     dpkg -i "${serverPackageFile}" &&
-    chown -R 'go:go' "${serverInstallFolder}" &&
-    service go-server start
+    chown -R 'go:go' "${serverInstallFolder}"
 
     curl -L "${agentDownloadURL}" -o "${agentPackageFile}" &&
     dpkg -i "${agentPackageFile}" &&
-    chown -R 'go:go' "${agentInstallFolder}" &&
-    service go-agent start
+    chown -R 'go:go' "${agentInstallFolder}"
 
     rm -f "${serverPackageFile}" "${agentPackageFile}"
+}
+
+function startServer()
+{
+    service go-server start
+}
+
+function startAgents()
+{
+    # Start Main Agent
+
+    service go-agent start
+
+    # Start Additional Agents
+
+    local currentPath="$(pwd)"
+
+    for ((i = 1; i <= ${numberOfAgent}; i++))
+    do
+        local agentFolder="/var/lib/go-agent-${i}"
+
+        if [[ -d "/var/lib/go-agent-${i}" ]]
+        then
+            cd "${agentFolder}" &&
+            su - go -c 'nohup java -jar /usr/share/go-agent/agent-bootstrapper.jar 127.0.0.1 &'
+        else
+            error "ERROR: directory '${agentFolder}' not found!"
+        fi
+    done
+
+    cd "${currentPath}"
 }
 
 function main()
@@ -62,6 +91,8 @@ function main()
 
     installDependencies
     install
+    startServer
+    startAgents
     installCleanUp
 
     displayOpenPorts
