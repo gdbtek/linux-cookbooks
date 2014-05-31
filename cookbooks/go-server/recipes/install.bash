@@ -42,7 +42,33 @@ function install()
     dpkg -i "${agentPackageFile}" &&
     chown -R 'go:go' "${agentInstallFolder}"
 
+    # Clean Up
+
     rm -f "${serverPackageFile}" "${agentPackageFile}"
+}
+
+function configUpstart()
+{
+    local i=1
+
+    for ((i = 1; i <= ${numberOfAgent}; i++))
+    do
+        local agentFolder="/var/lib/go-agent-${i}"
+
+        if [[ -d "${agentFolder}" ]]
+        then
+            local upstartConfigData=(
+                '__AGENT_NUMBER__' "${i}"
+                '__AGENT_FOLDER__' "${agentFolder}"
+                '__UID__' 'go'
+                '__GID__' 'go'
+            )
+
+            createFileFromTemplate "${appPath}/../files/upstart/go-agent.conf" "/etc/init/go-agent-${i}.conf" "${upstartConfigData[@]}"
+        else
+            error "ERROR: directory '${agentFolder}' not found!"
+        fi
+    done
 }
 
 function startServer()
@@ -58,27 +84,15 @@ function startAgents()
 
     # Start Additional Agents
 
-    local currentPath="$(pwd)"
-
     for ((i = 1; i <= ${numberOfAgent}; i++))
     do
-        local agentFolder="/var/lib/go-agent-${i}"
-
-        if [[ -d "/var/lib/go-agent-${i}" ]]
-        then
-            cd "${agentFolder}" &&
-            su -c 'nohup java -jar /usr/share/go-agent/agent-bootstrapper.jar 127.0.0.1 &' go
-        else
-            error "ERROR: directory '${agentFolder}' not found!"
-        fi
+        start "go-agent-${i}"
     done
-
-    cd "${currentPath}"
 }
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${0}")" && pwd)"
+    appPath="$(cd "$(dirname "${0}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
@@ -91,6 +105,7 @@ function main()
 
     installDependencies
     install
+    configUpstart
     startServer
     startAgents
     installCleanUp

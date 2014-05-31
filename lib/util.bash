@@ -142,6 +142,7 @@ function createFileFromTemplate()
     if [[ -f "${sourceFile}" ]]
     then
         local content="$(cat "${sourceFile}")"
+        local i=0
 
         for ((i = 0; i < ${#data[@]}; i = i + 2))
         do
