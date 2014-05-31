@@ -16,6 +16,8 @@ function install()
 
     ln -s "${serverInstallFolder}" '/var/lib/go-server'
 
+    local i=0
+
     for ((i = 0; i <= ${numberOfAgent}; i++))
     do
         if [[ ${i} -eq 0 ]]
@@ -83,6 +85,8 @@ function startAgents()
     service go-agent start
 
     # Start Additional Agents
+
+    local i=1
 
     for ((i = 1; i <= ${numberOfAgent}; i++))
     do

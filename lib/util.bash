@@ -94,6 +94,7 @@ function checkPortRequirement()
     local headerRegex='^COMMAND\s\+PID\s\+USER\s\+FD\s\+TYPE\s\+DEVICE\s\+SIZE\/OFF\s\+NODE\s\+NAME$'
     local status="$(lsof -P -i | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
     local open=''
+    local port=''
 
     for port in ${ports}
     do
@@ -249,6 +250,8 @@ function appendToFileIfNotFound()
 function symlinkLocalBin()
 {
     local sourceBinFolder="${1}"
+
+    local file=''
 
     for file in $(find "${sourceBinFolder}" -maxdepth 1 -xtype f -perm -u+x)
     do

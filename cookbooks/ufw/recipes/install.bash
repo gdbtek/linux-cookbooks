@@ -9,6 +9,8 @@ function install()
 {
     apt-get install -y ufw
 
+    local policy=''
+
     for policy in "${policies[@]}"
     do
         ufw ${policy}
