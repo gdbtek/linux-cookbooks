@@ -8,6 +8,7 @@ function main()
 
     "${appPath}/../essential.bash" || exit 1
 
+    "${appPath}/../../cookbooks/ps1/recipes/install.bash" 'nam' 'ubuntu' || exit 1
     "${appPath}/../../cookbooks/ufw/recipes/install.bash" || exit 1
     "${appPath}/../../cookbooks/node-js/recipes/install.bash" || exit 1
     "${appPath}/../../cookbooks/nginx/recipes/install.bash" || exit 1

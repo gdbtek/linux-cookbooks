@@ -117,16 +117,25 @@ function checkPortRequirement()
 
 function getProfileFile()
 {
-    local bashProfileFile="${HOME}/.bash_profile"
-    local profileFile="${HOME}/.profile"
-    local defaultStartUpFile="${bashProfileFile}"
+    local user="${1}"
 
-    if [[ ! -f "${bashProfileFile}" && -f "${profileFile}" ]]
+    local userHome="$(eval "echo ~${user}")"
+
+    if [[ -d "${userHome}" ]]
     then
-        defaultStartUpFile="${profileFile}"
-    fi
+        local bashProfileFile="${userHome}/.bash_profile"
+        local profileFile="${userHome}/.profile"
+        local defaultStartUpFile="${bashProfileFile}"
 
-    echo "${defaultStartUpFile}"
+        if [[ ! -f "${bashProfileFile}" && -f "${profileFile}" ]]
+        then
+            defaultStartUpFile="${profileFile}"
+        fi
+
+        echo "${defaultStartUpFile}"
+    else
+        echo
+    fi
 }
 
 function escapeSearchPattern()

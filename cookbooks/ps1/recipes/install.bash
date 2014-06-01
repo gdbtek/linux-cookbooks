@@ -2,10 +2,36 @@
 
 function install()
 {
-    local profileFile="$(getProfileFile)"
-    local prompt="export PS1=\"${rootPrompt}\""
+    local users="${@}"
 
-    appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false'
+    if [[ "$(isEmptyString "${users}")" = 'true' ]]
+    then
+        users="$(whoami)"
+    fi
+
+    local user=''
+
+    for user in ${users}
+    do
+        local profileFile="$(getProfileFile "${user}")"
+
+        if [[ "$(isEmptyString "${profileFile}")" = 'false' ]]
+        then
+            if [[ "$(whoami)" = "${user}" ]]
+            then
+                local prompt="export PS1=\"${rootPrompt}\""
+            else
+                local prompt="export PS1=\"${userPrompt}\""
+            fi
+
+            echo "Updating '${profileFile}'"
+
+            touch "${profileFile}"
+            appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false'
+        else
+            error "ERROR: user '${user}' not found!"
+        fi
+    done
 }
 
 function main()
@@ -19,7 +45,7 @@ function main()
 
     checkRequireRootUser
 
-    install
+    install "${@}"
     installCleanUp
 }
 
