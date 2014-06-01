@@ -9,6 +9,12 @@ function install()
 {
     apt-get install -y ufw
 
+    # Set Up Policies
+
+    ufw reset
+    ufw default deny incoming
+    ufw default allow outgoing
+
     local policy=''
 
     for policy in "${policies[@]}"
@@ -16,8 +22,10 @@ function install()
         ufw ${policy}
     done
 
+    # Enable Service
+
     ufw enable
-    ufw status
+    ufw status verbose
 }
 
 function main()
