@@ -29,7 +29,7 @@ function install()
             touch "${profileFile}"
             appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false'
         else
-            error "ERROR: user '${user}' not found!"
+            warn "ERROR: user '${user}' not found!"
         fi
     done
 }
