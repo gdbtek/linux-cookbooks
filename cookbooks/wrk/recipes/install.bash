@@ -18,6 +18,12 @@ function install()
     find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f {} "${installFolder}" \;
     rm -rf "${tempFolder}"
     cd "${currentPath}"
+
+    # Config Profile
+
+    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+
+    createFileFromTemplate "${appPath}/../files/profile/wrk.sh" '/etc/profile.d/wrk.sh' "${profileConfigData[@]}"
 }
 
 function main()
