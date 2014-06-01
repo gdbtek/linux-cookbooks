@@ -104,8 +104,8 @@ function main()
     header 'INSTALLING GO-SERVER'
 
     checkRequireRootUser
-    checkPortRequirement "${serverPort}"
-    checkPortRequirement "${agentPort}"
+    checkRequirePort "${serverPort}"
+    checkRequirePort "${agentPort}"
 
     installDependencies
     install

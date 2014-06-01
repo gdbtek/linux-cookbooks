@@ -53,7 +53,7 @@ function main()
     header 'INSTALLING GHOST'
 
     checkRequireRootUser
-    checkPortRequirement "${port}"
+    checkRequirePort "${port}"
 
     install
     installCleanUp

@@ -44,7 +44,7 @@ function main()
     header 'INSTALLING MONGODB'
 
     checkRequireRootUser
-    checkPortRequirement "${port}"
+    checkRequirePort "${port}"
 
     install
     installCleanUp

@@ -87,7 +87,7 @@ function displayOpenPorts()
     lsof -P -i | grep ' (LISTEN)$' | sort
 }
 
-function checkPortRequirement()
+function checkRequirePort()
 {
     local ports="${@:1}"
 

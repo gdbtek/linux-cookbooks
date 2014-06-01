@@ -56,7 +56,7 @@ function main()
     header 'INSTALLING TOMCAT'
 
     checkRequireRootUser
-    checkPortRequirement "${ajpPort} ${commandPort} ${httpPort} ${httpsPort}"
+    checkRequirePort "${ajpPort} ${commandPort} ${httpPort} ${httpsPort}"
 
     install
     installCleanUp

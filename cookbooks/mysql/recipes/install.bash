@@ -61,7 +61,7 @@ function main()
     header 'INSTALLING MYSQL'
 
     checkRequireRootUser
-    checkPortRequirement "${port}"
+    checkRequirePort "${port}"
 
     installDependencies
     install

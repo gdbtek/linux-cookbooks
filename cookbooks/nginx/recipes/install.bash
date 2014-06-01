@@ -64,7 +64,7 @@ function main()
     header 'INSTALLING NGINX'
 
     checkRequireRootUser
-    checkPortRequirement "${port}"
+    checkRequirePort "${port}"
 
     installDependencies
     install
