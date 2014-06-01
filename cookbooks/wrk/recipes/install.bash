@@ -15,7 +15,7 @@ function install()
     git clone "${downloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}" -type f -maxdepth 1 -perm -u+x -exec cp -f {} "${installFolder}" \;
+    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f {} "${installFolder}" \;
     rm -rf "${tempFolder}"
     cd "${currentPath}"
 }
