@@ -104,7 +104,7 @@ function main()
     header 'INSTALLING GO-SERVER'
 
     checkRequireRootUser
-    checkRequirePort 8153 8154
+    checkRequirePort '8153' '8154'
 
     installDependencies
     install
