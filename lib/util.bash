@@ -89,7 +89,7 @@ function displayOpenPorts()
 
 function checkRequirePort()
 {
-    local ports="${@:1}"
+    local ports="${@}"
 
     local headerRegex='^COMMAND\s\+PID\s\+USER\s\+FD\s\+TYPE\s\+DEVICE\s\+SIZE\/OFF\s\+NODE\s\+NAME$'
     local status="$(lsof -P -i | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
