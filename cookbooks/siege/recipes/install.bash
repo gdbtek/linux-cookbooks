@@ -12,7 +12,7 @@ function install()
     local currentPath="$(pwd)"
     local tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${downloadURL}" "${tempFolder}"
+    curl -L "${downloadURL}" | tar x --strip 1 -C "${tempFolder}"
     cd "${tempFolder}"
     "${tempFolder}/configure" --prefix="${installFolder}"
     make
