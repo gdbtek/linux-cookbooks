@@ -52,7 +52,7 @@ function addSystemUser()
 
 function checkRequireDistributor()
 {
-    if [[ "$(isUbuntuDistributor) = 'false' ]]
+    if [[ "$(isUbuntuDistributor)" = 'false' ]]
     then
         fatal "ERROR: this program only supports 'Ubuntu' operating system!"
     fi
