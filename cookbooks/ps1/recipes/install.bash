@@ -41,6 +41,8 @@ function main()
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
 
+    checkRequireDistributor
+
     header 'INSTALLING PS1'
 
     checkRequireRootUser

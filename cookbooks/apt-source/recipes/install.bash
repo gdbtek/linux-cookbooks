@@ -21,6 +21,8 @@ function main()
 
     source "${appPath}/../../../lib/util.bash" || exit 1
 
+    checkRequireDistributor
+
     header 'INSTALLING APT-SOURCE'
 
     checkRequireRootUser

@@ -54,7 +54,7 @@ function checkRequireDistributor()
 {
     if [[ "$(isUbuntuDistributor)" = 'false' ]]
     then
-        fatal "ERROR: this program only supports 'Ubuntu' operating system!"
+        fatal "\nERROR: this program only supports 'Ubuntu' operating system!"
     fi
 }
 

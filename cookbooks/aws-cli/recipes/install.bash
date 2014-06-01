@@ -18,6 +18,8 @@ function main()
 
     source "${appPath}/../../../lib/util.bash" || exit 1
 
+    checkRequireDistributor
+
     header 'INSTALLING AWS-CLI'
 
     checkRequireRootUser
