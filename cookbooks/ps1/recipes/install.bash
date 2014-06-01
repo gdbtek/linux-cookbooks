@@ -24,7 +24,7 @@ function install()
                 local prompt="export PS1=\"${userPrompt}\""
             fi
 
-            echo "Updating '${profileFile}'"
+            echo -e "Updating '\033[1;32m${profileFile}\033[0m'"
 
             touch "${profileFile}"
             appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false'
