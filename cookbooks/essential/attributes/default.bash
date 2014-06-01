@@ -7,7 +7,6 @@ packages=(
     'iptables'
     'rsync'
     'screen'
-    'siege'
     'sysv-rc-conf'
     'tree'
     'ufw'
