@@ -52,9 +52,7 @@ function addSystemUser()
 
 function checkRequireDistributor()
 {
-    local distributor="$(getMachineDistributor)"
-
-    if [[ "$distributor" != 'Ubuntu' ]]
+    if [[ "$(isUbuntuDistributor) = 'false' ]]
     then
         fatal "ERROR: this program only supports 'Ubuntu' operating system!"
     fi
@@ -281,14 +279,21 @@ function symlinkLocalBin()
     done
 }
 
+function isUbuntuDistributor()
+{
+    local found="$(uname -v | grep -Foi 'Ubuntu')"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}
+
 function installCleanUp()
 {
     apt-get clean
-}
-
-function getMachineDistributor()
-{
-    lsb_release --short --id
 }
 
 function getMachineRelease()
