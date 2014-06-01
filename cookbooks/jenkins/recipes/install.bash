@@ -23,6 +23,7 @@ function main()
     checkRequireRootUser
 
     install
+    installCleanUp
 }
 
 main "${@}"

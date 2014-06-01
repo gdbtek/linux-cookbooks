@@ -36,6 +36,7 @@ function main()
     header 'INSTALLING WRK'
 
     install
+    installCleanUp
 }
 
 main "${@}"
