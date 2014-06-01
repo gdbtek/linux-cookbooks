@@ -5,7 +5,7 @@ function install()
     # Clean Up
 
     rm -rf "${installFolder}"
-    mkdir -p "${installFolder}"
+    mkdir -p "${installFolder}/bin"
 
     # Install
 
@@ -15,7 +15,7 @@ function install()
     git clone "${downloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f {} "${installFolder}" \;
+    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f {} "${installFolder}/bin" \;
     rm -rf "${tempFolder}"
     cd "${currentPath}"
 
