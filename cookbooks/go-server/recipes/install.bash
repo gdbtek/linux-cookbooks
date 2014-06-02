@@ -22,15 +22,15 @@ function install()
     do
         if [[ ${i} -eq 0 ]]
         then
-            local agentFolderName='go-agent'
+            local agentFolderName='agent'
         else
-            local agentFolderName="go-agent-${i}"
+            local agentFolderName="agent-${i}"
         fi
 
         mkdir -p "${agentInstallFolder}/${agentFolderName}" &&
-        ln -s "${agentInstallFolder}/${agentFolderName}" "/var/lib/${agentFolderName}"
+        ln -s "${agentInstallFolder}/${agentFolderName}" "/var/lib/go-${agentFolderName}"
     done
-
+exit
     # Install
 
     local serverPackageFile="$(getTemporaryFile "$(getFileExtension "${serverDownloadURL}")")"
