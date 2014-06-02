@@ -1,3 +1,36 @@
+" Colors
+
 colorscheme koehler
+set background=dark
+syntax enable
+
+" Commands
+
+com! FormatJSON %!python -m json.tool
+
+" Files
+
+set nobackup
+set noswapfile
+set nowb
+
+" Interface
 
 set hlsearch
+set ignorecase
+set incsearch
+set noerrorbells
+set novisualbell
+set number
+set ruler
+set showmatch
+set smartcase
+set wildmenu
+
+" Tabs
+
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set smarttab
+set tabstop=4
