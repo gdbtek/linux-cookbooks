@@ -14,6 +14,12 @@ set nobackup
 set noswapfile
 set nowb
 
+" General
+
+filetype indent on
+filetype plugin on
+set autoread
+
 " Interface
 
 set hlsearch
