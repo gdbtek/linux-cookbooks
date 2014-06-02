@@ -30,7 +30,7 @@ function install()
         mkdir -p "${agentInstallFolder}/${agentFolderName}" &&
         ln -s "${agentInstallFolder}/${agentFolderName}" "/var/lib/go-${agentFolderName}"
     done
-exit
+
     # Install
 
     local serverPackageFile="$(getTemporaryFile "$(getFileExtension "${serverDownloadURL}")")"
