@@ -16,6 +16,8 @@ function install()
     mkfs.ext4 "${disk}1"
     mkdir "${mountOn}"
     mount -t ext4 "${disk}1" "${mountOn}"
+
+    df -h
 }
 
 function createPartition()
