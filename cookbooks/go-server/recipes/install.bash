@@ -57,7 +57,7 @@ function configUpstart()
     do
         local agentFolder="/var/lib/go-agent-${i}"
 
-        if [[ -d "${agentFolder}" ]]
+        if [[ "$(isEmptyString "${agentFolder}")" = 'false' && -d "${agentFolder}" ]]
         then
             local upstartConfigData=(
                 '__AGENT_NUMBER__' "${i}"
@@ -68,7 +68,7 @@ function configUpstart()
 
             createFileFromTemplate "${appPath}/../files/upstart/go-agent.conf" "/etc/init/go-agent-${i}.conf" "${upstartConfigData[@]}"
         else
-            error "ERROR: directory '${agentFolder}' not found!"
+            error "ERROR: directory '${agentFolder}' not found or undefined!"
         fi
     done
 }
