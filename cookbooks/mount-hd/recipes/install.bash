@@ -12,7 +12,7 @@ function install()
     local disk="$(formatPath "${1}")"
     local mountOn="$(formatPath "${2}")"
 
-    local foundDisk="$(fdisk -l "${disk}" | grep -Eio "^Disk\s+$(escapeSearchPattern "${disk}")")"
+    local foundDisk="$(fdisk -l "${disk}" 2>/dev/null | grep -Eio "^Disk\s+$(escapeSearchPattern "${disk}"):")"
 
     if [[ "$(isEmptyString "${foundDisk}")" = 'true' ]]
     then
@@ -21,7 +21,7 @@ function install()
 
     if [[ "$(isEmptyString "${mountOn}")" = 'true' || -d "${mountOn}" ]]
     then
-        fatal "ERROR: mounted file system '${mountOn}' found"
+        fatal "ERROR: mounted file system '${mountOn}' found or undefined"
     fi
 
     createPartition "${disk}"
