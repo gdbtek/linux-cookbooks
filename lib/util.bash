@@ -141,7 +141,7 @@ function getProfileFile()
 
     local userHome="$(eval "echo ~${user}")"
 
-    if [[ -d "${userHome}" ]]
+    if [[ "$(isEmptyString "${userHome}")" = 'false' && -d "${userHome}" ]]
     then
         local bashProfileFile="${userHome}/.bash_profile"
         local profileFile="${userHome}/.profile"
