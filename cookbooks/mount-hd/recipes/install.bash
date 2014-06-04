@@ -12,6 +12,18 @@ function install()
     local disk="${1}"
     local mountOn="${2}"
 
+    local foundDisk="$(fdisk -l "${disk}" | grep -Eio "^Disk\s+$(escapeSearchPattern "${disk}")")"
+
+    if [[ "$(isEmptyString "${foundDisk}")" = 'true' ]]
+    then
+        fatal "ERROR: disk '${disk}' not found"
+    fi
+
+    if [[ "$(isEmptyString "${mountOn}")" = 'true' || -d "${mountOn}" ]]
+    then
+        fatal "ERROR: mounted file system '${mountOn}' found"
+    fi
+
     createPartition "${disk}"
     mkfs.ext4 "${disk}1"
     mkdir "${mountOn}"
