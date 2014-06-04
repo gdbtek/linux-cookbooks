@@ -9,8 +9,8 @@ function installDependencies()
 
 function install()
 {
-    local disk="${1}"
-    local mountOn="${2}"
+    local disk="$(formatPath "${1}")"
+    local mountOn="$(formatPath "${2}")"
 
     local foundDisk="$(fdisk -l "${disk}" | grep -Eio "^Disk\s+$(escapeSearchPattern "${disk}")")"
 

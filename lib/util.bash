@@ -36,6 +36,18 @@ function isEmptyString()
     fi
 }
 
+function formatPath()
+{
+    local string="${1}"
+
+    while [[ "$(echo "${string}" | grep -F '//')" != '' ]]
+    do
+        string="$(echo "${string}" | sed -e 's/\/\/*/\//g')"
+    done
+
+    echo "${string}" | sed -e 's/\/$//g'
+}
+
 function addSystemUser()
 {
     local uid="${1}"
