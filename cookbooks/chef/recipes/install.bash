@@ -2,7 +2,7 @@
 
 function install()
 {
-    curl -L "${downloadURL}" | bash
+    curl -L 'https://www.opscode.com/chef/install.sh' | bash
 }
 
 function main()
@@ -10,7 +10,6 @@ function main()
     local appPath="$(cd "$(dirname "${0}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash" || exit 1
-    source "${appPath}/../attributes/default.bash" || exit 1
 
     checkRequireDistributor
 
