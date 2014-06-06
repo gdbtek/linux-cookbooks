@@ -27,7 +27,6 @@ set ignorecase
 set incsearch
 set noerrorbells
 set novisualbell
-set number
 set ruler
 set showmatch
 set smartcase
