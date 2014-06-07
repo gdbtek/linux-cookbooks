@@ -16,7 +16,6 @@ set nowb
 
 " General
 
-filetype indent on
 filetype plugin on
 set autoread
 
