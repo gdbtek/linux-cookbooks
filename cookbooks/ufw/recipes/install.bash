@@ -11,7 +11,7 @@ function install()
 
     # Set Up Policies
 
-    ufw reset
+    ufw --force reset
     ufw default deny incoming
     ufw default allow outgoing
 
