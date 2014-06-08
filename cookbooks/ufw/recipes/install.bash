@@ -3,6 +3,8 @@
 function installDependencies()
 {
     apt-get update
+
+    apt-get install -y expect
 }
 
 function install()
@@ -37,7 +39,7 @@ function main()
 
     checkRequireDistributor
 
-    header 'INSTALLING FIREWALL'
+    header 'INSTALLING UFW'
 
     checkRequireRootUser
 
