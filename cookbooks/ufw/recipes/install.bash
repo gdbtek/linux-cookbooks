@@ -3,8 +3,6 @@
 function installDependencies()
 {
     apt-get update
-
-    apt-get install -y expect
 }
 
 function install()
@@ -26,7 +24,7 @@ function install()
 
     # Enable Service
 
-    ufw enable
+    ufw --force enable
     ufw status verbose
 }
 
