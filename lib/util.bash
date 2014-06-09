@@ -328,18 +328,18 @@ function runAptGetUpdate()
 {
     local updateInterval="${1}"
 
-    local lastAptGetUpdate=$(getLastAptGetUpdate)
+    local lastAptGetUpdate="$(getLastAptGetUpdate)"
 
     if [[ "$(isEmptyString "${updateInterval}")" = 'true' ]]
     then
-        updateInterval=$((24 * 60 * 60))    # 24 hours
+        updateInterval="$((24 * 60 * 60))"    # 24 hours
     fi
 
-    if [[ ${lastAptGetUpdate} -gt ${updateInterval} ]]
+    if [[ "${lastAptGetUpdate}" -gt "${updateInterval}" ]]
     then
         apt-get update
     else
-        local lastUpdate=$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')
+        local lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
 
         info "Skip apt-get update because its last run was '${lastUpdate}' ago\n"
     fi
@@ -347,8 +347,8 @@ function runAptGetUpdate()
 
 function getLastAptGetUpdate()
 {
-    local aptDate=$(stat -c %Y '/var/cache/apt')
-    local nowDate=$(date +'%s')
+    local aptDate="$(stat -c %Y '/var/cache/apt')"
+    local nowDate="$(date +'%s')"
 
-    echo $((${nowDate} - ${aptDate}))
+    echo $(("${nowDate}" - "${aptDate}"))
 }
