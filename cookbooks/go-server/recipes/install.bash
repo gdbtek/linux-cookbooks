@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    apt-get update
+    runAptGetUpdate
 
     apt-get install -y default-jre-headless
 }

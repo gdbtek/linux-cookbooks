@@ -318,3 +318,26 @@ function getMachineDescription()
 {
     lsb_release --short --description
 }
+
+function runAptGetUpdate()
+{
+    local updateInterval="${1}"
+
+    if [[ "$(isEmptyString "${updateInterval}")" = 'true' ]]
+    then
+        updateInterval=$((24 * 60))    # 24 hours
+    fi
+
+    if [[ $(getLastAptGetUpdate) -gt ${updateInterval} ]]
+    then
+        apt-get update
+    fi
+}
+
+function getLastAptGetUpdate()
+{
+    local aptDate=$(stat -c %Y '/var/cache/apt')
+    local nowDate=$(date +'%s')
+
+    echo $(($((${nowDate} - ${aptDate})) / 60))
+}

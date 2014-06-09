@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    apt-get update
+    runAptGetUpdate
 
     apt-get install -y libaio-dev
     apt-get install -y sysv-rc-conf
