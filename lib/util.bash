@@ -350,5 +350,5 @@ function getLastAptGetUpdate()
     local aptDate="$(stat -c %Y '/var/cache/apt')"
     local nowDate="$(date +'%s')"
 
-    echo $(("${nowDate}" - "${aptDate}"))
+    echo $((${nowDate} - ${aptDate}))
 }
