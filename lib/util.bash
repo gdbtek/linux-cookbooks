@@ -5,6 +5,11 @@ function header()
     echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${1}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
 }
 
+function info()
+{
+    echo -e "\033[1;36m${1}\033[0m" 1>&2
+}
+
 function warn()
 {
     echo -e "\033[1;33m${1}\033[0m" 1>&2
@@ -323,14 +328,20 @@ function runAptGetUpdate()
 {
     local updateInterval="${1}"
 
+    local lastAptGetUpdate=$(getLastAptGetUpdate)
+
     if [[ "$(isEmptyString "${updateInterval}")" = 'true' ]]
     then
-        updateInterval=$((24 * 60))    # 24 hours
+        updateInterval=$((24 * 60 * 60))    # 24 hours
     fi
 
-    if [[ $(getLastAptGetUpdate) -gt ${updateInterval} ]]
+    if [[ ${lastAptGetUpdate} -gt ${updateInterval} ]]
     then
         apt-get update
+    else
+        local lastUpdate=$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')
+
+        info "Skip apt-get update because its last run was '${lastUpdate}' ago\n"
     fi
 }
 
@@ -339,5 +350,5 @@ function getLastAptGetUpdate()
     local aptDate=$(stat -c %Y '/var/cache/apt')
     local nowDate=$(date +'%s')
 
-    echo $(($((${nowDate} - ${aptDate})) / 60))
+    echo $((${nowDate} - ${aptDate}))
 }
