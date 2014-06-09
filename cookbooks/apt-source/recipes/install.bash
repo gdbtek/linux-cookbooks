@@ -11,7 +11,7 @@ function install()
         cp -f "${sourceListFile}" '/etc/apt/sources.list'
         cat '/etc/apt/sources.list'
     else
-        warn "WARNING: this cookbook has not supported '$(getMachineDescription)' yet!"
+        warn "WARN: this cookbook has not supported '$(getMachineDescription)' yet!"
     fi
 }
 

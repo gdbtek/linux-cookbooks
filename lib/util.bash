@@ -66,7 +66,7 @@ function checkRequireDistributor()
 {
     if [[ "$(isUbuntuDistributor)" = 'false' ]]
     then
-        fatal "\nERROR: this program only supports 'Ubuntu' operating system!"
+        fatal "\nFATAL: this program only supports 'Ubuntu' operating system!"
     fi
 }
 
@@ -76,7 +76,7 @@ function checkRequireUser()
 
     if [[ "$(whoami)" != "${requireUser}" ]]
     then
-        fatal "ERROR: please run this program as '${requireUser}' user!"
+        fatal "FATAL: please run this program as '${requireUser}' user!"
     fi
 }
 
@@ -184,7 +184,7 @@ function createFileFromTemplate()
 
         echo "${content}" > "${destinationFile}"
     else
-        fatal "ERROR: file '${sourceFile}' not found!"
+        fatal "FATAL: file '${sourceFile}' not found!"
     fi
 }
 
@@ -217,7 +217,7 @@ function unzipRemoteFile()
         unzip -q "${zipFile}" -d "${installFolder}"
         rm -f "${zipFile}"
     else
-        fatal "ERROR: file extension '${extension}' is not yet supported to unzip!"
+        fatal "FATAL: file extension '${extension}' is not yet supported to unzip!"
     fi
 }
 
@@ -273,7 +273,7 @@ function appendToFileIfNotFound()
             fi
         fi
     else
-        fatal "ERROR: file '${file}' not found!"
+        fatal "FATAL: file '${file}' not found!"
     fi
 }
 
