@@ -4,7 +4,7 @@ function installDependencies()
 {
     runAptGetUpdate
 
-    apt-get install -y python-pip
+    installPackage 'python-pip'
 }
 
 function install()

@@ -4,7 +4,7 @@ function installDependencies()
 {
     runAptGetUpdate
 
-    apt-get install -y default-jre-headless
+    installPackage 'default-jre-headless'
 }
 
 function install()

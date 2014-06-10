@@ -4,8 +4,8 @@ function installDependencies()
 {
     runAptGetUpdate
 
-    apt-get install -y libaio-dev
-    apt-get install -y sysv-rc-conf
+    installPackage 'libaio-dev'
+    installPackage 'sysv-rc-conf'
 }
 
 function install()
