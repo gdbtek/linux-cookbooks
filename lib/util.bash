@@ -10,6 +10,11 @@ function info()
     echo -e "\033[1;36m${1}\033[0m" 1>&2
 }
 
+function debug()
+{
+    echo -e "\033[1;34m${1}\033[0m" 1>&2
+}
+
 function warn()
 {
     echo -e "\033[1;33m${1}\033[0m" 1>&2
@@ -361,7 +366,7 @@ function installPackage()
 
     if [[ "$(isPackageInstall "${package}")" = 'true' ]]
     then
-        warn "\nPackage '${package}' has already been installed"
+        debug "\nPackage '${package}' has already been installed"
     else
         info "\nInstalling package '${package}'"
         apt-get install -y "${package}"
