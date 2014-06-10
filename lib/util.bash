@@ -341,7 +341,7 @@ function runAptGetUpdate()
     else
         local lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
 
-        info "Skip apt-get update because its last run was '${lastUpdate}' ago\n"
+        info "Skip apt-get update because its last run was '${lastUpdate}' ago"
     fi
 }
 
@@ -359,9 +359,9 @@ function installPackage()
 
     if [[ "$(isPackageInstall "${package}")" = 'true' ]]
     then
-        warn "Package '${package}' has already been installed\n"
+        warn "\nPackage '${package}' has already been installed"
     else
-        info "Installing package '${package}'"
+        info "\nInstalling package '${package}'"
         apt-get install -y "${package}"
     fi
 }
