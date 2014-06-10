@@ -352,3 +352,25 @@ function getLastAptGetUpdate()
 
     echo $((${nowDate} - ${aptDate}))
 }
+
+function installPackage()
+{
+    local package="${1}"
+
+    if [[ "$(isPackageInstall "${package}")" = 'true' ]]
+    then
+        warn "Package '${package}' has been already installed\n"
+    else
+        info "Installing package '${package}'"
+        apt-get install -y "${package}"
+    fi
+}
+
+function isPackageInstall()
+{
+    local package="${1}"
+
+    local found="$(dpkg --get-selections | grep -i "${package}")"
+
+    echo "$(isEmptyString "${found}")"
+}
