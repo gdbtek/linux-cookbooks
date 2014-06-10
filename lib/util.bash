@@ -370,7 +370,12 @@ function isPackageInstall()
 {
     local package="${1}"
 
-    local found="$(dpkg --get-selections | grep -i "${package}")"
+    local found="$(dpkg --get-selections | grep -Eo "^${package}\s+install$")"
 
-    echo "$(isEmptyString "${found}")"
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
 }
