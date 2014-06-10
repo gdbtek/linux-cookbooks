@@ -1,5 +1,12 @@
 #!/bin/bash
 
+function installDependencies()
+{
+    runAptGetUpdate
+
+    installPackage 'build-essential'
+}
+
 function install()
 {
     # Clean Up
@@ -38,6 +45,7 @@ function main()
 
     header 'INSTALLING SIEGE'
 
+    installDependencies
     install
     installCleanUp
 }
