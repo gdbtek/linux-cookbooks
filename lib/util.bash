@@ -368,7 +368,7 @@ function installPackage()
     then
         debug "\nPackage '${package}' has already been installed"
     else
-        info "\nInstalling package '${package}'"
+        echo -e "\033[1;35m\nInstalling package '${package}'\033[0m"
         apt-get install -y "${package}"
     fi
 }
