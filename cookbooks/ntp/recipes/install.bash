@@ -8,7 +8,7 @@ function installDependencies()
 function install()
 {
     echo "${timeZone}" > '/etc/timezone'
-    dpkg-reconfigure -f noninteractive tzdata
+    dpkg-reconfigure -f noninteractive tzdata 2>/dev/null
     installPackage 'ntp'
 }
 
