@@ -7,7 +7,12 @@ function installDependencies()
 
 function install()
 {
-    apt-get install -y "${packages[@]}"
+    local package=''
+
+    for package in ${packages[@]}
+    do
+        installPackage "${package}"
+    done
 }
 
 function main()
