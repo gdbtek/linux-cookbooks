@@ -359,7 +359,7 @@ function installPackage()
 
     if [[ "$(isPackageInstall "${package}")" = 'true' ]]
     then
-        warn "Package '${package}' has been already installed\n"
+        warn "Package '${package}' has already been installed\n"
     else
         info "Installing package '${package}'"
         apt-get install -y "${package}"
