@@ -14,9 +14,6 @@ function main()
     source "${appPath}/../attributes/default.bash" || exit 1
 
     checkRequireDistributor
-
-    header 'INSTALLING GO-SERVER'
-
     checkRequireRootUser
 
     install
