@@ -7,12 +7,12 @@ function header()
 
 function info()
 {
-    echo -e "\033[1;36m${1}\033[0m" 1>&2
+    echo -e "\033[1;36m${1}\033[0m"
 }
 
 function debug()
 {
-    echo -e "\033[1;34m${1}\033[0m" 1>&2
+    echo -e "\033[1;34m${1}\033[0m"
 }
 
 function warn()
