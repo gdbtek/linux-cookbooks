@@ -386,3 +386,15 @@ function isPackageInstall()
         echo 'true'
     fi
 }
+
+function existURL()
+{
+    local url="${1}"
+
+    if ( curl --output '/dev/null' --silent --head --fail "${url}" )
+    then
+        echo 'true'
+    else
+        echo 'false'
+    fi
+}

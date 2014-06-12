@@ -16,17 +16,28 @@ function install()
 
     # Install
 
-    local latestVersionNumber="$(getLatestVersionNumber)"
+    if [[ "${version}" = 'latest' ]]
+    then
+        version="$(getLatestVersionNumber)"
+        local url="http://nodejs.org/dist/latest/node-v${version}-linux-x64.tar.gz"
+    else
+        local url="http://nodejs.org/dist/v${version}/node-v${version}-linux-x64.tar.gz"
+    fi
 
-    unzipRemoteFile "http://nodejs.org/dist/latest/node-v${latestVersionNumber}-linux-x64.tar.gz" "${installFolder}"
-    chown -R "$(whoami)":"$(whoami)" "${installFolder}"
-    symlinkLocalBin "${installFolder}/bin"
+    if [[ "$(existURL "${url}")" = 'true' ]]
+    then
+        unzipRemoteFile "http://nodejs.org/dist/latest/node-v${version}-linux-x64.tar.gz" "${installFolder}"
+        chown -R "$(whoami)":"$(whoami)" "${installFolder}"
+        symlinkLocalBin "${installFolder}/bin"
 
-    # Config Profile
+        # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+        local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
-    createFileFromTemplate "${appPath}/../files/profile/node-js.sh" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
+        createFileFromTemplate "${appPath}/../files/profile/node-js.sh" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
+    else
+        fatal "FATAL: version '${version}' not found"
+    fi
 }
 
 function getLatestVersionNumber()
