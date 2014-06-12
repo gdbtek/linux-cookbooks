@@ -36,7 +36,7 @@ function install()
 
         createFileFromTemplate "${appPath}/../files/profile/node-js.sh" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
     else
-        fatal "FATAL: version '${version}' not found"
+        fatal "\nFATAL: version '${version}' not found!"
     fi
 }
 
