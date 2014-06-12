@@ -26,7 +26,7 @@ function install()
 
     if [[ "$(existURL "${url}")" = 'true' ]]
     then
-        unzipRemoteFile "http://nodejs.org/dist/latest/node-v${version}-linux-x64.tar.gz" "${installFolder}"
+        unzipRemoteFile "${url}" "${installFolder}"
         chown -R "$(whoami)":"$(whoami)" "${installFolder}"
         symlinkLocalBin "${installFolder}/bin"
 
