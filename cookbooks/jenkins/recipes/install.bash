@@ -4,11 +4,11 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${tomcatFolder}/webapps/tomcat" "${tomcatFolder}/webapps/tomcat.war"
+    rm -rf "${tomcatFolder}/webapps/jenkins" "${tomcatFolder}/webapps/jenkins.war"
 
     # Install
 
-    curl -L "${downloadURL}" -o "${tomcatFolder}/webapps/tomcat.war"
+    curl -L "${downloadURL}" -o "${tomcatFolder}/webapps/jenkins.war"
 }
 
 function main()
