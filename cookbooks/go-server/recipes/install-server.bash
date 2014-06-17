@@ -14,7 +14,10 @@ function install()
     rm -rf "${serverInstallFolder}"
     mkdir -p "${serverInstallFolder}"
 
-    ln -s "${serverInstallFolder}" '/var/lib/go-server'
+    if [[ "${serverInstallFolder}" != '/var/lib/go-server' ]]
+    then
+        ln -s "${serverInstallFolder}" '/var/lib/go-server'
+    fi
 
     # Install
 
