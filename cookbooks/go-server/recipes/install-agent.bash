@@ -16,7 +16,7 @@ function install()
 
     local i=0
 
-    for ((i = 0; i <= ${numberOfAgent}; i++))
+    for ((i = 0; i <= ${numberOfAdditionalAgent}; i++))
     do
         if [[ ${i} -eq 0 ]]
         then
@@ -46,7 +46,7 @@ function configUpstart()
 {
     local i=1
 
-    for ((i = 1; i <= ${numberOfAgent}; i++))
+    for ((i = 1; i <= ${numberOfAdditionalAgent}; i++))
     do
         local agentFolder="/var/lib/go-agent-${i}"
 
@@ -76,7 +76,7 @@ function startAgents()
 
     local i=1
 
-    for ((i = 1; i <= ${numberOfAgent}; i++))
+    for ((i = 1; i <= ${numberOfAdditionalAgent}; i++))
     do
         start "go-agent-${i}"
     done
