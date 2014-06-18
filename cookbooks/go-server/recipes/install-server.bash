@@ -1,12 +1,5 @@
 #!/bin/bash
 
-function installDependencies()
-{
-    runAptGetUpdate
-
-    installPackage 'default-jre-headless'
-}
-
 function install()
 {
     # Clean Up
@@ -14,12 +7,10 @@ function install()
     rm -rf "${serverInstallFolder}"
     mkdir -p "${serverInstallFolder}"
 
-    if [[ "${serverInstallFolder}" != '/var/lib/go-server' ]]
-    then
-        ln -s "${serverInstallFolder}" '/var/lib/go-server'
-    fi
-
     # Install
+
+    unzipRemoteFile "${serverDownloadURL}" "${serverInstallFolder}"
+
 
     local serverPackageFile="$(getTemporaryFile "$(getFileExtension "${serverDownloadURL}")")"
 
@@ -30,6 +21,17 @@ function install()
     # Clean Up
 
     rm -f "${serverPackageFile}"
+}
+
+function configUpstart()
+{
+    local upstartConfigData=(
+        '__SERVER_INSTALL_FOLDER__' "${serverInstallFolder}"
+        '__UID__' 'go'
+        '__GID__' 'go'
+    )
+
+    createFileFromTemplate "${appPath}/../files/upstart/go-server.conf" "/etc/init/go-server.conf" "${upstartConfigData[@]}"
 }
 
 function startServer()
@@ -51,7 +53,6 @@ function main()
     checkRequireRootUser
     checkRequirePort '8153' '8154'
 
-    installDependencies
     install
     startServer
     installCleanUp
