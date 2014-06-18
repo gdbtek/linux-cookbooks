@@ -14,20 +14,23 @@ function install()
     rm -rf "${agentInstallFolder}"
     mkdir -p "${agentInstallFolder}"
 
-    local i=0
+    if [[ "${agentInstallFolder}" != '/var/lib' ]]
+    then
+        local i=0
 
-    for ((i = 0; i <= ${numberOfAdditionalAgent}; i++))
-    do
-        if [[ ${i} -eq 0 ]]
-        then
-            local agentFolderName='agent'
-        else
-            local agentFolderName="agent-${i}"
-        fi
+        for ((i = 0; i <= ${numberOfAdditionalAgent}; i++))
+        do
+            if [[ ${i} -eq 0 ]]
+            then
+                local agentFolderName='agent'
+            else
+                local agentFolderName="agent-${i}"
+            fi
 
-        mkdir -p "${agentInstallFolder}/${agentFolderName}" &&
-        ln -s "${agentInstallFolder}/${agentFolderName}" "/var/lib/go-${agentFolderName}"
-    done
+            mkdir -p "${agentInstallFolder}/${agentFolderName}" &&
+            ln -s "${agentInstallFolder}/${agentFolderName}" "/var/lib/go-${agentFolderName}"
+        done
+    fi
 
     # Install
 
