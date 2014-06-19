@@ -11,24 +11,31 @@ function install()
 
     addSystemUser "${uid}" "${gid}"
     unzipRemoteFile "${serverDownloadURL}" "${serverInstallFolder}"
-    cd "${serverInstallFolder}"
-    local unzipFolderName="$(find * -maxdepth 0 -type d)"
-    echo "$unzipFolderName"
-    # mv ${unzipFolderName}/* .
-    # rm -rf "${unzipFolderName}"
+    local unzipFolderName="$(ls -d ${serverInstallFolder}/*/ 2> '/dev/null')"
 
-    exit
+    if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc -l)" = '1' ]]
+    then
+        if [[ "$(ls -A "${unzipFolderName}")" != '' ]]
+        then
+            mv ${unzipFolderName}* "${serverInstallFolder}" &&
+            rm -rf "${unzipFolderName}"
+        else
+            fatal "FATAL: folder '${unzipFolderName}' is empty"
+        fi
+    else
+        fatal 'FATAL: found multiple unzip folder name!'
+    fi
 }
 
 function configUpstart()
 {
     local upstartConfigData=(
         '__SERVER_INSTALL_FOLDER__' "${serverInstallFolder}"
-        '__UID__' 'go'
-        '__GID__' 'go'
+        '__UID__' "${uid}"
+        '__GID__' "${gid}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/go-server.conf" "/etc/init/go-server.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/go-server.conf" "/etc/init/${serverServiceName}.conf" "${upstartConfigData[@]}"
 }
 
 function startServer()
