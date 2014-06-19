@@ -11,6 +11,7 @@ function main()
 
     "${appPath}/../../../cookbooks/aws-cli/recipes/install.bash" || exit 1
     "${appPath}/../../../cookbooks/node-js/recipes/install.bash" || exit 1
+    "${appPath}/../../../cookbooks/jdk/recipes/install.bash" || exit 1
     "${appPath}/../../../cookbooks/go-server/recipes/install.bash" || exit 1
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" 'go' || exit 1
 }
