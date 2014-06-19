@@ -19,6 +19,7 @@ function install()
         if [[ "$(ls -A "${unzipFolderName}")" != '' ]]
         then
             mv ${unzipFolderName}* "${serverInstallFolder}" &&
+            chown -R "${uid}":"${gid}" "${serverInstallFolder}" &&
             rm -rf "${unzipFolderName}"
         else
             fatal "FATAL: folder '${unzipFolderName}' is empty"
@@ -32,7 +33,6 @@ function configUpstart()
 {
     local upstartConfigData=(
         '__SERVER_INSTALL_FOLDER__' "${serverInstallFolder}"
-        '__JDK_FOLDER__' "${jdkFolder}"
         '__UID__' "${uid}"
         '__GID__' "${gid}"
     )
