@@ -9,18 +9,14 @@ function install()
 
     # Install
 
+    addSystemUser "${uid}" "${gid}"
     unzipRemoteFile "${serverDownloadURL}" "${serverInstallFolder}"
+    cd "${installFolder}"
+    local unzipFolderName="$(find * -maxdepth 0 -type d)"
+    mv "${unzipFolderName}/* .
+    rm -rf "${unzipFolderName}"
 
-
-    local serverPackageFile="$(getTemporaryFile "$(getFileExtension "${serverDownloadURL}")")"
-
-    curl -L "${serverDownloadURL}" -o "${serverPackageFile}" &&
-    dpkg -i "${serverPackageFile}" &&
-    chown -R 'go:go' "${serverInstallFolder}"
-
-    # Clean Up
-
-    rm -f "${serverPackageFile}"
+    exit
 }
 
 function configUpstart()

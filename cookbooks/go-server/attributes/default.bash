@@ -9,4 +9,7 @@ agentInstallFolder='/opt/go-server/agents'
 serverServiceName='go-server'
 agentServiceName='go-agent'
 
+uid='go'
+gid='go'
+
 numberOfAgents=1
