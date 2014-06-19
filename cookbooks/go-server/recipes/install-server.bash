@@ -11,10 +11,11 @@ function install()
 
     addSystemUser "${uid}" "${gid}"
     unzipRemoteFile "${serverDownloadURL}" "${serverInstallFolder}"
-    cd "${installFolder}"
+    cd "${serverInstallFolder}"
     local unzipFolderName="$(find * -maxdepth 0 -type d)"
-    mv "${unzipFolderName}"/* .
-    rm -rf "${unzipFolderName}"
+    echo "$unzipFolderName"
+    # mv ${unzipFolderName}/* .
+    # rm -rf "${unzipFolderName}"
 
     exit
 }
