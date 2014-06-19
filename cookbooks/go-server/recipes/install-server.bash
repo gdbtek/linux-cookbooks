@@ -40,7 +40,7 @@ function configUpstart()
 
 function startServer()
 {
-    service go-server start
+    start "${serverServiceName}"
 }
 
 function main()
@@ -58,6 +58,7 @@ function main()
     checkRequirePort '8153' '8154'
 
     install
+    configUpstart
     startServer
     installCleanUp
 
