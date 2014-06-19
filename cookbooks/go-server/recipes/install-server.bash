@@ -13,7 +13,7 @@ function install()
     unzipRemoteFile "${serverDownloadURL}" "${serverInstallFolder}"
     cd "${installFolder}"
     local unzipFolderName="$(find * -maxdepth 0 -type d)"
-    mv "${unzipFolderName}/* .
+    mv "${unzipFolderName}"/* .
     rm -rf "${unzipFolderName}"
 
     exit
