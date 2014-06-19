@@ -11,6 +11,7 @@ function install()
 
     addSystemUser "${uid}" "${gid}"
     unzipRemoteFile "${serverDownloadURL}" "${serverInstallFolder}"
+
     local unzipFolderName="$(ls -d ${serverInstallFolder}/*/ 2> '/dev/null')"
 
     if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc -l)" = '1' ]]
@@ -31,6 +32,7 @@ function configUpstart()
 {
     local upstartConfigData=(
         '__SERVER_INSTALL_FOLDER__' "${serverInstallFolder}"
+        '__JDK_FOLDER__' "${jdkFolder}"
         '__UID__' "${uid}"
         '__GID__' "${gid}"
     )
