@@ -31,8 +31,16 @@ function install()
 
 function configUpstart()
 {
+    local serverHostname="${1}"
+
+    if [[ "$(isEmptyString "${serverHostname}")" = 'true' ]]
+    then
+        serverHostname='127.0.0.1'
+    fi
+
     local upstartConfigData=(
         '__AGENT_INSTALL_FOLDER__' "${agentInstallFolder}"
+        '__SERVER_HOSTNAME__' "${serverHostname}"
         '__UID__' "${uid}"
         '__GID__' "${gid}"
     )
@@ -59,11 +67,9 @@ function main()
     checkRequireRootUser
 
     install
-    configUpstart
+    configUpstart "${@}"
     startAgent
     installCleanUp
-
-    displayOpenPorts
 }
 
 main "${@}"
