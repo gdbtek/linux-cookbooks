@@ -1,12 +1,5 @@
 #!/bin/bash
 
-function installDependencies()
-{
-    runAptGetUpdate
-
-    installPackage 'default-jre-headless'
-}
-
 function install()
 {
     # Clean Up
@@ -14,75 +7,42 @@ function install()
     rm -rf "${agentInstallFolder}"
     mkdir -p "${agentInstallFolder}"
 
-    if [[ "${agentInstallFolder}" != '/var/lib' ]]
-    then
-        local i=0
-
-        for ((i = 0; i <= ${numberOfAdditionalAgent}; i++))
-        do
-            if [[ ${i} -eq 0 ]]
-            then
-                local agentFolderName='agent'
-            else
-                local agentFolderName="agent-${i}"
-            fi
-
-            mkdir -p "${agentInstallFolder}/${agentFolderName}" &&
-            ln -s "${agentInstallFolder}/${agentFolderName}" "/var/lib/go-${agentFolderName}"
-        done
-    fi
-
     # Install
 
-    local agentPackageFile="$(getTemporaryFile "$(getFileExtension "${agentDownloadURL}")")"
+    addSystemUser "${uid}" "${gid}"
+    unzipRemoteFile "${agentDownloadURL}" "${agentInstallFolder}"
 
-    curl -L "${agentDownloadURL}" -o "${agentPackageFile}" &&
-    dpkg -i "${agentPackageFile}" &&
-    chown -R 'go:go' "${agentInstallFolder}"
+    local unzipFolderName="$(ls -d ${agentInstallFolder}/*/ 2> '/dev/null')"
 
-    # Clean Up
-
-    rm -f "${agentPackageFile}"
+    if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc -l)" = '1' ]]
+    then
+        if [[ "$(ls -A "${unzipFolderName}")" != '' ]]
+        then
+            mv ${unzipFolderName}* "${agentInstallFolder}" &&
+            chown -R "${uid}":"${gid}" "${agentInstallFolder}" &&
+            rm -rf "${unzipFolderName}"
+        else
+            fatal "FATAL: folder '${unzipFolderName}' is empty"
+        fi
+    else
+        fatal 'FATAL: found multiple unzip folder name!'
+    fi
 }
 
 function configUpstart()
 {
-    local i=1
+    local upstartConfigData=(
+        '__AGENT_INSTALL_FOLDER__' "${agentInstallFolder}"
+        '__UID__' "${uid}"
+        '__GID__' "${gid}"
+    )
 
-    for ((i = 1; i <= ${numberOfAdditionalAgent}; i++))
-    do
-        local agentFolder="/var/lib/go-agent-${i}"
-
-        if [[ "$(isEmptyString "${agentFolder}")" = 'false' && -d "${agentFolder}" ]]
-        then
-            local upstartConfigData=(
-                '__AGENT_NUMBER__' "${i}"
-                '__AGENT_FOLDER__' "${agentFolder}"
-                '__UID__' 'go'
-                '__GID__' 'go'
-            )
-
-            createFileFromTemplate "${appPath}/../files/upstart/go-agent.conf" "/etc/init/go-agent-${i}.conf" "${upstartConfigData[@]}"
-        else
-            error "ERROR: directory '${agentFolder}' not found or undefined!"
-        fi
-    done
+    createFileFromTemplate "${appPath}/../files/upstart/go-agent.conf" "/etc/init/${agentServiceName}.conf" "${upstartConfigData[@]}"
 }
 
-function startAgents()
+function startAgent()
 {
-    # Start Main Agent
-
-    service go-agent start
-
-    # Start Additional Agents
-
-    local i=1
-
-    for ((i = 1; i <= ${numberOfAdditionalAgent}; i++))
-    do
-        start "go-agent-${i}"
-    done
+    start "${agentServiceName}"
 }
 
 function main()
@@ -98,11 +58,12 @@ function main()
 
     checkRequireRootUser
 
-    installDependencies
     install
     configUpstart
-    startAgents
+    startAgent
     installCleanUp
+
+    displayOpenPorts
 }
 
 main "${@}"
