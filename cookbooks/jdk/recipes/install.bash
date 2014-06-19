@@ -22,6 +22,8 @@ function install()
     local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/jdk.sh" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
+
+    info "\n$(java -version 2>&1)"
 }
 
 function main()
