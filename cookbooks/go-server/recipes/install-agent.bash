@@ -41,7 +41,7 @@ function configUpstart()
     local upstartConfigData=(
         '__AGENT_INSTALL_FOLDER__' "${agentInstallFolder}"
         '__SERVER_HOSTNAME__' "${serverHostname}"
-        '__GO_HOME_FOLDER__' "${goHomeFolder}"
+        '__GO_HOME_FOLDER__' "$(eval "echo ~${uid}")"
         '__UID__' "${uid}"
         '__GID__' "${gid}"
     )

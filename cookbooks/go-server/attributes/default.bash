@@ -6,8 +6,6 @@ agentDownloadURL='http://download01.thoughtworks.com/go/14.1.0/ga/go-agent-14.1.
 serverInstallFolder='/opt/go-server/server'
 agentInstallFolder='/opt/go-server/agents/agent'
 
-goHomeFolder='/home/go'
-
 serverServiceName='go-server'
 agentServiceName='go-agent'
 
