@@ -359,6 +359,12 @@ function runAptGetUpdate()
     fi
 }
 
+function runAptGetUpgrade()
+{
+    apt-get -y upgrade &&
+    apt-get -y dist-upgrade
+}
+
 function getLastAptGetUpdate()
 {
     local aptDate="$(stat -c %Y '/var/cache/apt')"
