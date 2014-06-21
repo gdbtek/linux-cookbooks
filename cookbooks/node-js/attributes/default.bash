@@ -1,5 +1,5 @@
 #!/bin/bash
 
-installFolder='/opt/node'
+nodejsInstallFolder='/opt/node'
 
-version='latest'
+nodejsVersion='latest'

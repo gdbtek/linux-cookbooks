@@ -1,19 +1,19 @@
 #!/bin/bash
 
-downloadURL='http://download.redis.io/releases/redis-stable.tar.gz'
+redisDownloadURL='http://download.redis.io/releases/redis-stable.tar.gz'
 
-serviceName='redis'
+redisServiceName='redis'
 
-uid='redis'
-gid='redis'
+redisUID='redis'
+redisGID='redis'
 
-port=6379
+redisPort=6379
 
-installBinFolder='/opt/redis/bin'
-installConfigFolder='/opt/redis/config'
-installDataFolder='/opt/redis/data'
+redisInstallBinFolder='/opt/redis/bin'
+redisInstallConfigFolder='/opt/redis/config'
+redisInstallDataFolder='/opt/redis/data'
 
-softNoFileLimit=50000
-hardNoFileLimit=50000
+redisSoftNoFileLimit=50000
+redisHardNoFileLimit=50000
 
-vmOverCommitMemory=1
+redisVMOverCommitMemory=1

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-timeZone='America/Los_Angeles'
+ntpTimeZone='America/Los_Angeles'

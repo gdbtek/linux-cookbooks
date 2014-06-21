@@ -19,9 +19,9 @@ function install()
         then
             if [[ "$(whoami)" = "${user}" ]]
             then
-                local prompt="export PS1=\"${rootPrompt}\""
+                local prompt="export PS1=\"${ps1RootPrompt}\""
             else
-                local prompt="export PS1=\"${userPrompt}\""
+                local prompt="export PS1=\"${ps1UserPrompt}\""
             fi
 
             echo -e "Updating '\033[1;32m${profileFile}\033[0m'"

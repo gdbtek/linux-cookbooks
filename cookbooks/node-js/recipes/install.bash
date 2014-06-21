@@ -11,35 +11,35 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}" '/usr/local/bin/node' '/usr/local/bin/npm'
-    mkdir -p "${installFolder}"
+    rm -rf "${nodejsInstallFolder}" '/usr/local/bin/node' '/usr/local/bin/npm'
+    mkdir -p "${nodejsInstallFolder}"
 
     # Install
 
-    if [[ "${version}" = 'latest' ]]
+    if [[ "${nodejsVersion}" = 'latest' ]]
     then
         version="$(getLatestVersionNumber)"
-        local url="http://nodejs.org/dist/latest/node-v${version}-linux-x64.tar.gz"
+        local url="http://nodejs.org/dist/latest/node-v${nodejsVersion}-linux-x64.tar.gz"
     else
-        local url="http://nodejs.org/dist/v${version}/node-v${version}-linux-x64.tar.gz"
+        local url="http://nodejs.org/dist/v${nodejsVersion}/node-v${nodejsVersion}-linux-x64.tar.gz"
     fi
 
     if [[ "$(existURL "${url}")" = 'true' ]]
     then
-        unzipRemoteFile "${url}" "${installFolder}"
-        chown -R "$(whoami)":"$(whoami)" "${installFolder}"
-        symlinkLocalBin "${installFolder}/bin"
+        unzipRemoteFile "${url}" "${nodejsInstallFolder}"
+        chown -R "$(whoami)":"$(whoami)" "${nodejsInstallFolder}"
+        symlinkLocalBin "${nodejsInstallFolder}/bin"
 
         # Config Profile
 
-        local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+        local profileConfigData=('__INSTALL_FOLDER__' "${nodejsInstallFolder}")
 
         createFileFromTemplate "${appPath}/../files/profile/node-js.sh" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
         info "\nNode Version: $(node --version)"
         info "NPM Version : $(npm --version)"
     else
-        fatal "\nFATAL: version '${version}' not found!"
+        fatal "\nFATAL: version '${nodejsVersion}' not found!"
     fi
 }
 
