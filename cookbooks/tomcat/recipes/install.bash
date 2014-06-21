@@ -30,6 +30,11 @@ function install()
 
     # Config Upstart
 
+    if [[ "$(isEmptyString "${tomcatJDKFolder}")" = 'true' ]]
+    then
+        tomcatJDKFolder="${jdkInstallFolder}"
+    fi
+
     local upstartConfigData=(
         '__INSTALL_FOLDER__' "${tomcatInstallFolder}"
         '__JDK_FOLDER__' "${tomcatJDKFolder}"
@@ -52,6 +57,7 @@ function main()
 
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
+    source "${appPath}/../../jdk/attributes/default.bash" || exit 1
 
     checkRequireDistributor
 
