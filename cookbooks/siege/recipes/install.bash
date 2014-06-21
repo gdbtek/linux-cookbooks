@@ -32,6 +32,10 @@ function install()
     local profileConfigData=('__INSTALL_FOLDER__' "${siegeInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/siege.sh" '/etc/profile.d/siege.sh' "${profileConfigData[@]}"
+
+    # Display Version
+
+    "${siegeInstallFolder}/bin/siege" --version
 }
 
 function main()

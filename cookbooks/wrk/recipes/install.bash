@@ -5,6 +5,7 @@ function installDependencies()
     runAptGetUpdate
 
     installPackage 'build-essential'
+    installPackage 'libssl-dev'
 }
 
 function install()
@@ -31,6 +32,10 @@ function install()
     local profileConfigData=('__INSTALL_FOLDER__' "${wrkInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/wrk.sh" '/etc/profile.d/wrk.sh' "${profileConfigData[@]}"
+
+    # Display Version
+
+    "${wrkInstallFolder}/bin/wrk" --version
 }
 
 function main()
