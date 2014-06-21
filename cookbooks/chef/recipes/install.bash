@@ -3,7 +3,7 @@
 function install()
 {
     curl -L 'https://www.opscode.com/chef/install.sh' | bash &&
-    knife --version
+    info "\n$(knife --version)"
 }
 
 function main()

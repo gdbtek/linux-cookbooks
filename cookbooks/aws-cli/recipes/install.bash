@@ -10,7 +10,7 @@ function installDependencies()
 function install()
 {
     pip install awscli &&
-    aws --version
+    info "\n$(aws --version)"
 }
 
 function main()

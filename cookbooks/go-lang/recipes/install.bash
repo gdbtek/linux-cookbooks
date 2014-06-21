@@ -21,7 +21,7 @@ function install()
 
     # Display Version
 
-    go version
+    GOROOT="${golangInstallFolder}" && info "\n$(go version)"
 }
 
 function main()
