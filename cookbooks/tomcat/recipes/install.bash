@@ -49,6 +49,10 @@ function install()
     addSystemUser "${tomcatUID}" "${tomcatGID}"
     chown -R "${tomcatUID}":"${tomcatGID}" "${tomcatInstallFolder}"
     start "${tomcatServiceName}"
+
+    # Display Version
+
+    info "\n$("${tomcatInstallFolder}/bin/version.sh")"
 }
 
 function main()
