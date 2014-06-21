@@ -6,7 +6,7 @@ function main()
 
     "${appPath}/../../../cookbooks/apt-source/recipes/install.bash" || exit 1
     "${appPath}/../../../cookbooks/mount-hd/recipes/install.bash" '/dev/sdb' '/opt/go-server' || exit 1
-    
+
     "${appPath}/../../essential.bash" || exit 1
 
     "${appPath}/../../../cookbooks/aws-cli/recipes/install.bash" || exit 1
