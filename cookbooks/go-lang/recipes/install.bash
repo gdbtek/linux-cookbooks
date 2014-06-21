@@ -18,6 +18,10 @@ function install()
     local profileConfigData=('__INSTALL_FOLDER__' "${golangInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/go-lang.sh" '/etc/profile.d/go-lang.sh' "${profileConfigData[@]}"
+
+    # Display Version
+
+    go version
 }
 
 function main()
