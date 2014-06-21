@@ -14,7 +14,7 @@ function install()
     local currentPath="$(pwd)"
     local tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${downloadURL}" "${tempFolder}"
+    unzipRemoteFile "${vmwaretoolsDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     "${tempFolder}/vmware-install.pl"
     rm -rf "${tempFolder}"

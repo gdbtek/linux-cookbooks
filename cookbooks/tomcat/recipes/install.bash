@@ -4,46 +4,46 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}"
-    mkdir -p "${installFolder}"
+    rm -rf "${tomcatInstallFolder}"
+    mkdir -p "${tomcatInstallFolder}"
 
     # Install
 
-    unzipRemoteFile "${downloadURL}" "${installFolder}"
+    unzipRemoteFile "${tomcatDownloadURL}" "${tomcatInstallFolder}"
 
     # Config Server
 
     local serverConfigData=(
-        8009 "${ajpPort}"
-        8005 "${commandPort}"
-        8080 "${httpPort}"
-        8443 "${httpsPort}"
+        8009 "${tomcatAJPPort}"
+        8005 "${tomcatCommandPort}"
+        8080 "${tomcatHTTPPort}"
+        8443 "${tomcatHTTPSPort}"
     )
 
-    createFileFromTemplate "${installFolder}/conf/server.xml" "${installFolder}/conf/server.xml" "${serverConfigData[@]}"
+    createFileFromTemplate "${tomcatInstallFolder}/conf/server.xml" "${tomcatInstallFolder}/conf/server.xml" "${serverConfigData[@]}"
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+    local profileConfigData=('__INSTALL_FOLDER__' "${tomcatInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/tomcat.sh" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
     local upstartConfigData=(
-        '__INSTALL_FOLDER__' "${installFolder}"
-        '__JDK_FOLDER__' "${jdkFolder}"
-        '__UID__' "${uid}"
-        '__GID__' "${gid}"
+        '__INSTALL_FOLDER__' "${tomcatInstallFolder}"
+        '__JDK_FOLDER__' "${tomcatJDKFolder}"
+        '__UID__' "${tomcatUID}"
+        '__GID__' "${tomcatGID}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/tomcat.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/tomcat.conf" "/etc/init/${tomcatServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addSystemUser "${uid}" "${gid}"
-    chown -R "${uid}":"${gid}" "${installFolder}"
-    start "${serviceName}"
+    addSystemUser "${tomcatUID}" "${tomcatGID}"
+    chown -R "${tomcatUID}":"${tomcatGID}" "${tomcatInstallFolder}"
+    start "${tomcatServiceName}"
 }
 
 function main()
@@ -58,7 +58,7 @@ function main()
     header 'INSTALLING TOMCAT'
 
     checkRequireRootUser
-    checkRequirePort "${ajpPort}" "${commandPort}" "${httpPort}" "${httpsPort}"
+    checkRequirePort "${tomcatAJPPort}" "${tomcatCommandPort}" "${tomcatHTTPPort}" "${tomcatHTTPSPort}"
 
     install
     installCleanUp

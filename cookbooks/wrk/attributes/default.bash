@@ -1,5 +1,5 @@
 #!/bin/bash
 
-downloadURL='https://github.com/wg/wrk.git'
+wrkDownloadURL='https://github.com/wg/wrk.git'
 
-installFolder='/opt/wrk'
+wrkInstallFolder='/opt/wrk'

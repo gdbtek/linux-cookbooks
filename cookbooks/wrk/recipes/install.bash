@@ -11,24 +11,24 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}"
-    mkdir -p "${installFolder}/bin"
+    rm -rf "${wrkInstallFolder}"
+    mkdir -p "${wrkInstallFolder}/bin"
 
     # Install
 
     local currentPath="$(pwd)"
     local tempFolder="$(getTemporaryFolder)"
 
-    git clone "${downloadURL}" "${tempFolder}"
+    git clone "${wrkDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f {} "${installFolder}/bin" \;
+    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f {} "${wrkInstallFolder}/bin" \;
     rm -rf "${tempFolder}"
     cd "${currentPath}"
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+    local profileConfigData=('__INSTALL_FOLDER__' "${wrkInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/wrk.sh" '/etc/profile.d/wrk.sh' "${profileConfigData[@]}"
 }

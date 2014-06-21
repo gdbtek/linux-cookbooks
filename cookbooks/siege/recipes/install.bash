@@ -11,17 +11,17 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}"
-    mkdir -p "${installFolder}/bin"
+    rm -rf "${siegeInstallFolder}"
+    mkdir -p "${siegeInstallFolder}/bin"
 
     # Install
 
     local currentPath="$(pwd)"
     local tempFolder="$(getTemporaryFolder)"
 
-    curl -L "${downloadURL}" | tar x --strip 1 -C "${tempFolder}"
+    curl -L "${siegeDownloadURL}" | tar x --strip 1 -C "${tempFolder}"
     cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${installFolder}"
+    "${tempFolder}/configure" --prefix="${siegeInstallFolder}"
     make
     make install
     rm -rf "${tempFolder}"
@@ -29,7 +29,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+    local profileConfigData=('__INSTALL_FOLDER__' "${siegeInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/siege.sh" '/etc/profile.d/siege.sh' "${profileConfigData[@]}"
 }

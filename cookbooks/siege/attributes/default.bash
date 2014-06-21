@@ -1,5 +1,5 @@
 #!/bin/bash
 
-downloadURL='http://www.joedog.org/pub/siege/siege-latest.tar.gz'
+siegeDownloadURL='http://www.joedog.org/pub/siege/siege-latest.tar.gz'
 
-installFolder='/opt/siege'
+siegeInstallFolder='/opt/siege'
