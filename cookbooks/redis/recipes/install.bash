@@ -69,7 +69,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${redisInstallBinFolder}/redis-server" -version)"
+    info "\n$("${redisInstallBinFolder}/redis-server" --version)"
 }
 
 function main()
