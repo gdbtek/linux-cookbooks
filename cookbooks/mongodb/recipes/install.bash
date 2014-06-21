@@ -32,6 +32,10 @@ function install()
     # Start
 
     start "${mongodbServiceName}"
+
+    # Display Version
+
+    info "\n$("${mongodbInstallFolder}/bin/mongo" --version)"
 }
 
 function main()

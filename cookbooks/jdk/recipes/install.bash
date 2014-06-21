@@ -23,6 +23,8 @@ function install()
 
     createFileFromTemplate "${appPath}/../files/profile/jdk.sh" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
 
+    # Display Version
+
     info "\n$(java -version 2>&1)"
 }
 
