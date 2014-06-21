@@ -49,6 +49,10 @@ function install()
     # Start
 
     service "${mysqlServiceName}" start
+
+    # Display Version
+
+    info "\n$("${mysqlInstallFolder}/bin/mysql" --version)"
 }
 
 function main()
