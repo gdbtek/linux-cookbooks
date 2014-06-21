@@ -1,10 +1,10 @@
 #!/bin/bash
 
-downloadURL='http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgz'
+mongodbDownloadURL='http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgz'
 
-installFolder='/opt/mongodb'
-installDataFolder='/opt/mongodb/data'
+mongodbInstallFolder='/opt/mongodb'
+mongodbInstallDataFolder='/opt/mongodb/data'
 
-serviceName='mongodb'
+mongodbServiceName='mongodb'
 
-port=27017
+mongodbPort=27017

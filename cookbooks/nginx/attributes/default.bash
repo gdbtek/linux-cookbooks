@@ -1,12 +1,12 @@
 #!/bin/bash
 
-downloadURL='http://nginx.org/download/nginx-1.7.2.tar.gz'
+nginxDownloadURL='http://nginx.org/download/nginx-1.7.2.tar.gz'
 
-installFolder='/opt/nginx'
+nginxInstallFolder='/opt/nginx'
 
-serviceName='nginx'
+nginxServiceName='nginx'
 
-uid='nginx'
-gid='nginx'
+nginxUID='nginx'
+nginxGID='nginx'
 
-port=80
+nginxPort=80

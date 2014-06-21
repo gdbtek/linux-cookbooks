@@ -4,34 +4,34 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}"
-    mkdir -p "${installFolder}" "${installDataFolder}"
+    rm -rf "${mongodbInstallFolder}"
+    mkdir -p "${mongodbInstallFolder}" "${mongodbInstallDataFolder}"
 
     # Install
 
-    unzipRemoteFile "${downloadURL}" "${installFolder}"
-    find "${installFolder}" -maxdepth 1 -type f -exec rm -f {} \;
+    unzipRemoteFile "${mongodbDownloadURL}" "${mongodbInstallFolder}"
+    find "${mongodbInstallFolder}" -maxdepth 1 -type f -exec rm -f {} \;
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+    local profileConfigData=('__INSTALL_FOLDER__' "${mongodbInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/mongodb.sh" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
     local upstartConfigData=(
-        '__INSTALL_FOLDER__' "${installFolder}"
-        '__INSTALL_DATA_FOLDER__' "${installDataFolder}"
-        '__PORT__' "${port}"
+        '__INSTALL_FOLDER__' "${mongodbInstallFolder}"
+        '__INSTALL_DATA_FOLDER__' "${mongodbInstallDataFolder}"
+        '__PORT__' "${mongodbPort}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/mongodb.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
-    chown -R "$(whoami)":"$(whoami)" "${installFolder}"
+    createFileFromTemplate "${appPath}/../files/upstart/mongodb.conf" "/etc/init/${mongodbServiceName}.conf" "${upstartConfigData[@]}"
+    chown -R "$(whoami)":"$(whoami)" "${mongodbInstallFolder}"
 
     # Start
 
-    start "${serviceName}"
+    start "${mongodbServiceName}"
 }
 
 function main()
@@ -46,7 +46,7 @@ function main()
     header 'INSTALLING MONGODB'
 
     checkRequireRootUser
-    checkRequirePort "${port}"
+    checkRequirePort "${mongodbPort}"
 
     install
     installCleanUp

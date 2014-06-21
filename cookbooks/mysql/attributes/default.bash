@@ -1,12 +1,12 @@
 #!/bin/bash
 
-downloadURL='http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.19-linux-glibc2.5-x86_64.tar.gz'
+mysqlDownloadURL='http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.19-linux-glibc2.5-x86_64.tar.gz'
 
-installFolder='/opt/mysql'
+mysqlInstallFolder='/opt/mysql'
 
-uid='mysql'
-gid='mysql'
+mysqlUID='mysql'
+mysqlGID='mysql'
 
-serviceName='mysql'
+mysqlServiceName='mysql'
 
-port=3306
+mysqlPort=3306

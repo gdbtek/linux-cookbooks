@@ -12,43 +12,43 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}" "/usr/local/$(getFileName "${installFolder}")"
-    mkdir -p "${installFolder}"
+    rm -rf "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
+    mkdir -p "${mysqlInstallFolder}"
 
     # Install
 
     local currentPath="$(pwd)"
 
-    unzipRemoteFile "${downloadURL}" "${installFolder}"
-    addSystemUser "${uid}" "${gid}"
-    ln -s "${installFolder}" "/usr/local/$(getFileName "${installFolder}")"
-    chown -R "${uid}":"${gid}" "${installFolder}"
-    cd "${installFolder}"
-    "${installFolder}/scripts/mysql_install_db" --user="${uid}"
-    chown -R "$(whoami)" "${installFolder}"
-    chown -R "${uid}" "${installFolder}/data"
+    unzipRemoteFile "${mysqlDownloadURL}" "${mysqlInstallFolder}"
+    addSystemUser "${mysqlUID}" "${mysqlGID}"
+    ln -s "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
+    chown -R "${mysqlUID}":"${mysqlGID}" "${mysqlInstallFolder}"
+    cd "${mysqlInstallFolder}"
+    "${mysqlInstallFolder}/scripts/mysql_install_db" --user="${mysqlUID}"
+    chown -R "$(whoami)" "${mysqlInstallFolder}"
+    chown -R "${mysqlUID}" "${mysqlInstallFolder}/data"
     cd "${currentPath}"
 
     # Config Server
 
-    local serverConfigData=('__PORT__' "${port}")
+    local serverConfigData=('__PORT__' "${mysqlPort}")
 
-    createFileFromTemplate "${appPath}/../files/conf/my.cnf" "${installFolder}/my.cnf" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/conf/my.cnf" "${mysqlInstallFolder}/my.cnf" "${serverConfigData[@]}"
 
     # Config Service
 
-    cp "${installFolder}/support-files/mysql.server" "/etc/init.d/${serviceName}"
-    sysv-rc-conf --level 2345 "${serviceName}" on
+    cp "${mysqlInstallFolder}/support-files/mysql.server" "/etc/init.d/${mysqlServiceName}"
+    sysv-rc-conf --level 2345 "${mysqlServiceName}" on
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+    local profileConfigData=('__INSTALL_FOLDER__' "${mysqlInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/mysql.sh" '/etc/profile.d/mysql.sh' "${profileConfigData[@]}"
 
     # Start
 
-    service "${serviceName}" start
+    service "${mysqlServiceName}" start
 }
 
 function main()
@@ -63,7 +63,7 @@ function main()
     header 'INSTALLING MYSQL'
 
     checkRequireRootUser
-    checkRequirePort "${port}"
+    checkRequirePort "${mysqlPort}"
 
     installDependencies
     install

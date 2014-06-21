@@ -13,17 +13,17 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}"
-    mkdir -p "${installFolder}"
+    rm -rf "${nginxInstallFolder}"
+    mkdir -p "${nginxInstallFolder}"
 
     # Install
 
     local currentPath="$(pwd)"
     local tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${downloadURL}" "${tempFolder}"
+    unzipRemoteFile "${nginxDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
-    "${tempFolder}/configure" --user="${uid}" --group="${gid}" --prefix="${installFolder}" --with-http_ssl_module
+    "${tempFolder}/configure" --user="${nginxUID}" --group="${nginxGID}" --prefix="${nginxInstallFolder}" --with-http_ssl_module
     make
     make install
     rm -rf "${tempFolder}"
@@ -31,27 +31,27 @@ function install()
 
     # Config Server
 
-    local serverConfigData=('__PORT__' "${port}")
+    local serverConfigData=('__PORT__' "${nginxPort}")
 
-    createFileFromTemplate  "${appPath}/../files/conf/nginx.conf" "${installFolder}/conf/nginx.conf" "${serverConfigData[@]}"
+    createFileFromTemplate  "${appPath}/../files/conf/nginx.conf" "${nginxInstallFolder}/conf/nginx.conf" "${serverConfigData[@]}"
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+    local profileConfigData=('__INSTALL_FOLDER__' "${nginxInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/nginx.sh" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
-    local upstartConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+    local upstartConfigData=('__INSTALL_FOLDER__' "${nginxInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../files/upstart/nginx.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/nginx.conf" "/etc/init/${nginxServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addSystemUser "${uid}" "${gid}"
-    chown -R "${uid}":"${gid}" "${installFolder}"
-    start "${serviceName}"
+    addSystemUser "${nginxUID}" "${nginxGID}"
+    chown -R "${nginxUID}":"${nginxGID}" "${nginxInstallFolder}"
+    start "${nginxServiceName}"
 }
 
 function main()
@@ -66,7 +66,7 @@ function main()
     header 'INSTALLING NGINX'
 
     checkRequireRootUser
-    checkRequirePort "${port}"
+    checkRequirePort "${nginxPort}"
 
     installDependencies
     install

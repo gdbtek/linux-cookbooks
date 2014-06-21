@@ -1,5 +1,5 @@
 #!/bin/bash
 
-downloadURL='http://mirrors.jenkins-ci.org/war/latest/jenkins.war'
+jenkinsDownloadURL='http://mirrors.jenkins-ci.org/war/latest/jenkins.war'
 
-tomcatFolder='/opt/tomcat'
+jenkinsTomcatFolder='/opt/tomcat'
