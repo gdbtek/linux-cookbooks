@@ -35,6 +35,10 @@ function install()
     local profileConfigData=('__INSTALL_FOLDER__' "${rubyInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/ruby.sh" '/etc/profile.d/ruby.sh' "${profileConfigData[@]}"
+
+    # Display Version
+
+    info "\n$(ruby --version)"
 }
 
 function main()
