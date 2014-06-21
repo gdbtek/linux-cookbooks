@@ -17,4 +17,4 @@ function main()
     "${appPath}/../../cookbooks/ps1/recipes/install.bash" 'nam' 'ubuntu' || exit 1
 }
 
-main
+main "${@}"

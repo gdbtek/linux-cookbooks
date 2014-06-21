@@ -9,4 +9,4 @@ function main()
     "${appPath}/../cookbooks/jdk/recipes/install.bash" || exit 1
 }
 
-main
+main "${@}"

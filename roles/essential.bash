@@ -10,4 +10,4 @@ function main()
     "${appPath}/../cookbooks/vim/recipes/install.bash" || exit 1
 }
 
-main
+main "${@}"

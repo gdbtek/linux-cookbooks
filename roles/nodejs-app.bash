@@ -12,4 +12,4 @@ function main()
     "${appPath}/../cookbooks/nginx/recipes/install.bash" || exit 1
 }
 
-main
+main "${@}"

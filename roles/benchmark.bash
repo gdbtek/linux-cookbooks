@@ -8,4 +8,4 @@ function main()
     "${appPath}/../cookbooks/wrk/recipes/install.bash" || exit 1
 }
 
-main
+main "${@}"

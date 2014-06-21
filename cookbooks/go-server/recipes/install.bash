@@ -3,7 +3,7 @@
 function install()
 {
     "${appPath}/install-server.bash" || exit 1
-    "${appPath}/install-agent.bash" || exit 1
+    "${appPath}/install-agent.bash" "${@}" || exit 1
 }
 
 function main()
@@ -16,7 +16,7 @@ function main()
     checkRequireDistributor
     checkRequireRootUser
 
-    install
+    install "${@}"
     installCleanUp
 }
 
