@@ -390,7 +390,7 @@ function isPackageInstall()
 {
     local package="${1}"
 
-    local found="$(dpkg --get-selections | grep -Eo "^${package}\s+install$")"
+    local found="$(dpkg --get-selections | grep -Eo "^${package}(:amd64)*\s+install$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
