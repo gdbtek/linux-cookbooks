@@ -32,7 +32,7 @@ function install()
 
     if [[ "$(isEmptyString "${tomcatJDKFolder}")" = 'true' ]]
     then
-        tomcatJDKFolder="${jdkInstallFolder}"
+        local tomcatJDKFolder="${jdkInstallFolder}"
     fi
 
     local upstartConfigData=(
