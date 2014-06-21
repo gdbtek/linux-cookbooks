@@ -145,11 +145,18 @@ function checkRequirePort()
     fi
 }
 
+function getUserHomeFolder()
+{
+    local user="${1}"
+
+    echo "$(eval "echo ~${user}")"
+}
+
 function getProfileFile()
 {
     local user="${1}"
 
-    local userHome="$(eval "echo ~${user}")"
+    local userHome="$(getUserHomeFolder "${user}")"
 
     if [[ "$(isEmptyString "${userHome}")" = 'false' && -d "${userHome}" ]]
     then
