@@ -66,6 +66,10 @@ function install()
     addSystemUser "${redisUID}" "${redisGID}"
     chown -R "${redisUID}":"${redisGID}" "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
     start "${redisServiceName}"
+
+    # Display Version
+
+    info "\n$("${redisInstallBinFolder}/redis" -version)"
 }
 
 function main()
