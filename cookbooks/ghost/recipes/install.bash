@@ -4,43 +4,43 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}"
-    mkdir -p "${installFolder}"
+    rm -rf "${ghostInstallFolder}"
+    mkdir -p "${ghostInstallFolder}"
 
     # Install
 
     local currentPath="$(pwd)"
 
-    unzipRemoteFile "${downloadURL}" "${installFolder}"
-    cd "${installFolder}"
+    unzipRemoteFile "${ghostDownloadURL}" "${ghostInstallFolder}"
+    cd "${ghostInstallFolder}"
     npm install --production --silent
     cd "${currentPath}"
 
     # Config Server
 
     local serverConfigData=(
-        'http://my-ghost-blog.com' "${url}"
-        '127.0.0.1' "${host}"
-        2369 "${port}"
+        'http://my-ghost-blog.com' "${ghostURL}"
+        '127.0.0.1' "${ghostHost}"
+        2369 "${ghostPort}"
     )
 
-    createFileFromTemplate "${installFolder}/config.example.js" "${installFolder}/config.js" "${serverConfigData[@]}"
+    createFileFromTemplate "${ghostInstallFolder}/config.example.js" "${ghostInstallFolder}/config.js" "${serverConfigData[@]}"
 
     # Config Upstart
 
     local upstartConfigData=(
-        '__INSTALL_FOLDER__' "${installFolder}"
-        '__UID__' "${uid}"
-        '__GID__' "${gid}"
+        '__INSTALL_FOLDER__' "${ghostInstallFolder}"
+        '__UID__' "${ghostUID}"
+        '__GID__' "${ghostGID}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/ghost.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/ghost.conf" "/etc/init/${ghostServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addSystemUser "${uid}" "${gid}"
-    chown -R "${uid}":"${gid}" "${installFolder}"
-    start "${serviceName}"
+    addSystemUser "${ghostUID}" "${ghostGID}"
+    chown -R "${ghostUID}":"${ghostGID}" "${ghostInstallFolder}"
+    start "${ghostServiceName}"
 }
 
 function main()
@@ -55,7 +55,7 @@ function main()
     header 'INSTALLING GHOST'
 
     checkRequireRootUser
-    checkRequirePort "${port}"
+    checkRequirePort "${ghostPort}"
 
     install
     installCleanUp

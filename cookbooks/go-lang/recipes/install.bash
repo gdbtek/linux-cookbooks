@@ -4,18 +4,18 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}" '/usr/local/bin/go' '/usr/local/bin/godoc' '/usr/local/bin/gofmt'
-    mkdir -p "${installFolder}"
+    rm -rf "${golangInstallFolder}" '/usr/local/bin/go' '/usr/local/bin/godoc' '/usr/local/bin/gofmt'
+    mkdir -p "${golangInstallFolder}"
 
     # Install
 
-    unzipRemoteFile "${downloadURL}" "${installFolder}"
-    chown -R "$(whoami)":"$(whoami)" "${installFolder}"
-    symlinkLocalBin "${installFolder}/bin"
+    unzipRemoteFile "${golangDownloadURL}" "${golangInstallFolder}"
+    chown -R "$(whoami)":"$(whoami)" "${golangInstallFolder}"
+    symlinkLocalBin "${golangInstallFolder}/bin"
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+    local profileConfigData=('__INSTALL_FOLDER__' "${golangInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/go-lang.sh" '/etc/profile.d/go-lang.sh' "${profileConfigData[@]}"
 }

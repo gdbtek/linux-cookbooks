@@ -1,15 +1,15 @@
 #!/bin/bash
 
-serverDownloadURL='http://download01.thoughtworks.com/go/14.1.0/ga/go-server-14.1.0-18882.zip'
-agentDownloadURL='http://download01.thoughtworks.com/go/14.1.0/ga/go-agent-14.1.0-18882.zip'
+goserverServerDownloadURL='http://download01.thoughtworks.com/go/14.1.0/ga/go-server-14.1.0-18882.zip'
+goserverAgentDownloadURL='http://download01.thoughtworks.com/go/14.1.0/ga/go-agent-14.1.0-18882.zip'
 
-serverInstallFolder='/opt/go-server/server'
-agentInstallFolder='/opt/go-server/agents/agent'
+goserverServerInstallFolder='/opt/go-server/server'
+goserverAgentInstallFolder='/opt/go-server/agents/agent'
 
-serverServiceName='go-server'
-agentServiceName='go-agent'
+goserverServerServiceName='go-server'
+goserverAgentServiceName='go-agent'
 
-uid='go'
-gid='go'
+goserverUID='go'
+goserverGID='go'
 
-numberOfAgents=1
+goserverNumberOfAgents=1

@@ -1,14 +1,14 @@
 #!/bin/bash
 
-downloadURL='https://ghost.org/zip/ghost-latest.zip'
+ghostDownloadURL='https://ghost.org/zip/ghost-latest.zip'
 
-installFolder='/opt/ghost'
+ghostInstallFolder='/opt/ghost'
 
-serviceName='ghost'
+ghostServiceName='ghost'
 
-uid='ghost'
-gid='ghost'
+ghostUID='ghost'
+ghostGID='ghost'
 
-url='http://blog.nam.guru'
-host='nam.guru'
-port=2368
+ghostURL='http://blog.nam.guru'
+ghostHost='nam.guru'
+ghostPort=2368

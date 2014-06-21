@@ -10,7 +10,7 @@ function install()
 {
     local package=''
 
-    for package in ${packages[@]}
+    for package in ${essentialPackages[@]}
     do
         installPackage "${package}"
     done

@@ -4,22 +4,22 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installFolder}" '/usr/local/bin/java' '/usr/local/bin/javac'
-    mkdir -p "${installFolder}"
+    rm -rf "${jdkInstallFolder}" '/usr/local/bin/java' '/usr/local/bin/javac'
+    mkdir -p "${jdkInstallFolder}"
 
     # Install
 
-    unzipRemoteFile "${downloadURL}" "${installFolder}"
+    unzipRemoteFile "${jdkDownloadURL}" "${jdkInstallFolder}"
 
     # Config Lib
 
-    chown -R "$(whoami)":"$(whoami)" "${installFolder}"
-    ln -s "${installFolder}/bin/java" '/usr/local/bin/java'
-    ln -s "${installFolder}/bin/javac" '/usr/local/bin/javac'
+    chown -R "$(whoami)":"$(whoami)" "${jdkInstallFolder}"
+    ln -s "${jdkInstallFolder}/bin/java" '/usr/local/bin/java'
+    ln -s "${jdkInstallFolder}/bin/javac" '/usr/local/bin/javac'
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${installFolder}")
+    local profileConfigData=('__INSTALL_FOLDER__' "${jdkInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/jdk.sh" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
 

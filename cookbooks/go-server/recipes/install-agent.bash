@@ -4,22 +4,22 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${agentInstallFolder}"
-    mkdir -p "${agentInstallFolder}"
+    rm -rf "${goserverAgentInstallFolder}"
+    mkdir -p "${goserverAgentInstallFolder}"
 
     # Install
 
-    addSystemUser "${uid}" "${gid}"
-    unzipRemoteFile "${agentDownloadURL}" "${agentInstallFolder}"
+    addSystemUser "${goserverUID}" "${goserverGID}"
+    unzipRemoteFile "${goserverAgentDownloadURL}" "${goserverAgentInstallFolder}"
 
-    local unzipFolderName="$(ls -d ${agentInstallFolder}/*/ 2> '/dev/null')"
+    local unzipFolderName="$(ls -d ${goserverAgentInstallFolder}/*/ 2> '/dev/null')"
 
     if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc -l)" = '1' ]]
     then
         if [[ "$(ls -A "${unzipFolderName}")" != '' ]]
         then
-            mv ${unzipFolderName}* "${agentInstallFolder}" &&
-            chown -R "${uid}":"${gid}" "${agentInstallFolder}" &&
+            mv ${unzipFolderName}* "${goserverAgentInstallFolder}" &&
+            chown -R "${goserverUID}":"${goserverGID}" "${goserverAgentInstallFolder}" &&
             rm -rf "${unzipFolderName}"
         else
             fatal "FATAL: folder '${unzipFolderName}' is empty"
@@ -39,19 +39,19 @@ function configUpstart()
     fi
 
     local upstartConfigData=(
-        '__AGENT_INSTALL_FOLDER__' "${agentInstallFolder}"
+        '__AGENT_INSTALL_FOLDER__' "${goserverAgentInstallFolder}"
         '__SERVER_HOSTNAME__' "${serverHostname}"
         '__GO_HOME_FOLDER__' "$(getUserHomeFolder "uid")"
-        '__UID__' "${uid}"
-        '__GID__' "${gid}"
+        '__UID__' "${goserverUID}"
+        '__GID__' "${goserverGID}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/go-agent.conf" "/etc/init/${agentServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/go-agent.conf" "/etc/init/${goserverAgentServiceName}.conf" "${upstartConfigData[@]}"
 }
 
 function startAgent()
 {
-    start "${agentServiceName}"
+    start "${goserverAgentServiceName}"
 }
 
 function main()

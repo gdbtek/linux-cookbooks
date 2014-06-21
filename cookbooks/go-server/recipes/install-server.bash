@@ -4,22 +4,22 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${serverInstallFolder}"
-    mkdir -p "${serverInstallFolder}"
+    rm -rf "${goserverServerInstallFolder}"
+    mkdir -p "${goserverServerInstallFolder}"
 
     # Install
 
-    addSystemUser "${uid}" "${gid}"
-    unzipRemoteFile "${serverDownloadURL}" "${serverInstallFolder}"
+    addSystemUser "${goserverUID}" "${goserverGID}"
+    unzipRemoteFile "${goserverServerDownloadURL}" "${goserverServerInstallFolder}"
 
-    local unzipFolderName="$(ls -d ${serverInstallFolder}/*/ 2> '/dev/null')"
+    local unzipFolderName="$(ls -d ${goserverServerInstallFolder}/*/ 2> '/dev/null')"
 
     if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc -l)" = '1' ]]
     then
         if [[ "$(ls -A "${unzipFolderName}")" != '' ]]
         then
-            mv ${unzipFolderName}* "${serverInstallFolder}" &&
-            chown -R "${uid}":"${gid}" "${serverInstallFolder}" &&
+            mv ${unzipFolderName}* "${goserverServerInstallFolder}" &&
+            chown -R "${goserverUID}":"${goserverGID}" "${goserverServerInstallFolder}" &&
             rm -rf "${unzipFolderName}"
         else
             fatal "FATAL: folder '${unzipFolderName}' is empty"
@@ -32,17 +32,17 @@ function install()
 function configUpstart()
 {
     local upstartConfigData=(
-        '__SERVER_INSTALL_FOLDER__' "${serverInstallFolder}"
-        '__UID__' "${uid}"
-        '__GID__' "${gid}"
+        '__SERVER_INSTALL_FOLDER__' "${goserverServerInstallFolder}"
+        '__UID__' "${goserverUID}"
+        '__GID__' "${goserverGID}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/go-server.conf" "/etc/init/${serverServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/go-server.conf" "/etc/init/${goserverServerServiceName}.conf" "${upstartConfigData[@]}"
 }
 
 function startServer()
 {
-    start "${serverServiceName}"
+    start "${goserverServerServiceName}"
 }
 
 function main()
