@@ -52,6 +52,10 @@ function install()
     addSystemUser "${nginxUID}" "${nginxGID}"
     chown -R "${nginxUID}":"${nginxGID}" "${nginxInstallFolder}"
     start "${nginxServiceName}"
+
+    # Display Version
+
+    info "\n$("${nginxInstallFolder}/sbin/nginx" --version)"
 }
 
 function main()
