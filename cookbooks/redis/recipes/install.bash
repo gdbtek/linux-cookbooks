@@ -11,61 +11,61 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${installBinFolder}" "${installConfigFolder}" "${installDataFolder}"
-    mkdir -p "${installBinFolder}" "${installConfigFolder}" "${installDataFolder}"
+    rm -rf "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
+    mkdir -p "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
 
     # Install
 
     local currentPath="$(pwd)"
     local tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${downloadURL}" "${tempFolder}"
+    unzipRemoteFile "${redisDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}/src" -type f ! -name "*.sh" -perm -u+x -exec cp -f {} "${installBinFolder}" \;
+    find "${tempFolder}/src" -type f ! -name "*.sh" -perm -u+x -exec cp -f {} "${redisInstallBinFolder}" \;
     rm -rf "${tempFolder}"
     cd "${currentPath}"
 
     # Config Server
 
     local serverConfigData=(
-        '__INSTALL_DATA_FOLDER__' "${installDataFolder}"
-        6379 "${port}"
+        '__INSTALL_DATA_FOLDER__' "${redisInstallDataFolder}"
+        6379 "${redisPort}"
     )
 
-    createFileFromTemplate "${appPath}/../files/conf/redis.conf" "${installConfigFolder}/redis.conf" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/conf/redis.conf" "${redisInstallConfigFolder}/redis.conf" "${serverConfigData[@]}"
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_BIN_FOLDER__' "${installBinFolder}")
+    local profileConfigData=('__INSTALL_BIN_FOLDER__' "${redisInstallBinFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/redis.sh" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
     local upstartConfigData=(
-        '__INSTALL_BIN_FOLDER__' "${installBinFolder}"
-        '__INSTALL_CONFIG_FOLDER__' "${installConfigFolder}"
-        '__UID__' "${uid}"
-        '__GID__' "${gid}"
-        '__SOFT_NO_FILE_LIMIT__' "${softNoFileLimit}"
-        '__HARD_NO_FILE_LIMIT__' "${hardNoFileLimit}"
+        '__INSTALL_BIN_FOLDER__' "${redisInstallBinFolder}"
+        '__INSTALL_CONFIG_FOLDER__' "${redisInstallConfigFolder}"
+        '__UID__' "${redisUID}"
+        '__GID__' "${redisGID}"
+        '__SOFT_NO_FILE_LIMIT__' "${redisSoftNoFileLimit}"
+        '__HARD_NO_FILE_LIMIT__' "${redisHardNoFileLimit}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/redis.conf" "/etc/init/${serviceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/upstart/redis.conf" "/etc/init/${redisServiceName}.conf" "${upstartConfigData[@]}"
 
     # Config System
 
-    local overCommitMemoryConfig="vm.overcommit_memory=${vmOverCommitMemory}"
+    local overCommitMemoryConfig="vm.overcommit_memory=${redisVMOverCommitMemory}"
 
-    appendToFileIfNotFound '/etc/sysctl.conf' "^\s*vm.overcommit_memory\s*=\s*${vmOverCommitMemory}\s*$" "\n${overCommitMemoryConfig}" 'true' 'true'
+    appendToFileIfNotFound '/etc/sysctl.conf' "^\s*vm.overcommit_memory\s*=\s*${redisVMOverCommitMemory}\s*$" "\n${overCommitMemoryConfig}" 'true' 'true'
     sysctl "${overCommitMemoryConfig}"
 
     # Start
 
-    addSystemUser "${uid}" "${gid}"
-    chown -R "${uid}":"${gid}" "${installBinFolder}" "${installConfigFolder}" "${installDataFolder}"
-    start "${serviceName}"
+    addSystemUser "${redisUID}" "${redisGID}"
+    chown -R "${redisUID}":"${redisGID}" "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
+    start "${redisServiceName}"
 }
 
 function main()
@@ -80,7 +80,7 @@ function main()
     header 'INSTALLING REDIS'
 
     checkRequireRootUser
-    checkRequirePort "${port}"
+    checkRequirePort "${redisPort}"
 
     installDependencies
     install
