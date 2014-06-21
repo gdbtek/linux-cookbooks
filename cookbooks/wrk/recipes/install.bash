@@ -35,7 +35,7 @@ function install()
 
     # Display Version
 
-    "${wrkInstallFolder}/bin/wrk" --version
+    info "\n$("${wrkInstallFolder}/bin/wrk" --version)"
 }
 
 function main()
