@@ -2,13 +2,15 @@
 
 function install()
 {
+    local appName="$(getFileName "${downloadURL}")"
+
     # Clean Up
 
-    rm -rf "${tomcatFolder}/webapps/jenkins" "${tomcatFolder}/webapps/jenkins.war"
+    rm -rf "${tomcatFolder}/webapps/${appName}" "${tomcatFolder}/webapps/${appName}.war"
 
     # Install
 
-    curl -L "${downloadURL}" -o "${tomcatFolder}/webapps/jenkins.war"
+    curl -L "${downloadURL}" -o "${tomcatFolder}/webapps/${appName}.war"
 }
 
 function main()
