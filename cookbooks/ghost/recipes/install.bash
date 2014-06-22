@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand "node")" = 'false' || "$(existCommand "npm")" = 'false' ]]
+    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' ]]
     then
         "${appPath}/../../node-js/recipes/install.bash"
     fi
@@ -29,7 +29,7 @@ function install()
     local serverConfigData=(
         'http://my-ghost-blog.com' "${ghostURL}"
         '127.0.0.1' "${ghostHost}"
-        2369 "${ghostPort}"
+        '2369' "${ghostPort}"
     )
 
     createFileFromTemplate "${ghostInstallFolder}/config.example.js" "${ghostInstallFolder}/config.js" "${serverConfigData[@]}"
