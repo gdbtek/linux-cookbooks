@@ -411,3 +411,15 @@ function existURL()
         echo 'false'
     fi
 }
+
+function existCommand()
+{
+    local command="${1}"
+
+    if [[ "$(which "${command}")" = '' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}

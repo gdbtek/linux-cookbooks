@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function installDependencies()
+{
+    if [[ "$(existCommand "node")" = 'false' || "$(existCommand "npm")" = 'false' ]]
+    then
+        "${appPath}/../../node-js/recipes/install.bash"
+    fi
+}
+
 function install()
 {
     # Clean Up
@@ -57,6 +65,7 @@ function main()
     checkRequireRootUser
     checkRequirePort "${ghostPort}"
 
+    installDependencies
     install
     installCleanUp
 
