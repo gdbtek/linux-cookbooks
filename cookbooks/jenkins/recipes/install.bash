@@ -1,5 +1,18 @@
 #!/bin/bash
 
+function installDependencies()
+{
+    if [[ "$(isEmptyString "${jenkinsTomcatFolder}")" = 'true' ]]
+    then
+        jenkinsTomcatFolder="${tomcatInstallFolder}"
+    fi
+
+    if [[ ! -f "${jenkinsTomcatFolder}/bin/catalina.sh" ]]
+    then
+        "${appPath}/../../tomcat/recipes/install.bash"
+    fi
+}
+
 function install()
 {
     local appName="$(getFileName "${jenkinsDownloadURL}")"
@@ -39,6 +52,7 @@ function main()
 
     checkRequireRootUser
 
+    installDependencies
     install
     installCleanUp
 }
