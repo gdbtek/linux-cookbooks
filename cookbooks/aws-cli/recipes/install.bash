@@ -9,6 +9,7 @@ function installDependencies()
 
 function install()
 {
+    echo &&
     pip install awscli &&
     info "\n$(aws --version 2>&1)"
 }
