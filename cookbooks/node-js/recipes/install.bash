@@ -18,7 +18,7 @@ function install()
 
     if [[ "${nodejsVersion}" = 'latest' ]]
     then
-        version="$(getLatestVersionNumber)"
+        nodejsVersion="$(getLatestVersionNumber)"
         local url="http://nodejs.org/dist/latest/node-v${nodejsVersion}-linux-x64.tar.gz"
     else
         local url="http://nodejs.org/dist/v${nodejsVersion}/node-v${nodejsVersion}-linux-x64.tar.gz"
