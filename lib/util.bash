@@ -386,11 +386,38 @@ function installPackage()
     fi
 }
 
+function installPIPPackage()
+{
+    local package="${1}"
+
+    if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
+    then
+        debug "\nPIP Package '${package}' has already been installed"
+    else
+        echo -e "\033[1;35m\nInstalling PIP package '${package}'\033[0m"
+        pip install "${package}"
+    fi
+}
+
 function isPackageInstall()
 {
     local package="${1}"
 
     local found="$(dpkg --get-selections | grep -Eo "^${package}(:amd64)*\s+install$")"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}
+
+function isPIPPackageInstall()
+{
+    local package="${1}"
+
+    local found="$(pip list | grep -Eo "^${package}\s+\(.*\)$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
