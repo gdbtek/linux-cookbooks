@@ -4,9 +4,9 @@ function installDependencies()
 {
     runAptGetUpdate
 
-    installPackage 'build-essential'
-    installPackage 'libgdbm-dev'
-    installPackage 'libssl-dev'
+    installAptGetPackage 'build-essential'
+    installAptGetPackage 'libgdbm-dev'
+    installAptGetPackage 'libssl-dev'
 }
 
 function install()

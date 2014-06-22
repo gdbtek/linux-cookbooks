@@ -7,7 +7,7 @@ function installDependencies()
 
 function install()
 {
-    installPackage 'ufw'
+    installAptGetPackage 'ufw'
 
     # Set Up Policies
 

@@ -377,11 +377,11 @@ function installPackage()
 {
     local package="${1}"
 
-    if [[ "$(isPackageInstall "${package}")" = 'true' ]]
+    if [[ "$(isAptGetPackageInstall "${package}")" = 'true' ]]
     then
-        debug "\nPackage '${package}' has already been installed"
+        debug "\nApt-Get Package '${package}' has already been installed"
     else
-        echo -e "\033[1;35m\nInstalling package '${package}'\033[0m"
+        echo -e "\033[1;35m\nInstalling Apt-Get package '${package}'\033[0m"
         apt-get install -y "${package}"
     fi
 }
@@ -399,7 +399,7 @@ function installPIPPackage()
     fi
 }
 
-function isPackageInstall()
+function isAptGetPackageInstall()
 {
     local package="${1}"
 

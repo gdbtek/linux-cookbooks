@@ -4,9 +4,9 @@ function installDependencies()
 {
     runAptGetUpdate
 
-    installPackage 'build-essential'
-    installPackage 'libpcre3-dev'
-    installPackage 'libssl-dev'
+    installAptGetPackage 'build-essential'
+    installAptGetPackage 'libpcre3-dev'
+    installAptGetPackage 'libssl-dev'
 }
 
 function install()

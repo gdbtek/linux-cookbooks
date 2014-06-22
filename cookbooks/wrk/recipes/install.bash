@@ -4,8 +4,8 @@ function installDependencies()
 {
     runAptGetUpdate
 
-    installPackage 'build-essential'
-    installPackage 'libssl-dev'
+    installAptGetPackage 'build-essential'
+    installAptGetPackage 'libssl-dev'
 }
 
 function install()

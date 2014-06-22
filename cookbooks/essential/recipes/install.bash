@@ -12,7 +12,7 @@ function install()
 
     for package in ${essentialPackages[@]}
     do
-        installPackage "${package}"
+        installAptGetPackage "${package}"
     done
 }
 
