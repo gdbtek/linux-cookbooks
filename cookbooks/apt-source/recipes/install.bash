@@ -8,8 +8,9 @@ function install()
 
     if [[ -f "${sourceListFile}" ]]
     then
-        cp -f "${sourceListFile}" '/etc/apt/sources.list'
-        cat '/etc/apt/sources.list'
+        cp -f "${sourceListFile}" '/etc/apt/sources.list' &&
+        cat '/etc/apt/sources.list' &&
+        echo
     else
         warn "WARN: this cookbook has not supported '$(getMachineDescription)' yet!"
     fi
