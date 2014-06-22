@@ -2,7 +2,7 @@
 
 function install()
 {
-    curl -L 'https://www.opscode.com/chef/install.sh' | bash &&
+    curl -L "${chefDownloadURL}" | bash &&
     info "\n$(knife --version)"
 }
 
