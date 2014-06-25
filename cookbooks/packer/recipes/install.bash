@@ -10,6 +10,7 @@ function install()
     # Install
 
     unzipRemoteFile "${packerDownloadURL}" "${packerInstallFolder}"
+    
     chown -R "$(whoami)":"$(whoami)" "${packerInstallFolder}"
 
     # Config Profile
@@ -20,7 +21,7 @@ function install()
 
     # Display Version
 
-    info "\n$(packer version)"
+    info "\n$("${packerInstallFolder}/bin/packer" --version)"
 }
 
 function main()
