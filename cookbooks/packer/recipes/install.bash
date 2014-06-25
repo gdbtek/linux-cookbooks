@@ -4,7 +4,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${packerInstallFolder}/bin"
+    rm -rf "${packerInstallFolder}"
     mkdir -p "${packerInstallFolder}/bin"
 
     # Install
