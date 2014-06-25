@@ -4,13 +4,12 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${packerInstallFolder}"
-    mkdir -p "${packerInstallFolder}"
+    rm -rf "${packerInstallFolder}/bin"
+    mkdir -p "${packerInstallFolder}/bin"
 
     # Install
 
-    unzipRemoteFile "${packerDownloadURL}" "${packerInstallFolder}"
-    
+    unzipRemoteFile "${packerDownloadURL}" "${packerInstallFolder}/bin"
     chown -R "$(whoami)":"$(whoami)" "${packerInstallFolder}"
 
     # Config Profile
