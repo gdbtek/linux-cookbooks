@@ -7,9 +7,8 @@ function main()
     "${appPath}/essential.bash" || exit 1
 
     "${appPath}/../../../../cookbooks/go-server/recipes/install-agent.bash" 'go.adobecc.com' || exit 1
-    "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" 'go' || exit 1
-
     "${appPath}/config.bash" || exit 1
+    "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" 'go' || exit 1
 }
 
 main "${@}"

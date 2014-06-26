@@ -19,10 +19,13 @@ function configGit()
 
 function configInitDaemonControlTool()
 {
-    cp "${appPath}/../files/initctl" '/usr/local/bin'
-    chmod 755 '/usr/local/bin/initctl'
+    if [[ "$(getMachineRelease)" = '13.10' ]]
+    then
+        cp "${appPath}/../files/initctl" '/usr/local/bin'
+        chmod 755 '/usr/local/bin/initctl'
 
-    appendToFileIfNotFound '/etc/sudoers' "^\s*go\s+ALL=\(ALL\)\s+NOPASSWD:ALL\s*$" 'go ALL=(ALL) NOPASSWD:ALL' 'true' 'false'
+        appendToFileIfNotFound '/etc/sudoers' "^\s*go\s+ALL=\(ALL\)\s+NOPASSWD:ALL\s*$" 'go ALL=(ALL) NOPASSWD:ALL' 'true' 'false'
+    fi
 }
 
 function configKnownHosts()
