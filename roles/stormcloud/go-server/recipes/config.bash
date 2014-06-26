@@ -40,9 +40,9 @@ function configGoAWS()
 
 function configGoGit()
 {
-    sudo -u go bash -c "git config --global user.name "${stormcloudGitUserName}""
-    sudo -u go bash -c "git config --global user.email "${stormcloudGitUserEmail}""
-    sudo -u go bash -c 'git config --global push.default simple'
+    su - go -c "git config --global user.name "${stormcloudGitUserName}""
+    su - go -c "git config --global user.email "${stormcloudGitUserEmail}""
+    su - go -c 'git config --global push.default simple'
 }
 
 function configGoHomeDirectory()
