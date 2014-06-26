@@ -71,6 +71,8 @@ function configGoNPM()
 
 function configGoSSHKey()
 {
+    rm -f ~go/.ssh/id_rsa*
+
     expect << DONE
         spawn su - go -c 'ssh-keygen'
         expect "Enter file in which to save the key (*): "
@@ -82,6 +84,7 @@ function configGoSSHKey()
         expect eof
 DONE
 
+    chmod 600 ~go/.ssh/id_rsa*
     info "\n$(cat ~go/.ssh/id_rsa.pub)"
 }
 
