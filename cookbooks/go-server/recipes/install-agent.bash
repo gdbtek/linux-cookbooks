@@ -9,7 +9,8 @@ function install()
 
     # Install
 
-    addSystemUser "${goserverUID}" "${goserverGID}"
+    addgroup "${goserverGID}" >> /dev/null 2>&1
+    useradd "${goserverUID}" -g "${goserverGID}" -s '/bin/bash' -m
     unzipRemoteFile "${goserverAgentDownloadURL}" "${goserverAgentInstallFolder}"
 
     local unzipFolderName="$(ls -d ${goserverAgentInstallFolder}/*/ 2> '/dev/null')"
