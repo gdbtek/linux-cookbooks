@@ -22,13 +22,15 @@ function configInitDaemonControlTool()
     cp "${appPath}/../files/initctl" '/usr/local/bin'
     chmod 755 '/usr/local/bin/initctl'
 
-    appendToFileIfNotFound '/etc/sudoers' "^\s*go\s+ALL=\(ALL\)\s+NOPASSWD:ALL\s*$" "\ngo ALL=\(ALL\) NOPASSWD:ALL" 'true' 'true'
+    appendToFileIfNotFound '/etc/sudoers' "^\s*go\s+ALL=\(ALL\)\s+NOPASSWD:ALL\s*$" 'go ALL=(ALL) NOPASSWD:ALL' 'true' 'false'
 }
 
 function configKnownHosts()
 {
+    mkdir -p ~go/.ssh
     cp "${appPath}/../files/known_hosts" ~go/.ssh
     chmod 600 ~go/.ssh/known_hosts
+    chown -R go:go ~go/.ssh
 }
 
 function configAuthorizedKeys()
@@ -41,6 +43,12 @@ function configNPM()
 {
     cp "${appPath}/../files/.npmrc" ~go
     chmod 600 ~go/.npmrc
+    chown go:go ~go/.npmrc
+}
+
+function configGoHomeDirectory()
+{
+    ln -s '/home/go' '/var/go'
 }
 
 function main()
@@ -52,11 +60,12 @@ function main()
 
     installPackages
 
-    configGit
+    # configGit
     configInitDaemonControlTool
     configKnownHosts
     configAuthorizedKeys
     configNPM
+    configGoHomeDirectory
 }
 
 main "${@}"
