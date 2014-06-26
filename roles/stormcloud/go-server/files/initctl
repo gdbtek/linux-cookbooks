@@ -1,0 +1,3 @@
+# Created by Nam Nguyen
+
+sudo /sbin/initctl "${1}"
