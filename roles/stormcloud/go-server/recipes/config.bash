@@ -89,7 +89,7 @@ DONE
 
 function displayNotice()
 {
-    info "-> Next is to copy this RSA to your git account:"
+    info "\n-> Next is to copy this RSA to your git account:"
     cat ~go/.ssh/id_rsa.pub
 
     info "\n-> Nex is to update ~go/.aws/config.json"
