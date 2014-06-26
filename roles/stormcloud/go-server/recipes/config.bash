@@ -69,6 +69,22 @@ function configGoNPM()
     chown go:go ~go/.npmrc
 }
 
+function configGoSSHKey()
+{
+    expect << DONE
+        spawn su - go -c 'ssh-keygen'
+        expect "Enter file in which to save the key (*): "
+        send -- "\r"
+        expect "Enter passphrase (empty for no passphrase): "
+        send -- "\r"
+        expect "Enter same passphrase again: "
+        send -- "\r"
+        expect eof
+DONE
+
+    info "\n$(cat ~go/.ssh/id_rsa.pub)"
+}
+
 function main()
 {
     appPath="$(cd "$(dirname "${0}")" && pwd)"
@@ -86,6 +102,7 @@ function main()
     configGoHomeDirectory
     configGoKnownHosts
     configGoNPM
+    configGoSSHKey
 }
 
 main "${@}"

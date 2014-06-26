@@ -1,6 +1,7 @@
 #!/bin/bash
 
 stormcloudPackages=(
+    'expect'
     'libfontconfig'
     'libfontconfig-dev'
     'libfreetype6-dev'
