@@ -89,10 +89,10 @@ DONE
 
 function displayNotice()
 {
-    echo "Next is to copy this RSA to your git account:"
-    info "\n$(cat ~go/.ssh/id_rsa.pub)"
+    info "-> Next is to copy this RSA to your git account:"
+    cat ~go/.ssh/id_rsa.pub
 
-    echo "Nex is to update ~go/.aws/config.json"
+    info "\n-> Nex is to update ~go/.aws/config.json"
 }
 
 function main()
