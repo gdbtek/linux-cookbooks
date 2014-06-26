@@ -24,8 +24,8 @@ function configPackages()
 function configRootAuthorizedKeys()
 {
     mkdir -p ~root/.ssh
-    cp "${appPath}/../files/authorized_keys" ~root/.ssh
     chmod 700 ~root/.ssh
+    cp "${appPath}/../files/authorized_keys" ~root/.ssh
     chmod 600 ~root/.ssh/authorized_keys
 }
 
@@ -44,8 +44,8 @@ function configGoHomeDirectory()
 function configGoKnownHosts()
 {
     mkdir -p ~go/.ssh
-    cp "${appPath}/../files/known_hosts" ~go/.ssh
     chmod 700 ~go/.ssh
+    cp "${appPath}/../files/known_hosts" ~go/.ssh
     chmod 600 ~go/.ssh/known_hosts
     chown -R go:go ~go/.ssh
 }
