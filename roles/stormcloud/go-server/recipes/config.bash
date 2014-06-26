@@ -85,7 +85,14 @@ function configGoSSHKey()
 DONE
 
     chmod 600 ~go/.ssh/id_rsa*
+}
+
+function displayNotice()
+{
+    echo "Next is to copy this RSA to your git account:"
     info "\n$(cat ~go/.ssh/id_rsa.pub)"
+
+    echo "Nex is to update ~go/.aws/config.json"
 }
 
 function main()
@@ -106,6 +113,8 @@ function main()
     configGoKnownHosts
     configGoNPM
     configGoSSHKey
+
+    displayNotice
 }
 
 main "${@}"
