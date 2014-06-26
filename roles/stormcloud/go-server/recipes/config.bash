@@ -47,7 +47,10 @@ function configGoGit()
 
 function configGoHomeDirectory()
 {
-    ln -s '/home/go' '/var/go'
+    if [[ ! -d '/var/go' ]]
+    then
+        ln -s '/home/go' '/var/go'
+    fi
 }
 
 function configGoKnownHosts()
