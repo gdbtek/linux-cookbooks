@@ -36,7 +36,7 @@ function configKnownHosts()
     chown -R go:go ~go/.ssh
 }
 
-function configAuthorizedKeys()
+function configRootAuthorizedKeys()
 {
     cp "${appPath}/../files/authorized_keys" ~root/.ssh
     chmod 600 ~root/.ssh/authorized_keys
@@ -66,7 +66,7 @@ function main()
     # configGit
     configInitDaemonControlTool
     configKnownHosts
-    configAuthorizedKeys
+    configRootAuthorizedKeys
     configNPM
     configGoHomeDirectory
 }
