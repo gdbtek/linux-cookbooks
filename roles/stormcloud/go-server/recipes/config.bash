@@ -29,6 +29,15 @@ function configRootAuthorizedKeys()
     chmod 600 ~root/.ssh/authorized_keys
 }
 
+function configGoAWS()
+{
+    mkdir -p ~go/.aws
+    chmod 700 ~go/.aws
+    touch ~go/.aws/config.json
+    chmod 600 ~go/.aws/config.json
+    chown -R go:go ~go/.aws
+}
+
 function configGoGit()
 {
     sudo -u go bash -c "git config --global user.name "${stormcloudGitUserName}""
@@ -69,6 +78,7 @@ function main()
 
     configRootAuthorizedKeys
 
+    configGoAWS
     configGoGit
     configGoHomeDirectory
     configGoKnownHosts
