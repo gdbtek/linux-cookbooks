@@ -4,10 +4,7 @@ function install()
 {
     local users="${@}"
 
-    if [[ "$(isEmptyString "${users}")" = 'true' ]]
-    then
-        users="$(whoami)"
-    fi
+    users+="$(whoami)"
 
     local user=''
 
