@@ -362,7 +362,8 @@ function runAptGetUpdate()
 function runAptGetUpgrade()
 {
     apt-get -y dist-upgrade &&
-    apt-get -y upgrade
+    apt-get -y upgrade &&
+    apt-get -y autoremove
 }
 
 function getLastAptGetUpdate()
