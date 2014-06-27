@@ -4,7 +4,7 @@ function install()
 {
     local users="${@}"
 
-    users+="$(whoami)"
+    users+=" $(whoami)"
 
     local user=''
 
