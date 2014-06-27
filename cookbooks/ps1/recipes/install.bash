@@ -23,7 +23,12 @@ function install()
 
             echo -e "Updating '\033[1;32m${profileFile}\033[0m'"
 
-            touch "${profileFile}"
+            if [[ ! -f "${profileFile}" ]]
+            then
+                touch "${profileFile}" &&
+                chown "${user}":"${user}" "${profileFile}"
+            fi
+
             appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false'
         else
             warn "WARN: home directory of user '${user}' not found!"
