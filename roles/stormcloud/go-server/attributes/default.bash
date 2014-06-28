@@ -1,6 +1,7 @@
 #!/bin/bash
 
 stormcloudServerPackages=(
+    'expect'
     'nginx'
 )
 
