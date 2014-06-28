@@ -20,7 +20,7 @@ function configPackages()
     done
 }
 
-function configServerETCHosts()
+function configETCHosts()
 {
     appendToFileIfNotFound '/etc/hosts' "^\s*127.0.0.1\s+npm.adobecc.com\s*$" '127.0.0.1 npm.adobecc.com' 'true' 'false'
 }
@@ -35,15 +35,17 @@ function configServer()
     configRootAuthorizedKeys
     configPackages "${stormcloudServerPackages[@]}"
 
-    configServerETCHosts
+    configETCHosts
 }
 
 function main()
 {
     local appPath="$(cd "$(dirname "${0}")" && pwd)"
 
-    "${appPath}/essential.bash" || exit 1
+    source "${appPath}/../../../../lib/util.bash" || exit 1
+    source "${appPath}/../attributes/default.bash" || exit 1
 
+    "${appPath}/essential.bash" || exit 1
     "${appPath}/../../../../cookbooks/go-server/recipes/install-server.bash" || exit 1
     configServer
     "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" 'go' 'ubuntu' || exit 1
