@@ -25,6 +25,16 @@ function configETCHosts()
     appendToFileIfNotFound '/etc/hosts' "^\s*127.0.0.1\s+${stormcloudNPMServerHost}\s*$" "127.0.0.1 ${stormcloudNPMServerHost}" 'true' 'false'
 }
 
+function configSSL()
+{
+    cp -r "${appPath}/../files/ssl" '/opt'
+}
+
+function configNginx()
+{
+
+}
+
 function displayServerNotice()
 {
     info "\n-> Next is to update AWS Route 53 of '${stormcloudGoServerHost}' to point to '$(hostname)'"
@@ -36,6 +46,8 @@ function configServer()
     configPackages "${stormcloudServerPackages[@]}"
 
     configETCHosts
+    configSSL
+    configNginx
 }
 
 function main()
