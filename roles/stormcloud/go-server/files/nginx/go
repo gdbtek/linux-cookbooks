@@ -1,0 +1,33 @@
+server {
+    listen       80 default_server;
+    server_name  go.adobecc.com;
+    return 301 https://$host$request_uri;
+
+    location / {
+        root   html;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+
+server {
+    listen       443 ssl default_server;
+    server_name  go.adobecc.com;
+
+    ssl_certificate     /opt/ssl/wildcard.adobecc.com-20140408.crt;
+    ssl_certificate_key /opt/ssl/wildcard.adobecc.com-20140408-rsa.key;
+
+    ssl_session_cache    shared:SSL:1m;
+    ssl_session_timeout  5m;
+
+    ssl_ciphers  HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers  on;
+
+    location / {
+        proxy_pass https://localhost:8154;
+    }
+}

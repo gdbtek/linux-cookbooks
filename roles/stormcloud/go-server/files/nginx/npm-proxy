@@ -1,0 +1,50 @@
+proxy_cache_path /var/lib/nginx/cache/npm levels=1:2 keys_zone=npm:20m inactive=4d max_size=5g;
+
+upstream registry_npm {
+  server registry.npmjs.org;
+  server registry.npmjs.org;
+  keepalive 16;
+}
+
+server {
+  listen 80;
+  server_name npm.adobecc.com;
+  server_tokens off;
+  reset_timedout_connection on;
+
+  gzip on;
+  gzip_types application/json text/css text/javascript;
+  gzip_proxied any;
+  gzip_vary on;
+
+  root /var/www;
+
+  proxy_cache npm;
+  proxy_cache_key $uri;
+  proxy_cache_lock on;
+  proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+
+  proxy_http_version 1.1;
+  proxy_pass_request_headers off;
+  proxy_set_header Host registry.npmjs.org;
+
+  sub_filter 'registry.npmjs.org' 'npm.adobecc.com';
+  sub_filter_once off;
+  sub_filter_types application/json;
+
+  location / {
+    proxy_cache_valid any 5m;
+
+    add_header X-Cache $upstream_cache_status;
+
+    proxy_pass http://registry_npm;
+  }
+
+  location ~ ^/.+/-/.+ {
+    proxy_cache_valid any 4d;
+
+    add_header X-Cache $upstream_cache_status;
+
+    proxy_pass http://registry_npm;
+  }
+}
