@@ -27,6 +27,14 @@ function configNginx()
 
     ln -s '/etc/nginx/sites-available/go' '/etc/nginx/sites-enabled/go'
     ln -s '/etc/nginx/sites-available/npm-proxy' '/etc/nginx/sites-enabled/npm-proxy'
+
+    service nginx stop
+    service nginx start
+}
+
+function configGoServer()
+{
+    echo
 }
 
 function displayServerNotice()
@@ -43,6 +51,7 @@ function configServer()
     configETCHosts
     configSSL
     configNginx
+    configGoServer
 }
 
 function main()

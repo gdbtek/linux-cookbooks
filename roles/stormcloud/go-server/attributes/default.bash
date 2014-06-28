@@ -3,6 +3,7 @@
 stormcloudServerPackages=(
     'expect'
     'nginx'
+    'xmlstarlet'
 )
 
 stormcloudAgentPackages=(
