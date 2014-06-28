@@ -66,7 +66,9 @@ function configGoKnownHosts()
 
 function configGoNPM()
 {
-    cp "${appPath}/../files/.npmrc" ~go &&
+    local npmConfigData=('__NPM_SERVER_HOST__' "${stormcloudNPMServerHost}")
+
+    createFileFromTemplate "${appPath}/../files/.npmrc" ~go/.npmrc "${npmConfigData[@]}"
     chmod 600 ~go/.npmrc &&
     chown go:go ~go/.npmrc
 }
@@ -122,7 +124,7 @@ function main()
     source "${appPath}/../attributes/default.bash" || exit 1
 
     "${appPath}/essential.bash" || exit 1
-    "${appPath}/../../../../cookbooks/go-server/recipes/install-agent.bash" 'go.adobecc.com' || exit 1
+    "${appPath}/../../../../cookbooks/go-server/recipes/install-agent.bash" "${stormcloudGoServerHost}" || exit 1
     configAgent
     "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" 'go' 'ubuntu' || exit 1
 }

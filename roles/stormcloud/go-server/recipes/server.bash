@@ -22,12 +22,12 @@ function configPackages()
 
 function configETCHosts()
 {
-    appendToFileIfNotFound '/etc/hosts' "^\s*127.0.0.1\s+npm.adobecc.com\s*$" '127.0.0.1 npm.adobecc.com' 'true' 'false'
+    appendToFileIfNotFound '/etc/hosts' "^\s*127.0.0.1\s+${stormcloudNPMServerHost}\s*$" "127.0.0.1 ${stormcloudNPMServerHost}" 'true' 'false'
 }
 
 function displayServerNotice()
 {
-    info "\n-> Next is to update AWS Route 53 of 'go.adobecc.com' to point to '$(hostname)'"
+    info "\n-> Next is to update AWS Route 53 of '${stormcloudGoServerHost}' to point to '$(hostname)'"
 }
 
 function configServer()
