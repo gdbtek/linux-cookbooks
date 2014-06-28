@@ -8,18 +8,6 @@ function configRootAuthorizedKeys()
     chmod 600 ~root/.ssh/authorized_keys
 }
 
-function configPackages()
-{
-    local packages="${1}"
-
-    local package=''
-
-    for package in $packages
-    do
-        installAptGetPackage "${package}"
-    done
-}
-
 function configInitDaemonControlTool()
 {
     if [[ "$(getMachineRelease)" = '13.10' ]]
@@ -101,9 +89,9 @@ function displayNotice()
 
 function configAgent()
 {
-    configRootAuthorizedKeys
-    configPackages "${stormcloudAgentPackages[@]}"
+    installAptGetPackages "${stormcloudAgentPackages[@]}"
 
+    configRootAuthorizedKeys
     configInitDaemonControlTool
 
     configGoAWS

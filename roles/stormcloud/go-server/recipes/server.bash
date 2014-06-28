@@ -8,18 +8,6 @@ function configRootAuthorizedKeys()
     chmod 600 ~root/.ssh/authorized_keys
 }
 
-function configPackages()
-{
-    local packages="${1}"
-
-    local package=''
-
-    for package in $packages
-    do
-        installAptGetPackage "${package}"
-    done
-}
-
 function configETCHosts()
 {
     appendToFileIfNotFound '/etc/hosts' "^\s*127.0.0.1\s+${stormcloudNPMServerHost}\s*$" "127.0.0.1 ${stormcloudNPMServerHost}" 'true' 'false'
@@ -42,8 +30,9 @@ function displayServerNotice()
 
 function configServer()
 {
+    installAptGetPackages "${stormcloudServerPackages[@]}"
+
     configRootAuthorizedKeys
-    configPackages "${stormcloudServerPackages[@]}"
 
     configETCHosts
     configSSL

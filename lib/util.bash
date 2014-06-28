@@ -374,6 +374,16 @@ function getLastAptGetUpdate()
     echo $((${nowDate} - ${aptDate}))
 }
 
+function installAptGetPackages()
+{
+    local package=''
+
+    for package in ${@}
+    do
+        installAptGetPackage "${package}"
+    done
+}
+
 function installAptGetPackage()
 {
     local package="${1}"
