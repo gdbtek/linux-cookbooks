@@ -1,6 +1,10 @@
 #!/bin/bash
 
-stormcloudPackages=(
+stormcloudServerPackages=(
+    'nginx'
+)
+
+stormcloudAgentPackages=(
     'expect'
     'libfontconfig'
     'libfontconfig-dev'

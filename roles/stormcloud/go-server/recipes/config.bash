@@ -8,14 +8,21 @@ function configRootAuthorizedKeys()
     chmod 600 ~root/.ssh/authorized_keys
 }
 
+function configPackages()
+{
+    local packages="${1}"
+
+    local package=''
+
+    for package in $packages
+    do
+        installAptGetPackage "${package}"
+    done
+}
+
 function configServerETCHosts()
 {
     appendToFileIfNotFound '/etc/hosts' "^\s*127.0.0.1\s+npm.adobecc.com\s*$" '127.0.0.1 npm.adobecc.com' 'true' 'false'
-}
-
-function configServerNginx()
-{
-    installAptGetPackage 'nginx'
 }
 
 function configAgentInitDaemonControlTool()
@@ -27,16 +34,6 @@ function configAgentInitDaemonControlTool()
 
         appendToFileIfNotFound '/etc/sudoers' "^\s*go\s+ALL=\(ALL\)\s+NOPASSWD:ALL\s*$" 'go ALL=(ALL) NOPASSWD:ALL' 'true' 'false'
     fi
-}
-
-function configAgentPackages()
-{
-    local package=''
-
-    for package in ${stormcloudPackages[@]}
-    do
-        installAptGetPackage "${package}"
-    done
 }
 
 function configAgentGoAWS()
@@ -118,14 +115,14 @@ function main()
     then
         configRootAuthorizedKeys
 
+        configPackages "${stormcloudServerPackages[@]}"
+
         configServerETCHosts
-        configServerNginx
     elif [[ "${configType}" = 'agent' ]]
     then
         configRootAuthorizedKeys
 
         configAgentInitDaemonControlTool
-        configAgentPackages
 
         configAgentGoAWS
         configAgentGoGit
