@@ -114,13 +114,13 @@ function main()
     if [[ "${configType}" = 'server' ]]
     then
         configRootAuthorizedKeys
-
         configPackages "${stormcloudServerPackages[@]}"
 
         configServerETCHosts
     elif [[ "${configType}" = 'agent' ]]
     then
         configRootAuthorizedKeys
+        configPackages "${stormcloudAgentPackages[@]}"
 
         configAgentInitDaemonControlTool
 
