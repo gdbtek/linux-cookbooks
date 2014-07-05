@@ -25,8 +25,15 @@ function configNginx()
     cp -r "${appPath}/../files/nginx/go" '/etc/nginx/sites-available'
     cp -r "${appPath}/../files/nginx/npm-proxy" '/etc/nginx/sites-available'
 
-    ln -s '/etc/nginx/sites-available/go' '/etc/nginx/sites-enabled/go'
-    ln -s '/etc/nginx/sites-available/npm-proxy' '/etc/nginx/sites-enabled/npm-proxy'
+    if [[ ! -f '/etc/nginx/sites-enabled/go' ]]
+    then
+        ln -s '/etc/nginx/sites-available/go' '/etc/nginx/sites-enabled/go'
+    fi
+
+    if [[ ! -f '/etc/nginx/sites-enabled/npm-proxy' ]]
+    then
+        ln -s '/etc/nginx/sites-available/npm-proxy' '/etc/nginx/sites-enabled/npm-proxy'
+    fi
 
     service nginx stop
     service nginx start
