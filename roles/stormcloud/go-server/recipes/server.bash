@@ -87,6 +87,9 @@ function main()
     "${appPath}/../../../../cookbooks/go-server/recipes/install-server.bash" || exit 1
     configServer
     "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" 'go' 'ubuntu' || exit 1
+
+    displayServerNotice
+    displayOpenPorts
 }
 
 main "${@}"
