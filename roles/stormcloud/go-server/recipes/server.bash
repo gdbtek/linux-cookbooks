@@ -26,6 +26,7 @@ function configNginx()
     # Clean Up
 
     rm -rf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/* "${stormcloudNPMCacheFolder}"
+    mkdir -p "${stormcloudNPMCacheFolder}"
     chown www-data:root "${stormcloudNPMCacheFolder}"
 
     # Default
