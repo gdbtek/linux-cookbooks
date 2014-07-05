@@ -56,7 +56,9 @@ function configNginx()
 
 function configGoServer()
 {
-    echo
+    local serverID="$(xmlstarlet select -t -v "/cruise/server/@serverId" '/opt/go-server/server/config/cruise-config.xml')"
+
+    xmlstarlet edit --update "/cruise/server/@serverId" --value "${serverID}" "${appPath}/../files/cruise-config.xml"
 }
 
 function displayServerNotice()

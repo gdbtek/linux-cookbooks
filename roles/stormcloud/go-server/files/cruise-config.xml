@@ -1,0 +1,1296 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<cruise xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="cruise-config.xsd" schemaVersion="72">
+    <server artifactsdir="artifacts" siteUrl="http://go.adobecc.com:80" secureSiteUrl="https://go.adobecc.com:443" purgeStart="10.0" purgeUpto="30.0" jobTimeout="60" commandRepositoryLocation="default" serverId="38cd416d-cbbe-413e-a355-cd675307c4d8">
+        <security allowOnlyKnownUsersToLogin="true">
+            <ldap uri="ldaps://sjcad-vip.corp.adobe.com" managerDn="CN=namnguye,CN=Users,DC=adobenet,DC=global,DC=adobe,DC=com" encryptedManagerPassword="iQRZfffxRbqtArJju9021w==" searchFilter="CN={0}">
+                <bases>
+                    <base value="CN=Users,DC=adobenet,DC=global,DC=adobe,DC=com" />
+                </bases>
+            </ldap>
+            <admins>
+                <user>copeland</user>
+                <user>dalopez</user>
+                <user>jfieber</user>
+                <user>khailu</user>
+                <user>mweagle</user>
+                <user>namnguye</user>
+                <user>saikrish</user>
+                <user>mkubisch</user>
+            </admins>
+        </security>
+    </server>
+    <pipelines group="Stage">
+        <pipeline name="STAGE-f5-web" isLocked="false" template="DeployTestRepoAuto">
+            <params>
+                <param name="TargetType">stage</param>
+                <param name="StackParameters">--params "{\"MinPoolSize\":3,\"MaxPoolSize\": 5 }"</param>
+                <param name="PPELBName">f5-web-stage-&lt;%= instance.short_region %&gt;-pp</param>
+                <param name="PPEndPoint">https://f5-web-stage-ue1-pp.dev.adobecc.com</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/ccweb.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="STAGE-f5-web-promote" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">STAGE-f5-web</param>
+                <param name="ELBNameTemplate">f5-web-stage-&lt;%= instance.short_region %&gt;</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="STAGE-f5-web" stageName="deploy" />
+            </materials>
+        </pipeline>
+        <pipeline name="STAGE-f5-api" isLocked="false" template="DeployF5IntegrationTestsRepoAuto">
+            <params>
+                <param name="TargetType">stage</param>
+                <param name="StackParameters">--params "{\"MinPoolSize\":3,\"MaxPoolSize\": 5 }"</param>
+                <param name="PPELBName">f5-api-stage-&lt;%= instance.short_region %&gt;-pp</param>
+                <param name="AP-PPELBName">https://f5-api-stage-an1-pp.dev.adobecc.com</param>
+                <param name="EU-PPELBName">https://f5-api-stage-ew1-pp.dev.adobecc.com</param>
+                <param name="US-PPELBName">https://f5-api-stage-ue1-pp.dev.adobecc.com</param>
+                <param name="TEST_ENV">stage</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-api.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="STAGE-f5-api-promote" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">STAGE-f5-api</param>
+                <param name="ELBNameTemplate">f5-api-stage-&lt;%= instance.short_region %&gt;</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="STAGE-f5-api" stageName="deploy" />
+            </materials>
+        </pipeline>
+        <pipeline name="STAGE-status" template="DeployRepo">
+            <params>
+                <param name="TargetType">stage-single-geo</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/status.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="STAGE-status-promote" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">STAGE-status</param>
+                <param name="ELBNameTemplate">status-cc-stage-us</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="STAGE-status" stageName="deploy" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="F5-API">
+        <pipeline name="PRIVATE-f5-api" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-api.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="PRIVATE-f5-api-promote" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">PRIVATE-f5-api</param>
+                <param name="ELBNameTemplate">SharedCloudUSWest2</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="PRIVATE-f5-api" stageName="deploy" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="Illumination">
+        <pipeline name="PRIVATE-illumination" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/illumination.git" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="Graphite">
+        <pipeline name="PRIVATE-graphite" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-graphite.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="STAGE-graphite" template="DeployRepo">
+            <params>
+                <param name="TargetType">stage</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-graphite.git" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="F5-Operational-Verification">
+        <pipeline name="PRIVATE-f5-operational-test" isLocked="false" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{\"MinPoolSize\":3,\"MaxPoolSize\": 5 }"</param>
+            </params>
+            <timer onlyOnChanges="true">0 0/10 * * * ?</timer>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-operational-test.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="PRIVATE-f5-operational-test-promote" isLocked="false" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">PRIVATE-f5-operational-test</param>
+                <param name="ELBNameTemplate">f5-operational-verify</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="PRIVATE-f5-operational-test" stageName="deploy" />
+            </materials>
+        </pipeline>
+        <pipeline name="STAGE-f5-operational-test" template="DeployRepo">
+            <params>
+                <param name="StackParameters">&gt;--params "{\"MinPoolSize\":3,\"MaxPoolSize\": 5 }"</param>
+                <param name="TargetType">stage</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-operational-test.git" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="CloudLabs">
+        <pipeline name="cloudlabs-f5-web" isLocked="false" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <timer onlyOnChanges="true">0 30 0 * * ?</timer>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/ccweb.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="cloudlabs-f5-web-promote" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">cloudlabs-f5-web</param>
+                <param name="ELBNameTemplate">f5-web-cloudlabs</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="cloudlabs-f5-web" stageName="deploy" />
+            </materials>
+        </pipeline>
+        <pipeline name="cloudlabs-f5-api" isLocked="false" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <timer onlyOnChanges="true">0 30 0 * * ?</timer>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-api.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="cloudlabs-f5-api-promote" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">cloudlabs-f5-api</param>
+                <param name="TargetType">private</param>
+                <param name="ELBNameTemplate">f5-api-cloudlabs</param>
+                <param name="ServiceName">f5-api</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="cloudlabs-f5-api" stageName="deploy" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="khailu">
+        <pipeline name="PRIVATE-f5-api-khailu" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <trackingtool link="https://git.corp.adobe.com/Stormcloud/f5-api/issues/${ID}" regex="##(\d+)" />
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-api.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="PRIVATE-f5-operational-test-promote-khailu" isLocked="false" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">PRIVATE-f5-operational-test-khailu</param>
+                <param name="ELBNameTemplate">f5-operational-verify</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="PRIVATE-F5-operational-test-khailu" stageName="deploy" materialName="PRIVATE-f5-operational-test-khailu" />
+            </materials>
+        </pipeline>
+        <pipeline name="PRIVATE-f5-operational-test-khailu" isLocked="false" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <timer onlyOnChanges="true">0 0/10 * * * ?</timer>
+            <materials>
+                <git url="git@git.corp.adobe.com:khailu/f5-operational-test.git" branch="go" />
+            </materials>
+        </pipeline>
+        <pipeline name="PRIVATE-f5-web-khailu" isLocked="false" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/ccweb.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="PRIVATE-status-khailu" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <trackingtool link="https://git.corp.adobe.com/Stormcloud/status/issues/${ID}" regex="##(\d+)" />
+            <materials>
+                <git url="git@git.corp.adobe.com:khailu/status.git" branch="newrelic" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="GO-TOOLS">
+        <pipeline name="Cleanup" isLocked="false" template="Cleanup">
+            <timer>0 59 1 * * ?</timer>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-operational.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="Status-git-bot" isLocked="false">
+            <timer>0 0 11 * * ?</timer>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/status.git" />
+            </materials>
+            <stage name="defaultStage">
+                <approval type="manual" />
+                <jobs>
+                    <job name="defaultJob">
+                        <tasks>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>echo " Status site updated at $(date +%Y-%m-%d-%H:%M:%S:%Z)" &gt;&gt; './version.txt'</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>git add version.txt</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>git commit -m 'Status site change to force deploy'</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>git push origin master</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+    </pipelines>
+    <pipelines group="F5-INTEGRATION-TESTS">
+        <pipeline name="STAGE-f5-integration-tests" isLocked="false" template="RunF5IntegrationTests">
+            <params>
+                <param name="REGION">EU</param>
+                <param name="TEST_ENV">stage</param>
+                <param name="API_HOST">https://scproxy-stage.adobecc.com</param>
+                <param name="COMMAND">npm run acceptance</param>
+                <param name="LOG_LEVEL">verbose</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-integration-tests.git" />
+                <pipeline pipelineName="STAGE-f5-api-promote" stageName="promote" materialName="Upstream" />
+            </materials>
+        </pipeline>
+        <pipeline name="PROD-f5-integration-tests" isLocked="false" template="RunF5IntegrationTests">
+            <params>
+                <param name="REGION">US</param>
+                <param name="TEST_ENV">production</param>
+                <param name="API_HOST">https://scproxy-prod.adobecc.com</param>
+                <param name="COMMAND">npm run acceptance</param>
+                <param name="LOG_LEVEL">none</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-integration-tests.git" />
+                <pipeline pipelineName="PROD-f5-api-promote" stageName="promote" materialName="Upstream" />
+            </materials>
+        </pipeline>
+        <pipeline name="PROD-f5-integration-tests-ap" isLocked="false" template="RunF5IntegrationTests">
+            <params>
+                <param name="REGION">AP</param>
+                <param name="TEST_ENV">production</param>
+                <param name="API_HOST">https://f5-api-prod-ap.adobecc.com</param>
+                <param name="COMMAND">npm run acceptance</param>
+                <param name="LOG_LEVEL">none</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-integration-tests.git" />
+                <pipeline pipelineName="PROD-f5-api-promote" stageName="promote" materialName="Upstream" />
+            </materials>
+        </pipeline>
+        <pipeline name="PROD-f5-integration-tests-eu" isLocked="false" template="RunF5IntegrationTests">
+            <params>
+                <param name="REGION">EU</param>
+                <param name="TEST_ENV">production</param>
+                <param name="API_HOST">https://f5-api-prod-eu.adobecc.com</param>
+                <param name="COMMAND">npm run acceptance</param>
+                <param name="LOG_LEVEL">none</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-integration-tests.git" />
+                <pipeline pipelineName="PROD-f5-api-promote" stageName="promote" materialName="Upstream" />
+            </materials>
+        </pipeline>
+        <pipeline name="PROD-f5-integration-tests-us" isLocked="false" template="RunF5IntegrationTests">
+            <params>
+                <param name="REGION">US</param>
+                <param name="TEST_ENV">production</param>
+                <param name="API_HOST">https://f5-api-prod-us.adobecc.com</param>
+                <param name="COMMAND">npm run acceptance</param>
+                <param name="LOG_LEVEL">none</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-integration-tests.git" />
+                <pipeline pipelineName="PROD-f5-api-promote" stageName="promote" materialName="Upstream" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="mweagle">
+        <pipeline name="mweagle-f5-operational-test" isLocked="false" template="DeployRepo">
+            <params>
+                <param name="TargetType">private</param>
+                <param name="StackParameters">--params "{}"</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:mweagle/f5-operational-test.git" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="dalopez">
+        <pipeline name="PRIVATE-plugin-dalopez" isLocked="true" template="Plugin">
+            <timer onlyOnChanges="true">0 /3 * * * ?</timer>
+            <environmentvariables>
+                <variable name="F5WEB_PLUGINMERGE">
+                    <value>ccweb.files.test</value>
+                </variable>
+            </environmentvariables>
+            <materials>
+                <git url="git@git.corp.adobe.com:dalopez/plugin-test.git" branch="dflplugtest" dest="ccweb.files.test" materialName="plugin-test" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="F5-WEB-Plugins">
+        <pipeline name="ccweb.files.details" isLocked="true" template="Plugin">
+            <timer onlyOnChanges="true">0 /7 * * * ?</timer>
+            <environmentvariables>
+                <variable name="F5WEB_PLUGINMERGE">
+                    <value>ccweb.files.details</value>
+                </variable>
+            </environmentvariables>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/plugin-details.git" dest="ccweb.files.details" materialName="ccweb.files.details" />
+            </materials>
+        </pipeline>
+        <pipeline name="ccweb.files.activity" isLocked="true" template="Plugin">
+            <timer onlyOnChanges="true">0 /11 * * * ?</timer>
+            <environmentvariables>
+                <variable name="F5WEB_PLUGINMERGE">
+                    <value>ccweb.files.activity</value>
+                </variable>
+            </environmentvariables>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/plugin-activity.git" dest="ccweb.files.activity" materialName="ccweb.files.activity" />
+            </materials>
+        </pipeline>
+        <pipeline name="ccweb.files.test" isLocked="true" template="Plugin">
+            <timer onlyOnChanges="true">0 /10 * * * ?</timer>
+            <environmentvariables>
+                <variable name="F5WEB_PLUGINMERGE">
+                    <value>ccweb.files.test</value>
+                </variable>
+            </environmentvariables>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/plugin-test.git" dest="ccweb.files.test" materialName="ccweb.files.test" />
+            </materials>
+        </pipeline>
+        <pipeline name="ccweb.files.extract" isLocked="true" template="Plugin">
+            <timer onlyOnChanges="true">0 /11 * * * ?</timer>
+            <environmentvariables>
+                <variable name="F5WEB_PLUGINMERGE">
+                    <value>ccweb.files.extract</value>
+                </variable>
+            </environmentvariables>
+            <materials>
+                <git url="git@git.corp.adobe.com:WebPA-graphite/graphite-api.git" dest="ccweb.files.extract" materialName="ccweb.files.extract" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <pipelines group="Production">
+        <pipeline name="PROD-F5-WEB" isLocked="false" template="DeployTestRepo">
+            <params>
+                <param name="TargetType">production</param>
+                <param name="StackParameters">--params "{\"MinPoolSize\":24,\"MaxPoolSize\": 26 }"</param>
+                <param name="PPELBName">f5-web-prod-&lt;%= instance.short_region %&gt;-pp</param>
+                <param name="PPEndPoint">https://f5-web-prod-ue1-pp.dev.adobecc.com</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/ccweb.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="PROD-f5-web-promote" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">PROD-f5-web</param>
+                <param name="ELBNameTemplate">f5-web-prod-&lt;%= instance.short_region %&gt;</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="PROD-f5-web" stageName="deploy" />
+            </materials>
+        </pipeline>
+        <pipeline name="PROD-f5-api" isLocked="false" template="DeployF5IntegrationTestsRepo">
+            <params>
+                <param name="TargetType">production</param>
+                <param name="StackParameters">--params "{\"MinPoolSize\":20,\"MaxPoolSize\": 24 }"</param>
+                <param name="PPELBName">f5-api-prod-&lt;%= instance.short_region %&gt;-pp</param>
+                <param name="AP-PPELBName">https://f5-api-prod-an1-pp.dev.adobecc.com</param>
+                <param name="EU-PPELBName">https://f5-api-prod-ew1-pp.dev.adobecc.com</param>
+                <param name="US-PPELBName">https://f5-api-prod-ue1-pp.dev.adobecc.com</param>
+                <param name="TEST_ENV">production</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/f5-api.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="PROD-f5-api-promote" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">PROD-f5-api</param>
+                <param name="ELBNameTemplate">f5-api-prod-&lt;%= instance.short_region %&gt;</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="PROD-f5-api" stageName="deploy" materialName="PROD-f5-api" />
+            </materials>
+        </pipeline>
+        <pipeline name="PRODUCTION-status" template="DeployRepo">
+            <params>
+                <param name="TargetType">production-single-geo</param>
+                <param name="StackParameters">--params "{\"MinPoolSize\":3,\"MaxPoolSize\": 5 }"</param>
+            </params>
+            <materials>
+                <git url="git@git.corp.adobe.com:Stormcloud/status.git" />
+            </materials>
+        </pipeline>
+        <pipeline name="PRODUCTION-status-promote" template="PromoteService">
+            <params>
+                <param name="DeployPipeline">PRODUCTION-status</param>
+                <param name="ELBNameTemplate">status-cc-prod-us</param>
+            </params>
+            <materials>
+                <pipeline pipelineName="PRODUCTION-status" stageName="deploy" />
+            </materials>
+        </pipeline>
+    </pipelines>
+    <templates>
+        <pipeline name="DeployQERepo">
+            <stage name="deploy" cleanWorkingDir="true">
+                <jobs>
+                    <job name="deploy">
+                        <tasks>
+                            <fetchartifact pipeline="#{Upstream}" stage="deploy" job="deploy" srcfile="artifacts/provision_service-receipt.json" dest="upstream">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <exec command="npm">
+                                <arg>--cache</arg>
+                                <arg>.npmcache</arg>
+                                <arg>install</arg>
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>prepackage</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="mkdir">
+                                <arg>-pv</arg>
+                                <arg>artifacts</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>tar --exclude ./artifacts --exclude .git --exclude .npmcache -czf ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz .</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js provision_service #{StackParameters} --def etc/stack/definition.js --archive ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz --target #{TargetType} --noop false --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js json_to_html --pattern ./artifacts/\*.json --output ./artifacts/report.html</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js download_test_results --output ./artifacts/test.log --creds-for-targets /var/go/.aws/config.json --timeout 8100000 --target #{TargetType} --region #{Region} --s3-source-file $GO_PIPELINE_NAME-$GO_REVISION</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js prune_service_instances --provision-receipt ./artifacts/provision_service-receipt.json --noop false --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true --window-size 0</arg>
+                                <runif status="any" />
+                            </exec>
+                        </tasks>
+                        <tabs>
+                            <tab name="Report" path="artifacts/report.html" />
+                        </tabs>
+                        <artifacts>
+                            <artifact src="artifacts/**/*.json" dest="artifacts" />
+                            <artifact src="artifacts/**/*.html" dest="artifacts" />
+                            <artifact src="artifacts/**/*.log" dest="artifacts" />
+                            <test src="artifacts/**/*.xml" dest="artifacts" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="DeployF5IntegrationTestsRepo">
+            <stage name="deploy" cleanWorkingDir="true">
+                <approval type="manual" />
+                <jobs>
+                    <job name="deploy">
+                        <tasks>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>npm --cache .npmcache install || npm --cache .npmcache install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>prepackage</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="mkdir">
+                                <arg>-pv</arg>
+                                <arg>artifacts</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>unit_test</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>tar --exclude ./artifacts --exclude .git --exclude .npmcache -czf ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz .</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js provision_service #{StackParameters} --def etc/stack/definition.js --archive ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz --target #{TargetType} --noop false --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js promote_service_instance --provision-receipt ./artifacts/provision_service-receipt.json --noop false -e "#{PPELBName}" --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="rm">
+                                <arg>-rf</arg>
+                                <arg>f5-integration-tests</arg>
+                            </exec>
+                            <exec command="git">
+                                <arg>clone</arg>
+                                <arg>-b</arg>
+                                <arg>master</arg>
+                                <arg>git@git.corp.adobe.com:Stormcloud/f5-integration-tests.git</arg>
+                                <arg>f5-integration-tests</arg>
+                            </exec>
+                            <exec command="npm" workingdir="f5-integration-tests/api">
+                                <arg>--cache</arg>
+                                <arg>.npmcache</arg>
+                                <arg>install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash" workingdir="f5-integration-tests/api">
+                                <arg>-c</arg>
+                                <arg>REGION=AP TEST_ENV=#{TEST_ENV} API_HOST=#{AP-PPELBName} npm test &gt; ../../artifacts/test-stage-ap.log; true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5" workingdir="api">
+                                <arg>notify</arg>
+                                <arg>--channel</arg>
+                                <arg>sre</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                            <exec command="/bin/bash" workingdir="f5-integration-tests/api">
+                                <arg>-c</arg>
+                                <arg>REGION=EU TEST_ENV=#{TEST_ENV} API_HOST=#{EU-PPELBName} npm test &gt; ../../artifacts/test-stage-eu.log; true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5" workingdir="api">
+                                <arg>notify</arg>
+                                <arg>--channel</arg>
+                                <arg>sre</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                            <exec command="/bin/bash" workingdir="f5-integration-tests/api">
+                                <arg>-c</arg>
+                                <arg>REGION=US TEST_ENV=#{TEST_ENV} API_HOST=#{US-PPELBName} npm test &gt; ../../artifacts/test-stage-us.log; true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5" workingdir="api">
+                                <arg>notify</arg>
+                                <arg>--channel</arg>
+                                <arg>sre</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                            <exec command="rm">
+                                <arg>-rf</arg>
+                                <arg>f5-integration-tests</arg>
+                                <runif status="any" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js json_to_html --pattern ./artifacts/\*.json --output ./artifacts/report.html</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                        <tabs>
+                            <tab name="Report" path="artifacts/report.html" />
+                        </tabs>
+                        <artifacts>
+                            <artifact src="artifacts/**/*.json" dest="artifacts" />
+                            <artifact src="artifacts/**/*.html" dest="artifacts" />
+                            <artifact src="artifacts/**/*.log" dest="artifacts" />
+                            <test src="artifacts/**/*.xml" dest="artifacts" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="DeployF5IntegrationTestsRepoAuto">
+            <stage name="deploy" cleanWorkingDir="true">
+                <jobs>
+                    <job name="deploy">
+                        <tasks>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>npm --cache .npmcache install || npm --cache .npmcache install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>prepackage</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="mkdir">
+                                <arg>-pv</arg>
+                                <arg>artifacts</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>unit_test</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>tar --exclude ./artifacts --exclude .git --exclude .npmcache -czf ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz .</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js provision_service #{StackParameters} --def etc/stack/definition.js --archive ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz --target #{TargetType} --noop false --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js promote_service_instance --provision-receipt ./artifacts/provision_service-receipt.json --noop false -e "#{PPELBName}" --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="rm">
+                                <arg>-rf</arg>
+                                <arg>f5-integration-tests</arg>
+                            </exec>
+                            <exec command="git">
+                                <arg>clone</arg>
+                                <arg>-b</arg>
+                                <arg>master</arg>
+                                <arg>git@git.corp.adobe.com:Stormcloud/f5-integration-tests.git</arg>
+                                <arg>f5-integration-tests</arg>
+                            </exec>
+                            <exec command="npm" workingdir="f5-integration-tests/api">
+                                <arg>--cache</arg>
+                                <arg>.npmcache</arg>
+                                <arg>install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash" workingdir="f5-integration-tests/api">
+                                <arg>-c</arg>
+                                <arg>REGION=AP TEST_ENV=#{TEST_ENV} API_HOST=#{AP-PPELBName} npm test &gt; ../../artifacts/test-stage-ap.log; true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5" workingdir="api">
+                                <arg>notify</arg>
+                                <arg>--channel</arg>
+                                <arg>sre</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                            <exec command="/bin/bash" workingdir="f5-integration-tests/api">
+                                <arg>-c</arg>
+                                <arg>REGION=EU TEST_ENV=#{TEST_ENV} API_HOST=#{EU-PPELBName} npm test &gt; ../../artifacts/test-stage-eu.log; true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5" workingdir="api">
+                                <arg>notify</arg>
+                                <arg>--channel</arg>
+                                <arg>sre</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                            <exec command="/bin/bash" workingdir="f5-integration-tests/api">
+                                <arg>-c</arg>
+                                <arg>REGION=US TEST_ENV=#{TEST_ENV} API_HOST=#{US-PPELBName} npm test &gt; ../../artifacts/test-stage-us.log; true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5" workingdir="api">
+                                <arg>notify</arg>
+                                <arg>--channel</arg>
+                                <arg>sre</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                            <exec command="rm">
+                                <arg>-rf</arg>
+                                <arg>f5-integration-tests</arg>
+                                <runif status="any" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js json_to_html --pattern ./artifacts/\*.json --output ./artifacts/report.html</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                        <tabs>
+                            <tab name="Report" path="artifacts/report.html" />
+                        </tabs>
+                        <artifacts>
+                            <artifact src="artifacts/**/*.json" dest="artifacts" />
+                            <artifact src="artifacts/**/*.html" dest="artifacts" />
+                            <artifact src="artifacts/**/*.log" dest="artifacts" />
+                            <test src="artifacts/**/*.xml" dest="artifacts" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="DeployRepo">
+            <stage name="deploy" cleanWorkingDir="true">
+                <jobs>
+                    <job name="deploy">
+                        <tasks>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>npm --cache .npmcache install || npm --cache .npmcache install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>prepackage</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="mkdir">
+                                <arg>-pv</arg>
+                                <arg>artifacts</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>unit_test</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>tar --exclude ./artifacts --exclude .git --exclude .npmcache -czf ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz .</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js provision_service #{StackParameters} --def etc/stack/definition.js --archive ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz --target #{TargetType} --noop false --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js json_to_html --pattern ./artifacts/\*.json --output ./artifacts/report.html</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5">
+                                <arg>notify</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                        </tasks>
+                        <tabs>
+                            <tab name="Report" path="artifacts/report.html" />
+                        </tabs>
+                        <artifacts>
+                            <artifact src="artifacts/**/*.json" dest="artifacts" />
+                            <artifact src="artifacts/**/*.html" dest="artifacts" />
+                            <artifact src="artifacts/**/*.log" dest="artifacts" />
+                            <test src="artifacts/**/*.xml" dest="artifacts" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="PromoteService">
+            <stage name="promote" cleanWorkingDir="true">
+                <jobs>
+                    <job name="promote">
+                        <tasks>
+                            <exec command="find">
+                                <arg>.</arg>
+                                <arg>-ls</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="rm">
+                                <arg>-rf</arg>
+                                <arg>artifacts</arg>
+                            </exec>
+                            <fetchartifact pipeline="#{DeployPipeline}" stage="deploy" job="deploy" srcfile="artifacts/provision_service-receipt.json" dest="artifacts" />
+                            <exec command="rm">
+                                <arg>-rf</arg>
+                                <arg>f5-operational</arg>
+                            </exec>
+                            <exec command="git">
+                                <arg>clone</arg>
+                                <arg>git@git.corp.adobe.com:Stormcloud/f5-operational.git</arg>
+                                <arg>f5-operational</arg>
+                            </exec>
+                            <exec command="npm" workingdir="f5-operational">
+                                <arg>--cache</arg>
+                                <arg>.npmcache</arg>
+                                <arg>install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node f5-operational/f5.js promote_service_instance --provision-receipt ./artifacts/provision_service-receipt.json --noop false -e "#{ELBNameTemplate}" --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node f5-operational/f5.js json_to_html --pattern ./artifacts/\*.json --output ./artifacts/report.html</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5">
+                                <arg>notify</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                        </tasks>
+                        <tabs>
+                            <tab name="Report" path="artifacts/report.html" />
+                        </tabs>
+                        <artifacts>
+                            <artifact src="artifacts/**/*.json" dest="artifacts" />
+                            <artifact src="artifacts/**/*.html" dest="artifacts" />
+                            <artifact src="artifacts/**/*.log" dest="artifacts" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+            <stage name="prune">
+                <jobs>
+                    <job name="prune">
+                        <tasks>
+                            <exec command="rm">
+                                <arg>-rf</arg>
+                                <arg>artifacts</arg>
+                            </exec>
+                            <exec command="rm">
+                                <arg>-rf</arg>
+                                <arg>f5-operational</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <fetchartifact pipeline="#{DeployPipeline}" stage="deploy" job="deploy" srcfile="artifacts/provision_service-receipt.json" dest="artifacts" />
+                            <exec command="git">
+                                <arg>clone</arg>
+                                <arg>git@git.corp.adobe.com:Stormcloud/f5-operational.git</arg>
+                                <arg>f5-operational</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="npm" workingdir="f5-operational">
+                                <arg>install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node f5-operational/f5.js prune_service_instances --provision-receipt ./artifacts/provision_service-receipt.json --noop false --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node f5-operational/f5.js json_to_html --pattern ./artifacts/\*.json --output ./artifacts/report.html</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5">
+                                <arg>notify</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                        </tasks>
+                        <tabs>
+                            <tab name="Report" path="artifacts/report.html" />
+                        </tabs>
+                        <artifacts>
+                            <artifact src="artifacts/**/*.json" dest="artifacts" />
+                            <artifact src="artifacts/**/*.html" dest="artifacts" />
+                            <artifact src="artifacts/**/*.log" dest="artifacts" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="Cleanup">
+            <stage name="cleanupStage">
+                <approval type="manual" />
+                <jobs>
+                    <job name="cleanupJob">
+                        <tasks>
+                            <exec command="git">
+                                <arg>clone</arg>
+                                <arg>git@git.corp.adobe.com:Stormcloud/f5-operational.git</arg>
+                                <arg>f5-operational</arg>
+                            </exec>
+                            <exec command="npm" workingdir="f5-operational">
+                                <arg>install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node f5-operational/f5.js cleanup -r us-west-2 --noop false -c /var/go/.aws/config.json</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="Plugin">
+            <stage name="mergetestpush" cleanWorkingDir="true">
+                <approval type="manual" />
+                <jobs>
+                    <job name="setupplugin">
+                        <tasks>
+                            <exec command="ls">
+                                <arg>-al</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="git">
+                                <arg>clone</arg>
+                                <arg>git@git.corp.adobe.com:Stormcloud/ccweb.git</arg>
+                                <arg>ccweb</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="ls">
+                                <arg>-al</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="git" workingdir="ccweb">
+                                <arg>status</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="git" workingdir="ccweb">
+                                <arg>pull</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="ls" workingdir="ccweb">
+                                <arg>-al</arg>
+                                <arg>public/resource/plugins/</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash" workingdir="ccweb">
+                                <arg>-c</arg>
+                                <arg>npm --cache .npmcache install || npm --cache .npmcache install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="npm" workingdir="ccweb">
+                                <arg>run-script</arg>
+                                <arg>pluginmerge</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="npm" workingdir="ccweb">
+                                <arg>test</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="npm" workingdir="ccweb">
+                                <arg>run-script</arg>
+                                <arg>pluginpush</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="DeployTestRepoAuto">
+            <stage name="deploy" cleanWorkingDir="true">
+                <jobs>
+                    <job name="deploy">
+                        <tasks>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>npm --cache .npmcache install || npm --cache .npmcache install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>prepackage</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="mkdir">
+                                <arg>-pv</arg>
+                                <arg>artifacts</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>unit_test</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>tar --exclude ./artifacts --exclude .git --exclude .npmcache -czf ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz .</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js provision_service #{StackParameters} --def etc/stack/definition.js --archive ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz --target #{TargetType} --noop false --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js promote_service_instance --provision-receipt ./artifacts/provision_service-receipt.json --noop false -e "#{PPELBName}" --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js json_to_html --pattern ./artifacts/\*.json --output ./artifacts/report.html</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5">
+                                <arg>notify</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                        </tasks>
+                        <tabs>
+                            <tab name="Report" path="artifacts/report.html" />
+                        </tabs>
+                        <artifacts>
+                            <artifact src="artifacts/**/*.json" dest="artifacts" />
+                            <artifact src="artifacts/**/*.html" dest="artifacts" />
+                            <artifact src="artifacts/**/*.log" dest="artifacts" />
+                            <test src="artifacts/**/*.xml" dest="artifacts" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="DeployTestRepo">
+            <stage name="deploy" cleanWorkingDir="true">
+                <approval type="manual" />
+                <jobs>
+                    <job name="deploy">
+                        <tasks>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>npm --cache .npmcache install || npm --cache .npmcache install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>prepackage</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="mkdir">
+                                <arg>-pv</arg>
+                                <arg>artifacts</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node">
+                                <arg>node_modules/f5-operational/f5.js</arg>
+                                <arg>lifecycle</arg>
+                                <arg>--phase</arg>
+                                <arg>unit_test</arg>
+                                <arg>--app</arg>
+                                <arg>.</arg>
+                                <arg>--noop</arg>
+                                <arg>false</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>tar --exclude ./artifacts --exclude .git --exclude .npmcache -czf ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz .</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js provision_service #{StackParameters} --def etc/stack/definition.js --archive ./artifacts/$GO_PIPELINE_NAME-$GO_REVISION.tar.gz --target #{TargetType} --noop false --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js promote_service_instance --provision-receipt ./artifacts/provision_service-receipt.json --noop false -e "#{PPELBName}" --creds-for-targets /var/go/.aws/config.json --output artifacts --verbose true</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash">
+                                <arg>-c</arg>
+                                <arg>node node_modules/f5-operational/f5.js json_to_html --pattern ./artifacts/\*.json --output ./artifacts/report.html</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5">
+                                <arg>notify</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                        </tasks>
+                        <tabs>
+                            <tab name="Report" path="artifacts/report.html" />
+                        </tabs>
+                        <artifacts>
+                            <artifact src="artifacts/**/*.json" dest="artifacts" />
+                            <artifact src="artifacts/**/*.html" dest="artifacts" />
+                            <artifact src="artifacts/**/*.log" dest="artifacts" />
+                            <test src="artifacts/**/*.xml" dest="artifacts" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="RunF5IntegrationTests">
+            <stage name="deploy" cleanWorkingDir="true">
+                <jobs>
+                    <job name="deploy">
+                        <tasks>
+                            <exec command="mkdir">
+                                <arg>-pv</arg>
+                                <arg>artifacts</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="npm" workingdir="api">
+                                <arg>--cache</arg>
+                                <arg>.npmcache</arg>
+                                <arg>install</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="/bin/bash" workingdir="api">
+                                <arg>-c</arg>
+                                <arg>REGION=#{REGION} TEST_ENV=#{TEST_ENV} API_HOST=#{API_HOST} LOG_LEVEL=#{LOG_LEVEL} #{COMMAND} &gt; ../artifacts/test.log</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="node_modules/.bin/f5" workingdir="api">
+                                <arg>notify</arg>
+                                <arg>--channel</arg>
+                                <arg>sre</arg>
+                                <arg>--fail</arg>
+                                <runif status="failed" />
+                            </exec>
+                        </tasks>
+                        <tabs>
+                            <tab name="Report" path="artifacts/report.html" />
+                        </tabs>
+                        <artifacts>
+                            <artifact src="artifacts/**/*.log" dest="artifacts" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+    </templates>
+    <agents>
+        <agent hostname="sj1010005190074.corp.adobe.com" ipaddress="192.168.234.5" uuid="f169fe03-b510-4fd5-9f7d-ace82e5bafa5" />
+        <agent hostname="sj1010005186160.corp.adobe.com" ipaddress="192.168.86.49" uuid="9dad1917-9f63-4345-921e-349407a5dbfb" />
+        <agent hostname="sj1010005186158.corp.adobe.com" ipaddress="192.168.86.43" uuid="eac274ea-7629-48c7-b7ec-279f8d00cc16" />
+        <agent hostname="sj1010005186010.corp.adobe.com" ipaddress="192.168.86.44" uuid="03acfc62-cd97-4e5b-be90-bf0c6e40d8ba" />
+        <agent hostname="sj1010005186040.corp.adobe.com" ipaddress="192.168.86.45" uuid="1edf9012-2a2c-4c91-b0c5-af1f2d4f70d4" />
+        <agent hostname="sj1010005186151.corp.adobe.com" ipaddress="192.168.86.48" uuid="356f6145-8104-4f38-a695-91f141c360e1" />
+        <agent hostname="exner" ipaddress="153.32.55.234" uuid="5f837541-f0cf-4e26-b1f5-c437ebfffd50" />
+        <agent hostname="jano" ipaddress="153.32.54.196" uuid="b283ad44-aec2-4491-aa9c-19b309e6b72f" />
+        <agent hostname="opron" ipaddress="153.32.55.83" uuid="aa23615c-43af-4d03-aee4-b7ad693947e9" />
+    </agents>
+</cruise>
