@@ -101,6 +101,7 @@ function main()
 
     "${appPath}/essential.bash" || exit 1
     "${appPath}/../../../../cookbooks/go-server/recipes/install-server.bash" || exit 1
+    sleep 15
     configServer
     "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" 'go' 'ubuntu' || exit 1
 
