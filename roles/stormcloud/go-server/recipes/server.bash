@@ -23,22 +23,17 @@ function configSSL()
 
 function configNginx()
 {
-    rm -f '/etc/nginx/sites-enabled/default'
+    rm -f /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*
 
-    # Main
+    # Default
 
-    local mainConfigData=(
+    local defaultConfigData=(
         '__GO_SERVER_HOST__' "${stormcloudGoServerHost}"
         '__SSL_CRT_FILE__' "${stormcloudSSLCRTFile}"
         '__SSL_RSA_KEY_FILE__' "${stormcloudSSLRSAKeyFile}"
     )
 
-    createFileFromTemplate "${appPath}/../files/nginx/main" '/etc/nginx/sites-available/main' "${mainConfigData[@]}"
-
-    if [[ ! -f '/etc/nginx/sites-enabled/main' ]]
-    then
-        ln -s '/etc/nginx/sites-available/main' '/etc/nginx/sites-enabled/main'
-    fi
+    createFileFromTemplate "${appPath}/../files/nginx/default" '/etc/nginx/sites-enabled/default' "${defaultConfigData[@]}"
 
     # Proxy
 
@@ -46,12 +41,7 @@ function configNginx()
         '__NPM_SERVER_HOST__' "${stormcloudNPMServerHost}"
     )
 
-    createFileFromTemplate "${appPath}/../files/nginx/npm" '/etc/nginx/sites-available/npm' "${npmConfigData[@]}"
-
-    if [[ ! -f '/etc/nginx/sites-enabled/npm' ]]
-    then
-        ln -s '/etc/nginx/sites-available/npm' '/etc/nginx/sites-enabled/npm'
-    fi
+    createFileFromTemplate "${appPath}/../files/nginx/npm" '/etc/nginx/sites-enabled/npm' "${npmConfigData[@]}"
 
     # Start
 
