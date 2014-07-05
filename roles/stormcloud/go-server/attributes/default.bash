@@ -20,3 +20,5 @@ stormcloudGitUserEmail='namnguye@adobe.com'
 
 stormcloudSSLCRTFile='/opt/ssl/ssl.crt'
 stormcloudSSLRSAKeyFile='/opt/ssl/ssl-rsa.key'
+
+stormcloudNPMCacheFolder='/var/lib/nginx/cache/npm'

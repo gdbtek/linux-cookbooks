@@ -23,7 +23,10 @@ function configSSL()
 
 function configNginx()
 {
-    rm -f /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*
+    # Clean Up
+
+    rm -f /etc/nginx/sites-available/* /etc/nginx/sites-enabled/* "${stormcloudNPMCacheFolder}"
+    chown www-data:root "${stormcloudNPMCacheFolder}"
 
     # Default
 
@@ -35,9 +38,10 @@ function configNginx()
 
     createFileFromTemplate "${appPath}/../files/nginx/default" '/etc/nginx/sites-enabled/default' "${defaultConfigData[@]}"
 
-    # Proxy
+    # NPM
 
     local npmConfigData=(
+        '__NPM_CACHE_FOLDER__' "${stormcloudNPMCacheFolder}"
         '__NPM_SERVER_HOST__' "${stormcloudNPMServerHost}"
     )
 
