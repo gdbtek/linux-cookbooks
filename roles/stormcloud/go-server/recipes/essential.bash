@@ -4,7 +4,7 @@ function main()
 {
     appPath="$(cd "$(dirname "${0}")" && pwd)"
 
-    "${appPath}/../../../../cookbooks/mount-hd/recipes/install.bash" '/dev/sdb' '/opt/go-server' || exit 1
+    # "${appPath}/../../../../cookbooks/mount-hd/recipes/install.bash" '/dev/sdb' '/opt/go-server' || exit 1
 
     "${appPath}/../../../../cookbooks/essential/recipes/install.bash" || exit 1
     "${appPath}/../../../../cookbooks/ntp/recipes/install.bash" || exit 1
