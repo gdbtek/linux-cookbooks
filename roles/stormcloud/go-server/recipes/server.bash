@@ -56,9 +56,23 @@ function configNginx()
 
 function configGoServer()
 {
-    local serverID="$(xmlstarlet select -t -v "/cruise/server/@serverId" '/opt/go-server/server/config/cruise-config.xml')"
+    local oldCruiseConfigXMLFile="${appPath}/../files/cruise-config.xml"
+    local currentCruiseConfigXMLFile='/opt/go-server/server/config/cruise-config.xml'
+    local currentServerID="$(xmlstarlet select -t -v "/cruise/server/@serverId" "${currentCruiseConfigXMLFile}")"
 
-    xmlstarlet edit --update "/cruise/server/@serverId" --value "${serverID}" "${appPath}/../files/cruise-config.xml"
+    if [[ "$(isEmptyString "${currentServerID}")" = 'true' ]]
+    then
+        fatal "\nFATAL: select 'serverId' attribute not found in '${currentCruiseConfigXMLFile}'"
+    fi
+
+    local newCruiseConfigXMLFileContent="$(xmlstarlet edit --update "/cruise/server/@serverId" --value "${currentServerID}" "${oldCruiseConfigXMLFile}")"
+
+    if [[ "$(cat "${oldCruiseConfigXMLFile}")" = "${newCruiseConfigXMLFileContent}" ]]
+    then
+        fatal "\nFATAL: update 'serverId' attribute not found in '${oldCruiseConfigXMLFile}'"
+    fi
+
+    echo "${newCruiseConfigXMLFileContent}" > "${currentCruiseConfigXMLFile}"
 }
 
 function displayServerNotice()
