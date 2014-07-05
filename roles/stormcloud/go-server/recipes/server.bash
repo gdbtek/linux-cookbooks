@@ -15,8 +15,10 @@ function configETCHosts()
 
 function configSSL()
 {
-    cp --parents -f "${appPath}/../files/ssl/ssl.crt" "${stormcloudSSLCRTFile}"
-    cp --parents -f "${appPath}/../files/ssl/ssl-rsa.key" "${stormcloudSSLRSAKeyFile}"
+    mkdir -p "$(dirname "${stormcloudSSLCRTFile}")" "$(dirname "${stormcloudSSLRSAKeyFile}")"
+
+    cp -f "${appPath}/../files/ssl/ssl.crt" "${stormcloudSSLCRTFile}"
+    cp -f "${appPath}/../files/ssl/ssl-rsa.key" "${stormcloudSSLRSAKeyFile}"
 }
 
 function configNginx()
