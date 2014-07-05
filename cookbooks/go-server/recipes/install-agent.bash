@@ -42,7 +42,7 @@ function configUpstart()
     local upstartConfigData=(
         '__AGENT_INSTALL_FOLDER__' "${goserverAgentInstallFolder}"
         '__SERVER_HOSTNAME__' "${serverHostname}"
-        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "uid")"
+        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${goserverUID}")"
         '__UID__' "${goserverUID}"
         '__GID__' "${goserverGID}"
     )
