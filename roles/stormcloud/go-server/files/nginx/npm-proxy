@@ -34,17 +34,13 @@ server {
 
   location / {
     proxy_cache_valid any 5m;
-
     add_header X-Cache $upstream_cache_status;
-
     proxy_pass http://registry_npm;
   }
 
   location ~ ^/.+/-/.+ {
     proxy_cache_valid any 4d;
-
     add_header X-Cache $upstream_cache_status;
-
     proxy_pass http://registry_npm;
   }
 }

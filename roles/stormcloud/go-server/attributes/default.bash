@@ -1,7 +1,6 @@
 #!/bin/bash
 
 stormcloudServerPackages=(
-    'expect'
     'nginx'
     'xmlstarlet'
 )
