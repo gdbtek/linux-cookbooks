@@ -17,3 +17,6 @@ stormcloudNPMServerHost='npm.adobecc.com'
 
 stormcloudGitUserName='Nam Nguyen'
 stormcloudGitUserEmail='namnguye@adobe.com'
+
+stormcloudSSLCRTFile='/opt/ssl/ssl.crt'
+stormcloudSSLRSAKeyFile='/opt/ssl/ssl-rsa.key'

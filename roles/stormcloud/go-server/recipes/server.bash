@@ -15,25 +15,43 @@ function configETCHosts()
 
 function configSSL()
 {
-    cp -r "${appPath}/../files/ssl" '/opt'
+    cp --parents -f "${appPath}/../files/ssl/ssl.crt" "${stormcloudSSLCRTFile}"
+    cp --parents -f "${appPath}/../files/ssl/ssl-rsa.key" "${stormcloudSSLRSAKeyFile}"
 }
 
 function configNginx()
 {
     rm -f '/etc/nginx/sites-enabled/default'
 
-    cp -r "${appPath}/../files/nginx/go" '/etc/nginx/sites-available'
-    cp -r "${appPath}/../files/nginx/npm-proxy" '/etc/nginx/sites-available'
+    # Main
 
-    if [[ ! -f '/etc/nginx/sites-enabled/go' ]]
+    local mainConfigData=(
+        '__GO_SERVER_HOST__' "${stormcloudGoServerHost}"
+        '__SSL_CRT_FILE__' "${stormcloudSSLCRTFile}"
+        '__SSL_RSA_KEY_FILE__' "${stormcloudSSLRSAKeyFile}"
+    )
+
+    createFileFromTemplate "${appPath}/../files/nginx/main" '/etc/nginx/sites-available' "${mainConfigData[@]}"
+
+    if [[ ! -f '/etc/nginx/sites-enabled/main' ]]
     then
-        ln -s '/etc/nginx/sites-available/go' '/etc/nginx/sites-enabled/go'
+        ln -s '/etc/nginx/sites-available/main' '/etc/nginx/sites-enabled/main'
     fi
 
-    if [[ ! -f '/etc/nginx/sites-enabled/npm-proxy' ]]
+    # Proxy
+
+    local npmConfigData=(
+        '__NPM_SERVER_HOST__' "${stormcloudNPMServerHost}"
+    )
+
+    createFileFromTemplate "${appPath}/../files/nginx/npm" '/etc/nginx/sites-available' "${npmConfigData[@]}"
+
+    if [[ ! -f '/etc/nginx/sites-enabled/npm' ]]
     then
-        ln -s '/etc/nginx/sites-available/npm-proxy' '/etc/nginx/sites-enabled/npm-proxy'
+        ln -s '/etc/nginx/sites-available/npm' '/etc/nginx/sites-enabled/npm'
     fi
+
+    # Start
 
     service nginx stop
     service nginx start

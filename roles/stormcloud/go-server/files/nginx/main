@@ -2,7 +2,7 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
 
-    server_name go.adobecc.com;
+    server_name __GO_SERVER_HOST__;
 
     return 301 https://$host$request_uri;
 }
@@ -10,11 +10,11 @@ server {
 server {
     listen 443;
 
-    server_name go.adobecc.com;
+    server_name __GO_SERVER_HOST__;
 
     ssl on;
-    ssl_certificate /opt/ssl/wildcard.adobecc.com-20140408.crt;
-    ssl_certificate_key /opt/ssl/wildcard.adobecc.com-20140408-rsa.key;
+    ssl_certificate __SSL_CRT_FILE__;
+    ssl_certificate_key __SSL_RSA_KEY_FILE__;
 
     ssl_session_timeout 5m;
 

@@ -8,7 +8,7 @@ upstream registry_npm {
 
 server {
   listen 80;
-  server_name npm.adobecc.com;
+  server_name __NPM_SERVER_HOST__;
   server_tokens off;
   reset_timedout_connection on;
 
@@ -28,7 +28,7 @@ server {
   proxy_pass_request_headers off;
   proxy_set_header Host registry.npmjs.org;
 
-  sub_filter 'registry.npmjs.org' 'npm.adobecc.com';
+  sub_filter 'registry.npmjs.org' '__NPM_SERVER_HOST__';
   sub_filter_once off;
   sub_filter_types application/json;
 
