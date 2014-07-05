@@ -33,7 +33,7 @@ function configNginx()
         '__SSL_RSA_KEY_FILE__' "${stormcloudSSLRSAKeyFile}"
     )
 
-    createFileFromTemplate "${appPath}/../files/nginx/main" '/etc/nginx/sites-available' "${mainConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/nginx/main" '/etc/nginx/sites-available/main' "${mainConfigData[@]}"
 
     if [[ ! -f '/etc/nginx/sites-enabled/main' ]]
     then
@@ -46,7 +46,7 @@ function configNginx()
         '__NPM_SERVER_HOST__' "${stormcloudNPMServerHost}"
     )
 
-    createFileFromTemplate "${appPath}/../files/nginx/npm" '/etc/nginx/sites-available' "${npmConfigData[@]}"
+    createFileFromTemplate "${appPath}/../files/nginx/npm" '/etc/nginx/sites-available/npm' "${npmConfigData[@]}"
 
     if [[ ! -f '/etc/nginx/sites-enabled/npm' ]]
     then
