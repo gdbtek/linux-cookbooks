@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function installDependencies()
+{
+    if [[ "$(existCommand 'java')" = 'false' ]]
+    then
+        "${appPath}/../../jdk/recipes/install.bash"
+    fi
+}
+
 function install()
 {
     # Clean Up
@@ -68,6 +76,7 @@ function main()
 
     checkRequireRootUser
 
+    installDependencies
     install
     configUpstart "${@}"
     startAgent

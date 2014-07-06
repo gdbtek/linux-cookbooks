@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function installDependencies()
+{
+    if [[ "$(existCommand 'java')" = 'false' ]]
+    then
+        "${appPath}/../../jdk/recipes/install.bash"
+    fi
+}
+
 function install()
 {
     # Clean Up
@@ -60,6 +68,7 @@ function main()
     checkRequireRootUser
     checkRequirePort '8153' '8154'
 
+    installDependencies
     install
     configUpstart
     startServer
