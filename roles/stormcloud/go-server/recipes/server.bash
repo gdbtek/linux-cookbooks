@@ -4,7 +4,7 @@ function configRootAuthorizedKeys()
 {
     mkdir -p ~root/.ssh &&
     chmod 700 ~root/.ssh &&
-    cp "${appPath}/../files/ssh/authorized_keys" ~root/.ssh &&
+    cp -f "${appPath}/../files/ssh/authorized_keys" ~root/.ssh &&
     chmod 600 ~root/.ssh/authorized_keys
 }
 

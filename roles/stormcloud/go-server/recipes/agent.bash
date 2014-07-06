@@ -4,7 +4,7 @@ function configRootAuthorizedKeys()
 {
     mkdir -p ~root/.ssh &&
     chmod 700 ~root/.ssh &&
-    cp "${appPath}/../files/ssh/authorized_keys" ~root/.ssh &&
+    cp -f "${appPath}/../files/ssh/authorized_keys" ~root/.ssh &&
     chmod 600 ~root/.ssh/authorized_keys
 }
 
@@ -12,7 +12,7 @@ function configInitDaemonControlTool()
 {
     if [[ "$(getMachineRelease)" = '13.10' ]]
     then
-        cp "${appPath}/../files/initctl" '/usr/local/bin' &&
+        cp -f "${appPath}/../files/initctl" '/usr/local/bin' &&
         chmod 755 '/usr/local/bin/initctl'
 
         appendToFileIfNotFound '/etc/sudoers' "^\s*go\s+ALL=\(ALL\)\s+NOPASSWD:ALL\s*$" 'go ALL=(ALL) NOPASSWD:ALL' 'true' 'false'
@@ -23,7 +23,7 @@ function configGoAWS()
 {
     mkdir -p ~go/.aws &&
     chmod 700 ~go/.aws &&
-    touch ~go/.aws/config.json &&
+    cp -f "${appPath}/../files/config.json" ~go/.aws &&
     chmod 600 ~go/.aws/config.json &&
     chown -R go:go ~go/.aws
 }
@@ -47,7 +47,7 @@ function configGoKnownHosts()
 {
     mkdir -p ~go/.ssh &&
     chmod 700 ~go/.ssh &&
-    cp "${appPath}/../files/ssh/known_hosts" ~go/.ssh &&
+    cp -f "${appPath}/../files/ssh/known_hosts" ~go/.ssh &&
     chmod 600 ~go/.ssh/known_hosts &&
     chown -R go:go ~go/.ssh
 }
@@ -85,8 +85,6 @@ function displayNotice()
 
     info "-> Next is to copy this RSA to your git account:"
     cat ~go/.ssh/id_rsa.pub
-
-    info "\n-> Nex is to update ~go/.aws/config.json"
 }
 
 function configAgent()
