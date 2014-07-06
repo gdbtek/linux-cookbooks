@@ -84,6 +84,8 @@ function displayServerNotice()
 
 function configServer()
 {
+    header 'CONFIGURING SERVER'
+
     installAptGetPackages "${stormcloudServerPackages[@]}"
 
     configRootAuthorizedKeys

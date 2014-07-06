@@ -91,6 +91,8 @@ function displayNotice()
 
 function configAgent()
 {
+    header 'CONFIGURING AGENT'
+
     installAptGetPackages "${stormcloudAgentPackages[@]}"
 
     configRootAuthorizedKeys
