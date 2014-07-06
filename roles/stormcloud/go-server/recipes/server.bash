@@ -79,7 +79,7 @@ function displayServerNotice()
 {
     header 'NOTICES'
 
-    info "\n-> Next is to update AWS Route 53 of '${stormcloudGoServerHost}' to point to '$(hostname)'"
+    info "-> Next is to update AWS Route 53 of '${stormcloudGoServerHost}' to point to '$(hostname)'"
 }
 
 function configServer()
