@@ -37,7 +37,7 @@ function install()
 
     # Config Service
 
-    cp "${mysqlInstallFolder}/support-files/mysql.server" "/etc/init.d/${mysqlServiceName}"
+    cp -f "${mysqlInstallFolder}/support-files/mysql.server" "/etc/init.d/${mysqlServiceName}"
     sysv-rc-conf --level 2345 "${mysqlServiceName}" on
 
     # Config Profile
