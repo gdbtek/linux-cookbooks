@@ -81,6 +81,8 @@ DONE
 
 function displayNotice()
 {
+    header 'NOTICES'
+
     info "\n-> Next is to copy this RSA to your git account:"
     cat ~go/.ssh/id_rsa.pub
 
@@ -100,8 +102,6 @@ function configAgent()
     configGoKnownHosts
     configGoNPM
     configGoSSHKey
-
-    displayNotice
 }
 
 function main()
@@ -115,6 +115,7 @@ function main()
     "${appPath}/../../../../cookbooks/go-server/recipes/install-agent.bash" "${stormcloudGoServerHost}" || exit 1
     configAgent
     "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" 'go' 'ubuntu' || exit 1
+    displayNotice
 }
 
 main "${@}"

@@ -77,6 +77,8 @@ function configGoServer()
 
 function displayServerNotice()
 {
+    header 'NOTICES'
+
     info "\n-> Next is to update AWS Route 53 of '${stormcloudGoServerHost}' to point to '$(hostname)'"
 }
 
@@ -105,8 +107,8 @@ function main()
     configServer
     "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" 'go' 'ubuntu' || exit 1
 
-    displayServerNotice
     displayOpenPorts
+    displayServerNotice
 }
 
 main "${@}"
