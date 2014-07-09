@@ -11,3 +11,4 @@ elasticsearchUID='elastic-search'
 elasticsearchGID='elastic-search'
 
 elasticsearchHTTPPort=9200
+elasticsearchTransportTCPPort=9300

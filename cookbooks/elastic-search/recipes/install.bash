@@ -65,7 +65,7 @@ function main()
     header 'INSTALLING ELASTIC SEARCH'
 
     checkRequireRootUser
-    checkRequirePort "${elasticsearchHTTPPort}"
+    checkRequirePort "${elasticsearchHTTPPort}" "${elasticsearchTransportTCPPort}"
 
     installDependencies
     install
