@@ -10,6 +10,12 @@ function install()
     # Install
 
     unzipRemoteFile "${kibanaDownloadURL}" "${kibanaInstallFolder}"
+
+    # Config
+
+    local configData=('"http://"+window.location.hostname+":9200"' "\"${kibanaElasticSearchURL}\"")
+
+    createFileFromTemplate "${kibanaInstallFolder}/config.js" "${kibanaInstallFolder}/config.js" "${configData[@]}"
 }
 
 function main()
