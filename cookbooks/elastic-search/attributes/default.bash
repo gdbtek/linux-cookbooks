@@ -1,6 +1,6 @@
 #!/bin/bash
 
-elasticsearchDownloadURL='https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.1.tar.gz'
+elasticsearchDownloadURL='https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.2.tar.gz'
 
 elasticsearchInstallFolder='/opt/elastic-search'
 # elasticsearchJDKFolder='/opt/jdk'
