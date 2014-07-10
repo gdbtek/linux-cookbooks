@@ -19,6 +19,15 @@ function install()
 
     unzipRemoteFile "${elasticsearchDownloadURL}" "${elasticsearchInstallFolder}"
 
+    # Config Server
+
+    local serverConfigData=(
+        '__HTTP_PORT__' "${elasticsearchHTTPPort}"
+        '__TRANSPORT_TCP_PORT__' "${elasticsearchTransportTCPPort}"
+    )
+
+    createFileFromTemplate  "${appPath}/../files/conf/elasticsearch.yml" "${elasticsearchInstallFolder}/config/elasticsearch.yml" "${serverConfigData[@]}"
+
     # Config Profile
 
     local profileConfigData=('__INSTALL_FOLDER__' "${elasticsearchInstallFolder}")
