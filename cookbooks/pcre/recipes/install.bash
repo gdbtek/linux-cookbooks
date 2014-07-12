@@ -22,17 +22,7 @@ function install()
 
     unzipRemoteFile "${pcreDownloadURL}" "${tempFolder}"
     cd "${tempFolder}" &&
-    "${tempFolder}/configure" \
-        --prefix="${pcreInstallFolder}" \
-        "${pcreEnableEBCDIC}" \
-        "${pcreEnableJIT}" \
-        "${pcreEnablePCRE16}" \
-        "${pcreEnablePCRE32}" \
-        "${pcreEnablePCREGrepLibBZ2}" \
-        "${pcreEnablePCREGrepLibZ}" \
-        "${pcreEnableUnicodeProperties}" \
-        "${pcreEnableUTF8}" \
-        "${pcreEnableUTF}" &&
+    "${tempFolder}/configure" "${pcreConfig}" &&
     make &&
     make install
     rm -rf "${tempFolder}"
