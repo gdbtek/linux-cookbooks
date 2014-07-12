@@ -32,6 +32,10 @@ function install()
     local profileConfigData=('__INSTALL_FOLDER__' "${pcreInstallFolder}")
 
     createFileFromTemplate "${appPath}/../files/profile/pcre.sh" '/etc/profile.d/pcre.sh' "${profileConfigData[@]}"
+
+    # Display Version
+
+    info "\n$("${pcreInstallFolder}/bin/pcregrep" -V 2>&1)"
 }
 
 function main()
