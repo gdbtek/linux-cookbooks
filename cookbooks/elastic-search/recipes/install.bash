@@ -36,11 +36,6 @@ function install()
 
     # Config Upstart
 
-    if [[ "$(isEmptyString "${elasticsearchJDKFolder}")" = 'true' ]]
-    then
-        local elasticsearchJDKFolder="${jdkInstallFolder}"
-    fi
-
     local upstartConfigData=(
         '__INSTALL_FOLDER__' "${elasticsearchInstallFolder}"
         '__JDK_FOLDER__' "${elasticsearchJDKFolder}"
@@ -67,7 +62,6 @@ function main()
 
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
-    source "${appPath}/../../jdk/attributes/default.bash" || exit 1
 
     checkRequireDistributor
 

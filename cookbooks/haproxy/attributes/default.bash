@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$(dirname "${0}")/../../pcre/attributes/default.bash" || exit 1
+
 haproxyDownloadURL='http://www.haproxy.org/download/1.5/src/haproxy-1.5.1.tar.gz'
 
 haproxyInstallFolder='/opt/haproxy'
@@ -14,7 +16,7 @@ haproxyPort=80
 haproxy_CPU='native'
 haproxy_TARGET='custom'
 
-haproxy_PCREDIR='/opt/pcre'
+haproxy_PCREDIR="${pcreInstallFolder}"
 haproxy_PCRE_LIB="${haproxy_PCREDIR}/lib"
 haproxy_PCRE_INC=="${haproxy_PCREDIR}/include"
 
