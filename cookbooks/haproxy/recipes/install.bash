@@ -23,7 +23,7 @@ function install()
 
     unzipRemoteFile "${haproxyDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
-    make TARGET="${haproxyTarget}" USE_PCRE="${haproxyUsePCRE}" CPU="${haproxyCPU}" USE_OPENSSL="${haproxyUseOpenSSL}" USE_ZLIB="${haproxyUserZLIB}"
+    make TARGET="${haproxyTarget}" USE_PCRE="${haproxyUsePCRE}" CPU="${haproxyCPU}" USE_OPENSSL="${haproxyUseOpenSSL}" USE_ZLIB="${haproxyUseZLIB}" USE_LIBCRYPT="${haproxyUseLIBCrypt}"
     make install PREFIX='' DESTDIR="${haproxyInstallFolder}"
     rm -rf "${tempFolder}"
     cd "${currentPath}"

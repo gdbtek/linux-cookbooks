@@ -15,4 +15,5 @@ haproxyTarget='custom'
 haproxyCPU='native'
 haproxyUsePCRE=1
 haproxyUseOpenSSL=1
-haproxyUserZLIB=1
+haproxyUseZLIB=1
+haproxyUseLIBCrypt=1
