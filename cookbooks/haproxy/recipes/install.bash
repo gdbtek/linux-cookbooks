@@ -5,8 +5,12 @@ function installDependencies()
     runAptGetUpdate
 
     installAptGetPackage 'build-essential'
-    installAptGetPackage 'libpcre3-dev'
     installAptGetPackage 'libssl-dev'
+
+    if [[ ! -f "${haproxy_PCREDIR}/bin/pcregrep" ]]
+    then
+        "${appPath}/../../pcre/recipes/install.bash"
+    fi
 }
 
 function install()

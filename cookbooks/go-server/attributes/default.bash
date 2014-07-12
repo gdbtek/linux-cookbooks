@@ -11,5 +11,3 @@ goserverAgentServiceName='go-agent'
 
 goserverUID='go'
 goserverGID='go'
-
-goserverNumberOfAgents=1
