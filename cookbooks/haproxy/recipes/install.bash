@@ -24,8 +24,8 @@ function install()
     unzipRemoteFile "${haproxyDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make \
-        CPU="${haproxyCPU}" \
-        TARGET="${haproxyTarget}" \
+        CPU="${haproxy_CPU}" \
+        TARGET="${haproxy_TARGET}" \
         USE_ACCEPT4="${haproxy_USE_ACCEPT4}" \
         USE_CPU_AFFINITY="${haproxy_USE_CPU_AFFINITY}" \
         USE_CRYPT_H="${haproxy_USE_CRYPT_H}" \
