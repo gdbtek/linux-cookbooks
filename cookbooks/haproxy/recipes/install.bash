@@ -24,7 +24,7 @@ function install()
     unzipRemoteFile "${haproxyDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make TARGET="${haproxyTarget}" USE_PCRE="${haproxyUsePCRE}" CPU="${haproxyCPU}"
-    make install DESTDIR="${haproxyInstallFolder}"
+    make install PREFIX='' DESTDIR="${haproxyInstallFolder}"
     rm -rf "${tempFolder}"
     cd "${currentPath}"
 
