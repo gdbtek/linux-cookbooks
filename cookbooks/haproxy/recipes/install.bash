@@ -27,6 +27,8 @@ function install()
         CPU="${haproxy_CPU}" \
         TARGET="${haproxy_TARGET}" \
         PCREDIR="${haproxy_PCREDIR}" \
+        PCRE_LIB="${haproxy_PCRE_LIB}" \
+        PCRE_INC="${haproxy_PCRE_INC}" \
         USE_ACCEPT4="${haproxy_USE_ACCEPT4}" \
         USE_CPU_AFFINITY="${haproxy_USE_CPU_AFFINITY}" \
         USE_CRYPT_H="${haproxy_USE_CRYPT_H}" \

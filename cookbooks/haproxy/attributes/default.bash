@@ -45,3 +45,5 @@ haproxy_USE_VSYSCALL=1
 haproxy_USE_ZLIB=1
 
 haproxy_PCREDIR='/opt/pcre'
+haproxy_PCRE_LIB="${haproxy_PCREDIR}/lib"
+haproxy_PCRE_INC=="${haproxy_PCREDIR}/include"
