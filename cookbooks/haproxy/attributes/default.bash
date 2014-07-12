@@ -11,4 +11,6 @@ haproxyGID='haproxy'
 
 haproxyPort=80
 
-haproxyCPU=native
+haproxyTarget='custom'
+haproxyCPU='native'
+haproxyUsePCRE=1
