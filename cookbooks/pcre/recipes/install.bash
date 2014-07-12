@@ -19,7 +19,10 @@ function install()
 
     local currentPath="$(pwd)"
     local tempFolder="$(getTemporaryFolder)"
-
+echo "---------------------------"
+echo "${pcreConfig}"
+echo "---------------------------"
+exit
     unzipRemoteFile "${pcreDownloadURL}" "${tempFolder}"
     cd "${tempFolder}" &&
     "${tempFolder}/configure" "${pcreConfig}" &&
