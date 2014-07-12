@@ -2,11 +2,6 @@
 
 function installDependencies()
 {
-    if [[ "$(isEmptyString "${jenkinsTomcatFolder}")" = 'true' ]]
-    then
-        jenkinsTomcatFolder="${tomcatInstallFolder}"
-    fi
-
     if [[ ! -f "${jenkinsTomcatFolder}/bin/catalina.sh" ]]
     then
         "${appPath}/../../tomcat/recipes/install.bash"
@@ -24,17 +19,6 @@ function install()
     # Install
 
     curl -L "${jenkinsDownloadURL}" -o "${jenkinsTomcatFolder}/webapps/${appName}.war"
-
-    if [[ "$(isEmptyString "${jenkinsUID}")" = 'true' ]]
-    then
-        local jenkinsUID="${tomcatUID}"
-    fi
-
-    if [[ "$(isEmptyString "${jenkinsGID}")" = 'true' ]]
-    then
-        local jenkinsGID="${tomcatUID}"
-    fi
-
     chown -R "${jenkinsUID}":"${jenkinsGID}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
 }
 
@@ -44,7 +28,6 @@ function main()
 
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
-    source "${appPath}/../../tomcat/attributes/default.bash" || exit 1
 
     checkRequireDistributor
 

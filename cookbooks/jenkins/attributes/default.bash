@@ -1,8 +1,10 @@
 #!/bin/bash
 
+source "$(dirname "${0}")/../../tomcat/attributes/default.bash" || exit 1
+
 jenkinsDownloadURL='http://mirrors.jenkins-ci.org/war/latest/jenkins.war'
 
-# jenkinsTomcatFolder='/opt/tomcat'
+jenkinsTomcatFolder="${tomcatInstallFolder}"
 
-# jenkinsUID='tomcat'
-# jenkinsGID='tomcat'
+jenkinsUID="${tomcatUID}"
+jenkinsGID="${tomcatGID}"
