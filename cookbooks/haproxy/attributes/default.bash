@@ -14,3 +14,5 @@ haproxyPort=80
 haproxyTarget='custom'
 haproxyCPU='native'
 haproxyUsePCRE=1
+haproxyUseOpenSSL=1
+haproxyUserZLIB=1
