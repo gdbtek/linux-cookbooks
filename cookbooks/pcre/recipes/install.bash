@@ -5,6 +5,7 @@ function installDependencies()
     runAptGetUpdate
 
     installAptGetPackage 'build-essential'
+    installAptGetPackage 'libbz2-dev'
 }
 
 function install()
