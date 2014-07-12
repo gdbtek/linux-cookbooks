@@ -26,6 +26,12 @@ function install()
     make install
     rm -rf "${tempFolder}"
     cd "${currentPath}"
+
+    # Config Profile
+
+    local profileConfigData=('__INSTALL_FOLDER__' "${pcreInstallFolder}")
+
+    createFileFromTemplate "${appPath}/../files/profile/pcre.sh" '/etc/profile.d/pcre.sh' "${profileConfigData[@]}"
 }
 
 function main()
