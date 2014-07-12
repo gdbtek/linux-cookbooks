@@ -17,3 +17,4 @@ haproxyUsePCRE=1
 haproxyUseOpenSSL=1
 haproxyUseZLIB=1
 haproxyUseLIBCrypt=1
+haproxyUsePCREJIT=1
