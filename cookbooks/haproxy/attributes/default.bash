@@ -43,3 +43,5 @@ haproxy_USE_TFO=1
 haproxy_USE_TPROXY=1
 haproxy_USE_VSYSCALL=1
 haproxy_USE_ZLIB=1
+
+haproxy_PCREDIR='/opt/pcre'
