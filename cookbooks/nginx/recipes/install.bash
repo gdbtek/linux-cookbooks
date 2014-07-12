@@ -22,9 +22,9 @@ function install()
     local tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${nginxDownloadURL}" "${tempFolder}"
-    cd "${tempFolder}"
-    "${tempFolder}/configure" --user="${nginxUID}" --group="${nginxGID}" --prefix="${nginxInstallFolder}" --with-http_ssl_module
-    make
+    cd "${tempFolder}" &&
+    "${tempFolder}/configure" --user="${nginxUID}" --group="${nginxGID}" --prefix="${nginxInstallFolder}" --with-http_ssl_module &&
+    make &&
     make install
     rm -rf "${tempFolder}"
     cd "${currentPath}"

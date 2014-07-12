@@ -22,7 +22,7 @@ function install()
     local tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${haproxyDownloadURL}" "${tempFolder}"
-    cd "${tempFolder}"
+    cd "${tempFolder}" &&
     make \
         CPU="${haproxy_CPU}" \
         TARGET="${haproxy_TARGET}" \
@@ -57,8 +57,7 @@ function install()
         USE_TFO="${haproxy_USE_TFO}" \
         USE_TPROXY="${haproxy_USE_TPROXY}" \
         USE_VSYSCALL="${haproxy_USE_VSYSCALL}" \
-        USE_ZLIB="${haproxy_USE_ZLIB}"
-
+        USE_ZLIB="${haproxy_USE_ZLIB}" &&
     make install \
         PREFIX='' \
         DESTDIR="${haproxyInstallFolder}"

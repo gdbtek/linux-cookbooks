@@ -20,9 +20,9 @@ function install()
     local tempFolder="$(getTemporaryFolder)"
 
     curl -L "${siegeDownloadURL}" | tar x --strip 1 -C "${tempFolder}"
-    cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${siegeInstallFolder}"
-    make
+    cd "${tempFolder}" &&
+    "${tempFolder}/configure" --prefix="${siegeInstallFolder}" &&
+    make &&
     make install
     rm -rf "${tempFolder}"
     cd "${currentPath}"

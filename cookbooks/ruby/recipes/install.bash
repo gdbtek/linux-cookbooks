@@ -22,10 +22,10 @@ function install()
     local tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${rubyDownloadURL}" "${tempFolder}"
-    cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${rubyInstallFolder}"
-    make
-    make install
+    cd "${tempFolder}" &&
+    "${tempFolder}/configure" --prefix="${rubyInstallFolder}" &&
+    make &&
+    make install &&
     symlinkLocalBin "${rubyInstallFolder}/bin"
     rm -rf "${tempFolder}"
     cd "${currentPath}"

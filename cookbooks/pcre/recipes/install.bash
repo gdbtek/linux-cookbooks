@@ -20,9 +20,9 @@ function install()
     local tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${pcreDownloadURL}" "${tempFolder}"
-    cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${pcreInstallFolder}"
-    make
+    cd "${tempFolder}" &&
+    "${tempFolder}/configure" --prefix="${pcreInstallFolder}" &&
+    make &&
     make install
     rm -rf "${tempFolder}"
     cd "${currentPath}"
