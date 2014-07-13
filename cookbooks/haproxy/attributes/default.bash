@@ -13,14 +13,12 @@ haproxyGID='haproxy'
 
 haproxyPort=80
 
-haproxy_CPU='native'
-haproxy_TARGET='custom'
-
-haproxy_PCREDIR="${pcreInstallFolder}"
-haproxy_PCRE_LIB="${haproxy_PCREDIR}/lib"
-haproxy_PCRE_INC=="${haproxy_PCREDIR}/include"
-
 haproxyConfig=(
+    'CPU='native''
+    'TARGET='custom''
+    "PCREDIR='${pcreInstallFolder}'"
+    "PCRE_LIB='${haproxy_PCREDIR}/lib'"
+    "PCRE_INC=='${haproxy_PCREDIR}/include'"
     'USE_CPU_AFFINITY=1'
     'USE_CRYPT_H=1'
     'USE_CTTPROXY=1'
