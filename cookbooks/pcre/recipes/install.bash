@@ -5,8 +5,8 @@ function installDependencies()
     runAptGetUpdate
 
     installAptGetPackage 'build-essential'
-    installAptGetPackage 'lcov'
     installAptGetPackage 'valgrind'
+    installAptGetPackage 'zlib1g-dev'
 }
 
 function install()
