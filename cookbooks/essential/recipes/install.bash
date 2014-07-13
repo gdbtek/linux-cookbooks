@@ -6,16 +6,6 @@ function installDependencies()
     runAptGetUpgrade
 }
 
-function install()
-{
-    local package=''
-
-    for package in ${essentialPackages[@]}
-    do
-        installAptGetPackage "${package}"
-    done
-}
-
 function main()
 {
     local appPath="$(cd "$(dirname "${0}")" && pwd)"
@@ -30,7 +20,7 @@ function main()
     checkRequireRootUser
 
     installDependencies
-    install
+    installAptGetPackages "${essentialPackages[@]}"
     installCleanUp
 }
 
