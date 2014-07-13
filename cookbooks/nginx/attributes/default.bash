@@ -18,6 +18,5 @@ nginxConfig=(
     "--group='${nginxGID}'"
     "--prefix='${nginxInstallFolder}'"
     '--with-http_ssl_module'
-    "--with-pcre='${pcreInstallFolder}'"
     '--with-pcre-jit'
 )

@@ -6,11 +6,6 @@ function installDependencies()
 
     installAptGetPackage 'build-essential'
     installAptGetPackage 'libssl-dev'
-
-    if [[ ! -f "${pcreInstallFolder}/bin/pcregrep" ]]
-    then
-        "${appPath}/../../pcre/recipes/install.bash"
-    fi
 }
 
 function install()
@@ -20,6 +15,11 @@ function install()
     rm -rf "${nginxInstallFolder}"
     mkdir -p "${nginxInstallFolder}"
 
+    # Download Dependencies
+
+    local tempPCREFolder="$(getTemporaryFolder)"
+    unzipRemoteFile "${pcreDownloadURL}" "${tempPCREFolder}"
+
     # Install
 
     local currentPath="$(pwd)"
@@ -27,10 +27,10 @@ function install()
 
     unzipRemoteFile "${nginxDownloadURL}" "${tempFolder}"
     cd "${tempFolder}" &&
-    "${tempFolder}/configure" "${nginxConfig[@]}" &&
+    "${tempFolder}/configure" "${nginxConfig[@]}" --with-pcre="${tempPCREFolder}" &&
     make &&
     make install
-    rm -rf "${tempFolder}"
+    rm -rf "${tempFolder}" "${tempPCREFolder}"
     cd "${currentPath}"
 
     # Config Server
