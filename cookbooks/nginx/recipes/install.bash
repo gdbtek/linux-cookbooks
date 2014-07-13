@@ -30,7 +30,10 @@ function install()
 
     unzipRemoteFile "${nginxDownloadURL}" "${tempFolder}"
     cd "${tempFolder}" &&
-    "${tempFolder}/configure" "${nginxConfig[@]}" --with-pcre="${tempPCREFolder}" &&
+    "${tempFolder}/configure" \
+        "${nginxConfig[@]}" \
+        --with-pcre="${tempPCREFolder}" \
+        --with-zlib="${tempZLIBFolder}" &&
     make &&
     make install
     rm -rf "${tempFolder}" "${tempPCREFolder}" "${tempZLIBFolder}"

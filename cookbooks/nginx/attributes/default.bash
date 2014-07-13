@@ -20,4 +20,5 @@ nginxConfig=(
     "--prefix='${nginxInstallFolder}'"
     '--with-http_ssl_module'
     '--with-pcre-jit'
+    '--with-poll_module'
 )
