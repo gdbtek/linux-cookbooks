@@ -7,7 +7,6 @@ pcreInstallFolder='/opt/pcre'
 pcreConfig=(
     "--prefix="${pcreInstallFolder}""
     '--disable-bsr-anycrlf'
-    '--enable-coverage'
     '--enable-jit'
     '--enable-newline-is-lf'
     '--enable-pcre16'
@@ -27,3 +26,5 @@ pcreConfig=(
     '--with-pcregrep-bufsize=20480'
     '--with-posix-malloc-threshold=10'
 )
+
+# '--enable-coverage'
