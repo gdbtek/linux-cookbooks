@@ -5,6 +5,7 @@ pcreDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.35
 pcreInstallFolder='/opt/pcre'
 
 pcreConfig=(
+    "--prefix='${pcreInstallFolder}'"
     '--disable-bsr-anycrlf'
     '--enable-coverage'
     '--enable-jit'
