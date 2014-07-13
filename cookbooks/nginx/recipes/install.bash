@@ -5,8 +5,12 @@ function installDependencies()
     runAptGetUpdate
 
     installAptGetPackage 'build-essential'
-    installAptGetPackage 'libpcre3-dev'
     installAptGetPackage 'libssl-dev'
+
+    if [[ ! -f "${pcreInstallFolder}/bin/pcregrep" ]]
+    then
+        "${appPath}/../../pcre/recipes/install.bash"
+    fi
 }
 
 function install()
@@ -23,7 +27,7 @@ function install()
 
     unzipRemoteFile "${nginxDownloadURL}" "${tempFolder}"
     cd "${tempFolder}" &&
-    "${tempFolder}/configure" --user="${nginxUID}" --group="${nginxGID}" --prefix="${nginxInstallFolder}" --with-http_ssl_module &&
+    "${tempFolder}/configure" "${nginxConfig[@]}" &&
     make &&
     make install
     rm -rf "${tempFolder}"
