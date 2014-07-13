@@ -20,6 +20,9 @@ function install()
     local tempPCREFolder="$(getTemporaryFolder)"
     unzipRemoteFile "${pcreDownloadURL}" "${tempPCREFolder}"
 
+    local tempZLIBFolder="$(getTemporaryFolder)"
+    unzipRemoteFile "${nginxZLIBDownloadURL}" "${tempZLIBFolder}"
+
     # Install
 
     local currentPath="$(pwd)"
@@ -30,7 +33,7 @@ function install()
     "${tempFolder}/configure" "${nginxConfig[@]}" --with-pcre="${tempPCREFolder}" &&
     make &&
     make install
-    rm -rf "${tempFolder}" "${tempPCREFolder}"
+    rm -rf "${tempFolder}" "${tempPCREFolder}" "${tempZLIBFolder}"
     cd "${currentPath}"
 
     # Config Server
