@@ -19,7 +19,7 @@ function install()
     local currentPath="$(pwd)"
     local tempFolder="$(getTemporaryFolder)"
 
-    curl -L "${siegeDownloadURL}" | tar x --strip 1 -C "${tempFolder}"
+    unzipRemoteFile "${siegeDownloadURL}" "${tempFolder}"
     cd "${tempFolder}" &&
     "${tempFolder}/configure" --prefix="${siegeInstallFolder}" &&
     make &&
