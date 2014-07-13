@@ -17,7 +17,7 @@ function install()
     # Download Dependencies
 
     local tempPCREFolder="$(getTemporaryFolder)"
-    unzipRemoteFile "${pcreDownloadURL}" "${tempPCREFolder}"
+    unzipRemoteFile "${nginxPCREDownloadURL}" "${tempPCREFolder}"
 
     local tempZLIBFolder="$(getTemporaryFolder)"
     unzipRemoteFile "${nginxZLIBDownloadURL}" "${tempZLIBFolder}"

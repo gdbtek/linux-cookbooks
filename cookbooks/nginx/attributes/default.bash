@@ -1,8 +1,7 @@
 #!/bin/bash
 
-source "$(dirname "${0}")/../../pcre/attributes/default.bash" || exit 1
-
 nginxDownloadURL='http://nginx.org/download/nginx-1.7.3.tar.gz'
+nginxPCREDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.35.tar.gz'
 nginxZLIBDownloadURL='http://zlib.net/zlib-1.2.8.tar.gz'
 
 nginxInstallFolder='/opt/nginx'
