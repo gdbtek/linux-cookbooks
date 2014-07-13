@@ -17,7 +17,7 @@ nginxPort=80
 nginxConfig=(
     "--user='${nginxUID}'"
     "--group='${nginxGID}'"
-    "--prefix=${nginxInstallFolder}"
+    "--prefix='${nginxInstallFolder}'"
     '--with-http_ssl_module'
     '--with-pcre-jit'
     '--with-poll_module'
