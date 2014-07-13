@@ -7,7 +7,7 @@ function installDependencies()
 
 function install()
 {
-    installAptGetPackage 'vim'
+    installAptGetPackages 'vim'
     cp -f "${appPath}/../files/conf/vimrc.local" '/etc/vim/vimrc.local'
 }
 

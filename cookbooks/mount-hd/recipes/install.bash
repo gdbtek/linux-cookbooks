@@ -4,7 +4,7 @@ function installDependencies()
 {
     runAptGetUpdate
 
-    installAptGetPackage 'expect'
+    installAptGetPackages 'expect'
 }
 
 function install()

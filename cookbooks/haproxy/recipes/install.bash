@@ -4,8 +4,7 @@ function installDependencies()
 {
     runAptGetUpdate
 
-    installAptGetPackage 'build-essential'
-    installAptGetPackage 'libssl-dev'
+    installAptGetPackages 'build-essential' 'libssl-dev'
 
     if [[ ! -f "${pcreInstallFolder}/bin/pcregrep" ]]
     then

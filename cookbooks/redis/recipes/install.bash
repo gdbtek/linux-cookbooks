@@ -4,7 +4,7 @@ function installDependencies()
 {
     runAptGetUpdate
 
-    installAptGetPackage 'build-essential'
+    installAptGetPackages 'build-essential'
 }
 
 function install()
