@@ -17,8 +17,8 @@ haproxyConfig=(
     'CPU='native''
     'TARGET='custom''
     "PCREDIR='${pcreInstallFolder}'"
-    "PCRE_LIB='${haproxy_PCREDIR}/lib'"
-    "PCRE_INC=='${haproxy_PCREDIR}/include'"
+    "PCRE_LIB='${pcreInstallFolder}/lib'"
+    "PCRE_INC='${pcreInstallFolder}/include'"
     'USE_CPU_AFFINITY=1'
     'USE_CRYPT_H=1'
     'USE_CTTPROXY=1'

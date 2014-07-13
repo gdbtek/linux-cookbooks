@@ -7,7 +7,7 @@ function installDependencies()
     installAptGetPackage 'build-essential'
     installAptGetPackage 'libssl-dev'
 
-    if [[ ! -f "${haproxy_PCREDIR}/bin/pcregrep" ]]
+    if [[ ! -f "${pcreInstallFolder}/bin/pcregrep" ]]
     then
         "${appPath}/../../pcre/recipes/install.bash"
     fi
