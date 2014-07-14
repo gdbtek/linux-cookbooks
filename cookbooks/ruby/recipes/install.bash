@@ -4,7 +4,7 @@ function installDependencies()
 {
     runAptGetUpdate
 
-    installAptGetPackages 'build-essential' 'libgdbm-dev' 'libssl-dev' 'zlib1g-dev' 'libreadline-dev' 'libffi-dev'
+    installAptGetPackages 'build-essential' 'libffi-dev' 'libgdbm-dev' 'libreadline-dev' 'libssl-dev' 'zlib1g-dev'
 }
 
 function install()
