@@ -330,7 +330,7 @@ function isUbuntuDistributor()
 
 function is64BitSystem()
 {
-    local found="$(uname -m | grep -Foi 'x86_64')"
+    local found="$(uname -m | grep -Eoi '^x86_64$')"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
