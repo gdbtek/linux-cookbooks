@@ -234,12 +234,26 @@ function unzipRemoteFile()
         curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
     elif [[ "$(echo "${extension}" | grep -i '^zip$')" != '' ]]
     then
-        local zipFile="${installFolder}/$(basename "${downloadURL}")"
+        # Install Unzip
 
-        echo
-        curl -L "${downloadURL}" -o "${zipFile}"
-        unzip -q "${zipFile}" -d "${installFolder}"
-        rm -f "${zipFile}"
+        if [[ "$(existCommand 'unzip')" = 'false' ]]
+        then
+            installAptGetPackages 'unzip'
+        fi
+
+        # Unzip
+
+        if [[ "$(existCommand 'unzip')" = 'true' ]]
+        then
+            local zipFile="${installFolder}/$(basename "${downloadURL}")"
+
+            echo
+            curl -L "${downloadURL}" -o "${zipFile}"
+            unzip -q "${zipFile}" -d "${installFolder}"
+            rm -f "${zipFile}"
+        else
+            fatal "FATAL: install 'unzip' command failed!"
+        fi
     else
         fatal "FATAL: file extension '${extension}' is not yet supported to unzip!"
     fi
