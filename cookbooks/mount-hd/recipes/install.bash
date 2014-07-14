@@ -60,7 +60,7 @@ function main()
 
     source "${appPath}/../../../lib/util.bash" || exit 1
 
-    checkRequireDistributor
+    checkRequireSystem
 
     header 'INSTALLING MOUNT-HD'
 

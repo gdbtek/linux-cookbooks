@@ -26,7 +26,7 @@ function main()
     source "${appPath}/../attributes/default.bash" || exit 1
     source "${appPath}/../../nginx/attributes/default.bash" || exit 1
 
-    checkRequireDistributor
+    checkRequireSystem
 
     header 'INSTALLING KIBANA'
 

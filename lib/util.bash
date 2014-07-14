@@ -72,11 +72,16 @@ function addSystemUser()
     fi
 }
 
-function checkRequireDistributor()
+function checkRequireSystem()
 {
     if [[ "$(isUbuntuDistributor)" = 'false' ]]
     then
         fatal "\nFATAL: this program only supports 'Ubuntu' operating system!"
+    fi
+
+    if [[ "$(is64BitSystem)" = 'false' ]]
+    then
+        fatal "\nFATAL: this program only supports 'x86_64' operating system!"
     fi
 }
 
@@ -314,6 +319,18 @@ function symlinkLocalBin()
 function isUbuntuDistributor()
 {
     local found="$(uname -v | grep -Foi 'Ubuntu')"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}
+
+function is64BitSystem()
+{
+    local found="$(uname -m | grep -Foi 'x86_64')"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
