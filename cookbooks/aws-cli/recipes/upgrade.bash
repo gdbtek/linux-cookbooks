@@ -2,7 +2,7 @@
 
 function install()
 {
-    installPIPPackage 'awscli'
+    upgradePIPPackage 'awscli'
     info "\n$(aws --version 2>&1)"
 }
 
@@ -14,7 +14,7 @@ function main()
 
     checkRequireSystem
 
-    header 'INSTALLING AWS-CLI'
+    header 'UPGRADING AWS-CLI'
 
     checkRequireRootUser
 

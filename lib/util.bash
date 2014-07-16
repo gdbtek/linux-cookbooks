@@ -238,6 +238,7 @@ function unzipRemoteFile()
 
         if [[ "$(existCommand 'unzip')" = 'false' ]]
         then
+            runAptGetUpdate
             installAptGetPackages 'unzip'
         fi
 
@@ -415,32 +416,6 @@ function installAptGetPackages()
     done
 }
 
-function installAptGetPackage()
-{
-    local package="${1}"
-
-    if [[ "$(isAptGetPackageInstall "${package}")" = 'true' ]]
-    then
-        debug "\nApt-Get Package '${package}' has already been installed"
-    else
-        echo -e "\033[1;35m\nInstalling Apt-Get package '${package}'\033[0m"
-        apt-get install -y "${package}"
-    fi
-}
-
-function installPIPPackage()
-{
-    local package="${1}"
-
-    if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
-    then
-        debug "\nPIP Package '${package}' has already been installed"
-    else
-        echo -e "\033[1;35m\nInstalling PIP package '${package}'\033[0m"
-        pip install "${package}"
-    fi
-}
-
 function isAptGetPackageInstall()
 {
     local package="${1}"
@@ -455,17 +430,71 @@ function isAptGetPackageInstall()
     fi
 }
 
+function installAptGetPackage()
+{
+    local package="${1}"
+
+    if [[ "$(isAptGetPackageInstall "${package}")" = 'true' ]]
+    then
+        debug "\nApt-Get Package '${package}' has already been installed"
+    else
+        echo -e "\033[1;35m\nInstalling Apt-Get package '${package}'\033[0m"
+        apt-get install -y "${package}"
+    fi
+}
+
 function isPIPPackageInstall()
 {
     local package="${1}"
 
-    local found="$(pip list | grep -Eo "^${package}\s+\(.*\)$")"
+    # Install Pip
 
-    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    if [[ "$(existCommand 'pip')" = 'false' ]]
     then
-        echo 'false'
+        runAptGetUpdate
+        installAptGetPackages 'python-pip'
+    fi
+
+    # Check Command
+
+    if [[ "$(existCommand 'pip')" = 'true' ]]
+    then
+        local found="$(pip list | grep -Eo "^${package}\s+\(.*\)$")"
+
+        if [[ "$(isEmptyString "${found}")" = 'true' ]]
+        then
+            echo 'false'
+        else
+            echo 'true'
+        fi
     else
-        echo 'true'
+        fatal "FATAL: install 'python-pip' command failed!"
+    fi
+}
+
+function installPIPPackage()
+{
+    local package="${1}"
+
+    if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
+    then
+        debug "\nPIP Package '${package}' found!"
+    else
+        echo -e "\033[1;35m\nInstalling PIP package '${package}'\033[0m"
+        pip install "${package}"
+    fi
+}
+
+function upgradePIPPackage()
+{
+    local package="${1}"
+
+    if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
+    then
+        echo -e "\033[1;35m\nUpgrading PIP package '${package}'\033[0m"
+        pip install --upgrade "${package}"
+    else
+        debug "\nPIP Package '${package}' not found!"
     fi
 }
 
