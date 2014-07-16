@@ -491,7 +491,7 @@ function upgradePIPPackage()
 
     if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
     then
-        echo -e "\033[1;35m\nUpgrading PIP package '${package}'\033[0m"
+        echo -e "\033[1;35mUpgrading PIP package '${package}'\033[0m"
         pip install --upgrade "${package}"
     else
         debug "PIP Package '${package}' not found!"
