@@ -478,7 +478,7 @@ function installPIPPackage()
 
     if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
     then
-        debug "\nPIP Package '${package}' found!"
+        debug "PIP Package '${package}' found!"
     else
         echo -e "\033[1;35m\nInstalling PIP package '${package}'\033[0m"
         pip install "${package}"
@@ -494,7 +494,7 @@ function upgradePIPPackage()
         echo -e "\033[1;35m\nUpgrading PIP package '${package}'\033[0m"
         pip install --upgrade "${package}"
     else
-        debug "\nPIP Package '${package}' not found!"
+        debug "PIP Package '${package}' not found!"
     fi
 }
 
