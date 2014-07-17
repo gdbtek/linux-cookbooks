@@ -13,10 +13,9 @@ function main()
     source "${appPath}/../../../lib/util.bash" || exit 1
 
     checkRequireSystem
+    checkRequireRootUser
 
     header 'INSTALLING AWS-CLI'
-
-    checkRequireRootUser
 
     install
     installCleanUp

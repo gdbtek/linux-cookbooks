@@ -61,10 +61,9 @@ function main()
     source "${appPath}/../../../lib/util.bash" || exit 1
 
     checkRequireSystem
+    checkRequireRootUser
 
     header 'INSTALLING MOUNT-HD'
-
-    checkRequireRootUser
 
     installDependencies
     install "${@}"

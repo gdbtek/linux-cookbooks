@@ -36,10 +36,9 @@ function main()
     source "${appPath}/../attributes/default.bash" || exit 1
 
     checkRequireSystem
+    checkRequireRootUser
 
     header 'INSTALLING JDK'
-
-    checkRequireRootUser
 
     install
     installCleanUp

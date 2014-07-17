@@ -27,10 +27,9 @@ function main()
     source "${appPath}/../../nginx/attributes/default.bash" || exit 1
 
     checkRequireSystem
+    checkRequireRootUser
 
     header 'INSTALLING KIBANA'
-
-    checkRequireRootUser
 
     install
     installCleanUp

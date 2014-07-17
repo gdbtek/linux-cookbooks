@@ -14,10 +14,9 @@ function main()
     source "${appPath}/../attributes/default.bash" || exit 1
 
     checkRequireSystem
+    checkRequireRootUser
 
     header 'INSTALLING CHEF'
-
-    checkRequireRootUser
 
     install
     installCleanUp

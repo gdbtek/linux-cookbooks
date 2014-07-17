@@ -66,10 +66,10 @@ function main()
     source "${appPath}/../attributes/default.bash" || exit 1
 
     checkRequireSystem
+    checkRequireRootUser
 
     header 'INSTALLING TOMCAT'
 
-    checkRequireRootUser
     checkRequirePort "${tomcatAJPPort}" "${tomcatCommandPort}" "${tomcatHTTPPort}" "${tomcatHTTPSPort}"
 
     installDependencies

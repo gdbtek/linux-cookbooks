@@ -64,10 +64,10 @@ function main()
     source "${appPath}/../attributes/default.bash" || exit 1
 
     checkRequireSystem
+    checkRequireRootUser
 
     header 'INSTALLING ELASTIC SEARCH'
 
-    checkRequireRootUser
     checkRequirePort "${elasticsearchHTTPPort}" "${elasticsearchTransportTCPPort}"
 
     installDependencies

@@ -71,10 +71,9 @@ function main()
     source "${appPath}/../attributes/default.bash" || exit 1
 
     checkRequireSystem
+    checkRequireRootUser
 
     header 'INSTALLING GO-SERVER (AGENT)'
-
-    checkRequireRootUser
 
     installDependencies
     install
