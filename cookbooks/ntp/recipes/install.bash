@@ -1,10 +1,5 @@
 #!/bin/bash
 
-function installDependencies()
-{
-    runAptGetUpdate
-}
-
 function install()
 {
     echo "${ntpTimeZone}" > '/etc/timezone'
@@ -24,7 +19,6 @@ function main()
 
     header 'INSTALLING NTP'
 
-    installDependencies
     install
     installCleanUp
 }

@@ -238,7 +238,6 @@ function unzipRemoteFile()
 
         if [[ "$(existCommand 'unzip')" = 'false' ]]
         then
-            runAptGetUpdate
             installAptGetPackages 'unzip'
         fi
 
@@ -393,6 +392,8 @@ function runAptGetUpdate()
 
 function runAptGetUpgrade()
 {
+    runAptGetUpdate
+
     apt-get -y dist-upgrade --fix-missing &&
     apt-get -y upgrade --fix-missing &&
     apt-get -y autoremove
@@ -408,6 +409,8 @@ function getLastAptGetUpdate()
 
 function installAptGetPackages()
 {
+    runAptGetUpdate
+
     local package=''
 
     for package in ${@}
@@ -451,7 +454,6 @@ function isPIPPackageInstall()
 
     if [[ "$(existCommand 'pip')" = 'false' ]]
     then
-        runAptGetUpdate
         installAptGetPackages 'python-pip'
     fi
 

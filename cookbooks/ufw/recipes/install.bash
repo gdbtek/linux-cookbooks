@@ -1,10 +1,5 @@
 #!/bin/bash
 
-function installDependencies()
-{
-    runAptGetUpdate
-}
-
 function install()
 {
     installAptGetPackages 'ufw'
@@ -40,7 +35,6 @@ function main()
 
     header 'INSTALLING UFW'
 
-    installDependencies
     install
     installCleanUp
 }

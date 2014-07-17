@@ -1,10 +1,5 @@
 #!/bin/bash
 
-function installDependencies()
-{
-    runAptGetUpdate
-}
-
 function install()
 {
     installAptGetPackages 'vim'
@@ -22,7 +17,6 @@ function main()
 
     header 'INSTALLING VIM'
 
-    installDependencies
     install
     installCleanUp
 }

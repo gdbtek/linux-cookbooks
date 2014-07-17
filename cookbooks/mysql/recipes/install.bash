@@ -2,8 +2,6 @@
 
 function installDependencies()
 {
-    runAptGetUpdate
-
     installAptGetPackages 'libaio-dev' 'sysv-rc-conf'
 }
 

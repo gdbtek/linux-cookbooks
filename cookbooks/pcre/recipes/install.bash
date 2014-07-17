@@ -2,8 +2,6 @@
 
 function installDependencies()
 {
-    runAptGetUpdate
-
     installAptGetPackages 'build-essential' 'libbz2-dev' 'valgrind' 'zlib1g-dev'
 }
 
