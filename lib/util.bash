@@ -91,7 +91,7 @@ function checkRequireUser()
 
     if [[ "$(whoami)" != "${requireUser}" ]]
     then
-        fatal "FATAL: please run this program as '${requireUser}' user!"
+        fatal "\nFATAL: please run this program as '${requireUser}' user!"
     fi
 }
 
