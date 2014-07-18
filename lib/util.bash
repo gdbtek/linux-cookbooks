@@ -382,7 +382,7 @@ function runAptGetUpdate()
 
     if [[ "${lastAptGetUpdate}" -gt "${updateInterval}" ]]
     then
-        apt-get update
+        apt-get update --fix-missing
     else
         local lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
 
