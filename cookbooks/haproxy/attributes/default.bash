@@ -2,7 +2,7 @@
 
 source "$(dirname "${0}")/../../pcre/attributes/default.bash" || exit 1
 
-haproxyDownloadURL='http://www.haproxy.org/download/1.5/src/haproxy-1.5.2.tar.gz'
+haproxyDownloadURL='http://www.haproxy.org/download/1.5/src/haproxy-1.5.3.tar.gz'
 
 haproxyInstallFolder='/opt/haproxy'
 
