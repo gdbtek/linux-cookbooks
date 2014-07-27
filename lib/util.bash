@@ -216,6 +216,10 @@ function unzipRemoteFile()
     local installFolder="${2}"
     local extension="${3}"
 
+    # Install Curl
+
+    installCURLCommand
+
     # Find Extension
 
     if [[ "$(isEmptyString "${extension}")" = 'true' ]]
@@ -236,10 +240,7 @@ function unzipRemoteFile()
     then
         # Install Unzip
 
-        if [[ "$(existCommand 'unzip')" = 'false' ]]
-        then
-            installAptGetPackages 'unzip'
-        fi
+        installUnzipCommand
 
         # Unzip
 
@@ -261,7 +262,15 @@ function unzipRemoteFile()
 
 function getRemoteFileContent()
 {
-    curl -s -X 'GET' "${1}"
+    local url="${1}"
+
+    # Install Curl
+
+    installCURLCommand
+
+    # Get Content
+
+    curl -s -X 'GET' "${url}"
 }
 
 function getTemporaryFolder()
@@ -407,6 +416,36 @@ function getLastAptGetUpdate()
     echo $((${nowDate} - ${aptDate}))
 }
 
+function installCommands()
+{
+    local data=("${@}")
+
+    runAptGetUpdate
+
+    local i=0
+
+    for ((i = 0; i < ${#data[@]}; i = i + 2))
+    do
+        local command="${data[${i}]}"
+        local package="${data[${i} + 1]}"
+
+        if [[ "$(isEmptyString "${command}")" = 'true' ]]
+        then
+            fatal "\nFATAL: undefined command!"
+        fi
+
+        if [[ "$(isEmptyString "${package}")" = 'true' ]]
+        then
+            fatal "\nFATAL: undefined package!"
+        fi
+
+        if [[ "$(existCommand "${command}")" = 'false' ]]
+        then
+            installAptGetPackages "${package}"
+        fi
+    done
+}
+
 function installAptGetPackages()
 {
     runAptGetUpdate
@@ -450,12 +489,9 @@ function isPIPPackageInstall()
 {
     local package="${1}"
 
-    # Install Pip
+    # Install PIP
 
-    if [[ "$(existCommand 'pip')" = 'false' ]]
-    then
-        installAptGetPackages 'python-pip'
-    fi
+    installPIPCommand
 
     # Check Command
 
@@ -504,6 +540,12 @@ function existURL()
 {
     local url="${1}"
 
+    # Install Curl
+
+    installCURLCommand
+
+    # Check URL
+
     if ( curl --output '/dev/null' --silent --head --fail "${url}" )
     then
         echo 'true'
@@ -522,4 +564,25 @@ function existCommand()
     else
         echo 'true'
     fi
+}
+
+function installCURLCommand()
+{
+    local commandPackage=('curl' 'curl')
+
+    installCommands "${commandPackage[@]}"
+}
+
+function installUnzipCommand()
+{
+    local commandPackage=('unzip' 'unzip')
+
+    installCommands "${commandPackage[@]}"
+}
+
+function installPIPCommand()
+{
+    local commandPackage=('pip' 'python-pip')
+
+    installCommands "${commandPackage[@]}"
 }
