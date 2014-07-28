@@ -26,13 +26,13 @@ function install()
         '__TRANSPORT_TCP_PORT__' "${elasticsearchTransportTCPPort}"
     )
 
-    createFileFromTemplate  "${appPath}/../files/conf/elasticsearch.yml" "${elasticsearchInstallFolder}/config/elasticsearch.yml" "${serverConfigData[@]}"
+    createFileFromTemplate  "${appPath}/../templates/default/elasticsearch.yml.conf" "${elasticsearchInstallFolder}/config/elasticsearch.yml" "${serverConfigData[@]}"
 
     # Config Profile
 
     local profileConfigData=('__INSTALL_FOLDER__' "${elasticsearchInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../files/profile/elastic-search.sh" '/etc/profile.d/elastic-search.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/elastic-search.sh.profile" '/etc/profile.d/elastic-search.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -43,7 +43,7 @@ function install()
         '__GID__' "${elasticsearchGID}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/elastic-search.conf" "/etc/init/${elasticsearchServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/elastic-search.conf.upstart" "/etc/init/${elasticsearchServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
