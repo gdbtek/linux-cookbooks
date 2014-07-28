@@ -42,7 +42,7 @@ function install()
         '__GID__' "${ghostGID}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/ghost.conf" "/etc/init/${ghostServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/ghost.conf.upstart" "/etc/init/${ghostServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
