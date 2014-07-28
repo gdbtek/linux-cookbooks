@@ -34,7 +34,7 @@ function install()
 
     local profileConfigData=('__INSTALL_FOLDER__' "${tomcatInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../files/profile/tomcat.sh" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/tomcat.sh.profile" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -45,7 +45,7 @@ function install()
         '__GID__' "${tomcatGID}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/tomcat.conf" "/etc/init/${tomcatServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/tomcat.conf.upstart" "/etc/init/${tomcatServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
