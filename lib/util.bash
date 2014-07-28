@@ -491,7 +491,7 @@ function isPIPPackageInstall()
 
     # Install PIP
 
-    installPIPCommand
+    installPIPCommand > '/dev/null'
 
     # Check Command
 
@@ -542,7 +542,7 @@ function existURL()
 
     # Install Curl
 
-    installCURLCommand
+    installCURLCommand > '/dev/null'
 
     # Check URL
 
