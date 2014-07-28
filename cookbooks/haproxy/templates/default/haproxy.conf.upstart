@@ -1,4 +1,4 @@
-description 'Nginx Server'
+description 'HAProxy Server'
 
 start on startup
 stop on shutdown

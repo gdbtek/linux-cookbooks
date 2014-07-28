@@ -34,13 +34,13 @@ function install()
 
     local profileConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../files/profile/haproxy.sh" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
     local upstartConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../files/upstart/haproxy.conf" "/etc/init/${haproxyServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/haproxy.conf.upstart" "/etc/init/${haproxyServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
