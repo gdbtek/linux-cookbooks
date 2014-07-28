@@ -11,6 +11,7 @@ function install()
 
     unzipRemoteFile "${packerDownloadURL}" "${packerInstallFolder}/bin"
     chown -R "$(whoami)":"$(whoami)" "${packerInstallFolder}"
+    symlinkLocalBin "${packerInstallFolder}/bin"
 
     # Config Profile
 
