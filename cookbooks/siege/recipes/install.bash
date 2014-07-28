@@ -29,7 +29,7 @@ function install()
 
     local profileConfigData=('__INSTALL_FOLDER__' "${siegeInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../files/profile/siege.sh" '/etc/profile.d/siege.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/siege.sh.profile" '/etc/profile.d/siege.sh' "${profileConfigData[@]}"
 
     # Display Version
 
