@@ -30,7 +30,7 @@ function install()
 
     local serverConfigData=('__PORT__' "${mysqlPort}")
 
-    createFileFromTemplate "${appPath}/../files/conf/my.cnf" "${mysqlInstallFolder}/my.cnf" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/my.cnf.conf" "${mysqlInstallFolder}/my.cnf" "${serverConfigData[@]}"
 
     # Config Service
 
@@ -41,7 +41,7 @@ function install()
 
     local profileConfigData=('__INSTALL_FOLDER__' "${mysqlInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../files/profile/mysql.sh" '/etc/profile.d/mysql.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/mysql.sh.profile" '/etc/profile.d/mysql.sh' "${profileConfigData[@]}"
 
     # Start
 
