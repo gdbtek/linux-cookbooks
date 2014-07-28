@@ -31,13 +31,13 @@ function install()
         6379 "${redisPort}"
     )
 
-    createFileFromTemplate "${appPath}/../files/conf/redis.conf" "${redisInstallConfigFolder}/redis.conf" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/redis.conf.conf" "${redisInstallConfigFolder}/redis.conf" "${serverConfigData[@]}"
 
     # Config Profile
 
     local profileConfigData=('__INSTALL_BIN_FOLDER__' "${redisInstallBinFolder}")
 
-    createFileFromTemplate "${appPath}/../files/profile/redis.sh" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/redis.sh.profile" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -50,7 +50,7 @@ function install()
         '__HARD_NO_FILE_LIMIT__' "${redisHardNoFileLimit}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/redis.conf" "/etc/init/${redisServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/redis.conf.upstart" "/etc/init/${redisServiceName}.conf" "${upstartConfigData[@]}"
 
     # Config System
 
