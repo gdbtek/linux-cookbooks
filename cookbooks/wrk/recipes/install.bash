@@ -28,7 +28,7 @@ function install()
 
     local profileConfigData=('__INSTALL_FOLDER__' "${wrkInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../files/profile/wrk.sh" '/etc/profile.d/wrk.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/wrk.sh.profile" '/etc/profile.d/wrk.sh' "${profileConfigData[@]}"
 
     # Display Version
 
