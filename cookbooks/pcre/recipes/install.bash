@@ -29,7 +29,7 @@ function install()
 
     local profileConfigData=('__INSTALL_FOLDER__' "${pcreInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../files/profile/pcre.sh" '/etc/profile.d/pcre.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/pcre.sh.profile" '/etc/profile.d/pcre.sh' "${profileConfigData[@]}"
 
     # Display Version
 
