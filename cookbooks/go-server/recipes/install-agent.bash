@@ -55,7 +55,7 @@ function configUpstart()
         '__GID__' "${goserverGID}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/go-agent.conf" "/etc/init/${goserverAgentServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/go-agent.conf.upstart" "/etc/init/${goserverAgentServiceName}.conf" "${upstartConfigData[@]}"
 }
 
 function startAgent()

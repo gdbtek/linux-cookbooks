@@ -46,7 +46,7 @@ function configUpstart()
         '__GID__' "${goserverGID}"
     )
 
-    createFileFromTemplate "${appPath}/../files/upstart/go-server.conf" "/etc/init/${goserverServerServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/go-server.conf.upstart" "/etc/init/${goserverServerServiceName}.conf" "${upstartConfigData[@]}"
 }
 
 function startServer()
