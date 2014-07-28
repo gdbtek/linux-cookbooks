@@ -32,7 +32,7 @@ function install()
 
         local profileConfigData=('__INSTALL_FOLDER__' "${nodejsInstallFolder}")
 
-        createFileFromTemplate "${appPath}/../files/profile/node-js.sh" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
+        createFileFromTemplate "${appPath}/../templates/default/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
         info "\nNode Version: $(node --version)"
         info "NPM Version : $(npm --version)"
