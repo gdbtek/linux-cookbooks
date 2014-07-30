@@ -1,5 +1,10 @@
 #!/bin/bash
 
+function installDependencies()
+{
+    installAptGetPackages 'mercurial' 'bzr'
+}
+
 function install()
 {
     # Clean Up
@@ -37,6 +42,7 @@ function main()
 
     header 'INSTALLING GO-LANG'
 
+    installDependencies
     install
     installCleanUp
 }
