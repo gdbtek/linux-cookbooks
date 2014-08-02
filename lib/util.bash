@@ -1,188 +1,41 @@
 #!/bin/bash
 
-function header()
-{
-    echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${1}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
-}
+########################
+# FILE LOCAL UTILITIES #
+########################
 
-function info()
+function appendToFileIfNotFound()
 {
-    echo -e "\033[1;36m${1}\033[0m"
-}
+    local file="${1}"
+    local pattern="${2}"
+    local string="${3}"
+    local patternAsRegex="${4}"
+    local stringAsRegex="${5}"
 
-function debug()
-{
-    echo -e "\033[1;34m${1}\033[0m"
-}
-
-function warn()
-{
-    echo -e "\033[1;33m${1}\033[0m" 1>&2
-}
-
-function error()
-{
-    echo -e "\033[1;31m${1}\033[0m" 1>&2
-}
-
-function fatal()
-{
-    error "${1}"
-    exit 1
-}
-
-function trimString()
-{
-    echo "${1}" | sed -e 's/^ *//g' -e 's/ *$//g'
-}
-
-function isEmptyString()
-{
-    if [[ "$(trimString ${1})" = '' ]]
+    if [[ -f "${file}" ]]
     then
-        echo 'true'
-    else
-        echo 'false'
-    fi
-}
+        local grepOption='-Fo'
 
-function formatPath()
-{
-    local string="${1}"
-
-    while [[ "$(echo "${string}" | grep -F '//')" != '' ]]
-    do
-        string="$(echo "${string}" | sed -e 's/\/\/*/\//g')"
-    done
-
-    echo "${string}" | sed -e 's/\/$//g'
-}
-
-function addSystemUser()
-{
-    local uid="${1}"
-    local gid="${2}"
-
-    if [[ "${uid}" = "${gid}" ]]
-    then
-        adduser --system --no-create-home --disabled-login --disabled-password --group "${gid}" >> /dev/null 2>&1
-    else
-        addgroup "${gid}" >> /dev/null 2>&1
-        adduser --system --no-create-home --disabled-login --disabled-password --ingroup "${gid}" "${uid}" >> /dev/null 2>&1
-    fi
-}
-
-function checkRequireSystem()
-{
-    if [[ "$(isUbuntuDistributor)" = 'false' ]]
-    then
-        fatal "\nFATAL: this program only supports 'Ubuntu' operating system!"
-    fi
-
-    if [[ "$(is64BitSystem)" = 'false' ]]
-    then
-        fatal "\nFATAL: this program only supports 'x86_64' operating system!"
-    fi
-}
-
-function checkRequireUser()
-{
-    local requireUser="${1}"
-
-    if [[ "$(whoami)" != "${requireUser}" ]]
-    then
-        fatal "\nFATAL: please run this program as '${requireUser}' user!"
-    fi
-}
-
-function checkRequireRootUser()
-{
-    checkRequireUser 'root'
-}
-
-function getFileName()
-{
-    local fullFileName="$(basename "${1}")"
-
-    echo "${fullFileName%.*}"
-}
-
-function getFileExtension()
-{
-    local fullFileName="$(basename "${1}")"
-
-    echo "${fullFileName##*.}"
-}
-
-function displayOpenPorts()
-{
-    header 'LIST OPEN PORTS'
-
-    sleep 5
-    lsof -P -i | grep ' (LISTEN)$' | sort
-}
-
-function checkRequirePort()
-{
-    local ports="${@}"
-
-    local headerRegex='^COMMAND\s\+PID\s\+USER\s\+FD\s\+TYPE\s\+DEVICE\s\+SIZE\/OFF\s\+NODE\s\+NAME$'
-    local status="$(lsof -P -i | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
-    local open=''
-    local port=''
-
-    for port in ${ports}
-    do
-        local found="$(echo "${status}" | grep ":${port} (LISTEN)$")"
-
-        if [[ "$(isEmptyString "${found}")" = 'false' ]]
+        if [[ "${patternAsRegex}" = 'true' ]]
         then
-            open="${open}\n${found}"
-        fi
-    done
-
-    if [[ "$(isEmptyString "${open}")" = 'false' ]]
-    then
-        echo -e  "\033[1;31mFollowing ports are still opened. Make sure you uninstall or stop them before a new installation!\033[0m"
-        echo -en "\033[1;34m\n$(echo "${status}" | grep "${headerRegex}")\033[0m"
-        echo -e  "\033[1;36m${open}\033[0m\n"
-        exit 1
-    fi
-}
-
-function getUserHomeFolder()
-{
-    local user="${1}"
-
-    echo "$(eval "echo ~${user}")"
-}
-
-function getProfileFile()
-{
-    local user="${1}"
-
-    local userHome="$(getUserHomeFolder "${user}")"
-
-    if [[ "$(isEmptyString "${userHome}")" = 'false' && -d "${userHome}" ]]
-    then
-        local bashProfileFile="${userHome}/.bash_profile"
-        local profileFile="${userHome}/.profile"
-        local defaultStartUpFile="${bashProfileFile}"
-
-        if [[ ! -f "${bashProfileFile}" && -f "${profileFile}" ]]
-        then
-            defaultStartUpFile="${profileFile}"
+            grepOption='-Eo'
         fi
 
-        echo "${defaultStartUpFile}"
-    else
-        echo
-    fi
-}
+        local found="$(grep "${grepOption}" "${pattern}" "${file}")"
 
-function escapeSearchPattern()
-{
-    echo "$(echo "${1}" | sed "s@\[@\\\\[@g" | sed "s@\*@\\\\*@g" | sed "s@\%@\\\\%@g")"
+        if [[ "$(isEmptyString "${found}")" = 'true' ]]
+        then
+            if [[ "${stringAsRegex}" = 'true' ]]
+            then
+                echo -e "${string}" >> "${file}"
+            else
+                echo >> "${file}"
+                echo "${string}" >> "${file}"
+            fi
+        fi
+    else
+        fatal "FATAL: file '${file}' not found!"
+    fi
 }
 
 function createFileFromTemplate()
@@ -208,6 +61,70 @@ function createFileFromTemplate()
     else
         fatal "FATAL: file '${sourceFile}' not found!"
     fi
+}
+
+function getFileExtension()
+{
+    local fullFileName="$(basename "${1}")"
+
+    echo "${fullFileName##*.}"
+}
+
+function getFileName()
+{
+    local fullFileName="$(basename "${1}")"
+
+    echo "${fullFileName%.*}"
+}
+
+function symlinkLocalBin()
+{
+    local sourceBinFolder="${1}"
+
+    local file=''
+
+    for file in $(find "${sourceBinFolder}" -maxdepth 1 -xtype f -perm -u+x)
+    do
+        local localBinFile="/usr/local/bin/$(basename "${file}")"
+
+        rm -f "${localBinFile}"
+        ln -s "${file}" "${localBinFile}"
+    done
+}
+
+#########################
+# FILE REMOTE UTILITIES #
+#########################
+
+function existURL()
+{
+    local url="${1}"
+
+    # Install Curl
+
+    installCURLCommand > '/dev/null'
+
+    # Check URL
+
+    if ( curl --output '/dev/null' --silent --head --fail "${url}" )
+    then
+        echo 'true'
+    else
+        echo 'false'
+    fi
+}
+
+function getRemoteFileContent()
+{
+    local url="${1}"
+
+    # Install Curl
+
+    installCURLCommand
+
+    # Get Content
+
+    curl -s -X 'GET' "${url}"
 }
 
 function unzipRemoteFile()
@@ -260,153 +177,9 @@ function unzipRemoteFile()
     fi
 }
 
-function getRemoteFileContent()
-{
-    local url="${1}"
-
-    # Install Curl
-
-    installCURLCommand
-
-    # Get Content
-
-    curl -s -X 'GET' "${url}"
-}
-
-function getTemporaryFolder()
-{
-    mktemp -d "/tmp/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
-}
-
-function getTemporaryFile()
-{
-    local extension="${1}"
-
-    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(echo "${extension}" | grep -io "^.")" != '.' ]]
-    then
-        extension=".${extension}"
-    fi
-
-    mktemp "/tmp/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX${extension}"
-}
-
-function appendToFileIfNotFound()
-{
-    local file="${1}"
-    local pattern="${2}"
-    local string="${3}"
-    local patternAsRegex="${4}"
-    local stringAsRegex="${5}"
-
-    if [[ -f "${file}" ]]
-    then
-        local grepOption='-Fo'
-
-        if [[ "${patternAsRegex}" = 'true' ]]
-        then
-            grepOption='-Eo'
-        fi
-
-        local found="$(grep "${grepOption}" "${pattern}" "${file}")"
-
-        if [[ "$(isEmptyString "${found}")" = 'true' ]]
-        then
-            if [[ "${stringAsRegex}" = 'true' ]]
-            then
-                echo -e "${string}" >> "${file}"
-            else
-                echo >> "${file}"
-                echo "${string}" >> "${file}"
-            fi
-        fi
-    else
-        fatal "FATAL: file '${file}' not found!"
-    fi
-}
-
-function symlinkLocalBin()
-{
-    local sourceBinFolder="${1}"
-
-    local file=''
-
-    for file in $(find "${sourceBinFolder}" -maxdepth 1 -xtype f -perm -u+x)
-    do
-        local localBinFile="/usr/local/bin/$(basename "${file}")"
-
-        rm -f "${localBinFile}"
-        ln -s "${file}" "${localBinFile}"
-    done
-}
-
-function isUbuntuDistributor()
-{
-    local found="$(uname -v | grep -Foi 'Ubuntu')"
-
-    if [[ "$(isEmptyString "${found}")" = 'true' ]]
-    then
-        echo 'false'
-    else
-        echo 'true'
-    fi
-}
-
-function is64BitSystem()
-{
-    local found="$(uname -m | grep -Eoi '^x86_64$')"
-
-    if [[ "$(isEmptyString "${found}")" = 'true' ]]
-    then
-        echo 'false'
-    else
-        echo 'true'
-    fi
-}
-
-function installCleanUp()
-{
-    apt-get clean
-}
-
-function getMachineRelease()
-{
-    lsb_release --short --release
-}
-
-function getMachineDescription()
-{
-    lsb_release --short --description
-}
-
-function runAptGetUpdate()
-{
-    local updateInterval="${1}"
-
-    local lastAptGetUpdate="$(getLastAptGetUpdate)"
-
-    if [[ "$(isEmptyString "${updateInterval}")" = 'true' ]]
-    then
-        updateInterval="$((24 * 60 * 60))"    # 24 hours
-    fi
-
-    if [[ "${lastAptGetUpdate}" -gt "${updateInterval}" ]]
-    then
-        apt-get update --fix-missing
-    else
-        local lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
-
-        info "Skip apt-get update because its last run was '${lastUpdate}' ago"
-    fi
-}
-
-function runAptGetUpgrade()
-{
-    runAptGetUpdate
-
-    apt-get -y dist-upgrade --fix-missing &&
-    apt-get -y upgrade --fix-missing &&
-    apt-get -y autoremove
-}
+#####################
+# PACKAGE UTILITIES #
+#####################
 
 function getLastAptGetUpdate()
 {
@@ -414,6 +187,36 @@ function getLastAptGetUpdate()
     local nowDate="$(date +'%s')"
 
     echo $((${nowDate} - ${aptDate}))
+}
+
+function installAptGetPackage()
+{
+    local package="${1}"
+
+    if [[ "$(isAptGetPackageInstall "${package}")" = 'true' ]]
+    then
+        debug "\nApt-Get Package '${package}' has already been installed"
+    else
+        echo -e "\033[1;35m\nInstalling Apt-Get package '${package}'\033[0m"
+        apt-get install -y "${package}"
+    fi
+}
+
+function installAptGetPackages()
+{
+    runAptGetUpdate
+
+    local package=''
+
+    for package in ${@}
+    do
+        installAptGetPackage "${package}"
+    done
+}
+
+function installCleanUp()
+{
+    apt-get clean
 }
 
 function installCommands()
@@ -446,16 +249,38 @@ function installCommands()
     done
 }
 
-function installAptGetPackages()
+function installCURLCommand()
 {
-    runAptGetUpdate
+    local commandPackage=('curl' 'curl')
 
-    local package=''
+    installCommands "${commandPackage[@]}"
+}
 
-    for package in ${@}
-    do
-        installAptGetPackage "${package}"
-    done
+function installPIPCommand()
+{
+    local commandPackage=('pip' 'python-pip')
+
+    installCommands "${commandPackage[@]}"
+}
+
+function installPIPPackage()
+{
+    local package="${1}"
+
+    if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
+    then
+        debug "PIP Package '${package}' found!"
+    else
+        echo -e "\033[1;35m\nInstalling PIP package '${package}'\033[0m"
+        pip install "${package}"
+    fi
+}
+
+function installUnzipCommand()
+{
+    local commandPackage=('unzip' 'unzip')
+
+    installCommands "${commandPackage[@]}"
 }
 
 function isAptGetPackageInstall()
@@ -469,19 +294,6 @@ function isAptGetPackageInstall()
         echo 'false'
     else
         echo 'true'
-    fi
-}
-
-function installAptGetPackage()
-{
-    local package="${1}"
-
-    if [[ "$(isAptGetPackageInstall "${package}")" = 'true' ]]
-    then
-        debug "\nApt-Get Package '${package}' has already been installed"
-    else
-        echo -e "\033[1;35m\nInstalling Apt-Get package '${package}'\033[0m"
-        apt-get install -y "${package}"
     fi
 }
 
@@ -510,17 +322,34 @@ function isPIPPackageInstall()
     fi
 }
 
-function installPIPPackage()
+function runAptGetUpdate()
 {
-    local package="${1}"
+    local updateInterval="${1}"
 
-    if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
+    local lastAptGetUpdate="$(getLastAptGetUpdate)"
+
+    if [[ "$(isEmptyString "${updateInterval}")" = 'true' ]]
     then
-        debug "PIP Package '${package}' found!"
-    else
-        echo -e "\033[1;35m\nInstalling PIP package '${package}'\033[0m"
-        pip install "${package}"
+        updateInterval="$((24 * 60 * 60))"    # 24 hours
     fi
+
+    if [[ "${lastAptGetUpdate}" -gt "${updateInterval}" ]]
+    then
+        apt-get update --fix-missing
+    else
+        local lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
+
+        info "Skip apt-get update because its last run was '${lastUpdate}' ago"
+    fi
+}
+
+function runAptGetUpgrade()
+{
+    runAptGetUpdate
+
+    apt-get -y dist-upgrade --fix-missing &&
+    apt-get -y upgrade --fix-missing &&
+    apt-get -y autoremove
 }
 
 function upgradePIPPackage()
@@ -536,22 +365,153 @@ function upgradePIPPackage()
     fi
 }
 
-function existURL()
+####################
+# STRING UTILITIES #
+####################
+
+function debug()
 {
-    local url="${1}"
+    echo -e "\033[1;34m${1}\033[0m"
+}
 
-    # Install Curl
+function error()
+{
+    echo -e "\033[1;31m${1}\033[0m" 1>&2
+}
 
-    installCURLCommand > '/dev/null'
+function escapeSearchPattern()
+{
+    echo "$(echo "${1}" | sed "s@\[@\\\\[@g" | sed "s@\*@\\\\*@g" | sed "s@\%@\\\\%@g")"
+}
 
-    # Check URL
+function fatal()
+{
+    error "${1}"
+    exit 1
+}
 
-    if ( curl --output '/dev/null' --silent --head --fail "${url}" )
+function formatPath()
+{
+    local string="${1}"
+
+    while [[ "$(echo "${string}" | grep -F '//')" != '' ]]
+    do
+        string="$(echo "${string}" | sed -e 's/\/\/*/\//g')"
+    done
+
+    echo "${string}" | sed -e 's/\/$//g'
+}
+
+function header()
+{
+    echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${1}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
+}
+
+function info()
+{
+    echo -e "\033[1;36m${1}\033[0m"
+}
+
+function isEmptyString()
+{
+    if [[ "$(trimString ${1})" = '' ]]
     then
         echo 'true'
     else
         echo 'false'
     fi
+}
+
+function trimString()
+{
+    echo "${1}" | sed -e 's/^ *//g' -e 's/ *$//g'
+}
+
+function warn()
+{
+    echo -e "\033[1;33m${1}\033[0m" 1>&2
+}
+
+####################
+# SYSTEM UTILITIES #
+####################
+
+function addSystemUser()
+{
+    local uid="${1}"
+    local gid="${2}"
+
+    if [[ "${uid}" = "${gid}" ]]
+    then
+        adduser --system --no-create-home --disabled-login --disabled-password --group "${gid}" >> /dev/null 2>&1
+    else
+        addgroup "${gid}" >> /dev/null 2>&1
+        adduser --system --no-create-home --disabled-login --disabled-password --ingroup "${gid}" "${uid}" >> /dev/null 2>&1
+    fi
+}
+
+function checkRequirePort()
+{
+    local ports="${@}"
+
+    local headerRegex='^COMMAND\s\+PID\s\+USER\s\+FD\s\+TYPE\s\+DEVICE\s\+SIZE\/OFF\s\+NODE\s\+NAME$'
+    local status="$(lsof -P -i | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
+    local open=''
+    local port=''
+
+    for port in ${ports}
+    do
+        local found="$(echo "${status}" | grep ":${port} (LISTEN)$")"
+
+        if [[ "$(isEmptyString "${found}")" = 'false' ]]
+        then
+            open="${open}\n${found}"
+        fi
+    done
+
+    if [[ "$(isEmptyString "${open}")" = 'false' ]]
+    then
+        echo -e  "\033[1;31mFollowing ports are still opened. Make sure you uninstall or stop them before a new installation!\033[0m"
+        echo -en "\033[1;34m\n$(echo "${status}" | grep "${headerRegex}")\033[0m"
+        echo -e  "\033[1;36m${open}\033[0m\n"
+        exit 1
+    fi
+}
+
+function checkRequireRootUser()
+{
+    checkRequireUser 'root'
+}
+
+function checkRequireSystem()
+{
+    if [[ "$(isUbuntuDistributor)" = 'false' ]]
+    then
+        fatal "\nFATAL: this program only supports 'Ubuntu' operating system!"
+    fi
+
+    if [[ "$(is64BitSystem)" = 'false' ]]
+    then
+        fatal "\nFATAL: this program only supports 'x86_64' operating system!"
+    fi
+}
+
+function checkRequireUser()
+{
+    local requireUser="${1}"
+
+    if [[ "$(whoami)" != "${requireUser}" ]]
+    then
+        fatal "\nFATAL: please run this program as '${requireUser}' user!"
+    fi
+}
+
+function displayOpenPorts()
+{
+    header 'LIST OPEN PORTS'
+
+    sleep 5
+    lsof -P -i | grep ' (LISTEN)$' | sort
 }
 
 function existCommand()
@@ -566,23 +526,83 @@ function existCommand()
     fi
 }
 
-function installCURLCommand()
+function getMachineDescription()
 {
-    local commandPackage=('curl' 'curl')
-
-    installCommands "${commandPackage[@]}"
+    lsb_release --short --description
 }
 
-function installUnzipCommand()
+function getMachineRelease()
 {
-    local commandPackage=('unzip' 'unzip')
-
-    installCommands "${commandPackage[@]}"
+    lsb_release --short --release
 }
 
-function installPIPCommand()
+function getProfileFile()
 {
-    local commandPackage=('pip' 'python-pip')
+    local user="${1}"
 
-    installCommands "${commandPackage[@]}"
+    local userHome="$(getUserHomeFolder "${user}")"
+
+    if [[ "$(isEmptyString "${userHome}")" = 'false' && -d "${userHome}" ]]
+    then
+        local bashProfileFile="${userHome}/.bash_profile"
+        local profileFile="${userHome}/.profile"
+        local defaultStartUpFile="${bashProfileFile}"
+
+        if [[ ! -f "${bashProfileFile}" && -f "${profileFile}" ]]
+        then
+            defaultStartUpFile="${profileFile}"
+        fi
+
+        echo "${defaultStartUpFile}"
+    else
+        echo
+    fi
+}
+
+function getTemporaryFile()
+{
+    local extension="${1}"
+
+    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(echo "${extension}" | grep -io "^.")" != '.' ]]
+    then
+        extension=".${extension}"
+    fi
+
+    mktemp "/tmp/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX${extension}"
+}
+
+function getTemporaryFolder()
+{
+    mktemp -d "/tmp/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
+}
+
+function getUserHomeFolder()
+{
+    local user="${1}"
+
+    echo "$(eval "echo ~${user}")"
+}
+
+function is64BitSystem()
+{
+    local found="$(uname -m | grep -Eoi '^x86_64$')"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}
+
+function isUbuntuDistributor()
+{
+    local found="$(uname -v | grep -Foi 'Ubuntu')"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
 }
