@@ -573,7 +573,14 @@ function getTemporaryFile()
 
 function getTemporaryFolder()
 {
-    mktemp -d "/tmp/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
+    local temporaryDirectory='/tmp'
+
+    if [[ "$(isEmptyString "${TMPDIR}")" = 'false' ]]
+    then
+        temporaryDirectory="$(formatPath "${TMPDIR}")"
+    fi
+
+    mktemp -d "${temporaryDirectory}/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
 }
 
 function getUserHomeFolder()
