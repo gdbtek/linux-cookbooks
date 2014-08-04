@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 mongodbDownloadURL='http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgz'
 

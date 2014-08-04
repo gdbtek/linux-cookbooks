@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 source "$(dirname "${0}")/../../jdk/attributes/default.bash" || exit 1
 

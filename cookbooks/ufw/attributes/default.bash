@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 ufwPolicies=(
     'allow 22/tcp'

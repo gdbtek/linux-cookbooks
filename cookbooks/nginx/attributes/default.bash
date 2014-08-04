@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 nginxDownloadURL='http://nginx.org/download/nginx-1.7.3.tar.gz'
 nginxPCREDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.35.tar.gz'

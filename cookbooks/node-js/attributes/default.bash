@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 nodejsInstallFolder='/opt/node'
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 ghostDownloadURL='https://ghost.org/zip/ghost-latest.zip'
 
