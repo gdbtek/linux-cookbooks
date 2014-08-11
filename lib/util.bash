@@ -564,10 +564,10 @@ DONE
 
             chmod 600 ${userHome}/.ssh/id_rsa*
         else
-            fatal "FATAL: install 'expect' command failed!"
+            fatal "\nFATAL: install 'expect' command failed!"
         fi
     else
-        fatal "FATAL: home of user '${user}' not found!"
+        fatal "\nFATAL: home of user '${user}' not found!"
     fi
 }
 
