@@ -545,20 +545,27 @@ function generateUserSSHKey()
 
     if [[ "$(existCommand 'expect')" = 'true' ]]
     then
-        rm -f ~${user}/.ssh/id_rsa*
+        local userHome="$(getUserHomeFolder "${user}")"
 
-        expect << DONE
-            spawn su - ${user} -c 'ssh-keygen'
-            expect "Enter file in which to save the key (*): "
-            send -- "\r"
-            expect "Enter passphrase (empty for no passphrase): "
-            send -- "\r"
-            expect "Enter same passphrase again: "
-            send -- "\r"
-            expect eof
+        if [[ "$(isEmptyString "${userHome}")" = 'false' && -d "${userHome}" ]]
+        then
+            rm -f ${userHome}/.ssh/id_rsa*
+
+            expect << DONE
+                spawn su - ${user} -c 'ssh-keygen'
+                expect "Enter file in which to save the key (*): "
+                send -- "\r"
+                expect "Enter passphrase (empty for no passphrase): "
+                send -- "\r"
+                expect "Enter same passphrase again: "
+                send -- "\r"
+                expect eof
 DONE
 
-        chmod 600 ~${user}/.ssh/id_rsa*
+            chmod 600 ${userHome}/.ssh/id_rsa*
+        else
+            fatal "FATAL: user '${user}''s home not found!"
+        fi
     else
         fatal "FATAL: install 'expect' command failed!"
     fi
