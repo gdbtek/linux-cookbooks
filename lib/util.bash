@@ -567,7 +567,7 @@ DONE
             fatal "FATAL: install 'expect' command failed!"
         fi
     else
-        fatal "FATAL: user '${user}''s home not found!"
+        fatal "FATAL: home of user '${user}' not found!"
     fi
 }
 
@@ -636,7 +636,7 @@ function getUserHomeFolder()
     then
         echo "$(eval "echo ~${user}")"
     else
-        fatal "FATAL: undefined user!"
+        echo
     fi
 }
 
