@@ -537,17 +537,17 @@ function generateUserSSHKey()
 {
     local user="${1}"
 
-    # Install Expect
+    local userHome="$(getUserHomeFolder "${user}")"
 
-    installExpectCommand
-
-    # Generate SSH Key
-
-    if [[ "$(existCommand 'expect')" = 'true' ]]
+    if [[ "$(isEmptyString "${userHome}")" = 'false' && -d "${userHome}" ]]
     then
-        local userHome="$(getUserHomeFolder "${user}")"
+        # Install Expect
 
-        if [[ "$(isEmptyString "${userHome}")" = 'false' && -d "${userHome}" ]]
+        installExpectCommand
+
+        # Generate SSH Key
+
+        if [[ "$(existCommand 'expect')" = 'true' ]]
         then
             rm -f ${userHome}/.ssh/id_rsa*
 
@@ -564,10 +564,10 @@ DONE
 
             chmod 600 ${userHome}/.ssh/id_rsa*
         else
-            fatal "FATAL: user '${user}''s home not found!"
+            fatal "FATAL: install 'expect' command failed!"
         fi
     else
-        fatal "FATAL: install 'expect' command failed!"
+        fatal "FATAL: user '${user}''s home not found!"
     fi
 }
 
