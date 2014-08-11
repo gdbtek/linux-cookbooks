@@ -632,7 +632,12 @@ function getUserHomeFolder()
 {
     local user="${1}"
 
-    echo "$(eval "echo ~${user}")"
+    if [[ "$(isEmptyString "${user}")" = 'false' ]]
+    then
+        echo "$(eval "echo ~${user}")"
+    else
+        fatal "FATAL: undefined user!"
+    fi
 }
 
 function is64BitSystem()
