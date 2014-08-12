@@ -23,9 +23,9 @@ function install()
     fi
 
     createPartition "${disk}"
-    mkfs.ext4 "${disk}1"
+    mkfs --type "${mounthdFSType}" "${disk}1"
     mkdir "${mountOn}"
-    mount -t ext4 "${disk}1" "${mountOn}"
+    mount --types "${mounthdFSType}" "${disk}1" "${mountOn}"
 
     df -h
 }
@@ -57,6 +57,7 @@ function main()
     local appPath="$(cd "$(dirname "${0}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash" || exit 1
+    source "${appPath}/../attributes/default.bash" || exit 1
 
     checkRequireSystem
     checkRequireRootUser
