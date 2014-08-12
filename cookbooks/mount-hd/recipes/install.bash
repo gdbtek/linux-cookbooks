@@ -31,9 +31,10 @@ function install()
 
     # Config Static File System
 
+    local fstabPattern="^\s*${disk}1\s+${mountOn}\s+${mounthdFSType}\s+defaults\s+0\s+2\s*$"
     local fstabConfig="${disk}1 ${mountOn} ${mounthdFSType} defaults 0 2"
 
-    appendToFileIfNotFound '/etc/fstab' "${fstabConfig}" "${fstabConfig}" 'false' 'false'
+    appendToFileIfNotFound '/etc/fstab' "${fstabPattern}" "${fstabConfig}" 'false' 'false'
 
     # Display File System
 
