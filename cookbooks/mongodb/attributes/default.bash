@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-mongodbDownloadURL='http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.3.tgz'
+mongodbDownloadURL='https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.4.tgz'
 
 mongodbInstallFolder='/opt/mongodb'
 mongodbInstallDataFolder='/opt/mongodb/data'
