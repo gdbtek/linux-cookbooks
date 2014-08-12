@@ -25,14 +25,14 @@ function install()
     fi
 
     createPartition "${disk}"
-    mkfs --type "${mounthdFSType}" "${disk}1"
+    mkfs --type "${mounthdFSType}" "${disk}${mounthdPartitionNumber}"
     mkdir "${mountOn}"
-    mount --types "${mounthdFSType}" "${disk}1" "${mountOn}"
+    mount --types "${mounthdFSType}" "${disk}${mounthdPartitionNumber}" "${mountOn}"
 
     # Config Static File System
 
-    local fstabPattern="^\s*${disk}1\s+${mountOn}\s+${mounthdFSType}\s+defaults\s+0\s+2\s*$"
-    local fstabConfig="${disk}1 ${mountOn} ${mounthdFSType} defaults 0 2"
+    local fstabPattern="^\s*${disk}${mounthdPartitionNumber}\s+${mountOn}\s+${mounthdFSType}\s+${mounthdMountOptions}\s+${mounthdDump}\s+${mounthdFSCKOption}\s*$"
+    local fstabConfig="${disk}${mounthdPartitionNumber} ${mountOn} ${mounthdFSType} ${mounthdMountOptions} ${mounthdDump} ${mounthdFSCKOption}"
 
     appendToFileIfNotFound '/etc/fstab' "${fstabPattern}" "${fstabConfig}" 'true' 'false'
 
