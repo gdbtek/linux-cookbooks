@@ -10,6 +10,8 @@ function install()
     local disk="$(formatPath "${1}")"
     local mountOn="$(formatPath "${2}")"
 
+    # Create Partition
+
     local foundDisk="$(fdisk -l "${disk}" 2>/dev/null | grep -Eio "^Disk\s+$(escapeSearchPattern "${disk}"):")"
 
     if [[ "$(isEmptyString "${foundDisk}")" = 'true' ]]
@@ -27,7 +29,15 @@ function install()
     mkdir "${mountOn}"
     mount --types "${mounthdFSType}" "${disk}1" "${mountOn}"
 
-    df -h
+    # Config Static File System
+
+    local fstabConfig="${disk}1 ${mountOn} ${mounthdFSType} defaults 0 2"
+
+    appendToFileIfNotFound '/etc/fstab' "${fstabConfig}" "${fstabConfig}" 'false' 'false'
+
+    # Display File System
+
+    df --human-readable --print-type
 }
 
 function createPartition()
