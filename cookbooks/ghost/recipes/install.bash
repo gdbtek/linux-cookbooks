@@ -21,18 +21,26 @@ function install()
 
     unzipRemoteFile "${ghostDownloadURL}" "${ghostInstallFolder}"
     cd "${ghostInstallFolder}"
-    npm install --production --silent
+    npm install "--${ghostEnvironment}" --silent
     cd "${currentPath}"
 
     # Config Server
 
     local serverConfigData=(
-        'http://my-ghost-blog.com' "${ghostURL}"
-        '127.0.0.1' "${ghostHost}"
-        '2369' "${ghostPort}"
+        '__PRODUCTION_URL__' "${ghostProductionURL}"
+        '__PRODUCTION_HOST__' "${ghostProductionHost}"
+        '__PRODUCTION_PORT__' "${ghostProductionPort}"
+
+        '__DEVELOPMENT_URL__' "${ghostDevelopmentURL}"
+        '__DEVELOPMENT_HOST__' "${ghostDevelopmentHost}"
+        '__DEVELOPMENT_PORT__' "${ghostDevelopmentPort}"
+
+        '__TESTING_URL__' "${ghostTestingURL}"
+        '__TESTING_HOST__' "${ghostTestingHost}"
+        '__TESTING_PORT__' "${ghostTestingPort}"
     )
 
-    createFileFromTemplate "${ghostInstallFolder}/config.example.js" "${ghostInstallFolder}/config.js" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/config.js.conf" "${ghostInstallFolder}/config.js" "${serverConfigData[@]}"
 
     # Config Upstart
 
@@ -64,7 +72,13 @@ function main()
 
     header 'INSTALLING GHOST'
 
-    checkRequirePort "${ghostPort}"
+    if [[ "${ghostEnvironment}" = 'production' ]]
+    then
+        checkRequirePort "${ghostProductionPort}"
+    elif [[ "${ghostEnvironment}" = 'development' ]]
+    then
+        checkRequirePort "${ghostDevelopmentPort}"
+    fi
 
     installDependencies
     install

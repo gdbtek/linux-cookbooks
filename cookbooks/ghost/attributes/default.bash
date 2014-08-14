@@ -9,6 +9,17 @@ ghostServiceName='ghost'
 ghostUID='ghost'
 ghostGID='ghost'
 
-ghostURL='http://blog.nam.guru'
-ghostHost='nam.guru'
-ghostPort=2368
+ghostProductionURL='http://127.0.0.1'
+ghostProductionHost='127.0.0.1'
+ghostProductionPort=2368
+
+ghostDevelopmentURL='http://127.0.0.1'
+ghostDevelopmentHost='127.0.0.1'
+ghostDevelopmentPort=2368
+
+ghostTestingURL='http://127.0.0.1:2369'
+ghostTestingHost='127.0.0.1'
+ghostTestingPort=2369
+
+ghostEnvironment='production'
+# ghostEnvironment='development'
