@@ -9,4 +9,5 @@ setgid '__GID__'
 respawn
 respawn limit 10 5
 
-exec node '__INSTALL_FOLDER__/index'
+chdir '__INSTALL_FOLDER__'
+exec npm start
