@@ -80,6 +80,8 @@ function main()
     elif [[ "${ghostEnvironment}" = 'development' ]]
     then
         checkRequirePort "${ghostDevelopmentPort}"
+    else
+        fatal "\nFATAL: environment '${ghostDevelopmentPort}' invalid!"
     fi
 
     installDependencies
