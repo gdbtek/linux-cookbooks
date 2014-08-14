@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' ]]
+    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${nodejsInstallFolder}" ]]
     then
         "${appPath}/../../node-js/recipes/install.bash"
     fi
@@ -57,6 +57,7 @@ function main()
 
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
+    source "${appPath}/../../node-js/attributes/default.bash" || exit 1
 
     checkRequireSystem
     checkRequireRootUser

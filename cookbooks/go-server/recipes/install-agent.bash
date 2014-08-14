@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ ! -d "${jdkInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${jdkInstallFolder}" ]]
     then
         "${appPath}/../../jdk/recipes/install.bash"
     fi
