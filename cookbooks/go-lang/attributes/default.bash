@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
-golangDownloadURL='http://golang.org/dl/go1.3.linux-amd64.tar.gz'
+golangDownloadURL='https://storage.googleapis.com/golang/go1.3.1.linux-amd64.tar.gz'
 
 golangInstallFolder='/opt/go-lang'

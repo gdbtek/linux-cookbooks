@@ -2,7 +2,7 @@
 
 source "$(dirname "${0}")/../../jdk/attributes/default.bash" || exit 1
 
-elasticsearchDownloadURL='https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.1.tar.gz'
+elasticsearchDownloadURL='https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.2.tar.gz'
 
 elasticsearchInstallFolder='/opt/elastic-search'
 elasticsearchJDKFolder="${jdkInstallFolder}"
