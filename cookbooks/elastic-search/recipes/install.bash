@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' ]]
+    if [[ ! -d "${jdkInstallFolder}" ]]
     then
         "${appPath}/../../jdk/recipes/install.bash"
     fi
@@ -62,6 +62,7 @@ function main()
 
     source "${appPath}/../../../lib/util.bash" || exit 1
     source "${appPath}/../attributes/default.bash" || exit 1
+    source "${appPath}/../../jdk/attributes/default.bash" || exit 1
 
     checkRequireSystem
     checkRequireRootUser
