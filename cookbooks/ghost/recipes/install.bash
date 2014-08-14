@@ -47,6 +47,7 @@ function install()
     local upstartConfigData=(
         '__ENVIRONMENT__' "${ghostEnvironment}"
         '__INSTALL_FOLDER__' "${ghostInstallFolder}"
+
         '__UID__' "${ghostUID}"
         '__GID__' "${ghostGID}"
     )
