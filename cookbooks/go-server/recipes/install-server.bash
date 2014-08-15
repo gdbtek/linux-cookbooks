@@ -18,14 +18,14 @@ function install()
     # Install
 
     addgroup "${goserverGID}" >> /dev/null 2>&1
-    useradd "${goserverUID}" -g "${goserverGID}" -s '/bin/bash' -m
+    useradd "${goserverUID}" --gid "${goserverGID}" --shell '/bin/bash' --create-home
     unzipRemoteFile "${goserverServerDownloadURL}" "${goserverServerInstallFolder}"
 
-    local unzipFolderName="$(ls -d ${goserverServerInstallFolder}/*/ 2> '/dev/null')"
+    local unzipFolderName="$(ls --directory ${goserverServerInstallFolder}/*/ 2> '/dev/null')"
 
-    if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc -l)" = '1' ]]
+    if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc --lines)" = '1' ]]
     then
-        if [[ "$(ls -A "${unzipFolderName}")" != '' ]]
+        if [[ "$(ls --almost-all "${unzipFolderName}")" != '' ]]
         then
             mv ${unzipFolderName}* "${goserverServerInstallFolder}" &&
             chown --recursive "${goserverUID}":"${goserverGID}" "${goserverServerInstallFolder}" &&
