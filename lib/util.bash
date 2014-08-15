@@ -346,7 +346,7 @@ function runAptGetUpdate()
     else
         local lastUpdate="$(date --universal --date @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
 
-        info "Skip apt-get update because its last run was '${lastUpdate}' ago"
+        info "\nSkip apt-get update because its last run was '${lastUpdate}' ago"
     fi
 }
 
