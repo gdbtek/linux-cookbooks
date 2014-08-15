@@ -14,11 +14,11 @@ function appendToFileIfNotFound()
 
     if [[ -f "${file}" ]]
     then
-        local grepOption='-Fo'
+        local grepOption='--fixed-strings --only-matching'
 
         if [[ "${patternAsRegex}" = 'true' ]]
         then
-            grepOption='-Eo'
+            grepOption='--extended-regexp --only-matching'
         fi
 
         local found="$(grep "${grepOption}" "${pattern}" "${file}")"
@@ -87,8 +87,8 @@ function symlinkLocalBin()
     do
         local localBinFile="/usr/local/bin/$(basename "${file}")"
 
-        rm -f "${localBinFile}"
-        ln -s "${file}" "${localBinFile}"
+        rm --force "${localBinFile}"
+        ln --symbolic "${file}" "${localBinFile}"
     done
 }
 
@@ -124,7 +124,7 @@ function getRemoteFileContent()
 
     # Get Content
 
-    curl -s -X 'GET' "${url}"
+    curl --silent --request 'GET' "${url}"
 }
 
 function unzipRemoteFile()
@@ -147,13 +147,13 @@ function unzipRemoteFile()
 
     # Unzip
 
-    if [[ "$(echo "${extension}" | grep -i '^tgz$')" != '' ||
-          "$(echo "${extension}" | grep -i '^tar\.gz$')" != '' ||
-          "$(echo "${exExtension}" | grep -i '^tar\.gz$')" != '' ]]
+    if [[ "$(echo "${extension}" | grep --ignore-case '^tgz$')" != '' ||
+          "$(echo "${extension}" | grep --ignore-case '^tar\.gz$')" != '' ||
+          "$(echo "${exExtension}" | grep --ignore-case '^tar\.gz$')" != '' ]]
     then
         echo
-        curl -L "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
-    elif [[ "$(echo "${extension}" | grep -i '^zip$')" != '' ]]
+        curl --location "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
+    elif [[ "$(echo "${extension}" | grep --ignore-case '^zip$')" != '' ]]
     then
         # Install Unzip
 
@@ -166,9 +166,9 @@ function unzipRemoteFile()
             local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
             echo
-            curl -L "${downloadURL}" -o "${zipFile}"
+            curl --location "${downloadURL}" --output "${zipFile}"
             unzip -q "${zipFile}" -d "${installFolder}"
-            rm -f "${zipFile}"
+            rm --force "${zipFile}"
         else
             fatal "FATAL: install 'unzip' command failed!"
         fi
@@ -294,7 +294,7 @@ function isAptGetPackageInstall()
 {
     local package="${1}"
 
-    local found="$(dpkg --get-selections | grep -Eo "^${package}(:amd64)*\s+install$")"
+    local found="$(dpkg --get-selections | grep --extended-regexp --only-matching "^${package}(:amd64)*\s+install$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -316,7 +316,7 @@ function isPIPPackageInstall()
 
     if [[ "$(existCommand 'pip')" = 'true' ]]
     then
-        local found="$(pip list | grep -Eo "^${package}\s+\(.*\)$")"
+        local found="$(pip list | grep --extended-regexp --only-matching "^${package}\s+\(.*\)$")"
 
         if [[ "$(isEmptyString "${found}")" = 'true' ]]
         then
@@ -401,7 +401,7 @@ function formatPath()
 {
     local string="${1}"
 
-    while [[ "$(echo "${string}" | grep -F '//')" != '' ]]
+    while [[ "$(echo "${string}" | grep --fixed-strings '//')" != '' ]]
     do
         string="$(echo "${string}" | sed -e 's/\/\/*/\//g')"
     done
@@ -549,7 +549,7 @@ function generateUserSSHKey()
 
         if [[ "$(existCommand 'expect')" = 'true' ]]
         then
-            rm -f ${userHome}/.ssh/id_rsa*
+            rm --force ${userHome}/.ssh/id_rsa*
 
             expect << DONE
                 spawn su - ${user} -c 'ssh-keygen'
@@ -608,7 +608,7 @@ function getTemporaryFile()
 {
     local extension="${1}"
 
-    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(echo "${extension}" | grep -io "^.")" != '.' ]]
+    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(echo "${extension}" | grep --ignore-case --only-matching "^.")" != '.' ]]
     then
         extension=".${extension}"
     fi
@@ -642,7 +642,7 @@ function getUserHomeFolder()
 
 function is64BitSystem()
 {
-    local found="$(uname -m | grep -Eoi '^x86_64$')"
+    local found="$(uname -m | grep --extended-regexp --ignore-case --only-matching '^x86_64$')"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -654,7 +654,7 @@ function is64BitSystem()
 
 function isUbuntuDistributor()
 {
-    local found="$(uname -v | grep -Foi 'Ubuntu')"
+    local found="$(uname -v | grep --fixed-strings --ignore-case --only-matching 'Ubuntu')"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then

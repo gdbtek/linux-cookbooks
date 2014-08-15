@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
+    rm --force --recursive "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
     mkdir -p "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
 
     # Install
@@ -20,8 +20,8 @@ function install()
     unzipRemoteFile "${redisDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}/src" -type f ! -name "*.sh" -perm -u+x -exec cp -f {} "${redisInstallBinFolder}" \;
-    rm -rf "${tempFolder}"
+    find "${tempFolder}/src" -type f ! -name "*.sh" -perm -u+x -exec cp --force {} "${redisInstallBinFolder}" \;
+    rm --force --recursive "${tempFolder}"
     cd "${currentPath}"
 
     # Config Server

@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${nodejsInstallFolder}" '/usr/local/bin/node' '/usr/local/bin/npm'
+    rm --force --recursive "${nodejsInstallFolder}" '/usr/local/bin/node' '/usr/local/bin/npm'
     mkdir -p "${nodejsInstallFolder}"
 
     # Install
@@ -46,7 +46,7 @@ function getLatestVersionNumber()
     local versionPattern='[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,3}'
     local shaSum256="$(getRemoteFileContent 'http://nodejs.org/dist/latest/SHASUMS256.txt.asc')"
 
-    echo "${shaSum256}" | grep -Eo "node-v${versionPattern}\.tar\.gz" | grep -Eo "${versionPattern}"
+    echo "${shaSum256}" | grep --extended-regexp --only-matching "node-v${versionPattern}\.tar\.gz" | grep --extended-regexp --only-matching "${versionPattern}"
 }
 
 function main()

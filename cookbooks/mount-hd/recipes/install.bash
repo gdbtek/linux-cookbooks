@@ -12,7 +12,7 @@ function install()
 
     # Create Partition
 
-    local foundDisk="$(fdisk -l "${disk}" 2>/dev/null | grep -Eio "^Disk\s+$(escapeSearchPattern "${disk}"):")"
+    local foundDisk="$(fdisk -l "${disk}" 2>/dev/null | grep --extended-regexp --ignore-case --only-matching "^Disk\s+$(escapeSearchPattern "${disk}"):")"
 
     if [[ "$(isEmptyString "${foundDisk}")" = 'true' ]]
     then

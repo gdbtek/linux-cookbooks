@@ -12,7 +12,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${ghostInstallFolder}"
+    rm --force --recursive "${ghostInstallFolder}"
     mkdir -p "${ghostInstallFolder}"
 
     # Install

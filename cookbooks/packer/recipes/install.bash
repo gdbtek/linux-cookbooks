@@ -4,7 +4,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${packerInstallFolder}"
+    rm --force --recursive "${packerInstallFolder}"
     mkdir -p "${packerInstallFolder}/bin"
 
     # Install

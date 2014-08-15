@@ -15,5 +15,5 @@ env CATALINA_HOME='__INSTALL_FOLDER__'
 exec "${CATALINA_HOME}/bin/catalina.sh" run
 
 post-stop script
-    rm -rf ${CATALINA_HOME}/logs/* ${CATALINA_HOME}/temp/*
+    rm --force --recursive ${CATALINA_HOME}/logs/* ${CATALINA_HOME}/temp/*
 end script

@@ -14,11 +14,11 @@ function install()
 
     # Clean Up
 
-    rm -rf "${jenkinsTomcatFolder}/webapps/${appName}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    rm --force --recursive "${jenkinsTomcatFolder}/webapps/${appName}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
 
     # Install
 
-    curl -L "${jenkinsDownloadURL}" -o "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    curl --location "${jenkinsDownloadURL}" --output "${jenkinsTomcatFolder}/webapps/${appName}.war"
     chown -R "${jenkinsUID}":"${jenkinsGID}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
 }
 

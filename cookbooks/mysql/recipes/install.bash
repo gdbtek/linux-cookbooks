@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
+    rm --force --recursive "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
     mkdir -p "${mysqlInstallFolder}"
 
     # Install
@@ -18,7 +18,7 @@ function install()
 
     unzipRemoteFile "${mysqlDownloadURL}" "${mysqlInstallFolder}"
     addSystemUser "${mysqlUID}" "${mysqlGID}"
-    ln -s "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
+    ln --symbolic "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
     chown -R "${mysqlUID}":"${mysqlGID}" "${mysqlInstallFolder}"
     cd "${mysqlInstallFolder}"
     "${mysqlInstallFolder}/scripts/mysql_install_db" --user="${mysqlUID}"
@@ -34,7 +34,7 @@ function install()
 
     # Config Service
 
-    cp -f "${mysqlInstallFolder}/support-files/mysql.server" "/etc/init.d/${mysqlServiceName}"
+    cp --force "${mysqlInstallFolder}/support-files/mysql.server" "/etc/init.d/${mysqlServiceName}"
     sysv-rc-conf --level 2345 "${mysqlServiceName}" on
 
     # Config Profile

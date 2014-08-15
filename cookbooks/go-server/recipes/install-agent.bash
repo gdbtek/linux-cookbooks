@@ -12,7 +12,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${goserverAgentInstallFolder}"
+    rm --force --recursive "${goserverAgentInstallFolder}"
     mkdir -p "${goserverAgentInstallFolder}"
 
     # Install
@@ -29,7 +29,7 @@ function install()
         then
             mv ${unzipFolderName}* "${goserverAgentInstallFolder}" &&
             chown -R "${goserverUID}":"${goserverGID}" "${goserverAgentInstallFolder}" &&
-            rm -rf "${unzipFolderName}"
+            rm --force --recursive "${unzipFolderName}"
         else
             fatal "FATAL: folder '${unzipFolderName}' is empty"
         fi

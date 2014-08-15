@@ -12,7 +12,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${elasticsearchInstallFolder}"
+    rm --force --recursive "${elasticsearchInstallFolder}"
     mkdir -p "${elasticsearchInstallFolder}"
 
     # Install

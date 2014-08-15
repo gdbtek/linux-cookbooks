@@ -14,7 +14,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${haproxyInstallFolder}"
+    rm --force --recursive "${haproxyInstallFolder}"
     mkdir -p "${haproxyInstallFolder}"
 
     # Install
@@ -27,7 +27,7 @@ function install()
     make "${haproxyConfig[@]}" &&
     make install PREFIX='' DESTDIR="${haproxyInstallFolder}"
 
-    rm -rf "${tempFolder}"
+    rm --force --recursive "${tempFolder}"
     cd "${currentPath}"
 
     # Config Profile

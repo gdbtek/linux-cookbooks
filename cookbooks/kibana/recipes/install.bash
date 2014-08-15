@@ -4,7 +4,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${kibanaInstallFolder}"
+    rm --force --recursive "${kibanaInstallFolder}"
     mkdir -p "${kibanaInstallFolder}"
 
     # Install

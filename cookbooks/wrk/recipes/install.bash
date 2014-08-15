@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${wrkInstallFolder}"
+    rm --force --recursive "${wrkInstallFolder}"
     mkdir -p "${wrkInstallFolder}/bin"
 
     # Install
@@ -20,8 +20,8 @@ function install()
     git clone "${wrkDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f {} "${wrkInstallFolder}/bin" \;
-    rm -rf "${tempFolder}"
+    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp --force {} "${wrkInstallFolder}/bin" \;
+    rm --force --recursive "${tempFolder}"
     cd "${currentPath}"
 
     # Config Profile

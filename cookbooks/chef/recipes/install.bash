@@ -2,7 +2,7 @@
 
 function install()
 {
-    curl -L "${chefDownloadURL}" | bash &&
+    curl --location "${chefDownloadURL}" | bash &&
     info "\n$(knife --version)"
 }
 

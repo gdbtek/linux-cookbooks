@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -rf "${nginxInstallFolder}"
+    rm --force --recursive "${nginxInstallFolder}"
     mkdir -p "${nginxInstallFolder}"
 
     # Download Dependencies
@@ -33,7 +33,7 @@ function install()
         --with-zlib="${tempZLIBFolder}" &&
     make &&
     make install
-    rm -rf "${tempFolder}" "${tempPCREFolder}" "${tempZLIBFolder}"
+    rm --force --recursive "${tempFolder}" "${tempPCREFolder}" "${tempZLIBFolder}"
     cd "${currentPath}"
 
     # Config Server
