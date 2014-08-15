@@ -10,7 +10,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${pcreInstallFolder}"
-    mkdir -p "${pcreInstallFolder}"
+    mkdir --parents "${pcreInstallFolder}"
 
     # Install
 

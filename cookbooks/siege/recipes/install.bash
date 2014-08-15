@@ -10,7 +10,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${siegeInstallFolder}"
-    mkdir -p "${siegeInstallFolder}/bin"
+    mkdir --parents "${siegeInstallFolder}/bin"
 
     # Install
 

@@ -5,12 +5,12 @@ function install()
     # Clean Up
 
     rm --force --recursive "${packerInstallFolder}"
-    mkdir -p "${packerInstallFolder}/bin"
+    mkdir --parents "${packerInstallFolder}/bin"
 
     # Install
 
     unzipRemoteFile "${packerDownloadURL}" "${packerInstallFolder}/bin"
-    chown -R "$(whoami)":"$(whoami)" "${packerInstallFolder}"
+    chown --recursive "$(whoami)":"$(whoami)" "${packerInstallFolder}"
     symlinkLocalBin "${packerInstallFolder}/bin"
 
     # Config Profile

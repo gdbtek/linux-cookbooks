@@ -10,7 +10,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
-    mkdir -p "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
+    mkdir --parents "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
 
     # Install
 
@@ -62,7 +62,7 @@ function install()
     # Start
 
     addSystemUser "${redisUID}" "${redisGID}"
-    chown -R "${redisUID}":"${redisGID}" "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
+    chown --recursive "${redisUID}":"${redisGID}" "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
     start "${redisServiceName}"
 
     # Display Version

@@ -13,7 +13,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${elasticsearchInstallFolder}"
-    mkdir -p "${elasticsearchInstallFolder}"
+    mkdir --parents "${elasticsearchInstallFolder}"
 
     # Install
 
@@ -48,7 +48,7 @@ function install()
     # Start
 
     addSystemUser "${elasticsearchUID}" "${elasticsearchGID}"
-    chown -R "${elasticsearchUID}":"${elasticsearchGID}" "${elasticsearchInstallFolder}"
+    chown --recursive "${elasticsearchUID}":"${elasticsearchGID}" "${elasticsearchInstallFolder}"
     start "${elasticsearchServiceName}"
 
     # Display Version

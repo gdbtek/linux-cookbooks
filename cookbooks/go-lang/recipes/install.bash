@@ -10,12 +10,12 @@ function install()
     # Clean Up
 
     rm --force --recursive "${golangInstallFolder}" '/usr/local/bin/go' '/usr/local/bin/godoc' '/usr/local/bin/gofmt' '/usr/local/go'
-    mkdir -p "${golangInstallFolder}"
+    mkdir --parents "${golangInstallFolder}"
 
     # Install
 
     unzipRemoteFile "${golangDownloadURL}" "${golangInstallFolder}"
-    chown -R "$(whoami)":"$(whoami)" "${golangInstallFolder}"
+    chown --recursive "$(whoami)":"$(whoami)" "${golangInstallFolder}"
     symlinkLocalBin "${golangInstallFolder}/bin"
     ln --symbolic "${golangInstallFolder}" '/usr/local/go'
 

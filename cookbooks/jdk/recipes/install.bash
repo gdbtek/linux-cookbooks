@@ -5,7 +5,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${jdkInstallFolder}" '/usr/local/bin/java' '/usr/local/bin/javac'
-    mkdir -p "${jdkInstallFolder}"
+    mkdir --parents "${jdkInstallFolder}"
 
     # Install
 
@@ -13,7 +13,7 @@ function install()
 
     # Config Lib
 
-    chown -R "$(whoami)":"$(whoami)" "${jdkInstallFolder}"
+    chown --recursive "$(whoami)":"$(whoami)" "${jdkInstallFolder}"
     ln --symbolic "${jdkInstallFolder}/bin/java" '/usr/local/bin/java'
     ln --symbolic "${jdkInstallFolder}/bin/javac" '/usr/local/bin/javac'
 

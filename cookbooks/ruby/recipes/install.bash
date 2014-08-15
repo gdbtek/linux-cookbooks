@@ -10,7 +10,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${rubyInstallFolder}"
-    mkdir -p "${rubyInstallFolder}"
+    mkdir --parents "${rubyInstallFolder}"
 
     # Install
 

@@ -13,7 +13,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${goserverServerInstallFolder}"
-    mkdir -p "${goserverServerInstallFolder}"
+    mkdir --parents "${goserverServerInstallFolder}"
 
     # Install
 
@@ -28,7 +28,7 @@ function install()
         if [[ "$(ls -A "${unzipFolderName}")" != '' ]]
         then
             mv ${unzipFolderName}* "${goserverServerInstallFolder}" &&
-            chown -R "${goserverUID}":"${goserverGID}" "${goserverServerInstallFolder}" &&
+            chown --recursive "${goserverUID}":"${goserverGID}" "${goserverServerInstallFolder}" &&
             rm --force --recursive "${unzipFolderName}"
         else
             fatal "FATAL: folder '${unzipFolderName}' is empty"

@@ -19,7 +19,7 @@ function install()
     # Install
 
     curl --location "${jenkinsDownloadURL}" --output "${jenkinsTomcatFolder}/webapps/${appName}.war"
-    chown -R "${jenkinsUID}":"${jenkinsGID}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    chown --recursive "${jenkinsUID}":"${jenkinsGID}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
 }
 
 function main()

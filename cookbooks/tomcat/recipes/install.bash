@@ -13,7 +13,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${tomcatInstallFolder}"
-    mkdir -p "${tomcatInstallFolder}"
+    mkdir --parents "${tomcatInstallFolder}"
 
     # Install
 
@@ -50,7 +50,7 @@ function install()
     # Start
 
     addSystemUser "${tomcatUID}" "${tomcatGID}"
-    chown -R "${tomcatUID}":"${tomcatGID}" "${tomcatInstallFolder}"
+    chown --recursive "${tomcatUID}":"${tomcatGID}" "${tomcatInstallFolder}"
     start "${tomcatServiceName}"
 
     # Display Version

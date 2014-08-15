@@ -10,7 +10,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${nodejsInstallFolder}" '/usr/local/bin/node' '/usr/local/bin/npm'
-    mkdir -p "${nodejsInstallFolder}"
+    mkdir --parents "${nodejsInstallFolder}"
 
     # Install
 
@@ -25,7 +25,7 @@ function install()
     if [[ "$(existURL "${url}")" = 'true' ]]
     then
         unzipRemoteFile "${url}" "${nodejsInstallFolder}"
-        chown -R "$(whoami)":"$(whoami)" "${nodejsInstallFolder}"
+        chown --recursive "$(whoami)":"$(whoami)" "${nodejsInstallFolder}"
         symlinkLocalBin "${nodejsInstallFolder}/bin"
 
         # Config Profile

@@ -10,7 +10,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${nginxInstallFolder}"
-    mkdir -p "${nginxInstallFolder}"
+    mkdir --parents "${nginxInstallFolder}"
 
     # Download Dependencies
 
@@ -57,7 +57,7 @@ function install()
     # Start
 
     addSystemUser "${nginxUID}" "${nginxGID}"
-    chown -R "${nginxUID}":"${nginxGID}" "${nginxInstallFolder}"
+    chown --recursive "${nginxUID}":"${nginxGID}" "${nginxInstallFolder}"
     start "${nginxServiceName}"
 
     # Display Version

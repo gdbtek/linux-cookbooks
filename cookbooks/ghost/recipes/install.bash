@@ -13,7 +13,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${ghostInstallFolder}"
-    mkdir -p "${ghostInstallFolder}"
+    mkdir --parents "${ghostInstallFolder}"
 
     # Install
 
@@ -57,7 +57,7 @@ function install()
     # Start
 
     addSystemUser "${ghostUID}" "${ghostGID}"
-    chown -R "${ghostUID}":"${ghostGID}" "${ghostInstallFolder}"
+    chown --recursive "${ghostUID}":"${ghostGID}" "${ghostInstallFolder}"
     start "${ghostServiceName}"
 }
 

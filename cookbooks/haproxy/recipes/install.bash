@@ -15,7 +15,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${haproxyInstallFolder}"
-    mkdir -p "${haproxyInstallFolder}"
+    mkdir --parents "${haproxyInstallFolder}"
 
     # Install
 
@@ -45,7 +45,7 @@ function install()
     # Start
 
     addSystemUser "${haproxyUID}" "${haproxyGID}"
-    chown -R "${haproxyUID}":"${haproxyGID}" "${haproxyInstallFolder}"
+    chown --recursive "${haproxyUID}":"${haproxyGID}" "${haproxyInstallFolder}"
     start "${haproxyServiceName}"
 
     # Display Version

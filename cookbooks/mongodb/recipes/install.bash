@@ -5,7 +5,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${mongodbInstallFolder}"
-    mkdir -p "${mongodbInstallFolder}" "${mongodbInstallDataFolder}"
+    mkdir --parents "${mongodbInstallFolder}" "${mongodbInstallDataFolder}"
 
     # Install
 
@@ -27,7 +27,7 @@ function install()
     )
 
     createFileFromTemplate "${appPath}/../templates/default/mongodb.conf.upstart" "/etc/init/${mongodbServiceName}.conf" "${upstartConfigData[@]}"
-    chown -R "$(whoami)":"$(whoami)" "${mongodbInstallFolder}"
+    chown --recursive "$(whoami)":"$(whoami)" "${mongodbInstallFolder}"
 
     # Start
 

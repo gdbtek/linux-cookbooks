@@ -10,7 +10,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${wrkInstallFolder}"
-    mkdir -p "${wrkInstallFolder}/bin"
+    mkdir --parents "${wrkInstallFolder}/bin"
 
     # Install
 

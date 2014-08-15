@@ -10,7 +10,7 @@ function install()
     # Clean Up
 
     rm --force --recursive "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
-    mkdir -p "${mysqlInstallFolder}"
+    mkdir --parents "${mysqlInstallFolder}"
 
     # Install
 
@@ -19,11 +19,11 @@ function install()
     unzipRemoteFile "${mysqlDownloadURL}" "${mysqlInstallFolder}"
     addSystemUser "${mysqlUID}" "${mysqlGID}"
     ln --symbolic "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
-    chown -R "${mysqlUID}":"${mysqlGID}" "${mysqlInstallFolder}"
+    chown --recursive "${mysqlUID}":"${mysqlGID}" "${mysqlInstallFolder}"
     cd "${mysqlInstallFolder}"
     "${mysqlInstallFolder}/scripts/mysql_install_db" --user="${mysqlUID}"
-    chown -R "$(whoami)" "${mysqlInstallFolder}"
-    chown -R "${mysqlUID}" "${mysqlInstallFolder}/data"
+    chown --recursive "$(whoami)" "${mysqlInstallFolder}"
+    chown --recursive "${mysqlUID}" "${mysqlInstallFolder}/data"
     cd "${currentPath}"
 
     # Config Server

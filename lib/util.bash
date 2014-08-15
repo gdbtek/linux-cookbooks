@@ -142,7 +142,7 @@ function unzipRemoteFile()
     if [[ "$(isEmptyString "${extension}")" = 'true' ]]
     then
         extension="$(getFileExtension "${downloadURL}")"
-        local exExtension="$(echo "${downloadURL}" | rev | cut -d '.' -f 1-2 | rev)"
+        local exExtension="$(echo "${downloadURL}" | rev | cut --delimiter '.' --fields 1-2 | rev)"
     fi
 
     # Unzip
@@ -152,7 +152,7 @@ function unzipRemoteFile()
           "$(echo "${exExtension}" | grep --ignore-case '^tar\.gz$')" != '' ]]
     then
         echo
-        curl --location "${downloadURL}" | tar xz --strip 1 -C "${installFolder}"
+        curl --location "${downloadURL}" | tar --directory "${installFolder}" --extract --gzip --strip 1
     elif [[ "$(echo "${extension}" | grep --ignore-case '^zip$')" != '' ]]
     then
         # Install Unzip
@@ -183,7 +183,7 @@ function unzipRemoteFile()
 
 function getLastAptGetUpdate()
 {
-    local aptDate="$(stat -c %Y '/var/cache/apt')"
+    local aptDate="$(stat --format %Y '/var/cache/apt')"
     local nowDate="$(date +'%s')"
 
     echo $((${nowDate} - ${aptDate}))
@@ -198,7 +198,7 @@ function installAptGetPackage()
         debug "\nApt-Get Package '${package}' has already been installed"
     else
         echo -e "\033[1;35m\nInstalling Apt-Get package '${package}'\033[0m"
-        apt-get install -y "${package}"
+        apt-get install --assume-yes "${package}"
     fi
 }
 
@@ -344,7 +344,7 @@ function runAptGetUpdate()
     then
         apt-get update --fix-missing
     else
-        local lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
+        local lastUpdate="$(date --universal --date @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
 
         info "Skip apt-get update because its last run was '${lastUpdate}' ago"
     fi
@@ -354,9 +354,9 @@ function runAptGetUpgrade()
 {
     runAptGetUpdate
 
-    apt-get -y dist-upgrade --fix-missing &&
-    apt-get -y upgrade --fix-missing &&
-    apt-get -y autoremove
+    apt-get dist-upgrade --assume-yes --fix-missing &&
+    apt-get upgrade --assume-yes --fix-missing &&
+    apt-get autoremove --assume-yes
 }
 
 function upgradePIPPackage()
@@ -403,10 +403,10 @@ function formatPath()
 
     while [[ "$(echo "${string}" | grep --fixed-strings '//')" != '' ]]
     do
-        string="$(echo "${string}" | sed -e 's/\/\/*/\//g')"
+        string="$(echo "${string}" | sed --expression 's/\/\/*/\//g')"
     done
 
-    echo "${string}" | sed -e 's/\/$//g'
+    echo "${string}" | sed --expression 's/\/$//g'
 }
 
 function header()
@@ -431,7 +431,7 @@ function isEmptyString()
 
 function trimString()
 {
-    echo "${1}" | sed -e 's/^ *//g' -e 's/ *$//g'
+    echo "${1}" | sed --expression 's/^ *//g' -e 's/ *$//g'
 }
 
 function warn()
@@ -552,7 +552,7 @@ function generateUserSSHKey()
             rm --force ${userHome}/.ssh/id_rsa*
 
             expect << DONE
-                spawn su - ${user} -c 'ssh-keygen'
+                spawn su - ${user} --command 'ssh-keygen'
                 expect "Enter file in which to save the key (*): "
                 send -- "\r"
                 expect "Enter passphrase (empty for no passphrase): "
@@ -642,7 +642,7 @@ function getUserHomeFolder()
 
 function is64BitSystem()
 {
-    local found="$(uname -m | grep --extended-regexp --ignore-case --only-matching '^x86_64$')"
+    local found="$(uname --machine | grep --extended-regexp --ignore-case --only-matching '^x86_64$')"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -654,7 +654,7 @@ function is64BitSystem()
 
 function isUbuntuDistributor()
 {
-    local found="$(uname -v | grep --fixed-strings --ignore-case --only-matching 'Ubuntu')"
+    local found="$(uname --kernel-version | grep --fixed-strings --ignore-case --only-matching 'Ubuntu')"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
