@@ -431,7 +431,7 @@ function isEmptyString()
 
 function trimString()
 {
-    echo "${1}" | sed --expression 's/^ *//g' -e 's/ *$//g'
+    echo "${1}" | sed --expression 's/^ *//g' --expression 's/ *$//g'
 }
 
 function warn()
@@ -625,7 +625,7 @@ function getTemporaryFolder()
         temporaryDirectory="$(formatPath "${TMPDIR}")"
     fi
 
-    mktemp -d "${temporaryDirectory}/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
+    mktemp --directory "${temporaryDirectory}/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
 }
 
 function getUserHomeFolder()

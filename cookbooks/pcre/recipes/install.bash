@@ -33,7 +33,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${pcreInstallFolder}/bin/pcregrep" -V 2>&1)"
+    info "\n$("${pcreInstallFolder}/bin/pcregrep" --version 2>&1)"
 }
 
 function main()

@@ -62,7 +62,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${nginxInstallFolder}/sbin/nginx" -v 2>&1)"
+    info "\n$("${nginxInstallFolder}/sbin/nginx" -V 2>&1)"
 }
 
 function main()
