@@ -151,8 +151,9 @@ function unzipRemoteFile()
           "$(echo "${extension}" | grep --ignore-case '^tar\.gz$')" != '' ||
           "$(echo "${exExtension}" | grep --ignore-case '^tar\.gz$')" != '' ]]
     then
-        echo
+        info "\nDownloading '${downloadURL}'"
         curl --location "${downloadURL}" | tar --directory "${installFolder}" --extract --gzip --strip 1
+        echo
     elif [[ "$(echo "${extension}" | grep --ignore-case '^zip$')" != '' ]]
     then
         # Install Unzip
