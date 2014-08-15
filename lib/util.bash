@@ -613,10 +613,15 @@ function getTemporaryFile()
         extension=".${extension}"
     fi
 
-    mktemp "/tmp/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX${extension}"
+    mktemp "$(getTemporaryFolderRoot)/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX${extension}"
 }
 
 function getTemporaryFolder()
+{
+    mktemp --directory "$(getTemporaryFolderRoot)/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
+}
+
+function getTemporaryFolderRoot()
 {
     local temporaryDirectory='/tmp'
 
@@ -625,7 +630,7 @@ function getTemporaryFolder()
         temporaryDirectory="$(formatPath "${TMPDIR}")"
     fi
 
-    mktemp --directory "${temporaryDirectory}/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
+    echo "${temporaryDirectory}"
 }
 
 function getUserHomeFolder()
