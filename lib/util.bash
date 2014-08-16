@@ -166,10 +166,11 @@ function unzipRemoteFile()
         then
             local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
-            echo
+            info "\nDownloading '${downloadURL}'"
             curl --location "${downloadURL}" --output "${zipFile}"
             unzip -q "${zipFile}" -d "${installFolder}"
             rm --force "${zipFile}"
+            echo
         else
             fatal "FATAL: install 'unzip' command failed!"
         fi
