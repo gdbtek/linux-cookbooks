@@ -2,7 +2,7 @@
 
 function install()
 {
-    debug "\nDownloading '${chefDownloadURL}'"
+    debug "Downloading '${chefDownloadURL}'"
     curl --location "${chefDownloadURL}" | bash &&
     info "\n$(knife --version)"
 }
