@@ -151,7 +151,7 @@ function unzipRemoteFile()
           "$(echo "${extension}" | grep --ignore-case '^tar\.gz$')" != '' ||
           "$(echo "${exExtension}" | grep --ignore-case '^tar\.gz$')" != '' ]]
     then
-        info "\nDownloading '${downloadURL}'"
+        debug "\nDownloading '${downloadURL}'"
         curl --location "${downloadURL}" | tar --directory "${installFolder}" --extract --gzip --strip 1
         echo
     elif [[ "$(echo "${extension}" | grep --ignore-case '^zip$')" != '' ]]
@@ -166,7 +166,7 @@ function unzipRemoteFile()
         then
             local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
-            info "\nDownloading '${downloadURL}'"
+            debug "\nDownloading '${downloadURL}'"
             curl --location "${downloadURL}" --output "${zipFile}"
             unzip -q "${zipFile}" -d "${installFolder}"
             rm --force "${zipFile}"
