@@ -18,7 +18,7 @@ function install()
 
     # Install
 
-    debug "Downloading '${jenkinsDownloadURL}'"
+    debug "\nDownloading '${jenkinsDownloadURL}'"
     curl --location "${jenkinsDownloadURL}" --output "${jenkinsTomcatFolder}/webapps/${appName}.war"
     chown --recursive "${jenkinsUID}":"${jenkinsGID}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
 }
