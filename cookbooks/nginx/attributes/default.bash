@@ -8,14 +8,14 @@ nginxInstallFolder='/opt/nginx'
 
 nginxServiceName='nginx'
 
-nginxUID='nginx'
-nginxGID='nginx'
+nginxUserName='nginx'
+nginxGroupName='nginx'
 
 nginxPort=80
 
 nginxConfig=(
-    "--user=${nginxUID}"
-    "--group=${nginxGID}"
+    "--user=${nginxUserName}"
+    "--group=${nginxGroupName}"
     "--prefix=${nginxInstallFolder}"
     "--sbin-path=${nginxInstallFolder}/sbin/nginx"
     "--conf-path=${nginxInstallFolder}/conf/nginx.conf"

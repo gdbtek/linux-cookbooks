@@ -47,17 +47,16 @@ function install()
     local upstartConfigData=(
         '__ENVIRONMENT__' "${ghostEnvironment}"
         '__INSTALL_FOLDER__' "${ghostInstallFolder}"
-
-        '__UID__' "${ghostUID}"
-        '__GID__' "${ghostGID}"
+        '__USER_NAME__' "${ghostUserName}"
+        '__GROUP_NAME__' "${ghostGroupName}"
     )
 
     createFileFromTemplate "${appPath}/../templates/default/ghost.conf.upstart" "/etc/init/${ghostServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addSystemUser "${ghostUID}" "${ghostGID}"
-    chown --recursive "${ghostUID}":"${ghostGID}" "${ghostInstallFolder}"
+    addSystemUser "${ghostUserName}" "${ghostGroupName}"
+    chown --recursive "${ghostUserName}":"${ghostGroupName}" "${ghostInstallFolder}"
     start "${ghostServiceName}"
 }
 

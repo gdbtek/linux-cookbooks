@@ -3,8 +3,8 @@ description 'Elastic Search Server'
 start on startup
 stop on shutdown
 
-setuid '__UID__'
-setgid '__GID__'
+setuid '__USER_NAME__'
+setgid '__GROUP_NAME__'
 
 respawn
 respawn limit 10 5

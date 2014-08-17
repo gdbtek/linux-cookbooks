@@ -17,8 +17,8 @@ function install()
 
     # Install
 
-    addgroup "${goserverGID}" >> /dev/null 2>&1
-    useradd "${goserverUID}" --gid "${goserverGID}" --shell '/bin/bash' --create-home
+    addgroup "${goserverGroupName}" >> /dev/null 2>&1
+    useradd "${goserverUserName}" --gid "${goserverGroupName}" --shell '/bin/bash' --create-home
     unzipRemoteFile "${goserverAgentDownloadURL}" "${goserverAgentInstallFolder}"
 
     local unzipFolderName="$(ls --directory ${goserverAgentInstallFolder}/*/ 2> '/dev/null')"
@@ -28,7 +28,7 @@ function install()
         if [[ "$(ls --almost-all "${unzipFolderName}")" != '' ]]
         then
             mv ${unzipFolderName}* "${goserverAgentInstallFolder}" &&
-            chown --recursive "${goserverUID}":"${goserverGID}" "${goserverAgentInstallFolder}" &&
+            chown --recursive "${goserverUserName}":"${goserverGroupName}" "${goserverAgentInstallFolder}" &&
             rm --force --recursive "${unzipFolderName}"
         else
             fatal "FATAL: folder '${unzipFolderName}' is empty"
@@ -50,9 +50,9 @@ function configUpstart()
     local upstartConfigData=(
         '__AGENT_INSTALL_FOLDER__' "${goserverAgentInstallFolder}"
         '__SERVER_HOSTNAME__' "${serverHostname}"
-        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${goserverUID}")"
-        '__UID__' "${goserverUID}"
-        '__GID__' "${goserverGID}"
+        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${goserverUserName}")"
+        '__USER_NAME__' "${goserverUserName}"
+        '__GROUP_NAME__' "${goserverGroupName}"
     )
 
     createFileFromTemplate "${appPath}/../templates/default/go-agent.conf.upstart" "/etc/init/${goserverAgentServiceName}.conf" "${upstartConfigData[@]}"

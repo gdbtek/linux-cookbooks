@@ -41,16 +41,16 @@ function install()
     local upstartConfigData=(
         '__INSTALL_FOLDER__' "${tomcatInstallFolder}"
         '__JDK_FOLDER__' "${tomcatJDKFolder}"
-        '__UID__' "${tomcatUID}"
-        '__GID__' "${tomcatGID}"
+        '__USER_NAME__' "${tomcatUserName}"
+        '__GROUP_NAME__' "${tomcatGroupName}"
     )
 
     createFileFromTemplate "${appPath}/../templates/default/tomcat.conf.upstart" "/etc/init/${tomcatServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addSystemUser "${tomcatUID}" "${tomcatGID}"
-    chown --recursive "${tomcatUID}":"${tomcatGID}" "${tomcatInstallFolder}"
+    addSystemUser "${tomcatUserName}" "${tomcatGroupName}"
+    chown --recursive "${tomcatUserName}":"${tomcatGroupName}" "${tomcatInstallFolder}"
     start "${tomcatServiceName}"
 
     # Display Version

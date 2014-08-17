@@ -6,5 +6,5 @@ jenkinsDownloadURL='http://mirrors.jenkins-ci.org/war/latest/jenkins.war'
 
 jenkinsTomcatFolder="${tomcatInstallFolder}"
 
-jenkinsUID="${tomcatUID}"
-jenkinsGID="${tomcatGID}"
+jenkinsUserName="${tomcatUserName}"
+jenkinsGroupName="${tomcatGroupName}"

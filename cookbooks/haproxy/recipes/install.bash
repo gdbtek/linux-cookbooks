@@ -44,8 +44,8 @@ function install()
 
     # Start
 
-    addSystemUser "${haproxyUID}" "${haproxyGID}"
-    chown --recursive "${haproxyUID}":"${haproxyGID}" "${haproxyInstallFolder}"
+    addSystemUser "${haproxyUserName}" "${haproxyGroupName}"
+    chown --recursive "${haproxyUserName}":"${haproxyGroupName}" "${haproxyInstallFolder}"
     start "${haproxyServiceName}"
 
     # Display Version

@@ -17,13 +17,13 @@ function install()
     local currentPath="$(pwd)"
 
     unzipRemoteFile "${mysqlDownloadURL}" "${mysqlInstallFolder}"
-    addSystemUser "${mysqlUID}" "${mysqlGID}"
+    addSystemUser "${mysqlUserName}" "${mysqlGroupName}"
     ln --symbolic "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
-    chown --recursive "${mysqlUID}":"${mysqlGID}" "${mysqlInstallFolder}"
+    chown --recursive "${mysqlUserName}":"${mysqlGroupName}" "${mysqlInstallFolder}"
     cd "${mysqlInstallFolder}"
-    "${mysqlInstallFolder}/scripts/mysql_install_db" --user="${mysqlUID}"
+    "${mysqlInstallFolder}/scripts/mysql_install_db" --user="${mysqlUserName}"
     chown --recursive "$(whoami)" "${mysqlInstallFolder}"
-    chown --recursive "${mysqlUID}" "${mysqlInstallFolder}/data"
+    chown --recursive "${mysqlUserName}" "${mysqlInstallFolder}/data"
     cd "${currentPath}"
 
     # Config Server

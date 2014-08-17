@@ -6,8 +6,8 @@ ghostInstallFolder='/opt/ghost'
 
 ghostServiceName='ghost'
 
-ghostUID='ghost'
-ghostGID='ghost'
+ghostUserName='ghost'
+ghostGroupName='ghost'
 
 ghostProductionURL='http://127.0.0.1'
 ghostProductionHost='127.0.0.1'

@@ -39,16 +39,16 @@ function install()
     local upstartConfigData=(
         '__INSTALL_FOLDER__' "${elasticsearchInstallFolder}"
         '__JDK_FOLDER__' "${elasticsearchJDKFolder}"
-        '__UID__' "${elasticsearchUID}"
-        '__GID__' "${elasticsearchGID}"
+        '__USER_NAME__' "${elasticsearchUserName}"
+        '__GROUP_NAME__' "${elasticsearchGroupName}"
     )
 
     createFileFromTemplate "${appPath}/../templates/default/elastic-search.conf.upstart" "/etc/init/${elasticsearchServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addSystemUser "${elasticsearchUID}" "${elasticsearchGID}"
-    chown --recursive "${elasticsearchUID}":"${elasticsearchGID}" "${elasticsearchInstallFolder}"
+    addSystemUser "${elasticsearchUserName}" "${elasticsearchGroupName}"
+    chown --recursive "${elasticsearchUserName}":"${elasticsearchGroupName}" "${elasticsearchInstallFolder}"
     start "${elasticsearchServiceName}"
 
     # Display Version

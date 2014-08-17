@@ -44,8 +44,8 @@ function install()
     local upstartConfigData=(
         '__INSTALL_BIN_FOLDER__' "${redisInstallBinFolder}"
         '__INSTALL_CONFIG_FOLDER__' "${redisInstallConfigFolder}"
-        '__UID__' "${redisUID}"
-        '__GID__' "${redisGID}"
+        '__USER_NAME__' "${redisUserName}"
+        '__GROUP_NAME__' "${redisGroupName}"
         '__SOFT_NO_FILE_LIMIT__' "${redisSoftNoFileLimit}"
         '__HARD_NO_FILE_LIMIT__' "${redisHardNoFileLimit}"
     )
@@ -61,8 +61,8 @@ function install()
 
     # Start
 
-    addSystemUser "${redisUID}" "${redisGID}"
-    chown --recursive "${redisUID}":"${redisGID}" "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
+    addSystemUser "${redisUserName}" "${redisGroupName}"
+    chown --recursive "${redisUserName}":"${redisGroupName}" "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
     start "${redisServiceName}"
 
     # Display Version

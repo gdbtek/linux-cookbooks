@@ -4,8 +4,8 @@ mysqlDownloadURL='http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.20-linu
 
 mysqlInstallFolder='/opt/mysql'
 
-mysqlUID='mysql'
-mysqlGID='mysql'
+mysqlUserName='mysql'
+mysqlGroupName='mysql'
 
 mysqlServiceName='mysql'
 

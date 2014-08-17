@@ -8,8 +8,8 @@ haproxyInstallFolder='/opt/haproxy'
 
 haproxyServiceName='haproxy'
 
-haproxyUID='haproxy'
-haproxyGID='haproxy'
+haproxyUserName='haproxy'
+haproxyGroupName='haproxy'
 
 haproxyPort=80
 

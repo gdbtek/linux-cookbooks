@@ -9,8 +9,8 @@ elasticsearchJDKFolder="${jdkInstallFolder}"
 
 elasticsearchServiceName='elastic-search'
 
-elasticsearchUID='elastic-search'
-elasticsearchGID='elastic-search'
+elasticsearchUserName='elastic-search'
+elasticsearchGroupName='elastic-search'
 
 elasticsearchHTTPPort=9200
 elasticsearchTransportTCPPort=9300

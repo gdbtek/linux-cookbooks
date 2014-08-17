@@ -17,8 +17,8 @@ function install()
 
     # Install
 
-    addgroup "${goserverGID}" >> /dev/null 2>&1
-    useradd "${goserverUID}" --gid "${goserverGID}" --shell '/bin/bash' --create-home
+    addgroup "${goserverGroupName}" >> /dev/null 2>&1
+    useradd "${goserverUserName}" --gid "${goserverGroupName}" --shell '/bin/bash' --create-home
     unzipRemoteFile "${goserverServerDownloadURL}" "${goserverServerInstallFolder}"
 
     local unzipFolderName="$(ls --directory ${goserverServerInstallFolder}/*/ 2> '/dev/null')"
@@ -28,7 +28,7 @@ function install()
         if [[ "$(ls --almost-all "${unzipFolderName}")" != '' ]]
         then
             mv ${unzipFolderName}* "${goserverServerInstallFolder}" &&
-            chown --recursive "${goserverUID}":"${goserverGID}" "${goserverServerInstallFolder}" &&
+            chown --recursive "${goserverUserName}":"${goserverGroupName}" "${goserverServerInstallFolder}" &&
             rm --force --recursive "${unzipFolderName}"
         else
             fatal "FATAL: folder '${unzipFolderName}' is empty"
@@ -42,8 +42,8 @@ function configUpstart()
 {
     local upstartConfigData=(
         '__SERVER_INSTALL_FOLDER__' "${goserverServerInstallFolder}"
-        '__UID__' "${goserverUID}"
-        '__GID__' "${goserverGID}"
+        '__USER_NAME__' "${goserverUserName}"
+        '__GROUP_NAME__' "${goserverGroupName}"
     )
 
     createFileFromTemplate "${appPath}/../templates/default/go-server.conf.upstart" "/etc/init/${goserverServerServiceName}.conf" "${upstartConfigData[@]}"

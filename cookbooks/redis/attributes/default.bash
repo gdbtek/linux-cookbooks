@@ -4,8 +4,8 @@ redisDownloadURL='http://download.redis.io/releases/redis-stable.tar.gz'
 
 redisServiceName='redis'
 
-redisUID='redis'
-redisGID='redis'
+redisUserName='redis'
+redisGroupName='redis'
 
 redisPort=6379
 

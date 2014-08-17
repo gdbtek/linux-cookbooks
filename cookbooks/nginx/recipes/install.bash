@@ -56,8 +56,8 @@ function install()
 
     # Start
 
-    addSystemUser "${nginxUID}" "${nginxGID}"
-    chown --recursive "${nginxUID}":"${nginxGID}" "${nginxInstallFolder}"
+    addSystemUser "${nginxUserName}" "${nginxGroupName}"
+    chown --recursive "${nginxUserName}":"${nginxGroupName}" "${nginxInstallFolder}"
     start "${nginxServiceName}"
 
     # Display Version

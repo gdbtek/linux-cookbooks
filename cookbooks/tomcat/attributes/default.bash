@@ -9,8 +9,8 @@ tomcatJDKFolder="${jdkInstallFolder}"
 
 tomcatServiceName='tomcat'
 
-tomcatUID='tomcat'
-tomcatGID='tomcat'
+tomcatUserName='tomcat'
+tomcatGroupName='tomcat'
 
 tomcatAJPPort=8009
 tomcatCommandPort=8005
