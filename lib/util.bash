@@ -535,6 +535,30 @@ function existCommand()
     fi
 }
 
+function existGroup()
+{
+    local group="${1}"
+
+    if ( groups "${group}" > '/dev/null' 2>&1 )
+    then
+        echo 'true'
+    else
+        echo 'false'
+    fi
+}
+
+function existUser()
+{
+    local user="${1}"
+
+    if ( id --user "${user}" > '/dev/null' 2>&1 )
+    then
+        echo 'true'
+    else
+        echo 'false'
+    fi
+}
+
 function generateUserSSHKey()
 {
     local user="${1}"
