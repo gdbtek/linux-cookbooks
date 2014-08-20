@@ -42,6 +42,7 @@ function configUpstart()
 {
     local upstartConfigData=(
         '__SERVER_INSTALL_FOLDER__' "${goserverServerInstallFolder}"
+        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${goserverUserName}")"
         '__USER_NAME__' "${goserverUserName}"
         '__GROUP_NAME__' "${goserverGroupName}"
     )
