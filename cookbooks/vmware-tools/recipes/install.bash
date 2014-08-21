@@ -13,7 +13,7 @@ function install()
     local tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${vmwaretoolsDownloadURL}" "${tempFolder}"
-    cd "${tempFolder}" &&
+    cd "${tempFolder}"
     "${tempFolder}/vmware-install.pl"
     rm --force --recursive "${tempFolder}"
     cd "${currentPath}"
@@ -23,8 +23,8 @@ function main()
 {
     local appPath="$(cd "$(dirname "${0}")" && pwd)"
 
-    source "${appPath}/../../../lib/util.bash" || exit 1
-    source "${appPath}/../attributes/default.bash" || exit 1
+    source "${appPath}/../../../lib/util.bash"
+    source "${appPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

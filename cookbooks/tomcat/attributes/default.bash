@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-source "$(dirname "${0}")/../../jdk/attributes/default.bash" || exit 1
+source "$(dirname "${0}")/../../jdk/attributes/default.bash"
 
 tomcatDownloadURL='http://www.us.apache.org/dist/tomcat/tomcat-8/v8.0.9/bin/apache-tomcat-8.0.9.tar.gz'
 

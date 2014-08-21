@@ -3,7 +3,7 @@
 function install()
 {
     debug "Downloading '${chefDownloadURL}'"
-    curl --location "${chefDownloadURL}" | bash &&
+    curl --location "${chefDownloadURL}" | bash
     info "\n$(knife --version)"
 }
 
@@ -11,8 +11,8 @@ function main()
 {
     local appPath="$(cd "$(dirname "${0}")" && pwd)"
 
-    source "${appPath}/../../../lib/util.bash" || exit 1
-    source "${appPath}/../attributes/default.bash" || exit 1
+    source "${appPath}/../../../lib/util.bash"
+    source "${appPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

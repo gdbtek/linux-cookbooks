@@ -18,9 +18,9 @@ function install()
     local tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${siegeDownloadURL}" "${tempFolder}"
-    cd "${tempFolder}" &&
-    "${tempFolder}/configure" --prefix="${siegeInstallFolder}" &&
-    make &&
+    cd "${tempFolder}"
+    "${tempFolder}/configure" --prefix="${siegeInstallFolder}"
+    make
     make install
     rm --force --recursive "${tempFolder}"
     cd "${currentPath}"
@@ -40,8 +40,8 @@ function main()
 {
     local appPath="$(cd "$(dirname "${0}")" && pwd)"
 
-    source "${appPath}/../../../lib/util.bash" || exit 1
-    source "${appPath}/../attributes/default.bash" || exit 1
+    source "${appPath}/../../../lib/util.bash"
+    source "${appPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

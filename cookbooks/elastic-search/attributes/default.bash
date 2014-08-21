@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-source "$(dirname "${0}")/../../jdk/attributes/default.bash" || exit 1
+source "$(dirname "${0}")/../../jdk/attributes/default.bash"
 
 elasticsearchDownloadURL='https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.2.tar.gz'
 

@@ -8,8 +8,8 @@ function install()
 
     if [[ -f "${sourceListFile}" ]]
     then
-        cp --force "${sourceListFile}" '/etc/apt/sources.list' &&
-        cat '/etc/apt/sources.list' &&
+        cp --force "${sourceListFile}" '/etc/apt/sources.list'
+        cat '/etc/apt/sources.list'
         echo
     else
         warn "WARN: this cookbook has not supported '$(getMachineDescription)' yet!"
@@ -20,7 +20,7 @@ function main()
 {
     appPath="$(cd "$(dirname "${0}")" && pwd)"
 
-    source "${appPath}/../../../lib/util.bash" || exit 1
+    source "${appPath}/../../../lib/util.bash"
 
     checkRequireSystem
     checkRequireRootUser

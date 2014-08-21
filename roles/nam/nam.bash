@@ -4,17 +4,17 @@ function main()
 {
     local appPath="$(cd "$(dirname "${0}")" && pwd)"
 
-    # "${appPath}/../../cookbooks/apt-source/recipes/install.bash" || exit 1
+    # "${appPath}/../../cookbooks/apt-source/recipes/install.bash"
 
-    "${appPath}/../essential.bash" || exit 1
+    "${appPath}/../essential.bash"
 
-    "${appPath}/../../cookbooks/ufw/recipes/install.bash" || exit 1
-    "${appPath}/../../cookbooks/node-js/recipes/install.bash" || exit 1
-    "${appPath}/../../cookbooks/nginx/recipes/install.bash" || exit 1
-    "${appPath}/../../cookbooks/redis/recipes/install.bash" || exit 1
-    "${appPath}/../../cookbooks/mongodb/recipes/install.bash" || exit 1
-    "${appPath}/../../cookbooks/jdk/recipes/install.bash" || exit 1
-    "${appPath}/../../cookbooks/ps1/recipes/install.bash" 'nam' 'ubuntu' || exit 1
+    "${appPath}/../../cookbooks/ufw/recipes/install.bash"
+    "${appPath}/../../cookbooks/node-js/recipes/install.bash"
+    "${appPath}/../../cookbooks/nginx/recipes/install.bash"
+    "${appPath}/../../cookbooks/redis/recipes/install.bash"
+    "${appPath}/../../cookbooks/mongodb/recipes/install.bash"
+    "${appPath}/../../cookbooks/jdk/recipes/install.bash"
+    "${appPath}/../../cookbooks/ps1/recipes/install.bash" 'nam' 'ubuntu'
 }
 
 main "${@}"

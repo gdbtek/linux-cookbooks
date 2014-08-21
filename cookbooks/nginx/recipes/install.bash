@@ -26,12 +26,12 @@ function install()
     local tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${nginxDownloadURL}" "${tempFolder}"
-    cd "${tempFolder}" &&
+    cd "${tempFolder}"
     "${tempFolder}/configure" \
         "${nginxConfig[@]}" \
         --with-pcre="${tempPCREFolder}" \
-        --with-zlib="${tempZLIBFolder}" &&
-    make &&
+        --with-zlib="${tempZLIBFolder}"
+    make
     make install
     rm --force --recursive "${tempFolder}" "${tempPCREFolder}" "${tempZLIBFolder}"
     cd "${currentPath}"
@@ -69,8 +69,8 @@ function main()
 {
     appPath="$(cd "$(dirname "${0}")" && pwd)"
 
-    source "${appPath}/../../../lib/util.bash" || exit 1
-    source "${appPath}/../attributes/default.bash" || exit 1
+    source "${appPath}/../../../lib/util.bash"
+    source "${appPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

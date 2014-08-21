@@ -23,8 +23,8 @@ function install()
     local tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${haproxyDownloadURL}" "${tempFolder}"
-    cd "${tempFolder}" &&
-    make "${haproxyConfig[@]}" &&
+    cd "${tempFolder}"
+    make "${haproxyConfig[@]}"
     make install PREFIX='' DESTDIR="${haproxyInstallFolder}"
 
     rm --force --recursive "${tempFolder}"
@@ -57,8 +57,8 @@ function main()
 {
     appPath="$(cd "$(dirname "${0}")" && pwd)"
 
-    source "${appPath}/../../../lib/util.bash" || exit 1
-    source "${appPath}/../attributes/default.bash" || exit 1
+    source "${appPath}/../../../lib/util.bash"
+    source "${appPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser
