@@ -405,10 +405,10 @@ function formatPath()
 
     while [[ "$(echo "${string}" | grep --fixed-strings '//')" != '' ]]
     do
-        string="$(echo "${string}" | sed --expression 's/\/\/*/\//g')"
+        string="$(echo "${string}" | sed -e 's/\/\/*/\//g')"
     done
 
-    echo "${string}" | sed --expression 's/\/$//g'
+    echo "${string}" | sed -e 's/\/$//g'
 }
 
 function header()
@@ -433,7 +433,7 @@ function isEmptyString()
 
 function trimString()
 {
-    echo "${1}" | sed --expression 's/^ *//g' --expression 's/ *$//g'
+    echo "${1}" | sed -e 's/^ *//g' -e 's/ *$//g'
 }
 
 function warn()
