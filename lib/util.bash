@@ -21,7 +21,7 @@ function appendToFileIfNotFound()
             grepOption='--extended-regexp --only-matching'
         fi
 
-        local found="$(grep "${grepOption}" "${pattern}" "${file}")"
+        local found="$(grep ${grepOption} "${pattern}" "${file}")"
 
         if [[ "$(isEmptyString "${found}")" = 'true' ]]
         then
@@ -356,8 +356,8 @@ function runAptGetUpgrade()
 {
     runAptGetUpdate
 
-    apt-get dist-upgrade --assume-yes --fix-missing &&
-    apt-get upgrade --assume-yes --fix-missing &&
+    apt-get dist-upgrade --assume-yes --fix-missing
+    apt-get upgrade --assume-yes --fix-missing
     apt-get autoremove --assume-yes
 }
 
@@ -507,11 +507,11 @@ function checkRequireSystem()
 
 function checkRequireUser()
 {
-    local requireUser="${1}"
+    local user="${1}"
 
-    if [[ "$(whoami)" != "${requireUser}" ]]
+    if [[ "$(whoami)" != "${user}" ]]
     then
-        fatal "\nFATAL: please run this program as '${requireUser}' user!"
+        fatal "\nFATAL: please run this program as '${user}' user!"
     fi
 }
 
