@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-nginxDownloadURL='http://nginx.org/download/nginx-1.7.4.tar.gz'
+nginxDownloadURL='http://nginx.org/download/nginx-1.6.1.tar.gz'
 nginxPCREDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.35.tar.gz'
 nginxZLIBDownloadURL='http://zlib.net/zlib-1.2.8.tar.gz'
 
