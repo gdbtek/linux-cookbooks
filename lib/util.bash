@@ -673,7 +673,7 @@ function getUserHomeFolder()
 
 function is64BitSystem()
 {
-    local found="$(uname --machine | grep --extended-regexp --ignore-case --only-matching '^x86_64$')"
+    local found="$(uname -m | grep --extended-regexp --ignore-case --only-matching '^x86_64$')"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
