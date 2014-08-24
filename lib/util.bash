@@ -464,7 +464,7 @@ function checkRequirePort()
     local ports="${@}"
 
     local headerRegex='^COMMAND\s\+PID\s\+USER\s\+FD\s\+TYPE\s\+DEVICE\s\+SIZE\/OFF\s\+NODE\s\+NAME$'
-    local status="$(lsof -P -i | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
+    local status="$(lsof -i -n -P | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
     local open=''
     local port=''
 
@@ -520,7 +520,7 @@ function displayOpenPorts()
     header 'LIST OPEN PORTS'
 
     sleep 5
-    lsof -P -i | grep ' (LISTEN)$' | sort
+    lsof -i -n -P | grep ' (LISTEN)$' | sort
 }
 
 function existCommand()
@@ -721,6 +721,28 @@ function isOperatingSystem()
     local found="$(uname -s | grep --extended-regexp --ignore-case --only-matching "^${operatingSystem}$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}
+
+function isPortOpen()
+{
+    local port="${1}"
+
+    if [[ "$(isLinuxOperatingSystem)" = 'true' ]]
+    then
+        local process="$(netstat --listening --numeric --tcp --udp | grep --extended-regexp ":${port}\s+" | head -1)"
+    elif [[ "$(isMacOperatingSystem)" = 'true' ]]
+    then
+        local process="$(lsof -i -n -P | grep --extended-regexp --ignore-case ":${port}\s+\(LISTEN\)$" | head -1)"
+    else
+        fatal "\nFATAL: operating system not supported"
+    fi
+
+    if [[ "$(isEmptyString "${process}")" = 'true' ]]
     then
         echo 'false'
     else
