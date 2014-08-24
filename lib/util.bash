@@ -676,11 +676,25 @@ function is64BitSystem()
     isMachineHardware 'x86_64'
 }
 
+function isDistributor()
+{
+    local distributor="${1}"
+
+    local found="$(uname -v | grep --fixed-strings --ignore-case --only-matching "${distributor}")"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}
+
 function isMachineHardware()
 {
     local machineHardware="${1}"
 
-    local found="$(uname -m | grep --extended-regexp --ignore-case --only-matching '^${machineHardware}$')"
+    local found="$(uname -m | grep --extended-regexp --ignore-case --only-matching "^${machineHardware}$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -692,12 +706,5 @@ function isMachineHardware()
 
 function isUbuntuDistributor()
 {
-    local found="$(uname -v | grep --fixed-strings --ignore-case --only-matching 'Ubuntu')"
-
-    if [[ "$(isEmptyString "${found}")" = 'true' ]]
-    then
-        echo 'false'
-    else
-        echo 'true'
-    fi
+    isDistributor 'Ubuntu'
 }
