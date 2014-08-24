@@ -685,7 +685,7 @@ function is64BitSystem()
 
 function isUbuntuDistributor()
 {
-    local found="$(uname --kernel-version | grep --fixed-strings --ignore-case --only-matching 'Ubuntu')"
+    local found="$(uname -v | grep --fixed-strings --ignore-case --only-matching 'Ubuntu')"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
