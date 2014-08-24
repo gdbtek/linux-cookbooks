@@ -732,6 +732,11 @@ function isPortOpen()
 {
     local port="${1}"
 
+    if [[ "$(isEmptyString "${port}")" = 'true' ]]
+    then
+        fatal "\nFATAL: port undefined"
+    fi
+
     if [[ "$(isLinuxOperatingSystem)" = 'true' ]]
     then
         local process="$(netstat --listening --numeric --tcp --udp | grep --extended-regexp ":${port}\s+" | head -1)"
