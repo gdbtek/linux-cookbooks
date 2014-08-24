@@ -690,11 +690,35 @@ function isDistributor()
     fi
 }
 
+function isLinuxOperatingSystem()
+{
+    isOperatingSystem 'Linux'
+}
+
 function isMachineHardware()
 {
     local machineHardware="${1}"
 
     local found="$(uname -m | grep --extended-regexp --ignore-case --only-matching "^${machineHardware}$")"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}
+
+function isMacOperatingSystem()
+{
+    isOperatingSystem 'Darwin'
+}
+
+function isOperatingSystem()
+{
+    local operatingSystem="${1}"
+
+    local found="$(uname -s | grep --extended-regexp --ignore-case --only-matching "^${operatingSystem}$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
