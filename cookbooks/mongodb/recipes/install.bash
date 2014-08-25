@@ -27,7 +27,7 @@ function install()
     )
 
     createFileFromTemplate "${appPath}/../templates/default/mongodb.conf.upstart" "/etc/init/${mongodbServiceName}.conf" "${upstartConfigData[@]}"
-    chown --recursive "$(whoami)":"$(whoami)" "${mongodbInstallFolder}"
+    chown -R "$(whoami)":"$(whoami)" "${mongodbInstallFolder}"
 
     # Start
 

@@ -56,7 +56,7 @@ function install()
     # Start
 
     addSystemUser "${ghostUserName}" "${ghostGroupName}"
-    chown --recursive "${ghostUserName}":"${ghostGroupName}" "${ghostInstallFolder}"
+    chown -R "${ghostUserName}":"${ghostGroupName}" "${ghostInstallFolder}"
     start "${ghostServiceName}"
 }
 

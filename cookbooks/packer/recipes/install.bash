@@ -10,7 +10,7 @@ function install()
     # Install
 
     unzipRemoteFile "${packerDownloadURL}" "${packerInstallFolder}/bin"
-    chown --recursive "$(whoami)":"$(whoami)" "${packerInstallFolder}"
+    chown -R "$(whoami)":"$(whoami)" "${packerInstallFolder}"
     symlinkLocalBin "${packerInstallFolder}/bin"
 
     # Config Profile

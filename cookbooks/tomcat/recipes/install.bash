@@ -50,7 +50,7 @@ function install()
     # Start
 
     addSystemUser "${tomcatUserName}" "${tomcatGroupName}"
-    chown --recursive "${tomcatUserName}":"${tomcatGroupName}" "${tomcatInstallFolder}"
+    chown -R "${tomcatUserName}":"${tomcatGroupName}" "${tomcatInstallFolder}"
     start "${tomcatServiceName}"
 
     # Display Version

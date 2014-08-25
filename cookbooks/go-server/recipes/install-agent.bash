@@ -28,7 +28,7 @@ function install()
         if [[ "$(ls --almost-all "${unzipFolderName}")" != '' ]]
         then
             mv ${unzipFolderName}* "${goserverAgentInstallFolder}"
-            chown --recursive "${goserverUserName}":"${goserverGroupName}" "${goserverAgentInstallFolder}"
+            chown -R "${goserverUserName}":"${goserverGroupName}" "${goserverAgentInstallFolder}"
             rm -f -r "${unzipFolderName}"
         else
             fatal "FATAL: folder '${unzipFolderName}' is empty"
