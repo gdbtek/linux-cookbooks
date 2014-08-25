@@ -38,7 +38,7 @@ function install()
 
     # Display File System
 
-    df -T -h
+    df -h -T
 }
 
 function createPartition()

@@ -124,7 +124,7 @@ function getRemoteFileContent()
 
     # Get Content
 
-    curl --silent --request 'GET' "${url}"
+    curl -s -X 'GET' "${url}"
 }
 
 function unzipRemoteFile()
@@ -152,7 +152,7 @@ function unzipRemoteFile()
           "$(echo "${exExtension}" | grep -i '^tar\.gz$')" != '' ]]
     then
         debug "\nDownloading '${downloadURL}'"
-        curl -L "${downloadURL}" | tar --directory "${installFolder}" --extract --gzip --strip 1
+        curl -L "${downloadURL}" | tar -C "${installFolder}" -x -z --strip 1
         echo
     elif [[ "$(echo "${extension}" | grep -i '^zip$')" != '' ]]
     then
@@ -644,7 +644,7 @@ function getTemporaryFile()
 
 function getTemporaryFolder()
 {
-    mktemp --directory "$(getTemporaryFolderRoot)/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
+    mktemp -d "$(getTemporaryFolderRoot)/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
 }
 
 function getTemporaryFolderRoot()
@@ -739,7 +739,7 @@ function isPortOpen()
 
     if [[ "$(isLinuxOperatingSystem)" = 'true' ]]
     then
-        local process="$(netstat --listening --numeric --tcp --udp | grep -E ":${port}\s+" | head -1)"
+        local process="$(netstat -l -n -t -u | grep -E ":${port}\s+" | head -1)"
     elif [[ "$(isMacOperatingSystem)" = 'true' ]]
     then
         local process="$(lsof -i -n -P | grep -E -i ":${port}\s+\(LISTEN\)$" | head -1)"
