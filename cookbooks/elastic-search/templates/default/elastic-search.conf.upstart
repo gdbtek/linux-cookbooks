@@ -14,5 +14,5 @@ env JAVA_HOME='__JDK_FOLDER__'
 exec '__INSTALL_FOLDER__/bin/elasticsearch' -Des.config='__INSTALL_FOLDER__/config/elasticsearch.yml'
 
 post-stop script
-    rm --force --recursive __INSTALL_FOLDER__/logs/*
+    rm -f -r __INSTALL_FOLDER__/logs/*
 end script

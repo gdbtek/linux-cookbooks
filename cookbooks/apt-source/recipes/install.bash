@@ -8,7 +8,7 @@ function install()
 
     if [[ -f "${sourceListFile}" ]]
     then
-        cp --force "${sourceListFile}" '/etc/apt/sources.list'
+        cp -f "${sourceListFile}" '/etc/apt/sources.list'
         cat '/etc/apt/sources.list'
         echo
     else

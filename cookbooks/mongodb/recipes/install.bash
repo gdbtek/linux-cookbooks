@@ -4,13 +4,13 @@ function install()
 {
     # Clean Up
 
-    rm --force --recursive "${mongodbInstallFolder}"
-    mkdir --parents "${mongodbInstallFolder}" "${mongodbInstallDataFolder}"
+    rm -f -r "${mongodbInstallFolder}"
+    mkdir -p "${mongodbInstallFolder}" "${mongodbInstallDataFolder}"
 
     # Install
 
     unzipRemoteFile "${mongodbDownloadURL}" "${mongodbInstallFolder}"
-    find "${mongodbInstallFolder}" -maxdepth 1 -type f -exec rm --force {} \;
+    find "${mongodbInstallFolder}" -maxdepth 1 -type f -exec rm -f {} \;
 
     # Config Profile
 

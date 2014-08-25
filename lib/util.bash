@@ -87,7 +87,7 @@ function symlinkLocalBin()
     do
         local localBinFile="/usr/local/bin/$(basename "${file}")"
 
-        rm --force "${localBinFile}"
+        rm -f "${localBinFile}"
         ln --symbolic "${file}" "${localBinFile}"
     done
 }
@@ -169,7 +169,7 @@ function unzipRemoteFile()
             debug "\nDownloading '${downloadURL}'"
             curl --location "${downloadURL}" --output "${zipFile}"
             unzip -q "${zipFile}" -d "${installFolder}"
-            rm --force "${zipFile}"
+            rm -f "${zipFile}"
             echo
         else
             fatal "FATAL: install 'unzip' command failed!"
@@ -575,7 +575,7 @@ function generateUserSSHKey()
 
         if [[ "$(existCommand 'expect')" = 'true' ]]
         then
-            rm --force ${userHome}/.ssh/id_rsa*
+            rm -f ${userHome}/.ssh/id_rsa*
 
             expect << DONE
                 spawn su - ${user} --command 'ssh-keygen'

@@ -9,8 +9,8 @@ function install()
 {
     # Clean Up
 
-    rm --force --recursive "${nodejsInstallFolder}" '/usr/local/bin/node' '/usr/local/bin/npm'
-    mkdir --parents "${nodejsInstallFolder}"
+    rm -f -r "${nodejsInstallFolder}" '/usr/local/bin/node' '/usr/local/bin/npm'
+    mkdir -p "${nodejsInstallFolder}"
 
     # Install
 

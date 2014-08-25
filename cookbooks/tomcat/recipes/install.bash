@@ -12,8 +12,8 @@ function install()
 {
     # Clean Up
 
-    rm --force --recursive "${tomcatInstallFolder}"
-    mkdir --parents "${tomcatInstallFolder}"
+    rm -f -r "${tomcatInstallFolder}"
+    mkdir -p "${tomcatInstallFolder}"
 
     # Install
 

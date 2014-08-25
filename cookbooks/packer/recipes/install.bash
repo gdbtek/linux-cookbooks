@@ -4,8 +4,8 @@ function install()
 {
     # Clean Up
 
-    rm --force --recursive "${packerInstallFolder}"
-    mkdir --parents "${packerInstallFolder}/bin"
+    rm -f -r "${packerInstallFolder}"
+    mkdir -p "${packerInstallFolder}/bin"
 
     # Install
 

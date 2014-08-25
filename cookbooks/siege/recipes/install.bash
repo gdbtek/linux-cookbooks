@@ -9,8 +9,8 @@ function install()
 {
     # Clean Up
 
-    rm --force --recursive "${siegeInstallFolder}"
-    mkdir --parents "${siegeInstallFolder}/bin"
+    rm -f -r "${siegeInstallFolder}"
+    mkdir -p "${siegeInstallFolder}/bin"
 
     # Install
 
@@ -22,7 +22,7 @@ function install()
     "${tempFolder}/configure" --prefix="${siegeInstallFolder}"
     make
     make install
-    rm --force --recursive "${tempFolder}"
+    rm -f -r "${tempFolder}"
     cd "${currentPath}"
 
     # Config Profile

@@ -4,8 +4,8 @@ function install()
 {
     # Clean Up
 
-    rm --force --recursive "${jdkInstallFolder}" '/usr/local/bin/java' '/usr/local/bin/javac'
-    mkdir --parents "${jdkInstallFolder}"
+    rm -f -r "${jdkInstallFolder}" '/usr/local/bin/java' '/usr/local/bin/javac'
+    mkdir -p "${jdkInstallFolder}"
 
     # Install
 

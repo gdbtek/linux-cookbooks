@@ -9,8 +9,8 @@ function install()
 {
     # Clean Up
 
-    rm --force --recursive "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
-    mkdir --parents "${mysqlInstallFolder}"
+    rm -f -r "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
+    mkdir -p "${mysqlInstallFolder}"
 
     # Install
 
@@ -34,7 +34,7 @@ function install()
 
     # Config Service
 
-    cp --force "${mysqlInstallFolder}/support-files/mysql.server" "/etc/init.d/${mysqlServiceName}"
+    cp -f "${mysqlInstallFolder}/support-files/mysql.server" "/etc/init.d/${mysqlServiceName}"
     sysv-rc-conf --level 2345 "${mysqlServiceName}" on
 
     # Config Profile

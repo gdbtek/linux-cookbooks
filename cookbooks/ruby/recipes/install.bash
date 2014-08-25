@@ -9,8 +9,8 @@ function install()
 {
     # Clean Up
 
-    rm --force --recursive "${rubyInstallFolder}"
-    mkdir --parents "${rubyInstallFolder}"
+    rm -f -r "${rubyInstallFolder}"
+    mkdir -p "${rubyInstallFolder}"
 
     # Install
 
@@ -23,7 +23,7 @@ function install()
     make
     make install
     symlinkLocalBin "${rubyInstallFolder}/bin"
-    rm --force --recursive "${tempFolder}"
+    rm -f -r "${tempFolder}"
     cd "${currentPath}"
 
     # Config Profile

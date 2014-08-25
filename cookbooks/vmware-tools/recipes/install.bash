@@ -15,7 +15,7 @@ function install()
     unzipRemoteFile "${vmwaretoolsDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     "${tempFolder}/vmware-install.pl"
-    rm --force --recursive "${tempFolder}"
+    rm -f -r "${tempFolder}"
     cd "${currentPath}"
 }
 

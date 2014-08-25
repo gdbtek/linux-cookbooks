@@ -14,7 +14,7 @@ function install()
 
     # Clean Up
 
-    rm --force --recursive "${jenkinsTomcatFolder}/webapps/${appName}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    rm -f -r "${jenkinsTomcatFolder}/webapps/${appName}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
 
     # Install
 

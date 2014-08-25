@@ -12,8 +12,8 @@ function install()
 {
     # Clean Up
 
-    rm --force --recursive "${ghostInstallFolder}"
-    mkdir --parents "${ghostInstallFolder}"
+    rm -f -r "${ghostInstallFolder}"
+    mkdir -p "${ghostInstallFolder}"
 
     # Install
 

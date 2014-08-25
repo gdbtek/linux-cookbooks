@@ -9,8 +9,8 @@ function install()
 {
     # Clean Up
 
-    rm --force --recursive "${pcreInstallFolder}"
-    mkdir --parents "${pcreInstallFolder}"
+    rm -f -r "${pcreInstallFolder}"
+    mkdir -p "${pcreInstallFolder}"
 
     # Install
 
@@ -22,7 +22,7 @@ function install()
     "${tempFolder}/configure" "${pcreConfig[@]}"
     make
     make install
-    rm --force --recursive "${tempFolder}"
+    rm -f -r "${tempFolder}"
     cd "${currentPath}"
 
     # Config Profile
