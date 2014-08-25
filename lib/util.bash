@@ -142,7 +142,7 @@ function unzipRemoteFile()
     if [[ "$(isEmptyString "${extension}")" = 'true' ]]
     then
         extension="$(getFileExtension "${downloadURL}")"
-        local exExtension="$(echo "${downloadURL}" | rev | cut --delimiter '.' --fields 1-2 | rev)"
+        local exExtension="$(echo "${downloadURL}" | rev | cut -d '.' -f 1-2 | rev)"
     fi
 
     # Unzip
