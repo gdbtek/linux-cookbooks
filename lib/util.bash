@@ -296,7 +296,7 @@ function isAptGetPackageInstall()
 {
     local package="${1}"
 
-    local found="$(dpkg --get-selections | grep -E -o "^${package}(:amd64)*\s+install$")"
+    local found="$(dpkg --get-selections | grep -o -E "^${package}(:amd64)*\s+install$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -318,7 +318,7 @@ function isPIPPackageInstall()
 
     if [[ "$(existCommand 'pip')" = 'true' ]]
     then
-        local found="$(pip list | grep -E -o "^${package}\s+\(.*\)$")"
+        local found="$(pip list | grep -o -E "^${package}\s+\(.*\)$")"
 
         if [[ "$(isEmptyString "${found}")" = 'true' ]]
         then
@@ -699,7 +699,7 @@ function isMachineHardware()
 {
     local machineHardware="${1}"
 
-    local found="$(uname -m | grep -E -i -o "^${machineHardware}$")"
+    local found="$(uname -m | grep -i -o -E "^${machineHardware}$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -718,7 +718,7 @@ function isOperatingSystem()
 {
     local operatingSystem="${1}"
 
-    local found="$(uname -s | grep -E -i -o "^${operatingSystem}$")"
+    local found="$(uname -s | grep -i -o -E "^${operatingSystem}$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -742,7 +742,7 @@ function isPortOpen()
         local process="$(netstat -l -n -t -u | grep -E ":${port}\s+" | head -1)"
     elif [[ "$(isMacOperatingSystem)" = 'true' ]]
     then
-        local process="$(lsof -i -n -P | grep -E -i ":${port}\s+\(LISTEN\)$" | head -1)"
+        local process="$(lsof -i -n -P | grep -i -E ":${port}\s+\(LISTEN\)$" | head -1)"
     else
         fatal "\nFATAL: operating system not supported"
     fi
