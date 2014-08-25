@@ -14,7 +14,7 @@ function appendToFileIfNotFound()
 
     if [[ -f "${file}" ]]
     then
-        local grepOption='--fixed-strings --only-matching'
+        local grepOption='-F --only-matching'
 
         if [[ "${patternAsRegex}" = 'true' ]]
         then
@@ -106,7 +106,7 @@ function existURL()
 
     # Check URL
 
-    if ( curl --output '/dev/null' --silent --head --fail "${url}" )
+    if ( curl -o '/dev/null' -s -H -f "${url}" )
     then
         echo 'true'
     else
@@ -147,14 +147,14 @@ function unzipRemoteFile()
 
     # Unzip
 
-    if [[ "$(echo "${extension}" | grep --ignore-case '^tgz$')" != '' ||
-          "$(echo "${extension}" | grep --ignore-case '^tar\.gz$')" != '' ||
-          "$(echo "${exExtension}" | grep --ignore-case '^tar\.gz$')" != '' ]]
+    if [[ "$(echo "${extension}" | grep -i '^tgz$')" != '' ||
+          "$(echo "${extension}" | grep -i '^tar\.gz$')" != '' ||
+          "$(echo "${exExtension}" | grep -i '^tar\.gz$')" != '' ]]
     then
         debug "\nDownloading '${downloadURL}'"
         curl -L "${downloadURL}" | tar --directory "${installFolder}" --extract --gzip --strip 1
         echo
-    elif [[ "$(echo "${extension}" | grep --ignore-case '^zip$')" != '' ]]
+    elif [[ "$(echo "${extension}" | grep -i '^zip$')" != '' ]]
     then
         # Install Unzip
 
@@ -167,7 +167,7 @@ function unzipRemoteFile()
             local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
             debug "\nDownloading '${downloadURL}'"
-            curl -L "${downloadURL}" --output "${zipFile}"
+            curl -L "${downloadURL}" -o "${zipFile}"
             unzip -q "${zipFile}" -d "${installFolder}"
             rm -f "${zipFile}"
             echo
@@ -403,7 +403,7 @@ function formatPath()
 {
     local string="${1}"
 
-    while [[ "$(echo "${string}" | grep --fixed-strings '//')" != '' ]]
+    while [[ "$(echo "${string}" | grep -F '//')" != '' ]]
     do
         string="$(echo "${string}" | sed -e 's/\/\/*/\//g')"
     done
@@ -634,7 +634,7 @@ function getTemporaryFile()
 {
     local extension="${1}"
 
-    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(echo "${extension}" | grep --ignore-case --only-matching "^.")" != '.' ]]
+    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(echo "${extension}" | grep -i -o "^.")" != '.' ]]
     then
         extension=".${extension}"
     fi
@@ -680,7 +680,7 @@ function isDistributor()
 {
     local distributor="${1}"
 
-    local found="$(uname -v | grep --fixed-strings --ignore-case --only-matching "${distributor}")"
+    local found="$(uname -v | grep -F --ignore-case --only-matching "${distributor}")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
