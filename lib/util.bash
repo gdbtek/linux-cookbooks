@@ -185,7 +185,7 @@ function unzipRemoteFile()
 
 function getLastAptGetUpdate()
 {
-    local aptDate="$(stat --format %Y '/var/cache/apt')"
+    local aptDate="$(stat -c %Y '/var/cache/apt')"
     local nowDate="$(date +'%s')"
 
     echo $((${nowDate} - ${aptDate}))
@@ -200,7 +200,7 @@ function installAptGetPackage()
         debug "\nApt-Get Package '${package}' has already been installed"
     else
         echo -e "\033[1;35m\nInstalling Apt-Get package '${package}'\033[0m"
-        apt-get install --assume-yes "${package}"
+        apt-get install -y "${package}"
     fi
 }
 
@@ -344,9 +344,9 @@ function runAptGetUpdate()
 
     if [[ "${lastAptGetUpdate}" -gt "${updateInterval}" ]]
     then
-        apt-get update --fix-missing
+        apt-get update -m
     else
-        local lastUpdate="$(date --universal --date @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
+        local lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
 
         info "\nSkip apt-get update because its last run was '${lastUpdate}' ago"
     fi
@@ -356,9 +356,9 @@ function runAptGetUpgrade()
 {
     runAptGetUpdate
 
-    apt-get dist-upgrade --assume-yes --fix-missing
-    apt-get upgrade --assume-yes --fix-missing
-    apt-get autoremove --assume-yes
+    apt-get dist-upgrade -m -y
+    apt-get upgrade -m -y
+    apt-get autoremove -y
 }
 
 function upgradePIPPackage()
@@ -551,7 +551,7 @@ function existUser()
 {
     local user="${1}"
 
-    if ( id --user "${user}" > '/dev/null' 2>&1 )
+    if ( id -u "${user}" > '/dev/null' 2>&1 )
     then
         echo 'true'
     else
@@ -578,7 +578,7 @@ function generateUserSSHKey()
             rm -f ${userHome}/.ssh/id_rsa*
 
             expect << DONE
-                spawn su - ${user} --command 'ssh-keygen'
+                spawn su - ${user} -c 'ssh-keygen'
                 expect "Enter file in which to save the key (*): "
                 send -- "\r"
                 expect "Enter passphrase (empty for no passphrase): "
@@ -599,12 +599,12 @@ DONE
 
 function getMachineDescription()
 {
-    lsb_release --short --description
+    lsb_release -s -d
 }
 
 function getMachineRelease()
 {
-    lsb_release --short --release
+    lsb_release -s -r
 }
 
 function getProfileFile()
