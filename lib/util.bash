@@ -14,11 +14,11 @@ function appendToFileIfNotFound()
 
     if [[ -f "${file}" ]]
     then
-        local grepOption='-F -o'
+        local grepOption='-o -F'
 
         if [[ "${patternAsRegex}" = 'true' ]]
         then
-            grepOption='-E -o'
+            grepOption='-o -E'
         fi
 
         local found="$(grep ${grepOption} "${pattern}" "${file}")"
