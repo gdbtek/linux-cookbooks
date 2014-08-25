@@ -25,7 +25,7 @@ function install()
 
     if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc -l)" = '1' ]]
     then
-        if [[ "$(ls --almost-all "${unzipFolderName}")" != '' ]]
+        if [[ "$(ls -A "${unzipFolderName}")" != '' ]]
         then
             mv ${unzipFolderName}* "${goserverAgentInstallFolder}"
             chown -R "${goserverUserName}":"${goserverGroupName}" "${goserverAgentInstallFolder}"

@@ -19,7 +19,7 @@ function install()
     # Install
 
     debug "\nDownloading '${jenkinsDownloadURL}'"
-    curl --location "${jenkinsDownloadURL}" --output "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    curl -L "${jenkinsDownloadURL}" --output "${jenkinsTomcatFolder}/webapps/${appName}.war"
     chown -R "${jenkinsUserName}":"${jenkinsGroupName}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
 }
 
