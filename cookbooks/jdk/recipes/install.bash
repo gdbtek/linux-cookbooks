@@ -14,8 +14,8 @@ function install()
     # Config Lib
 
     chown -R "$(whoami)":"$(whoami)" "${jdkInstallFolder}"
-    ln --symbolic "${jdkInstallFolder}/bin/java" '/usr/local/bin/java'
-    ln --symbolic "${jdkInstallFolder}/bin/javac" '/usr/local/bin/javac'
+    ln -s "${jdkInstallFolder}/bin/java" '/usr/local/bin/java'
+    ln -s "${jdkInstallFolder}/bin/javac" '/usr/local/bin/javac'
 
     # Config Profile
 

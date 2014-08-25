@@ -88,7 +88,7 @@ function symlinkLocalBin()
         local localBinFile="/usr/local/bin/$(basename "${file}")"
 
         rm -f "${localBinFile}"
-        ln --symbolic "${file}" "${localBinFile}"
+        ln -s "${file}" "${localBinFile}"
     done
 }
 

@@ -21,9 +21,9 @@ function install()
     useradd "${goserverUserName}" --gid "${goserverGroupName}" --shell '/bin/bash' --create-home
     unzipRemoteFile "${goserverAgentDownloadURL}" "${goserverAgentInstallFolder}"
 
-    local unzipFolderName="$(ls --directory ${goserverAgentInstallFolder}/*/ 2> '/dev/null')"
+    local unzipFolderName="$(ls -d ${goserverAgentInstallFolder}/*/ 2> '/dev/null')"
 
-    if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc --lines)" = '1' ]]
+    if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc -l)" = '1' ]]
     then
         if [[ "$(ls --almost-all "${unzipFolderName}")" != '' ]]
         then
