@@ -25,9 +25,9 @@ function install()
     fi
 
     createPartition "${disk}"
-    mkfs --type "${mounthdFSType}" "${disk}${mounthdPartitionNumber}"
+    mkfs -t "${mounthdFSType}" "${disk}${mounthdPartitionNumber}"
     mkdir "${mountOn}"
-    mount --types "${mounthdFSType}" "${disk}${mounthdPartitionNumber}" "${mountOn}"
+    mount -t "${mounthdFSType}" "${disk}${mounthdPartitionNumber}" "${mountOn}"
 
     # Config Static File System
 
@@ -38,7 +38,7 @@ function install()
 
     # Display File System
 
-    df --human-readable --print-type
+    df -T -h
 }
 
 function createPartition()
