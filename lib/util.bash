@@ -14,11 +14,11 @@ function appendToFileIfNotFound()
 
     if [[ -f "${file}" ]]
     then
-        local grepOption='-F --only-matching'
+        local grepOption='-F -o'
 
         if [[ "${patternAsRegex}" = 'true' ]]
         then
-            grepOption='--extended-regexp --only-matching'
+            grepOption='-E -o'
         fi
 
         local found="$(grep ${grepOption} "${pattern}" "${file}")"
@@ -296,7 +296,7 @@ function isAptGetPackageInstall()
 {
     local package="${1}"
 
-    local found="$(dpkg --get-selections | grep --extended-regexp --only-matching "^${package}(:amd64)*\s+install$")"
+    local found="$(dpkg --get-selections | grep -E -o "^${package}(:amd64)*\s+install$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -318,7 +318,7 @@ function isPIPPackageInstall()
 
     if [[ "$(existCommand 'pip')" = 'true' ]]
     then
-        local found="$(pip list | grep --extended-regexp --only-matching "^${package}\s+\(.*\)$")"
+        local found="$(pip list | grep -E -o "^${package}\s+\(.*\)$")"
 
         if [[ "$(isEmptyString "${found}")" = 'true' ]]
         then
@@ -680,7 +680,7 @@ function isDistributor()
 {
     local distributor="${1}"
 
-    local found="$(uname -v | grep -F --ignore-case --only-matching "${distributor}")"
+    local found="$(uname -v | grep -F -i -o "${distributor}")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -699,7 +699,7 @@ function isMachineHardware()
 {
     local machineHardware="${1}"
 
-    local found="$(uname -m | grep --extended-regexp --ignore-case --only-matching "^${machineHardware}$")"
+    local found="$(uname -m | grep -E -i -o "^${machineHardware}$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -718,7 +718,7 @@ function isOperatingSystem()
 {
     local operatingSystem="${1}"
 
-    local found="$(uname -s | grep --extended-regexp --ignore-case --only-matching "^${operatingSystem}$")"
+    local found="$(uname -s | grep -E -i -o "^${operatingSystem}$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -739,10 +739,10 @@ function isPortOpen()
 
     if [[ "$(isLinuxOperatingSystem)" = 'true' ]]
     then
-        local process="$(netstat --listening --numeric --tcp --udp | grep --extended-regexp ":${port}\s+" | head -1)"
+        local process="$(netstat --listening --numeric --tcp --udp | grep -E ":${port}\s+" | head -1)"
     elif [[ "$(isMacOperatingSystem)" = 'true' ]]
     then
-        local process="$(lsof -i -n -P | grep --extended-regexp --ignore-case ":${port}\s+\(LISTEN\)$" | head -1)"
+        local process="$(lsof -i -n -P | grep -E -i ":${port}\s+\(LISTEN\)$" | head -1)"
     else
         fatal "\nFATAL: operating system not supported"
     fi
