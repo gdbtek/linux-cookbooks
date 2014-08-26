@@ -4,7 +4,7 @@ function install()
 {
     debug "Downloading '${chefDownloadURL}'"
     curl -L "${chefDownloadURL}" | bash
-    info "\n$(knife --version)"
+    info "\n$(knife -v)"
 }
 
 function main()

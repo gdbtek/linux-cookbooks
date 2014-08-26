@@ -519,8 +519,8 @@ function displayOpenPorts()
 {
     header 'LIST OPEN PORTS'
 
-    sleep 5
-    lsof -i -n -P | grep ' (LISTEN)$' | sort
+    sleep 10
+    lsof -i -n -P | grep -i ' (LISTEN)$' | sort
 }
 
 function existCommand()
