@@ -470,7 +470,7 @@ function checkRequirePort()
 
     for port in ${ports}
     do
-        local found="$(echo "${status}" | grep ":${port} (LISTEN)$")"
+        local found="$(echo "${status}" | grep -i ":${port} (LISTEN)$")"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]
         then
@@ -480,9 +480,9 @@ function checkRequirePort()
 
     if [[ "$(isEmptyString "${open}")" = 'false' ]]
     then
-        echo -e  "\033[1;31mFollowing ports are still opened. Make sure you uninstall or stop them before a new installation!\033[0m"
-        echo -en "\033[1;34m\n$(echo "${status}" | grep "${headerRegex}")\033[0m"
-        echo -e  "\033[1;36m${open}\033[0m\n"
+        echo -e    "\033[1;31mFollowing ports are still opened. Make sure you uninstall or stop them before a new installation!\033[0m"
+        echo -e -n "\033[1;34m\n$(echo "${status}" | grep "${headerRegex}")\033[0m"
+        echo -e    "\033[1;36m${open}\033[0m\n"
         exit 1
     fi
 }
@@ -575,10 +575,10 @@ function generateUserSSHKey()
 
         if [[ "$(existCommand 'expect')" = 'true' ]]
         then
-            rm -f ${userHome}/.ssh/id_rsa*
+            rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
 
             expect << DONE
-                spawn su - ${user} -c 'ssh-keygen'
+                spawn su - "${user}" -c 'ssh-keygen'
                 expect "Enter file in which to save the key (*): "
                 send -- "\r"
                 expect "Enter passphrase (empty for no passphrase): "
@@ -588,7 +588,7 @@ function generateUserSSHKey()
                 expect eof
 DONE
 
-            chmod 600 ${userHome}/.ssh/id_rsa*
+            chmod 600 "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
         else
             fatal "\nFATAL: install 'expect' command failed!"
         fi
@@ -599,12 +599,12 @@ DONE
 
 function getMachineDescription()
 {
-    lsb_release -s -d
+    lsb_release -d -s
 }
 
 function getMachineRelease()
 {
-    lsb_release -s -r
+    lsb_release -r -s
 }
 
 function getProfileFile()
