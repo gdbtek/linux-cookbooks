@@ -12,7 +12,7 @@ function install()
         cat '/etc/apt/sources.list'
         echo
     else
-        warn "WARN: this cookbook has not supported '$(getMachineDescription)' yet!"
+        warn "WARN : this cookbook has not supported '$(getMachineDescription)' yet!"
     fi
 }
 

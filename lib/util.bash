@@ -34,7 +34,7 @@ function appendToFileIfNotFound()
             fi
         fi
     else
-        fatal "FATAL: file '${file}' not found!"
+        fatal "FATAL : file '${file}' not found!"
     fi
 }
 

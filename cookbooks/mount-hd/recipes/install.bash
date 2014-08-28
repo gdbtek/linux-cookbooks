@@ -16,12 +16,12 @@ function install()
 
     if [[ "$(isEmptyString "${foundDisk}")" = 'true' ]]
     then
-        fatal "\nFATAL: disk '${disk}' not found"
+        fatal "\nFATAL : disk '${disk}' not found"
     fi
 
     if [[ "$(isEmptyString "${mountOn}")" = 'true' || -d "${mountOn}" ]]
     then
-        fatal "\nFATAL: mounted file system '${mountOn}' found or undefined"
+        fatal "\nFATAL : mounted file system '${mountOn}' found or undefined"
     fi
 
     createPartition "${disk}"

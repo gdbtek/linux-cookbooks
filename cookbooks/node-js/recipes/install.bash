@@ -37,7 +37,7 @@ function install()
         info "\nNode Version: $(node --version)"
         info "NPM Version : $(npm --version)"
     else
-        fatal "\nFATAL: version '${nodejsVersion}' not found!"
+        fatal "\nFATAL : version '${nodejsVersion}' not found!"
     fi
 }
 

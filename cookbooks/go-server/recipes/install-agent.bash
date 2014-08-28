@@ -31,10 +31,10 @@ function install()
             chown -R "${goserverUserName}":"${goserverGroupName}" "${goserverAgentInstallFolder}"
             rm -f -r "${unzipFolderName}"
         else
-            fatal "FATAL: folder '${unzipFolderName}' is empty"
+            fatal "FATAL : folder '${unzipFolderName}' is empty"
         fi
     else
-        fatal 'FATAL: found multiple unzip folder name!'
+        fatal 'FATAL : found multiple unzip folder name!'
     fi
 }
 
