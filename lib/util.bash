@@ -59,7 +59,7 @@ function createFileFromTemplate()
 
         echo "${content}" > "${destinationFile}"
     else
-        fatal "FATAL: file '${sourceFile}' not found!"
+        fatal "FATAL : file '${sourceFile}' not found!"
     fi
 }
 
@@ -172,10 +172,10 @@ function unzipRemoteFile()
             rm -f "${zipFile}"
             echo
         else
-            fatal "FATAL: install 'unzip' command failed!"
+            fatal "FATAL : install 'unzip' command failed!"
         fi
     else
-        fatal "FATAL: file extension '${extension}' is not yet supported to unzip!"
+        fatal "FATAL : file extension '${extension}' is not yet supported to unzip!"
     fi
 }
 
@@ -236,12 +236,12 @@ function installCommands()
 
         if [[ "$(isEmptyString "${command}")" = 'true' ]]
         then
-            fatal "\nFATAL: undefined command!"
+            fatal "\nFATAL : undefined command!"
         fi
 
         if [[ "$(isEmptyString "${package}")" = 'true' ]]
         then
-            fatal "\nFATAL: undefined package!"
+            fatal "\nFATAL : undefined package!"
         fi
 
         if [[ "$(existCommand "${command}")" = 'false' ]]
@@ -327,7 +327,7 @@ function isPIPPackageInstall()
             echo 'true'
         fi
     else
-        fatal "FATAL: install 'python-pip' command failed!"
+        fatal "FATAL : install 'python-pip' command failed!"
     fi
 }
 
@@ -496,12 +496,12 @@ function checkRequireSystem()
 {
     if [[ "$(isUbuntuDistributor)" = 'false' ]]
     then
-        fatal "\nFATAL: this program only supports 'Ubuntu' operating system!"
+        fatal "\nFATAL : this program only supports 'Ubuntu' operating system!"
     fi
 
     if [[ "$(is64BitSystem)" = 'false' ]]
     then
-        fatal "\nFATAL: this program only supports 'x86_64' operating system!"
+        fatal "\nFATAL : this program only supports 'x86_64' operating system!"
     fi
 }
 
@@ -511,7 +511,7 @@ function checkRequireUser()
 
     if [[ "$(whoami)" != "${user}" ]]
     then
-        fatal "\nFATAL: please run this program as '${user}' user!"
+        fatal "\nFATAL : please run this program as '${user}' user!"
     fi
 }
 
@@ -590,10 +590,10 @@ DONE
 
             chmod 600 "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
         else
-            fatal "\nFATAL: install 'expect' command failed!"
+            fatal "\nFATAL : install 'expect' command failed!"
         fi
     else
-        fatal "\nFATAL: home of user '${user}' not found!"
+        fatal "\nFATAL : home of user '${user}' not found!"
     fi
 }
 
@@ -734,7 +734,7 @@ function isPortOpen()
 
     if [[ "$(isEmptyString "${port}")" = 'true' ]]
     then
-        fatal "\nFATAL: port undefined"
+        fatal "\nFATAL : port undefined"
     fi
 
     if [[ "$(isLinuxOperatingSystem)" = 'true' ]]
@@ -744,7 +744,7 @@ function isPortOpen()
     then
         local process="$(lsof -i -n -P | grep -E -i ":${port}\s+\(LISTEN\)$" | head -1)"
     else
-        fatal "\nFATAL: operating system not supported"
+        fatal "\nFATAL : operating system not supported"
     fi
 
     if [[ "$(isEmptyString "${process}")" = 'true' ]]
