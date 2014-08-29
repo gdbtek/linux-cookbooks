@@ -380,7 +380,7 @@ function upgradePIPPackage()
 
 function debug()
 {
-    echo -e "\033[1;34m${1}\033[0m"
+    echo -e "\033[1;34m${1}\033[0m" 2>&1
 }
 
 function error()
@@ -401,14 +401,14 @@ function fatal()
 
 function formatPath()
 {
-    local string="${1}"
+    local path="${1}"
 
-    while [[ "$(echo "${string}" | grep -F '//')" != '' ]]
+    while [[ "$(echo "${path}" | grep -F '//')" != '' ]]
     do
-        string="$(echo "${string}" | sed -e 's/\/\/*/\//g')"
+        path="$(echo "${path}" | sed -e 's/\/\/*/\//g')"
     done
 
-    echo "${string}" | sed -e 's/\/$//g'
+    echo "${path}" | sed -e 's/\/$//g'
 }
 
 function header()
@@ -418,7 +418,7 @@ function header()
 
 function info()
 {
-    echo -e "\033[1;36m${1}\033[0m"
+    echo -e "\033[1;36m${1}\033[0m" 2>&1
 }
 
 function isEmptyString()
