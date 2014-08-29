@@ -481,9 +481,9 @@ function addUser()
 
     if [[ "${allowLogin}" = 'true' ]]
     then
-        local allowLoginOption="-s '/bin/bash'"
+        local allowLoginOption='-s /bin/bash'
     else
-        local allowLoginOption="-s '/bin/false'"
+        local allowLoginOption='-s /bin/false'
     fi
 
     # Add Group
