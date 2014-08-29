@@ -484,11 +484,6 @@ function addUser()
         local allowLoginOption='-s /bin/bash'
     else
         local allowLoginOption='-s /bin/false'
-
-        if [[ "${createHome}" = 'false' ]]
-        then
-            allowLoginOption="${allowLoginOption} -d /nonexistent"
-        fi
     fi
 
     # Add Group
