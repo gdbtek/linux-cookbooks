@@ -18,9 +18,17 @@ function install()
 
     # Install
 
-    debug "\nDownloading '${jenkinsDownloadURL}'"
-    curl -L "${jenkinsDownloadURL}" -o "${jenkinsTomcatFolder}/webapps/${appName}.war"
-    chown -R "${jenkinsUserName}:${jenkinsGroupName}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    if [[ -d "${jenkinsTomcatFolder}/webapps" ]]
+    then
+        local temporaryFile="$(getTemporaryFile)"
+
+        debug "\nDownloading '${jenkinsDownloadURL}' to '${temporaryFile}'"
+        curl -L "${jenkinsDownloadURL}" -o "${temporaryFile}"
+        chown "${jenkinsUserName}:${jenkinsGroupName}" "${temporaryFile}"
+        mv "${temporaryFile}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    else
+        fatal "\nFATAL : directory '${jenkinsTomcatFolder}/webapps' not found!"
+    fi
 }
 
 function main()
