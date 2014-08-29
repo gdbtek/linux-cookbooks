@@ -47,7 +47,7 @@ function install()
 
     # Start
 
-    addSystemUser "${elasticsearchUserName}" "${elasticsearchGroupName}"
+    addUser "${elasticsearchUserName}" "${elasticsearchGroupName}" 'false' 'true' 'false'
     chown -R "${elasticsearchUserName}:${elasticsearchGroupName}" "${elasticsearchInstallFolder}"
     start "${elasticsearchServiceName}"
 

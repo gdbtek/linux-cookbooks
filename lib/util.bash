@@ -516,20 +516,6 @@ function addUser()
     fi
 }
 
-function addSystemUser()
-{
-    local uid="${1}"
-    local gid="${2}"
-
-    if [[ "${uid}" = "${gid}" ]]
-    then
-        adduser --system --no-create-home --disabled-login --disabled-password --group "${gid}" >> /dev/null 2>&1
-    else
-        addgroup "${gid}" >> /dev/null 2>&1
-        adduser --system --no-create-home --disabled-login --disabled-password --ingroup "${gid}" "${uid}" >> /dev/null 2>&1
-    fi
-}
-
 function checkRequirePort()
 {
     local ports="${@}"

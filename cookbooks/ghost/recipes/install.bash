@@ -55,7 +55,7 @@ function install()
 
     # Start
 
-    addSystemUser "${ghostUserName}" "${ghostGroupName}"
+    addUser "${ghostUserName}" "${ghostGroupName}" 'false' 'true' 'false'
     chown -R "${ghostUserName}:${ghostGroupName}" "${ghostInstallFolder}"
     start "${ghostServiceName}"
 }

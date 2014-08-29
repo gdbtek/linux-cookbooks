@@ -17,7 +17,7 @@ function install()
     local currentPath="$(pwd)"
 
     unzipRemoteFile "${mysqlDownloadURL}" "${mysqlInstallFolder}"
-    addSystemUser "${mysqlUserName}" "${mysqlGroupName}"
+    addUser "${mysqlUserName}" "${mysqlGroupName}" 'false' 'true' 'false'
     ln -s "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
     chown -R "${mysqlUserName}:${mysqlGroupName}" "${mysqlInstallFolder}"
     cd "${mysqlInstallFolder}"

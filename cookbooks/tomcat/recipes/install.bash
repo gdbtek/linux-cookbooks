@@ -49,7 +49,7 @@ function install()
 
     # Start
 
-    addSystemUser "${tomcatUserName}" "${tomcatGroupName}"
+    addUser "${tomcatUserName}" "${tomcatGroupName}" 'true' 'true' 'false'
     chown -R "${tomcatUserName}:${tomcatGroupName}" "${tomcatInstallFolder}"
     start "${tomcatServiceName}"
 

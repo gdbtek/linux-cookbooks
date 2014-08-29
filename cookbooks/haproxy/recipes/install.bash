@@ -44,7 +44,7 @@ function install()
 
     # Start
 
-    addSystemUser "${haproxyUserName}" "${haproxyGroupName}"
+    addUser "${haproxyUserName}" "${haproxyGroupName}" 'false' 'true' 'false'
     chown -R "${haproxyUserName}:${haproxyGroupName}" "${haproxyInstallFolder}"
     start "${haproxyServiceName}"
 

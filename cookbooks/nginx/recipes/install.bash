@@ -56,7 +56,7 @@ function install()
 
     # Start
 
-    addSystemUser "${nginxUserName}" "${nginxGroupName}"
+    addUser "${nginxUserName}" "${nginxGroupName}" 'false' 'true' 'false'
     chown -R "${nginxUserName}:${nginxGroupName}" "${nginxInstallFolder}"
     start "${nginxServiceName}"
 

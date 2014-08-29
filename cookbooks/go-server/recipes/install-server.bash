@@ -17,8 +17,7 @@ function install()
 
     # Install
 
-    addgroup "${goserverGroupName}" >> /dev/null 2>&1
-    useradd "${goserverUserName}" --gid "${goserverGroupName}" --shell '/bin/bash' --create-home
+    addUser "${goserverUserName}" "${goserverGroupName}" 'true' 'false' 'true'
     unzipRemoteFile "${goserverServerDownloadURL}" "${goserverServerInstallFolder}"
 
     local unzipFolderName="$(ls -d ${goserverServerInstallFolder}/*/ 2> '/dev/null')"

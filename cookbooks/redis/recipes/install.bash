@@ -61,7 +61,7 @@ function install()
 
     # Start
 
-    addSystemUser "${redisUserName}" "${redisGroupName}"
+    addUser "${redisUserName}" "${redisGroupName}" 'false' 'true' 'false'
     chown -R "${redisUserName}:${redisGroupName}" "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
     start "${redisServiceName}"
 
