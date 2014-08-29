@@ -28,7 +28,7 @@ function install()
         if [[ "$(ls -A "${unzipFolderName}")" != '' ]]
         then
             mv ${unzipFolderName}* "${goserverServerInstallFolder}"
-            chown -R "${goserverUserName}":"${goserverGroupName}" "${goserverServerInstallFolder}"
+            chown -R "${goserverUserName}:${goserverGroupName}" "${goserverServerInstallFolder}"
             rm -f -r "${unzipFolderName}"
         else
             fatal "FATAL : folder '${unzipFolderName}' is empty"

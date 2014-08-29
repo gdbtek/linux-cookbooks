@@ -25,7 +25,7 @@ function install()
     if [[ "$(existURL "${url}")" = 'true' ]]
     then
         unzipRemoteFile "${url}" "${nodejsInstallFolder}"
-        chown -R "$(whoami)":"$(whoami)" "${nodejsInstallFolder}"
+        chown -R "$(whoami):$(whoami)" "${nodejsInstallFolder}"
         symlinkLocalBin "${nodejsInstallFolder}/bin"
 
         # Config Profile

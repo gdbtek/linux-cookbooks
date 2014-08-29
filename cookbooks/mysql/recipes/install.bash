@@ -19,7 +19,7 @@ function install()
     unzipRemoteFile "${mysqlDownloadURL}" "${mysqlInstallFolder}"
     addSystemUser "${mysqlUserName}" "${mysqlGroupName}"
     ln -s "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
-    chown -R "${mysqlUserName}":"${mysqlGroupName}" "${mysqlInstallFolder}"
+    chown -R "${mysqlUserName}:${mysqlGroupName}" "${mysqlInstallFolder}"
     cd "${mysqlInstallFolder}"
     "${mysqlInstallFolder}/scripts/mysql_install_db" --user="${mysqlUserName}"
     chown -R "$(whoami)" "${mysqlInstallFolder}"

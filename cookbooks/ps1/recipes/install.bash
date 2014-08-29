@@ -26,7 +26,7 @@ function install()
             if [[ ! -f "${profileFile}" ]]
             then
                 touch "${profileFile}"
-                chown "${user}":"${user}" "${profileFile}"
+                chown "${user}:${user}" "${profileFile}"
             fi
 
             appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false'

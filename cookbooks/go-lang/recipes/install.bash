@@ -15,7 +15,7 @@ function install()
     # Install
 
     unzipRemoteFile "${golangDownloadURL}" "${golangInstallFolder}"
-    chown -R "$(whoami)":"$(whoami)" "${golangInstallFolder}"
+    chown -R "$(whoami):$(whoami)" "${golangInstallFolder}"
     symlinkLocalBin "${golangInstallFolder}/bin"
     ln -s "${golangInstallFolder}" '/usr/local/go'
 
