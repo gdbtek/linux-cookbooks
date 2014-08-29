@@ -512,7 +512,7 @@ function addUser()
             fi
         fi
     else
-        useradd "${createHomeOption}" "${systemAccountOption}" ${allowLoginOption} -g "${groupName}" "${userName}"
+        useradd ${createHomeOption} ${systemAccountOption} ${allowLoginOption} -g "${groupName}" "${userName}"
     fi
 }
 
