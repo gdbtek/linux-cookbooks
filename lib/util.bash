@@ -483,7 +483,7 @@ function addUser()
     then
         local allowLoginOption='-s /bin/bash'
     else
-        local allowLoginOption='-s /bin/false'
+        local allowLoginOption='-s /bin/false -d /nonexistent'
     fi
 
     # Add Group
