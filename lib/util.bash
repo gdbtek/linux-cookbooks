@@ -449,6 +449,9 @@ function addUser()
 {
     local userName="${1}"
     local groupName="${2}"
+    local createHome="${3}"
+    local systemAccount="${4}"
+    local allowLogin="${5}"
 
     if [[ "$(isEmptyString "${userName}")" = 'true' ]]
     then
@@ -460,7 +463,34 @@ function addUser()
         fatal "\nFATAL : groupName undefined!"
     fi
 
+    # Options
+
+    if [[ "${createHome}" = 'true' ]]
+    then
+        local createHomeOption='-m'
+    else
+        local createHomeOption='-M'
+    fi
+
+    if [[ "${systemAccount}" = 'false' ]]
+    then
+        local systemAccountOption=''
+    else
+        local systemAccountOption='-r'
+    fi
+
+    if [[ "${allowLogin}" = 'true' ]]
+    then
+        local allowLoginOption='-s "/bin/bash"'
+    else
+        local allowLoginOption='-s "/bin/false"'
+    fi
+
+    # Add Group
+
     groupadd -f -r "${groupName}"
+
+    # Add User
 
     if [[ "$(existUser "${userName}")" = 'true' ]]
     then
@@ -471,15 +501,18 @@ function addUser()
 
         # Not Exist Home
 
-        local userHome="$(getUserHomeFolder "${userName}")"
-
-        if [[ "$(isEmptyString "${userHome}")" = 'true' || ! -d "${userHome}" ]]
+        if [[ "${createHome}" = 'true' ]]
         then
-            mkdir -p "/home/${userName}"
-            chown -R "${userName}:${groupName}" "/home/${userName}"
+            local userHome="$(getUserHomeFolder "${userName}")"
+
+            if [[ "$(isEmptyString "${userHome}")" = 'true' || ! -d "${userHome}" ]]
+            then
+                mkdir -p "/home/${userName}"
+                chown -R "${userName}:${groupName}" "/home/${userName}"
+            fi
         fi
     else
-        useradd -m -g "${groupName}" "${userName}"
+        useradd "${createHomeOption}" "${systemAccountOption}" ${allowLoginOption} -g "${groupName}" "${userName}"
     fi
 }
 
