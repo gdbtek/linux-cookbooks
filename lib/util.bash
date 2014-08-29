@@ -445,6 +445,44 @@ function warn()
 # SYSTEM UTILITIES #
 ####################
 
+function addUser()
+{
+    local userName="${1}"
+    local groupName="${2}"
+
+    if [[ "$(isEmptyString "${userName}")" = 'true' ]]
+    then
+        fatal "\nFATAL : userName undefined!"
+    fi
+
+    if [[ "$(isEmptyString "${groupName}")" = 'true' ]]
+    then
+        fatal "\nFATAL : groupName undefined!"
+    fi
+
+    groupadd -f -r "${groupName}"
+
+    if [[ "$(existUser "${userName}")" = 'true' ]]
+    then
+        if [[ "$(isUserInGroup "${userName}" "${groupName}")" = 'false' ]]
+        then
+            usermod -a -G "${groupName}" "${userName}"
+        fi
+
+        # Not Exist Home
+
+        local userHome="$(getUserHomeFolder "${userName}")"
+
+        if [[ "$(isEmptyString "${userHome}")" = 'true' || ! -d "${userHome}" ]]
+        then
+            mkdir -p "/home/${userName}"
+            chown -R "${userName}:${groupName}" "/home/${userName}"
+        fi
+    else
+        useradd -m -g "${groupName}" "${userName}"
+    fi
+}
+
 function addSystemUser()
 {
     local uid="${1}"
@@ -758,4 +796,32 @@ function isPortOpen()
 function isUbuntuDistributor()
 {
     isDistributor 'Ubuntu'
+}
+
+function isUserInGroup()
+{
+    local userName="${1}"
+    local groupName="${2}"
+
+    if [[ "$(isEmptyString "${userName}")" = 'true' ]]
+    then
+        fatal "\nFATAL : userName undefined!"
+    fi
+
+    if [[ "$(isEmptyString "${groupName}")" = 'true' ]]
+    then
+        fatal "\nFATAL : groupName undefined!"
+    fi
+
+    if [[ "$(existUser "${userName}")" = 'true' ]]
+    then
+        if [[ "$(groups "${userName}" | grep "\b${groupName}\b")" = '' ]]
+        then
+            echo 'false'
+        else
+            echo 'true'
+        fi
+    else
+        echo 'false'
+    fi
 }
