@@ -1,10 +1,5 @@
 #!/bin/bash -e
 
-function installDependencies()
-{
-    installAptGetPackages 'expect'
-}
-
 function install()
 {
     local disk="$(formatPath "${1}")"
@@ -45,6 +40,8 @@ function createPartition()
 {
     local disk="${1}"
 
+    installAptGetPackages 'expect'
+
     expect << DONE
         spawn fdisk "${disk}"
         expect "Command (m for help): "
@@ -75,7 +72,6 @@ function main()
 
     header 'INSTALLING MOUNT-HD'
 
-    installDependencies
     install "${@}"
     installCleanUp
 }
