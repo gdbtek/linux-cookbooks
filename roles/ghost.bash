@@ -6,7 +6,6 @@ function main()
 
     "${appPath}/essential.bash"
 
-    "${appPath}/../cookbooks/node-js/recipes/install.bash"
     "${appPath}/../cookbooks/ghost/recipes/install.bash"
     "${appPath}/../cookbooks/nginx/recipes/install.bash"
 }
