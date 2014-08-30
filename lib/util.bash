@@ -106,7 +106,7 @@ function existURL()
 
     # Check URL
 
-    if ( curl -o '/dev/null' -s -H -f -L "${url}" )
+    if ( curl -f --head -L "${url}" -o '/dev/null' -s )
     then
         echo 'true'
     else
