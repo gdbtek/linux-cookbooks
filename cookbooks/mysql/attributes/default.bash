@@ -10,3 +10,9 @@ mysqlGroupName='mysql'
 mysqlServiceName='mysql'
 
 mysqlPort=3306
+
+mysqlRootPassword=''
+mysqlRemoveAnonymousUsers='true'
+mysqlDisallowRootLoginRemotely='true'
+mysqlRemoveTestDatabase='true'
+mysqlReloadPrivilegeTable='true'

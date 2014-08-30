@@ -47,9 +47,79 @@ function install()
 
     service "${mysqlServiceName}" start
 
+    # Run Secure Installation
+
+    if [[ "${mysqlSecureInstallation}" != 'false' ]]
+    then
+        secureInstallation
+    fi
+
     # Display Version
 
     info "\n$("${mysqlInstallFolder}/bin/mysql" --version)"
+}
+
+function secureInstallation()
+{
+    # Install Expect
+
+    installAptGetPackages 'expect'
+
+    # Config Option
+
+    local setMySQLRootPassword='n'
+
+    if [[ "${mysqlRootPassword}" != '' ]]
+    then
+        setMySQLRootPassword='y'
+    fi
+
+    if [[ "${mysqlRemoveAnonymousUsers}" = 'false' ]]
+    then
+        mysqlRemoveAnonymousUsers='n'
+    else
+        mysqlRemoveAnonymousUsers='Y'
+    fi
+
+    if [[ "${mysqlDisallowRootLoginRemotely}" = 'false' ]]
+    then
+        mysqlDisallowRootLoginRemotely='n'
+    else
+        mysqlDisallowRootLoginRemotely='Y'
+    fi
+
+    if [[ "${mysqlRemoveTestDatabase}" = 'false' ]]
+    then
+        mysqlRemoveTestDatabase='n'
+    else
+        mysqlRemoveTestDatabase='Y'
+    fi
+
+    if [[ "${mysqlReloadPrivilegeTable}" = 'true' ]]
+    then
+        mysqlReloadPrivilegeTable='Y'
+    else
+        mysqlReloadPrivilegeTable='n'
+    fi
+
+    # Run Config
+
+    cd "${mysqlInstallFolder}"
+
+    expect << DONE
+        spawn "${mysqlInstallFolder}/bin/mysql_secure_installation"
+        expect "Set root password? [Y/n] "
+        send -- "${setMySQLRootPassword}\r"
+        expect "Remove anonymous users? [Y/n] "
+        send -- "${mysqlRemoveAnonymousUsers}\r"
+        expect "Disallow root login remotely? [Y/n] "
+        send -- "${mysqlDisallowRootLoginRemotely}\r"
+        expect "Remove test database and access to it? [Y/n] "
+        send -- "${mysqlRemoveTestDatabase}\r"
+        expect "Reload privilege tables now? [Y/n] "
+        send -- "${mysqlReloadPrivilegeTable}\r"
+        expect eof
+DONE
 }
 
 function main()
