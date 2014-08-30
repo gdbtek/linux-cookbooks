@@ -34,7 +34,7 @@ function install()
     # Start
 
     addUser "${mongodbUserName}" "${mongodbGroupName}" 'false' 'true' 'false'
-    chown -R "${mongodbUserName}:${mongodbGroupName}" "${mongodbInstallFolder}" "${mongodbInstallDataFolder}"
+    chown -R "${mongodbUserName}:${mongodbGroupName}" "${mongodbInstallFolder}"
     start "${mongodbServiceName}"
 
     # Display Version
