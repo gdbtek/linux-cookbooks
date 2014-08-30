@@ -112,15 +112,17 @@ function secureInstallation()
 
     expect << DONE
         spawn "${secureInstaller}"
-        expect "Set root password? [Y\/n] "
+        expect 'Enter current password for root (enter for none): '
+        send -- "\r"
+        expect 'Set root password? [Y/n] '
         send -- "${setMySQLRootPassword}\r"
-        expect "Remove anonymous users? [Y\/n] "
+        expect 'Remove anonymous users? [Y/n] '
         send -- "${mysqlRemoveAnonymousUsers}\r"
-        expect "Disallow root login remotely? [Y\/n] "
+        expect 'Disallow root login remotely? [Y/n] '
         send -- "${mysqlDisallowRootLoginRemotely}\r"
-        expect "Remove test database and access to it? [Y\/n] "
+        expect 'Remove test database and access to it? [Y/n] '
         send -- "${mysqlRemoveTestDatabase}\r"
-        expect "Reload privilege tables now? [Y\/n] "
+        expect 'Reload privilege tables now? [Y/n] '
         send -- "${mysqlReloadPrivilegeTable}\r"
         expect eof
 DONE
