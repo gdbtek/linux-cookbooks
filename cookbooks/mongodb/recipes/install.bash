@@ -23,6 +23,8 @@ function install()
     local upstartConfigData=(
         '__INSTALL_FOLDER__' "${mongodbInstallFolder}"
         '__INSTALL_DATA_FOLDER__' "${mongodbInstallDataFolder}"
+        '__USER_NAME__' "${mongodbUserName}"
+        '__GROUP_NAME__' "${mongodbGroupName}"
         '__PORT__' "${mongodbPort}"
     )
 

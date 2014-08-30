@@ -7,4 +7,7 @@ mongodbInstallDataFolder='/opt/mongodb/data'
 
 mongodbServiceName='mongodb'
 
+mongodbUserName='mongodb'
+mongodbGroupName='mongodb'
+
 mongodbPort=27017

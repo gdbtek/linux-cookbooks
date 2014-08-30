@@ -3,6 +3,9 @@ description 'MongoDB Server'
 start on startup
 stop on shutdown
 
+setuid '__USER_NAME__'
+setgid '__GROUP_NAME__'
+
 respawn
 respawn limit 10 5
 
