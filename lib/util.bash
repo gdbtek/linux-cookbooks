@@ -178,7 +178,7 @@ function unzipRemoteFile()
 
         local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
-        debug "\nDownloading '${downloadURL}'"
+        debug "\nDownloading '${downloadURL}' to '${zipFile}'"
         curl -L "${downloadURL}" -o "${zipFile}"
         unzip -q "${zipFile}" -d "${installFolder}"
         rm -f "${zipFile}"
