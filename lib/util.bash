@@ -137,6 +137,13 @@ function unzipRemoteFile()
 
     installCURLCommand
 
+    # Validate URL
+
+    if [[ "$(existURL "${downloadURL}")" = 'false' ]]
+    then
+        fatal "\nFATAL : url '${downloadURL}' not found!"
+    fi
+
     # Find Extension
 
     if [[ "$(isEmptyString "${extension}")" = 'true' ]]

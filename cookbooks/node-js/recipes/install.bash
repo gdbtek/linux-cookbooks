@@ -27,11 +27,6 @@ function install()
         local url="http://nodejs.org/dist/${nodejsVersion}/node-${nodejsVersion}-linux-x64.tar.gz"
     fi
 
-    if [[ "$(existURL "${url}")" = 'false' ]]
-    then
-        fatal "\nFATAL : version '${nodejsVersion}' not found!"
-    fi
-
     unzipRemoteFile "${url}" "${nodejsInstallFolder}"
     chown -R "$(whoami):$(whoami)" "${nodejsInstallFolder}"
     symlinkLocalBin "${nodejsInstallFolder}/bin"
