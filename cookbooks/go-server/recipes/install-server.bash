@@ -22,19 +22,19 @@ function install()
 
     local unzipFolderName="$(ls -d ${goserverServerInstallFolder}/*/ 2> '/dev/null')"
 
-    if [[ "$(isEmptyString "${unzipFolderName}")" = 'false' && "$(echo "${unzipFolderName}" | wc -l)" = '1' ]]
+    if [[ "$(isEmptyString "${unzipFolderName}")" = 'true' || "$(echo "${unzipFolderName}" | wc -l)" != '1' ]]
     then
-        if [[ "$(ls -A "${unzipFolderName}")" != '' ]]
-        then
-            mv ${unzipFolderName}* "${goserverServerInstallFolder}"
-            chown -R "${goserverUserName}:${goserverGroupName}" "${goserverServerInstallFolder}"
-            rm -f -r "${unzipFolderName}"
-        else
-            fatal "FATAL : folder '${unzipFolderName}' is empty"
-        fi
-    else
         fatal 'FATAL : found multiple unzip folder name!'
     fi
+
+    if [[ "$(ls -A "${unzipFolderName}")" = '' ]]
+    then
+        fatal "FATAL : folder '${unzipFolderName}' is empty"
+    fi
+
+    mv ${unzipFolderName}* "${goserverServerInstallFolder}"
+    chown -R "${goserverUserName}:${goserverGroupName}" "${goserverServerInstallFolder}"
+    rm -f -r "${unzipFolderName}"
 }
 
 function configUpstart()

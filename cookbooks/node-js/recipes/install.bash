@@ -22,23 +22,23 @@ function install()
         local url="http://nodejs.org/dist/v${nodejsVersion}/node-v${nodejsVersion}-linux-x64.tar.gz"
     fi
 
-    if [[ "$(existURL "${url}")" = 'true' ]]
+    if [[ "$(existURL "${url}")" = 'false' ]]
     then
-        unzipRemoteFile "${url}" "${nodejsInstallFolder}"
-        chown -R "$(whoami):$(whoami)" "${nodejsInstallFolder}"
-        symlinkLocalBin "${nodejsInstallFolder}/bin"
-
-        # Config Profile
-
-        local profileConfigData=('__INSTALL_FOLDER__' "${nodejsInstallFolder}")
-
-        createFileFromTemplate "${appPath}/../templates/default/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
-
-        info "\nNode Version: $(node --version)"
-        info "NPM Version : $(npm --version)"
-    else
         fatal "\nFATAL : version '${nodejsVersion}' not found!"
     fi
+
+    unzipRemoteFile "${url}" "${nodejsInstallFolder}"
+    chown -R "$(whoami):$(whoami)" "${nodejsInstallFolder}"
+    symlinkLocalBin "${nodejsInstallFolder}/bin"
+
+    # Config Profile
+
+    local profileConfigData=('__INSTALL_FOLDER__' "${nodejsInstallFolder}")
+
+    createFileFromTemplate "${appPath}/../templates/default/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
+
+    info "\nNode Version: $(node --version)"
+    info "NPM Version : $(npm --version)"
 }
 
 function getLatestVersionNumber()

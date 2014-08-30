@@ -12,29 +12,29 @@ function appendToFileIfNotFound()
     local patternAsRegex="${4}"
     local stringAsRegex="${5}"
 
-    if [[ -f "${file}" ]]
+    if [[ ! -f "${file}" ]]
     then
-        local grepOption='-F -o'
-
-        if [[ "${patternAsRegex}" = 'true' ]]
-        then
-            grepOption='-E -o'
-        fi
-
-        local found="$(grep ${grepOption} "${pattern}" "${file}")"
-
-        if [[ "$(isEmptyString "${found}")" = 'true' ]]
-        then
-            if [[ "${stringAsRegex}" = 'true' ]]
-            then
-                echo -e "${string}" >> "${file}"
-            else
-                echo >> "${file}"
-                echo "${string}" >> "${file}"
-            fi
-        fi
-    else
         fatal "FATAL : file '${file}' not found!"
+    fi
+
+    local grepOption='-F -o'
+
+    if [[ "${patternAsRegex}" = 'true' ]]
+    then
+        grepOption='-E -o'
+    fi
+
+    local found="$(grep ${grepOption} "${pattern}" "${file}")"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        if [[ "${stringAsRegex}" = 'true' ]]
+        then
+            echo -e "${string}" >> "${file}"
+        else
+            echo >> "${file}"
+            echo "${string}" >> "${file}"
+        fi
     fi
 }
 
@@ -44,23 +44,23 @@ function createFileFromTemplate()
     local destinationFile="${2}"
     local data=("${@:3}")
 
-    if [[ -f "${sourceFile}" ]]
+    if [[ ! -f "${sourceFile}" ]]
     then
-        local content="$(cat "${sourceFile}")"
-        local i=0
-
-        for ((i = 0; i < ${#data[@]}; i = i + 2))
-        do
-            local oldValue="$(escapeSearchPattern "${data[${i}]}")"
-            local newValue="$(escapeSearchPattern "${data[${i} + 1]}")"
-
-            content="$(echo "${content}" | sed "s@${oldValue}@${newValue}@g")"
-        done
-
-        echo "${content}" > "${destinationFile}"
-    else
         fatal "FATAL : file '${sourceFile}' not found!"
     fi
+
+    local content="$(cat "${sourceFile}")"
+    local i=0
+
+    for ((i = 0; i < ${#data[@]}; i = i + 2))
+    do
+        local oldValue="$(escapeSearchPattern "${data[${i}]}")"
+        local newValue="$(escapeSearchPattern "${data[${i} + 1]}")"
+
+        content="$(echo "${content}" | sed "s@${oldValue}@${newValue}@g")"
+    done
+
+    echo "${content}" > "${destinationFile}"
 }
 
 function getFileExtension()
@@ -162,18 +162,18 @@ function unzipRemoteFile()
 
         # Unzip
 
-        if [[ "$(existCommand 'unzip')" = 'true' ]]
+        if [[ "$(existCommand 'unzip')" = 'false' ]]
         then
-            local zipFile="${installFolder}/$(basename "${downloadURL}")"
-
-            debug "\nDownloading '${downloadURL}'"
-            curl -L "${downloadURL}" -o "${zipFile}"
-            unzip -q "${zipFile}" -d "${installFolder}"
-            rm -f "${zipFile}"
-            echo
-        else
             fatal "FATAL : install 'unzip' command failed!"
         fi
+
+        local zipFile="${installFolder}/$(basename "${downloadURL}")"
+
+        debug "\nDownloading '${downloadURL}'"
+        curl -L "${downloadURL}" -o "${zipFile}"
+        unzip -q "${zipFile}" -d "${installFolder}"
+        rm -f "${zipFile}"
+        echo
     else
         fatal "FATAL : file extension '${extension}' is not yet supported to unzip!"
     fi
@@ -316,18 +316,18 @@ function isPIPPackageInstall()
 
     # Check Command
 
-    if [[ "$(existCommand 'pip')" = 'true' ]]
+    if [[ "$(existCommand 'pip')" = 'false' ]]
     then
-        local found="$(pip list | grep -E -o "^${package}\s+\(.*\)$")"
-
-        if [[ "$(isEmptyString "${found}")" = 'true' ]]
-        then
-            echo 'false'
-        else
-            echo 'true'
-        fi
-    else
         fatal "FATAL : install 'python-pip' command failed!"
+    fi
+
+    local found="$(pip list | grep -E -o "^${package}\s+\(.*\)$")"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
     fi
 }
 
@@ -622,36 +622,36 @@ function generateUserSSHKey()
 
     local userHome="$(getUserHomeFolder "${user}")"
 
-    if [[ "$(isEmptyString "${userHome}")" = 'false' && -d "${userHome}" ]]
+    if [[ "$(isEmptyString "${userHome}")" = 'true' || ! -d "${userHome}" ]]
     then
-        # Install Expect
-
-        installExpectCommand
-
-        # Generate SSH Key
-
-        if [[ "$(existCommand 'expect')" = 'true' ]]
-        then
-            rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
-
-            expect << DONE
-                spawn su - "${user}" -c 'ssh-keygen'
-                expect "Enter file in which to save the key (*): "
-                send -- "\r"
-                expect "Enter passphrase (empty for no passphrase): "
-                send -- "\r"
-                expect "Enter same passphrase again: "
-                send -- "\r"
-                expect eof
-DONE
-
-            chmod 600 "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
-        else
-            fatal "\nFATAL : install 'expect' command failed!"
-        fi
-    else
         fatal "\nFATAL : home of user '${user}' not found!"
     fi
+
+    # Install Expect
+
+    installExpectCommand
+
+    # Generate SSH Key
+
+    if [[ "$(existCommand 'expect')" = 'false' ]]
+    then
+        fatal "\nFATAL : install 'expect' command failed!"
+    fi
+
+    rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
+
+    expect << DONE
+        spawn su - "${user}" -c 'ssh-keygen'
+        expect "Enter file in which to save the key (*): "
+        send -- "\r"
+        expect "Enter passphrase (empty for no passphrase): "
+        send -- "\r"
+        expect "Enter same passphrase again: "
+        send -- "\r"
+        expect eof
+DONE
+
+    chmod 600 "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
 }
 
 function getMachineDescription()
