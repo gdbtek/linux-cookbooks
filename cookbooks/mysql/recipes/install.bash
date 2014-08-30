@@ -49,10 +49,7 @@ function install()
 
     # Run Secure Installation
 
-    if [[ "${mysqlSecureInstallation}" != 'false' ]]
-    then
-        secureInstallation
-    fi
+    secureInstallation
 
     # Display Version
 
@@ -61,6 +58,13 @@ function install()
 
 function secureInstallation()
 {
+    local secureInstaller="${mysqlInstallFolder}/bin/mysql_secure_installation"
+
+    if [[ ! -f "${secureInstaller}" ]]
+    then
+        fatal "\nFATAL : file '${secureInstaller}' not found!"
+    fi
+
     # Install Expect
 
     installAptGetPackages 'expect'
@@ -107,16 +111,16 @@ function secureInstallation()
     cd "${mysqlInstallFolder}"
 
     expect << DONE
-        spawn "${mysqlInstallFolder}/bin/mysql_secure_installation"
-        expect "Set root password? [Y/n] "
+        spawn "${secureInstaller}"
+        expect "Set root password? [Y\/n] "
         send -- "${setMySQLRootPassword}\r"
-        expect "Remove anonymous users? [Y/n] "
+        expect "Remove anonymous users? [Y\/n] "
         send -- "${mysqlRemoveAnonymousUsers}\r"
-        expect "Disallow root login remotely? [Y/n] "
+        expect "Disallow root login remotely? [Y\/n] "
         send -- "${mysqlDisallowRootLoginRemotely}\r"
-        expect "Remove test database and access to it? [Y/n] "
+        expect "Remove test database and access to it? [Y\/n] "
         send -- "${mysqlRemoveTestDatabase}\r"
-        expect "Reload privilege tables now? [Y/n] "
+        expect "Reload privilege tables now? [Y\/n] "
         send -- "${mysqlReloadPrivilegeTable}\r"
         expect eof
 DONE
