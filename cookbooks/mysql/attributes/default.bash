@@ -11,6 +11,8 @@ mysqlServiceName='mysql'
 
 mysqlPort=3306
 
+mysqlRunPostSecureInstallation='true'
+
 mysqlRootPassword=''
 mysqlRemoveAnonymousUsers='true'
 mysqlDisallowRootLoginRemotely='true'

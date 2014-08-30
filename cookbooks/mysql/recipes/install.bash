@@ -49,7 +49,10 @@ function install()
 
     # Run Secure Installation
 
-    secureInstallation
+    if [[ "${mysqlRunPostSecureInstallation}" = 'true' ]]
+    then
+        secureInstallation
+    fi
 
     # Display Version
 
