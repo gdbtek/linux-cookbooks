@@ -17,14 +17,14 @@ function install()
     if [[ "${nodejsVersion}" = 'latest' ]]
     then
         nodejsVersion="$(getLatestVersionNumber)"
-        local url="http://nodejs.org/dist/latest/node-v${nodejsVersion}-linux-x64.tar.gz"
+        local url="http://nodejs.org/dist/latest/node-${nodejsVersion}-linux-x64.tar.gz"
     else
         if [[ "$(echo "${nodejsVersion}" | grep -o '^v')" != '' ]]
         then
             nodejsVersion="v${nodejsVersion}"
         fi
 
-        local url="http://nodejs.org/dist/v${nodejsVersion}/node-v${nodejsVersion}-linux-x64.tar.gz"
+        local url="http://nodejs.org/dist/${nodejsVersion}/node-${nodejsVersion}-linux-x64.tar.gz"
     fi
 
     if [[ "$(existURL "${url}")" = 'false' ]]
@@ -48,10 +48,10 @@ function install()
 
 function getLatestVersionNumber()
 {
-    local versionPattern='[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,3}'
+    local versionPattern='v[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,3}'
     local shaSum256="$(getRemoteFileContent 'http://nodejs.org/dist/latest/SHASUMS256.txt.asc')"
 
-    echo "${shaSum256}" | grep -E -o "node-v${versionPattern}\.tar\.gz" | grep -E -o "${versionPattern}"
+    echo "${shaSum256}" | grep -E -o "node-${versionPattern}\.tar\.gz" | grep -E -o "${versionPattern}"
 }
 
 function main()
