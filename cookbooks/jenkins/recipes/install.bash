@@ -25,6 +25,7 @@ function install()
 
     local temporaryFile="$(getTemporaryFile)"
 
+    checkExistURL "${jenkinsDownloadURL}"
     debug "\nDownloading '${jenkinsDownloadURL}' to '${temporaryFile}'"
     curl -L "${jenkinsDownloadURL}" -o "${temporaryFile}"
     chown "${jenkinsUserName}:${jenkinsGroupName}" "${temporaryFile}"

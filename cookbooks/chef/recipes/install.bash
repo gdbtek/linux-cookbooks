@@ -2,6 +2,7 @@
 
 function install()
 {
+    checkExistURL "${chefDownloadURL}"
     debug "Downloading '${chefDownloadURL}'"
     curl -L "${chefDownloadURL}" | bash
     info "\n$(knife -v)"

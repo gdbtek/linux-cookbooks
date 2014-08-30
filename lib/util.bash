@@ -96,6 +96,16 @@ function symlinkLocalBin()
 # FILE REMOTE UTILITIES #
 #########################
 
+function checkExistURL()
+{
+    local url="${1}"
+
+    if [[ "$(existURL "${url}")" = 'false' ]]
+    then
+        fatal "\nFATAL : url '${url}' not found!"
+    fi
+}
+
 function existURL()
 {
     local url="${1}"
@@ -118,12 +128,7 @@ function getRemoteFileContent()
 {
     local url="${1}"
 
-    # Install Curl
-
-    installCURLCommand
-
-    # Get Content
-
+    checkExistURL "${url}"
     curl -s -X 'GET' "${url}"
 }
 
@@ -139,10 +144,7 @@ function unzipRemoteFile()
 
     # Validate URL
 
-    if [[ "$(existURL "${downloadURL}")" = 'false' ]]
-    then
-        fatal "\nFATAL : url '${downloadURL}' not found!"
-    fi
+    checkExistURL "${downloadURL}"
 
     # Find Extension
 
