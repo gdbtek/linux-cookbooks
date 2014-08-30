@@ -19,7 +19,7 @@ function install()
         nodejsVersion="$(getLatestVersionNumber)"
         local url="http://nodejs.org/dist/latest/node-${nodejsVersion}-linux-x64.tar.gz"
     else
-        if [[ "$(echo "${nodejsVersion}" | grep -o '^v')" != '' ]]
+        if [[ "$(echo "${nodejsVersion}" | grep -o '^v')" = '' ]]
         then
             nodejsVersion="v${nodejsVersion}"
         fi
