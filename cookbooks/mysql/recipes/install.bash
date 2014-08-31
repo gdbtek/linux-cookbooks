@@ -114,13 +114,27 @@ function secureInstallation()
     cd "${mysqlInstallFolder}"
 
     expect << DONE
+        set timeout 3
         spawn "${secureInstaller}"
 
         expect "Enter current password for root (enter for none): "
         send -- "\r"
 
-        expect "Set root password? \[Y/n] "
-        send -- "${setMySQLRootPassword}\r"
+        expect {
+            "Set root password? \[Y/n] " {
+                send -- "${setMySQLRootPassword}\r"
+            }
+
+            "New password: " {
+                send -- "${mysqlRootPassword}\r"
+                exp_continue
+            }
+
+            "Re-enter new password: " {
+                send -- "${mysqlRootPassword}\r"
+                exp_continue
+            }
+        }
 
         expect "Remove anonymous users? \[Y/n] "
         send -- "${mysqlRemoveAnonymousUsers}\r"
