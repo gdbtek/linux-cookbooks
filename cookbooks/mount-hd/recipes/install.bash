@@ -44,18 +44,25 @@ function createPartition()
 
     expect << DONE
         spawn fdisk "${disk}"
+
         expect "Command (m for help): "
         send -- "n\r"
+
         expect "Select (default p): "
         send -- "\r"
+
         expect "Partition number (1-4, default 1): "
         send -- "\r"
+
         expect "First sector (*, default *): "
         send -- "\r"
+
         expect "Last sector, +sectors or +size{K,M,G} (*, default *): "
         send -- "\r"
+
         expect "Command (m for help): "
         send -- "w\r"
+
         expect eof
 DONE
 }
