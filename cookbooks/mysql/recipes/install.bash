@@ -78,7 +78,7 @@ function secureInstallation()
 
     if [[ "${mysqlRootPassword}" != '' ]]
     then
-        setMySQLRootPassword='y'
+        setMySQLRootPassword='Y'
     fi
 
     if [[ "${mysqlRemoveAnonymousUsers}" = 'true' ]]
@@ -118,35 +118,35 @@ function secureInstallation()
         spawn "${secureInstaller}"
 
         expect "Enter current password for root (enter for none): "
-        send -- "\r"
+        send "\r"
 
         expect {
             "Set root password? \[Y/n] " {
-                send -- "${setMySQLRootPassword}\r"
+                send "${setMySQLRootPassword}\r"
             }
 
             "New password: " {
-                send -- "${mysqlRootPassword}\r"
+                send "${mysqlRootPassword}\r"
                 exp_continue
             }
 
             "Re-enter new password: " {
-                send -- "${mysqlRootPassword}\r"
+                send "${mysqlRootPassword}\r"
                 exp_continue
             }
         }
 
         expect "Remove anonymous users? \[Y/n] "
-        send -- "${mysqlRemoveAnonymousUsers}\r"
+        send "${mysqlRemoveAnonymousUsers}\r"
 
         expect "Disallow root login remotely? \[Y/n] "
-        send -- "${mysqlDisallowRootLoginRemotely}\r"
+        send "${mysqlDisallowRootLoginRemotely}\r"
 
         expect "Remove test database and access to it? \[Y/n] "
-        send -- "${mysqlRemoveTestDatabase}\r"
+        send "${mysqlRemoveTestDatabase}\r"
 
         expect "Reload privilege tables now? \[Y/n] "
-        send -- "${mysqlReloadPrivilegeTable}\r"
+        send "${mysqlReloadPrivilegeTable}\r"
 
         expect eof
 DONE
