@@ -56,7 +56,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${mysqlInstallFolder}/bin/mysql" --version)"
+    info "\n\n$("${mysqlInstallFolder}/bin/mysql" --version)"
 }
 
 function secureInstallation()
