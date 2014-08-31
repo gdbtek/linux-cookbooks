@@ -81,25 +81,25 @@ function secureInstallation()
         setMySQLRootPassword='y'
     fi
 
-    if [[ "${mysqlRemoveAnonymousUsers}" = 'false' ]]
+    if [[ "${mysqlRemoveAnonymousUsers}" = 'true' ]]
     then
-        mysqlRemoveAnonymousUsers='n'
-    else
         mysqlRemoveAnonymousUsers='Y'
+    else
+        mysqlRemoveAnonymousUsers='n'
     fi
 
-    if [[ "${mysqlDisallowRootLoginRemotely}" = 'false' ]]
+    if [[ "${mysqlDisallowRootLoginRemotely}" = 'true' ]]
     then
-        mysqlDisallowRootLoginRemotely='n'
-    else
         mysqlDisallowRootLoginRemotely='Y'
+    else
+        mysqlDisallowRootLoginRemotely='n'
     fi
 
-    if [[ "${mysqlRemoveTestDatabase}" = 'false' ]]
+    if [[ "${mysqlRemoveTestDatabase}" = 'true' ]]
     then
-        mysqlRemoveTestDatabase='n'
-    else
         mysqlRemoveTestDatabase='Y'
+    else
+        mysqlRemoveTestDatabase='n'
     fi
 
     if [[ "${mysqlReloadPrivilegeTable}" = 'true' ]]
