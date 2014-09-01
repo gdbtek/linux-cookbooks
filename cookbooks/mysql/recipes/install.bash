@@ -74,6 +74,13 @@ function secureInstallation()
 
     # Config Option
 
+    local setMySQLRootPassword='n'
+
+    if [[ "${mysqlRootPassword}" != '' ]]
+    then
+        setMySQLRootPassword='Y'
+    fi
+
     if [[ "${mysqlRemoveAnonymousUsers}" = 'true' ]]
     then
         mysqlRemoveAnonymousUsers='Y'
@@ -114,13 +121,15 @@ function secureInstallation()
         send "\r"
 
         expect "Set root password? \[Y/n] "
-        send "Y\r"
+        send "${setMySQLRootPassword}\r"
 
-        expect "New password: "
-        send "${mysqlRootPassword}\r"
+        if { "${setMySQLRootPassword}" == "Y" } {
+            expect "New password: "
+            send "${mysqlRootPassword}\r"
 
-        expect "Re-enter new password: "
-        send "${mysqlRootPassword}\r"
+            expect "Re-enter new password: "
+            send "${mysqlRootPassword}\r"
+        }
 
         expect "Remove anonymous users? \[Y/n] "
         send "${mysqlRemoveAnonymousUsers}\r"
