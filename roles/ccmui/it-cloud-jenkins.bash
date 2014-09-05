@@ -5,8 +5,6 @@ function main()
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../lib/util.bash"
-
-    cd "${appPath}/../../cookbooks/tomcat/recipes"
     source "${appPath}/../../cookbooks/tomcat/attributes/default.bash"
 
     "${appPath}/../essential.bash"
