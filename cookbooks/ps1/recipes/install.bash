@@ -31,7 +31,7 @@ function install()
 
             appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false'
         else
-            warn "WARN : home directory of user '${user}' not found!"
+            warn "WARN : home folder of user '${user}' not found!"
         fi
     done
 }

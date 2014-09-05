@@ -9,8 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${nginxInstallFolder}"
-    mkdir -p "${nginxInstallFolder}"
+    initializeFolder "${nginxInstallFolder}"
 
     # Download Dependencies
 

@@ -20,7 +20,7 @@ function install()
 
     if [[ ! -d "${jenkinsTomcatFolder}/webapps" ]]
     then
-        fatal "\nFATAL : directory '${jenkinsTomcatFolder}/webapps' not found!"
+        fatal "\nFATAL : folder '${jenkinsTomcatFolder}/webapps' not found!"
     fi
 
     local temporaryFile="$(getTemporaryFile)"

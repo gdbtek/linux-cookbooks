@@ -12,8 +12,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${elasticsearchInstallFolder}"
-    mkdir -p "${elasticsearchInstallFolder}"
+    initializeFolder "${elasticsearchInstallFolder}"
 
     # Install
 

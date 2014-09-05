@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${siegeInstallFolder}"
+    initializeFolder "${siegeInstallFolder}"
     mkdir -p "${siegeInstallFolder}/bin"
 
     # Install

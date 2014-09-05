@@ -12,7 +12,7 @@ function install()
 {
     # Clean Up
 
-    cleanUpFolder "${tomcatInstallFolder}"
+    initializeFolder "${tomcatInstallFolder}"
 
     # Install
 

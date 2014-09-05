@@ -9,8 +9,8 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${nodejsInstallFolder}" '/usr/local/bin/node' '/usr/local/bin/npm'
-    mkdir -p "${nodejsInstallFolder}"
+    initializeFolder "${nodejsInstallFolder}"
+    rm -f '/usr/local/bin/node' '/usr/local/bin/npm'
 
     # Install
 

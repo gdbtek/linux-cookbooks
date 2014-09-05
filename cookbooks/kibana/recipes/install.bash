@@ -4,8 +4,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${kibanaInstallFolder}"
-    mkdir -p "${kibanaInstallFolder}"
+    initializeFolder "${kibanaInstallFolder}"
 
     # Install
 

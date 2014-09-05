@@ -4,8 +4,8 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${mongodbInstallFolder}"
-    mkdir -p "${mongodbInstallFolder}" "${mongodbInstallDataFolder}"
+    initializeFolder "${mongodbInstallFolder}"
+    initializeFolder "${mongodbInstallDataFolder}"
 
     # Install
 

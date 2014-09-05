@@ -12,8 +12,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${goserverServerInstallFolder}"
-    mkdir -p "${goserverServerInstallFolder}"
+    initializeFolder "${goserverServerInstallFolder}"
 
     # Install
 

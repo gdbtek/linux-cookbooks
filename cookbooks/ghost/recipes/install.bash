@@ -12,8 +12,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${ghostInstallFolder}"
-    mkdir -p "${ghostInstallFolder}"
+    initializeFolder "${ghostInstallFolder}"
 
     # Install
 

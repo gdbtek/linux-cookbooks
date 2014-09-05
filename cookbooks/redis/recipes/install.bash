@@ -9,8 +9,9 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
-    mkdir -p "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
+    initializeFolder "${redisInstallBinFolder}"
+    initializeFolder "${redisInstallConfigFolder}"
+    initializeFolder "${redisInstallDataFolder}"
 
     # Install
 

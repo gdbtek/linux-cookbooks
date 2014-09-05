@@ -9,8 +9,8 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
-    mkdir -p "${mysqlInstallFolder}"
+    initializeFolder "${mysqlInstallFolder}"
+    rm -f -r "/usr/local/$(getFileName "${mysqlInstallFolder}")"
 
     # Install
 
@@ -118,30 +118,30 @@ function secureInstallation()
         spawn "${secureInstaller}"
 
         expect "Enter current password for root (enter for none): "
-        send "\r"
+        send -- "\r"
 
         expect "Set root password? \[Y/n] "
-        send "${setMySQLRootPassword}\r"
+        send -- "${setMySQLRootPassword}\r"
 
         if { "${setMySQLRootPassword}" == "Y" } {
             expect "New password: "
-            send "${mysqlRootPassword}\r"
+            send -- "${mysqlRootPassword}\r"
 
             expect "Re-enter new password: "
-            send "${mysqlRootPassword}\r"
+            send -- "${mysqlRootPassword}\r"
         }
 
         expect "Remove anonymous users? \[Y/n] "
-        send "${mysqlRemoveAnonymousUsers}\r"
+        send -- "${mysqlRemoveAnonymousUsers}\r"
 
         expect "Disallow root login remotely? \[Y/n] "
-        send "${mysqlDisallowRootLoginRemotely}\r"
+        send -- "${mysqlDisallowRootLoginRemotely}\r"
 
         expect "Remove test database and access to it? \[Y/n] "
-        send "${mysqlRemoveTestDatabase}\r"
+        send -- "${mysqlRemoveTestDatabase}\r"
 
         expect "Reload privilege tables now? \[Y/n] "
-        send "${mysqlReloadPrivilegeTable}\r"
+        send -- "${mysqlReloadPrivilegeTable}\r"
 
         expect eof
 DONE

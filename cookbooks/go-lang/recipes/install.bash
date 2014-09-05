@@ -9,8 +9,8 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${golangInstallFolder}" '/usr/local/bin/go' '/usr/local/bin/godoc' '/usr/local/bin/gofmt' '/usr/local/go'
-    mkdir -p "${golangInstallFolder}"
+    initializeFolder "${golangInstallFolder}"
+    rm -f '/usr/local/bin/go' '/usr/local/bin/godoc' '/usr/local/bin/gofmt' '/usr/local/go'
 
     # Install
 

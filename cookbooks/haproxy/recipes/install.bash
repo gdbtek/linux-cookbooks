@@ -14,8 +14,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${haproxyInstallFolder}"
-    mkdir -p "${haproxyInstallFolder}"
+    initializeFolder "${haproxyInstallFolder}"
 
     # Install
 

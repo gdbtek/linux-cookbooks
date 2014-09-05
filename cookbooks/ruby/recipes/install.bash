@@ -9,8 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${rubyInstallFolder}"
-    mkdir -p "${rubyInstallFolder}"
+    initializeFolder "${rubyInstallFolder}"
 
     # Install
 

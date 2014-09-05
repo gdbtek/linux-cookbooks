@@ -9,8 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${pcreInstallFolder}"
-    mkdir -p "${pcreInstallFolder}"
+    initializeFolder "${pcreInstallFolder}"
 
     # Install
 

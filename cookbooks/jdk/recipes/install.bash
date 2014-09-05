@@ -4,8 +4,8 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${jdkInstallFolder}" '/usr/local/bin/java' '/usr/local/bin/javac'
-    mkdir -p "${jdkInstallFolder}"
+    initializeFolder "${jdkInstallFolder}"
+    rm -f '/usr/local/bin/java' '/usr/local/bin/javac'
 
     # Install
 

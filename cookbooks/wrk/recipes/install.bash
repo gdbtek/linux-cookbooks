@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${wrkInstallFolder}"
+    initializeFolder "${wrkInstallFolder}"
     mkdir -p "${wrkInstallFolder}/bin"
 
     # Install

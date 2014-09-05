@@ -581,16 +581,20 @@ function checkRequireUser()
     fi
 }
 
-function cleanUpFolder()
+function emptyFolder()
 {
     local folder="${1}"
 
-    if [[ -d "${folder}" ]]
+    if [[ ! -d "${folder}" ]]
     then
-        find "${folder}" -exec rm -f -r {} \;
-    else
-        mkdir -p "${folder}"
+        fatal "\nFATAL : folder '${folder}' not found!"
     fi
+
+    local currentPath="$(pwd)"
+
+    cd "${folder}"
+    find '.' ! -name '.' -delete
+    cd "${currentPath}"
 }
 
 function displayOpenPorts()
@@ -731,14 +735,14 @@ function getTemporaryFolder()
 
 function getTemporaryFolderRoot()
 {
-    local temporaryDirectory='/tmp'
+    local temporaryFolder='/tmp'
 
     if [[ "$(isEmptyString "${TMPDIR}")" = 'false' ]]
     then
-        temporaryDirectory="$(formatPath "${TMPDIR}")"
+        temporaryFolder="$(formatPath "${TMPDIR}")"
     fi
 
-    echo "${temporaryDirectory}"
+    echo "${temporaryFolder}"
 }
 
 function getUserHomeFolder()
@@ -750,6 +754,18 @@ function getUserHomeFolder()
         echo "$(eval "echo ~${user}")"
     else
         echo
+    fi
+}
+
+function initializeFolder()
+{
+    local folder="${1}"
+
+    if [[ -d "${folder}" ]]
+    then
+        emptyFolder "${folder}"
+    else
+        mkdir -p "${folder}"
     fi
 }
 
