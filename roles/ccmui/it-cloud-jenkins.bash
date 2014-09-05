@@ -15,10 +15,17 @@ function main()
     "${appPath}/../../cookbooks/node-js/recipes/install.bash"
     "${appPath}/../../cookbooks/jenkins/recipes/install.bash"
     "${appPath}/../../cookbooks/nginx/recipes/install.bash"
-    "${appPath}/../../cookbooks/ps1/recipes/install.bash" 'ubuntu'
+    "${appPath}/../../cookbooks/ps1/recipes/install.bash"
 
+    cleanUp
     generateUserSSHKey "${tomcatUserName}"
     displayNotice
+}
+
+function cleanUp
+{
+    deleteUser 'itcloud'
+    rm -f -r '/home/ubuntu'
 }
 
 function displayNotice()

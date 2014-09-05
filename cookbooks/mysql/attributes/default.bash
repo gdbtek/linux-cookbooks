@@ -14,7 +14,7 @@ mysqlPort=3306
 mysqlRunPostSecureInstallation='true'
 
 mysqlRootPassword=''
-mysqlRemoveAnonymousUsers='true'
+mysqlDeleteAnonymousUsers='true'
 mysqlDisallowRootLoginRemotely='true'
-mysqlRemoveTestDatabase='true'
+mysqlDeleteTestDatabase='true'
 mysqlReloadPrivilegeTable='true'

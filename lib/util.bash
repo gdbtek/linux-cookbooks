@@ -597,6 +597,16 @@ function emptyFolder()
     cd "${currentPath}"
 }
 
+function deleteUser()
+{
+    local userName="${1}"
+
+    if [[ "$(existUser "${userName}")" = 'true' ]]
+    then
+        userdel -f -r "${userName}"
+    fi
+}
+
 function displayOpenPorts()
 {
     header 'LIST OPEN PORTS'

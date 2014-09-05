@@ -81,11 +81,11 @@ function secureInstallation()
         setMySQLRootPassword='Y'
     fi
 
-    if [[ "${mysqlRemoveAnonymousUsers}" = 'true' ]]
+    if [[ "${mysqlDeleteAnonymousUsers}" = 'true' ]]
     then
-        mysqlRemoveAnonymousUsers='Y'
+        mysqlDeleteAnonymousUsers='Y'
     else
-        mysqlRemoveAnonymousUsers='n'
+        mysqlDeleteAnonymousUsers='n'
     fi
 
     if [[ "${mysqlDisallowRootLoginRemotely}" = 'true' ]]
@@ -95,11 +95,11 @@ function secureInstallation()
         mysqlDisallowRootLoginRemotely='n'
     fi
 
-    if [[ "${mysqlRemoveTestDatabase}" = 'true' ]]
+    if [[ "${mysqlDeleteTestDatabase}" = 'true' ]]
     then
-        mysqlRemoveTestDatabase='Y'
+        mysqlDeleteTestDatabase='Y'
     else
-        mysqlRemoveTestDatabase='n'
+        mysqlDeleteTestDatabase='n'
     fi
 
     if [[ "${mysqlReloadPrivilegeTable}" = 'true' ]]
@@ -132,13 +132,13 @@ function secureInstallation()
         }
 
         expect "Remove anonymous users? \[Y/n] "
-        send -- "${mysqlRemoveAnonymousUsers}\r"
+        send -- "${mysqlDeleteAnonymousUsers}\r"
 
         expect "Disallow root login remotely? \[Y/n] "
         send -- "${mysqlDisallowRootLoginRemotely}\r"
 
         expect "Remove test database and access to it? \[Y/n] "
-        send -- "${mysqlRemoveTestDatabase}\r"
+        send -- "${mysqlDeleteTestDatabase}\r"
 
         expect "Reload privilege tables now? \[Y/n] "
         send -- "${mysqlReloadPrivilegeTable}\r"
