@@ -11,6 +11,17 @@ function main()
     "${appPath}/../../cookbooks/jenkins/recipes/install.bash"
     "${appPath}/../../cookbooks/nginx/recipes/install.bash"
     "${appPath}/../../cookbooks/ps1/recipes/install.bash" 'ubuntu'
+
+    generateUserSSHKey "${tomcatUserName}"
+    displayNotice
+}
+
+function displayNotice()
+{
+    header 'NOTICES'
+
+    info "-> Next is to copy this RSA to your git account:"
+    cat ~${tomcatUserName}/.ssh/id_rsa.pub
 }
 
 main "${@}"
