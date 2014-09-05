@@ -25,7 +25,7 @@ function main()
 function cleanUp
 {
     deleteUser 'itcloud'
-    rm -f -r '/home/ubuntu'
+    rm -f -r '/home/ubuntu' '/opt/chef'
 }
 
 function displayNotice()
