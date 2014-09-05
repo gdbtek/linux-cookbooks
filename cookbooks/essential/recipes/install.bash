@@ -7,7 +7,7 @@ function installDependencies()
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${0}")" && pwd)"
+    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash"
     source "${appPath}/../attributes/default.bash"

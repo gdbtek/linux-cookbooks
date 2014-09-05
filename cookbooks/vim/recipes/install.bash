@@ -8,7 +8,7 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${0}")" && pwd)"
+    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash"
 
