@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-source "$(dirname "${0}")/../../tomcat/attributes/default.bash"
+source "$(dirname "${BASH_SOURCE[0]}")/../../tomcat/attributes/default.bash"
 
 jenkinsDownloadURL='http://mirrors.jenkins-ci.org/war/latest/jenkins.war'
 
