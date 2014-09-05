@@ -603,7 +603,7 @@ function deleteUser()
 
     if [[ "$(existUser "${userName}")" = 'true' ]]
     then
-        userdel -f -r "${userName}"
+        userdel -f -r "${userName}" 2> '/dev/null'
     fi
 }
 
