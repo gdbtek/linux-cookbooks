@@ -26,7 +26,7 @@ function displayNotice()
     header 'NOTICES'
 
     info "-> Next is to copy this RSA to your git account :"
-    cat ~${tomcatUserName}/.ssh/id_rsa.pub
+    cat "$(getUserHomeFolder "${tomcatUserName}")/.ssh/id_rsa.pub"
 }
 
 main "${@}"
