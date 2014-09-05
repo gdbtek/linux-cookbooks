@@ -4,6 +4,8 @@ function main()
 {
     local appPath="$(cd "$(dirname "${0}")" && pwd)"
 
+    source "${appPath}/../../lib/util.bash"
+
     "${appPath}/../essential.bash"
 
     "${appPath}/../../cookbooks/mount-hd/recipes/install.bash" '/dev/sdb' '/opt/tomcat'
@@ -20,7 +22,7 @@ function displayNotice()
 {
     header 'NOTICES'
 
-    info "-> Next is to copy this RSA to your git account:"
+    info "-> Next is to copy this RSA to your git account :"
     cat ~${tomcatUserName}/.ssh/id_rsa.pub
 }
 
