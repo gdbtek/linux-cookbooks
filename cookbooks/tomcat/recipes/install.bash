@@ -12,8 +12,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r "${tomcatInstallFolder}"
-    mkdir -p "${tomcatInstallFolder}"
+    cleanUpFolder "${tomcatInstallFolder}"
 
     # Install
 

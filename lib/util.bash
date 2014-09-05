@@ -581,6 +581,18 @@ function checkRequireUser()
     fi
 }
 
+function cleanUpFolder()
+{
+    local folder="${1}"
+
+    if [[ -d "${folder}" ]]
+    then
+        find "${folder}" -exec rm -f -r {} \;
+    else
+        mkdir -p "${folder}"
+    fi
+}
+
 function displayOpenPorts()
 {
     header 'LIST OPEN PORTS'
