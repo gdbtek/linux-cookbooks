@@ -33,7 +33,8 @@ function install()
 
     # Display Version
 
-    info "Version: $('java' -jar "${jenkinsTomcatFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar" -s "http://127.0.0.1:8080/${appName}" version)"
+    sleep 60
+    info "\nVersion: $('java' -jar "${jenkinsTomcatFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar" -s "http://127.0.0.1:8080/${appName}" version)"
 }
 
 function main()
