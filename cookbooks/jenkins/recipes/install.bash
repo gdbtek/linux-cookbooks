@@ -30,6 +30,10 @@ function install()
     curl -L "${jenkinsDownloadURL}" -o "${temporaryFile}"
     chown "${jenkinsUserName}:${jenkinsGroupName}" "${temporaryFile}"
     mv "${temporaryFile}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
+
+    # Display Version
+
+    info "Version: $('java' -jar "${jenkinsTomcatFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar" -s "http://127.0.0.1:8080/${appName}" version)"
 }
 
 function main()
