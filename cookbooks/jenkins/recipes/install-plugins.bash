@@ -2,7 +2,7 @@
 
 function install()
 {
-    local pluginList="${1}"
+    local pluginList="${@}"
 
     if [[ "$(isEmptyString "${pluginList}")" = 'false' ]]
     then
@@ -15,6 +15,8 @@ function install()
 
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin ${pluginList}
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" safe-restart
+
+        sleep 120
     else
         info "No installs/updates available!"
     fi
@@ -32,7 +34,7 @@ function main()
 
     header 'INSTALLING PLUGINS JENKINS'
 
-    install
+    install "${@}"
     installCleanUp
 }
 

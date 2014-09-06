@@ -27,10 +27,10 @@ function install()
     curl -L "${jenkinsDownloadURL}" -o "${temporaryFile}"
     chown "${jenkinsUserName}:${jenkinsGroupName}" "${temporaryFile}"
     mv "${temporaryFile}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    sleep 120
 
     # Display Version
 
-    sleep 60
     info "\nVersion: $('java' -jar "${jenkinsTomcatFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar" -s "http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}" version)"
 }
 
@@ -51,9 +51,10 @@ function main()
 
     if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
     then
-        sleep 60
         "${appPath}/update-plugins.bash"
     fi
+
+    "${appPath}/install-plugins.bash" "${jenkinsInstallPlugins[@]}"
 
     installCleanUp
 }
