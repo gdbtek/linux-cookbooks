@@ -51,6 +51,12 @@ function main()
 
     installDependencies
     install
+
+    if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
+    then
+        "${appPath}/update-plugins.bash"
+    fi
+
     installCleanUp
 }
 

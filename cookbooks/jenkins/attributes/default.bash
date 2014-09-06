@@ -9,3 +9,5 @@ jenkinsTomcatHTTPPort="${tomcatHTTPPort}"
 
 jenkinsUserName="${tomcatUserName}"
 jenkinsGroupName="${tomcatGroupName}"
+
+jenkinsUpdateAllPlugins='true'
