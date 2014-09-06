@@ -63,10 +63,7 @@ function secureInstallation()
 {
     local secureInstaller="${mysqlInstallFolder}/bin/mysql_secure_installation"
 
-    if [[ ! -f "${secureInstaller}" ]]
-    then
-        fatal "\nFATAL : file '${secureInstaller}' not found!"
-    fi
+    checkExistFile "${secureInstaller}"
 
     # Install Expect
 

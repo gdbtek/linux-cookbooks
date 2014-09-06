@@ -18,10 +18,7 @@ function install()
 
     # Install
 
-    if [[ ! -d "${jenkinsTomcatFolder}/webapps" ]]
-    then
-        fatal "\nFATAL : folder '${jenkinsTomcatFolder}/webapps' not found!"
-    fi
+    checkExistFolder "${jenkinsTomcatFolder}/webapps"
 
     local temporaryFile="$(getTemporaryFile)"
 
@@ -54,6 +51,7 @@ function main()
 
     if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
     then
+        sleep 60
         "${appPath}/update-plugins.bash"
     fi
 

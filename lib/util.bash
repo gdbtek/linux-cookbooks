@@ -12,10 +12,7 @@ function appendToFileIfNotFound()
     local patternAsRegex="${4}"
     local stringAsRegex="${5}"
 
-    if [[ ! -f "${file}" ]]
-    then
-        fatal "FATAL : file '${file}' not found!"
-    fi
+    checkExistFile "${file}"
 
     local grepOption='-F -o'
 
@@ -44,10 +41,7 @@ function createFileFromTemplate()
     local destinationFile="${2}"
     local data=("${@:3}")
 
-    if [[ ! -f "${sourceFile}" ]]
-    then
-        fatal "FATAL : file '${sourceFile}' not found!"
-    fi
+    checkExistFile "${sourceFile}"
 
     local content="$(cat "${sourceFile}")"
     local i=0
@@ -525,6 +519,38 @@ function addUser()
     fi
 }
 
+function checkExistFile()
+{
+    local file="${1}"
+    local errorMessage="${2}"
+
+    if [[ "${file}" = '' || ! -f "${file}" ]]
+    then
+        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
+        then
+            fatal "\nFATAL : file '${file}' not found!"
+        else
+            fatal "\nFATAL : ${errorMessage}"
+        fi
+    fi
+}
+
+function checkExistFolder()
+{
+    local folder="${1}"
+    local errorMessage="${2}"
+
+    if [[ "${folder}" = '' || ! -d "${folder}" ]]
+    then
+        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
+        then
+            fatal "\nFATAL : folder '${folder}' not found!"
+        else
+            fatal "\nFATAL : ${errorMessage}"
+        fi
+    fi
+}
+
 function checkRequirePort()
 {
     local ports="${@}"
@@ -585,10 +611,7 @@ function emptyFolder()
 {
     local folder="${1}"
 
-    if [[ ! -d "${folder}" ]]
-    then
-        fatal "\nFATAL : folder '${folder}' not found!"
-    fi
+    checkExistFolder "${folder}"
 
     local currentPath="$(pwd)"
 
@@ -657,10 +680,7 @@ function generateUserSSHKey()
 
     local userHome="$(getUserHomeFolder "${user}")"
 
-    if [[ "$(isEmptyString "${userHome}")" = 'true' || ! -d "${userHome}" ]]
-    then
-        fatal "\nFATAL : home of user '${user}' not found!"
-    fi
+    checkExistFolder "${userHome}"
 
     # Install Expect
 

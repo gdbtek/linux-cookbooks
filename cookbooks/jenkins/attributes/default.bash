@@ -11,3 +11,8 @@ jenkinsUserName="${tomcatUserName}"
 jenkinsGroupName="${tomcatGroupName}"
 
 jenkinsUpdateAllPlugins='true'
+
+jenkinsInstallPlugins=(
+    'git'
+    'slack'
+)
