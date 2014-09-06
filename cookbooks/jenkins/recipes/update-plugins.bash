@@ -11,6 +11,8 @@ function update()
     then
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin ${updateList}
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" safe-restart
+    else
+        info "No updates available!"
     fi
 }
 
