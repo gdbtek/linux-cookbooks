@@ -7,7 +7,12 @@ function update()
 
     checkValidJSONContent "${updateInfo}"
 
-    echo "${updateInfo}" > "${jenkinsHomeFolder}/.jenkins/updates/default.json"
+    # Update JSON
+
+    local jsonFilePath="${jenkinsHomeFolder}/.jenkins/updates/default.json"
+
+    checkFileExist "${jsonFilePath}"
+    echo "${updateInfo}" > "${jsonFilePath}"
 }
 
 function main()
