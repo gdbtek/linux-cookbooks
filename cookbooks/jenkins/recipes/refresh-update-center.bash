@@ -6,7 +6,7 @@ function update()
 
     local jsonFilePath="${jenkinsHomeFolder}/.jenkins/updates/default.json"
 
-    checkExistFolder "$(dirname "${jsonFilePath}")"
+    checkExistFolder "${jenkinsHomeFolder}/.jenkins"
 
     # Update JSON
 
