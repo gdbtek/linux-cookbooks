@@ -71,6 +71,27 @@ function getFileName()
     echo "${fullFileName%.*}"
 }
 
+function isValidJSONContent()
+{
+    local content="${1}"
+
+    if ( echo "${content}" | python -m 'json.tool' &> '/dev/null' )
+    then
+        echo 'true'
+    else
+        echo 'false'
+    fi
+}
+
+function isValidJSONFile()
+{
+    local file="${1}"
+
+    checkExistFile "${file}"
+
+    isValidJSONContent "$(cat "${file}")"
+}
+
 function symlinkLocalBin()
 {
     local sourceBinFolder="${1}"
