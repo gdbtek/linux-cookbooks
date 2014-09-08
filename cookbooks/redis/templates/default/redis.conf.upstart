@@ -1,6 +1,6 @@
 description 'Redis Server'
 
-start on startup
+start on started mountall
 stop on shutdown
 
 setuid '__USER_NAME__'

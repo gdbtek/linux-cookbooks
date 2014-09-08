@@ -1,6 +1,6 @@
 description 'HAProxy Server'
 
-start on startup
+start on started mountall
 stop on shutdown
 
 env DAEMON='__INSTALL_FOLDER__/sbin/haproxy'
