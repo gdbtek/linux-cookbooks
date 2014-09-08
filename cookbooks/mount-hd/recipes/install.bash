@@ -9,12 +9,12 @@ function install()
 
     if [[ "$(existDisk "${disk}")" = 'false' ]]
     then
-        fatal "\nFATAL : disk '${disk}' not found"
+        fatal "FATAL : disk '${disk}' not found"
     fi
 
     if [[ "$(isEmptyString "${mountOn}")" = 'true'  ]]
     then
-        fatal "\nFATAL : mount-on not found"
+        fatal "FATAL : mount-on not found"
     fi
 
     local newDisk="${disk}${mounthdPartitionNumber}"
@@ -25,7 +25,7 @@ function install()
 
         if [[ "$(isEmptyString "${foundMount}")" = 'false' ]]
         then
-            fatal "\nFATAL : '${mountOn}' found!"
+            fatal "FATAL : '${mountOn}' found!"
         else
             df -h -T
         fi
