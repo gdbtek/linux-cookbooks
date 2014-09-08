@@ -1,5 +1,19 @@
 #!/bin/bash -e
 
+function cleanUp
+{
+    deleteUser 'itcloud'
+    rm -f -r '/home/ubuntu' '/opt/chef'
+}
+
+function displayNotice()
+{
+    header 'NOTICES'
+
+    info "-> Next is to copy this RSA to your git account :"
+    cat "$(getUserHomeFolder "${tomcatUserName}")/.ssh/id_rsa.pub"
+}
+
 function main()
 {
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -18,20 +32,6 @@ function main()
     cleanUp
     generateUserSSHKey "${tomcatUserName}"
     displayNotice
-}
-
-function cleanUp
-{
-    deleteUser 'itcloud'
-    rm -f -r '/home/ubuntu' '/opt/chef'
-}
-
-function displayNotice()
-{
-    header 'NOTICES'
-
-    info "-> Next is to copy this RSA to your git account :"
-    cat "$(getUserHomeFolder "${tomcatUserName}")/.ssh/id_rsa.pub"
 }
 
 main "${@}"
