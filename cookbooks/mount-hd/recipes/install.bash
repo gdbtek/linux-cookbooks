@@ -27,6 +27,7 @@ function install()
         then
             fatal "FATAL : '${mountOn}' found!"
         else
+            info "Already mounted '${newDisk}' to '${mountOn}'\n"
             df -h -T
         fi
     else
