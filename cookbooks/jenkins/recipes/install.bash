@@ -37,18 +37,18 @@ function install()
 
     "${appPath}/refresh-update-center.bash"
 
-    # Install Plugins
-
-    if [[ ${#jenkinsInstallPlugins[@]} -gt 0 ]]
-    then
-        "${appPath}/install-plugins.bash" "${jenkinsInstallPlugins[@]}"
-    fi
-
     # Update Plugins
 
     if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
     then
         "${appPath}/update-plugins.bash"
+    fi
+
+    # Install Plugins
+
+    if [[ ${#jenkinsInstallPlugins[@]} -gt 0 ]]
+    then
+        "${appPath}/install-plugins.bash" "${jenkinsInstallPlugins[@]}"
     fi
 }
 

@@ -18,7 +18,7 @@ function install()
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin ${pluginList}
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" safe-restart
 
-        sleep 60
+        sleep 120
     else
         info "No installs/updates available!"
     fi
