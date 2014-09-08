@@ -16,6 +16,8 @@ function update()
     checkValidJSONContent "${updateInfo}"
 
     echo "${updateInfo}" > "${jsonFilePath}"
+
+    info "Updated '${jsonFilePath}'"
 }
 
 function main()
