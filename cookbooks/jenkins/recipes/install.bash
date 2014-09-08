@@ -26,6 +26,7 @@ function install()
     then
         initializeFolder "${jenkinsHomeFolder}"
         ln -s "${jenkinsHomeFolder}" "${jenkinsDefaultHomeFolder}"
+        chown -R "${jenkinsUserName}:${jenkinsGroupName}" "${jenkinsDefaultHomeFolder}"
     fi
 
     # Install
