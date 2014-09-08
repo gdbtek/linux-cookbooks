@@ -2,21 +2,25 @@
 
 function update()
 {
-    # Validate JSON File Path
+    # Validate Jenkins Config Folder
 
-    local jsonFilePath="${jenkinsHomeFolder}/.jenkins/updates/default.json"
+    local jenkinsConfigFolder="${jenkinsHomeFolder}/.jenkins"
 
-    checkExistFolder "${jenkinsHomeFolder}/.jenkins"
+    checkExistFolder "${jenkinsConfigFolder}"
 
-    # Update JSON
+    # Validate JSON Content
 
     local updateInfo="$(getRemoteFileContent "${jenkinsUpdateCenterURL}")"
     updateInfo="$(echo "${updateInfo}" | sed '1d;$d')"
 
     checkValidJSONContent "${updateInfo}"
 
-    echo "${updateInfo}" > "${jsonFilePath}"
+    # Update JSON File
 
+    local jsonFilePath="${jenkinsConfigFolder}/updates/default.json"
+
+    mkdir -p "$(dirname "${jsonFilePath}")"
+    echo "${updateInfo}" > "${jsonFilePath}"
     info "Updated '${jsonFilePath}'"
 }
 
