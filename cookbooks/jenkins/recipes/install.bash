@@ -14,7 +14,19 @@ function install()
 
     # Clean Up
 
-    rm -f -r "${jenkinsTomcatFolder}/webapps/${appName}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    local jenkinsDefaultHomeFolder="$(getUserHomeFolder "${jenkinsUserName}")/.jenkins"
+
+    rm -f -r "${jenkinsDefaultHomeFolder}" \
+             "${jenkinsTomcatFolder}/webapps/${appName}" \
+             "${jenkinsTomcatFolder}/webapps/${appName}.war"
+
+    # Create Jenkins Home
+
+    if [[ "${jenkinsDefaultHomeFolder}" != "${jenkinsHomeFolder}" && "$(isEmptyString "${jenkinsHomeFolder}")" = 'false' ]]
+    then
+        initializeFolder "${jenkinsHomeFolder}"
+        ln -s "${jenkinsHomeFolder}" "${jenkinsDefaultHomeFolder}"
+    fi
 
     # Install
 
@@ -31,7 +43,9 @@ function install()
 
     # Display Version
 
-    info "\nVersion: $('java' -jar "${jenkinsTomcatFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar" -s "http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}" version)"
+    info "\nVersion: $('java' -jar "${jenkinsTomcatFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar" \
+                              -s "http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}" \
+                              version)"
 
     # Refresh Update Center
 
