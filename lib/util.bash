@@ -35,6 +35,26 @@ function appendToFileIfNotFound()
     fi
 }
 
+function checkValidJSONContent()
+{
+    local content="${1}"
+
+    if [[ "$(isValidJSONContent "${content}")" = 'false' ]]
+    then
+        fatal "\nFATAL : invalid JSON content"
+    fi
+}
+
+function checkValidJSONFile()
+{
+    local file="${1}"
+
+    if [[ "$(isValidJSONFile "${file}")" = 'false' ]]
+    then
+        fatal "\nFATAL : invalid JSON file '${file}'"
+    fi
+}
+
 function createFileFromTemplate()
 {
     local sourceFile="${1}"
