@@ -705,6 +705,21 @@ function existDisk()
     fi
 }
 
+function existDiskMount()
+{
+    local disk="${1}"
+    local mountOn="${2}"
+
+    local foundMount="$(df | grep -E "^${disk}\s+.*\s+${mountOn}$")"
+
+    if [[ "$(isEmptyString "${foundMount}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}
+
 function existGroup()
 {
     local group="${1}"

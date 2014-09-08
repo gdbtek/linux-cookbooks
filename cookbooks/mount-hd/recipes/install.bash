@@ -21,14 +21,12 @@ function install()
 
     if [[ -d "${mountOn}" ]]
     then
-        local foundMount="$(df | grep -E "^${newDisk}\s+.*\s+${mountOn}$")"
-
-        if [[ "$(isEmptyString "${foundMount}")" = 'true' ]]
+        if [[ "$(existDiskMount "${newDisk}" "${mountOn}")" = 'true' ]]
         then
-            fatal "FATAL : '${mountOn}' found!"
-        else
             info "Already mounted '${newDisk}' to '${mountOn}'\n"
             df -h -T
+        else
+            fatal "FATAL : '${mountOn}' found!"
         fi
     else
         createPartition "${disk}"
