@@ -51,13 +51,13 @@ function main()
 
     if [[ ${#jenkinsInstallPlugins[@]} -gt 0 ]]
     then
-        sleep 120
+        sleep 240
         "${appPath}/install-plugins.bash" "${jenkinsInstallPlugins[@]}"
     fi
 
     if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
     then
-        sleep 240
+        sleep 180
         "${appPath}/update-plugins.bash"
     fi
 
