@@ -51,7 +51,7 @@ function main()
 
     if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
     then
-        sleep 120
+        sleep 180
         "${appPath}/update-plugins.bash"
     fi
 
