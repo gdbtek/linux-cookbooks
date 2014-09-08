@@ -11,7 +11,7 @@ function update()
 
     "${appPath}/refresh-update-center.bash"
 
-    local updateList="$(java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" list-plugins | grep ')$' | awk '{ print $1 }')"
+    local updateList="$(java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" list-plugins | grep ')$' | awk '{ print $1 }' | sort)"
 
     "${appPath}/install-plugins.bash" ${updateList}
 }
