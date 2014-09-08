@@ -32,11 +32,29 @@ function install()
     # Display Version
 
     info "\nVersion: $('java' -jar "${jenkinsTomcatFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar" -s "http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}" version)"
+
+    # Refresh Update Center
+
+    "${appPath}/refresh-update-center.bash"
+
+    # Install Plugins
+
+    if [[ ${#jenkinsInstallPlugins[@]} -gt 0 ]]
+    then
+        "${appPath}/install-plugins.bash" "${jenkinsInstallPlugins[@]}"
+    fi
+
+    # Update Plugins
+
+    if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
+    then
+        "${appPath}/update-plugins.bash"
+    fi
 }
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash"
     source "${appPath}/../attributes/default.bash"
@@ -48,19 +66,6 @@ function main()
 
     installDependencies
     install
-
-    "${appPath}/refresh-update-center.bash"
-
-    if [[ ${#jenkinsInstallPlugins[@]} -gt 0 ]]
-    then
-        "${appPath}/install-plugins.bash" "${jenkinsInstallPlugins[@]}"
-    fi
-
-    if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
-    then
-        "${appPath}/update-plugins.bash"
-    fi
-
     installCleanUp
 }
 

@@ -2,14 +2,14 @@
 
 function update()
 {
-    "${appPath}/refresh-update-center.bash"
-
     local appName="$(getFileName "${jenkinsDownloadURL}")"
     local jenkinsCLIPath="${jenkinsTomcatFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
     local jenkinsAppURL="http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}"
 
     checkExistFile "${jenkinsCLIPath}"
     checkExistURL "${jenkinsAppURL}"
+
+    "${appPath}/refresh-update-center.bash"
 
     local updateList="$(java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" list-plugins | grep ')$' | awk '{ print $1 }')"
 

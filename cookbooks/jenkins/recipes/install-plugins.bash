@@ -13,6 +13,8 @@ function install()
         checkExistFile "${jenkinsCLIPath}"
         checkExistURL "${jenkinsAppURL}"
 
+        "${appPath}/refresh-update-center.bash"
+
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin ${pluginList}
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" safe-restart
 
@@ -24,7 +26,7 @@ function install()
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash"
     source "${appPath}/../attributes/default.bash"
