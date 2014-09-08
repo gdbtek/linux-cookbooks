@@ -12,13 +12,15 @@ function update()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash"
     source "${appPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser
+
+    header 'REFRESHING UPDATE CENTER JENKINS'
 
     update
     installCleanUp
