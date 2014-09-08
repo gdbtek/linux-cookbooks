@@ -18,9 +18,11 @@ function update()
     # Update JSON File
 
     local jsonFilePath="${jenkinsConfigFolder}/updates/default.json"
+    local updateFolderPath="$(dirname "${jsonFilePath}")"
 
-    mkdir -p "$(dirname "${jsonFilePath}")"
+    mkdir -p "${updateFolderPath}"
     echo "${updateInfo}" > "${jsonFilePath}"
+    chown -R "${jenkinsUserName}:${jenkinsGroupName}" "${updateFolderPath}"
     info "Updated '${jsonFilePath}'"
 }
 
