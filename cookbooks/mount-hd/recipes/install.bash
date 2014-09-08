@@ -23,7 +23,7 @@ function install()
     then
         local foundMount="$(df | grep -E "^${newDisk}\s+.*\s+${mountOn}$")"
 
-        if [[ "$(isEmptyString "${foundMount}")" = 'false' ]]
+        if [[ "$(isEmptyString "${foundMount}")" = 'true' ]]
         then
             fatal "FATAL : '${mountOn}' found!"
         else
