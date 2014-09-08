@@ -14,6 +14,7 @@ function install()
         checkExistURL "${jenkinsAppURL}"
 
         "${appPath}/refresh-update-center.bash"
+        echo
 
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin ${pluginList}
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" safe-restart

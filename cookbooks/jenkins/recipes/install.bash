@@ -35,7 +35,10 @@ function install()
 
     # Refresh Update Center
 
-    "${appPath}/refresh-update-center.bash"
+    if [[ "${jenkinsUpdateAllPlugins}" = 'false' && ${#jenkinsInstallPlugins[@]} -lt 1 ]]
+    then
+        "${appPath}/refresh-update-center.bash"
+    fi
 
     # Update Plugins
 
