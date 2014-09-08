@@ -14,16 +14,22 @@ function displayNotice()
     cat "$(getUserHomeFolder "${tomcatUserName}")/.ssh/id_rsa.pub"
 }
 
+function extendOPTPartition()
+{
+    rm -f -r '/opt'
+    "${appPath}/../../cookbooks/mount-hd/recipes/install.bash" '/dev/sdb' '/opt'
+}
+
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../lib/util.bash"
     source "${appPath}/../../cookbooks/tomcat/attributes/default.bash"
 
-    "${appPath}/../essential.bash"
+    extendOPTPartition
 
-    "${appPath}/../../cookbooks/mount-hd/recipes/install.bash" '/dev/sdb' "${tomcatInstallFolder}"
+    "${appPath}/../essential.bash"
     "${appPath}/../../cookbooks/node-js/recipes/install.bash"
     "${appPath}/../../cookbooks/jenkins/recipes/install.bash"
     "${appPath}/../../cookbooks/nginx/recipes/install.bash"
