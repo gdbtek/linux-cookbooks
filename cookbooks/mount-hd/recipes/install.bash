@@ -7,33 +7,45 @@ function install()
 
     # Create Partition
 
-    local foundDisk="$(fdisk -l "${disk}" 2>/dev/null | grep -E -i -o "^Disk\s+$(escapeSearchPattern "${disk}"):")"
-
-    if [[ "$(isEmptyString "${foundDisk}")" = 'true' ]]
+    if [[ "$(existDisk "${disk}")" = 'false' ]]
     then
         fatal "\nFATAL : disk '${disk}' not found"
     fi
 
-    if [[ "$(isEmptyString "${mountOn}")" = 'true' || -d "${mountOn}" ]]
+    if [[ "$(isEmptyString "${mountOn}")" = 'true'  ]]
     then
-        fatal "\nFATAL : mounted file system '${mountOn}' found or undefined"
+        fatal "\nFATAL : mount-on not found"
     fi
 
-    createPartition "${disk}"
-    mkfs -t "${mounthdFSType}" "${disk}${mounthdPartitionNumber}"
-    mkdir "${mountOn}"
-    mount -t "${mounthdFSType}" "${disk}${mounthdPartitionNumber}" "${mountOn}"
+    local newDisk="${disk}${mounthdPartitionNumber}"
 
-    # Config Static File System
+    if [[ -d "${mountOn}" ]]
+    then
+        local foundMount="$(df | grep -E "^${newDisk}\s+.*\s+${mountOn}$")"
 
-    local fstabPattern="^\s*${disk}${mounthdPartitionNumber}\s+${mountOn}\s+${mounthdFSType}\s+${mounthdMountOptions}\s+${mounthdDump}\s+${mounthdFSCKOption}\s*$"
-    local fstabConfig="${disk}${mounthdPartitionNumber} ${mountOn} ${mounthdFSType} ${mounthdMountOptions} ${mounthdDump} ${mounthdFSCKOption}"
+        if [[ "$(isEmptyString "${foundMount}")" = 'false' ]]
+        then
+            fatal "\nFATAL : '${mountOn}' found!"
+        else
+            df -h -T
+        fi
+    else
+        createPartition "${disk}"
+        mkfs -t "${mounthdFSType}" "${newDisk}"
+        mkdir "${mountOn}"
+        mount -t "${mounthdFSType}" "${newDisk}" "${mountOn}"
 
-    appendToFileIfNotFound '/etc/fstab' "${fstabPattern}" "${fstabConfig}" 'true' 'false'
+        # Config Static File System
 
-    # Display File System
+        local fstabPattern="^\s*${newDisk}\s+${mountOn}\s+${mounthdFSType}\s+${mounthdMountOptions}\s+${mounthdDump}\s+${mounthdFSCKOption}\s*$"
+        local fstabConfig="${newDisk} ${mountOn} ${mounthdFSType} ${mounthdMountOptions} ${mounthdDump} ${mounthdFSCKOption}"
 
-    df -h -T
+        appendToFileIfNotFound '/etc/fstab' "${fstabPattern}" "${fstabConfig}" 'true' 'false'
+
+        # Display File System
+
+        df -h -T
+    fi
 }
 
 function createPartition()
