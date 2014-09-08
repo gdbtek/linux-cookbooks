@@ -164,7 +164,7 @@ function getRemoteFileContent()
     local url="${1}"
 
     checkExistURL "${url}"
-    curl -s -X 'GET' "${url}"
+    curl -s -X 'GET' -L "${url}"
 }
 
 function unzipRemoteFile()
