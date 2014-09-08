@@ -49,16 +49,16 @@ function main()
     installDependencies
     install
 
-    if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
-    then
-        sleep 180
-        "${appPath}/update-plugins.bash"
-    fi
-
     if [[ ${#jenkinsInstallPlugins[@]} -gt 0 ]]
     then
         sleep 120
         "${appPath}/install-plugins.bash" "${jenkinsInstallPlugins[@]}"
+    fi
+
+    if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
+    then
+        sleep 240
+        "${appPath}/update-plugins.bash"
     fi
 
     installCleanUp
