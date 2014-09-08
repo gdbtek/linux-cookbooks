@@ -691,6 +691,20 @@ function existCommand()
     fi
 }
 
+function existDisk()
+{
+    local disk="${1}"
+
+    local foundDisk="$(fdisk -l "${disk}" 2>/dev/null | grep -E -i -o "^Disk\s+$(escapeSearchPattern "${disk}"):")"
+
+    if [[ "$(isEmptyString "${disk}")" = 'false' && "$(isEmptyString "${foundDisk}")" = 'false' ]]
+    then
+        echo 'true'
+    else
+        echo 'false'
+    fi
+}
+
 function existGroup()
 {
     local group="${1}"
