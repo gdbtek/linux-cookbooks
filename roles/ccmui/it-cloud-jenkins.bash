@@ -19,7 +19,7 @@ function extendOPTPartition()
     local disk='/dev/sdb'
     local mountOn='/opt'
 
-    if [[ "$(existDisk "${disk}")" = 'true' && "$(existDiskMount "${disk}${mounthdPartitionNumber}" "${mountOn}") = 'false' ]]
+    if [[ "$(existDisk "${disk}")" = 'true' && "$(existDiskMount "${disk}${mounthdPartitionNumber}" "${mountOn}")" = 'false' ]]
     then
         rm -f -r "${mountOn}"
         "${appPath}/../../cookbooks/mount-hd/recipes/install.bash" "${disk}" "${mountOn}"
