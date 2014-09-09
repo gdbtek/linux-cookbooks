@@ -400,7 +400,7 @@ function runAptGetUpgrade()
 {
     runAptGetUpdate
 
-    info "\n\napt-get dist-upgrade"
+    info "\napt-get dist-upgrade"
     apt-get dist-upgrade -m -y
 
     info "\napt-get upgrade"
