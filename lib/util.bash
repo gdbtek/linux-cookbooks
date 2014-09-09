@@ -400,13 +400,13 @@ function runAptGetUpgrade()
 {
     runAptGetUpdate
 
-    info "apt-get dist-upgrade"
+    info "\n\napt-get dist-upgrade"
     apt-get dist-upgrade -m -y
 
-    info "apt-get upgrade"
+    info "\napt-get upgrade"
     apt-get upgrade -m -y
 
-    info "apt-get autoremove"
+    info "\napt-get autoremove"
     apt-get autoremove -y
 }
 
