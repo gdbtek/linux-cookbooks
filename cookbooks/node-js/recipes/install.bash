@@ -37,7 +37,7 @@ function install()
 
     createFileFromTemplate "${appPath}/../templates/default/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
-    info "\nNode Version: $(node --version)"
+    info "Node Version: $(node --version)"
     info "NPM Version : $(npm --version)"
 }
 
