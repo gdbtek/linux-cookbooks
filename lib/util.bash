@@ -388,7 +388,7 @@ function runAptGetUpdate()
 
     if [[ "${lastAptGetUpdate}" -gt "${updateInterval}" ]]
     then
-        info "\napt-get update"
+        info "apt-get update"
         apt-get update -m
     else
         local lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
