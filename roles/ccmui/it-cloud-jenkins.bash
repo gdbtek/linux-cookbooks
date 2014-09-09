@@ -16,8 +16,14 @@ function displayNotice()
 
 function extendOPTPartition()
 {
-    rm -f -r '/opt'
-    "${appPath}/../../cookbooks/mount-hd/recipes/install.bash" '/dev/sdb' '/opt'
+    local disk='/dev/sdb'
+    local mountOn='/opt'
+
+    if [[ "$(existDisk "${disk}")" = 'true' && "$(existDiskMount "${disk}${mounthdPartitionNumber}" "${mountOn}") = 'false' ]]
+    then
+        rm -f -r "${mountOn}"
+        "${appPath}/../../cookbooks/mount-hd/recipes/install.bash" "${disk}" "${mountOn}"
+    fi
 }
 
 function main()
@@ -25,6 +31,7 @@ function main()
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../lib/util.bash"
+    source "${appPath}/../../cookbooks/mount-hd/attributes/default.bash"
     source "${appPath}/../../cookbooks/tomcat/attributes/default.bash"
 
     extendOPTPartition
