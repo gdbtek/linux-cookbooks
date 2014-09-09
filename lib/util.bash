@@ -654,19 +654,6 @@ function checkRequireUser()
     fi
 }
 
-function emptyFolder()
-{
-    local folder="${1}"
-
-    checkExistFolder "${folder}"
-
-    local currentPath="$(pwd)"
-
-    cd "${folder}"
-    find '.' ! -name '.' -delete
-    cd "${currentPath}"
-}
-
 function deleteUser()
 {
     local userName="${1}"
@@ -682,7 +669,20 @@ function displayOpenPorts()
     header 'LIST OPEN PORTS'
 
     sleep 10
-    lsof -i -n -P | grep -i ' (LISTEN)$' | sort
+    lsof -i -n -P | grep -i ' (LISTEN)$' | sort -f
+}
+
+function emptyFolder()
+{
+    local folder="${1}"
+
+    checkExistFolder "${folder}"
+
+    local currentPath="$(pwd)"
+
+    cd "${folder}"
+    find '.' ! -name '.' -delete
+    cd "${currentPath}"
 }
 
 function existCommand()
