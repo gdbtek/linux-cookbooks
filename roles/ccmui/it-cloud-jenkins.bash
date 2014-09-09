@@ -29,12 +29,12 @@ function extendOPTPartition()
             "${appPath}/../../cookbooks/mount-hd/recipes/install.bash" "${disk}" "${mountOn}"
         else
             header 'EXTENDING OPT PARTITION'
-            info "\nAlready mounted '${disk}${mounthdPartitionNumber}' to '${mountOn}'\n"
+            info "Already mounted '${disk}${mounthdPartitionNumber}' to '${mountOn}'\n"
             df -h -T
         fi
     else
         header 'EXTENDING OPT PARTITION'
-        info "\nExtended volume not found!"
+        info "Extended volume not found!"
     fi
 }
 
