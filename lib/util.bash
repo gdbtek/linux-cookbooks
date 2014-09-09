@@ -748,6 +748,8 @@ function generateUserSSHKey()
 {
     local user="${1}"
 
+    header "GENERATING USER '${user}' SSH KEY"
+
     local userHome="$(getUserHomeFolder "${user}")"
 
     checkExistFolder "${userHome}"
