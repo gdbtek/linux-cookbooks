@@ -19,10 +19,18 @@ function extendOPTPartition()
     local disk='/dev/sdb'
     local mountOn='/opt'
 
-    if [[ "$(existDisk "${disk}")" = 'true' && "$(existDiskMount "${disk}${mounthdPartitionNumber}" "${mountOn}")" = 'false' ]]
+    if [[ "$(existDisk "${disk}")" = 'true' ]]
     then
-        rm -f -r "${mountOn}"
-        "${appPath}/../../cookbooks/mount-hd/recipes/install.bash" "${disk}" "${mountOn}"
+        if [[ "$(existDiskMount "${disk}${mounthdPartitionNumber}" "${mountOn}")" = 'false' ]]
+        then
+            rm -f -r "${mountOn}"
+            "${appPath}/../../cookbooks/mount-hd/recipes/install.bash" "${disk}" "${mountOn}"
+        else
+            info "\nAlready mounted '${disk}${mounthdPartitionNumber}' to '${mountOn}'\n"
+            df -h -T
+        fi
+    else
+        info "\nExtended volume not found!"
     fi
 }
 
