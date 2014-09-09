@@ -400,8 +400,13 @@ function runAptGetUpgrade()
 {
     runAptGetUpdate
 
+    info "apt-get dist-upgrade"
     apt-get dist-upgrade -m -y
+
+    info "apt-get upgrade"
     apt-get upgrade -m -y
+
+    info "apt-get autoremove"
     apt-get autoremove -y
 }
 
