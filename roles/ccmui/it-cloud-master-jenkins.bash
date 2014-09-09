@@ -50,7 +50,7 @@ function main()
 
     "${appPath}/../essential.bash"
     "${appPath}/../../cookbooks/node-js/recipes/install.bash"
-    "${appPath}/../../cookbooks/jenkins/recipes/install.bash"
+    "${appPath}/../../cookbooks/jenkins/recipes/install-master.bash"
     "${appPath}/../../cookbooks/ps1/recipes/install.bash" "${tomcatUserName}"
     "${appPath}/../../cookbooks/nginx/recipes/install.bash"
 
