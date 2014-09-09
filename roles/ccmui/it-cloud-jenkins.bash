@@ -2,6 +2,8 @@
 
 function cleanUp
 {
+    header 'CLEANING UP'
+
     deleteUser 'itcloud'
     rm -f -r '/home/ubuntu' '/opt/chef'
 }
@@ -26,10 +28,12 @@ function extendOPTPartition()
             rm -f -r "${mountOn}"
             "${appPath}/../../cookbooks/mount-hd/recipes/install.bash" "${disk}" "${mountOn}"
         else
+            header 'EXTENDING OPT PARTITION'
             info "\nAlready mounted '${disk}${mounthdPartitionNumber}' to '${mountOn}'\n"
             df -h -T
         fi
     else
+        header 'EXTENDING OPT PARTITION'
         info "\nExtended volume not found!"
     fi
 }
