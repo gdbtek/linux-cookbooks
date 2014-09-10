@@ -35,10 +35,19 @@ function install()
 
     createFileFromTemplate "${appPath}/../templates/default/tomcat.sh.profile" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 
+    # Add User
+
+    addUser "${tomcatUserName}" "${tomcatGroupName}" 'true' 'true' 'true'
+
+    local userHome="$(getUserHomeFolder "${tomcatUserName}")"
+
+    checkExistFolder "${userHome}"
+
     # Config Upstart
 
     local upstartConfigData=(
         '__INSTALL_FOLDER__' "${tomcatInstallFolder}"
+        '__HOME_FOLDER__' "${userHome}"
         '__JDK_FOLDER__' "${tomcatJDKFolder}"
         '__USER_NAME__' "${tomcatUserName}"
         '__GROUP_NAME__' "${tomcatGroupName}"
@@ -48,7 +57,6 @@ function install()
 
     # Start
 
-    addUser "${tomcatUserName}" "${tomcatGroupName}" 'true' 'true' 'true'
     chown -R "${tomcatUserName}:${tomcatGroupName}" "${tomcatInstallFolder}"
     start "${tomcatServiceName}"
 
