@@ -17,7 +17,7 @@ function install()
         echo
 
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin ${pluginList}
-        sleep 15
+        sleep 10
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" safe-restart
 
         sleep 120
