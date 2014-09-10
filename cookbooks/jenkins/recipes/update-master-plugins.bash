@@ -9,11 +9,11 @@ function update()
     checkExistFile "${jenkinsCLIPath}"
     checkExistURL "${jenkinsAppURL}"
 
-    "${appPath}/refresh-update-center.bash"
+    "${appPath}/refresh-master-update-center.bash"
 
     local updateList="$(java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" list-plugins | grep ')$' | awk '{ print $1 }' | sort -f)"
 
-    "${appPath}/install-plugins.bash" ${updateList}
+    "${appPath}/install-master-plugins.bash" ${updateList}
 }
 
 function main()

@@ -13,7 +13,7 @@ function install()
         checkExistFile "${jenkinsCLIPath}"
         checkExistURL "${jenkinsAppURL}"
 
-        "${appPath}/refresh-update-center.bash"
+        "${appPath}/refresh-master-update-center.bash"
         echo
 
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin ${pluginList}
