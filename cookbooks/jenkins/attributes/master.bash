@@ -17,5 +17,7 @@ jenkinsUpdateAllPlugins='true'
 
 jenkinsInstallPlugins=(
     'git'
+    'Parameterized-Remote-Trigger'
+    'parameterized-trigger'
     'slack'
 )
