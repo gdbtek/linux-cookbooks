@@ -4,12 +4,12 @@ function update()
 {
     # Validate Jenkins Config Folder
 
-    if [[ "$(isEmptyString "${jenkinsHomeFolder}")" = 'true' ]]
+    if [[ "$(isEmptyString "${jenkinsInstallFolder}")" = 'true' ]]
     then
-        jenkinsHomeFolder="$(getUserHomeFolder "${jenkinsUserName}")/.jenkins"
+        jenkinsInstallFolder="$(getUserHomeFolder "${jenkinsUserName}")/.jenkins"
     fi
 
-    checkExistFolder "${jenkinsHomeFolder}"
+    checkExistFolder "${jenkinsInstallFolder}"
 
     # Validate JSON Content
 
@@ -20,7 +20,7 @@ function update()
 
     # Update JSON File
 
-    local jsonFilePath="${jenkinsHomeFolder}/updates/default.json"
+    local jsonFilePath="${jenkinsInstallFolder}/updates/default.json"
     local updateFolderPath="$(dirname "${jsonFilePath}")"
 
     mkdir -p "${updateFolderPath}"

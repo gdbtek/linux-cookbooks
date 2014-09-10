@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ ! -f "${jenkinsTomcatFolder}/bin/catalina.sh" ]]
+    if [[ ! -f "${jenkinsTomcatInstallFolder}/bin/catalina.sh" ]]
     then
         "${appPath}/../../tomcat/recipes/install.bash"
     fi
@@ -10,28 +10,42 @@ function installDependencies()
 
 function install()
 {
-    local appName="$(getFileName "${jenkinsDownloadURL}")"
+    # Set Install Folder Path
+
+    local jenkinsDefaultInstallFolder="$(getUserHomeFolder "${jenkinsUserName}")/.jenkins"
+
+    if [[ "$(isEmptyString "${jenkinsInstallFolder}")" = 'true' ]]
+    then
+        jenkinsInstallFolder="${jenkinsDefaultInstallFolder}"
+    fi
 
     # Clean Up
 
-    local jenkinsDefaultHomeFolder="$(getUserHomeFolder "${jenkinsUserName}")/.jenkins"
+    local appName="$(getFileName "${jenkinsDownloadURL}")"
 
-    rm -f -r "${jenkinsDefaultHomeFolder}" \
-             "${jenkinsTomcatFolder}/webapps/${appName}" \
-             "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    rm -f -r "${jenkinsDefaultInstallFolder}" \
+             "${jenkinsInstallFolder}" \
+             "${jenkinsTomcatInstallFolder}/webapps/${appName}.war" \
+             "${jenkinsTomcatInstallFolder}/webapps/${appName}"
 
-    # Create Jenkins Home
+    # Create Non-Default Jenkins Home
 
-    if [[ "${jenkinsDefaultHomeFolder}" != "${jenkinsHomeFolder}" && "$(isEmptyString "${jenkinsHomeFolder}")" = 'false' ]]
+    if [[ "${jenkinsInstallFolder}" != "${jenkinsDefaultInstallFolder}" ]]
     then
-        initializeFolder "${jenkinsHomeFolder}"
-        ln -s "${jenkinsHomeFolder}" "${jenkinsDefaultHomeFolder}"
-        chown -R "${jenkinsUserName}:${jenkinsGroupName}" "${jenkinsDefaultHomeFolder}" "${jenkinsHomeFolder}"
+        initializeFolder "${jenkinsInstallFolder}"
+        ln -s "${jenkinsInstallFolder}" "${jenkinsDefaultInstallFolder}"
+        chown -R "${jenkinsUserName}:${jenkinsGroupName}" "${jenkinsDefaultInstallFolder}" "${jenkinsInstallFolder}"
     fi
+
+    # Config Profile
+
+    local profileConfigData=('__INSTALL_FOLDER__' "${jenkinsInstallFolder}")
+
+    createFileFromTemplate "${appPath}/../templates/default/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
 
     # Install
 
-    checkExistFolder "${jenkinsTomcatFolder}/webapps"
+    checkExistFolder "${jenkinsTomcatInstallFolder}/webapps"
 
     local temporaryFile="$(getTemporaryFile)"
 
@@ -39,12 +53,12 @@ function install()
     debug "\nDownloading '${jenkinsDownloadURL}' to '${temporaryFile}'"
     curl -L "${jenkinsDownloadURL}" -o "${temporaryFile}"
     chown "${jenkinsUserName}:${jenkinsGroupName}" "${temporaryFile}"
-    mv "${temporaryFile}" "${jenkinsTomcatFolder}/webapps/${appName}.war"
+    mv "${temporaryFile}" "${jenkinsTomcatInstallFolder}/webapps/${appName}.war"
     sleep 60
 
     # Display Version
 
-    info "\nVersion: $('java' -jar "${jenkinsTomcatFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar" \
+    info "\nVersion: $('java' -jar "${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar" \
                               -s "http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}" \
                               version)"
 

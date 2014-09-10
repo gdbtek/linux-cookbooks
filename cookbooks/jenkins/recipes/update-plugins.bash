@@ -3,7 +3,7 @@
 function update()
 {
     local appName="$(getFileName "${jenkinsDownloadURL}")"
-    local jenkinsCLIPath="${jenkinsTomcatFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
+    local jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
     local jenkinsAppURL="http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}"
 
     checkExistFile "${jenkinsCLIPath}"
