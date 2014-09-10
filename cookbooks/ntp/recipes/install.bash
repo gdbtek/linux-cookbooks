@@ -3,7 +3,7 @@
 function install()
 {
     echo "${ntpTimeZone}" > '/etc/timezone'
-    dpkg-reconfigure -f noninteractive tzdata 2>/dev/null
+    dpkg-reconfigure -f noninteractive tzdata 2> '/dev/null'
     installAptGetPackages 'ntp'
 }
 
