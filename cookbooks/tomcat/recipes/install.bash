@@ -48,7 +48,7 @@ function install()
     local upstartConfigData=(
         '__INSTALL_FOLDER__' "${tomcatInstallFolder}"
         '__HOME_FOLDER__' "${userHome}"
-        '__JDK_FOLDER__' "${tomcatJDKFolder}"
+        '__JDK_INSTALL_FOLDER__' "${tomcatJDKInstallFolder}"
         '__USER_NAME__' "${tomcatUserName}"
         '__GROUP_NAME__' "${tomcatGroupName}"
     )
