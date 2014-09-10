@@ -5,7 +5,7 @@ function install()
     # Clean Up
 
     initializeFolder "${jdkInstallFolder}"
-    rm -f '/usr/local/bin/java' '/usr/local/bin/javac'
+    rm -f '/usr/local/bin/jar' '/usr/local/bin/java' '/usr/local/bin/javac'
 
     # Install
 
