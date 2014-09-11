@@ -20,9 +20,13 @@ function main()
     "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" "${jenkinsUserName}"
 
     cleanUp
+
     addUserAuthorizedKey "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/authorized_keys")"
     addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/known_hosts")"
+
+    configUserGIT "${jenkinsUserName}" "${ccmuiJenkinsGITUserName}" "${ccmuiJenkinsGITUserEmail}"
     generateUserSSHKey "${jenkinsUserName}"
+
     displayNotice "${jenkinsUserName}"
 }
 

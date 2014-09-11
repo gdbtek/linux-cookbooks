@@ -694,6 +694,21 @@ function checkRequireUserLogin()
     fi
 }
 
+function configUserGIT()
+{
+    local userLogin="${1}"
+    local gitUserName="${2}"
+    local gitUserEmail="${3}"
+
+    checkExistUserLogin "${userLogin}"
+    checkNonEmptyString "${gitUserName}" 'undefined git user name'
+    checkNonEmptyString "${gitUserEmail}" 'undefined git user email'
+
+    su - "${userLogin}" -c "git config --global user.name "${gitUserName}""
+    su - "${userLogin}" -c "git config --global user.email "${gitUserEmail}""
+    su - "${userLogin}" -c 'git config --global push.default simple'
+}
+
 function configUserSSH()
 {
     local userLogin="${1}"

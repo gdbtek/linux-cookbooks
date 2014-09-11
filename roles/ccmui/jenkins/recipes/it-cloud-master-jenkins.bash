@@ -21,9 +21,13 @@ function main()
     "${appPath}/../../../../cookbooks/nginx/recipes/install.bash"
 
     cleanUp
+
     addUserAuthorizedKey "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/authorized_keys")"
     addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/known_hosts")"
+
+    configUserGIT "${jenkinsUserName}" "${ccmuiJenkinsGITUserName}" "${ccmuiJenkinsGITUserEmail}"
     generateUserSSHKey "${jenkinsUserName}"
+
     displayNotice "${jenkinsUserName}"
 }
 
