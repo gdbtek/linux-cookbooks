@@ -21,7 +21,7 @@ function main()
 
     cleanUp
 
-    addUserAuthorizedKey "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/authorized_keys")"
+    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
     addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/known_hosts")"
 
     configUserGIT "${jenkinsUserName}" "${ccmuiJenkinsGITUserName}" "${ccmuiJenkinsGITUserEmail}"
