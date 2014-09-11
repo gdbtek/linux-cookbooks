@@ -44,6 +44,6 @@ function extendOPTPartition()
         fi
     else
         header 'EXTENDING OPT PARTITION'
-        info "Extended volume '${disk}' not found!"
+        info "Extended volume '${disk}' not found"
     fi
 }
