@@ -706,10 +706,11 @@ function configUserGIT()
     checkNonEmptyString "${gitUserName}" 'undefined git user name'
     checkNonEmptyString "${gitUserEmail}" 'undefined git user email'
 
-    su - "${userLogin}" -c "git config --global user.name "${gitUserName}""
-    su - "${userLogin}" -c "git config --global user.email "${gitUserEmail}""
+    su - "${userLogin}" -c "git config --global user.name '${gitUserName}'"
+    su - "${userLogin}" -c "git config --global user.email '${gitUserEmail}'"
     su - "${userLogin}" -c 'git config --global push.default simple'
-    su - "${userLogin}" -c 'git config --list'
+
+    info "\n$(su - "${userLogin}" -c 'git config --list')"
 }
 
 function configUserSSH()
@@ -839,7 +840,7 @@ function generateUserSSHKey()
 {
     local user="${1}"
 
-    header "GENERATING USER '${user}' SSH KEY"
+    header "GENERATING SSH KEY FOR USER '${user}'"
 
     local userHome="$(getUserHomeFolder "${user}")"
 
