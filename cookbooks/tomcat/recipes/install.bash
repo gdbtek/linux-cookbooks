@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${jdkInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${tomcatJDKInstallFolder}" ]]
     then
         "${appPath}/../../jdk/recipes/install.bash"
     fi
@@ -71,7 +71,6 @@ function main()
 
     source "${appPath}/../../../lib/util.bash"
     source "${appPath}/../attributes/default.bash"
-    source "${appPath}/../../jdk/attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser
