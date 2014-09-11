@@ -79,7 +79,7 @@ function main()
     then
         checkRequirePort "${ghostDevelopmentPort}"
     else
-        fatal "\nFATAL : '${ghostEnvironment}' not supported"
+        fatal "\nFATAL : environment '${ghostEnvironment}' not supported"
     fi
 
     installDependencies

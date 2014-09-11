@@ -41,7 +41,7 @@ function checkValidJSONContent()
 
     if [[ "$(isValidJSONContent "${content}")" = 'false' ]]
     then
-        fatal "\nFATAL : invalid JSON content"
+        fatal "\nFATAL : invalid JSON"
     fi
 }
 
@@ -669,7 +669,7 @@ function checkRequirePort()
 
 function checkRequireRootUser()
 {
-    checkRequireUser 'root'
+    checkRequireUserLogin 'root'
 }
 
 function checkRequireSystem()
@@ -685,13 +685,13 @@ function checkRequireSystem()
     fi
 }
 
-function checkRequireUser()
+function checkRequireUserLogin()
 {
-    local user="${1}"
+    local userLogin="${1}"
 
-    if [[ "$(whoami)" != "${user}" ]]
+    if [[ "$(whoami)" != "${userLogin}" ]]
     then
-        fatal "\nFATAL : '${user}' required"
+        fatal "\nFATAL : user login '${userLogin}' required"
     fi
 }
 

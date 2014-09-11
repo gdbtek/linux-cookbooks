@@ -28,7 +28,7 @@ function install()
 
     if [[ "$(ls -A "${unzipFolderName}")" = '' ]]
     then
-        fatal "FATAL : folder '${unzipFolderName}' is empty"
+        fatal "FATAL : folder '${unzipFolderName}' empty"
     fi
 
     mv ${unzipFolderName}* "${goserverAgentInstallFolder}"

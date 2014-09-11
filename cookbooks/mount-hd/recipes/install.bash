@@ -24,7 +24,7 @@ function install()
             info "Already mounted '${newDisk}' to '${mountOn}'\n"
             df -h -T
         else
-            fatal "FATAL : '${mountOn}' found"
+            fatal "FATAL : mount-on '${mountOn}' found"
         fi
     else
         createPartition "${disk}"
