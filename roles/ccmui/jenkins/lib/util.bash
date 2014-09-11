@@ -22,6 +22,7 @@ function displayNotice()
 
     info "-> Next is to copy this RSA to your git account :"
     cat "${userHome}/.ssh/id_rsa.pub"
+    echo
 }
 
 function extendOPTPartition()
