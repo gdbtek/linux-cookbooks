@@ -542,7 +542,7 @@ function addUser()
 
     # Add User
 
-    if [[ "$(existUser "${userLogin}")" = 'true' ]]
+    if [[ "$(existUserLogin "${userLogin}")" = 'true' ]]
     then
         if [[ "$(isUserInGroup "${userLogin}" "${groupName}")" = 'false' ]]
         then
@@ -658,7 +658,7 @@ function deleteUser()
 {
     local userLogin="${1}"
 
-    if [[ "$(existUser "${userLogin}")" = 'true' ]]
+    if [[ "$(existUserLogin "${userLogin}")" = 'true' ]]
     then
         userdel -f -r "${userLogin}" 2> '/dev/null'
     fi
@@ -738,7 +738,7 @@ function existGroup()
     fi
 }
 
-function existUser()
+function existUserLogin()
 {
     local user="${1}"
 
@@ -981,7 +981,7 @@ function isUserInGroup()
         fatal "\nFATAL : groupName undefined!"
     fi
 
-    if [[ "$(existUser "${userLogin}")" = 'true' ]]
+    if [[ "$(existUserLogin "${userLogin}")" = 'true' ]]
     then
         if [[ "$(groups "${userLogin}" | grep "\b${groupName}\b")" = '' ]]
         then
