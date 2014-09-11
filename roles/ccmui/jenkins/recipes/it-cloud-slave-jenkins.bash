@@ -22,6 +22,7 @@ function main()
     cleanUp
     addUserAuthorizedKey "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/authorized_keys")"
     addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/known_hosts")"
+    generateUserSSHKey "${jenkinsUserName}"
     displayNotice "${jenkinsUserName}"
 }
 
