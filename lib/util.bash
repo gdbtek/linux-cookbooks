@@ -700,6 +700,8 @@ function configUserGIT()
     local gitUserName="${2}"
     local gitUserEmail="${3}"
 
+    header "CONFIGURING GIT FOR USER ${userLogin}"
+
     checkExistUserLogin "${userLogin}"
     checkNonEmptyString "${gitUserName}" 'undefined git user name'
     checkNonEmptyString "${gitUserEmail}" 'undefined git user email'
@@ -707,6 +709,7 @@ function configUserGIT()
     su - "${userLogin}" -c "git config --global user.name "${gitUserName}""
     su - "${userLogin}" -c "git config --global user.email "${gitUserEmail}""
     su - "${userLogin}" -c 'git config --global push.default simple'
+    su - "${userLogin}" -c 'git config --list'
 }
 
 function configUserSSH()
@@ -715,6 +718,8 @@ function configUserSSH()
     local groupName="${2}"
     local sshRSA="${3}"
     local configFileName="${4}"
+
+    header "CONFIGURING ${configFileName} FOR USER ${userLogin}"
 
     checkExistUserLogin "${userLogin}"
     checkExistGroupName "${groupName}"
