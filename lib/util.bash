@@ -278,15 +278,8 @@ function installCommands()
         local command="${data[${i}]}"
         local package="${data[${i} + 1]}"
 
-        if [[ "$(isEmptyString "${command}")" = 'true' ]]
-        then
-            fatal "\nFATAL : undefined command!"
-        fi
-
-        if [[ "$(isEmptyString "${package}")" = 'true' ]]
-        then
-            fatal "\nFATAL : undefined package!"
-        fi
+        checkNonEmptyString "${command}" 'undefined command!'
+        checkNonEmptyString "${package}" 'undefined package!'
 
         if [[ "$(existCommand "${command}")" = 'false' ]]
         then
@@ -428,6 +421,22 @@ function upgradePIPPackage()
 # STRING UTILITIES #
 ####################
 
+function checkNonEmptyString()
+{
+    local string="${1}"
+    local errorMessage="${2}"
+
+    if [[ "$(isEmptyString "${string}")" = 'true' ]]
+    then
+        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
+        then
+            fatal "\nFATAL : empty value detected"
+        else
+            fatal "\nFATAL : ${errorMessage}"
+        fi
+    fi
+}
+
 function debug()
 {
     echo -e "\033[1;34m${1}\033[0m" 2>&1
@@ -503,15 +512,8 @@ function addUser()
     local systemAccount="${4}"
     local allowLogin="${5}"
 
-    if [[ "$(isEmptyString "${userLogin}")" = 'true' ]]
-    then
-        fatal "\nFATAL : userLogin undefined!"
-    fi
-
-    if [[ "$(isEmptyString "${groupName}")" = 'true' ]]
-    then
-        fatal "\nFATAL : groupName undefined!"
-    fi
+    checkNonEmptyString "${userLogin}" 'user login undefined!'
+    checkNonEmptyString "${groupName}" 'group name undefined!'
 
     # Options
 
@@ -566,6 +568,25 @@ function addUser()
     fi
 }
 
+function addUserSSHKnownHost()
+{
+    local userLogin="${1}"
+    local groupName="${2}"
+    local sshRSA="${3}"
+
+    checkExistUserLogin "${userLogin}"
+    checkExistGroupName "${groupName}"
+
+
+
+
+    mkdir -p ~go/.ssh
+    chmod 700 ~go/.ssh
+    cp -f "${appPath}/../files/default/known_hosts" ~go/.ssh
+    chmod 600 ~go/.ssh/known_hosts
+    chown -R go:go ~go/.ssh
+}
+
 function checkExistFile()
 {
     local file="${1}"
@@ -595,6 +616,26 @@ function checkExistFolder()
         else
             fatal "\nFATAL : ${errorMessage}"
         fi
+    fi
+}
+
+function checkExistGroupName()
+{
+    local groupName="${1}"
+
+    if [[ "$(existGroupName "${groupName}")" = 'false' ]]
+    then
+        fatal "\nFATAL : group '${groupName}' not found"
+    fi
+}
+
+function checkExistUserLogin()
+{
+    local userLogin="${1}"
+
+    if [[ "$(existUserLogin "${userLogin}")" = 'false' ]]
+    then
+        fatal "\nFATAL : user '${userLogin}' not found"
     fi
 }
 
@@ -938,10 +979,7 @@ function isPortOpen()
 {
     local port="${1}"
 
-    if [[ "$(isEmptyString "${port}")" = 'true' ]]
-    then
-        fatal "\nFATAL : port undefined"
-    fi
+    checkNonEmptyString "${port}" 'port undefined'
 
     if [[ "$(isLinuxOperatingSystem)" = 'true' ]]
     then
@@ -971,15 +1009,8 @@ function isUserLoginInGroupName()
     local userLogin="${1}"
     local groupName="${2}"
 
-    if [[ "$(isEmptyString "${userLogin}")" = 'true' ]]
-    then
-        fatal "\nFATAL : userLogin undefined!"
-    fi
-
-    if [[ "$(isEmptyString "${groupName}")" = 'true' ]]
-    then
-        fatal "\nFATAL : groupName undefined!"
-    fi
+    checkNonEmptyString "${userLogin}" 'user login undefined!'
+    checkNonEmptyString "${groupName}" 'group name undefined!'
 
     if [[ "$(existUserLogin "${userLogin}")" = 'true' ]]
     then

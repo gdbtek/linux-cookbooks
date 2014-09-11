@@ -12,10 +12,7 @@ function install()
         fatal "FATAL : disk '${disk}' not found"
     fi
 
-    if [[ "$(isEmptyString "${mountOn}")" = 'true'  ]]
-    then
-        fatal "FATAL : mount-on not found"
-    fi
+    checkNonEmptyString "${mountOn}" 'mount-on not found'
 
     local newDisk="${disk}${mounthdPartitionNumber}"
 
