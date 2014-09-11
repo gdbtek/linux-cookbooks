@@ -497,15 +497,15 @@ function warn()
 
 function addUser()
 {
-    local userName="${1}"
+    local userLogin="${1}"
     local groupName="${2}"
     local createHome="${3}"
     local systemAccount="${4}"
     local allowLogin="${5}"
 
-    if [[ "$(isEmptyString "${userName}")" = 'true' ]]
+    if [[ "$(isEmptyString "${userLogin}")" = 'true' ]]
     then
-        fatal "\nFATAL : userName undefined!"
+        fatal "\nFATAL : userLogin undefined!"
     fi
 
     if [[ "$(isEmptyString "${groupName}")" = 'true' ]]
@@ -542,27 +542,27 @@ function addUser()
 
     # Add User
 
-    if [[ "$(existUser "${userName}")" = 'true' ]]
+    if [[ "$(existUser "${userLogin}")" = 'true' ]]
     then
-        if [[ "$(isUserInGroup "${userName}" "${groupName}")" = 'false' ]]
+        if [[ "$(isUserInGroup "${userLogin}" "${groupName}")" = 'false' ]]
         then
-            usermod -a -G "${groupName}" "${userName}"
+            usermod -a -G "${groupName}" "${userLogin}"
         fi
 
         # Not Exist Home
 
         if [[ "${createHome}" = 'true' ]]
         then
-            local userHome="$(getUserHomeFolder "${userName}")"
+            local userHome="$(getUserHomeFolder "${userLogin}")"
 
             if [[ "$(isEmptyString "${userHome}")" = 'true' || ! -d "${userHome}" ]]
             then
-                mkdir -p "/home/${userName}"
-                chown -R "${userName}:${groupName}" "/home/${userName}"
+                mkdir -p "/home/${userLogin}"
+                chown -R "${userLogin}:${groupName}" "/home/${userLogin}"
             fi
         fi
     else
-        useradd ${createHomeOption} ${systemAccountOption} ${allowLoginOption} -g "${groupName}" "${userName}"
+        useradd ${createHomeOption} ${systemAccountOption} ${allowLoginOption} -g "${groupName}" "${userLogin}"
     fi
 }
 
@@ -656,11 +656,11 @@ function checkRequireUser()
 
 function deleteUser()
 {
-    local userName="${1}"
+    local userLogin="${1}"
 
-    if [[ "$(existUser "${userName}")" = 'true' ]]
+    if [[ "$(existUser "${userLogin}")" = 'true' ]]
     then
-        userdel -f -r "${userName}" 2> '/dev/null'
+        userdel -f -r "${userLogin}" 2> '/dev/null'
     fi
 }
 
@@ -968,12 +968,12 @@ function isUbuntuDistributor()
 
 function isUserInGroup()
 {
-    local userName="${1}"
+    local userLogin="${1}"
     local groupName="${2}"
 
-    if [[ "$(isEmptyString "${userName}")" = 'true' ]]
+    if [[ "$(isEmptyString "${userLogin}")" = 'true' ]]
     then
-        fatal "\nFATAL : userName undefined!"
+        fatal "\nFATAL : userLogin undefined!"
     fi
 
     if [[ "$(isEmptyString "${groupName}")" = 'true' ]]
@@ -981,9 +981,9 @@ function isUserInGroup()
         fatal "\nFATAL : groupName undefined!"
     fi
 
-    if [[ "$(existUser "${userName}")" = 'true' ]]
+    if [[ "$(existUser "${userLogin}")" = 'true' ]]
     then
-        if [[ "$(groups "${userName}" | grep "\b${groupName}\b")" = '' ]]
+        if [[ "$(groups "${userLogin}" | grep "\b${groupName}\b")" = '' ]]
         then
             echo 'false'
         else
