@@ -23,7 +23,7 @@ function install()
 
     if [[ "$(isEmptyString "${unzipFolderName}")" = 'true' || "$(echo "${unzipFolderName}" | wc -l)" != '1' ]]
     then
-        fatal 'FATAL : found multiple unzip folder name!'
+        fatal 'FATAL : multiple unzip folder names found'
     fi
 
     if [[ "$(ls -A "${unzipFolderName}")" = '' ]]

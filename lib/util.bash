@@ -137,7 +137,7 @@ function checkExistURL()
 
     if [[ "$(existURL "${url}")" = 'false' ]]
     then
-        fatal "\nFATAL : url '${url}' not found!"
+        fatal "\nFATAL : url '${url}' not found"
     fi
 }
 
@@ -208,7 +208,7 @@ function unzipRemoteFile()
 
         if [[ "$(existCommand 'unzip')" = 'false' ]]
         then
-            fatal "FATAL : install 'unzip' command failed!"
+            fatal "FATAL : 'unzip' command not found"
         fi
 
         local zipFile="${installFolder}/$(basename "${downloadURL}")"
@@ -219,7 +219,7 @@ function unzipRemoteFile()
         rm -f "${zipFile}"
         echo
     else
-        fatal "FATAL : file extension '${extension}' is not yet supported to unzip!"
+        fatal "FATAL : file extension '${extension}' not supported"
     fi
 }
 
@@ -278,8 +278,8 @@ function installCommands()
         local command="${data[${i}]}"
         local package="${data[${i} + 1]}"
 
-        checkNonEmptyString "${command}" 'undefined command!'
-        checkNonEmptyString "${package}" 'undefined package!'
+        checkNonEmptyString "${command}" 'undefined command'
+        checkNonEmptyString "${package}" 'undefined package'
 
         if [[ "$(existCommand "${command}")" = 'false' ]]
         then
@@ -315,7 +315,7 @@ function installPIPPackage()
 
     if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
     then
-        debug "PIP Package '${package}' found!"
+        debug "PIP Package '${package}' found"
     else
         echo -e "\033[1;35m\nInstalling PIP package '${package}'\033[0m"
         pip install "${package}"
@@ -355,7 +355,7 @@ function isPIPPackageInstall()
 
     if [[ "$(existCommand 'pip')" = 'false' ]]
     then
-        fatal "FATAL : install 'python-pip' command failed!"
+        fatal "FATAL : 'python-pip' command not found"
     fi
 
     local found="$(pip list | grep -E -o "^${package}\s+\(.*\)$")"
@@ -413,7 +413,7 @@ function upgradePIPPackage()
         echo -e "\033[1;35mUpgrading PIP package '${package}'\033[0m"
         pip install --upgrade "${package}"
     else
-        debug "PIP Package '${package}' not found!"
+        debug "PIP Package '${package}' not found"
     fi
 }
 
@@ -512,8 +512,8 @@ function addUser()
     local systemAccount="${4}"
     local allowLogin="${5}"
 
-    checkNonEmptyString "${userLogin}" 'user login undefined!'
-    checkNonEmptyString "${groupName}" 'group name undefined!'
+    checkNonEmptyString "${userLogin}" 'undefined user login'
+    checkNonEmptyString "${groupName}" 'undefined group name'
 
     # Options
 
@@ -596,7 +596,7 @@ function checkExistFile()
     then
         if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
         then
-            fatal "\nFATAL : file '${file}' not found!"
+            fatal "\nFATAL : file '${file}' not found"
         else
             fatal "\nFATAL : ${errorMessage}"
         fi
@@ -612,7 +612,7 @@ function checkExistFolder()
     then
         if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
         then
-            fatal "\nFATAL : folder '${folder}' not found!"
+            fatal "\nFATAL : folder '${folder}' not found"
         else
             fatal "\nFATAL : ${errorMessage}"
         fi
@@ -625,7 +625,7 @@ function checkExistGroupName()
 
     if [[ "$(existGroupName "${groupName}")" = 'false' ]]
     then
-        fatal "\nFATAL : group '${groupName}' not found"
+        fatal "\nFATAL : group name '${groupName}' not found"
     fi
 }
 
@@ -635,7 +635,7 @@ function checkExistUserLogin()
 
     if [[ "$(existUserLogin "${userLogin}")" = 'false' ]]
     then
-        fatal "\nFATAL : user '${userLogin}' not found"
+        fatal "\nFATAL : user login '${userLogin}' not found"
     fi
 }
 
@@ -676,12 +676,12 @@ function checkRequireSystem()
 {
     if [[ "$(isUbuntuDistributor)" = 'false' ]]
     then
-        fatal "\nFATAL : this program only supports 'Ubuntu' operating system!"
+        fatal "\nFATAL : non 'Ubuntu' OS found"
     fi
 
     if [[ "$(is64BitSystem)" = 'false' ]]
     then
-        fatal "\nFATAL : this program only supports 'x86_64' operating system!"
+        fatal "\nFATAL : non 'x86_64' OS found"
     fi
 }
 
@@ -691,7 +691,7 @@ function checkRequireUser()
 
     if [[ "$(whoami)" != "${user}" ]]
     then
-        fatal "\nFATAL : please run this program as '${user}' user!"
+        fatal "\nFATAL : '${user}' required"
     fi
 }
 
@@ -809,7 +809,7 @@ function generateUserSSHKey()
 
     if [[ "$(existCommand 'expect')" = 'false' ]]
     then
-        fatal "\nFATAL : install 'expect' command failed!"
+        fatal "\nFATAL : 'expect' command not found"
     fi
 
     rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
@@ -979,7 +979,7 @@ function isPortOpen()
 {
     local port="${1}"
 
-    checkNonEmptyString "${port}" 'port undefined'
+    checkNonEmptyString "${port}" 'undefined port'
 
     if [[ "$(isLinuxOperatingSystem)" = 'true' ]]
     then
@@ -1009,8 +1009,8 @@ function isUserLoginInGroupName()
     local userLogin="${1}"
     local groupName="${2}"
 
-    checkNonEmptyString "${userLogin}" 'user login undefined!'
-    checkNonEmptyString "${groupName}" 'group name undefined!'
+    checkNonEmptyString "${userLogin}" 'undefined user login'
+    checkNonEmptyString "${groupName}" 'undefined group name'
 
     if [[ "$(existUserLogin "${userLogin}")" = 'true' ]]
     then

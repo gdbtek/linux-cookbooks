@@ -7,12 +7,13 @@ function install()
 
     # Create Partition
 
+    checkNonEmptyString "${disk}" 'undefined disk'
+    checkNonEmptyString "${mountOn}" 'undefined mount-on'
+
     if [[ "$(existDisk "${disk}")" = 'false' ]]
     then
         fatal "FATAL : disk '${disk}' not found"
     fi
-
-    checkNonEmptyString "${mountOn}" 'mount-on not found'
 
     local newDisk="${disk}${mounthdPartitionNumber}"
 
@@ -23,7 +24,7 @@ function install()
             info "Already mounted '${newDisk}' to '${mountOn}'\n"
             df -h -T
         else
-            fatal "FATAL : '${mountOn}' found!"
+            fatal "FATAL : '${mountOn}' found"
         fi
     else
         createPartition "${disk}"

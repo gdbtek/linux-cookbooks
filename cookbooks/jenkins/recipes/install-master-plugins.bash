@@ -22,7 +22,7 @@ function install()
 
         sleep 120
     else
-        info "No installs/updates available!"
+        info "No installs/updates available"
     fi
 }
 
