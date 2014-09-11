@@ -726,7 +726,7 @@ function existDiskMount()
     fi
 }
 
-function existGroup()
+function existGroupName()
 {
     local group="${1}"
 
