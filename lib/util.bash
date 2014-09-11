@@ -544,7 +544,7 @@ function addUser()
 
     if [[ "$(existUserLogin "${userLogin}")" = 'true' ]]
     then
-        if [[ "$(isUserInGroup "${userLogin}" "${groupName}")" = 'false' ]]
+        if [[ "$(isUserLoginInGroupName "${userLogin}" "${groupName}")" = 'false' ]]
         then
             usermod -a -G "${groupName}" "${userLogin}"
         fi
@@ -966,7 +966,7 @@ function isUbuntuDistributor()
     isDistributor 'Ubuntu'
 }
 
-function isUserInGroup()
+function isUserLoginInGroupName()
 {
     local userLogin="${1}"
     local groupName="${2}"
