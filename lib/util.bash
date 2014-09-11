@@ -208,7 +208,7 @@ function unzipRemoteFile()
 
         if [[ "$(existCommand 'unzip')" = 'false' ]]
         then
-            fatal "FATAL : 'unzip' command not found"
+            fatal "FATAL : command 'unzip' not found"
         fi
 
         local zipFile="${installFolder}/$(basename "${downloadURL}")"
@@ -355,7 +355,7 @@ function isPIPPackageInstall()
 
     if [[ "$(existCommand 'pip')" = 'false' ]]
     then
-        fatal "FATAL : 'python-pip' command not found"
+        fatal "FATAL : command 'python-pip' not found"
     fi
 
     local found="$(pip list | grep -E -o "^${package}\s+\(.*\)$")"
@@ -809,7 +809,7 @@ function generateUserSSHKey()
 
     if [[ "$(existCommand 'expect')" = 'false' ]]
     then
-        fatal "\nFATAL : 'expect' command not found"
+        fatal "\nFATAL : command 'expect' not found"
     fi
 
     rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
