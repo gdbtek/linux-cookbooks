@@ -13,10 +13,16 @@ function install()
     # Clean Up
 
     initializeFolder "${mavenInstallFolder}"
+    rm -f '/usr/local/bin/mvn'
 
     # Install
 
     unzipRemoteFile "${mavenDownloadURL}" "${mavenInstallFolder}"
+
+    # Config Lib
+
+    chown -R "$(whoami):$(whoami)" "${mavenInstallFolder}"
+    ln -s "${mavenInstallFolder}/bin/mvn" '/usr/local/bin/mvn'
 
     # Config Profile
 
@@ -26,7 +32,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${mavenInstallFolder}/bin/mvn" -v)"
+    info "$("${mavenInstallFolder}/bin/mvn" -v)"
 }
 
 function main()
