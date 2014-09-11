@@ -586,31 +586,6 @@ function addUserSSHKnownHost()
     configUserSSH "${userLogin}" "${groupName}" "${sshRSA}" 'known_hosts'
 }
 
-function configUserSSH()
-{
-    local userLogin="${1}"
-    local groupName="${2}"
-    local sshRSA="${3}"
-    local configFileName="${4}"
-
-    checkExistUserLogin "${userLogin}"
-    checkExistGroupName "${groupName}"
-    checkNonEmptyString "${sshRSA}" 'undefined SSH-RSA'
-    checkNonEmptyString "${configFileName}" 'undefined config file'
-
-    local userHome="$(getUserHomeFolder "${userLogin}")"
-
-    checkExistFolder "${userHome}"
-
-    mkdir -p "${userHome}/.ssh"
-    chmod 700 "${userHome}/.ssh"
-
-    echo "${sshRSA}" >> "${userHome}/.ssh/${configFileName}"
-    chmod 600 "${userHome}/.ssh/${configFileName}"
-
-    chown -R "${userLogin}:${groupName}" "${userHome}/.ssh"
-}
-
 function checkExistFile()
 {
     local file="${1}"
@@ -717,6 +692,31 @@ function checkRequireUserLogin()
     then
         fatal "\nFATAL : user login '${userLogin}' required"
     fi
+}
+
+function configUserSSH()
+{
+    local userLogin="${1}"
+    local groupName="${2}"
+    local sshRSA="${3}"
+    local configFileName="${4}"
+
+    checkExistUserLogin "${userLogin}"
+    checkExistGroupName "${groupName}"
+    checkNonEmptyString "${sshRSA}" 'undefined SSH-RSA'
+    checkNonEmptyString "${configFileName}" 'undefined config file'
+
+    local userHome="$(getUserHomeFolder "${userLogin}")"
+
+    checkExistFolder "${userHome}"
+
+    mkdir -p "${userHome}/.ssh"
+    chmod 700 "${userHome}/.ssh"
+
+    echo "${sshRSA}" >> "${userHome}/.ssh/${configFileName}"
+    chmod 600 "${userHome}/.ssh/${configFileName}"
+
+    chown -R "${userLogin}:${groupName}" "${userHome}/.ssh"
 }
 
 function deleteUser()
