@@ -51,6 +51,8 @@ function getLatestVersionNumber()
 
 function main()
 {
+    local installFolder="${1}"
+
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash"
@@ -60,6 +62,15 @@ function main()
     checkRequireRootUser
 
     header 'INSTALLING NODE-JS'
+
+    # Override Default Config
+
+    if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
+    then
+        nodejsInstallFolder="${installFolder}"
+    fi
+
+    # Install
 
     installDependencies
     install

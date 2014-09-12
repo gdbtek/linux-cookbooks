@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'java')" = 'false' || ! -d "${tomcatJDKInstallFolder}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash"
+        "${appPath}/../../jdk/recipes/install.bash" "${tomcatJDKInstallFolder}"
     fi
 }
 

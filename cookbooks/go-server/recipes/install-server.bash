@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${jdkInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${goserverJDKInstallFolder}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash"
+        "${appPath}/../../jdk/recipes/install.bash" "${goserverJDKInstallFolder}"
     fi
 }
 
@@ -59,7 +59,6 @@ function main()
 
     source "${appPath}/../../../lib/util.bash"
     source "${appPath}/../attributes/default.bash"
-    source "${appPath}/../../jdk/attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

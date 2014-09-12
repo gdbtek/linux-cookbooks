@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${jdkInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${elasticsearchJDKInstallFolder}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash"
+        "${appPath}/../../jdk/recipes/install.bash" "${elasticsearchJDKInstallFolder}"
     fi
 }
 
@@ -37,7 +37,7 @@ function install()
 
     local upstartConfigData=(
         '__INSTALL_FOLDER__' "${elasticsearchInstallFolder}"
-        '__JDK_FOLDER__' "${elasticsearchJDKFolder}"
+        '__JDK_INSTALL_FOLDER__' "${elasticsearchJDKInstallFolder}"
         '__USER_NAME__' "${elasticsearchUserName}"
         '__GROUP_NAME__' "${elasticsearchGroupName}"
     )
@@ -61,7 +61,6 @@ function main()
 
     source "${appPath}/../../../lib/util.bash"
     source "${appPath}/../attributes/default.bash"
-    source "${appPath}/../../jdk/attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

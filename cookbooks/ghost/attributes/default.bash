@@ -1,8 +1,11 @@
 #!/bin/bash -e
 
+source "$(dirname "${BASH_SOURCE[0]}")/../../node-js/attributes/default.bash"
+
 ghostDownloadURL='https://ghost.org/zip/ghost-latest.zip'
 
 ghostInstallFolder='/opt/ghost'
+ghostNodeJSInstallFolder="${nodejsInstallFolder}"
 
 ghostServiceName='ghost'
 
