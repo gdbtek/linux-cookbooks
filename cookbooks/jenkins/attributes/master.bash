@@ -38,6 +38,7 @@ jenkinsInstallPlugins=(
     'Parameterized-Remote-Trigger'
     'parameterized-trigger'
     'run-condition'
+    'selenium'
     'slack'
     'ssh-credentials'
     'ssh-slaves'
