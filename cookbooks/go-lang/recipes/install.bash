@@ -33,6 +33,8 @@ function install()
 
 function main()
 {
+    local installFolder="${1}"
+
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../lib/util.bash"
@@ -42,6 +44,15 @@ function main()
     checkRequireRootUser
 
     header 'INSTALLING GO-LANG'
+
+    # Override Default Config
+
+    if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
+    then
+        golangInstallFolder="${installFolder}"
+    fi
+
+    # Install
 
     installDependencies
     install
