@@ -712,7 +712,7 @@ function configUserGIT()
     su - "${userLogin}" -c "git config --global user.email '${gitUserEmail}'"
     su - "${userLogin}" -c 'git config --global push.default simple'
 
-    info "\n$(su - "${userLogin}" -c 'git config --list')"
+    info "$(su - "${userLogin}" -c 'git config --list')"
 }
 
 function configUserSSH()
