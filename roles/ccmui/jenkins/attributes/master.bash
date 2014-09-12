@@ -8,4 +8,5 @@ ccmuiJenkinsGITUserEmail='namnguye@adobe.com'
 
 ccmuiJenkinsInstallPlugins=(
     'selenium'
+    'testng-plugin'
 )

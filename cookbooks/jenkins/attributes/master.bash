@@ -44,5 +44,4 @@ jenkinsInstallPlugins=(
     'ssh-credentials'
     'ssh-slaves'
     'template-workflows'
-    'testng-plugin'
 )
