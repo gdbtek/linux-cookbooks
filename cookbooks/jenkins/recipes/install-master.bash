@@ -54,7 +54,7 @@ function install()
     curl -L "${jenkinsDownloadURL}" -o "${temporaryFile}"
     chown "${jenkinsUserName}:${jenkinsGroupName}" "${temporaryFile}"
     mv "${temporaryFile}" "${jenkinsTomcatInstallFolder}/webapps/${appName}.war"
-    sleep 60
+    sleep 120
 
     # Display Version
 
