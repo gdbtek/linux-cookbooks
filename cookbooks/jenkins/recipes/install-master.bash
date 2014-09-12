@@ -58,7 +58,10 @@ function install()
 
     # Display Version
 
-    info "\nVersion: $('java' -jar "${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar" \
+    local jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
+
+    checkExistFile "${jenkinsCLIPath}"
+    info "\nVersion: $('java' -jar "${jenkinsCLIPath}" \
                               -s "http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}" \
                               version)"
 
