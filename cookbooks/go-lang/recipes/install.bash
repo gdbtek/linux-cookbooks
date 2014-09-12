@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installAptGetPackages 'mercurial' 'bzr'
+    installAptGetPackages 'mercurial'
 }
 
 function install()
