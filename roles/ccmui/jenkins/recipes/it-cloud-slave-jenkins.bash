@@ -4,13 +4,11 @@ function main()
 {
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+    source "${appPath}/../attributes/slave.bash"
+    source "${appPath}/../../../../cookbooks/jenkins/attributes/slave.bash"
+    source "${appPath}/../../../../cookbooks/mount-hd/attributes/default.bash"
     source "${appPath}/../../../../lib/util.bash"
     source "${appPath}/../lib/util.bash"
-
-    source "${appPath}/../../../../cookbooks/mount-hd/attributes/default.bash"
-    source "${appPath}/../../../../cookbooks/jenkins/attributes/slave.bash"
-
-    source "${appPath}/../attributes/slave.bash"
 
     extendOPTPartition "${ccmuiJenkinsDisk}" "${ccmuiJenkinsMountOn}" "${mounthdPartitionNumber}"
 
