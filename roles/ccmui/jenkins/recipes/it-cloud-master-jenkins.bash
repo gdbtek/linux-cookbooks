@@ -21,9 +21,20 @@ function main()
     "${appPath}/../../../../cookbooks/jenkins/recipes/install-master.bash"
     "${appPath}/../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${ccmuiJenkinsInstallPlugins[@]}"
     "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" "${jenkinsUserName}"
-    "${appPath}/../../../../cookbooks/nginx/recipes/install.bash"
 
-    # Config Nginx Proxy
+    # Config SSH and GIT
+
+    cleanUp
+
+    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
+    addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/known_hosts")"
+
+    configUserGIT "${jenkinsUserName}" "${ccmuiJenkinsGITUserName}" "${ccmuiJenkinsGITUserEmail}"
+    generateUserSSHKey "${jenkinsUserName}"
+
+    # Config Nginx
+
+    "${appPath}/../../../../cookbooks/nginx/recipes/install.bash"
 
     header 'CONFIGURING NGINX PROXY'
 
@@ -39,15 +50,7 @@ function main()
     stop "${nginxServiceName}"
     start "${nginxServiceName}"
 
-    # Config Others
-
-    cleanUp
-
-    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
-    addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/known_hosts")"
-
-    configUserGIT "${jenkinsUserName}" "${ccmuiJenkinsGITUserName}" "${ccmuiJenkinsGITUserEmail}"
-    generateUserSSHKey "${jenkinsUserName}"
+    # Display Notice
 
     displayNotice "${jenkinsUserName}"
 }
