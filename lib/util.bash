@@ -62,6 +62,7 @@ function createFileFromTemplate()
     local data=("${@:3}")
 
     checkExistFile "${sourceFile}"
+    checkExistFolder "$(dirname "${destinationFile}")"
 
     local content="$(cat "${sourceFile}")"
     local i=0
