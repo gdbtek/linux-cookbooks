@@ -25,6 +25,8 @@ function main()
 
     # Config Nginx Proxy
 
+    header 'CONFIGURING NGINX PROXY'
+
     local jenkinsAppName="$(getFileName "${jenkinsDownloadURL}")"
     local nginxConfigData=(
         '__NGINX_PORT__' "${nginxPort}"
