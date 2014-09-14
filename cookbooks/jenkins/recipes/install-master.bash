@@ -54,7 +54,7 @@ function install()
     curl -L "${jenkinsDownloadURL}" -o "${temporaryFile}"
     chown "${jenkinsUserName}:${jenkinsGroupName}" "${temporaryFile}"
     mv "${temporaryFile}" "${jenkinsTomcatInstallFolder}/webapps/${appName}.war"
-    sleep 90
+    sleep 75
 
     # Display Version
 
@@ -67,23 +67,30 @@ function install()
 
     # Refresh Update Center
 
-    if [[ "${jenkinsUpdateAllPlugins}" = 'false' && ${#jenkinsInstallPlugins[@]} -lt 1 ]]
+    local installPlugins='false'
+
+    if [[ ${#jenkinsInstallPlugins[@]} -gt 0 ]]
     then
-        "${appPath}/refresh-master-update-center.bash"
+        installPlugins='true'
     fi
+
+    checkTrueFalseString "${jenkinsUpdateAllPlugins}"
+    checkTrueFalseString "${installPlugins}"
+
+    "${appPath}/refresh-master-update-center.bash"
 
     # Update Plugins
 
     if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
     then
-        "${appPath}/update-master-plugins.bash"
+        "${appPath}/update-master-plugins.bash" 'false' "$(invertTrueFalseString "${installPlugins}")"
     fi
 
     # Install Plugins
 
-    if [[ ${#jenkinsInstallPlugins[@]} -gt 0 ]]
+    if [[ "${installPlugins}" = 'true' ]]
     then
-        "${appPath}/install-master-plugins.bash" "${jenkinsInstallPlugins[@]}"
+        "${appPath}/install-master-plugins.bash" 'false' 'true' "${jenkinsInstallPlugins[@]}"
     fi
 }
 

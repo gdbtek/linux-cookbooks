@@ -440,6 +440,16 @@ function checkNonEmptyString()
     fi
 }
 
+function checkTrueFalseString()
+{
+    local string="${1}"
+
+    if [[ "${string}" != 'true' && "${string}" != 'false' ]]
+    then
+        fatal "\nFATAL : '${string}' is not 'true' or 'false'"
+    fi
+}
+
 function debug()
 {
     echo -e "\033[1;34m${1}\033[0m" 2>&1
@@ -481,6 +491,20 @@ function header()
 function info()
 {
     echo -e "\033[1;36m${1}\033[0m" 2>&1
+}
+
+function invertTrueFalseString()
+{
+    local string="${1}"
+
+    checkTrueFalseString "${string}"
+
+    if [[ "${string}" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
 }
 
 function isEmptyString()
