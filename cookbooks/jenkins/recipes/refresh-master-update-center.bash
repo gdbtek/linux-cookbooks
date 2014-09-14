@@ -39,7 +39,7 @@ function main()
     checkRequireSystem
     checkRequireRootUser
 
-    header 'REFRESHING UPDATE CENTER JENKINS'
+    header 'REFRESHING MASTER UPDATE CENTER JENKINS'
 
     update
     installCleanUp

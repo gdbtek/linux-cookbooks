@@ -34,8 +34,7 @@ function install()
                 sleep 5
             fi
 
-            java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" safe-restart
-            sleep 60
+            "${appPath}/safe-restart-master.bash"
         fi
     else
         info "No installs/updates available"
@@ -52,7 +51,7 @@ function main()
     checkRequireSystem
     checkRequireRootUser
 
-    header 'INSTALLING PLUGINS JENKINS'
+    header 'INSTALLING MASTER PLUGINS JENKINS'
 
     install "${@}"
     installCleanUp
