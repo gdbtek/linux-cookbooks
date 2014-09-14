@@ -10,6 +10,17 @@ function installDependencies()
 
 function install()
 {
+    local safeRestart="${1}"
+
+    # Config Safe Restart
+
+    if [[ "$(isEmptyString "${safeRestart}")" = 'true' ]]
+    then
+        safeRestart='true'
+    fi
+
+    checkTrueFalseString "${safeRestart}"
+
     # Set Install Folder Path
 
     local jenkinsDefaultInstallFolder="$(getUserHomeFolder "${jenkinsUserName}")/.jenkins"
@@ -90,7 +101,7 @@ function install()
 
     if [[ "${installPlugins}" = 'true' ]]
     then
-        "${appPath}/install-master-plugins.bash" 'false' 'true' "${jenkinsInstallPlugins[@]}"
+        "${appPath}/install-master-plugins.bash" 'false' "${safeRestart}" "${jenkinsInstallPlugins[@]}"
     fi
 }
 
@@ -107,7 +118,7 @@ function main()
     header 'INSTALLING MASTER JENKINS'
 
     installDependencies
-    install
+    install "${@}"
     installCleanUp
 }
 
