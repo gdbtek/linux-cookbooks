@@ -2,12 +2,7 @@
 
 function install()
 {
-    local refreshUpdateCenter="${1}"
-    local safeRestart="${2}"
-    local pluginList="${@:3}"
-
-    checkTrueFalseString "${refreshUpdateCenter}"
-    checkTrueFalseString "${safeRestart}"
+    local pluginList="${@}"
 
     if [[ "$(isEmptyString "${pluginList}")" = 'false' ]]
     then
@@ -19,23 +14,7 @@ function install()
         checkExistFile "${jenkinsCLIPath}"
         checkExistURL "${jenkinsAppURL}"
 
-        if [[ "${refreshUpdateCenter}" = 'true' ]]
-        then
-            "${appPath}/refresh-master-update-center.bash"
-            echo
-        fi
-
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin ${pluginList}
-
-        if [[ "${safeRestart}" = 'true' ]]
-        then
-            if [[ "${refreshUpdateCenter}" = 'true' ]]
-            then
-                sleep 5
-            fi
-
-            "${appPath}/safe-restart-master.bash"
-        fi
     else
         info "No installs/updates available"
     fi

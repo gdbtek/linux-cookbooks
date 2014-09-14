@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-function update()
+function refreshUpdateCenter()
 {
     # Validate Jenkins Config Folder
 
@@ -41,7 +41,7 @@ function main()
 
     header 'REFRESHING MASTER UPDATE CENTER JENKINS'
 
-    update
+    refreshUpdateCenter
     installCleanUp
 }
 

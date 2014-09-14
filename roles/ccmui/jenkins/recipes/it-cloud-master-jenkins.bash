@@ -17,7 +17,7 @@ function main()
     "${appPath}/../../../../cookbooks/maven/recipes/install.bash"
     "${appPath}/../../../../cookbooks/node-js/recipes/install.bash"
     "${appPath}/../../../../cookbooks/jenkins/recipes/install-master.bash" 'false'
-    "${appPath}/../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" 'false' 'true' "${ccmuiJenkinsInstallPlugins[@]}"
+    "${appPath}/../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${ccmuiJenkinsInstallPlugins[@]}"
     "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" "${jenkinsUserName}"
 
     # Config SSH and GIT

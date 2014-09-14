@@ -1,13 +1,7 @@
 #!/bin/bash -e
 
-function update()
+function updatePlugins()
 {
-    local refreshUpdateCenter="${1}"
-    local safeRestart="${2}"
-
-    checkTrueFalseString "${refreshUpdateCenter}"
-    checkTrueFalseString "${safeRestart}"
-
     local appName="$(getFileName "${jenkinsDownloadURL}")"
     local jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
     local jenkinsAppURL="http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}"
@@ -16,11 +10,9 @@ function update()
     checkExistFile "${jenkinsCLIPath}"
     checkExistURL "${jenkinsAppURL}"
 
-    "${appPath}/refresh-master-update-center.bash"
-
     local updateList="$(java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" list-plugins | grep ')$' | awk '{ print $1 }' | sort -f)"
 
-    "${appPath}/install-master-plugins.bash" "${refreshUpdateCenter}" "${safeRestart}" ${updateList}
+    "${appPath}/install-master-plugins.bash" ${updateList}
 }
 
 function main()
@@ -33,7 +25,7 @@ function main()
     checkRequireSystem
     checkRequireRootUser
 
-    update "${@}"
+    updatePlugins
     installCleanUp
 }
 
