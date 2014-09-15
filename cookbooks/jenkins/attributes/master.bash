@@ -16,6 +16,7 @@ jenkinsGroupName="${tomcatGroupName}"
 jenkinsUpdateAllPlugins='true'
 
 jenkinsInstallPlugins=(
+    'ansicolor'
     'ant'
     'build-flow-plugin'
     'build-pipeline-plugin'
