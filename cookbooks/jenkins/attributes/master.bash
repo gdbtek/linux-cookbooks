@@ -20,6 +20,7 @@ jenkinsInstallPlugins=(
     'build-flow-plugin'
     'build-pipeline-plugin'
     'build-timeout'
+    'build-token-root'
     'build-user-vars-plugin'
     'credentials'
     'dashboard-view'
