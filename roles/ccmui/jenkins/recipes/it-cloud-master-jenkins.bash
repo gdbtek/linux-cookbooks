@@ -37,11 +37,9 @@ function main()
 
     header 'CONFIGURING NGINX PROXY'
 
-    local jenkinsAppName="$(getFileName "${jenkinsDownloadURL}")"
     local nginxConfigData=(
         '__NGINX_PORT__' "${nginxPort}"
         '__JENKINS_TOMCAT_HTTP_PORT__' "${jenkinsTomcatHTTPPort}"
-        '__JENKINS_APP_NAME__' "${jenkinsAppName}"
     )
 
     createFileFromTemplate "${appPath}/../templates/default/nginx.conf.conf" "${nginxInstallFolder}/conf/nginx.conf" "${nginxConfigData[@]}"
