@@ -20,6 +20,6 @@ pre-start script
     fi
 end script
 
-post-stop script
+pre-start script
     rm -f -r __INSTALL_FOLDER__/logs/* __INSTALL_FOLDER__/*_temp
 end script
