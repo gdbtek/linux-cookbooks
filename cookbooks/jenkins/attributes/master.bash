@@ -30,7 +30,9 @@ jenkinsInstallPlugins=(
     'external-monitor-job'
     'git'
     'github'
+    'github-oauth'
     'gravatar'
+    'greenballs'
     'job-import-plugin'
     'junit'
     'ldap'
@@ -46,4 +48,5 @@ jenkinsInstallPlugins=(
     'ssh-credentials'
     'ssh-slaves'
     'template-workflows'
+    'urltrigger'
 )
