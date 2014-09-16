@@ -34,6 +34,7 @@ jenkinsInstallPlugins=(
     'gravatar'
     'greenballs'
     'job-import-plugin'
+    'jobConfigHistory'
     'junit'
     'ldap'
     'ldapemail'
