@@ -50,5 +50,6 @@ jenkinsInstallPlugins=(
     'ssh-credentials'
     'ssh-slaves'
     'template-workflows'
+    'thinBackup'
     'urltrigger'
 )
