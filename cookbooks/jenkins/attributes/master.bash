@@ -58,4 +58,5 @@ jenkinsInstallPlugins=(
     'throttle-concurrents'
     'timestamper'
     'urltrigger'
+    'ws-cleanup'
 )
