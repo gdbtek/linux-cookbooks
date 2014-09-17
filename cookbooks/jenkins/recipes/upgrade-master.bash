@@ -4,10 +4,7 @@ function install()
 {
     # Clean Up
 
-    local appName="$(getFileName "${jenkinsDownloadURL}")"
-
-    rm -f -r "${jenkinsTomcatInstallFolder}/webapps/${appName}.war" \
-             "${jenkinsTomcatInstallFolder}/webapps/${appName}"
+    jenkinsMasterWARAppCleanUp
 
     # Install
 
@@ -20,10 +17,9 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/master.bash"
     source "${appPath}/../libraries/util.bash"
 
     checkRequireSystem

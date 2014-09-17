@@ -21,12 +21,9 @@ function install()
 
     # Clean Up
 
-    local appName="$(getFileName "${jenkinsDownloadURL}")"
+    jenkinsMasterWARAppCleanUp
 
-    rm -f -r "${jenkinsDefaultInstallFolder}" \
-             "${jenkinsInstallFolder}" \
-             "${jenkinsTomcatInstallFolder}/webapps/${appName}.war" \
-             "${jenkinsTomcatInstallFolder}/webapps/${appName}"
+    rm -f -r "${jenkinsDefaultInstallFolder}" "${jenkinsInstallFolder}"
 
     # Create Non-Default Jenkins Home
 

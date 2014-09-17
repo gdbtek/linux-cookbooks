@@ -3,6 +3,16 @@
 source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 source "$(dirname "${BASH_SOURCE[0]}")/../attributes/master.bash"
 
+function jenkinsMasterWARAppCleanUp()
+{
+    local appName="$(getFileName "${jenkinsDownloadURL}")"
+
+    checkNonEmptyString "${appName}"
+
+    rm -f -r "${jenkinsTomcatInstallFolder}/webapps/${appName}.war" \
+             "${jenkinsTomcatInstallFolder}/webapps/${appName}"
+}
+
 function jenkinsMasterDownloadWARApp()
 {
     local appName="$(getFileName "${jenkinsDownloadURL}")"
