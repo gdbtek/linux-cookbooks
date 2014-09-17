@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../../../lib/util.bash"
+source "$(dirname "${BASH_SOURCE[0]}")/../../../../libraries/util.bash"
 
 function cleanUp
 {
