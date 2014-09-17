@@ -23,6 +23,7 @@ jenkinsInstallPlugins=(
     'build-timeout'
     'build-token-root'
     'build-user-vars-plugin'
+    'buildtriggerbadge'
     'cloudbees-folder'
     'copyartifact'
     'credentials'
