@@ -45,44 +45,12 @@ function install()
 
     # Install
 
-    checkExistFolder "${jenkinsTomcatInstallFolder}/webapps"
     jenkinsMasterDownloadWARApp
-
-    # Display Version
-
-    local jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
-
-    checkExistFile "${jenkinsCLIPath}"
-    info "\nVersion: $('java' -jar "${jenkinsCLIPath}" \
-                              -s "http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}" \
-                              version)"
-
-    # Refresh Update Center
-
-    checkTrueFalseString "${jenkinsUpdateAllPlugins}"
-
-    "${appPath}/refresh-master-update-center.bash"
-
-    # Install Plugins
-
-    if [[ ${#jenkinsInstallPlugins[@]} -gt 0 ]]
-    then
-        "${appPath}/install-master-plugins.bash" "${jenkinsInstallPlugins[@]}"
-    fi
-
-    # Update Plugins
-
-    if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
-    then
-        "${appPath}/update-master-plugins.bash"
-    fi
-
-    # Safe-Restart Master
-
-    if [[ ${#jenkinsInstallPlugins[@]} -gt 0 || "${jenkinsUpdateAllPlugins}" = 'true' ]]
-    then
-        "${appPath}/safe-restart-master.bash"
-    fi
+    jenkinsMasterDisplayVersion
+    jenkinsMasterRefreshUpdateCenter
+    jenkinsMasterInstallPlugins
+    jenkinsMasterUpdatePlugins
+    jenkinsMasterSafeRestart
 }
 
 function main()
