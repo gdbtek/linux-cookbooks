@@ -46,15 +46,7 @@ function install()
     # Install
 
     checkExistFolder "${jenkinsTomcatInstallFolder}/webapps"
-
-    local temporaryFile="$(getTemporaryFile)"
-
-    checkExistURL "${jenkinsDownloadURL}"
-    debug "\nDownloading '${jenkinsDownloadURL}' to '${temporaryFile}'"
-    curl -L "${jenkinsDownloadURL}" -o "${temporaryFile}"
-    chown "${jenkinsUserName}:${jenkinsGroupName}" "${temporaryFile}"
-    mv "${temporaryFile}" "${jenkinsTomcatInstallFolder}/webapps/${appName}.war"
-    sleep 75
+    jenkinsMasterDownloadWARApp
 
     # Display Version
 
@@ -99,6 +91,7 @@ function main()
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/master.bash"
+    source "${appPath}/../libraries/util.bash"
 
     checkRequireSystem
     checkRequireRootUser
