@@ -7,7 +7,8 @@ function cleanUp
     header 'CLEANING UP'
 
     deleteUser 'itcloud'
-    rm -f -r '/home/ubuntu' '/opt/chef'
+    rm -f -r '/home/ubuntu' '/opt/chef' '/opt/lost+found'
+    stop dovecot 2> '/dev/null' || true
 }
 
 function displayNotice()
