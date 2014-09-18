@@ -7,6 +7,7 @@ ccmuiJenkinsGITUserName='Nam Nguyen'
 ccmuiJenkinsGITUserEmail='namnguye@adobe.com'
 
 ccmuiJenkinsInstallPlugins=(
+    'htmlpublisher'
     'selenium'
     'testng-plugin'
 )
