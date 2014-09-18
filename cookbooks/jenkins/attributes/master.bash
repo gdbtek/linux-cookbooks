@@ -48,6 +48,7 @@ jenkinsInstallPlugins=(
     'maven-plugin'
     'Parameterized-Remote-Trigger'
     'parameterized-trigger'
+    'project-inheritance'
     'run-condition'
     'slack'
     'ssh'
