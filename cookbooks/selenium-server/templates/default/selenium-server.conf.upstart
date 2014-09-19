@@ -1,0 +1,12 @@
+description 'Selenium Server'
+
+start on started mountall
+stop on shutdown
+
+setuid '__USER_NAME__'
+setgid '__GROUP_NAME__'
+
+respawn
+respawn limit 10 5
+
+exec '__JDK_INSTALL_FOLDER__' -jar '__INSTALL_FOLDER__/' -role 'hub'
