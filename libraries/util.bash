@@ -222,7 +222,7 @@ function unzipRemoteFile()
         rm -f "${zipFile}"
         echo
     else
-        fatal "FATAL : file extension '${extension}' not supported"
+        fatal "\nFATAL : file extension '${extension}' not supported"
     fi
 }
 

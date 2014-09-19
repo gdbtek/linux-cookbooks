@@ -16,7 +16,7 @@ function install()
 
     # Install
 
-    unzipRemoteFile "${seleniumserverDownloadURL}" "${seleniumserverInstallFolder}"
+    curl -L "${seleniumserverDownloadURL}" -o "${seleniumserverInstallFolder}"
 
     # Add User
 
