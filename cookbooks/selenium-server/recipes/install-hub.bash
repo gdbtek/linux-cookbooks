@@ -16,7 +16,7 @@ function install()
 
     # Install
 
-    local jarFile="${seleniumserverInstallFolder}/selenium-hub.jar"
+    local jarFile="${seleniumserverInstallFolder}/selenium-server.jar"
 
     downloadFile "${seleniumserverDownloadURL}" "${jarFile}" 'true'
 
