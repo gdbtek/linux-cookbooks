@@ -18,6 +18,7 @@ function install()
 
     local jarFile="${seleniumserverInstallFolder}/selenium-server-standalone.jar"
 
+    debug "\nDownloading '${seleniumserverDownloadURL}' to '${jarFile}'"
     curl -L "${seleniumserverDownloadURL}" -o "${jarFile}"
 
     # Add User
