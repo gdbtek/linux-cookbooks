@@ -7,7 +7,7 @@ seleniumserverDownloadURL='http://selenium-release.storage.googleapis.com/2.43/s
 seleniumserverInstallFolder='/opt/selenium-server'
 seleniumserverJDKInstallFolder="${jdkInstallFolder}"
 
-seleniumserverServiceName='selenium-server'
+seleniumserverServiceName='selenium-hub'
 
 seleniumserverUserName='selenium'
 seleniumserverGroupName='selenium'
