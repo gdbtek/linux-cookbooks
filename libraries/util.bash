@@ -146,24 +146,24 @@ function downloadFile()
 {
     local url="${1}"
     local destinationFile="${2}"
-    local override="${3}"
+    local overwrite="${3}"
 
     checkExistURL "${url}"
 
-    # Check Override
+    # Check Overwrite
 
-    if [[ "$(isEmptyString "${override}")" = 'true' ]]
+    if [[ "$(isEmptyString "${overwrite}")" = 'true' ]]
     then
-        override='false'
+        overwrite='false'
     fi
 
-    checkTrueFalseString "${override}"
+    checkTrueFalseString "${overwrite}"
 
     # Validate
 
     if [[ -f "${destinationFile}" ]]
     then
-        if [[ "${override}" = 'true' ]]
+        if [[ "${overwrite}" = 'true' ]]
         then
             rm -f "${destinationFile}"
         else
