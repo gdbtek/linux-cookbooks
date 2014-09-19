@@ -29,7 +29,6 @@ function install()
 
     local upstartConfigData=(
         '__INSTALL_FILE__' "${jarFile}"
-        '__JDK_INSTALL_FOLDER__' "${seleniumserverJDKInstallFolder}"
         '__USER_NAME__' "${seleniumserverUserName}"
         '__GROUP_NAME__' "${seleniumserverGroupName}"
     )
