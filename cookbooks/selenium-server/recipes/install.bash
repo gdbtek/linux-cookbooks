@@ -16,7 +16,7 @@ function install()
 
     # Install
 
-    local jarFile="${seleniumserverInstallFolder}/selenium-server-standalone.jar"
+    local jarFile="${seleniumserverInstallFolder}/selenium-server.jar"
 
     downloadFile "${seleniumserverDownloadURL}" "${jarFile}" 'true'
 
@@ -24,10 +24,21 @@ function install()
 
     addUser "${seleniumserverUserName}" "${seleniumserverGroupName}" 'false' 'true' 'false'
 
+    # Config Server
+
+    local configFile="${seleniumserverInstallFolder}/selenium-server.json"
+
+    local serverConfigData=(
+        '__PORT__' "${seleniumserverPort}"
+    )
+
+    createFileFromTemplate "${appPath}/../templates/default/selenium-server.json.conf" "${configFile}" "${serverConfigData[@]}"
+
     # Config Upstart
 
     local upstartConfigData=(
         '__INSTALL_FILE__' "${jarFile}"
+        '__CONFIG_FILE__' "${configFile}"
         '__USER_NAME__' "${seleniumserverUserName}"
         '__GROUP_NAME__' "${seleniumserverGroupName}"
     )
@@ -38,10 +49,6 @@ function install()
 
     chown -R "${seleniumserverUserName}:${seleniumserverGroupName}" "${seleniumserverInstallFolder}"
     start "${seleniumserverServiceName}"
-
-    # Display Version
-
-    # info "\n$("${seleniumserverInstallFolder}/bin/version.sh")"
 }
 
 function main()

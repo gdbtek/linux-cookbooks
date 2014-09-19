@@ -9,4 +9,4 @@ setgid '__GROUP_NAME__'
 respawn
 respawn limit 10 5
 
-exec java -jar '__INSTALL_FILE__' -role 'hub'
+exec java -jar '__INSTALL_FILE__' -role 'hub' -hubConfig '__CONFIG_FILE__'
