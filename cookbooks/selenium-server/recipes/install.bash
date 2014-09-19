@@ -18,8 +18,7 @@ function install()
 
     local jarFile="${seleniumserverInstallFolder}/selenium-server-standalone.jar"
 
-    debug "\nDownloading '${seleniumserverDownloadURL}' to '${jarFile}'"
-    curl -L "${seleniumserverDownloadURL}" -o "${jarFile}"
+    downloadFile "${seleniumserverDownloadURL}" "${jarFile}" 'true'
 
     # Add User
 
@@ -57,7 +56,7 @@ function main()
 
     header 'INSTALLING SELENIUM SERVER'
 
-    checkRequirePort "${seleniumserverAJPPort}" "${seleniumserverPort}"
+    checkRequirePort "${seleniumserverPort}"
 
     installDependencies
     install

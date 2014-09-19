@@ -142,6 +142,44 @@ function checkExistURL()
     fi
 }
 
+function downloadFile()
+{
+    local url="${1}"
+    local destinationFile="${2}"
+    local override="${3}"
+
+    checkExistURL "${url}"
+
+    # Check Override
+
+    if [[ "$(isEmptyString "${override}")" = 'true' ]]
+    then
+        override='false'
+    fi
+
+    checkTrueFalseString "${override}"
+
+    # Validate
+
+    if [[ -f "${destinationFile}" ]]
+    then
+        if [[ "${override}" = 'true' ]]
+        then
+            rm -f "${destinationFile}"
+        else
+            fatal "\nFATAL : file '${destinationFile}' found"
+        fi
+    elif [[ -e "${destinationFile}" ]]
+    then
+        fatal "\nFATAL : file '${destinationFile}' exists"
+    fi
+
+    # Download
+
+    debug "\nDownloading '${url}' to '${destinationFile}'"
+    curl -L "${url}" -o "${destinationFile}"
+}
+
 function existURL()
 {
     local url="${1}"
@@ -216,8 +254,7 @@ function unzipRemoteFile()
 
         local zipFile="${installFolder}/$(basename "${downloadURL}")"
 
-        debug "\nDownloading '${downloadURL}' to '${zipFile}'"
-        curl -L "${downloadURL}" -o "${zipFile}"
+        downloadFile "${downloadURL}" "${zipFile}" 'true'
         unzip -q "${zipFile}" -d "${installFolder}"
         rm -f "${zipFile}"
         echo

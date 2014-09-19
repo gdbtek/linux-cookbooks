@@ -20,11 +20,9 @@ function jenkinsMasterDownloadWARApp()
 
     checkNonEmptyString "${appName}"
     checkExistFile "${temporaryFile}"
-    checkExistURL "${jenkinsDownloadURL}"
     checkExistFolder "${jenkinsTomcatInstallFolder}/webapps"
 
-    debug "\nDownloading '${jenkinsDownloadURL}' to '${temporaryFile}'"
-    curl -L "${jenkinsDownloadURL}" -o "${temporaryFile}"
+    downloadFile "${jenkinsDownloadURL}" "${temporaryFile}" 'true'
     chown "${jenkinsUserName}:${jenkinsGroupName}" "${temporaryFile}"
     mv "${temporaryFile}" "${jenkinsTomcatInstallFolder}/webapps/${appName}.war"
     sleep 75

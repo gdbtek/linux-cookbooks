@@ -12,4 +12,4 @@ seleniumserverServiceName='selenium-server'
 seleniumserverUserName='selenium'
 seleniumserverGroupName='selenium'
 
-seleniumserverPort=8009
+seleniumserverPort=4444
