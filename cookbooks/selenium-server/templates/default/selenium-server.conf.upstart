@@ -9,4 +9,4 @@ setgid '__GROUP_NAME__'
 respawn
 respawn limit 10 5
 
-exec '__JDK_INSTALL_FOLDER__' -jar '__INSTALL_FOLDER__/' -role 'hub'
+exec '__JDK_INSTALL_FOLDER__' -jar '__INSTALL_FILE__' -role 'hub'

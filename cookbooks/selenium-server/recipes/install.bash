@@ -16,7 +16,9 @@ function install()
 
     # Install
 
-    curl -L "${seleniumserverDownloadURL}" -o "${seleniumserverInstallFolder}"
+    local jarFile="${seleniumserverInstallFolder}/selenium-server-standalone.jar"
+
+    curl -L "${seleniumserverDownloadURL}" -o "${jarFile}"
 
     # Add User
 
@@ -25,7 +27,7 @@ function install()
     # Config Upstart
 
     local upstartConfigData=(
-        '__INSTALL_FOLDER__' "${seleniumserverInstallFolder}"
+        '__INSTALL_FILE__' "${jarFile}"
         '__JDK_INSTALL_FOLDER__' "${seleniumserverJDKInstallFolder}"
         '__USER_NAME__' "${seleniumserverUserName}"
         '__GROUP_NAME__' "${seleniumserverGroupName}"
@@ -40,7 +42,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${seleniumserverInstallFolder}/bin/version.sh")"
+    # info "\n$("${seleniumserverInstallFolder}/bin/version.sh")"
 }
 
 function main()
