@@ -39,7 +39,7 @@ function install()
         '__GROUP_NAME__' "${seleniumserverGroupName}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/selenium-hub.conf.upstart" "/etc/init/${seleniumserverServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/selenium-server-hub.conf.upstart" "/etc/init/${seleniumserverServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
