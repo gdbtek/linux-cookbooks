@@ -19,6 +19,10 @@ function install()
     local tempZLIBFolder="$(getTemporaryFolder)"
     unzipRemoteFile "${nginxZLIBDownloadURL}" "${tempZLIBFolder}"
 
+    # Add User
+
+    addUser "${nginxUserName}" "${nginxGroupName}" 'false' 'true' 'false'
+
     # Install
 
     local currentPath="$(pwd)"
@@ -55,7 +59,6 @@ function install()
 
     # Start
 
-    addUser "${nginxUserName}" "${nginxGroupName}" 'false' 'true' 'false'
     chown -R "${nginxUserName}:${nginxGroupName}" "${nginxInstallFolder}"
     start "${nginxServiceName}"
 
