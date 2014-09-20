@@ -24,7 +24,7 @@ function main()
     checkRequirePort "${seleniumserverPort}"
 
     installDependencies
-    install
+    install 'hub'
     installCleanUp
 
     displayOpenPorts

@@ -8,62 +8,23 @@ function installDependencies()
     fi
 }
 
-function install()
-{
-    # Clean Up
-
-    initializeFolder "${seleniumserverInstallFolder}"
-
-    # Install
-
-    local jarFile="${seleniumserverInstallFolder}/selenium-server.jar"
-
-    downloadFile "${seleniumserverDownloadURL}" "${jarFile}" 'true'
-
-    # Config Server
-
-    local configFile="${seleniumserverInstallFolder}/selenium-server-hub.json"
-
-    local serverConfigData=(
-        '__PORT__' "${seleniumserverPort}"
-    )
-
-    createFileFromTemplate "${appPath}/../templates/default/selenium-server-hub.json.conf" "${configFile}" "${serverConfigData[@]}"
-
-    # Config Upstart
-
-    local upstartConfigData=(
-        '__INSTALL_FILE__' "${jarFile}"
-        '__CONFIG_FILE__' "${configFile}"
-        '__USER_NAME__' "${seleniumserverUserName}"
-        '__GROUP_NAME__' "${seleniumserverGroupName}"
-    )
-
-    createFileFromTemplate "${appPath}/../templates/default/selenium-server-hub.conf.upstart" "/etc/init/${seleniumserverServiceName}.conf" "${upstartConfigData[@]}"
-
-    # Start
-
-    addUser "${seleniumserverUserName}" "${seleniumserverGroupName}" 'false' 'true' 'false'
-    chown -R "${seleniumserverUserName}:${seleniumserverGroupName}" "${seleniumserverInstallFolder}"
-    start "${seleniumserverServiceName}"
-}
-
 function main()
 {
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/hub.bash"
+    source "${appPath}/../attributes/node.bash"
+    source "${appPath}/../libraries/util.bash"
 
     checkRequireSystem
     checkRequireRootUser
 
-    header 'INSTALLING SELENIUM-SERVER (HUB)'
+    header 'INSTALLING NODE SELENIUM-SERVER'
 
     checkRequirePort "${seleniumserverPort}"
 
     installDependencies
-    install
+    install 'node'
     installCleanUp
 
     displayOpenPorts
