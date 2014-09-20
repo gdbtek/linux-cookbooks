@@ -20,10 +20,6 @@ function install()
 
     downloadFile "${seleniumserverDownloadURL}" "${jarFile}" 'true'
 
-    # Add User
-
-    addUser "${seleniumserverUserName}" "${seleniumserverGroupName}" 'false' 'true' 'false'
-
     # Config Server
 
     local configFile="${seleniumserverInstallFolder}/selenium-server.json"
@@ -47,6 +43,7 @@ function install()
 
     # Start
 
+    addUser "${seleniumserverUserName}" "${seleniumserverGroupName}" 'false' 'true' 'false'
     chown -R "${seleniumserverUserName}:${seleniumserverGroupName}" "${seleniumserverInstallFolder}"
     start "${seleniumserverServiceName}"
 }

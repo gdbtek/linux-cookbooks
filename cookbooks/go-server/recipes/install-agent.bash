@@ -16,7 +16,6 @@ function install()
 
     # Install
 
-    addUser "${goserverUserName}" "${goserverGroupName}" 'true' 'false' 'true'
     unzipRemoteFile "${goserverAgentDownloadURL}" "${goserverAgentInstallFolder}"
 
     local unzipFolderName="$(ls -d ${goserverAgentInstallFolder}/*/ 2> '/dev/null')"
@@ -32,6 +31,7 @@ function install()
     fi
 
     mv ${unzipFolderName}* "${goserverAgentInstallFolder}"
+    addUser "${goserverUserName}" "${goserverGroupName}" 'true' 'false' 'true'
     chown -R "${goserverUserName}:${goserverGroupName}" "${goserverAgentInstallFolder}"
     rm -f -r "${unzipFolderName}"
 }
