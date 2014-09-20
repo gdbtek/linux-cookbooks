@@ -22,13 +22,13 @@ function install()
 
     # Config Server
 
-    local configFile="${seleniumserverInstallFolder}/selenium-hub.json"
+    local configFile="${seleniumserverInstallFolder}/selenium-server-hub.json"
 
     local serverConfigData=(
         '__PORT__' "${seleniumserverPort}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/selenium-hub.json.conf" "${configFile}" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/selenium-server-hub.json.conf" "${configFile}" "${serverConfigData[@]}"
 
     # Config Upstart
 
@@ -39,7 +39,7 @@ function install()
         '__GROUP_NAME__' "${seleniumserverGroupName}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/selenium-hub.conf.upstart" "/etc/init/${seleniumserverServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/selenium-server-hub.conf.upstart" "/etc/init/${seleniumserverServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
@@ -53,12 +53,12 @@ function main()
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appPath}/../attributes/hub.bash"
 
     checkRequireSystem
     checkRequireRootUser
 
-    header 'INSTALLING SELENIUM-SERVER (NODE)'
+    header 'INSTALLING SELENIUM-SERVER (HUB)'
 
     checkRequirePort "${seleniumserverPort}"
 
