@@ -22,13 +22,13 @@ function install()
 
     # Config Server
 
-    local configFile="${seleniumserverInstallFolder}/selenium-server.json"
+    local configFile="${seleniumserverInstallFolder}/selenium-hub.json"
 
     local serverConfigData=(
         '__PORT__' "${seleniumserverPort}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/selenium-server.json.conf" "${configFile}" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/selenium-hub.json.conf" "${configFile}" "${serverConfigData[@]}"
 
     # Config Upstart
 
@@ -39,7 +39,7 @@ function install()
         '__GROUP_NAME__' "${seleniumserverGroupName}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/selenium-server.conf.upstart" "/etc/init/${seleniumserverServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/selenium-hub.conf.upstart" "/etc/init/${seleniumserverServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
@@ -58,7 +58,7 @@ function main()
     checkRequireSystem
     checkRequireRootUser
 
-    header 'INSTALLING SELENIUM SERVER (HUB)'
+    header 'INSTALLING SELENIUM-SERVER (NODE)'
 
     checkRequirePort "${seleniumserverPort}"
 

@@ -1,4 +1,4 @@
-description 'Selenium Server'
+description 'Selenium Server (Hub)'
 
 start on started mountall
 stop on shutdown

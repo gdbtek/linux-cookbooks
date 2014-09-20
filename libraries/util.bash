@@ -232,9 +232,7 @@ function unzipRemoteFile()
 
     # Unzip
 
-    if [[ "$(echo "${extension}" | grep -i '^tgz$')" != '' ||
-          "$(echo "${extension}" | grep -i '^tar\.gz$')" != '' ||
-          "$(echo "${exExtension}" | grep -i '^tar\.gz$')" != '' ]]
+    if [[ "$(echo "${extension}" | grep -i '^tgz$')" != '' || "$(echo "${extension}" | grep -i '^tar\.gz$')" != '' || "$(echo "${exExtension}" | grep -i '^tar\.gz$')" != '' ]]
     then
         debug "\nDownloading '${downloadURL}'"
         curl -L "${downloadURL}" | tar -C "${installFolder}" -x -z --strip 1
