@@ -4,12 +4,12 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
 seleniumserverDownloadURL='http://selenium-release.storage.googleapis.com/2.43/selenium-server-standalone-2.43.1.jar'
 
-seleniumserverInstallFolder='/opt/selenium-server'
+seleniumserverInstallFolder='/opt/selenium-server/node'
 seleniumserverJDKInstallFolder="${jdkInstallFolder}"
 
-seleniumserverServiceName='selenium-node'
+seleniumserverServiceName='selenium-server-node'
 
 seleniumserverUserName='selenium'
 seleniumserverGroupName='selenium'
 
-seleniumserverPort=4444
+seleniumserverPort=5555

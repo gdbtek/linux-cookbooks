@@ -22,13 +22,13 @@ function install()
 
     # Config Server
 
-    local configFile="${seleniumserverInstallFolder}/selenium-hub.json"
+    local configFile="${seleniumserverInstallFolder}/selenium-server-hub.json"
 
     local serverConfigData=(
         '__PORT__' "${seleniumserverPort}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/selenium-hub.json.conf" "${configFile}" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/selenium-server-hub.json.conf" "${configFile}" "${serverConfigData[@]}"
 
     # Config Upstart
 

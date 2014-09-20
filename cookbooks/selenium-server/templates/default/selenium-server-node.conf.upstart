@@ -1,0 +1,12 @@
+description 'Selenium Server (Node)'
+
+start on started mountall
+stop on shutdown
+
+setuid '__USER_NAME__'
+setgid '__GROUP_NAME__'
+
+respawn
+respawn limit 10 5
+
+exec java -jar '__INSTALL_FILE__' -role 'node' -nodeConfig '__CONFIG_FILE__'
