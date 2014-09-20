@@ -61,7 +61,7 @@ function main()
     checkRequireSystem
     checkRequireRootUser
 
-    header 'INSTALLING SELENIUM SERVER'
+    header 'INSTALLING SELENIUM SERVER (HUB)'
 
     checkRequirePort "${seleniumserverPort}"
 
