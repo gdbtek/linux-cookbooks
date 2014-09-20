@@ -13,8 +13,6 @@ respawn limit 10 5
 exec $DAEMON
 
 pre-start script
-    rm -f -r __INSTALL_FOLDER__/logs/* __INSTALL_FOLDER__/*_temp/*
-
     $DAEMON -t
 
     if [ $? -ne 0 ]
