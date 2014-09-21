@@ -796,7 +796,7 @@ function configUserSSH()
     mkdir -p "${userHome}/.ssh"
     chmod 700 "${userHome}/.ssh"
 
-    echo "${sshRSA}" >> "${userHome}/.ssh/${configFileName}"
+    appendToFileIfNotFound "${userHome}/.ssh/${configFileName}" "${sshRSA}" "${sshRSA}" 'false' 'false'
     chmod 600 "${userHome}/.ssh/${configFileName}"
 
     chown -R "${userLogin}:${groupName}" "${userHome}/.ssh"
