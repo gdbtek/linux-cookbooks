@@ -7,7 +7,7 @@ function main()
     source "${appPath}/../../../../../cookbooks/jenkins/attributes/slave.bash"
     source "${appPath}/../../../../../cookbooks/mount-hd/attributes/default.bash"
     source "${appPath}/../../../../../libraries/util.bash"
-    source "${appPath}/../../libraries/util.bash"
+    source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/slave.bash"
 
     extendOPTPartition "${ccmuiJenkinsDisk}" "${ccmuiJenkinsMountOn}" "${mounthdPartitionNumber}"
