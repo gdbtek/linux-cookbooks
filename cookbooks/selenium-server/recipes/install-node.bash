@@ -8,6 +8,28 @@ function installDependencies()
     fi
 }
 
+function install()
+{
+    local hubHost="${1}"
+
+    # Override Default
+
+    if [[ "$(isEmptyString "${hubHost}")" = 'false' ]]
+    then
+        seleniumserverHubHost="${hubHost}"
+    fi
+
+    # Install Role
+
+    local serverConfigData=(
+        '__PORT__' "${seleniumserverPort}"
+        '__HUB_PORT__' "${seleniumserverHubPort}"
+        '__HUB_HOST__' "${seleniumserverHubHost}"
+    )
+
+    installRole 'node' "${serverConfigData[@]}"
+}
+
 function main()
 {
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -24,7 +46,7 @@ function main()
     checkRequirePort "${seleniumserverPort}"
 
     installDependencies
-    install 'node'
+    install "${@}"
     installCleanUp
 
     displayOpenPorts

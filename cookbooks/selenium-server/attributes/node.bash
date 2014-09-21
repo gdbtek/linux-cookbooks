@@ -13,3 +13,5 @@ seleniumserverUserName='selenium'
 seleniumserverGroupName='selenium'
 
 seleniumserverPort=5555
+seleniumserverHubPort=4444
+seleniumserverHubHost='127.0.0.1'
