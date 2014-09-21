@@ -19,6 +19,8 @@ function install()
         seleniumserverHubHost="${hubHost}"
     fi
 
+    checkNonEmptyString "${seleniumserverHubHost}" 'undefined hub host'
+
     # Install Role
 
     local serverConfigData=(
