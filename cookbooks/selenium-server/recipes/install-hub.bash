@@ -8,6 +8,15 @@ function installDependencies()
     fi
 }
 
+function install()
+{
+    local serverConfigData=(
+        '__PORT__' "${seleniumserverPort}"
+    )
+
+    installRole 'hub' "${serverConfigData[@]}"
+}
+
 function main()
 {
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -24,7 +33,7 @@ function main()
     checkRequirePort "${seleniumserverPort}"
 
     installDependencies
-    install 'hub'
+    install
     installCleanUp
 
     displayOpenPorts

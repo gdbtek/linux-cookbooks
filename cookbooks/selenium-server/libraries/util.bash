@@ -2,10 +2,12 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
-
-function install()
+function installRole()
 {
     local role="${1}"
+    local serverConfigData=("${@:2}")
+
+    checkNonEmptyString "${role}" 'undefined role'
 
     source "$(dirname "${BASH_SOURCE[0]}")/../attributes/${role}.bash"
 
@@ -23,11 +25,7 @@ function install()
 
     local configFile="${seleniumserverInstallFolder}/selenium-server-${role}.json"
 
-    local serverConfigData=(
-        '__PORT__' "${seleniumserverPort}"
-    )
-
-    createFileFromTemplate "${appPath}/../templates/default/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigData[@]}"
 
     # Config Upstart
 
@@ -38,7 +36,7 @@ function install()
         '__GROUP_NAME__' "${seleniumserverGroupName}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/selenium-server-${role}.conf.upstart" "/etc/init/${seleniumserverServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.conf.upstart" "/etc/init/${seleniumserverServiceName}.conf" "${upstartConfigData[@]}"
 
     # Start
 
