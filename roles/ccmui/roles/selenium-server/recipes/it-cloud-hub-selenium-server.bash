@@ -12,8 +12,9 @@ function main()
     extendOPTPartition "${ccmuiSeleniumServerDisk}" "${ccmuiSeleniumServerMountOn}" "${mounthdPartitionNumber}"
 
     "${appPath}/../../../../essential.bash"
+    "${appPath}/../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
 
-    # Config SSH and GIT
+    # Clean Up and Config SSH
 
     cleanUp
     addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
