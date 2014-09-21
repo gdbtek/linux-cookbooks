@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../../../libraries/util.bash"
+source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
 function cleanUp
 {
@@ -38,7 +38,7 @@ function extendOPTPartition()
         if [[ "$(existDiskMount "${disk}${mounthdPartitionNumber}" "${mountOn}")" = 'false' ]]
         then
             rm -f -r "${mountOn}"
-            "$(dirname "${BASH_SOURCE[0]}")/../../../../cookbooks/mount-hd/recipes/install.bash" "${disk}" "${mountOn}"
+            "$(dirname "${BASH_SOURCE[0]}")/../../../cookbooks/mount-hd/recipes/install.bash" "${disk}" "${mountOn}"
         else
             header 'EXTENDING OPT PARTITION'
             info "Already mounted '${disk}${mounthdPartitionNumber}' to '${mountOn}'\n"

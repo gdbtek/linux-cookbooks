@@ -4,22 +4,22 @@ function main()
 {
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+    source "${appPath}/../../../../../cookbooks/jenkins/attributes/master.bash"
+    source "${appPath}/../../../../../cookbooks/mount-hd/attributes/default.bash"
+    source "${appPath}/../../../../../cookbooks/nginx/attributes/default.bash"
+    source "${appPath}/../../../../../libraries/util.bash"
+    source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/master.bash"
-    source "${appPath}/../../../../cookbooks/jenkins/attributes/master.bash"
-    source "${appPath}/../../../../cookbooks/mount-hd/attributes/default.bash"
-    source "${appPath}/../../../../cookbooks/nginx/attributes/default.bash"
-    source "${appPath}/../../../../libraries/util.bash"
-    source "${appPath}/../libraries/util.bash"
 
     extendOPTPartition "${ccmuiJenkinsDisk}" "${ccmuiJenkinsMountOn}" "${mounthdPartitionNumber}"
 
-    "${appPath}/../../../essential.bash"
-    "${appPath}/../../../../cookbooks/maven/recipes/install.bash"
-    "${appPath}/../../../../cookbooks/node-js/recipes/install.bash"
-    "${appPath}/../../../../cookbooks/jenkins/recipes/install-master.bash"
-    "${appPath}/../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${ccmuiJenkinsInstallPlugins[@]}"
-    "${appPath}/../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
-    "${appPath}/../../../../cookbooks/ps1/recipes/install.bash" "${jenkinsUserName}"
+    "${appPath}/../../../../essential.bash"
+    "${appPath}/../../../../../cookbooks/maven/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/jenkins/recipes/install-master.bash"
+    "${appPath}/../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${ccmuiJenkinsInstallPlugins[@]}"
+    "${appPath}/../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
+    "${appPath}/../../../../../cookbooks/ps1/recipes/install.bash" "${jenkinsUserName}"
 
     # Config SSH and GIT
 
@@ -33,7 +33,7 @@ function main()
 
     # Config Nginx
 
-    "${appPath}/../../../../cookbooks/nginx/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/nginx/recipes/install.bash"
 
     header 'CONFIGURING NGINX PROXY'
 
