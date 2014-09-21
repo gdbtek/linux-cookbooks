@@ -11,8 +11,22 @@ function appendToFileIfNotFound()
     local string="${3}"
     local patternAsRegex="${4}"
     local stringAsRegex="${5}"
+    local addNewLine="${6}"
+
+    # Validate Inputs
 
     checkExistFile "${file}"
+    checkNonEmptyString "${pattern}" 'undefined pattern'
+    checkNonEmptyString "${string}" 'undefined string'
+    checkTrueFalseString "${patternAsRegex}"
+    checkTrueFalseString "${stringAsRegex}"
+
+    if [[ "${stringAsRegex}" = 'false' ]]
+    then
+        checkTrueFalseString "${addNewLine}"
+    fi
+
+    # Append String
 
     local grepOption='-F -o'
 
@@ -29,7 +43,11 @@ function appendToFileIfNotFound()
         then
             echo -e "${string}" >> "${file}"
         else
-            echo >> "${file}"
+            if [[ "${addNewLine}" = 'true' ]]
+            then
+                echo >> "${file}"
+            fi
+
             echo "${string}" >> "${file}"
         fi
     fi
@@ -796,7 +814,7 @@ function configUserSSH()
     mkdir -p "${userHome}/.ssh"
     chmod 700 "${userHome}/.ssh"
 
-    appendToFileIfNotFound "${userHome}/.ssh/${configFileName}" "${sshRSA}" "${sshRSA}" 'false' 'false'
+    appendToFileIfNotFound "${userHome}/.ssh/${configFileName}" "${sshRSA}" "${sshRSA}" 'false' 'false' 'false'
     chmod 600 "${userHome}/.ssh/${configFileName}"
 
     chown -R "${userLogin}:${groupName}" "${userHome}/.ssh"

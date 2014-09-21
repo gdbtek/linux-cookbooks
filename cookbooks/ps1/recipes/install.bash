@@ -29,7 +29,7 @@ function install()
                 chown "${user}:${user}" "${profileFile}"
             fi
 
-            appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false'
+            appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false' 'true'
         else
             warn "WARN : profile '${user}' not found"
         fi
