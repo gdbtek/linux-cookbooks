@@ -4,6 +4,7 @@ essentialPackages=(
     'curl'
     'git'
     'iptables'
+    'logrotate'
     'rsync'
     'screen'
     'sysv-rc-conf'
