@@ -814,6 +814,7 @@ function configUserSSH()
     mkdir -p "${userHome}/.ssh"
     chmod 700 "${userHome}/.ssh"
 
+    touch "${userHome}/.ssh/${configFileName}"
     appendToFileIfNotFound "${userHome}/.ssh/${configFileName}" "${sshRSA}" "${sshRSA}" 'false' 'false' 'false'
     chmod 600 "${userHome}/.ssh/${configFileName}"
 
