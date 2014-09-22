@@ -16,7 +16,7 @@ function main()
 
     extendOPTPartition "${ccmuiJenkinsDisk}" "${ccmuiJenkinsMountOn}" "${mounthdPartitionNumber}"
 
-    # Install Role
+    # Install Apps
 
     "${appPath}/../../../../essential.bash"
     "${appPath}/../../../../../cookbooks/maven/recipes/install.bash"

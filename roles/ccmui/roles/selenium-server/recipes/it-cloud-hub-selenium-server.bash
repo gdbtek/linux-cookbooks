@@ -15,7 +15,7 @@ function main()
 
     extendOPTPartition "${ccmuiSeleniumServerDisk}" "${ccmuiSeleniumServerMountOn}" "${mounthdPartitionNumber}"
 
-    # Install Role
+    # Install Apps
 
     "${appPath}/../../../../essential.bash"
     "${appPath}/../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
