@@ -15,6 +15,7 @@ env JAVA_HOME='__JDK_INSTALL_FOLDER__'
 
 exec "${CATALINA_HOME}/bin/catalina.sh" run
 
-pre-start script
-    rm -f -r ${CATALINA_HOME}/logs/* ${CATALINA_HOME}/temp/*
+post-stop script
+    cd "${CATALINA_HOME}/logs" && find '.' ! -name '.' -delete
+    cd "${CATALINA_HOME}/temp" && find '.' ! -name '.' -delete
 end script
