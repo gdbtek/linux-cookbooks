@@ -19,8 +19,3 @@ pre-start script
         then exit $?
     fi
 end script
-
-post-stop script
-    rm -f -r __INSTALL_FOLDER__/*_temp
-    cd "__INSTALL_FOLDER__/logs" && find '.' ! -name '.' -delete
-end script
