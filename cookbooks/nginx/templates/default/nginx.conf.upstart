@@ -3,22 +3,12 @@ description 'Nginx Server'
 start on started mountall
 stop on shutdown
 
-env DAEMON='__INSTALL_FOLDER__/sbin/nginx'
-
 expect fork
 
 respawn
 respawn limit 10 5
 
-exec $DAEMON
-
-pre-start script
-    $DAEMON -t
-
-    if [ $? -ne 0 ]
-        then exit $?
-    fi
-end script
+exec '__INSTALL_FOLDER__/sbin/nginx'
 
 post-stop script
     rm -f -r __INSTALL_FOLDER__/*_temp
