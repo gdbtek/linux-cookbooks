@@ -2,7 +2,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
-function cleanUp
+function cleanUpITMess
 {
     header 'CLEANING UP'
 

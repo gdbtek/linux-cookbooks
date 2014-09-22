@@ -4,6 +4,8 @@ function main()
 {
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+    source "${appPath}/../../libraries/util.bash"
+
     # "${appPath}/../../cookbooks/apt-source/recipes/install.bash"
 
     "${appPath}/../essential.bash"
@@ -15,6 +17,8 @@ function main()
     "${appPath}/../../cookbooks/mongodb/recipes/install.bash"
     "${appPath}/../../cookbooks/jdk/recipes/install.bash"
     "${appPath}/../../cookbooks/ps1/recipes/install.bash" 'nam' 'ubuntu'
+
+    cleanUpSystemFolders
 }
 
 main "${@}"

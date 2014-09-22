@@ -29,8 +29,6 @@ function main()
 
     # Config SSH and GIT
 
-    cleanUp
-
     addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
     addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/known_hosts")"
 
@@ -52,6 +50,11 @@ function main()
 
     stop "${nginxServiceName}"
     start "${nginxServiceName}"
+
+    # Clean Up
+
+    cleanUpITMess
+    cleanUpSystemFolders
 
     # Display Notice
 

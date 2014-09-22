@@ -20,10 +20,14 @@ function main()
     "${appPath}/../../../../essential.bash"
     "${appPath}/../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
 
-    # Clean Up and Config SSH
+    # Config SSH
 
-    cleanUp
     addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
+
+    # Clean Up
+
+    cleanUpITMess
+    cleanUpSystemFolders
 }
 
 main "${@}"
