@@ -2,6 +2,8 @@
 
 function main()
 {
+    # Load Libraries
+
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../../../cookbooks/jenkins/attributes/slave.bash"
@@ -10,13 +12,19 @@ function main()
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/slave.bash"
 
+    # Extend HD
+
     extendOPTPartition "${ccmuiJenkinsDisk}" "${ccmuiJenkinsMountOn}" "${mounthdPartitionNumber}"
+
+    # Install Role
 
     "${appPath}/../../../../essential.bash"
     "${appPath}/../../../../../cookbooks/maven/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/install-slave.bash"
     "${appPath}/../../../../../cookbooks/ps1/recipes/install.bash" "${jenkinsUserName}"
+
+    # Config SSH and GIT
 
     cleanUp
 
@@ -25,6 +33,8 @@ function main()
 
     configUserGIT "${jenkinsUserName}" "${ccmuiJenkinsGITUserName}" "${ccmuiJenkinsGITUserEmail}"
     generateUserSSHKey "${jenkinsUserName}"
+
+    # Display Notice
 
     displayNotice "${jenkinsUserName}"
 }

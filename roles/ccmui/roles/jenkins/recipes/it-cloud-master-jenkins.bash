@@ -2,6 +2,8 @@
 
 function main()
 {
+    # Load Libraries
+
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../../../cookbooks/jenkins/attributes/master.bash"
@@ -11,7 +13,11 @@ function main()
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/master.bash"
 
+    # Extend HD
+
     extendOPTPartition "${ccmuiJenkinsDisk}" "${ccmuiJenkinsMountOn}" "${mounthdPartitionNumber}"
+
+    # Install Role
 
     "${appPath}/../../../../essential.bash"
     "${appPath}/../../../../../cookbooks/maven/recipes/install.bash"

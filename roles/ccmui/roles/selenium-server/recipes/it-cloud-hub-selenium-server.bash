@@ -2,6 +2,8 @@
 
 function main()
 {
+    # Load Libraries
+
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../../../cookbooks/mount-hd/attributes/default.bash"
@@ -9,7 +11,11 @@ function main()
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/hub.bash"
 
+    # Extend HD
+
     extendOPTPartition "${ccmuiSeleniumServerDisk}" "${ccmuiSeleniumServerMountOn}" "${mounthdPartitionNumber}"
+
+    # Install Role
 
     "${appPath}/../../../../essential.bash"
     "${appPath}/../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
