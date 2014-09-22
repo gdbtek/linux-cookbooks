@@ -774,6 +774,24 @@ function checkRequireUserLogin()
     fi
 }
 
+function cleanUpSystemFolders()
+{
+    header "CLEANING UP SYSTEM FOLDERS"
+
+    local folders=(
+        '/tmp'
+        '/var/tmp'
+    )
+
+    local folder=''
+
+    for folder in "${folders[@]}"
+    do
+        echo "Cleaning up folder '${folder}'"
+        emptyFolder "${folder}"
+    done
+}
+
 function configUserGIT()
 {
     local userLogin="${1}"
