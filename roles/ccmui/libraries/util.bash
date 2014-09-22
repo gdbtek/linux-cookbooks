@@ -4,7 +4,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
 function cleanUpITMess
 {
-    header 'CLEANING UP'
+    header 'CLEANING UP IT MESS'
 
     deleteUser 'itcloud'
     rm -f -r '/home/ubuntu' '/opt/chef' '/opt/lost+found'
