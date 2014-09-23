@@ -30,6 +30,7 @@ jenkinsInstallPlugins=(
     'dashboard-view'
     'disk-usage'
     'email-ext'
+    'embeddable-build-status'
     'envinject'
     'external-monitor-job'
     'git'
