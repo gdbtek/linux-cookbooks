@@ -14,7 +14,7 @@ function refreshUpdateCenter()
     # Validate JSON Content
 
     local updateInfo="$(getRemoteFileContent "${jenkinsUpdateCenterURL}")"
-    updateInfo="$(echo "${updateInfo}" | sed '1d;$d')"
+    updateInfo="$(sed '1d;$d' <<< "${updateInfo}")"
 
     checkValidJSONContent "${updateInfo}"
 

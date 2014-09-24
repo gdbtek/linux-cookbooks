@@ -19,7 +19,7 @@ function install()
         nodejsVersion="$(getLatestVersionNumber)"
         local url="http://nodejs.org/dist/latest/node-${nodejsVersion}-linux-x64.tar.gz"
     else
-        if [[ "$(echo "${nodejsVersion}" | grep -o '^v')" = '' ]]
+        if [[ "$(grep -o '^v' <<< "${nodejsVersion}")" = '' ]]
         then
             nodejsVersion="v${nodejsVersion}"
         fi
@@ -46,7 +46,7 @@ function getLatestVersionNumber()
     local versionPattern='v[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,3}'
     local shaSum256="$(getRemoteFileContent 'http://nodejs.org/dist/latest/SHASUMS256.txt.asc')"
 
-    echo "${shaSum256}" | grep -E -o "node-${versionPattern}\.tar\.gz" | grep -E -o "${versionPattern}"
+    grep -E -o "node-${versionPattern}\.tar\.gz" <<< "${shaSum256}" | grep -E -o "${versionPattern}"
 }
 
 function main()

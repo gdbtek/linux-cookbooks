@@ -20,7 +20,7 @@ function install()
 
     local unzipFolderName="$(ls -d ${goserverServerInstallFolder}/*/ 2> '/dev/null')"
 
-    if [[ "$(isEmptyString "${unzipFolderName}")" = 'true' || "$(echo "${unzipFolderName}" | wc -l)" != '1' ]]
+    if [[ "$(isEmptyString "${unzipFolderName}")" = 'true' || "$(wc -l <<< "${unzipFolderName}")" != '1' ]]
     then
         fatal 'FATAL : multiple unzip folder names found'
     fi
