@@ -28,14 +28,14 @@ function appendToFileIfNotFound()
 
     # Append String
 
-    local grepOption='-F -o'
+    local grepOptions=('-F' '-o')
 
     if [[ "${patternAsRegex}" = 'true' ]]
     then
-        grepOption='-E -o'
+        grepOptions=('-E' '-o')
     fi
 
-    local found="$(grep ${grepOption} "${pattern}" "${file}")"
+    local found="$(grep "${grepOptions[@]}" "${pattern}" "${file}")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -90,7 +90,7 @@ function createFileFromTemplate()
         local oldValue="$(escapeSearchPattern "${data[${i}]}")"
         local newValue="$(escapeSearchPattern "${data[${i} + 1]}")"
 
-        content="$(echo "${content}" | sed "s@${oldValue}@${newValue}@g")"
+        content="$(sed "s@${oldValue}@${newValue}@g" <<< "${content}")"
     done
 
     echo "${content}" > "${destinationFile}"
@@ -114,7 +114,7 @@ function isValidJSONContent()
 {
     local content="${1}"
 
-    if ( echo "${content}" | python -m 'json.tool' &> '/dev/null' )
+    if ( python -m 'json.tool' <<< "${content}" &> '/dev/null' )
     then
         echo 'true'
     else
@@ -245,17 +245,17 @@ function unzipRemoteFile()
     if [[ "$(isEmptyString "${extension}")" = 'true' ]]
     then
         extension="$(getFileExtension "${downloadURL}")"
-        exExtension="$(echo "${downloadURL}" | rev | cut -d '.' -f 1-2 | rev)"
+        exExtension="$(rev <<< "${downloadURL}" | cut -d '.' -f 1-2 | rev)"
     fi
 
     # Unzip
 
-    if [[ "$(echo "${extension}" | grep -i '^tgz$')" != '' || "$(echo "${extension}" | grep -i '^tar\.gz$')" != '' || "$(echo "${exExtension}" | grep -i '^tar\.gz$')" != '' ]]
+    if [[ "$(grep -i '^tgz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${exExtension}")" != '' ]]
     then
         debug "\nDownloading '${downloadURL}'"
         curl -L "${downloadURL}" | tar -C "${installFolder}" -x -z --strip 1
         echo
-    elif [[ "$(echo "${extension}" | grep -i '^zip$')" != '' ]]
+    elif [[ "$(grep -i '^zip$' <<< "${extension}")" != '' ]]
     then
         # Install Unzip
 
@@ -288,7 +288,7 @@ function getLastAptGetUpdate()
     local aptDate="$(stat -c %Y '/var/cache/apt')"
     local nowDate="$(date +'%s')"
 
-    echo $((${nowDate} - ${aptDate}))
+    echo $((nowDate - aptDate))
 }
 
 function installAptGetPackage()
@@ -515,7 +515,9 @@ function error()
 
 function escapeSearchPattern()
 {
-    echo "$(echo "${1}" | sed "s@\[@\\\\[@g" | sed "s@\*@\\\\*@g" | sed "s@\%@\\\\%@g")"
+    local searchPattern="${1}"
+
+    sed -e "s@\[@\\\\[@g" -e "s@\*@\\\\*@g" -e "s@\%@\\\\%@g" <<< "${searchPattern}"
 }
 
 function fatal()
@@ -528,12 +530,12 @@ function formatPath()
 {
     local path="${1}"
 
-    while [[ "$(echo "${path}" | grep -F '//')" != '' ]]
+    while [[ "$(grep -F '//' <<< "${path}")" != '' ]]
     do
-        path="$(echo "${path}" | sed -e 's/\/\/*/\//g')"
+        path="$(sed -e 's/\/\/*/\//g' <<< "${path}")"
     done
 
-    echo "${path}" | sed -e 's/\/$//g'
+    sed -e 's/\/$//g' <<< "${path}"
 }
 
 function header()
@@ -572,7 +574,9 @@ function isEmptyString()
 
 function trimString()
 {
-    echo "${1}" | sed -e 's/^ *//g' -e 's/ *$//g'
+    local string="${1}"
+
+    sed -e 's/^ *//g' -e 's/ *$//g' <<< "${string}"
 }
 
 function warn()
@@ -729,7 +733,7 @@ function checkRequirePort()
 
     for port in ${ports}
     do
-        local found="$(echo "${status}" | grep -i ":${port} (LISTEN)$")"
+        local found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]
         then
@@ -740,7 +744,7 @@ function checkRequirePort()
     if [[ "$(isEmptyString "${open}")" = 'false' ]]
     then
         echo -e    "\033[1;31mFollowing ports are still opened. Make sure you uninstall or stop them before a new installation!\033[0m"
-        echo -e -n "\033[1;34m\n$(echo "${status}" | grep "${headerRegex}")\033[0m"
+        echo -e -n "\033[1;34m\n$(grep "${headerRegex}" <<< "${status}")\033[0m"
         echo -e    "\033[1;36m${open}\033[0m\n"
         exit 1
     fi
@@ -1013,17 +1017,17 @@ function getTemporaryFile()
 {
     local extension="${1}"
 
-    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(echo "${extension}" | grep -i -o "^.")" != '.' ]]
+    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(grep -i -o "^." <<< "${extension}")" != '.' ]]
     then
         extension=".${extension}"
     fi
 
-    mktemp "$(getTemporaryFolderRoot)/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX${extension}"
+    mktemp "$(getTemporaryFolderRoot)/$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX${extension}"
 }
 
 function getTemporaryFolder()
 {
-    mktemp -d "$(getTemporaryFolderRoot)/$(date +%m%d%Y_%H%M%S)_XXXXXXXXXX"
+    mktemp -d "$(getTemporaryFolderRoot)/$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX"
 }
 
 function getTemporaryFolderRoot()
