@@ -139,15 +139,12 @@ function symlinkLocalBin()
 {
     local sourceBinFolder="${1}"
 
-    local file=''
-
-    for file in $(find "${sourceBinFolder}" -maxdepth 1 -xtype f -perm -u+x)
-    do
-        local localBinFile="/usr/local/bin/$(basename "${file}")"
-
-        rm -f "${localBinFile}"
-        ln -s "${file}" "${localBinFile}"
-    done
+    find "${sourceBinFolder}" -maxdepth 1 -xtype f -perm -u+x -exec bash -c -e '
+        for file
+        do
+            rm -f "/usr/local/bin/$(basename "${file}")"
+            ln -s "${file}" "/usr/local/bin/$(basename "${file}")"
+        done' \;
 }
 
 #########################
@@ -744,14 +741,14 @@ function checkExistUserLogin()
 
 function checkRequirePort()
 {
-    local ports="${@}"
+    local ports=("${@}")
 
     local headerRegex='^COMMAND\s\+PID\s\+USER\s\+FD\s\+TYPE\s\+DEVICE\s\+SIZE\/OFF\s\+NODE\s\+NAME$'
     local status="$(lsof -i -n -P | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
     local open=''
     local port=''
 
-    for port in ${ports}
+    for port in "${ports[@]}"
     do
         local found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
 
