@@ -306,11 +306,13 @@ function installAptGetPackage()
 
 function installAptGetPackages()
 {
-    runAptGetUpdate "$@"
+    local packages=("${@}")
+
+    runAptGetUpdate ''
 
     local package=''
 
-    for package in ${@}
+    for package in "${packages[@]}"
     do
         installAptGetPackage "${package}"
     done
@@ -325,7 +327,7 @@ function installCommands()
 {
     local data=("${@}")
 
-    runAptGetUpdate "$@"
+    runAptGetUpdate ''
 
     local i=0
 
@@ -448,7 +450,7 @@ function runAptGetUpdate()
 
 function runAptGetUpgrade()
 {
-    runAptGetUpdate "$@"
+    runAptGetUpdate ''
 
     info "\napt-get dist-upgrade"
     apt-get dist-upgrade -m -y
