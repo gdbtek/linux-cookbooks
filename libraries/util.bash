@@ -98,14 +98,18 @@ function createFileFromTemplate()
 
 function getFileExtension()
 {
-    local fullFileName="$(basename "${1}")"
+    local string="${1}"
+
+    local fullFileName="$(basename "${string}")"
 
     echo "${fullFileName##*.}"
 }
 
 function getFileName()
 {
-    local fullFileName="$(basename "${1}")"
+    local string="${1}"
+
+    local fullFileName="$(basename "${string}")"
 
     echo "${fullFileName%.*}"
 }
@@ -507,12 +511,16 @@ function checkTrueFalseString()
 
 function debug()
 {
-    echo -e "\033[1;34m${1}\033[0m" 2>&1
+    local message="${1}"
+
+    echo -e "\033[1;34m${message}\033[0m" 2>&1
 }
 
 function error()
 {
-    echo -e "\033[1;31m${1}\033[0m" 1>&2
+    local message="${1}"
+
+    echo -e "\033[1;31m${message}\033[0m" 1>&2
 }
 
 function escapeSearchPattern()
@@ -524,7 +532,9 @@ function escapeSearchPattern()
 
 function fatal()
 {
-    error "${1}"
+    local message="${1}"
+
+    error "${message}"
     exit 1
 }
 
@@ -542,12 +552,16 @@ function formatPath()
 
 function header()
 {
-    echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${1}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
+    local title="${1}"
+
+    echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${title}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
 }
 
 function info()
 {
-    echo -e "\033[1;36m${1}\033[0m" 2>&1
+    local message="${1}"
+
+    echo -e "\033[1;36m${message}\033[0m" 2>&1
 }
 
 function invertTrueFalseString()
@@ -585,7 +599,9 @@ function trimString()
 
 function warn()
 {
-    echo -e "\033[1;33m${1}\033[0m" 1>&2
+    local message="${1}"
+
+    echo -e "\033[1;33m${message}\033[0m" 1>&2
 }
 
 ####################
