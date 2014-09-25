@@ -2,9 +2,9 @@
 
 function install()
 {
-    local pluginList="${@}"
+    local pluginList=("${@}")
 
-    if [[ "$(isEmptyString "${pluginList}")" = 'false' ]]
+    if [[ ${#pluginList[@]} -gt 0 ]]
     then
         local appName="$(getFileName "${jenkinsDownloadURL}")"
         local jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
@@ -14,7 +14,7 @@ function install()
         checkExistFile "${jenkinsCLIPath}"
         checkExistURL "${jenkinsAppURL}"
 
-        java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin ${pluginList}
+        java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin "${pluginList[@]}"
     else
         info "No installs/updates available"
     fi
