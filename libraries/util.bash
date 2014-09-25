@@ -306,7 +306,7 @@ function installAptGetPackage()
 
 function installAptGetPackages()
 {
-    runAptGetUpdate
+    runAptGetUpdate "$@"
 
     local package=''
 
@@ -325,7 +325,7 @@ function installCommands()
 {
     local data=("${@}")
 
-    runAptGetUpdate
+    runAptGetUpdate "$@"
 
     local i=0
 
@@ -448,7 +448,7 @@ function runAptGetUpdate()
 
 function runAptGetUpgrade()
 {
-    runAptGetUpdate
+    runAptGetUpdate "$@"
 
     info "\napt-get dist-upgrade"
     apt-get dist-upgrade -m -y
@@ -564,7 +564,9 @@ function invertTrueFalseString()
 
 function isEmptyString()
 {
-    if [[ "$(trimString ${1})" = '' ]]
+    local string="${1}"
+
+    if [[ "$(trimString "${string}")" = '' ]]
     then
         echo 'true'
     else
