@@ -10,7 +10,7 @@ function install()
     # Install
 
     unzipRemoteFile "${mongodbDownloadURL}" "${mongodbInstallFolder}"
-    find "${mongodbInstallFolder}" -maxdepth 1 -type f -exec rm -f {} \;
+    find "${mongodbInstallFolder}" -maxdepth 1 -type f -delete
 
     # Config Profile
 
