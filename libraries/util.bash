@@ -603,23 +603,23 @@ function addUser()
 
     if [[ "${createHome}" = 'true' ]]
     then
-        local createHomeOption='-m'
+        local createHomeOption=('-m')
     else
-        local createHomeOption='-M'
+        local createHomeOption=('-M')
     fi
 
     if [[ "${systemAccount}" = 'false' ]]
     then
-        local systemAccountOption=''
+        local systemAccountOption=('')
     else
-        local systemAccountOption='-r'
+        local systemAccountOption=('-r')
     fi
 
     if [[ "${allowLogin}" = 'true' ]]
     then
-        local allowLoginOption='-s /bin/bash'
+        local allowLoginOption=('-s' '/bin/bash')
     else
-        local allowLoginOption='-s /bin/false'
+        local allowLoginOption=('-s' '/bin/false')
     fi
 
     # Add Group
@@ -648,7 +648,7 @@ function addUser()
             fi
         fi
     else
-        useradd ${createHomeOption} ${systemAccountOption} ${allowLoginOption} -g "${groupName}" "${userLogin}"
+        useradd "${createHomeOption[@]}" "${systemAccountOption[@]}" "${allowLoginOption[@]}" -g "${groupName}" "${userLogin}"
     fi
 }
 
@@ -1050,7 +1050,7 @@ function getUserHomeFolder()
     then
         local homeFolder="$(eval "echo ~${user}")"
 
-        if [[ "${homeFolder}" = "~${user}" ]]
+        if [[ "${homeFolder}" = "\~${user}" ]]
         then
             echo
         else
