@@ -14,8 +14,8 @@ haproxyGroupName='haproxy'
 haproxyPort=80
 
 haproxyConfig=(
-    'CPU='native''
-    'TARGET='custom''
+    'CPU=native'
+    'TARGET=custom'
     "PCREDIR='${pcreInstallFolder}'"
     "PCRE_LIB='${pcreInstallFolder}/lib'"
     "PCRE_INC='${pcreInstallFolder}/include'"
