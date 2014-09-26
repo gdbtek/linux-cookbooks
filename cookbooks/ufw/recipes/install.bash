@@ -14,7 +14,9 @@ function install()
 
     for policy in "${ufwPolicies[@]}"
     do
-        ufw ${policy}
+        local rule=(${policy})
+
+        ufw "${rule[@]}"
     done
 
     # Enable Service
