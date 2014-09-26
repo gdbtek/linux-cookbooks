@@ -4,7 +4,7 @@ function install()
 {
     checkExistURL "${chefDownloadURL}"
     debug "Downloading '${chefDownloadURL}'"
-    curl -L "${chefDownloadURL}" | bash -e
+    curl -L "${chefDownloadURL}" --retry 3 --retry-delay 5 | bash -e
     info "\n$(knife -v)"
 }
 
