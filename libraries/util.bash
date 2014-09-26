@@ -625,13 +625,6 @@ function addUser()
         local createHomeOption=('-M')
     fi
 
-    if [[ "${systemAccount}" = 'false' ]]
-    then
-        local systemAccountOption=('')
-    else
-        local systemAccountOption=('-r')
-    fi
-
     if [[ "${allowLogin}" = 'true' ]]
     then
         local allowLoginOption=('-s' '/bin/bash')
@@ -665,7 +658,12 @@ function addUser()
             fi
         fi
     else
-        useradd "${createHomeOption[@]}" "${systemAccountOption[@]}" "${allowLoginOption[@]}" -g "${groupName}" "${userLogin}"
+        if [[ "${systemAccount}" = 'true' ]]
+        then
+            useradd "${createHomeOption[@]}" -r "${allowLoginOption[@]}" -g "${groupName}" "${userLogin}"
+        else
+            useradd "${createHomeOption[@]}" "${allowLoginOption[@]}" -g "${groupName}" "${userLogin}"
+        fi
     fi
 }
 
