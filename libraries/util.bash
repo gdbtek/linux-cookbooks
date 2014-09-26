@@ -196,7 +196,7 @@ function downloadFile()
     # Download
 
     debug "\nDownloading '${url}' to '${destinationFile}'"
-    curl -L "${url}" -o "${destinationFile}"
+    curl -L "${url}" -o "${destinationFile}" --retry 3 --retry-delay 5
 }
 
 function existURL()
@@ -209,7 +209,7 @@ function existURL()
 
     # Check URL
 
-    if ( curl -f --head -L "${url}" -o '/dev/null' -s )
+    if ( curl -f --head -L "${url}" -o '/dev/null' -s --retry 3 --retry-delay 5 )
     then
         echo 'true'
     else
@@ -222,7 +222,7 @@ function getRemoteFileContent()
     local url="${1}"
 
     checkExistURL "${url}"
-    curl -s -X 'GET' -L "${url}"
+    curl -s -X 'GET' -L "${url}" --retry 3 --retry-delay 5
 }
 
 function unzipRemoteFile()
@@ -254,7 +254,7 @@ function unzipRemoteFile()
     if [[ "$(grep -i '^tgz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${exExtension}")" != '' ]]
     then
         debug "\nDownloading '${downloadURL}'"
-        curl -L "${downloadURL}" | tar -C "${installFolder}" -x -z --strip 1
+        curl -L "${downloadURL}" --retry 3 --retry-delay 5 | tar -C "${installFolder}" -x -z --strip 1
         echo
     elif [[ "$(grep -i '^zip$' <<< "${extension}")" != '' ]]
     then
