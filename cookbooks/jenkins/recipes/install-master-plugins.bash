@@ -2,7 +2,7 @@
 
 function install()
 {
-    local pluginList=("${@}")
+    local pluginList=($(sed -e 's/\n/ /g' <<< "${@}"))
 
     if [[ ${#pluginList[@]} -gt 0 ]]
     then
