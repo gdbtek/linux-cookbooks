@@ -18,22 +18,31 @@ function install()
 
     unzipRemoteFile "${goserverAgentDownloadURL}" "${goserverAgentInstallFolder}"
 
-    local unzipFolderName="$(ls -d ${goserverAgentInstallFolder}/*/ 2> '/dev/null')"
+    local unzipFolder="$(find "${goserverServerInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
-    if [[ "$(isEmptyString "${unzipFolderName}")" = 'true' || "$(wc -l <<< "${unzipFolderName}")" != '1' ]]
+    if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
         fatal 'FATAL : multiple unzip folder names found'
     fi
 
-    if [[ "$(ls -A "${unzipFolderName}")" = '' ]]
+    if [[ "$(ls -A "${unzipFolder}")" = '' ]]
     then
-        fatal "FATAL : folder '${unzipFolderName}' empty"
+        fatal "FATAL : folder '${unzipFolder}' empty"
     fi
 
-    mv ${unzipFolderName}* "${goserverAgentInstallFolder}"
+    # Move Folder
+
+    local currentPath="$(pwd)"
+
+    cd "${unzipFolder}"
+    find '.' ! -name '.' -maxdepth 1 -exec mv '{}' "${goserverAgentInstallFolder}" \;
+    cd "${currentPath}"
+
+    # Finalize
+
     addUser "${goserverUserName}" "${goserverGroupName}" 'true' 'false' 'true'
     chown -R "${goserverUserName}:${goserverGroupName}" "${goserverAgentInstallFolder}"
-    rm -f -r "${unzipFolderName}"
+    rm -f -r "${unzipFolder}"
 }
 
 function configUpstart()
