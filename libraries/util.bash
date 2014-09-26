@@ -144,7 +144,7 @@ function symlinkLocalBin()
         do
             rm -f "/usr/local/bin/$(basename "${file}")"
             ln -s "${file}" "/usr/local/bin/$(basename "${file}")"
-        done' bash {} \;
+        done' bash '{}' \;
 }
 
 #########################

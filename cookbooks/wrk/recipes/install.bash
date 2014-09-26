@@ -20,7 +20,7 @@ function install()
     git clone "${wrkDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f {} "${wrkInstallFolder}/bin" \;
+    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f '{}' "${wrkInstallFolder}/bin" \;
     rm -f -r "${tempFolder}"
     cd "${currentPath}"
 
