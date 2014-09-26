@@ -2,13 +2,11 @@
 
 function install()
 {
-    local users="${@}"
-
-    users+=" $(whoami)"
+    local users=("${@}" "$(whoami)")
 
     local user=''
 
-    for user in ${users}
+    for user in "${users[@]}"
     do
         local profileFile="$(getProfileFile "${user}")"
 
