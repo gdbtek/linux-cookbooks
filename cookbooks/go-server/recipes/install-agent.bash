@@ -35,7 +35,7 @@ function install()
     local currentPath="$(pwd)"
 
     cd "${unzipFolder}"
-    find '.' ! -name '.' -maxdepth 1 -exec mv '{}' "${goserverAgentInstallFolder}" \;
+    find '.' -maxdepth 1 ! -name '.' -exec mv '{}' "${goserverAgentInstallFolder}" \;
     cd "${currentPath}"
 
     # Finalize
