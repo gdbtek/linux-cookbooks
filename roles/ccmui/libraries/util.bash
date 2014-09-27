@@ -8,7 +8,16 @@ function cleanUpITMess
 
     deleteUser 'itcloud'
     rm -f -r '/home/ubuntu' '/opt/chef' '/opt/lost+found'
-    stop dovecot 2> '/dev/null' || true
+
+    # Remove and Disable Dovecot Process
+
+    local dovecotStatus="$(status 'dovecot' 2> '/dev/null' | grep -F -o 'start/running')"
+
+    if [[ "$(isEmptyString "${dovecotStatus}")" = 'false' ]]
+    then
+        stop 'dovecot'
+        sysv-rc-conf --level 0123456 'dovecot' off
+    fi
 }
 
 function displayNotice()
