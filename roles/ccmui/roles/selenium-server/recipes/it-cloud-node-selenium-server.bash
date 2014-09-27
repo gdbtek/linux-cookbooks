@@ -37,8 +37,8 @@ function main()
 
     # Clean Up
 
-    cleanUpITMess
     cleanUpSystemFolders
+    cleanUpITMess
 }
 
 main "${@}"
