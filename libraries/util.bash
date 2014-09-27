@@ -864,7 +864,7 @@ function deleteUser()
 
     if [[ "$(existUserLogin "${userLogin}")" = 'true' ]]
     then
-        userdel -f -r "${userLogin}" 2> '/dev/null'
+        userdel -f -r "${userLogin}" 2> '/dev/null' || true
     fi
 }
 
