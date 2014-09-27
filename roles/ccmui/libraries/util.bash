@@ -16,8 +16,12 @@ function cleanUpITMess
     if [[ "$(isEmptyString "${dovecotStatus}")" = 'false' ]]
     then
         stop 'dovecot'
-        sysv-rc-conf --level 0123456 'dovecot' off
+        rm -f '/etc/init/dovecot.conf'
     fi
+
+    # Enable Hostname Service
+
+    sysv-rc-conf --level 2345 'hostname' on
 }
 
 function displayNotice()
