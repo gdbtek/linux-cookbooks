@@ -9,7 +9,7 @@ mysqlGroupName='mysql'
 
 mysqlServiceName='mysql'
 
-mysqlPort=3306
+mysqlPort='3306'
 
 mysqlRunPostSecureInstallation='true'
 

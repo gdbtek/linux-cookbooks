@@ -12,5 +12,5 @@ elasticsearchServiceName='elastic-search'
 elasticsearchUserName='elastic'
 elasticsearchGroupName='elastic'
 
-elasticsearchHTTPPort=9200
-elasticsearchTransportTCPPort=9300
+elasticsearchHTTPPort='9200'
+elasticsearchTransportTCPPort='9300'

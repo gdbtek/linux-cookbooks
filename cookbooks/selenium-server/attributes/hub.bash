@@ -12,4 +12,4 @@ seleniumserverServiceName='selenium-server-hub'
 seleniumserverUserName='selenium'
 seleniumserverGroupName='selenium'
 
-seleniumserverPort=4444
+seleniumserverPort='4444'

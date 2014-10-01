@@ -10,4 +10,4 @@ mongodbServiceName='mongodb'
 mongodbUserName='mongodb'
 mongodbGroupName='mongodb'
 
-mongodbPort=27017
+mongodbPort='27017'

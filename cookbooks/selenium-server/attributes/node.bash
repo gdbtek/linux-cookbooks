@@ -12,6 +12,6 @@ seleniumserverServiceName='selenium-server-node'
 seleniumserverUserName='selenium'
 seleniumserverGroupName='selenium'
 
-seleniumserverPort=5555
-seleniumserverHubPort=4444
+seleniumserverPort='5555'
+seleniumserverHubPort='4444'
 seleniumserverHubHost='selenium-private.ccmui.adobe.com'

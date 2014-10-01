@@ -11,7 +11,7 @@ haproxyServiceName='haproxy'
 haproxyUserName='haproxy'
 haproxyGroupName='haproxy'
 
-haproxyPort=80
+haproxyPort='80'
 
 haproxyConfig=(
     'CPU=native'

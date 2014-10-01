@@ -11,7 +11,7 @@ nginxServiceName='nginx'
 nginxUserName='nginx'
 nginxGroupName='nginx'
 
-nginxPort=80
+nginxPort='80'
 
 nginxConfig=(
     "--user=${nginxUserName}"
