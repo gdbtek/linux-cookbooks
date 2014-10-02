@@ -38,6 +38,7 @@ jenkinsInstallPlugins=(
     'github-oauth'
     'gravatar'
     'greenballs'
+    'jenkins-multijob-plugin'
     'job-import-plugin'
     'jobConfigHistory'
     'junit'
