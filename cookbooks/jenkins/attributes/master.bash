@@ -38,6 +38,7 @@ jenkinsInstallPlugins=(
     'github-oauth'
     'gravatar'
     'greenballs'
+    'hipchat'
     'htmlpublisher'
     'jenkins-multijob-plugin'
     'job-import-plugin'
