@@ -28,6 +28,7 @@ jenkinsInstallPlugins=(
     'copyartifact'
     'credentials'
     'dashboard-view'
+    'description-setter'
     'disk-usage'
     'email-ext'
     'embeddable-build-status'
