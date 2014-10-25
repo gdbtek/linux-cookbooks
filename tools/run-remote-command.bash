@@ -73,8 +73,8 @@ function run()
     for machine in "${machines[@]}"
     do
         header "${machine}"
-        # ssh ${identityOption} -n "${user}@${machine}" "${prompt} && ${command}" &
-        # ssh ${identityOption} -n "${user}@${machine}" "${prompt} && ${command}"
+
+        # ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}" &
         ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}"
     done
 
