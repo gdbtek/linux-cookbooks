@@ -8,18 +8,23 @@ function displayUsage()
     echo    "SYNOPSIS :"
     echo    "    ${scriptName}"
     echo    "        --help"
+    echo    "        --async             <true | false>"
     echo    "        --attribute-file    <ATTRIBUTE-FILE>"
     echo    "        --command           <COMMAND>"
     echo    "        --machine-type      <MACHINE-TYPE>"
     echo -e "\033[1;35m"
     echo    "DESCRIPTION :"
     echo    "    --help              Help page"
+    echo    "    --async             Run command asynchronously. Default is 'false'"
     echo    "    --attribute-file    Path to attribute file (require). Sample file :"
     echo -e "\033[1;32m"
     echo    "                        #!/bin/bash -e"
     echo    "                        user='root'"
     echo    "                        master='master.domain.com'"
-    echo    "                        slaves=('slave-1.domain.com' 'slave-2.domain.com')"
+    echo    "                        slaves=("
+    echo    "                            'slave-1.domain.com'"
+    echo    "                            'slave-2.domain.com'"
+    echo    "                        )"
     echo    "                        identityFile='/data/my-private.pem'"
     echo -e "\033[1;35m"
     echo    "    --command           Command that will be run in remote servers (require)"
@@ -28,7 +33,8 @@ function displayUsage()
     echo -e "\033[1;36m"
     echo    "EXAMPLES :"
     echo    "    ./${scriptName} --help"
-    echo    "    ./${scriptName} --attribute-file '/path/my-attribute.file' --command 'date' --machine-type 'master-slave'"
+    echo    "    ./${scriptName} --attribute-file '/attribute.file' --command 'date' --machine-type 'slave'"
+    echo    "    ./${scriptName} --async 'true' --attribute-file '/attribute.file' --command 'date' --machine-type 'slave'"
     echo -e "\033[0m"
 
     exit "${1}"
@@ -36,8 +42,9 @@ function displayUsage()
 
 function run()
 {
-    local command="${1}"
-    local machineType="${2}"
+    local async="${1}"
+    local command="${2}"
+    local machineType="${3}"
 
     # Populate Machine List
 
@@ -74,11 +81,18 @@ function run()
     do
         header "${machine}"
 
-        # ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}" &
-        ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}"
+        if [[ "${async}" = 'true' ]]
+        then
+            ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}" &
+        else
+            ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}"
+        fi
     done
 
-    # wait
+    if [[ "${async}" = 'true' ]]
+    then
+        wait
+    fi
 }
 
 function main()
@@ -93,6 +107,16 @@ function main()
         case "${1}" in
             --help)
                 displayUsage 0
+                ;;
+
+            --async)
+                shift
+
+                if [[ ${#} -gt 0 ]]
+                then
+                    local async="${1}"
+                fi
+
                 ;;
 
             --attribute-file)
@@ -138,6 +162,15 @@ function main()
         displayUsage 0
     fi
 
+    # Validate Async
+
+    if [[ "$(isEmptyString "${async}")" = 'true' ]]
+    then
+        local async='false'
+    fi
+
+    checkTrueFalseString "${async}"
+
     # Validate Attribute File
 
     if [[ ! -f "${attributeFile}" ]]
@@ -166,7 +199,7 @@ function main()
 
     # Run
 
-    run "${command}" "${machineType}"
+    run "${async}" "${command}" "${machineType}"
 }
 
 main "${@}"
