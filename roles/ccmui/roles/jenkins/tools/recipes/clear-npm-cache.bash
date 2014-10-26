@@ -3,7 +3,10 @@
 function main()
 {
     local appPath="$(cd "$(dirname "${0}")" && pwd)"
-    local command='sudo rm -f -r \
+
+    source "${appPath}/../../../../../../cookbooks/tomcat/attributes/default.bash"
+
+    local command="sudo rm -f -r \
         /tmp/* \
         /var/tmp/* \
         ~root/.cache \
@@ -11,12 +14,12 @@ function main()
         ~root/.npm \
         ~root/.qws \
         ~root/tmp \
-        ~tomcat/.cache \
-        ~tomcat/.node-gyp \
-        ~tomcat/.npm \
-        ~tomcat/.qws \
-        ~tomcat/tmp \
-    '
+        ~${tomcatUserName}/.cache \
+        ~${tomcatUserName}/.node-gyp \
+        ~${tomcatUserName}/.npm \
+        ~${tomcatUserName}/.qws \
+        ~${tomcatUserName}/tmp \
+    "
 
     "${appPath}/../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/jenkins.bash" \
