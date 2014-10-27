@@ -7,6 +7,12 @@ function installDependencies()
 
 function install()
 {
+    # Clean Up
+
+    initializeFolder "${cabalInstallFolder}"
+
+    # Install
+
     cabal update
     cabal install 'shellcheck'
 
