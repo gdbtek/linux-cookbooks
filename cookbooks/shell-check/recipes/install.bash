@@ -20,7 +20,7 @@ function install()
 
     # Display Version
 
-    info "$(shellcheck -v)"
+    info "$("${cabalInstallFolder}/bin/shellcheck" -v)"
 }
 
 function main()
