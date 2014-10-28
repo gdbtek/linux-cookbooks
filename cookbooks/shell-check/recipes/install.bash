@@ -27,7 +27,7 @@ function install()
 
     # Display Version
 
-    info "$("${cabalInstallFolder}/bin/shellcheck" -V)"
+    info "\n$("${cabalInstallFolder}/bin/shellcheck" -V)"
 }
 
 function main()
