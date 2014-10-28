@@ -17,6 +17,7 @@ function install()
     cabal install 'shellcheck'
 
     mv ~/.cabal/* "${cabalInstallFolder}"
+    rm -f -r ~/.cabal
 
     # Config Profile
 
