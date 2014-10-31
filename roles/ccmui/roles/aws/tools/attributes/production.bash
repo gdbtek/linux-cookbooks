@@ -7,7 +7,6 @@ master=''
 slaves=(
     # us-east-1
     'ec2-54-86-24-250.compute-1.amazonaws.com'
-    'ec2-107-23-251-252.compute-1.amazonaws.com'
     'ec2-107-23-251-23.compute-1.amazonaws.com'
     'ec2-107-23-251-49.compute-1.amazonaws.com'
     'ec2-107-23-251-53.compute-1.amazonaws.com'
