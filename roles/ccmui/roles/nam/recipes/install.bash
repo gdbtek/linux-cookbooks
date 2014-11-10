@@ -25,6 +25,7 @@ function main()
     "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/packer/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/ruby/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/shell-check/recipes/install.bash"
 
     # Config SSH and GIT
 
