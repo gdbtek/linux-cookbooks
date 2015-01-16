@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-chefDownloadURL='https://www.opscode.com/chef/install.sh'
+chefDownloadURL='https://www.chef.io/chef/install.sh'
