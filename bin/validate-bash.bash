@@ -6,7 +6,7 @@ function main()
 
     source "${projectPath}/libraries/util.bash"
 
-    local command='shellcheck2'
+    local command='shellcheck'
 
     checkExistCommand "${command}" "command '${command}' not found. Run '${projectPath}/cookbooks/shell-check/recipes/install.bash' to install"
 
