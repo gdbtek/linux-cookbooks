@@ -2,16 +2,16 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
-seleniumserverDownloadURL='http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar'
+export seleniumserverDownloadURL='http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar'
 
-seleniumserverInstallFolder='/opt/selenium-server/node'
-seleniumserverJDKInstallFolder="${jdkInstallFolder}"
+export seleniumserverInstallFolder='/opt/selenium-server/node'
+export seleniumserverJDKInstallFolder="${jdkInstallFolder}"
 
-seleniumserverServiceName='selenium-server-node'
+export seleniumserverServiceName='selenium-server-node'
 
-seleniumserverUserName='selenium'
-seleniumserverGroupName='selenium'
+export seleniumserverUserName='selenium'
+export seleniumserverGroupName='selenium'
 
-seleniumserverPort='5555'
-seleniumserverHubPort='4444'
-seleniumserverHubHost='selenium-private.ccmui.adobe.com'
+export seleniumserverPort='5555'
+export seleniumserverHubPort='4444'
+export seleniumserverHubHost='selenium-private.ccmui.adobe.com'

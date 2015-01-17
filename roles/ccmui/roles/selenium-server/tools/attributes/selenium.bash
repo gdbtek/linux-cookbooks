@@ -1,9 +1,9 @@
 #!/bin/bash -e
 
-user='root'
+export user='root'
 
-master='selenium.ccmui.adobe.com'
+export master='selenium.ccmui.adobe.com'
 
-slaves=()
+export slaves=()
 
-identityFile='/Volumes/Data/Data/Keys/ssh/adobe/it-cloud/private.key'
+export identityFile='/Volumes/Data/Data/Keys/ssh/adobe/it-cloud/private.key'

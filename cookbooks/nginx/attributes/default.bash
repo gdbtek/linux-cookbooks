@@ -1,19 +1,19 @@
 #!/bin/bash -e
 
-nginxDownloadURL='http://nginx.org/download/nginx-1.6.2.tar.gz'
-nginxPCREDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz'
-nginxZLIBDownloadURL='http://zlib.net/zlib-1.2.8.tar.gz'
+export nginxDownloadURL='http://nginx.org/download/nginx-1.6.2.tar.gz'
+export nginxPCREDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz'
+export nginxZLIBDownloadURL='http://zlib.net/zlib-1.2.8.tar.gz'
 
-nginxInstallFolder='/opt/nginx'
+export nginxInstallFolder='/opt/nginx'
 
-nginxServiceName='nginx'
+export nginxServiceName='nginx'
 
-nginxUserName='nginx'
-nginxGroupName='nginx'
+export nginxUserName='nginx'
+export nginxGroupName='nginx'
 
-nginxPort='80'
+export nginxPort='80'
 
-nginxConfig=(
+export nginxConfig=(
     "--user=${nginxUserName}"
     "--group=${nginxGroupName}"
     "--prefix=${nginxInstallFolder}"

@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
-ccmuiJenkinsDisk='/dev/sdb'
-ccmuiJenkinsMountOn='/opt'
+export ccmuiJenkinsDisk='/dev/sdb'
+export ccmuiJenkinsMountOn='/opt'
 
-ccmuiJenkinsGITUserName='Nam Nguyen'
-ccmuiJenkinsGITUserEmail='namnguye@adobe.com'
+export ccmuiJenkinsGITUserName='Nam Nguyen'
+export ccmuiJenkinsGITUserEmail='namnguye@adobe.com'
 
-ccmuiJenkinsInstallPlugins=(
+export ccmuiJenkinsInstallPlugins=(
 
 )

@@ -1,19 +1,19 @@
 #!/bin/bash -e
 
-redisDownloadURL='http://download.redis.io/releases/redis-stable.tar.gz'
+export redisDownloadURL='http://download.redis.io/releases/redis-stable.tar.gz'
 
-redisServiceName='redis'
+export redisServiceName='redis'
 
-redisUserName='redis'
-redisGroupName='redis'
+export redisUserName='redis'
+export redisGroupName='redis'
 
-redisPort='6379'
+export redisPort='6379'
 
-redisInstallBinFolder='/opt/redis/bin'
-redisInstallConfigFolder='/opt/redis/config'
-redisInstallDataFolder='/opt/redis/data'
+export redisInstallBinFolder='/opt/redis/bin'
+export redisInstallConfigFolder='/opt/redis/config'
+export redisInstallDataFolder='/opt/redis/data'
 
-redisSoftNoFileLimit='50000'
-redisHardNoFileLimit='50000'
+export redisSoftNoFileLimit='50000'
+export redisHardNoFileLimit='50000'
 
-redisVMOverCommitMemory='1'
+export redisVMOverCommitMemory='1'

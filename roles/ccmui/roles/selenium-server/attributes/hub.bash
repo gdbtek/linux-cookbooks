@@ -1,4 +1,4 @@
 #!/bin/bash -e
 
-ccmuiSeleniumServerDisk='/dev/sdb'
-ccmuiSeleniumServerMountOn='/opt'
+export ccmuiSeleniumServerDisk='/dev/sdb'
+export ccmuiSeleniumServerMountOn='/opt'

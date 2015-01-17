@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-cabalInstallFolder='/opt/cabal'
+export cabalInstallFolder='/opt/cabal'

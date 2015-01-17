@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
-ccmuiOpsDisk='/dev/sdb'
-ccmuiOpsMountOn='/opt'
+export ccmuiOpsDisk='/dev/sdb'
+export ccmuiOpsMountOn='/opt'
 
-ccmuiOpsGITUserName='Nam Nguyen'
-ccmuiOpsGITUserEmail='namnguye@adobe.com'
+export ccmuiOpsGITUserName='Nam Nguyen'
+export ccmuiOpsGITUserEmail='namnguye@adobe.com'

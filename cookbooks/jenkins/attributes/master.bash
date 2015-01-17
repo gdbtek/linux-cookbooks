@@ -2,20 +2,20 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../tomcat/attributes/default.bash"
 
-jenkinsDownloadURL='http://mirrors.jenkins-ci.org/war/latest/jenkins.war'
-jenkinsUpdateCenterURL='http://updates.jenkins-ci.org/update-center.json'
+export jenkinsDownloadURL='http://mirrors.jenkins-ci.org/war/latest/jenkins.war'
+export jenkinsUpdateCenterURL='http://updates.jenkins-ci.org/update-center.json'
 
-jenkinsInstallFolder='/opt/jenkins'
+export jenkinsInstallFolder='/opt/jenkins'
 
-jenkinsTomcatInstallFolder="${tomcatInstallFolder}"
-jenkinsTomcatHTTPPort="${tomcatHTTPPort}"
+export jenkinsTomcatInstallFolder="${tomcatInstallFolder}"
+export jenkinsTomcatHTTPPort="${tomcatHTTPPort}"
 
-jenkinsUserName="${tomcatUserName}"
-jenkinsGroupName="${tomcatGroupName}"
+export jenkinsUserName="${tomcatUserName}"
+export jenkinsGroupName="${tomcatGroupName}"
 
-jenkinsUpdateAllPlugins='true'
+export jenkinsUpdateAllPlugins='true'
 
-jenkinsInstallPlugins=(
+export jenkinsInstallPlugins=(
     'ansicolor'
     'ant'
     'build-flow-plugin'
