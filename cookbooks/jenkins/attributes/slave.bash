@@ -2,9 +2,9 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
-jenkinsWorkspaceFolder='/opt/jenkins'
+export jenkinsWorkspaceFolder='/opt/jenkins'
 
-jenkinsJDKInstallFolder="${jdkInstallFolder}"
+export jenkinsJDKInstallFolder="${jdkInstallFolder}"
 
-jenkinsUserName='root'
-jenkinsGroupName='root'
+export jenkinsUserName='root'
+export jenkinsGroupName='root'

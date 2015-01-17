@@ -62,6 +62,7 @@ function run()
 
     # Built Prompt
 
+    # shellcheck disable=SC2016
     local prompt='echo -e "\033[1;36m<\033[31m$(whoami)\033[34m@\033[33m$(hostname)\033[36m><\033[35m$(pwd)\033[36m>\033[0m"'
 
     # Get Identity File Option
@@ -83,8 +84,10 @@ function run()
 
         if [[ "${async}" = 'true' ]]
         then
+            # shellcheck disable=SC2029
             ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}" &
         else
+            # shellcheck disable=SC2029
             ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}"
         fi
     done
