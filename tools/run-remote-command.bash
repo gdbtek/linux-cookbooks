@@ -101,11 +101,12 @@ function run()
 function main()
 {
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    local optCount=${#}
+
+    local optCount="${#}"
 
     source "${appPath}/../libraries/util.bash"
 
-    while [[ ${#} -gt 0 ]]
+    while [[ "${#}" -gt '0' ]]
     do
         case "${1}" in
             --help)
@@ -115,7 +116,7 @@ function main()
             --async)
                 shift
 
-                if [[ ${#} -gt 0 ]]
+                if [[ "${#}" -gt '0' ]]
                 then
                     local async="${1}"
                 fi
@@ -125,7 +126,7 @@ function main()
             --attribute-file)
                 shift
 
-                if [[ ${#} -gt 0 ]]
+                if [[ "${#}" -gt '0' ]]
                 then
                     local attributeFile="${1}"
                 fi
@@ -135,7 +136,7 @@ function main()
             --command)
                 shift
 
-                if [[ ${#} -gt 0 ]]
+                if [[ "${#}" -gt '0' ]]
                 then
                     local command="$(trimString "${1}")"
                 fi
@@ -145,7 +146,7 @@ function main()
             --machine-type)
                 shift
 
-                if [[ ${#} -gt 0 ]]
+                if [[ "${#}" -gt '0' ]]
                 then
                     local machineType="$(trimString "${1}")"
                 fi
@@ -160,7 +161,7 @@ function main()
 
     # Validate Opt
 
-    if [[ ${optCount} -lt 1 ]]
+    if [[ "${optCount}" -lt '1' ]]
     then
         displayUsage 0
     fi

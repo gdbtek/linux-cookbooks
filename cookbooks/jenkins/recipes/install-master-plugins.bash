@@ -4,7 +4,7 @@ function install()
 {
     local pluginList=($(sed -e 's/\n/ /g' <<< "${@}"))
 
-    if [[ ${#pluginList[@]} -gt 0 ]]
+    if [[ "${#pluginList[@]}" -gt '0' ]]
     then
         local appName="$(getFileName "${jenkinsDownloadURL}")"
         local jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
