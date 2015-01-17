@@ -2,7 +2,7 @@
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${0}")" && pwd)"
+    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local command="cd /tmp &&
                    sudo rm -f -r ubuntu-cookbooks &&
                    sudo git clone https://github.com/gdbtek/ubuntu-cookbooks.git &&

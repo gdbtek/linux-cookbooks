@@ -4,7 +4,7 @@ function main()
 {
     local attributeFile="${1}"
 
-    local appPath="$(cd "$(dirname "${0}")" && pwd)"
+    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local command='ls -la /opt/ADBE/generated_static_html/products'
 
     "${appPath}/../../../../../../tools/run-remote-command.bash" \

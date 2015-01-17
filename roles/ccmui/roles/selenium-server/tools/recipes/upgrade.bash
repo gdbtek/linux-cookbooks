@@ -2,7 +2,7 @@
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${0}")" && pwd)"
+    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local command="sudo apt-get update -m &&
                    sudo apt-get dist-upgrade -m -y &&
                    sudo apt-get upgrade -m -y &&

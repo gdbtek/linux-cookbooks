@@ -2,7 +2,7 @@
 
 function displayUsage()
 {
-    local scriptName="$(basename "${0}")"
+    local scriptName="$(basename "${BASH_SOURCE[0]}")"
 
     echo -e "\033[1;33m"
     echo    "SYNOPSIS :"
@@ -97,7 +97,7 @@ function run()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${0}")" && pwd)"
+    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local optCount=${#}
 
     source "${appPath}/../libraries/util.bash"
