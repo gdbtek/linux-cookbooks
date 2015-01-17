@@ -685,6 +685,22 @@ function addUserSSHKnownHost()
     configUserSSH "${userLogin}" "${groupName}" "${sshRSA}" 'known_hosts'
 }
 
+function checkExistCommand()
+{
+    local command="${1}"
+    local errorMessage="${2}"
+
+    if [[ "$(existCommand "${command}")" = 'false' ]]
+    then
+        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
+        then
+            fatal "\nFATAL : command '${command}' not found"
+        else
+            fatal "\nFATAL : ${errorMessage}"
+        fi
+    fi
+}
+
 function checkExistFile()
 {
     local file="${1}"
