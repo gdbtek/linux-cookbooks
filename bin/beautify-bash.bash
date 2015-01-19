@@ -18,6 +18,7 @@ function removeNewlineAtEndOfFile()
         \( \
             -not -path "${repositoryFolderPath}/.git/*" \
         \) \
+        -print \
         -exec bash -c -e '
             for file
             do
