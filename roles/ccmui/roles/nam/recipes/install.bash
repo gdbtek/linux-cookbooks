@@ -17,7 +17,7 @@ function main()
 
     # Install Apps
 
-    "${appPath}/../../../../essential.bash"
+    "${appPath}/../../../../essential.bash" 'nam-itc'
     "${appPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/chef/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/jdk/recipes/install.bash"

@@ -19,13 +19,15 @@ function main()
 
     # Install Apps
 
-    "${appPath}/../../../../essential.bash"
+    local hostName='jenkins.ccmui.adobe.com'
+
+    "${appPath}/../../../../essential.bash" "${hostName}"
     "${appPath}/../../../../../cookbooks/maven/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/install-master.bash"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${ccmuiJenkinsInstallPlugins[@]}"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
-    "${appPath}/../../../../../cookbooks/ps1/recipes/install.bash" --users "${jenkinsUserName}"
+    "${appPath}/../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${jenkinsUserName}"
 
     # Config SSH and GIT
 

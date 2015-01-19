@@ -17,7 +17,7 @@ function main()
 
     # Install Apps
 
-    "${appPath}/../../../../essential.bash"
+    "${appPath}/../../../../essential.bash" 'ops.ccmui.adobe.com'
     "${appPath}/../../../../../cookbooks/mongodb/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash"
 

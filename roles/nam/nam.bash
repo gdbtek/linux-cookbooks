@@ -3,12 +3,14 @@
 function main()
 {
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local hostName='nam.guru'
+    local users='nam, ubuntu'
 
     source "${appPath}/../../libraries/util.bash"
 
     # "${appPath}/../../cookbooks/apt-source/recipes/install.bash"
 
-    "${appPath}/../essential.bash"
+    "${appPath}/../essential.bash" "${hostName}" "${users}"
 
     "${appPath}/../../cookbooks/ufw/recipes/install.bash"
     "${appPath}/../../cookbooks/node-js/recipes/install.bash"
@@ -16,7 +18,7 @@ function main()
     "${appPath}/../../cookbooks/redis/recipes/install.bash"
     "${appPath}/../../cookbooks/mongodb/recipes/install.bash"
     "${appPath}/../../cookbooks/jdk/recipes/install.bash"
-    "${appPath}/../../cookbooks/ps1/recipes/install.bash" --host-name 'nam.guru' --users 'nam, ubuntu'
+    "${appPath}/../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${users}"
 
     cleanUpSystemFolders
 }
