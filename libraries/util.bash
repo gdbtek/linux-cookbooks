@@ -87,10 +87,7 @@ function createFileFromTemplate()
 
     for ((i = 0; i < ${#data[@]}; i = i + 2))
     do
-        local oldValue="$(escapeSearchPattern "${data[${i}]}")"
-        local newValue="$(escapeSearchPattern "${data[${i} + 1]}")"
-
-        content="$(sed "s@${oldValue}@${newValue}@g" <<< "${content}")"
+        content="$(replaceString "${content}" "${data[${i}]}" "${data[${i} + 1]}")"
     done
 
     echo "${content}" > "${destinationFile}"
@@ -585,6 +582,15 @@ function isEmptyString()
     else
         echo 'false'
     fi
+}
+
+function replaceString()
+{
+    local content="${1}"
+    local oldValue="$(escapeSearchPattern "${2}")"
+    local newValue="$(escapeSearchPattern "${3}")"
+
+    sed "s@${oldValue}@${newValue}@g" <<< "${content}"
 }
 
 function trimString()

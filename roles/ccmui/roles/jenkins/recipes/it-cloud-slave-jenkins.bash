@@ -22,7 +22,7 @@ function main()
     "${appPath}/../../../../../cookbooks/maven/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/install-slave.bash"
-    "${appPath}/../../../../../cookbooks/ps1/recipes/install.bash" "${jenkinsUserName}"
+    "${appPath}/../../../../../cookbooks/ps1/recipes/install.bash" --users "${jenkinsUserName}"
 
     # Config SSH and GIT
 

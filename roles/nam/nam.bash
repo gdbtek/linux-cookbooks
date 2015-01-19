@@ -16,7 +16,7 @@ function main()
     "${appPath}/../../cookbooks/redis/recipes/install.bash"
     "${appPath}/../../cookbooks/mongodb/recipes/install.bash"
     "${appPath}/../../cookbooks/jdk/recipes/install.bash"
-    "${appPath}/../../cookbooks/ps1/recipes/install.bash" 'nam' 'ubuntu'
+    "${appPath}/../../cookbooks/ps1/recipes/install.bash" --host-name 'nam.guru' --users 'nam, ubuntu'
 
     cleanUpSystemFolders
 }

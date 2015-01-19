@@ -6,7 +6,7 @@ function main()
 
     source "${appPath}/../../libraries/util.bash"
 
-    "${appPath}/../../cookbooks/ps1/recipes/install.bash" 'nam'
+    "${appPath}/../../cookbooks/ps1/recipes/install.bash" --users 'nam'
 
     cleanUpSystemFolders
 }
