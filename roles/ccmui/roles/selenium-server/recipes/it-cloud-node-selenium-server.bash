@@ -28,7 +28,7 @@ function main()
 
     # Install Apps
 
-    "${appPath}/../../../../essential.bash"
+    "${appPath}/../../../../essential.bash" 'selenium-linux-XXX.ccmui.adobe.com'
     "${appPath}/../../../../../cookbooks/selenium-server/recipes/install-node.bash" "${ccmuiSeleniumServerHubHost}"
 
     # Config SSH
