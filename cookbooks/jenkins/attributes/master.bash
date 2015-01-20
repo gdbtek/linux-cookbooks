@@ -27,7 +27,6 @@ export jenkinsInstallPlugins=(
     'copyartifact'
     'dashboard-view'
     'description-setter'
-    'disk-usage'
     'email-ext'
     'embeddable-build-status'
     'envinject'
