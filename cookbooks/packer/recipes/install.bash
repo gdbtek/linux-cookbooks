@@ -21,7 +21,7 @@ function install()
 
     # Display Version
 
-    info "$("${packerInstallFolder}/bin/packer" --version)"
+    info "$("${packerInstallFolder}/bin/packer" version)"
 }
 
 function main()
