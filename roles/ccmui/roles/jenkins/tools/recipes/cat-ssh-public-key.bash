@@ -7,7 +7,7 @@ function main()
     source "${appPath}/../../../../../../cookbooks/tomcat/attributes/default.bash"
 
     local masterCommand="cat ~${tomcatUserName}/.ssh/id_rsa.pub"
-    local slaveCommand="cat ~root/.ssh/id_rsa.pub"
+    local slaveCommand='cat ~root/.ssh/id_rsa.pub'
 
     "${appPath}/../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/jenkins.bash" \
