@@ -30,6 +30,7 @@ export jenkinsInstallPlugins=(
     'email-ext'
     'embeddable-build-status'
     'envinject'
+    'extended-choice-parameter'
     'git'
     'github'
     'github-oauth'
