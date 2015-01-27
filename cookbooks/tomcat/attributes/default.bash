@@ -2,7 +2,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
-export tomcatDownloadURL='http://www.us.apache.org/dist/tomcat/tomcat-8/v8.0.17/bin/apache-tomcat-8.0.17.tar.gz'
+export tomcatDownloadURL='http://www.us.apache.org/dist/tomcat/tomcat-8/v8.0.18/bin/apache-tomcat-8.0.18.tar.gz'
 
 export tomcatInstallFolder='/opt/tomcat'
 export tomcatJDKInstallFolder="${jdkInstallFolder}"
