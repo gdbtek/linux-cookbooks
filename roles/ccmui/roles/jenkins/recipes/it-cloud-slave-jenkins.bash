@@ -22,7 +22,7 @@ function main()
 
     "${appPath}/../../../../essential.bash" "${hostName}"
     "${appPath}/../../../../../cookbooks/maven/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiJenkinsNodeJSInstallFolder}" "${ccmuiJenkinsNodeJSVersion}"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/install-slave.bash"
     "${appPath}/../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${jenkinsUserName}"
 

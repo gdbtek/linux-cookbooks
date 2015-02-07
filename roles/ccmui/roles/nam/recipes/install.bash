@@ -21,7 +21,7 @@ function main()
     "${appPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/chef/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/jdk/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiNamNodeJSInstallFolder}" "${ccmuiNamNodeJSVersion}"
     "${appPath}/../../../../../cookbooks/packer/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/ruby/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/shell-check/recipes/install.bash"

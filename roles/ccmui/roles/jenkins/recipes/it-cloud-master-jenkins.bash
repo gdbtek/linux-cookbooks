@@ -23,7 +23,7 @@ function main()
 
     "${appPath}/../../../../essential.bash" "${hostName}"
     "${appPath}/../../../../../cookbooks/maven/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiJenkinsNodeJSInstallFolder}" "${ccmuiJenkinsNodeJSVersion}"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/install-master.bash"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${ccmuiJenkinsInstallPlugins[@]}"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"

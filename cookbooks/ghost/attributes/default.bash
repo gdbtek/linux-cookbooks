@@ -6,6 +6,7 @@ export ghostDownloadURL='https://ghost.org/zip/ghost-latest.zip'
 
 export ghostInstallFolder='/opt/ghost'
 export ghostNodeJSInstallFolder="${nodejsInstallFolder}"
+export ghostNodeJSVersion="${nodejsVersion}"
 
 export ghostServiceName='ghost'
 
