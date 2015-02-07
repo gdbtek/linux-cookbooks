@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../../../node-js/attributes/default.bash"
+echo $(dirname "${BASH_SOURCE[0]}")
+source "$(dirname "${BASH_SOURCE[0]}")/../../../../../cookbooks/node-js/attributes/default.bash"
 
 export ccmuiJenkinsDisk='/dev/sdb'
 export ccmuiJenkinsMountOn='/opt'
