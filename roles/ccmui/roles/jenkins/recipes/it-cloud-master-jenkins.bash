@@ -22,6 +22,7 @@ function main()
     local hostName='jenkins.ccmui.adobe.com'
 
     "${appPath}/../../../../essential.bash" "${hostName}"
+    "${appPath}/../../../../../cookbooks/groovy/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/maven/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiJenkinsNodeJSInstallFolder}" "${ccmuiJenkinsNodeJSVersion}"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/install-master.bash"
