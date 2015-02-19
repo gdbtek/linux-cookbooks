@@ -37,8 +37,12 @@ function install()
     cd "${unzipFolder}"
     find '.' -maxdepth 1 ! -name '.' -exec mv '{}' "${groovyInstallFolder}" \;
     cd "${currentPath}"
-
     rm -f -r "${unzipFolder}"
+
+    # Config Lib
+
+    chown -R "$(whoami):$(whoami)" "${groovyInstallFolder}"
+    ln -s "${groovyInstallFolder}/bin/groovy" '/usr/local/bin/groovy'
 
     # Config Profile
 
