@@ -452,7 +452,7 @@ function runAptGetUpgrade()
     runAptGetUpdate ''
 
     info "\napt-get dist-upgrade"
-    apt-get dist-upgrade -m -y
+    apt-get dist-upgrade --force-yes -m -y
 
     info "\napt-get upgrade"
     apt-get upgrade --force-yes -m -y
