@@ -432,7 +432,8 @@ function runAptGetUpdate()
 
     if [[ "$(isEmptyString "${updateInterval}")" = 'true' ]]
     then
-        updateInterval="$((24 * 60 * 60))"    # 24 hours
+        # Default To 24 hours
+        updateInterval="$((24 * 60 * 60))"
     fi
 
     if [[ "${lastAptGetUpdate}" -gt "${updateInterval}" ]]
@@ -454,7 +455,7 @@ function runAptGetUpgrade()
     apt-get dist-upgrade -m -y
 
     info "\napt-get upgrade"
-    apt-get upgrade -m -y
+    apt-get upgrade --force-yes -m -y
 
     info "\napt-get autoremove"
     apt-get autoremove -y
