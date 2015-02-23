@@ -5,7 +5,6 @@ function install()
     # Clean Up
 
     initializeFolder "${jdkInstallFolder}"
-    rm -f '/usr/local/bin/jar' '/usr/local/bin/java' '/usr/local/bin/javac'
 
     # Install
 
@@ -14,9 +13,9 @@ function install()
     # Config Lib
 
     chown -R "$(whoami):$(whoami)" "${jdkInstallFolder}"
-    ln -s "${jdkInstallFolder}/bin/jar" '/usr/local/bin/jar'
-    ln -s "${jdkInstallFolder}/bin/java" '/usr/local/bin/java'
-    ln -s "${jdkInstallFolder}/bin/javac" '/usr/local/bin/javac'
+    ln -f -s "${jdkInstallFolder}/bin/jar" '/usr/local/bin/jar'
+    ln -f -s "${jdkInstallFolder}/bin/java" '/usr/local/bin/java'
+    ln -f -s "${jdkInstallFolder}/bin/javac" '/usr/local/bin/javac'
 
     # Config Profile
 

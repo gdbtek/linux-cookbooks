@@ -13,7 +13,6 @@ function install()
     # Clean Up
 
     initializeFolder "${mavenInstallFolder}"
-    rm -f '/usr/local/bin/mvn'
 
     # Install
 
@@ -22,7 +21,7 @@ function install()
     # Config Lib
 
     chown -R "$(whoami):$(whoami)" "${mavenInstallFolder}"
-    ln -s "${mavenInstallFolder}/bin/mvn" '/usr/local/bin/mvn'
+    ln -f -s "${mavenInstallFolder}/bin/mvn" '/usr/local/bin/mvn'
 
     # Config Profile
 

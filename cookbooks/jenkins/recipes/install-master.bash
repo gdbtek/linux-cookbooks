@@ -30,7 +30,7 @@ function install()
     if [[ "${jenkinsInstallFolder}" != "${jenkinsDefaultInstallFolder}" ]]
     then
         initializeFolder "${jenkinsInstallFolder}"
-        ln -s "${jenkinsInstallFolder}" "${jenkinsDefaultInstallFolder}"
+        ln -f -s "${jenkinsInstallFolder}" "${jenkinsDefaultInstallFolder}"
         chown -R "${jenkinsUserName}:${jenkinsGroupName}" "${jenkinsDefaultInstallFolder}" "${jenkinsInstallFolder}"
     fi
 

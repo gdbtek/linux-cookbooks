@@ -139,8 +139,7 @@ function symlinkLocalBin()
     find "${sourceBinFolder}" -maxdepth 1 -xtype f -perm -u+x -exec bash -c -e '
         for file
         do
-            rm -f "/usr/local/bin/$(basename "${file}")"
-            ln -s "${file}" "/usr/local/bin/$(basename "${file}")"
+            ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
         done' bash '{}' \;
 }
 

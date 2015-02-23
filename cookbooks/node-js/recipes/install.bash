@@ -10,7 +10,6 @@ function install()
     # Clean Up
 
     initializeFolder "${nodejsInstallFolder}"
-    rm -f '/usr/local/bin/node' '/usr/local/bin/npm'
 
     # Install
 
