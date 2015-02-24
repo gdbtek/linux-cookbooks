@@ -67,8 +67,6 @@ function main()
 
     header 'INSTALLING GROOVY'
 
-    checkRequirePort '8153' '8154'
-
     installDependencies
     install
     installCleanUp
