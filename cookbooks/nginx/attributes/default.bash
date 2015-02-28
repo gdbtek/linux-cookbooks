@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 export nginxDownloadURL='http://nginx.org/download/nginx-1.7.10.tar.gz'
-export nginxPCREDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre2-10.00.tar.gz'
+export nginxPCREDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz'
 export nginxZLIBDownloadURL='http://zlib.net/zlib-1.2.8.tar.gz'
 
 export nginxInstallFolder='/opt/nginx'

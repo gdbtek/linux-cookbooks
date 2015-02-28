@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-export pcreDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre2-10.00.tar.gz'
+export pcreDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz'
 
 export pcreInstallFolder='/opt/pcre'
 
