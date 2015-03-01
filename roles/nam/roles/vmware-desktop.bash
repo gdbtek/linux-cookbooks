@@ -9,7 +9,7 @@ function main()
 
     "${appPath}/../../../cookbooks/essential/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash"
-    "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --users 'nam'
+    "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --profile-file-name '.bashrc' --users 'nam'
     "${appPath}/../../../cookbooks/vim/recipes/install.bash"
 
     setupGIT

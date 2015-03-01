@@ -8,13 +8,15 @@ function displayUsage()
     echo    "SYNOPSIS :"
     echo    "    ${scriptName}"
     echo    "        --help"
-    echo    "        --host-name    <HOST_NAME>"
-    echo    "        --users        <USERS>"
+    echo    "        --profile-file-name    <PROFILE_FILE_NAME>"
+    echo    "        --host-name            <HOST_NAME>"
+    echo    "        --users                <USERS>"
     echo -e "\033[1;35m"
     echo    "DESCRIPTION :"
-    echo    "    --help         Help page"
-    echo    "    --host-name    Custom host name (optional). Default to current host name"
-    echo    "    --users        List of users separated by commas or spaces (optional). Default to current user"
+    echo    "    --help                 Help page"
+    echo    "    --profile-file-name    Profile file name such as '.profile', '.bash_profile', '.bashrc' (optional)"
+    echo    "    --host-name            Custom host name (optional). Default to current host name"
+    echo    "    --users                List of users separated by commas or spaces (optional). Default to current user"
     echo -e "\033[1;36m"
     echo    "EXAMPLES :"
     echo    "    ./${scriptName} --help"
@@ -26,6 +28,10 @@ function displayUsage()
     echo    "    ./${scriptName}"
     echo    "        --host-name 'my-server.com'"
     echo    "        --users 'user1 user2 user3'"
+    echo    "    ./${scriptName}"
+    echo    "        --profile-file-name '.bash_profile'"
+    echo    "        --host-name 'my-server.com'"
+    echo    "        --users 'user1 user2 user3'"
     echo -e "\033[0m"
 
     exit "${1}"
@@ -33,8 +39,9 @@ function displayUsage()
 
 function install()
 {
-    local hostName="${1}"
-    local users=(${2//,/ })
+    local profileFileName="${1}"
+    local hostName="${2}"
+    local users=(${3//,/ })
 
     # Reformat PS1
 
@@ -57,7 +64,16 @@ function install()
 
     for user in "${users[@]}"
     do
+        # Use Auto Detect Profile File Path Or Use Specified Profile File Name
+
         local profileFilePath="$(getProfileFilePath "${user}")"
+
+        if [[ "$(isEmptyString "${profileFileName}")" = 'false' ]]
+        then
+            profileFilePath="$(getUserHomeFolder "${user}")/${profileFileName}"
+        fi
+
+        # Update Profile File Path
 
         if [[ "$(isEmptyString "${profileFilePath}")" = 'false' ]]
         then
@@ -97,6 +113,16 @@ function main()
                 displayUsage 0
                 ;;
 
+            --profile-file-name)
+                shift
+
+                if [[ "${#}" -gt '0' ]]
+                then
+                    local profileFileName="$(trimString "${1}")"
+                fi
+
+                ;;
+
             --host-name)
                 shift
 
@@ -128,7 +154,7 @@ function main()
 
     header 'INSTALLING PS1'
 
-    install "${hostName}" "${users}"
+    install "${profileFileName}" "${hostName}" "${users}"
     installCleanUp
 }
 
