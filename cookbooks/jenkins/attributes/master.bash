@@ -1,11 +1,14 @@
 #!/bin/bash -e
 
+source "$(dirname "${BASH_SOURCE[0]}")/../../groovy/attributes/default.bash"
 source "$(dirname "${BASH_SOURCE[0]}")/../../tomcat/attributes/default.bash"
 
 export jenkinsDownloadURL='http://mirrors.jenkins-ci.org/war/latest/jenkins.war'
 export jenkinsUpdateCenterURL='http://updates.jenkins-ci.org/update-center.json'
 
 export jenkinsInstallFolder='/opt/jenkins'
+
+export jenkinsGroovyInstallFolder="${groovyInstallFolder}"
 
 export jenkinsTomcatInstallFolder="${tomcatInstallFolder}"
 export jenkinsTomcatHTTPPort="${tomcatHTTPPort}"

@@ -2,9 +2,18 @@
 
 function installDependencies()
 {
+    # Groovy
+
+    if [[ "$(existCommand 'groovy')" = 'false' || ! -d "${jenkinsGroovyInstallFolder}" ]]
+    then
+        "${appPath}/../../groovy/recipes/install.bash" "${jenkinsGroovyInstallFolder}"
+    fi
+
+    # Tomcat
+
     if [[ ! -f "${jenkinsTomcatInstallFolder}/bin/catalina.sh" ]]
     then
-        "${appPath}/../../tomcat/recipes/install.bash"
+        "${appPath}/../../tomcat/recipes/install.bash" "${jenkinsTomcatInstallFolder}"
     fi
 }
 

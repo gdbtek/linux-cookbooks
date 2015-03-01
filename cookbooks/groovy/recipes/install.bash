@@ -57,6 +57,8 @@ function install()
 
 function main()
 {
+    local installFolder="${1}"
+
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
@@ -66,6 +68,15 @@ function main()
     checkRequireRootUser
 
     header 'INSTALLING GROOVY'
+
+    # Override Default Config
+
+    if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
+    then
+        groovyInstallFolder="${installFolder}"
+    fi
+
+    # Install
 
     installDependencies
     install
