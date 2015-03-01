@@ -6,7 +6,7 @@ function setupRepository()
 {
     local repositoryPath="$(getUserHomeFolder "$(whoami)")/git/github.com/gdbtek"
 
-    header 'SETUP GIT'
+    header 'SETUP REPOSITORY'
 
     mkdir -p "${repositoryPath}"
 
@@ -23,6 +23,8 @@ function setupRepository()
 function updateRepositoryOnLogin()
 {
     local userLogin="${1}"
+
+    header 'UPDATE REPOSITORY ON LOGIN'
 
     local command='cd ~/git/github.com/gdbtek/ubuntu-cookbooks/cookbooks && git pull'
 
