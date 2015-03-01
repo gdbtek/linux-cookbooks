@@ -34,7 +34,7 @@ function displayUsage()
 function install()
 {
     local hostName="${1}"
-    local users=(${2//,/ } "$(whoami)")
+    local users=(${2//,/ })
 
     # Reformat PS1
 
@@ -42,6 +42,13 @@ function install()
     then
         ps1RootPrompt="$(replaceString "${ps1RootPrompt}" '\\h' "${hostName}")"
         ps1UserPrompt="$(replaceString "${ps1UserPrompt}" '\\h' "${hostName}")"
+    fi
+
+    # Add Current User To List When Array Is Empty
+
+    if [[ "${#users[@]}" -lt '1' ]]
+    then
+        users=("$(whoami)")
     fi
 
     # Update Prompt

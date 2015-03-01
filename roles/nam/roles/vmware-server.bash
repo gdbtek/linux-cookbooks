@@ -7,7 +7,7 @@ function main()
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../libraries/util.bash"
 
-    "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --users 'nam'
+    "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --users "nam, $(whoami)"
 
     setupGIT
     cleanUpSystemFolders

@@ -4,7 +4,7 @@ function main()
 {
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local hostName='nam.guru'
-    local users='nam, ubuntu'
+    local users="nam, ubuntu, $(whoami)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../libraries/util.bash"

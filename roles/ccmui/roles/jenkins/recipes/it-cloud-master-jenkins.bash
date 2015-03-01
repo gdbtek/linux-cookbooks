@@ -27,7 +27,7 @@ function main()
     "${appPath}/../../../../../cookbooks/jenkins/recipes/install-master.bash"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${ccmuiJenkinsInstallPlugins[@]}"
     "${appPath}/../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
-    "${appPath}/../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${jenkinsUserName}"
+    "${appPath}/../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${jenkinsUserName}, $(whoami)"
 
     # Config SSH and GIT
 
