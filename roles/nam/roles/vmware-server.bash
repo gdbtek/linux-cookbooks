@@ -9,7 +9,8 @@ function main()
 
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --users "nam, $(whoami)"
 
-    setupGIT
+    setupRepository
+    updateRepositoryOnLogin "$(whoami)"
     cleanUpSystemFolders
 }
 

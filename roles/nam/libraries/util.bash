@@ -2,7 +2,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
-function setupGIT()
+function setupRepository()
 {
     local repositoryPath="$(getUserHomeFolder "$(whoami)")/git/github.com/gdbtek"
 
@@ -18,4 +18,13 @@ function setupGIT()
         cd "${repositoryPath}"
         git clone 'https://github.com/gdbtek/ubuntu-cookbooks.git'
     fi
+}
+
+function updateRepositoryOnLogin()
+{
+    local userLogin="${1}"
+
+    local command='cd ~/git/github.com/gdbtek/ubuntu-cookbooks/cookbooks && git pull'
+
+    appendToFileIfNotFound "$(getProfileFilePath "${userLogin}")" "${command}" "${command}" 'false' 'false' 'false'
 }

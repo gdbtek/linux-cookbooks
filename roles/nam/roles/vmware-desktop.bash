@@ -12,7 +12,8 @@ function main()
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --profile-file-name '.bashrc' --users 'nam'
     "${appPath}/../../../cookbooks/vim/recipes/install.bash"
 
-    setupGIT
+    setupRepository
+    updateRepositoryOnLogin "$(whoami)"
     cleanUpSystemFolders
 }
 

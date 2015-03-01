@@ -21,7 +21,7 @@ function main()
     "${appPath}/../../../cookbooks/jdk/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${users}"
 
-    setupGIT
+    setupRepository
     cleanUpSystemFolders
 }
 
