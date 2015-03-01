@@ -10,7 +10,7 @@ function setupGIT()
 
     mkdir -p "${repositoryPath}"
 
-    if [[ -d '${repositoryPath}/ubuntu-cookbooks' ]]
+    if [[ -d "${repositoryPath}/ubuntu-cookbooks" ]]
     then
         cd "${repositoryPath}/ubuntu-cookbooks"
         git pull
