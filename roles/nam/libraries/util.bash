@@ -28,5 +28,5 @@ function updateRepositoryOnLogin()
 
     local command='cd ~/git/github.com/gdbtek/ubuntu-cookbooks/cookbooks && git pull'
 
-    appendToFileIfNotFound "$(getProfileFilePath "${userLogin}")" "${command}" "${command}" 'false' 'false' 'false'
+    appendToFileIfNotFound "$(getProfileFilePath "${userLogin}")" "${command}" "${command}" 'false' 'false' 'true'
 }
