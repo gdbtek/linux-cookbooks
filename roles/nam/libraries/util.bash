@@ -15,6 +15,7 @@ function setupGIT()
         cd "${repositoryPath}/ubuntu-cookbooks"
         git pull
     else
+        cd "${repositoryPath}"
         git clone 'https://github.com/gdbtek/ubuntu-cookbooks.git'
     fi
 }
