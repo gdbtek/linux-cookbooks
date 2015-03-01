@@ -1027,7 +1027,7 @@ function getMachineRelease()
     lsb_release -r -s
 }
 
-function getProfileFile()
+function getProfileFilePath()
 {
     local user="${1}"
 
@@ -1035,16 +1035,16 @@ function getProfileFile()
 
     if [[ "$(isEmptyString "${userHome}")" = 'false' && -d "${userHome}" ]]
     then
-        local bashProfileFile="${userHome}/.bash_profile"
-        local profileFile="${userHome}/.profile"
-        local defaultStartUpFile="${bashProfileFile}"
+        local bashProfileFilePath="${userHome}/.bash_profile"
+        local profileFilePath="${userHome}/.profile"
+        local defaultStartUpFilePath="${bashProfileFilePath}"
 
-        if [[ ! -f "${bashProfileFile}" && -f "${profileFile}" ]]
+        if [[ ! -f "${bashProfileFilePath}" && -f "${profileFilePath}" ]]
         then
-            defaultStartUpFile="${profileFile}"
+            defaultStartUpFilePath="${profileFilePath}"
         fi
 
-        echo "${defaultStartUpFile}"
+        echo "${defaultStartUpFilePath}"
     else
         echo
     fi

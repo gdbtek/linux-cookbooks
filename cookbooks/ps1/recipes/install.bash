@@ -50,9 +50,9 @@ function install()
 
     for user in "${users[@]}"
     do
-        local profileFile="$(getProfileFile "${user}")"
+        local profileFilePath="$(getProfileFilePath "${user}")"
 
-        if [[ "$(isEmptyString "${profileFile}")" = 'false' ]]
+        if [[ "$(isEmptyString "${profileFilePath}")" = 'false' ]]
         then
             if [[ "$(whoami)" = "${user}" ]]
             then
@@ -61,15 +61,15 @@ function install()
                 local prompt="export PS1=\"${ps1UserPrompt}\""
             fi
 
-            echo -e "Updating '\033[1;32m${profileFile}\033[0m'"
+            echo -e "Updating '\033[1;32m${profileFilePath}\033[0m'"
 
-            if [[ ! -f "${profileFile}" ]]
+            if [[ ! -f "${profileFilePath}" ]]
             then
-                touch "${profileFile}"
-                chown "${user}:${user}" "${profileFile}"
+                touch "${profileFilePath}"
+                chown "${user}:${user}" "${profileFilePath}"
             fi
 
-            appendToFileIfNotFound "${profileFile}" "${prompt}" "${prompt}" 'false' 'false' 'true'
+            appendToFileIfNotFound "${profileFilePath}" "${prompt}" "${prompt}" 'false' 'false' 'true'
         else
             warn "WARN : profile '${user}' not found"
         fi

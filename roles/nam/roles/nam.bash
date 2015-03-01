@@ -7,6 +7,7 @@ function main()
     local users='nam, ubuntu'
 
     source "${appPath}/../../../libraries/util.bash"
+    source "${appPath}/../libraries/util.bash"
 
     # "${appPath}/../../../cookbooks/apt-source/recipes/install.bash"
 
@@ -20,6 +21,7 @@ function main()
     "${appPath}/../../../cookbooks/jdk/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${users}"
 
+    setupGIT
     cleanUpSystemFolders
 }
 
