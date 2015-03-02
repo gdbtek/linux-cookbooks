@@ -2,6 +2,17 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
+function autoSudo()
+{
+    local userLogin="${1}"
+
+    header 'AUTO SUDO'
+
+    local command='sudo su -'
+
+    appendToFileIfNotFound "$(getUserHomeFolder "${userLogin}")/.bashrc" "${command}" "${command}" 'false' 'false' 'true'
+}
+
 function setupRepository()
 {
     local repositoryPath="$(getUserHomeFolder "$(whoami)")/git/github.com/gdbtek"
