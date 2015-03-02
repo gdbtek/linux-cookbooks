@@ -42,6 +42,11 @@ function install()
 
     createFileFromTemplate  "${appPath}/../templates/default/nginx.conf.conf" "${nginxInstallFolder}/conf/nginx.conf" "${serverConfigData[@]}"
 
+    # Config Log
+
+    touch "${nginxInstallFolder}/logs/access.log"
+    touch "${nginxInstallFolder}/logs/error.log"
+
     # Config Profile
 
     local profileConfigData=('__INSTALL_FOLDER__' "${nginxInstallFolder}")
