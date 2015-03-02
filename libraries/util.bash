@@ -901,7 +901,7 @@ function deleteUser()
 
 function displayOpenPorts()
 {
-    header 'LIST OPEN PORTS'
+    header 'DISPLAY OPEN PORTS'
 
     sleep 10
     lsof -i -n -P | grep -i ' (LISTEN)$' | sort -f
