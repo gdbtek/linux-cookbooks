@@ -13,7 +13,7 @@ function main()
     "${appPath}/../../../cookbooks/vim/recipes/install.bash"
 
     addUserToSudoWithoutPassword 'nam'
-    autoSudo 'nam'
+    autoSudo 'nam' '.bashrc'
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
 

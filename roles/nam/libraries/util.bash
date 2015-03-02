@@ -5,12 +5,13 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 function autoSudo()
 {
     local userLogin="${1}"
+    local profileFileName="${2}"
 
     header 'AUTO SUDO'
 
     local command='sudo su -'
 
-    appendToFileIfNotFound "$(getUserHomeFolder "${userLogin}")/.bashrc" "${command}" "${command}" 'false' 'false' 'true'
+    appendToFileIfNotFound "$(getUserHomeFolder "${userLogin}")/${profileFileName}" "${command}" "${command}" 'false' 'false' 'true'
 }
 
 function setupRepository()
