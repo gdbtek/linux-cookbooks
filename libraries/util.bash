@@ -691,6 +691,15 @@ function addUserSSHKnownHost()
     configUserSSH "${userLogin}" "${groupName}" "${sshRSA}" 'known_hosts'
 }
 
+function addUserToSudoWithoutPassword()
+{
+    local userLogin="${1}"
+
+    local config="${userLogin} ALL=(ALL) NOPASSWD: ALL"
+
+    appendToFileIfNotFound '/etc/sudoers' "${config}" "${config}" 'false' 'false' 'true'
+}
+
 function checkExistCommand()
 {
     local command="${1}"

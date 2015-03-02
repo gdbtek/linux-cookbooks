@@ -9,6 +9,7 @@ function main()
 
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --users "nam, $(whoami)"
 
+    addUserToSudoWithoutPassword 'nam'
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
     cleanUpSystemFolders
