@@ -9,4 +9,4 @@ setgid '__GROUP_NAME__'
 respawn
 respawn limit 10 5
 
-exec java -jar '__INSTALL_FILE__' -role 'node' -nodeConfig '__CONFIG_FILE__'
+exec java -jar '__INSTALL_FILE__' -role 'node' -trustAllSSLCertificates -nodeConfig '__CONFIG_FILE__'
