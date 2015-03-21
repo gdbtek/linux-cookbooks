@@ -9,4 +9,4 @@ export ccmuiNamGITUserName='Nam Nguyen'
 export ccmuiNamGITUserEmail='namnguye@adobe.com'
 
 export ccmuiNamNodeJSInstallFolder="${nodejsInstallFolder}"
-export ccmuiNamNodeJSVersion='v0.10.36'
+export ccmuiNamNodeJSVersion='v0.10.37'
