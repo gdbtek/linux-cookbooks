@@ -8,20 +8,17 @@ function install()
 
     # Install
 
-    local currentPath="$(pwd)"
     local tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${awscliDownloadURL}" "${tempFolder}"
-    cd "${tempFolder}"
-
+    "${tempFolder}/awscli-bundle/install" -b '/usr/local/bin/aws' -i "${awscliInstallFolder}"
     rm -f -r "${tempFolder}"
-    cd "${currentPath}"
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
+    local profileConfigData=('__INSTALL_FOLDER__' "${awscliInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../templates/default/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/aws-cli.sh.profile" '/etc/profile.d/aws-cli.sh' "${profileConfigData[@]}"
 
     # Display Version
 
