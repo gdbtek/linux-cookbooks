@@ -8,9 +8,24 @@ function install()
 
     # Install
 
-    unzipRemoteFile "${awscliDownloadURL}" "${awscliInstallFolder}"
+    local currentPath="$(pwd)"
+    local tempFolder="$(getTemporaryFolder)"
 
-    info "\n$(aws --version 2>&1)"
+    unzipRemoteFile "${awscliDownloadURL}" "${tempFolder}"
+    cd "${tempFolder}"
+
+    rm -f -r "${tempFolder}"
+    cd "${currentPath}"
+
+    # Config Profile
+
+    local profileConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
+
+    createFileFromTemplate "${appPath}/../templates/default/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
+
+    # Display Version
+
+    info "\n$("${awscliInstallFolder}/bin/aws" --version 2>&1)"
 }
 
 function main()
