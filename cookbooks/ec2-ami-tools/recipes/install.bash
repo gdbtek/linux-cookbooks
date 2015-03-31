@@ -34,9 +34,8 @@ function install()
 
     local currentPath="$(pwd)"
 
-    cd "${unzipFolder}"
-    find '.' -maxdepth 1 ! -name '.' -exec mv '{}' "${ec2amitoolsInstallFolder}" \;
-    cd "${currentPath}"
+    find "${unzipFolder}" -maxdepth 1 ! -name '.' -exec mv '{}' "${ec2amitoolsInstallFolder}" \;
+    symlinkLocalBin "${ec2amitoolsInstallFolder}/bin"
     rm -f -r "${unzipFolder}"
 
     # Config Profile
