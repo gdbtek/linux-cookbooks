@@ -4,13 +4,13 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${awscliInstallFolder}"
+    initializeFolder "${ec2amitoolsInstallFolder}"
 
     # Install
 
-    unzipRemoteFile "${ec2amitoolsDownloadURL}" "${awscliInstallFolder}"
+    unzipRemoteFile "${ec2amitoolsDownloadURL}" "${ec2amitoolsInstallFolder}"
 
-    local unzipFolder="$(find "${awscliInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local unzipFolder="$(find "${ec2amitoolsInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
@@ -27,7 +27,7 @@ function install()
     local currentPath="$(pwd)"
 
     cd "${unzipFolder}"
-    find '.' -maxdepth 1 ! -name '.' -exec mv '{}' "${awscliInstallFolder}" \;
+    find '.' -maxdepth 1 ! -name '.' -exec mv '{}' "${ec2amitoolsInstallFolder}" \;
     cd "${currentPath}"
     rm -f -r "${unzipFolder}"
 
@@ -39,7 +39,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${awscliInstallFolder}/bin/aws" --version 2>&1)"
+    info "\n$("${ec2amitoolsInstallFolder}/bin/aws" --version 2>&1)"
 }
 
 function main()
