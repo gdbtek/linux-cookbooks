@@ -1,5 +1,13 @@
 #!/bin/bash -e
 
+function installDependencies()
+{
+    if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${ec2amitoolsRubyInstallFolder}" ]]
+    then
+        "${appPath}/../../ruby/recipes/install.bash" "${ec2amitoolsRubyInstallFolder}"
+    fi
+}
+
 function install()
 {
     # Clean Up
@@ -44,7 +52,7 @@ function install()
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"
@@ -54,6 +62,7 @@ function main()
 
     header 'INSTALLING EC2-AMI-TOOLS'
 
+    installDependencies
     install
     installCleanUp
 }
