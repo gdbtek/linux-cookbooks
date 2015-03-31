@@ -36,6 +36,18 @@ function install()
 
     createFileFromTemplate "${appPath}/../templates/default/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
+    # Install NPM Packages
+
+    local package=''
+
+    for package in "${nodejsInstallNPMPackages[@]}"
+    do
+        echo
+        # installAptGetPackage "${package}"
+    done
+
+    # Display Version
+
     info "Node Version: $(node --version)"
     info "NPM Version : $(npm --version)"
 }
