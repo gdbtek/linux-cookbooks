@@ -48,7 +48,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${ec2amitoolsInstallFolder}/bin/ec2-ami-tools-version")"
+    info "$("${ec2amitoolsInstallFolder}/bin/ec2-ami-tools-version")"
 }
 
 function main()
