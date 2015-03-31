@@ -1,6 +1,6 @@
 description 'Selenium Server (Node)'
 
-start on started mountall
+start on filesystem and net-device-up IFACE=lo
 stop on shutdown
 
 setuid '__USER_NAME__'
