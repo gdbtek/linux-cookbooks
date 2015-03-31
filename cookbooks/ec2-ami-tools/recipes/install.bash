@@ -47,7 +47,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${ec2amitoolsInstallFolder}/bin/aws" --version 2>&1)"
+    info "\n$("${ec2amitoolsInstallFolder}/bin/ec2-ami-tools-version")"
 }
 
 function main()
