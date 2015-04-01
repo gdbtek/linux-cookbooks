@@ -1,33 +1,14 @@
 #!/bin/bash -e
 
-function installDependencies()
-{
-    installAptGetPackages 'cabal-install'
-}
-
 function install()
 {
-    # Clean Up
-
-    initializeFolder "${cabalInstallFolder}"
-
     # Install
 
-    cabal update
-    cabal install 'shellcheck'
-
-    mv ~/.cabal/* "${cabalInstallFolder}"
-    rm -f -r ~/.cabal
-
-    # Config Profile
-
-    local profileConfigData=('__INSTALL_FOLDER__' "${cabalInstallFolder}")
-
-    createFileFromTemplate "${appPath}/../templates/default/cabal.sh.profile" '/etc/profile.d/cabal.sh' "${profileConfigData[@]}"
+    installAptGetPackages 'shellcheck'
 
     # Display Version
 
-    info "\n$("${cabalInstallFolder}/bin/shellcheck" -V)"
+    info "\n$(shellcheck -V)"
 }
 
 function main()
@@ -35,14 +16,12 @@ function main()
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser
 
     header 'INSTALLING SHELL-CHECK'
 
-    installDependencies
     install
     installCleanUp
 }
