@@ -48,7 +48,7 @@ function install()
 
     # Display Version
 
-    info "Node Version: $(node --version)"
+    info "\nNode Version: $(node --version)"
     info "NPM Version : $(npm --version)"
 }
 
