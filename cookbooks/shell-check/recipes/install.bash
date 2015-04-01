@@ -8,6 +8,8 @@ function install()
 
     # Display Version
 
+    header 'DISPLAYING VERSIONS'
+
     info "\n$(shellcheck -V)"
 }
 
