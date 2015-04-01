@@ -42,8 +42,8 @@ function install()
 
     for package in "${nodejsInstallNPMPackages[@]}"
     do
-        echo
-        # installAptGetPackage "${package}"
+        header "INSTALLING NODE-JS NPM PACKAGE ${package}"
+        npm install "${package}" -g
     done
 
     # Display Version
