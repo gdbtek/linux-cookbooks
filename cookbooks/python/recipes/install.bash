@@ -22,7 +22,6 @@ function install()
     "${tempFolder}/configure" --prefix="${pythonInstallFolder}"
     make
     make install
-    symlinkLocalBin "${pythonInstallFolder}/bin"
     ln -f -s "${pythonInstallFolder}/bin/python3" '/usr/local/bin/python'
     rm -f -r "${tempFolder}"
     cd "${currentPath}"
