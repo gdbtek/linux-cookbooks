@@ -2,8 +2,7 @@
 
 function installDependencies()
 {
-    echo
-    # installAptGetPackages 'build-essential' 'libffi-dev' 'libgdbm-dev' 'libreadline-dev' 'libssl-dev' 'zlib1g-dev'
+    installAptGetPackages 'build-essential'
 }
 
 function install()
