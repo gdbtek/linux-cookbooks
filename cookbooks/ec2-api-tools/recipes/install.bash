@@ -27,7 +27,7 @@ function install()
     local currentPath="$(pwd)"
 
     cd "${unzipFolder}"
-    find '.' -maxdepth 1 ! -name '.' -exec mv '{}' "${ec2apitoolsInstallFolder}" \;
+    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${ec2apitoolsInstallFolder}" \;
     cd "${currentPath}"
     rm -f -r "${unzipFolder}"
 

@@ -916,7 +916,7 @@ function emptyFolder()
     local currentPath="$(pwd)"
 
     cd "${folder}"
-    find '.' ! -name '.' -delete
+    find '.' -not -name '.' -delete
     cd "${currentPath}"
 }
 

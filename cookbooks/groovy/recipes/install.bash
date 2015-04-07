@@ -35,7 +35,7 @@ function install()
     local currentPath="$(pwd)"
 
     cd "${unzipFolder}"
-    find '.' -maxdepth 1 ! -name '.' -exec mv '{}' "${groovyInstallFolder}" \;
+    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${groovyInstallFolder}" \;
     cd "${currentPath}"
     rm -f -r "${unzipFolder}"
 

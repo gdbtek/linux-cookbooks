@@ -16,6 +16,6 @@ env JAVA_HOME='__JDK_INSTALL_FOLDER__'
 exec "${CATALINA_HOME}/bin/catalina.sh" run
 
 post-stop script
-    cd "${CATALINA_HOME}/logs" && find '.' ! -name '.' -delete
-    cd "${CATALINA_HOME}/temp" && find '.' ! -name '.' -delete
+    cd "${CATALINA_HOME}/logs" && find '.' -not -name '.' -delete
+    cd "${CATALINA_HOME}/temp" && find '.' -not -name '.' -delete
 end script

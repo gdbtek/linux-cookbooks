@@ -21,7 +21,7 @@ function install()
     unzipRemoteFile "${redisDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}/src" -type f ! -name "*.sh" -perm -u+x -exec cp -f '{}' "${redisInstallBinFolder}" \;
+    find "${tempFolder}/src" -type f -not -name "*.sh" -perm -u+x -exec cp -f '{}' "${redisInstallBinFolder}" \;
     rm -f -r "${tempFolder}"
     cd "${currentPath}"
 
