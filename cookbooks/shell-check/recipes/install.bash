@@ -19,6 +19,7 @@ function install()
 
     mv ~/.cabal/* "${cabalInstallFolder}"
     rm -f -r ~/.cabal
+    ln -f -s "${cabalInstallFolder}/bin/shellcheck" '/usr/local/bin/shellcheck'
 
     # Config Profile
 
