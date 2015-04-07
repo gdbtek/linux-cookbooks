@@ -16,7 +16,7 @@ function autoSudo()
 
 function setupRepository()
 {
-    local repositoryPath="$(getUserHomeFolder "$(whoami)")/git/github.com/gdbtek"
+    local repositoryPath="$(getCurrentUserHomeFolder)/git/github.com/gdbtek"
 
     header 'SETUP REPOSITORY'
 

@@ -46,6 +46,15 @@ function install()
         npm install "${package}" -g
     done
 
+    # Clean Up
+
+    local userHomeFolderPath="$(getCurrentUserHomeFolder)"
+
+    rm -f -r "${userHomeFolderPath}/.cache" \
+             "${userHomeFolderPath}/.node-gyp" \
+             "${userHomeFolderPath}/.npm" \
+             "${userHomeFolderPath}/.qws"
+
     # Display Version
 
     header 'DISPLAYING VERSIONS'

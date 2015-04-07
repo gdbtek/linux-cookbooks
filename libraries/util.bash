@@ -1026,6 +1026,11 @@ DONE
     chmod 600 "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
 }
 
+function getCurrentUserHomeFolder()
+{
+    echo "$(getUserHomeFolder "$(whoami)")"
+}
+
 function getMachineDescription()
 {
     lsb_release -d -s
