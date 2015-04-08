@@ -458,6 +458,9 @@ function runAptGetUpgrade()
 
     info "\napt-get autoremove"
     apt-get autoremove -y
+
+    info "\napt-get clean"
+    apt-get clean
 }
 
 function upgradePIPPackage()
