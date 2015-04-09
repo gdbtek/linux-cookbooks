@@ -1,5 +1,23 @@
 #!/bin/bash -e
 
+###################
+# ARRAY UTILITIES #
+###################
+
+function isElementInArray()
+{
+    local -r element="${1:?}"
+
+    local walker=''
+
+    for walker in "${@:2}"
+    do
+        [[ "${walker}" = "${element}" ]] && echo 'true' && return 0
+    done
+
+    echo 'false' && return 1
+}
+
 ########################
 # FILE LOCAL UTILITIES #
 ########################
