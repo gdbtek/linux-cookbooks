@@ -17,7 +17,7 @@ function isValidRegion()
 
     local -r allowedRegions=($(getAllowedRegions))
 
-    echo "$(isElementInArray "${region}" "${allowedRegions[@]}")"
+    isElementInArray "${region}" "${allowedRegions[@]}"
 }
 
 #######################
@@ -26,12 +26,12 @@ function isValidRegion()
 
 function getInstanceAvailabilityZone()
 {
-    echo "$(curl -s --retry 3 --retry-delay 5 'http://instance-data/latest/meta-data/placement/availability-zone')"
+    curl -s --retry 3 --retry-delay 5 'http://instance-data/latest/meta-data/placement/availability-zone'
 }
 
 function getInstanceID()
 {
-    echo "$(curl -s --retry 3 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id')"
+    curl -s --retry 3 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id'
 }
 
 ################
@@ -57,7 +57,7 @@ function getInstanceS3Protocol()
 {
     local -r availabilityZone="$(getInstanceAvailabilityZone)"
 
-    echo "$(getS3Protocol "${availabilityZone:0:${#availabilityZone} - 1}")"
+    getS3Protocol "${availabilityZone:0:${#availabilityZone} - 1}"
 }
 
 #######################
@@ -72,5 +72,5 @@ function getUserDataValue()
                       grep -E "^\s*${key:?}\s*=\s*" | \
                       awk -F '=' '{ print $2 }')"
 
-    echo "$(trimString "${value:?}")"
+    trimString "${value:?}"
 }
