@@ -451,16 +451,20 @@ function runAptGetUpgrade()
     runAptGetUpdate ''
 
     info "\napt-get upgrade"
+    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
     apt-get upgrade --force-yes -m -y
 
     info "\napt-get dist-upgrade"
-    apt-get dist-upgrade --force-yes -m -y
+    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
 
     info "\napt-get autoremove"
     apt-get autoremove -y
 
     info "\napt-get clean"
     apt-get clean
+
+    info "\napt-get autoclean"
+    apt-get autoclean
 }
 
 function upgradePIPPackage()
