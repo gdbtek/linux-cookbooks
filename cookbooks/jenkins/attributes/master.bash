@@ -45,6 +45,7 @@ export jenkinsInstallPlugins=(
     'job-import-plugin'
     'jobConfigHistory'
     'ldapemail'
+    'multiple-scms'
     'naginator'
     'Parameterized-Remote-Trigger'
     'parameterized-trigger'
