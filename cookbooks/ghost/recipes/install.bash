@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${ghostNodeJSInstallFolder}" ]]
     then
-        "${appPath}/../../node-js/recipes/install.bash" "${ghostNodeJSInstallFolder}" "${ghostNodeJSVersion}"
+        "${appPath}/../../node-js/recipes/install.bash" "${ghostNodeJSVersion}" "${ghostNodeJSInstallFolder}"
     fi
 }
 

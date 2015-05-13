@@ -73,8 +73,8 @@ function getLatestVersionNumber()
 
 function main()
 {
-    local installFolder="${1}"
-    local version="${2}"
+    local version="${1}"
+    local installFolder="${2}"
 
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -88,14 +88,14 @@ function main()
 
     # Override Default Config
 
-    if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
-    then
-        nodejsInstallFolder="${installFolder}"
-    fi
-
     if [[ "$(isEmptyString "${version}")" = 'false' ]]
     then
         nodejsVersion="${version}"
+    fi
+
+    if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
+    then
+        nodejsInstallFolder="${installFolder}"
     fi
 
     # Install
