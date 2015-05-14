@@ -50,14 +50,14 @@ function run()
 
     local machines=()
 
-    if [[ "${machineType}" = 'master' || "${machineType}" = 'master-slave' ]]
-    then
-        machines+=("${master}")
-    fi
-
     if [[ "${machineType}" = 'slave' || "${machineType}" = 'master-slave' ]]
     then
         machines+=("${slaves[@]}")
+    fi
+
+    if [[ "${machineType}" = 'master' || "${machineType}" = 'master-slave' ]]
+    then
+        machines+=("${master}")
     fi
 
     # Built Prompt
