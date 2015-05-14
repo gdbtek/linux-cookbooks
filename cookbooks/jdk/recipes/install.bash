@@ -25,7 +25,7 @@ function install()
 
     # Display Version
 
-    info "$(java -version 2>&1)"
+    info "\n$(java -version 2>&1)"
 }
 
 function main()
