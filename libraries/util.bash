@@ -487,7 +487,6 @@ function runAptGetUpgrade()
 
     info "\napt-get upgrade"
     DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
-    apt-get upgrade --force-yes -m -y
 
     info "\napt-get dist-upgrade"
     DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
