@@ -7,5 +7,6 @@ export nodejsVersion='latest'
 
 export nodejsInstallNPMPackages=(
     'forever'
+    'grunt-cli'
     'pm2'
 )
