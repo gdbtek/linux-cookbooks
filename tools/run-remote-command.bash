@@ -29,12 +29,14 @@ function displayUsage()
     echo -e "\033[1;35m"
     echo    "    --command           Command that will be run in remote servers (require)"
     echo    "    --machine-type      Machine type (require)"
-    echo    "                        Valid machine type : 'master', 'slave', or 'master-slave'"
+    echo    "                        Valid machine type : 'master', 'slave', 'master-slave', or 'slave-master'"
     echo -e "\033[1;36m"
     echo    "EXAMPLES :"
     echo    "    ./${scriptName} --help"
     echo    "    ./${scriptName} --attribute-file '/attribute.file' --command 'date' --machine-type 'slave'"
     echo    "    ./${scriptName} --async 'true' --attribute-file '/attribute.file' --command 'date' --machine-type 'slave'"
+    echo    "    ./${scriptName} --async 'true' --attribute-file '/attribute.file' --command 'uname -a' --machine-type 'master-slave'"
+    echo    "    ./${scriptName} --async 'true' --attribute-file '/attribute.file' --command 'sudo shutdown -r' --machine-type 'slave-master'"
     echo -e "\033[0m"
 
     exit "${1}"
@@ -50,13 +52,19 @@ function run()
 
     local machines=()
 
-    if [[ "${machineType}" = 'slave' || "${machineType}" = 'master-slave' ]]
+    if [[ "${machineType}" = 'master' ]]
+    then
+        machines+=("${master}")
+    elif [[ "${machineType}" = 'slave' ]]
     then
         machines+=("${slaves[@]}")
-    fi
-
-    if [[ "${machineType}" = 'master' || "${machineType}" = 'master-slave' ]]
+    elif [[ "${machineType}" = 'master-slave' ]]
     then
+        machines+=("${master}")
+        machines+=("${slaves[@]}")
+    elif [[ "${machineType}" = 'slave-master' ]]
+    then
+        machines+=("${slaves[@]}")
         machines+=("${master}")
     fi
 
@@ -195,9 +203,9 @@ function main()
 
     # Validate Machine Type
 
-    if [[ "${machineType}" != 'master' && "${machineType}" != 'slave' && "${machineType}" != 'master-slave' ]]
+    if [[ "${machineType}" != 'master' && "${machineType}" != 'slave' && "${machineType}" != 'master-slave' && "${machineType}" != 'slave-master' ]]
     then
-        error "\nERROR : machineType must be 'master', 'slave', or 'master-slave'"
+        error "\nERROR : machineType must be 'master', 'slave', 'master-slave', or 'slave-master'"
         displayUsage 1
     fi
 

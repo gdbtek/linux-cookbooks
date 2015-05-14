@@ -8,7 +8,7 @@ function main()
     "${appPath}/../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/jenkins.bash" \
         --command "${command}" \
-        --machine-type 'master-slave'
+        --machine-type 'slave-master'
 }
 
 main "${@}"
