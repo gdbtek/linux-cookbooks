@@ -20,10 +20,8 @@ function main()
     "${appPath}/../../../../essential.bash" 'nam-itc'
     "${appPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/chef/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/jdk/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiNamNodeJSVersion}" "${ccmuiNamNodeJSInstallFolder}"
     "${appPath}/../../../../../cookbooks/packer/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/ruby/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/shell-check/recipes/install.bash"
 
     # Config SSH and GIT
