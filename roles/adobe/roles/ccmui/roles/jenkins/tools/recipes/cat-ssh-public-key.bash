@@ -6,13 +6,18 @@ function main()
 
     source "${appPath}/../../../../../../../../cookbooks/tomcat/attributes/default.bash"
 
+    # Master
+
     local -r masterCommand="cat ~${tomcatUserName}/.ssh/id_rsa.pub"
-    local -r slaveCommand='cat ~root/.ssh/id_rsa.pub'
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/jenkins.bash" \
         --command "${masterCommand}" \
         --machine-type 'master'
+
+    # Slave
+
+    local -r slaveCommand='cat ~root/.ssh/id_rsa.pub'
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/jenkins.bash" \
