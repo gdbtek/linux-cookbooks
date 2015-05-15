@@ -6,9 +6,9 @@ function main()
 
     local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../../../../../cookbooks/mount-hd/attributes/default.bash"
-    source "${appPath}/../../../../../../../libraries/util.bash"
+    source "${appPath}/../../../../../cookbooks/mount-hd/attributes/default.bash"
     source "${appPath}/../../../../../libraries/util.bash"
+    source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"
 
     # Extend HD
@@ -17,12 +17,12 @@ function main()
 
     # Install Apps
 
-    "${appPath}/../../../../../../essential.bash" 'nam-itc'
-    "${appPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
-    "${appPath}/../../../../../../../cookbooks/chef/recipes/install.bash"
-    "${appPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiNamNodeJSVersion}" "${ccmuiNamNodeJSInstallFolder}"
-    "${appPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
-    "${appPath}/../../../../../../../cookbooks/shell-check/recipes/install.bash"
+    "${appPath}/../../../../essential.bash" 'nam-itc'
+    "${appPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/chef/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiNamNodeJSVersion}" "${ccmuiNamNodeJSInstallFolder}"
+    "${appPath}/../../../../../cookbooks/packer/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/shell-check/recipes/install.bash"
 
     # Config SSH and GIT
 
