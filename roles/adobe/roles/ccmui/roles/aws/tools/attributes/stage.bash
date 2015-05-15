@@ -7,18 +7,19 @@ export master=''
 export slaves=(
     # ap-northeast-1
 
-    'ec2-54-64-209-41.ap-northeast-1.compute.amazonaws.com'
-    'ec2-54-64-70-70.ap-northeast-1.compute.amazonaws.com'
+    'ec2-54-64-252-240.ap-northeast-1.compute.amazonaws.com'
+    'ec2-54-65-74-19.ap-northeast-1.compute.amazonaws.com'
 
     # eu-west-1
 
-    'ec2-54-77-124-10.eu-west-1.compute.amazonaws.com'
-    'ec2-54-77-195-93.eu-west-1.compute.amazonaws.com'
+    'ec2-54-171-65-136.eu-west-1.compute.amazonaws.com'
+    'ec2-54-171-69-42.eu-west-1.compute.amazonaws.com'
 
     # us-east-1
 
-    'ec2-54-173-180-88.compute-1.amazonaws.com'
-    'ec2-54-210-28-195.compute-1.amazonaws.com'
+    'ec2-52-1-127-174.compute-1.amazonaws.com'
+    'ec2-54-152-132-115.compute-1.amazonaws.com'
+    'ec2-54-86-19-3.compute-1.amazonaws.com'
 )
 
 export identityFile='/Volumes/Data/Data/Keys/ssh/adobe/aws/ccmui/stage.pem'

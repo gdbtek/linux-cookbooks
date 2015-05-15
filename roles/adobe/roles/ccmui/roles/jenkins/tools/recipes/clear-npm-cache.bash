@@ -2,11 +2,11 @@
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../../../../../../cookbooks/tomcat/attributes/default.bash"
 
-    local command="sudo rm -f -r \
+    local -r command="sudo rm -f -r \
         /tmp/* \
         /var/tmp/* \
         ~root/.cache \

@@ -4,7 +4,7 @@ function main()
 {
     # Load Libraries
 
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../../../../../cookbooks/jenkins/attributes/slave.bash"
     source "${appPath}/../../../../../../../cookbooks/mount-hd/attributes/default.bash"
@@ -18,7 +18,7 @@ function main()
 
     # Install Apps
 
-    local hostName='jenkins-slave-XXX.ccmui.adobe.com'
+    local -r hostName='jenkins-slave-XXX.ccmui.adobe.com'
 
     "${appPath}/../../../../../../essential.bash" "${hostName}"
     "${appPath}/../../../../../../../cookbooks/maven/recipes/install.bash"

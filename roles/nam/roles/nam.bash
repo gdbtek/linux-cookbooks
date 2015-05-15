@@ -2,9 +2,9 @@
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    local hostName='nam.guru'
-    local users="nam, ubuntu, $(whoami)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r hostName='nam.guru'
+    local -r users="nam, ubuntu, $(whoami)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../libraries/util.bash"

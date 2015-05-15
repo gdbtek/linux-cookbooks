@@ -12,11 +12,11 @@ function cleanUpITMess
 
 function displayNotice()
 {
-    local userLogin="${1}"
+    local -r userLogin="${1}"
 
     header 'NOTICES'
 
-    local userHome="$(getUserHomeFolder "${userLogin}")"
+    local -r userHome="$(getUserHomeFolder "${userLogin}")"
 
     checkExistFolder "${userHome}"
     checkExistFile "${userHome}/.ssh/id_rsa.pub"
@@ -28,9 +28,9 @@ function displayNotice()
 
 function extendOPTPartition()
 {
-    local disk="${1}"
-    local mountOn="${2}"
-    local mounthdPartitionNumber="${3}"
+    local -r disk="${1}"
+    local -r mountOn="${2}"
+    local -r mounthdPartitionNumber="${3}"
 
     if [[ "$(existDisk "${disk}")" = 'true' ]]
     then

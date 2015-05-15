@@ -4,7 +4,7 @@ function main()
 {
     # Load Libraries
 
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../../../cookbooks/mount-hd/attributes/default.bash"
     source "${appPath}/../../../../../libraries/util.bash"

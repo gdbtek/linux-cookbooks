@@ -4,19 +4,19 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
 function autoSudo()
 {
-    local userLogin="${1}"
-    local profileFileName="${2}"
+    local -r userLogin="${1}"
+    local -r profileFileName="${2}"
 
     header 'AUTO SUDO'
 
-    local command='sudo su -'
+    local -r command='sudo su -'
 
     appendToFileIfNotFound "$(getUserHomeFolder "${userLogin}")/${profileFileName}" "${command}" "${command}" 'false' 'false' 'true'
 }
 
 function setupRepository()
 {
-    local repositoryPath="$(getCurrentUserHomeFolder)/git/github.com/gdbtek"
+    local -r repositoryPath="$(getCurrentUserHomeFolder)/git/github.com/gdbtek"
 
     header 'SETUP REPOSITORY'
 
@@ -34,11 +34,11 @@ function setupRepository()
 
 function updateRepositoryOnLogin()
 {
-    local userLogin="${1}"
+    local -r userLogin="${1}"
 
     header 'UPDATE REPOSITORY ON LOGIN'
 
-    local command='cd ~/git/github.com/gdbtek/ubuntu-cookbooks/cookbooks && git pull'
+    local -r command='cd ~/git/github.com/gdbtek/ubuntu-cookbooks/cookbooks && git pull'
 
     appendToFileIfNotFound "$(getProfileFilePath "${userLogin}")" "${command}" "${command}" 'false' 'false' 'true'
 }

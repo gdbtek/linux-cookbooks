@@ -4,7 +4,7 @@ function main()
 {
     # Load Libraries
 
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../../../../../cookbooks/jenkins/attributes/master.bash"
     source "${appPath}/../../../../../../../cookbooks/mount-hd/attributes/default.bash"
@@ -19,7 +19,7 @@ function main()
 
     # Install Apps
 
-    local hostName='jenkins.ccmui.adobe.com'
+    local -r hostName='jenkins.ccmui.adobe.com'
 
     "${appPath}/../../../../../../essential.bash" "${hostName}"
     "${appPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
@@ -43,7 +43,7 @@ function main()
 
     header 'CONFIGURING NGINX PROXY'
 
-    local nginxConfigData=(
+    local -r nginxConfigData=(
         '__NGINX_PORT__' "${nginxPort}"
         '__JENKINS_TOMCAT_HTTP_PORT__' "${jenkinsTomcatHTTPPort}"
     )

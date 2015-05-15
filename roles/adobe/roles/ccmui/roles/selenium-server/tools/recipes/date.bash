@@ -2,8 +2,8 @@
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    local command='date'
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r command='date'
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/selenium.bash" \

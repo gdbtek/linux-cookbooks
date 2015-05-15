@@ -2,7 +2,7 @@
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../libraries/util.bash"

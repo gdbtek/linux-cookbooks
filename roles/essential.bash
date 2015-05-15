@@ -2,10 +2,10 @@
 
 function main()
 {
-    local ps1HostName="${1}"
-    local ps1Users="${2}"
+    local -r ps1HostName="${1}"
+    local -r ps1Users="${2}"
 
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     "${appPath}/../cookbooks/essential/recipes/install.bash"
     "${appPath}/../cookbooks/ntp/recipes/install.bash"
