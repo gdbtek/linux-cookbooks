@@ -9,7 +9,7 @@ function main()
     local -r command="cd /tmp &&
                       sudo rm -f -r ubuntu-cookbooks &&
                       sudo git clone https://github.com/gdbtek/ubuntu-cookbooks.git &&
-                      sudo /tmp/ubuntu-cookbooks/cookbooks/node-js/recipes/install.bash '${ccmuiJenkinsNodeJSVersion}' '${ccmuiJenkinsNodeJSInstallFolder}'
+                      sudo /tmp/ubuntu-cookbooks/cookbooks/node-js/recipes/install.bash '${ccmuiJenkinsNodeJSVersion:?}' '${ccmuiJenkinsNodeJSInstallFolder:?}'
                       sudo rm -f -r /tmp/ubuntu-cookbooks"
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \

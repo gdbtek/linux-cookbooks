@@ -24,7 +24,7 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${ccmuiSeleniumServerDisk}" "${ccmuiSeleniumServerMountOn}" "${mounthdPartitionNumber}"
+    extendOPTPartition "${ccmuiSeleniumServerDisk:?}" "${ccmuiSeleniumServerMountOn:?}" "${mounthdPartitionNumber:?}"
 
     # Install Apps
 
