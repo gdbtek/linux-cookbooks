@@ -820,7 +820,7 @@ function checkRequirePort()
 
     for port in "${ports[@]}"
     do
-        local -r found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
+        local found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]
         then
