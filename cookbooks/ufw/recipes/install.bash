@@ -14,7 +14,7 @@ function install()
 
     for policy in "${ufwPolicies[@]}"
     do
-        local -r rule=(${policy})
+        local rule=(${policy})
 
         ufw "${rule[@]}"
     done

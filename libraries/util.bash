@@ -365,8 +365,8 @@ function installCommands()
 
     for ((i = 0; i < ${#data[@]}; i = i + 2))
     do
-        local -r command="${data[${i}]}"
-        local -r package="${data[${i} + 1]}"
+        local command="${data[${i}]}"
+        local package="${data[${i} + 1]}"
 
         checkNonEmptyString "${command}" 'undefined command'
         checkNonEmptyString "${package}" 'undefined package'
