@@ -2,7 +2,7 @@
 
 function removeNewlineAtEndOfFile()
 {
-    local repositoryFolderPath="${1}"
+    local -r repositoryFolderPath="${1}"
 
     find \
         "${repositoryFolderPath}" \
@@ -28,7 +28,7 @@ function removeNewlineAtEndOfFile()
 
 function main()
 {
-    local repositoryFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    local -r repositoryFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
     removeNewlineAtEndOfFile "${repositoryFolderPath}"
 }

@@ -2,7 +2,7 @@
 
 function displayUsage()
 {
-    local scriptName="$(basename "${BASH_SOURCE[0]}")"
+    local -r scriptName="$(basename "${BASH_SOURCE[0]}")"
 
     echo -e "\033[1;33m"
     echo    "SYNOPSIS :"
@@ -44,9 +44,9 @@ function displayUsage()
 
 function run()
 {
-    local async="${1}"
-    local command="${2}"
-    local machineType="${3}"
+    local -r async="${1}"
+    local -r command="${2}"
+    local -r machineType="${3}"
 
     # Populate Machine List
 
@@ -71,15 +71,15 @@ function run()
     # Built Prompt
 
     # shellcheck disable=SC2016
-    local prompt='echo -e "\033[1;36m<\033[31m$(whoami)\033[34m@\033[33m$(hostname)\033[36m><\033[35m$(pwd)\033[36m>\033[0m"'
+    local -r prompt='echo -e "\033[1;36m<\033[31m$(whoami)\033[34m@\033[33m$(hostname)\033[36m><\033[35m$(pwd)\033[36m>\033[0m"'
 
     # Get Identity File Option
 
-    if [[ "$(isEmptyString "${identityFile}")" = 'false' && -f "${identityFile}" ]]
+    if [[ "$(isEmptyString "${identityFile:?}")" = 'false' && -f "${identityFile}" ]]
     then
-        local identityOption=('-i' "${identityFile}")
+        local -r identityOption=('-i' "${identityFile}")
     else
-        local identityOption=()
+        local -r identityOption=()
     fi
 
     # Machine Walker
@@ -93,10 +93,10 @@ function run()
         if [[ "${async}" = 'true' ]]
         then
             # shellcheck disable=SC2029
-            ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}" &
+            ssh "${identityOption[@]}" -n "${user:?}@${machine}" "${prompt} && ${command}" &
         else
             # shellcheck disable=SC2029
-            ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}"
+            ssh "${identityOption[@]}" -n "${user:?}@${machine}" "${prompt} && ${command}"
         fi
     done
 
@@ -110,7 +110,7 @@ function main()
 {
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    local optCount="${#}"
+    local -r optCount="${#}"
 
     source "${appPath}/../libraries/util.bash"
 
@@ -126,7 +126,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local async="${1}"
+                    local -r async="${1}"
                 fi
 
                 ;;
@@ -136,7 +136,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local attributeFile="${1}"
+                    local -r attributeFile="${1}"
                 fi
 
                 ;;
@@ -146,7 +146,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local command="$(trimString "${1}")"
+                    local -r command="$(trimString "${1}")"
                 fi
 
                 ;;
@@ -156,7 +156,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local machineType="$(trimString "${1}")"
+                    local -r machineType="$(trimString "${1}")"
                 fi
 
                 ;;
@@ -178,7 +178,7 @@ function main()
 
     if [[ "$(isEmptyString "${async}")" = 'true' ]]
     then
-        local async='false'
+        local -r async='false'
     fi
 
     checkTrueFalseString "${async}"
