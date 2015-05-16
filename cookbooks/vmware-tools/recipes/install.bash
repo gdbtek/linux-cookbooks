@@ -9,8 +9,8 @@ function install()
 {
     # Install
 
-    local currentPath="$(pwd)"
-    local tempFolder="$(getTemporaryFolder)"
+    local -r currentPath="$(pwd)"
+    local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${vmwaretoolsDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
@@ -21,7 +21,7 @@ function install()
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"

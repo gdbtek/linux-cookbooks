@@ -20,7 +20,7 @@ function install()
 
     # Config Server
 
-    local serverConfigData=(
+    local -r serverConfigData=(
         '__HTTP_PORT__' "${elasticsearchHTTPPort}"
         '__TRANSPORT_TCP_PORT__' "${elasticsearchTransportTCPPort}"
     )
@@ -29,13 +29,13 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${elasticsearchInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${elasticsearchInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/elastic-search.sh.profile" '/etc/profile.d/elastic-search.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
-    local upstartConfigData=(
+    local -r upstartConfigData=(
         '__INSTALL_FOLDER__' "${elasticsearchInstallFolder}"
         '__JDK_INSTALL_FOLDER__' "${elasticsearchJDKInstallFolder}"
         '__USER_NAME__' "${elasticsearchUserName}"

@@ -14,13 +14,13 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${mongodbInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${mongodbInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/mongodb.sh.profile" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
-    local upstartConfigData=(
+    local -r upstartConfigData=(
         '__INSTALL_FOLDER__' "${mongodbInstallFolder}"
         '__INSTALL_DATA_FOLDER__' "${mongodbInstallDataFolder}"
         '__USER_NAME__' "${mongodbUserName}"

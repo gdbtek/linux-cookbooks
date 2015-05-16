@@ -14,8 +14,8 @@ function install()
 
     # Install
 
-    local currentPath="$(pwd)"
-    local tempFolder="$(getTemporaryFolder)"
+    local -r currentPath="$(pwd)"
+    local -r tempFolder="$(getTemporaryFolder)"
 
     git clone "${wrkDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
@@ -26,7 +26,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${wrkInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${wrkInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/wrk.sh.profile" '/etc/profile.d/wrk.sh' "${profileConfigData[@]}"
 
@@ -37,7 +37,7 @@ function install()
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"

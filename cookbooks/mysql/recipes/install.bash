@@ -14,7 +14,7 @@ function install()
 
     # Install
 
-    local currentPath="$(pwd)"
+    local -r currentPath="$(pwd)"
 
     unzipRemoteFile "${mysqlDownloadURL}" "${mysqlInstallFolder}"
     addUser "${mysqlUserName}" "${mysqlGroupName}" 'false' 'true' 'false'
@@ -28,7 +28,7 @@ function install()
 
     # Config Server
 
-    local serverConfigData=('__PORT__' "${mysqlPort}")
+    local -r serverConfigData=('__PORT__' "${mysqlPort}")
 
     createFileFromTemplate "${appPath}/../templates/default/my.cnf.conf" "${mysqlInstallFolder}/my.cnf" "${serverConfigData[@]}"
 
@@ -39,7 +39,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${mysqlInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${mysqlInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/mysql.sh.profile" '/etc/profile.d/mysql.sh' "${profileConfigData[@]}"
 
@@ -61,7 +61,7 @@ function install()
 
 function secureInstallation()
 {
-    local secureInstaller="${mysqlInstallFolder}/bin/mysql_secure_installation"
+    local -r secureInstaller="${mysqlInstallFolder}/bin/mysql_secure_installation"
 
     checkExistFile "${secureInstaller}"
 

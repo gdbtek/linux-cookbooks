@@ -41,12 +41,12 @@ function isElementInArray()
 
 function appendToFileIfNotFound()
 {
-    local file="${1}"
-    local pattern="${2}"
-    local string="${3}"
-    local patternAsRegex="${4}"
-    local stringAsRegex="${5}"
-    local addNewLine="${6}"
+    local -r file="${1}"
+    local -r pattern="${2}"
+    local -r string="${3}"
+    local -r patternAsRegex="${4}"
+    local -r stringAsRegex="${5}"
+    local -r addNewLine="${6}"
 
     # Validate Inputs
 
@@ -70,7 +70,7 @@ function appendToFileIfNotFound()
         grepOptions=('-E' '-o')
     fi
 
-    local found="$(grep "${grepOptions[@]}" "${pattern}" "${file}")"
+    local -r found="$(grep "${grepOptions[@]}" "${pattern}" "${file}")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -90,7 +90,7 @@ function appendToFileIfNotFound()
 
 function checkValidJSONContent()
 {
-    local content="${1}"
+    local -r content="${1}"
 
     if [[ "$(isValidJSONContent "${content}")" = 'false' ]]
     then
@@ -100,7 +100,7 @@ function checkValidJSONContent()
 
 function checkValidJSONFile()
 {
-    local file="${1}"
+    local -r file="${1}"
 
     if [[ "$(isValidJSONFile "${file}")" = 'false' ]]
     then
@@ -110,9 +110,9 @@ function checkValidJSONFile()
 
 function createFileFromTemplate()
 {
-    local sourceFile="${1}"
-    local destinationFile="${2}"
-    local data=("${@:3}")
+    local -r sourceFile="${1}"
+    local -r destinationFile="${2}"
+    local -r data=("${@:3}")
 
     checkExistFile "${sourceFile}"
     checkExistFolder "$(dirname "${destinationFile}")"
@@ -130,25 +130,25 @@ function createFileFromTemplate()
 
 function getFileExtension()
 {
-    local string="${1}"
+    local -r string="${1}"
 
-    local fullFileName="$(basename "${string}")"
+    local -r fullFileName="$(basename "${string}")"
 
     echo "${fullFileName##*.}"
 }
 
 function getFileName()
 {
-    local string="${1}"
+    local -r string="${1}"
 
-    local fullFileName="$(basename "${string}")"
+    local -r fullFileName="$(basename "${string}")"
 
     echo "${fullFileName%.*}"
 }
 
 function isValidJSONContent()
 {
-    local content="${1}"
+    local -r content="${1}"
 
     if ( python -m 'json.tool' <<< "${content}" &> '/dev/null' )
     then
@@ -160,7 +160,7 @@ function isValidJSONContent()
 
 function isValidJSONFile()
 {
-    local file="${1}"
+    local -r file="${1}"
 
     checkExistFile "${file}"
 
@@ -169,7 +169,7 @@ function isValidJSONFile()
 
 function symlinkLocalBin()
 {
-    local sourceBinFolder="${1}"
+    local -r sourceBinFolder="${1}"
 
     find "${sourceBinFolder}" -maxdepth 1 -xtype f -perm -u+x -exec bash -c -e '
         for file
@@ -184,7 +184,7 @@ function symlinkLocalBin()
 
 function checkExistURL()
 {
-    local url="${1}"
+    local -r url="${1}"
 
     if [[ "$(existURL "${url}")" = 'false' ]]
     then
@@ -194,8 +194,8 @@ function checkExistURL()
 
 function downloadFile()
 {
-    local url="${1}"
-    local destinationFile="${2}"
+    local -r url="${1}"
+    local -r destinationFile="${2}"
     local overwrite="${3}"
 
     checkExistURL "${url}"
@@ -232,7 +232,7 @@ function downloadFile()
 
 function existURL()
 {
-    local url="${1}"
+    local -r url="${1}"
 
     # Install Curl
 
@@ -250,7 +250,7 @@ function existURL()
 
 function getRemoteFileContent()
 {
-    local url="${1}"
+    local -r url="${1}"
 
     checkExistURL "${url}"
     curl -s -X 'GET' -L "${url}" --retry 3 --retry-delay 5
@@ -258,8 +258,8 @@ function getRemoteFileContent()
 
 function unzipRemoteFile()
 {
-    local downloadURL="${1}"
-    local installFolder="${2}"
+    local -r downloadURL="${1}"
+    local -r installFolder="${2}"
     local extension="${3}"
 
     # Install Curl
@@ -300,7 +300,7 @@ function unzipRemoteFile()
             fatal "FATAL : command 'unzip' not found"
         fi
 
-        local zipFile="${installFolder}/$(basename "${downloadURL}")"
+        local -r zipFile="${installFolder}/$(basename "${downloadURL}")"
 
         downloadFile "${downloadURL}" "${zipFile}" 'true'
         unzip -q "${zipFile}" -d "${installFolder}"
@@ -317,15 +317,15 @@ function unzipRemoteFile()
 
 function getLastAptGetUpdate()
 {
-    local aptDate="$(stat -c %Y '/var/cache/apt')"
-    local nowDate="$(date +'%s')"
+    local -r aptDate="$(stat -c %Y '/var/cache/apt')"
+    local -r nowDate="$(date +'%s')"
 
     echo $((nowDate - aptDate))
 }
 
 function installAptGetPackage()
 {
-    local package="${1}"
+    local -r package="${1}"
 
     if [[ "$(isAptGetPackageInstall "${package}")" = 'true' ]]
     then
@@ -338,7 +338,7 @@ function installAptGetPackage()
 
 function installAptGetPackages()
 {
-    local packages=("${@}")
+    local -r packages=("${@}")
 
     runAptGetUpdate ''
 
@@ -357,7 +357,7 @@ function installCleanUp()
 
 function installCommands()
 {
-    local data=("${@}")
+    local -r data=("${@}")
 
     runAptGetUpdate ''
 
@@ -365,8 +365,8 @@ function installCommands()
 
     for ((i = 0; i < ${#data[@]}; i = i + 2))
     do
-        local command="${data[${i}]}"
-        local package="${data[${i} + 1]}"
+        local -r command="${data[${i}]}"
+        local -r package="${data[${i} + 1]}"
 
         checkNonEmptyString "${command}" 'undefined command'
         checkNonEmptyString "${package}" 'undefined package'
@@ -380,28 +380,28 @@ function installCommands()
 
 function installCURLCommand()
 {
-    local commandPackage=('curl' 'curl')
+    local -r commandPackage=('curl' 'curl')
 
     installCommands "${commandPackage[@]}"
 }
 
 function installExpectCommand()
 {
-    local commandPackage=('expect' 'expect')
+    local -r commandPackage=('expect' 'expect')
 
     installCommands "${commandPackage[@]}"
 }
 
 function installPIPCommand()
 {
-    local commandPackage=('pip' 'python-pip')
+    local -r commandPackage=('pip' 'python-pip')
 
     installCommands "${commandPackage[@]}"
 }
 
 function installPIPPackage()
 {
-    local package="${1}"
+    local -r package="${1}"
 
     if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
     then
@@ -414,16 +414,16 @@ function installPIPPackage()
 
 function installUnzipCommand()
 {
-    local commandPackage=('unzip' 'unzip')
+    local -r commandPackage=('unzip' 'unzip')
 
     installCommands "${commandPackage[@]}"
 }
 
 function isAptGetPackageInstall()
 {
-    local package="${1}"
+    local -r package="${1}"
 
-    local found="$(dpkg --get-selections | grep -E -o "^${package}(:amd64)*\s+install$")"
+    local -r found="$(dpkg --get-selections | grep -E -o "^${package}(:amd64)*\s+install$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -435,7 +435,7 @@ function isAptGetPackageInstall()
 
 function isPIPPackageInstall()
 {
-    local package="${1}"
+    local -r package="${1}"
 
     # Install PIP
 
@@ -448,7 +448,7 @@ function isPIPPackageInstall()
         fatal "FATAL : command 'python-pip' not found"
     fi
 
-    local found="$(pip list | grep -E -o "^${package}\s+\(.*\)$")"
+    local -r found="$(pip list | grep -E -o "^${package}\s+\(.*\)$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -462,7 +462,7 @@ function runAptGetUpdate()
 {
     local updateInterval="${1}"
 
-    local lastAptGetUpdate="$(getLastAptGetUpdate)"
+    local -r lastAptGetUpdate="$(getLastAptGetUpdate)"
 
     if [[ "$(isEmptyString "${updateInterval}")" = 'true' ]]
     then
@@ -475,7 +475,7 @@ function runAptGetUpdate()
         info "apt-get update"
         apt-get update -m
     else
-        local lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
+        local -r lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
 
         info "\nSkip apt-get update because its last run was '${lastUpdate}' ago"
     fi
@@ -503,7 +503,7 @@ function runAptGetUpgrade()
 
 function upgradePIPPackage()
 {
-    local package="${1}"
+    local -r package="${1}"
 
     if [[ "$(isPIPPackageInstall "${package}")" = 'true' ]]
     then
@@ -520,8 +520,8 @@ function upgradePIPPackage()
 
 function checkNonEmptyString()
 {
-    local string="${1}"
-    local errorMessage="${2}"
+    local -r string="${1}"
+    local -r errorMessage="${2}"
 
     if [[ "$(isEmptyString "${string}")" = 'true' ]]
     then
@@ -536,7 +536,7 @@ function checkNonEmptyString()
 
 function checkTrueFalseString()
 {
-    local string="${1}"
+    local -r string="${1}"
 
     if [[ "${string}" != 'true' && "${string}" != 'false' ]]
     then
@@ -546,28 +546,28 @@ function checkTrueFalseString()
 
 function debug()
 {
-    local message="${1}"
+    local -r message="${1}"
 
     echo -e "\033[1;34m${message}\033[0m" 2>&1
 }
 
 function error()
 {
-    local message="${1}"
+    local -r message="${1}"
 
     echo -e "\033[1;31m${message}\033[0m" 1>&2
 }
 
 function escapeSearchPattern()
 {
-    local searchPattern="${1}"
+    local -r searchPattern="${1}"
 
     sed -e "s@\[@\\\\[@g" -e "s@\*@\\\\*@g" -e "s@\%@\\\\%@g" <<< "${searchPattern}"
 }
 
 function fatal()
 {
-    local message="${1}"
+    local -r message="${1}"
 
     error "${message}"
     exit 1
@@ -587,21 +587,21 @@ function formatPath()
 
 function header()
 {
-    local title="${1}"
+    local -r title="${1}"
 
     echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${title}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
 }
 
 function info()
 {
-    local message="${1}"
+    local -r message="${1}"
 
     echo -e "\033[1;36m${message}\033[0m" 2>&1
 }
 
 function invertTrueFalseString()
 {
-    local string="${1}"
+    local -r string="${1}"
 
     checkTrueFalseString "${string}"
 
@@ -615,7 +615,7 @@ function invertTrueFalseString()
 
 function isEmptyString()
 {
-    local string="${1}"
+    local -r string="${1}"
 
     if [[ "$(trimString "${string}")" = '' ]]
     then
@@ -627,23 +627,23 @@ function isEmptyString()
 
 function replaceString()
 {
-    local content="${1}"
-    local oldValue="$(escapeSearchPattern "${2}")"
-    local newValue="$(escapeSearchPattern "${3}")"
+    local -r content="${1}"
+    local -r oldValue="$(escapeSearchPattern "${2}")"
+    local -r newValue="$(escapeSearchPattern "${3}")"
 
     sed "s@${oldValue}@${newValue}@g" <<< "${content}"
 }
 
 function trimString()
 {
-    local string="${1}"
+    local -r string="${1}"
 
     sed -e 's/^ *//g' -e 's/ *$//g' <<< "${string}"
 }
 
 function warn()
 {
-    local message="${1}"
+    local -r message="${1}"
 
     echo -e "\033[1;33m${message}\033[0m" 1>&2
 }
@@ -654,11 +654,11 @@ function warn()
 
 function addUser()
 {
-    local userLogin="${1}"
-    local groupName="${2}"
-    local createHome="${3}"
-    local systemAccount="${4}"
-    local allowLogin="${5}"
+    local -r userLogin="${1}"
+    local -r groupName="${2}"
+    local -r createHome="${3}"
+    local -r systemAccount="${4}"
+    local -r allowLogin="${5}"
 
     checkNonEmptyString "${userLogin}" 'undefined user login'
     checkNonEmptyString "${groupName}" 'undefined group name'
@@ -667,16 +667,16 @@ function addUser()
 
     if [[ "${createHome}" = 'true' ]]
     then
-        local createHomeOption=('-m')
+        local -r createHomeOption=('-m')
     else
-        local createHomeOption=('-M')
+        local -r createHomeOption=('-M')
     fi
 
     if [[ "${allowLogin}" = 'true' ]]
     then
-        local allowLoginOption=('-s' '/bin/bash')
+        local -r allowLoginOption=('-s' '/bin/bash')
     else
-        local allowLoginOption=('-s' '/bin/false')
+        local -r allowLoginOption=('-s' '/bin/false')
     fi
 
     # Add Group
@@ -696,7 +696,7 @@ function addUser()
 
         if [[ "${createHome}" = 'true' ]]
         then
-            local userHome="$(getUserHomeFolder "${userLogin}")"
+            local -r userHome="$(getUserHomeFolder "${userLogin}")"
 
             if [[ "$(isEmptyString "${userHome}")" = 'true' || ! -d "${userHome}" ]]
             then
@@ -716,35 +716,35 @@ function addUser()
 
 function addUserAuthorizedKey()
 {
-    local userLogin="${1}"
-    local groupName="${2}"
-    local sshRSA="${3}"
+    local -r userLogin="${1}"
+    local -r groupName="${2}"
+    local -r sshRSA="${3}"
 
     configUserSSH "${userLogin}" "${groupName}" "${sshRSA}" 'authorized_keys'
 }
 
 function addUserSSHKnownHost()
 {
-    local userLogin="${1}"
-    local groupName="${2}"
-    local sshRSA="${3}"
+    local -r userLogin="${1}"
+    local -r groupName="${2}"
+    local -r sshRSA="${3}"
 
     configUserSSH "${userLogin}" "${groupName}" "${sshRSA}" 'known_hosts'
 }
 
 function addUserToSudoWithoutPassword()
 {
-    local userLogin="${1}"
+    local -r userLogin="${1}"
 
-    local config="${userLogin} ALL=(ALL) NOPASSWD: ALL"
+    local -r config="${userLogin} ALL=(ALL) NOPASSWD: ALL"
 
     appendToFileIfNotFound '/etc/sudoers' "${config}" "${config}" 'false' 'false' 'true'
 }
 
 function checkExistCommand()
 {
-    local command="${1}"
-    local errorMessage="${2}"
+    local -r command="${1}"
+    local -r errorMessage="${2}"
 
     if [[ "$(existCommand "${command}")" = 'false' ]]
     then
@@ -759,8 +759,8 @@ function checkExistCommand()
 
 function checkExistFile()
 {
-    local file="${1}"
-    local errorMessage="${2}"
+    local -r file="${1}"
+    local -r errorMessage="${2}"
 
     if [[ "${file}" = '' || ! -f "${file}" ]]
     then
@@ -775,8 +775,8 @@ function checkExistFile()
 
 function checkExistFolder()
 {
-    local folder="${1}"
-    local errorMessage="${2}"
+    local -r folder="${1}"
+    local -r errorMessage="${2}"
 
     if [[ "${folder}" = '' || ! -d "${folder}" ]]
     then
@@ -791,7 +791,7 @@ function checkExistFolder()
 
 function checkExistGroupName()
 {
-    local groupName="${1}"
+    local -r groupName="${1}"
 
     if [[ "$(existGroupName "${groupName}")" = 'false' ]]
     then
@@ -801,7 +801,7 @@ function checkExistGroupName()
 
 function checkExistUserLogin()
 {
-    local userLogin="${1}"
+    local -r userLogin="${1}"
 
     if [[ "$(existUserLogin "${userLogin}")" = 'false' ]]
     then
@@ -811,16 +811,16 @@ function checkExistUserLogin()
 
 function checkRequirePort()
 {
-    local ports=("${@}")
+    local -r ports=("${@}")
 
-    local headerRegex='^COMMAND\s\+PID\s\+USER\s\+FD\s\+TYPE\s\+DEVICE\s\+SIZE\/OFF\s\+NODE\s\+NAME$'
-    local status="$(lsof -i -n -P | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
+    local -r headerRegex='^COMMAND\s\+PID\s\+USER\s\+FD\s\+TYPE\s\+DEVICE\s\+SIZE\/OFF\s\+NODE\s\+NAME$'
+    local -r status="$(lsof -i -n -P | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
     local open=''
     local port=''
 
     for port in "${ports[@]}"
     do
-        local found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
+        local -r found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]
         then
@@ -833,6 +833,7 @@ function checkRequirePort()
         echo -e    "\033[1;31mFollowing ports are still opened. Make sure you uninstall or stop them before a new installation!\033[0m"
         echo -e -n "\033[1;34m\n$(grep "${headerRegex}" <<< "${status}")\033[0m"
         echo -e    "\033[1;36m${open}\033[0m\n"
+
         exit 1
     fi
 }
@@ -857,7 +858,7 @@ function checkRequireSystem()
 
 function checkRequireUserLogin()
 {
-    local userLogin="${1}"
+    local -r userLogin="${1}"
 
     if [[ "$(whoami)" != "${userLogin}" ]]
     then
@@ -869,7 +870,7 @@ function cleanUpSystemFolders()
 {
     header "CLEANING UP SYSTEM FOLDERS"
 
-    local folders=(
+    local -r folders=(
         '/tmp'
         '/var/tmp'
     )
@@ -885,9 +886,9 @@ function cleanUpSystemFolders()
 
 function configUserGIT()
 {
-    local userLogin="${1}"
-    local gitUserName="${2}"
-    local gitUserEmail="${3}"
+    local -r userLogin="${1}"
+    local -r gitUserName="${2}"
+    local -r gitUserEmail="${3}"
 
     header "CONFIGURING GIT FOR USER ${userLogin}"
 
@@ -904,10 +905,10 @@ function configUserGIT()
 
 function configUserSSH()
 {
-    local userLogin="${1}"
-    local groupName="${2}"
-    local sshRSA="${3}"
-    local configFileName="${4}"
+    local -r userLogin="${1}"
+    local -r groupName="${2}"
+    local -r sshRSA="${3}"
+    local -r configFileName="${4}"
 
     header "CONFIGURING ${configFileName} FOR USER ${userLogin}"
 
@@ -916,7 +917,7 @@ function configUserSSH()
     checkNonEmptyString "${sshRSA}" 'undefined SSH-RSA'
     checkNonEmptyString "${configFileName}" 'undefined config file'
 
-    local userHome="$(getUserHomeFolder "${userLogin}")"
+    local -r userHome="$(getUserHomeFolder "${userLogin}")"
 
     checkExistFolder "${userHome}"
 
@@ -932,7 +933,7 @@ function configUserSSH()
 
 function deleteUser()
 {
-    local userLogin="${1}"
+    local -r userLogin="${1}"
 
     if [[ "$(existUserLogin "${userLogin}")" = 'true' ]]
     then
@@ -950,11 +951,11 @@ function displayOpenPorts()
 
 function emptyFolder()
 {
-    local folder="${1}"
+    local -r folder="${1}"
 
     checkExistFolder "${folder}"
 
-    local currentPath="$(pwd)"
+    local -r currentPath="$(pwd)"
 
     cd "${folder}"
     find '.' -not -name '.' -delete
@@ -963,7 +964,7 @@ function emptyFolder()
 
 function existCommand()
 {
-    local command="${1}"
+    local -r command="${1}"
 
     if [[ "$(which "${command}")" = '' ]]
     then
@@ -975,9 +976,9 @@ function existCommand()
 
 function existDisk()
 {
-    local disk="${1}"
+    local -r disk="${1}"
 
-    local foundDisk="$(fdisk -l "${disk}" 2> '/dev/null' | grep -E -i -o "^Disk\s+$(escapeSearchPattern "${disk}"): ")"
+    local -r foundDisk="$(fdisk -l "${disk}" 2> '/dev/null' | grep -E -i -o "^Disk\s+$(escapeSearchPattern "${disk}"): ")"
 
     if [[ "$(isEmptyString "${disk}")" = 'false' && "$(isEmptyString "${foundDisk}")" = 'false' ]]
     then
@@ -989,10 +990,10 @@ function existDisk()
 
 function existDiskMount()
 {
-    local disk="${1}"
-    local mountOn="${2}"
+    local -r disk="${1}"
+    local -r mountOn="${2}"
 
-    local foundMount="$(df | grep -E "^${disk}\s+.*\s+${mountOn}$")"
+    local -r foundMount="$(df | grep -E "^${disk}\s+.*\s+${mountOn}$")"
 
     if [[ "$(isEmptyString "${foundMount}")" = 'true' ]]
     then
@@ -1004,7 +1005,7 @@ function existDiskMount()
 
 function existGroupName()
 {
-    local group="${1}"
+    local -r group="${1}"
 
     if ( groups "${group}" > '/dev/null' 2>&1 )
     then
@@ -1016,7 +1017,7 @@ function existGroupName()
 
 function existUserLogin()
 {
-    local user="${1}"
+    local -r user="${1}"
 
     if ( id -u "${user}" > '/dev/null' 2>&1 )
     then
@@ -1028,11 +1029,11 @@ function existUserLogin()
 
 function generateUserSSHKey()
 {
-    local user="${1}"
+    local -r user="${1}"
 
     header "GENERATING SSH KEY FOR USER '${user}'"
 
-    local userHome="$(getUserHomeFolder "${user}")"
+    local -r userHome="$(getUserHomeFolder "${user}")"
 
     checkExistFolder "${userHome}"
 
@@ -1084,14 +1085,14 @@ function getMachineRelease()
 
 function getProfileFilePath()
 {
-    local user="${1}"
+    local -r user="${1}"
 
-    local userHome="$(getUserHomeFolder "${user}")"
+    local -r userHome="$(getUserHomeFolder "${user}")"
 
     if [[ "$(isEmptyString "${userHome}")" = 'false' && -d "${userHome}" ]]
     then
-        local bashProfileFilePath="${userHome}/.bash_profile"
-        local profileFilePath="${userHome}/.profile"
+        local -r bashProfileFilePath="${userHome}/.bash_profile"
+        local -r profileFilePath="${userHome}/.profile"
         local defaultStartUpFilePath="${bashProfileFilePath}"
 
         if [[ ! -f "${bashProfileFilePath}" && -f "${profileFilePath}" ]]
@@ -1136,11 +1137,11 @@ function getTemporaryFolderRoot()
 
 function getUserHomeFolder()
 {
-    local user="${1}"
+    local -r user="${1}"
 
     if [[ "$(isEmptyString "${user}")" = 'false' ]]
     then
-        local homeFolder="$(eval "echo ~${user}")"
+        local -r homeFolder="$(eval "echo ~${user}")"
 
         if [[ "${homeFolder}" = "\~${user}" ]]
         then
@@ -1155,7 +1156,7 @@ function getUserHomeFolder()
 
 function initializeFolder()
 {
-    local folder="${1}"
+    local -r folder="${1}"
 
     if [[ -d "${folder}" ]]
     then
@@ -1172,9 +1173,9 @@ function is64BitSystem()
 
 function isDistributor()
 {
-    local distributor="${1}"
+    local -r distributor="${1}"
 
-    local found="$(uname -v | grep -F -i -o "${distributor}")"
+    local -r found="$(uname -v | grep -F -i -o "${distributor}")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -1191,9 +1192,9 @@ function isLinuxOperatingSystem()
 
 function isMachineHardware()
 {
-    local machineHardware="${1}"
+    local -r machineHardware="${1}"
 
-    local found="$(uname -m | grep -E -i -o "^${machineHardware}$")"
+    local -r found="$(uname -m | grep -E -i -o "^${machineHardware}$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -1210,9 +1211,9 @@ function isMacOperatingSystem()
 
 function isOperatingSystem()
 {
-    local operatingSystem="${1}"
+    local -r operatingSystem="${1}"
 
-    local found="$(uname -s | grep -E -i -o "^${operatingSystem}$")"
+    local -r found="$(uname -s | grep -E -i -o "^${operatingSystem}$")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -1224,16 +1225,16 @@ function isOperatingSystem()
 
 function isPortOpen()
 {
-    local port="${1}"
+    local -r port="${1}"
 
     checkNonEmptyString "${port}" 'undefined port'
 
     if [[ "$(isLinuxOperatingSystem)" = 'true' ]]
     then
-        local process="$(netstat -l -n -t -u | grep -E ":${port}\s+" | head -1)"
+        local -r process="$(netstat -l -n -t -u | grep -E ":${port}\s+" | head -1)"
     elif [[ "$(isMacOperatingSystem)" = 'true' ]]
     then
-        local process="$(lsof -i -n -P | grep -E -i ":${port}\s+\(LISTEN\)$" | head -1)"
+        local -r process="$(lsof -i -n -P | grep -E -i ":${port}\s+\(LISTEN\)$" | head -1)"
     else
         fatal "\nFATAL : operating system not supported"
     fi
@@ -1253,8 +1254,8 @@ function isUbuntuDistributor()
 
 function isUserLoginInGroupName()
 {
-    local userLogin="${1}"
-    local groupName="${2}"
+    local -r userLogin="${1}"
+    local -r groupName="${2}"
 
     checkNonEmptyString "${userLogin}" 'undefined user login'
     checkNonEmptyString "${groupName}" 'undefined group name'

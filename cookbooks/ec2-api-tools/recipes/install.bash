@@ -10,7 +10,7 @@ function install()
 
     unzipRemoteFile "${ec2apitoolsDownloadURL}" "${ec2apitoolsInstallFolder}"
 
-    local unzipFolder="$(find "${ec2apitoolsInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(find "${ec2apitoolsInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
@@ -24,7 +24,7 @@ function install()
 
     # Move Folder
 
-    local currentPath="$(pwd)"
+    local -r currentPath="$(pwd)"
 
     cd "${unzipFolder}"
     find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${ec2apitoolsInstallFolder}" \;
@@ -33,7 +33,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${ec2apitoolsInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${ec2apitoolsInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/ec2-api-tools.sh.profile" '/etc/profile.d/ec2-api-tools.sh' "${profileConfigData[@]}"
 }

@@ -13,16 +13,16 @@ function install()
 
     # Download Dependencies
 
-    local tempPCREFolder="$(getTemporaryFolder)"
+    local -r tempPCREFolder="$(getTemporaryFolder)"
     unzipRemoteFile "${nginxPCREDownloadURL}" "${tempPCREFolder}"
 
-    local tempZLIBFolder="$(getTemporaryFolder)"
+    local -r tempZLIBFolder="$(getTemporaryFolder)"
     unzipRemoteFile "${nginxZLIBDownloadURL}" "${tempZLIBFolder}"
 
     # Install
 
-    local currentPath="$(pwd)"
-    local tempFolder="$(getTemporaryFolder)"
+    local -r currentPath="$(pwd)"
+    local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${nginxDownloadURL}" "${tempFolder}"
     addUser "${nginxUserName}" "${nginxGroupName}" 'false' 'true' 'false'
@@ -38,7 +38,7 @@ function install()
 
     # Config Server
 
-    local serverConfigData=('__PORT__' "${nginxPort}")
+    local -r serverConfigData=('__PORT__' "${nginxPort}")
 
     createFileFromTemplate  "${appPath}/../templates/default/nginx.conf.conf" "${nginxInstallFolder}/conf/nginx.conf" "${serverConfigData[@]}"
 
@@ -49,13 +49,13 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${nginxInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${nginxInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/nginx.sh.profile" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
-    local upstartConfigData=('__INSTALL_FOLDER__' "${nginxInstallFolder}")
+    local -r upstartConfigData=('__INSTALL_FOLDER__' "${nginxInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/nginx.conf.upstart" "/etc/init/${nginxServiceName}.conf" "${upstartConfigData[@]}"
 

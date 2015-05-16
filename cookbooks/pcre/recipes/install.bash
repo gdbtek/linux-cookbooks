@@ -13,8 +13,8 @@ function install()
 
     # Install
 
-    local currentPath="$(pwd)"
-    local tempFolder="$(getTemporaryFolder)"
+    local -r currentPath="$(pwd)"
+    local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${pcreDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
@@ -26,7 +26,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${pcreInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${pcreInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/pcre.sh.profile" '/etc/profile.d/pcre.sh' "${profileConfigData[@]}"
 

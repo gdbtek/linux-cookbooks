@@ -10,7 +10,7 @@ function installDependencies()
 
 function install()
 {
-    local serverConfigData=(
+    local -r serverConfigData=(
         '__PORT__' "${seleniumserverPort}"
     )
 

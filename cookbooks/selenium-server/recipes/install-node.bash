@@ -10,7 +10,7 @@ function installDependencies()
 
 function install()
 {
-    local hubHost="${1}"
+    local -r hubHost="${1}"
 
     # Override Default
 
@@ -23,7 +23,7 @@ function install()
 
     # Install Role
 
-    local serverConfigData=(
+    local -r serverConfigData=(
         '__PORT__' "${seleniumserverPort}"
         '__HUB_PORT__' "${seleniumserverHubPort}"
         '__HUB_HOST__' "${seleniumserverHubHost}"

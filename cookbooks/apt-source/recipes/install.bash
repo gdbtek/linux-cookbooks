@@ -4,7 +4,7 @@ function install()
 {
     # Install
 
-    local sourceListFile="${appPath}/../files/default/$(getMachineRelease).list.conf"
+    local -r sourceListFile="${appPath}/../files/default/$(getMachineRelease).list.conf"
 
     if [[ -f "${sourceListFile}" ]]
     then

@@ -13,15 +13,15 @@ function refreshUpdateCenter()
 
     # Validate JSON Content
 
-    local updateInfo="$(getRemoteFileContent "${jenkinsUpdateCenterURL}")"
+    local -r updateInfo="$(getRemoteFileContent "${jenkinsUpdateCenterURL}")"
     updateInfo="$(sed '1d;$d' <<< "${updateInfo}")"
 
     checkValidJSONContent "${updateInfo}"
 
     # Update JSON File
 
-    local jsonFilePath="${jenkinsInstallFolder}/updates/default.json"
-    local updateFolderPath="$(dirname "${jsonFilePath}")"
+    local -r jsonFilePath="${jenkinsInstallFolder}/updates/default.json"
+    local -r updateFolderPath="$(dirname "${jsonFilePath}")"
 
     mkdir -p "${updateFolderPath}"
     echo "${updateInfo}" > "${jsonFilePath}"
@@ -31,7 +31,7 @@ function refreshUpdateCenter()
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/master.bash"

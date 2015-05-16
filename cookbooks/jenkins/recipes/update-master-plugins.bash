@@ -2,15 +2,15 @@
 
 function updatePlugins()
 {
-    local appName="$(getFileName "${jenkinsDownloadURL}")"
-    local jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
-    local jenkinsAppURL="http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}"
+    local -r appName="$(getFileName "${jenkinsDownloadURL}")"
+    local -r jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
+    local -r jenkinsAppURL="http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}"
 
     checkNonEmptyString "${appName}"
     checkExistFile "${jenkinsCLIPath}"
     checkExistURL "${jenkinsAppURL}"
 
-    local updateList=("$(java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" list-plugins | grep ')$' | awk '{ print $1 }' | sort -f)")
+    local -r updateList=("$(java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" list-plugins | grep ')$' | awk '{ print $1 }' | sort -f)")
 
     "${appPath}/install-master-plugins.bash" "${updateList[@]}"
 }

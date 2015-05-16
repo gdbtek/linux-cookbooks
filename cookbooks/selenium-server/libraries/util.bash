@@ -4,8 +4,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
 function installRole()
 {
-    local role="${1}"
-    local serverConfigData=("${@:2}")
+    local -r role="${1}"
+    local -r serverConfigData=("${@:2}")
 
     checkNonEmptyString "${role}" 'undefined role'
 
@@ -17,19 +17,19 @@ function installRole()
 
     # Install
 
-    local jarFile="${seleniumserverInstallFolder}/selenium-server.jar"
+    local -r jarFile="${seleniumserverInstallFolder}/selenium-server.jar"
 
     downloadFile "${seleniumserverDownloadURL}" "${jarFile}" 'true'
 
     # Config Server
 
-    local configFile="${seleniumserverInstallFolder}/selenium-server-${role}.json"
+    local -r configFile="${seleniumserverInstallFolder}/selenium-server-${role}.json"
 
     createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigData[@]}"
 
     # Config Upstart
 
-    local upstartConfigData=(
+    local -r upstartConfigData=(
         '__INSTALL_FILE__' "${jarFile}"
         '__CONFIG_FILE__' "${configFile}"
         '__USER_NAME__' "${seleniumserverUserName}"

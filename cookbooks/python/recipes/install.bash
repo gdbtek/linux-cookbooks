@@ -13,8 +13,8 @@ function install()
 
     # Install
 
-    local currentPath="$(pwd)"
-    local tempFolder="$(getTemporaryFolder)"
+    local -r currentPath="$(pwd)"
+    local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${pythonDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
@@ -27,7 +27,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${pythonInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${pythonInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/python.sh.profile" '/etc/profile.d/python.sh' "${profileConfigData[@]}"
 
@@ -38,7 +38,7 @@ function install()
 
 function main()
 {
-    local installFolder="${1}"
+    local -r installFolder="${1}"
 
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

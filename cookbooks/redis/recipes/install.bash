@@ -15,8 +15,8 @@ function install()
 
     # Install
 
-    local currentPath="$(pwd)"
-    local tempFolder="$(getTemporaryFolder)"
+    local -r currentPath="$(pwd)"
+    local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${redisDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
@@ -27,7 +27,7 @@ function install()
 
     # Config Server
 
-    local serverConfigData=(
+    local -r serverConfigData=(
         '__INSTALL_DATA_FOLDER__' "${redisInstallDataFolder}"
         6379 "${redisPort}"
     )
@@ -36,13 +36,13 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_BIN_FOLDER__' "${redisInstallBinFolder}")
+    local -r profileConfigData=('__INSTALL_BIN_FOLDER__' "${redisInstallBinFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/redis.sh.profile" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
-    local upstartConfigData=(
+    local -r upstartConfigData=(
         '__INSTALL_BIN_FOLDER__' "${redisInstallBinFolder}"
         '__INSTALL_CONFIG_FOLDER__' "${redisInstallConfigFolder}"
         '__USER_NAME__' "${redisUserName}"
@@ -55,7 +55,7 @@ function install()
 
     # Config System
 
-    local overCommitMemoryConfig="vm.overcommit_memory=${redisVMOverCommitMemory}"
+    local -r overCommitMemoryConfig="vm.overcommit_memory=${redisVMOverCommitMemory}"
 
     appendToFileIfNotFound '/etc/sysctl.conf' "^\s*vm.overcommit_memory\s*=\s*${redisVMOverCommitMemory}\s*$" "\n${overCommitMemoryConfig}" 'true' 'true' 'true'
     sysctl "${overCommitMemoryConfig}"

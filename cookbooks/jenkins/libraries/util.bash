@@ -5,7 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../attributes/master.bash"
 
 function jenkinsMasterWARAppCleanUp()
 {
-    local appName="$(getFileName "${jenkinsDownloadURL}")"
+    local -r appName="$(getFileName "${jenkinsDownloadURL}")"
 
     checkNonEmptyString "${appName}"
 
@@ -15,8 +15,8 @@ function jenkinsMasterWARAppCleanUp()
 
 function jenkinsMasterDownloadWARApp()
 {
-    local appName="$(getFileName "${jenkinsDownloadURL}")"
-    local temporaryFile="$(getTemporaryFile)"
+    local -r appName="$(getFileName "${jenkinsDownloadURL}")"
+    local -r temporaryFile="$(getTemporaryFile)"
 
     checkNonEmptyString "${appName}"
     checkExistFile "${temporaryFile}"
@@ -30,8 +30,8 @@ function jenkinsMasterDownloadWARApp()
 
 function jenkinsMasterDisplayVersion()
 {
-    local appName="$(getFileName "${jenkinsDownloadURL}")"
-    local jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
+    local -r appName="$(getFileName "${jenkinsDownloadURL}")"
+    local -r jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
 
     checkNonEmptyString "${appName}"
     checkExistFile "${jenkinsCLIPath}"

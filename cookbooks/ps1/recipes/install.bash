@@ -2,7 +2,7 @@
 
 function displayUsage()
 {
-    local scriptName="$(basename "${BASH_SOURCE[0]}")"
+    local -r scriptName="$(basename "${BASH_SOURCE[0]}")"
 
     echo -e "\033[1;33m"
     echo    "SYNOPSIS :"
@@ -39,8 +39,8 @@ function displayUsage()
 
 function install()
 {
-    local profileFileName="${1}"
-    local hostName="${2}"
+    local -r profileFileName="${1}"
+    local -r hostName="${2}"
     local users=(${3//,/ })
 
     # Reformat PS1
@@ -79,9 +79,9 @@ function install()
         then
             if [[ "$(whoami)" = "${user}" ]]
             then
-                local prompt="export PS1=\"${ps1RootPrompt}\""
+                local -r prompt="export PS1=\"${ps1RootPrompt}\""
             else
-                local prompt="export PS1=\"${ps1UserPrompt}\""
+                local -r prompt="export PS1=\"${ps1UserPrompt}\""
             fi
 
             echo -e "Updating '\033[1;32m${profileFilePath}\033[0m'"
@@ -101,7 +101,7 @@ function install()
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"
@@ -118,7 +118,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local profileFileName="$(trimString "${1}")"
+                    local -r profileFileName="$(trimString "${1}")"
                 fi
 
                 ;;
@@ -128,7 +128,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local hostName="$(trimString "${1}")"
+                    local -r hostName="$(trimString "${1}")"
                 fi
 
                 ;;
@@ -138,7 +138,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local users="$(trimString "${1}")"
+                    local -r users="$(trimString "${1}")"
                 fi
 
                 ;;

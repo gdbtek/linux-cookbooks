@@ -18,7 +18,7 @@ function install()
 
     unzipRemoteFile "${groovyDownloadURL}" "${groovyInstallFolder}"
 
-    local unzipFolder="$(find "${groovyInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(find "${groovyInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
@@ -32,7 +32,7 @@ function install()
 
     # Move Folder
 
-    local currentPath="$(pwd)"
+    local -r currentPath="$(pwd)"
 
     cd "${unzipFolder}"
     find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${groovyInstallFolder}" \;
@@ -46,7 +46,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${groovyInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${groovyInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/groovy.sh.profile" '/etc/profile.d/groovy.sh' "${profileConfigData[@]}"
 
@@ -57,7 +57,7 @@ function install()
 
 function main()
 {
-    local installFolder="${1}"
+    local -r installFolder="${1}"
 
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

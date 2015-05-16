@@ -2,8 +2,8 @@
 
 function install()
 {
-    local disk="$(formatPath "${1}")"
-    local mountOn="$(formatPath "${2}")"
+    local -r disk="$(formatPath "${1}")"
+    local -r mountOn="$(formatPath "${2}")"
 
     # Create Partition
 
@@ -15,7 +15,7 @@ function install()
         fatal "FATAL : disk '${disk}' not found"
     fi
 
-    local newDisk="${disk}${mounthdPartitionNumber}"
+    local -r newDisk="${disk}${mounthdPartitionNumber}"
 
     if [[ -d "${mountOn}" ]]
     then
@@ -34,8 +34,8 @@ function install()
 
         # Config Static File System
 
-        local fstabPattern="^\s*${newDisk}\s+${mountOn}\s+${mounthdFSType}\s+${mounthdMountOptions}\s+${mounthdDump}\s+${mounthdFSCKOption}\s*$"
-        local fstabConfig="${newDisk} ${mountOn} ${mounthdFSType} ${mounthdMountOptions} ${mounthdDump} ${mounthdFSCKOption}"
+        local -r fstabPattern="^\s*${newDisk}\s+${mountOn}\s+${mounthdFSType}\s+${mounthdMountOptions}\s+${mounthdDump}\s+${mounthdFSCKOption}\s*$"
+        local -r fstabConfig="${newDisk} ${mountOn} ${mounthdFSType} ${mounthdMountOptions} ${mounthdDump} ${mounthdFSCKOption}"
 
         appendToFileIfNotFound '/etc/fstab' "${fstabPattern}" "${fstabConfig}" 'true' 'false' 'true'
 
@@ -47,7 +47,7 @@ function install()
 
 function createPartition()
 {
-    local disk="${1}"
+    local -r disk="${1}"
 
     installAptGetPackages 'expect'
 
@@ -78,7 +78,7 @@ DONE
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"

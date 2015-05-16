@@ -8,7 +8,7 @@ function install()
 
     # Install
 
-    local tempFolder="$(getTemporaryFolder)"
+    local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${awscliDownloadURL}" "${tempFolder}"
     "${tempFolder}/awscli-bundle/install" -b '/usr/local/bin/aws' -i "${awscliInstallFolder}"
@@ -16,7 +16,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${awscliInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${awscliInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/aws-cli.sh.profile" '/etc/profile.d/aws-cli.sh' "${profileConfigData[@]}"
 
@@ -27,7 +27,7 @@ function install()
 
 function main()
 {
-    local appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"

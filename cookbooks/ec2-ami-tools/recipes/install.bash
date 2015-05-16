@@ -18,7 +18,7 @@ function install()
 
     unzipRemoteFile "${ec2amitoolsDownloadURL}" "${ec2amitoolsInstallFolder}"
 
-    local unzipFolder="$(find "${ec2amitoolsInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(find "${ec2amitoolsInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
@@ -32,7 +32,7 @@ function install()
 
     # Move Folder
 
-    local currentPath="$(pwd)"
+    local -r currentPath="$(pwd)"
 
     cd "${unzipFolder}"
     find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${ec2amitoolsInstallFolder}" \;
@@ -42,7 +42,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${ec2amitoolsInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${ec2amitoolsInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/ec2-ami-tools.sh.profile" '/etc/profile.d/ec2-ami-tools.sh' "${profileConfigData[@]}"
 

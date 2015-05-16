@@ -18,7 +18,7 @@ function install()
 
     unzipRemoteFile "${goserverServerDownloadURL}" "${goserverServerInstallFolder}"
 
-    local unzipFolder="$(find "${goserverServerInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(find "${goserverServerInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
@@ -32,7 +32,7 @@ function install()
 
     # Move Folder
 
-    local currentPath="$(pwd)"
+    local -r currentPath="$(pwd)"
 
     cd "${unzipFolder}"
     find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${goserverServerInstallFolder}" \;
@@ -47,7 +47,7 @@ function install()
 
 function configUpstart()
 {
-    local upstartConfigData=(
+    local -r upstartConfigData=(
         '__SERVER_INSTALL_FOLDER__' "${goserverServerInstallFolder}"
         '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${goserverUserName}")"
         '__USER_NAME__' "${goserverUserName}"

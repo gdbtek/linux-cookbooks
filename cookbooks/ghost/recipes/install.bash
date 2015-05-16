@@ -16,7 +16,7 @@ function install()
 
     # Install
 
-    local currentPath="$(pwd)"
+    local -r currentPath="$(pwd)"
 
     unzipRemoteFile "${ghostDownloadURL}" "${ghostInstallFolder}"
     cd "${ghostInstallFolder}"
@@ -25,7 +25,7 @@ function install()
 
     # Config Server
 
-    local serverConfigData=(
+    local -r serverConfigData=(
         '__PRODUCTION_URL__' "${ghostProductionURL}"
         '__PRODUCTION_HOST__' "${ghostProductionHost}"
         '__PRODUCTION_PORT__' "${ghostProductionPort}"
@@ -43,7 +43,7 @@ function install()
 
     # Config Upstart
 
-    local upstartConfigData=(
+    local -r upstartConfigData=(
         '__ENVIRONMENT__' "${ghostEnvironment}"
         '__INSTALL_FOLDER__' "${ghostInstallFolder}"
         '__USER_NAME__' "${ghostUserName}"

@@ -20,7 +20,7 @@ function install()
 
     # Config Server
 
-    local serverConfigData=(
+    local -r serverConfigData=(
         8009 "${tomcatAJPPort}"
         8005 "${tomcatCommandPort}"
         8080 "${tomcatHTTPPort}"
@@ -31,7 +31,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${tomcatInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${tomcatInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/tomcat.sh.profile" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 
@@ -39,13 +39,13 @@ function install()
 
     addUser "${tomcatUserName}" "${tomcatGroupName}" 'true' 'true' 'true'
 
-    local userHome="$(getUserHomeFolder "${tomcatUserName}")"
+    local -r userHome="$(getUserHomeFolder "${tomcatUserName}")"
 
     checkExistFolder "${userHome}"
 
     # Config Upstart
 
-    local upstartConfigData=(
+    local -r upstartConfigData=(
         '__INSTALL_FOLDER__' "${tomcatInstallFolder}"
         '__HOME_FOLDER__' "${userHome}"
         '__JDK_INSTALL_FOLDER__' "${tomcatJDKInstallFolder}"
@@ -67,7 +67,7 @@ function install()
 
 function main()
 {
-    local installFolder="${1}"
+    local -r installFolder="${1}"
 
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

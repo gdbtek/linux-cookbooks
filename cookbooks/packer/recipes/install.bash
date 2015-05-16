@@ -15,7 +15,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${packerInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${packerInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/packer.sh.profile" '/etc/profile.d/packer.sh' "${profileConfigData[@]}"
 

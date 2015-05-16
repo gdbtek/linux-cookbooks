@@ -21,7 +21,7 @@ function install()
 {
     # Set Install Folder Path
 
-    local jenkinsDefaultInstallFolder="$(getUserHomeFolder "${jenkinsUserName}")/.jenkins"
+    local -r jenkinsDefaultInstallFolder="$(getUserHomeFolder "${jenkinsUserName}")/.jenkins"
 
     if [[ "$(isEmptyString "${jenkinsInstallFolder}")" = 'true' ]]
     then
@@ -45,7 +45,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${jenkinsInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${jenkinsInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
 

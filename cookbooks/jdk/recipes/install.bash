@@ -19,7 +19,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${jdkInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${jdkInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/jdk.sh.profile" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
 
@@ -30,7 +30,7 @@ function install()
 
 function main()
 {
-    local installFolder="${1}"
+    local -r installFolder="${1}"
 
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

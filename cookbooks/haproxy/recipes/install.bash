@@ -18,8 +18,8 @@ function install()
 
     # Install
 
-    local currentPath="$(pwd)"
-    local tempFolder="$(getTemporaryFolder)"
+    local -r currentPath="$(pwd)"
+    local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${haproxyDownloadURL}" "${tempFolder}"
     cd "${tempFolder}"
@@ -31,13 +31,13 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
-    local upstartConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
+    local -r upstartConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/haproxy.conf.upstart" "/etc/init/${haproxyServiceName}.conf" "${upstartConfigData[@]}"
 

@@ -16,14 +16,14 @@ function install()
     if [[ "${nodejsVersion}" = 'latest' ]]
     then
         nodejsVersion="$(getLatestVersionNumber)"
-        local url="http://nodejs.org/dist/latest/node-${nodejsVersion}-linux-x64.tar.gz"
+        local -r url="http://nodejs.org/dist/latest/node-${nodejsVersion}-linux-x64.tar.gz"
     else
         if [[ "$(grep -o '^v' <<< "${nodejsVersion}")" = '' ]]
         then
             nodejsVersion="v${nodejsVersion}"
         fi
 
-        local url="http://nodejs.org/dist/${nodejsVersion}/node-${nodejsVersion}-linux-x64.tar.gz"
+        local -r url="http://nodejs.org/dist/${nodejsVersion}/node-${nodejsVersion}-linux-x64.tar.gz"
     fi
 
     unzipRemoteFile "${url}" "${nodejsInstallFolder}"
@@ -32,7 +32,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${nodejsInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${nodejsInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
@@ -48,7 +48,7 @@ function install()
 
     # Clean Up
 
-    local userHomeFolderPath="$(getCurrentUserHomeFolder)"
+    local -r userHomeFolderPath="$(getCurrentUserHomeFolder)"
 
     rm -f -r "${userHomeFolderPath}/.cache" \
              "${userHomeFolderPath}/.node-gyp" \
@@ -65,16 +65,16 @@ function install()
 
 function getLatestVersionNumber()
 {
-    local versionPattern='v[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,3}'
-    local shaSum256="$(getRemoteFileContent 'http://nodejs.org/dist/latest/SHASUMS256.txt.asc')"
+    local -r versionPattern='v[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,3}'
+    local -r shaSum256="$(getRemoteFileContent 'http://nodejs.org/dist/latest/SHASUMS256.txt.asc')"
 
     grep -E -o "node-${versionPattern}\.tar\.gz" <<< "${shaSum256}" | grep -E -o "${versionPattern}"
 }
 
 function main()
 {
-    local version="${1}"
-    local installFolder="${2}"
+    local -r version="${1}"
+    local -r installFolder="${2}"
 
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

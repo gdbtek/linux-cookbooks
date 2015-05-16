@@ -25,7 +25,7 @@ function install()
 
     # Config Profile
 
-    local profileConfigData=('__INSTALL_FOLDER__' "${mavenInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${mavenInstallFolder}")
 
     createFileFromTemplate "${appPath}/../templates/default/maven.sh.profile" '/etc/profile.d/maven.sh' "${profileConfigData[@]}"
 
