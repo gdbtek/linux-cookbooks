@@ -1070,7 +1070,7 @@ DONE
 
 function getCurrentUserHomeFolder()
 {
-    echo "$(getUserHomeFolder "$(whoami)")"
+    getUserHomeFolder "$(whoami)"
 }
 
 function getMachineDescription()
