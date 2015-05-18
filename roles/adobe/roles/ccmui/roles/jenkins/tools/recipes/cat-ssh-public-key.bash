@@ -8,7 +8,7 @@ function main()
 
     # Master
 
-    local -r masterCommand="cat ~${tomcatUserName:?}/.ssh/id_rsa.pub"
+    local -r masterCommand="cat ~${tomcatUserName}/.ssh/id_rsa.pub"
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/jenkins.bash" \

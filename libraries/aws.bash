@@ -13,7 +13,7 @@ function getAllowedRegions()
 
 function isValidRegion()
 {
-    local -r region="${1:?}"
+    local -r region="${1}"
 
     local -r allowedRegions=($(getAllowedRegions))
 
@@ -40,7 +40,7 @@ function getInstanceID()
 
 function getS3Protocol()
 {
-    local -r region="${1:?}"
+    local -r region="${1}"
 
     if [[ "${region}" = 'us-east-1' ]]
     then
@@ -66,11 +66,11 @@ function getInstanceS3Protocol()
 
 function getUserDataValue()
 {
-    local -r key="${1:?}"
+    local -r key="${1}"
 
     local -r value="$(curl -s --retry 3 --retry-delay 5 'http://instance-data/latest/user-data' | \
-                      grep -E "^\s*${key:?}\s*=\s*" | \
+                      grep -E "^\s*${key}\s*=\s*" | \
                       awk -F '=' '{ print $2 }')"
 
-    trimString "${value:?}"
+    trimString "${value}"
 }

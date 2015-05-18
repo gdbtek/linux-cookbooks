@@ -14,7 +14,7 @@ function main()
         ~root/.npm \
         ~root/.qws \
         ~root/tmp \
-        ~${tomcatUserName:?}/.cache \
+        ~${tomcatUserName}/.cache \
         ~${tomcatUserName}/.node-gyp \
         ~${tomcatUserName}/.npm \
         ~${tomcatUserName}/.qws \

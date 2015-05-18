@@ -13,14 +13,14 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${namnguyeDisk:?}" "${namnguyeMountOn:?}" "${mounthdPartitionNumber:?}"
+    extendOPTPartition "${namnguyeDisk}" "${namnguyeMountOn}" "${mounthdPartitionNumber}"
 
     # Install Apps
 
     "${appPath}/../../../../essential.bash" 'nam-itc'
     "${appPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/chef/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${namnguyeNodeJSVersion:?}" "${namnguyeNodeJSInstallFolder:?}"
+    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${namnguyeNodeJSVersion}" "${namnguyeNodeJSInstallFolder}"
     "${appPath}/../../../../../cookbooks/packer/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/shell-check/recipes/install.bash"
 
@@ -29,7 +29,7 @@ function main()
     addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
     addUserSSHKnownHost "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/known_hosts")"
 
-    configUserGIT "$(whoami)" "${namnguyeGITUserName:?}" "${namnguyeGITUserEmail:?}"
+    configUserGIT "$(whoami)" "${namnguyeGITUserName}" "${namnguyeGITUserEmail}"
     generateUserSSHKey "$(whoami)"
 
     # Clean Up

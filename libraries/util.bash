@@ -23,7 +23,7 @@ function arrayToStringWithDelimiter()
 
 function isElementInArray()
 {
-    local -r element="${1:?}"
+    local -r element="${1}"
 
     local walker=''
 

@@ -75,7 +75,7 @@ function run()
 
     # Get Identity File Option
 
-    if [[ "$(isEmptyString "${identityFile:?}")" = 'false' && -f "${identityFile}" ]]
+    if [[ "$(isEmptyString "${identityFile}")" = 'false' && -f "${identityFile}" ]]
     then
         local -r identityOption=('-i' "${identityFile}")
     else
@@ -93,10 +93,10 @@ function run()
         if [[ "${async}" = 'true' ]]
         then
             # shellcheck disable=SC2029
-            ssh "${identityOption[@]}" -n "${user:?}@${machine}" "${prompt} && ${command}" &
+            ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}" &
         else
             # shellcheck disable=SC2029
-            ssh "${identityOption[@]}" -n "${user:?}@${machine}" "${prompt} && ${command}"
+            ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}"
         fi
     done
 
