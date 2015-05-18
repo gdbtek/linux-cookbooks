@@ -8,5 +8,5 @@ export namnguyeMountOn='/opt'
 export namnguyeGITUserName='Nam Nguyen'
 export namnguyeGITUserEmail='namnguye@adobe.com'
 
-export namnguyeNodeJSInstallFolder="${nodejsInstallFolder}"
+export namnguyeNodeJSInstallFolder="${nodejsInstallFolder:?}"
 export namnguyeNodeJSVersion='v0.10.38'

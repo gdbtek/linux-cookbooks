@@ -15,7 +15,7 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${ccmuiJenkinsDisk}" "${ccmuiJenkinsMountOn}" "${mounthdPartitionNumber}"
+    extendOPTPartition "${ccmuiJenkinsDisk:?}" "${ccmuiJenkinsMountOn:?}" "${mounthdPartitionNumber:?}"
 
     # Install Apps
 
@@ -23,18 +23,18 @@ function main()
 
     "${appPath}/../../../../../../essential.bash" "${hostName}"
     "${appPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
-    "${appPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiJenkinsNodeJSVersion}" "${ccmuiJenkinsNodeJSInstallFolder}"
+    "${appPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiJenkinsNodeJSVersion:?}" "${ccmuiJenkinsNodeJSInstallFolder:?}"
     "${appPath}/../../../../../../../cookbooks/jenkins/recipes/install-master.bash"
     "${appPath}/../../../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${ccmuiJenkinsInstallPlugins[@]}"
     "${appPath}/../../../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
-    "${appPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${jenkinsUserName}, $(whoami)"
+    "${appPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${jenkinsUserName:?}, $(whoami)"
 
     # Config SSH and GIT
 
     addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
-    addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName}" "$(cat "${appPath}/../files/default/known_hosts")"
+    addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName:?}" "$(cat "${appPath}/../files/default/known_hosts")"
 
-    configUserGIT "${jenkinsUserName}" "${ccmuiJenkinsGITUserName}" "${ccmuiJenkinsGITUserEmail}"
+    configUserGIT "${jenkinsUserName}" "${ccmuiJenkinsGITUserName:?}" "${ccmuiJenkinsGITUserEmail:?}"
     generateUserSSHKey "${jenkinsUserName}"
 
     # Config Nginx
@@ -48,9 +48,9 @@ function main()
         '__JENKINS_TOMCAT_HTTP_PORT__' "${jenkinsTomcatHTTPPort}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.conf" "${nginxInstallFolder}/conf/nginx.conf" "${nginxConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.conf" "${nginxInstallFolder:?}/conf/nginx.conf" "${nginxConfigData[@]}"
 
-    stop "${nginxServiceName}"
+    stop "${nginxServiceName:?}"
     start "${nginxServiceName}"
 
     # Clean Up
