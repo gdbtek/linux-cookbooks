@@ -13,13 +13,13 @@ function installRole()
 
     # Clean Up
 
-    initializeFolder "${seleniumserverInstallFolder}"
+    initializeFolder "${seleniumserverInstallFolder:?}"
 
     # Install
 
     local -r jarFile="${seleniumserverInstallFolder}/selenium-server.jar"
 
-    downloadFile "${seleniumserverDownloadURL}" "${jarFile}" 'true'
+    downloadFile "${seleniumserverDownloadURL:?}" "${jarFile}" 'true'
 
     # Config Server
 
@@ -36,7 +36,7 @@ function installRole()
         '__GROUP_NAME__' "${seleniumserverGroupName}"
     )
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.conf.upstart" "/etc/init/${seleniumserverServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.conf.upstart" "/etc/init/${seleniumserverServiceName:?}.conf" "${upstartConfigData[@]}"
 
     # Start
 

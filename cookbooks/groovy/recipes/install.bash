@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${groovyJDKInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${groovyJDKInstallFolder:?}" ]]
     then
         "${appPath}/../../jdk/recipes/install.bash" "${groovyJDKInstallFolder}"
     fi
@@ -16,7 +16,7 @@ function install()
 
     # Install
 
-    unzipRemoteFile "${groovyDownloadURL}" "${groovyInstallFolder}"
+    unzipRemoteFile "${groovyDownloadURL:?}" "${groovyInstallFolder}"
 
     local -r unzipFolder="$(find "${groovyInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 

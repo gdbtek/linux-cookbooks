@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${elasticsearchJDKInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${elasticsearchJDKInstallFolder:?}" ]]
     then
         "${appPath}/../../jdk/recipes/install.bash" "${elasticsearchJDKInstallFolder}"
     fi
@@ -12,11 +12,11 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${elasticsearchInstallFolder}"
+    initializeFolder "${elasticsearchInstallFolder:?}"
 
     # Install
 
-    unzipRemoteFile "${elasticsearchDownloadURL}" "${elasticsearchInstallFolder}"
+    unzipRemoteFile "${elasticsearchDownloadURL:?}" "${elasticsearchInstallFolder}"
 
     # Config Server
 
@@ -42,7 +42,7 @@ function install()
         '__GROUP_NAME__' "${elasticsearchGroupName}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/elastic-search.conf.upstart" "/etc/init/${elasticsearchServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/elastic-search.conf.upstart" "/etc/init/${elasticsearchServiceName:?}.conf" "${upstartConfigData[@]}"
 
     # Start
 

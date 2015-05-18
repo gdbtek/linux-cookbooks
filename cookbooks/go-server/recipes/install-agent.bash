@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${goserverJDKInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${goserverJDKInstallFolder:?}" ]]
     then
         "${appPath}/../../jdk/recipes/install.bash" "${goserverJDKInstallFolder}"
     fi
@@ -12,13 +12,13 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${goserverAgentInstallFolder}"
+    initializeFolder "${goserverAgentInstallFolder:?}"
 
     # Install
 
-    unzipRemoteFile "${goserverAgentDownloadURL}" "${goserverAgentInstallFolder}"
+    unzipRemoteFile "${goserverAgentDownloadURL:?}" "${goserverAgentInstallFolder}"
 
-    local -r unzipFolder="$(find "${goserverServerInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(find "${goserverServerInstallFolder:?}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
@@ -40,7 +40,7 @@ function install()
 
     # Finalize
 
-    addUser "${goserverUserName}" "${goserverGroupName}" 'true' 'false' 'true'
+    addUser "${goserverUserName:?}" "${goserverGroupName:?}" 'true' 'false' 'true'
     chown -R "${goserverUserName}:${goserverGroupName}" "${goserverAgentInstallFolder}"
     rm -f -r "${unzipFolder}"
 }
@@ -62,7 +62,7 @@ function configUpstart()
         '__GROUP_NAME__' "${goserverGroupName}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/go-agent.conf.upstart" "/etc/init/${goserverAgentServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/go-agent.conf.upstart" "/etc/init/${goserverAgentServiceName:?}.conf" "${upstartConfigData[@]}"
 }
 
 function startAgent()

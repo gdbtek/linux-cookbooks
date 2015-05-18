@@ -4,11 +4,11 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${kibanaInstallFolder}"
+    initializeFolder "${kibanaInstallFolder:?}"
 
     # Install
 
-    unzipRemoteFile "${kibanaDownloadURL}" "${kibanaInstallFolder}"
+    unzipRemoteFile "${kibanaDownloadURL:?}" "${kibanaInstallFolder}"
 
     # Config
 

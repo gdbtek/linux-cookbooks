@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${goserverJDKInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${goserverJDKInstallFolder:?}" ]]
     then
         "${appPath}/../../jdk/recipes/install.bash" "${goserverJDKInstallFolder}"
     fi
@@ -12,11 +12,11 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${goserverServerInstallFolder}"
+    initializeFolder "${goserverServerInstallFolder:?}"
 
     # Install
 
-    unzipRemoteFile "${goserverServerDownloadURL}" "${goserverServerInstallFolder}"
+    unzipRemoteFile "${goserverServerDownloadURL:?}" "${goserverServerInstallFolder}"
 
     local -r unzipFolder="$(find "${goserverServerInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
@@ -40,7 +40,7 @@ function install()
 
     # Finalize
 
-    addUser "${goserverUserName}" "${goserverGroupName}" 'true' 'false' 'true'
+    addUser "${goserverUserName:?}" "${goserverGroupName:?}" 'true' 'false' 'true'
     chown -R "${goserverUserName}:${goserverGroupName}" "${goserverServerInstallFolder}"
     rm -f -r "${unzipFolder}"
 }
@@ -54,7 +54,7 @@ function configUpstart()
         '__GROUP_NAME__' "${goserverGroupName}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/go-server.conf.upstart" "/etc/init/${goserverServerServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/go-server.conf.upstart" "/etc/init/${goserverServerServiceName:?}.conf" "${upstartConfigData[@]}"
 }
 
 function startServer()

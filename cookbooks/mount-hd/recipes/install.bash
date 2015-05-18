@@ -15,7 +15,7 @@ function install()
         fatal "FATAL : disk '${disk}' not found"
     fi
 
-    local -r newDisk="${disk}${mounthdPartitionNumber}"
+    local -r newDisk="${disk}${mounthdPartitionNumber:?}"
 
     if [[ -d "${mountOn}" ]]
     then
@@ -28,13 +28,13 @@ function install()
         fi
     else
         createPartition "${disk}"
-        mkfs -t "${mounthdFSType}" "${newDisk}"
+        mkfs -t "${mounthdFSType:?}" "${newDisk}"
         mkdir "${mountOn}"
         mount -t "${mounthdFSType}" "${newDisk}" "${mountOn}"
 
         # Config Static File System
 
-        local -r fstabPattern="^\s*${newDisk}\s+${mountOn}\s+${mounthdFSType}\s+${mounthdMountOptions}\s+${mounthdDump}\s+${mounthdFSCKOption}\s*$"
+        local -r fstabPattern="^\s*${newDisk}\s+${mountOn}\s+${mounthdFSType}\s+${mounthdMountOptions:?}\s+${mounthdDump:?}\s+${mounthdFSCKOption:?}\s*$"
         local -r fstabConfig="${newDisk} ${mountOn} ${mounthdFSType} ${mounthdMountOptions} ${mounthdDump} ${mounthdFSCKOption}"
 
         appendToFileIfNotFound '/etc/fstab' "${fstabPattern}" "${fstabConfig}" 'true' 'false' 'true'

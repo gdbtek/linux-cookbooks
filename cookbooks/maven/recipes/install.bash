@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${mavenJDKInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${mavenJDKInstallFolder:?}" ]]
     then
         "${appPath}/../../jdk/recipes/install.bash" "${mavenJDKInstallFolder}"
     fi
@@ -12,11 +12,11 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${mavenInstallFolder}"
+    initializeFolder "${mavenInstallFolder:?}"
 
     # Install
 
-    unzipRemoteFile "${mavenDownloadURL}" "${mavenInstallFolder}"
+    unzipRemoteFile "${mavenDownloadURL:?}" "${mavenInstallFolder}"
 
     # Config Lib
 

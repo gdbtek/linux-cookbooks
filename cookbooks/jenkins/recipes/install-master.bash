@@ -4,14 +4,14 @@ function installDependencies()
 {
     # Groovy
 
-    if [[ "$(existCommand 'groovy')" = 'false' || ! -d "${jenkinsGroovyInstallFolder}" ]]
+    if [[ "$(existCommand 'groovy')" = 'false' || ! -d "${jenkinsGroovyInstallFolder:?}" ]]
     then
         "${appPath}/../../groovy/recipes/install.bash" "${jenkinsGroovyInstallFolder}"
     fi
 
     # Tomcat
 
-    if [[ ! -f "${jenkinsTomcatInstallFolder}/bin/catalina.sh" ]]
+    if [[ ! -f "${jenkinsTomcatInstallFolder:?}/bin/catalina.sh" ]]
     then
         "${appPath}/../../tomcat/recipes/install.bash" "${jenkinsTomcatInstallFolder}"
     fi
@@ -21,7 +21,7 @@ function install()
 {
     # Set Install Folder Path
 
-    local -r jenkinsDefaultInstallFolder="$(getUserHomeFolder "${jenkinsUserName}")/.jenkins"
+    local -r jenkinsDefaultInstallFolder="$(getUserHomeFolder "${jenkinsUserName:?}")/.jenkins"
 
     if [[ "$(isEmptyString "${jenkinsInstallFolder}")" = 'true' ]]
     then
@@ -40,7 +40,7 @@ function install()
     then
         initializeFolder "${jenkinsInstallFolder}"
         ln -f -s "${jenkinsInstallFolder}" "${jenkinsDefaultInstallFolder}"
-        chown -R "${jenkinsUserName}:${jenkinsGroupName}" "${jenkinsDefaultInstallFolder}" "${jenkinsInstallFolder}"
+        chown -R "${jenkinsUserName}:${jenkinsGroupName:?}" "${jenkinsDefaultInstallFolder}" "${jenkinsInstallFolder}"
     fi
 
     # Config Profile

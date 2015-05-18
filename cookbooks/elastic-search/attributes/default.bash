@@ -5,7 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 export elasticsearchDownloadURL='https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.5.1.tar.gz'
 
 export elasticsearchInstallFolder='/opt/elastic-search'
-export elasticsearchJDKInstallFolder="${jdkInstallFolder}"
+export elasticsearchJDKInstallFolder="${jdkInstallFolder:?}"
 
 export elasticsearchServiceName='elastic-search'
 

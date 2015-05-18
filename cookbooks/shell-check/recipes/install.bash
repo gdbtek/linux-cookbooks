@@ -10,7 +10,7 @@ function install()
     # Clean Up
 
     rm -f -r ~/.cabal
-    initializeFolder "${cabalInstallFolder}"
+    initializeFolder "${cabalInstallFolder:?}"
 
     # Install
 

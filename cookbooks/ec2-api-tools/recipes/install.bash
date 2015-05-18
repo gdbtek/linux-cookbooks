@@ -4,11 +4,11 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${ec2apitoolsInstallFolder}"
+    initializeFolder "${ec2apitoolsInstallFolder:?}"
 
     # Install
 
-    unzipRemoteFile "${ec2apitoolsDownloadURL}" "${ec2apitoolsInstallFolder}"
+    unzipRemoteFile "${ec2apitoolsDownloadURL:?}" "${ec2apitoolsInstallFolder}"
 
     local -r unzipFolder="$(find "${ec2apitoolsInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 

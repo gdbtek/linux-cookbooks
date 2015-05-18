@@ -4,13 +4,13 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${awscliInstallFolder}"
+    initializeFolder "${awscliInstallFolder:?}"
 
     # Install
 
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${awscliDownloadURL}" "${tempFolder}"
+    unzipRemoteFile "${awscliDownloadURL:?}" "${tempFolder}"
     "${tempFolder}/awscli-bundle/install" -b '/usr/local/bin/aws' -i "${awscliInstallFolder}"
     rm -f -r "${tempFolder}"
 

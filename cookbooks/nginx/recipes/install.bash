@@ -9,23 +9,23 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${nginxInstallFolder}"
+    initializeFolder "${nginxInstallFolder:?}"
 
     # Download Dependencies
 
     local -r tempPCREFolder="$(getTemporaryFolder)"
-    unzipRemoteFile "${nginxPCREDownloadURL}" "${tempPCREFolder}"
+    unzipRemoteFile "${nginxPCREDownloadURL:?}" "${tempPCREFolder}"
 
     local -r tempZLIBFolder="$(getTemporaryFolder)"
-    unzipRemoteFile "${nginxZLIBDownloadURL}" "${tempZLIBFolder}"
+    unzipRemoteFile "${nginxZLIBDownloadURL:?}" "${tempZLIBFolder}"
 
     # Install
 
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${nginxDownloadURL}" "${tempFolder}"
-    addUser "${nginxUserName}" "${nginxGroupName}" 'false' 'true' 'false'
+    unzipRemoteFile "${nginxDownloadURL:?}" "${tempFolder}"
+    addUser "${nginxUserName:?}" "${nginxGroupName:?}" 'false' 'true' 'false'
     cd "${tempFolder}"
     "${tempFolder}/configure" \
         "${nginxConfig[@]}" \
@@ -57,7 +57,7 @@ function install()
 
     local -r upstartConfigData=('__INSTALL_FOLDER__' "${nginxInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.upstart" "/etc/init/${nginxServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.upstart" "/etc/init/${nginxServiceName:?}.conf" "${upstartConfigData[@]}"
 
     # Start
 

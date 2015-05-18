@@ -16,7 +16,7 @@ function install()
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${rubyDownloadURL}" "${tempFolder}"
+    unzipRemoteFile "${rubyDownloadURL:?}" "${tempFolder}"
     cd "${tempFolder}"
     "${tempFolder}/configure" --prefix="${rubyInstallFolder}"
     make

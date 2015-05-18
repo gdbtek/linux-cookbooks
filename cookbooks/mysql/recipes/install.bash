@@ -9,15 +9,15 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${mysqlInstallFolder}"
+    initializeFolder "${mysqlInstallFolder:?}"
     rm -f -r "/usr/local/$(getFileName "${mysqlInstallFolder}")"
 
     # Install
 
     local -r currentPath="$(pwd)"
 
-    unzipRemoteFile "${mysqlDownloadURL}" "${mysqlInstallFolder}"
-    addUser "${mysqlUserName}" "${mysqlGroupName}" 'false' 'true' 'false'
+    unzipRemoteFile "${mysqlDownloadURL:?}" "${mysqlInstallFolder}"
+    addUser "${mysqlUserName:?}" "${mysqlGroupName:?}" 'false' 'true' 'false'
     ln -f -s "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
     chown -R "${mysqlUserName}:${mysqlGroupName}" "${mysqlInstallFolder}"
     cd "${mysqlInstallFolder}"
@@ -34,7 +34,7 @@ function install()
 
     # Config Service
 
-    cp -f "${mysqlInstallFolder}/support-files/mysql.server" "/etc/init.d/${mysqlServiceName}"
+    cp -f "${mysqlInstallFolder}/support-files/mysql.server" "/etc/init.d/${mysqlServiceName:?}"
     sysv-rc-conf --level 2345 "${mysqlServiceName}" on
 
     # Config Profile
@@ -49,7 +49,7 @@ function install()
 
     # Run Secure Installation
 
-    if [[ "${mysqlRunPostSecureInstallation}" = 'true' ]]
+    if [[ "${mysqlRunPostSecureInstallation:?}" = 'true' ]]
     then
         secureInstallation
     fi
@@ -73,7 +73,7 @@ function secureInstallation()
 
     local setMySQLRootPassword='n'
 
-    if [[ "${mysqlRootPassword}" != '' ]]
+    if [[ "${mysqlRootPassword:?}" != '' ]]
     then
         setMySQLRootPassword='Y'
     fi

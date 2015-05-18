@@ -8,13 +8,13 @@ export jenkinsUpdateCenterURL='http://updates.jenkins-ci.org/update-center.json'
 
 export jenkinsInstallFolder='/opt/jenkins'
 
-export jenkinsGroovyInstallFolder="${groovyInstallFolder}"
+export jenkinsGroovyInstallFolder="${groovyInstallFolder:?}"
 
-export jenkinsTomcatInstallFolder="${tomcatInstallFolder}"
-export jenkinsTomcatHTTPPort="${tomcatHTTPPort}"
+export jenkinsTomcatInstallFolder="${tomcatInstallFolder:?}"
+export jenkinsTomcatHTTPPort="${tomcatHTTPPort:?}"
 
-export jenkinsUserName="${tomcatUserName}"
-export jenkinsGroupName="${tomcatGroupName}"
+export jenkinsUserName="${tomcatUserName:?}"
+export jenkinsGroupName="${tomcatGroupName:?}"
 
 export jenkinsUpdateAllPlugins='true'
 

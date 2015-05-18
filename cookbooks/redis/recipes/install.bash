@@ -9,16 +9,16 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${redisInstallBinFolder}"
-    initializeFolder "${redisInstallConfigFolder}"
-    initializeFolder "${redisInstallDataFolder}"
+    initializeFolder "${redisInstallBinFolder:?}"
+    initializeFolder "${redisInstallConfigFolder:?}"
+    initializeFolder "${redisInstallDataFolder:?}"
 
     # Install
 
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${redisDownloadURL}" "${tempFolder}"
+    unzipRemoteFile "${redisDownloadURL:?}" "${tempFolder}"
     cd "${tempFolder}"
     make
     find "${tempFolder}/src" -type f -not -name "*.sh" -perm -u+x -exec cp -f '{}' "${redisInstallBinFolder}" \;
@@ -51,11 +51,11 @@ function install()
         '__HARD_NO_FILE_LIMIT__' "${redisHardNoFileLimit}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/redis.conf.upstart" "/etc/init/${redisServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/redis.conf.upstart" "/etc/init/${redisServiceName:?}.conf" "${upstartConfigData[@]}"
 
     # Config System
 
-    local -r overCommitMemoryConfig="vm.overcommit_memory=${redisVMOverCommitMemory}"
+    local -r overCommitMemoryConfig="vm.overcommit_memory=${redisVMOverCommitMemory:?}"
 
     appendToFileIfNotFound '/etc/sysctl.conf' "^\s*vm.overcommit_memory\s*=\s*${redisVMOverCommitMemory}\s*$" "\n${overCommitMemoryConfig}" 'true' 'true' 'true'
     sysctl "${overCommitMemoryConfig}"

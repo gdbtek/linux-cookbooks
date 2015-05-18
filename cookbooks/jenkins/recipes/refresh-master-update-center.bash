@@ -6,14 +6,14 @@ function refreshUpdateCenter()
 
     if [[ "$(isEmptyString "${jenkinsInstallFolder}")" = 'true' ]]
     then
-        jenkinsInstallFolder="$(getUserHomeFolder "${jenkinsUserName}")/.jenkins"
+        jenkinsInstallFolder="$(getUserHomeFolder "${jenkinsUserName:?}")/.jenkins"
     fi
 
     checkExistFolder "${jenkinsInstallFolder}"
 
     # Validate JSON Content
 
-    local updateInfo="$(getRemoteFileContent "${jenkinsUpdateCenterURL}")"
+    local updateInfo="$(getRemoteFileContent "${jenkinsUpdateCenterURL:?}")"
     updateInfo="$(sed '1d;$d' <<< "${updateInfo}")"
 
     checkValidJSONContent "${updateInfo}"
@@ -25,7 +25,7 @@ function refreshUpdateCenter()
 
     mkdir -p "${updateFolderPath}"
     echo "${updateInfo}" > "${jsonFilePath}"
-    chown -R "${jenkinsUserName}:${jenkinsGroupName}" "${updateFolderPath}"
+    chown -R "${jenkinsUserName}:${jenkinsGroupName:?}" "${updateFolderPath}"
     info "Updated '${jsonFilePath}'"
 }
 

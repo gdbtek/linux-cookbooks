@@ -4,7 +4,7 @@ function installDependencies()
 {
     installAptGetPackages 'build-essential' 'libssl-dev'
 
-    if [[ ! -f "${pcreInstallFolder}/bin/pcregrep" ]]
+    if [[ ! -f "${pcreInstallFolder:?}/bin/pcregrep" ]]
     then
         "${appPath}/../../pcre/recipes/install.bash"
     fi
@@ -14,14 +14,14 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${haproxyInstallFolder}"
+    initializeFolder "${haproxyInstallFolder:?}"
 
     # Install
 
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${haproxyDownloadURL}" "${tempFolder}"
+    unzipRemoteFile "${haproxyDownloadURL:?}" "${tempFolder}"
     cd "${tempFolder}"
     make "${haproxyConfig[@]}"
     make install PREFIX='' DESTDIR="${haproxyInstallFolder}"
@@ -39,11 +39,11 @@ function install()
 
     local -r upstartConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
 
-    createFileFromTemplate "${appPath}/../templates/default/haproxy.conf.upstart" "/etc/init/${haproxyServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/haproxy.conf.upstart" "/etc/init/${haproxyServiceName:?}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addUser "${haproxyUserName}" "${haproxyGroupName}" 'false' 'true' 'false'
+    addUser "${haproxyUserName:?}" "${haproxyGroupName:?}" 'false' 'true' 'false'
     chown -R "${haproxyUserName}:${haproxyGroupName}" "${haproxyInstallFolder}"
     start "${haproxyServiceName}"
 
@@ -64,7 +64,7 @@ function main()
 
     header 'INSTALLING HAPROXY'
 
-    checkRequirePort "${haproxyPort}"
+    checkRequirePort "${haproxyPort:?}"
 
     installDependencies
     install

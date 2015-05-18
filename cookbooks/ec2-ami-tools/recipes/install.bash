@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${ec2amitoolsRubyInstallFolder}" ]]
+    if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${ec2amitoolsRubyInstallFolder:?}" ]]
     then
         "${appPath}/../../ruby/recipes/install.bash" "${ec2amitoolsRubyInstallFolder}"
     fi
@@ -12,11 +12,11 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${ec2amitoolsInstallFolder}"
+    initializeFolder "${ec2amitoolsInstallFolder:?}"
 
     # Install
 
-    unzipRemoteFile "${ec2amitoolsDownloadURL}" "${ec2amitoolsInstallFolder}"
+    unzipRemoteFile "${ec2amitoolsDownloadURL:?}" "${ec2amitoolsInstallFolder}"
 
     local -r unzipFolder="$(find "${ec2amitoolsInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 

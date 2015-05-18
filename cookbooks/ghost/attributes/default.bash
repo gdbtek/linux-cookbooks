@@ -5,8 +5,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../node-js/attributes/default.bash"
 export ghostDownloadURL='https://ghost.org/zip/ghost-latest.zip'
 
 export ghostInstallFolder='/opt/ghost'
-export ghostNodeJSInstallFolder="${nodejsInstallFolder}"
-export ghostNodeJSVersion="${nodejsVersion}"
+export ghostNodeJSInstallFolder="${nodejsInstallFolder:?}"
+export ghostNodeJSVersion="${nodejsVersion:?}"
 
 export ghostServiceName='ghost'
 

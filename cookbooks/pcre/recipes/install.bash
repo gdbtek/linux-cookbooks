@@ -9,14 +9,14 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${pcreInstallFolder}"
+    initializeFolder "${pcreInstallFolder:?}"
 
     # Install
 
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${pcreDownloadURL}" "${tempFolder}"
+    unzipRemoteFile "${pcreDownloadURL:?}" "${tempFolder}"
     cd "${tempFolder}"
     "${tempFolder}/configure" "${pcreConfig[@]}"
     make

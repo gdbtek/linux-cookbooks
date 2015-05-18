@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${jenkinsJDKInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${jenkinsJDKInstallFolder:?}" ]]
     then
         "${appPath}/../../jdk/recipes/install.bash" "${jenkinsJDKInstallFolder}"
     fi
@@ -10,8 +10,8 @@ function installDependencies()
 
 function install()
 {
-    initializeFolder "${jenkinsWorkspaceFolder}"
-    chown -R "${jenkinsUserName}:${jenkinsGroupName}" "${jenkinsWorkspaceFolder}"
+    initializeFolder "${jenkinsWorkspaceFolder:?}"
+    chown -R "${jenkinsUserName:?}:${jenkinsGroupName:?}" "${jenkinsWorkspaceFolder}"
 }
 
 function main()

@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${siegeInstallFolder}"
+    initializeFolder "${siegeInstallFolder:?}"
     mkdir -p "${siegeInstallFolder}/bin"
 
     # Install
@@ -17,7 +17,7 @@ function install()
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${siegeDownloadURL}" "${tempFolder}"
+    unzipRemoteFile "${siegeDownloadURL:?}" "${tempFolder}"
     cd "${tempFolder}"
     "${tempFolder}/configure" --prefix="${siegeInstallFolder}"
     make

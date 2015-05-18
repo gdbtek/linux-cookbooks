@@ -4,12 +4,12 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${mongodbInstallFolder}"
-    initializeFolder "${mongodbInstallDataFolder}"
+    initializeFolder "${mongodbInstallFolder:?}"
+    initializeFolder "${mongodbInstallDataFolder:?}"
 
     # Install
 
-    unzipRemoteFile "${mongodbDownloadURL}" "${mongodbInstallFolder}"
+    unzipRemoteFile "${mongodbDownloadURL:?}" "${mongodbInstallFolder}"
     find "${mongodbInstallFolder}" -maxdepth 1 -type f -delete
 
     # Config Profile
@@ -28,7 +28,7 @@ function install()
         '__PORT__' "${mongodbPort}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/mongodb.conf.upstart" "/etc/init/${mongodbServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/mongodb.conf.upstart" "/etc/init/${mongodbServiceName:?}.conf" "${upstartConfigData[@]}"
     chown -R "$(whoami):$(whoami)" "${mongodbInstallFolder}"
 
     # Start

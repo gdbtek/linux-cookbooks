@@ -16,7 +16,7 @@ function install()
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${pythonDownloadURL}" "${tempFolder}"
+    unzipRemoteFile "${pythonDownloadURL:?}" "${tempFolder}"
     cd "${tempFolder}"
     "${tempFolder}/configure" --prefix="${pythonInstallFolder}"
     make

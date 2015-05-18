@@ -6,9 +6,9 @@ function install()
 
     if [[ "${#pluginList[@]}" -gt '0' ]]
     then
-        local -r appName="$(getFileName "${jenkinsDownloadURL}")"
-        local -r jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
-        local -r jenkinsAppURL="http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}"
+        local -r appName="$(getFileName "${jenkinsDownloadURL:?}")"
+        local -r jenkinsCLIPath="${jenkinsTomcatInstallFolder:?}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
+        local -r jenkinsAppURL="http://127.0.0.1:${jenkinsTomcatHTTPPort:?}/${appName}"
 
         checkNonEmptyString "${appName}"
         checkExistFile "${jenkinsCLIPath}"

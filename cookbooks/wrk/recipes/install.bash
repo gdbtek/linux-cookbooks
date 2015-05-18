@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${wrkInstallFolder}"
+    initializeFolder "${wrkInstallFolder:?}"
     mkdir -p "${wrkInstallFolder}/bin"
 
     # Install
@@ -17,7 +17,7 @@ function install()
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    git clone "${wrkDownloadURL}" "${tempFolder}"
+    git clone "${wrkDownloadURL:?}" "${tempFolder}"
     cd "${tempFolder}"
     make
     find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f '{}' "${wrkInstallFolder}/bin" \;

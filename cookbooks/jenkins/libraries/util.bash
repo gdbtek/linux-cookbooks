@@ -5,11 +5,11 @@ source "$(dirname "${BASH_SOURCE[0]}")/../attributes/master.bash"
 
 function jenkinsMasterWARAppCleanUp()
 {
-    local -r appName="$(getFileName "${jenkinsDownloadURL}")"
+    local -r appName="$(getFileName "${jenkinsDownloadURL:?}")"
 
     checkNonEmptyString "${appName}"
 
-    rm -f -r "${jenkinsTomcatInstallFolder}/webapps/${appName}.war" \
+    rm -f -r "${jenkinsTomcatInstallFolder:?}/webapps/${appName}.war" \
              "${jenkinsTomcatInstallFolder}/webapps/${appName}"
 }
 
@@ -23,7 +23,7 @@ function jenkinsMasterDownloadWARApp()
     checkExistFolder "${jenkinsTomcatInstallFolder}/webapps"
 
     downloadFile "${jenkinsDownloadURL}" "${temporaryFile}" 'true'
-    chown "${jenkinsUserName}:${jenkinsGroupName}" "${temporaryFile}"
+    chown "${jenkinsUserName:?}:${jenkinsGroupName:?}" "${temporaryFile}"
     mv "${temporaryFile}" "${jenkinsTomcatInstallFolder}/webapps/${appName}.war"
     sleep 75
 }
@@ -37,13 +37,13 @@ function jenkinsMasterDisplayVersion()
     checkExistFile "${jenkinsCLIPath}"
 
     info "\nVersion: $('java' -jar "${jenkinsCLIPath}" \
-                              -s "http://127.0.0.1:${jenkinsTomcatHTTPPort}/${appName}" \
+                              -s "http://127.0.0.1:${jenkinsTomcatHTTPPort:?}/${appName}" \
                               version)"
 }
 
 function jenkinsMasterRefreshUpdateCenter()
 {
-    checkTrueFalseString "${jenkinsUpdateAllPlugins}"
+    checkTrueFalseString "${jenkinsUpdateAllPlugins:?}"
 
     "$(dirname "${BASH_SOURCE[0]}")/../recipes/refresh-master-update-center.bash"
 }

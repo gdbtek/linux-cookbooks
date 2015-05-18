@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${tomcatJDKInstallFolder}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${tomcatJDKInstallFolder:?}" ]]
     then
         "${appPath}/../../jdk/recipes/install.bash" "${tomcatJDKInstallFolder}"
     fi
@@ -16,7 +16,7 @@ function install()
 
     # Install
 
-    unzipRemoteFile "${tomcatDownloadURL}" "${tomcatInstallFolder}"
+    unzipRemoteFile "${tomcatDownloadURL:?}" "${tomcatInstallFolder}"
 
     # Config Server
 
@@ -37,7 +37,7 @@ function install()
 
     # Add User
 
-    addUser "${tomcatUserName}" "${tomcatGroupName}" 'true' 'true' 'true'
+    addUser "${tomcatUserName:?}" "${tomcatGroupName:?}" 'true' 'true' 'true'
 
     local -r userHome="$(getUserHomeFolder "${tomcatUserName}")"
 
@@ -53,7 +53,7 @@ function install()
         '__GROUP_NAME__' "${tomcatGroupName}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/tomcat.conf.upstart" "/etc/init/${tomcatServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/tomcat.conf.upstart" "/etc/init/${tomcatServiceName:?}.conf" "${upstartConfigData[@]}"
 
     # Start
 

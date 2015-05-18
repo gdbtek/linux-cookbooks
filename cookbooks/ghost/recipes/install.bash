@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${ghostNodeJSInstallFolder}" ]]
+    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${ghostNodeJSInstallFolder:?}" ]]
     then
-        "${appPath}/../../node-js/recipes/install.bash" "${ghostNodeJSVersion}" "${ghostNodeJSInstallFolder}"
+        "${appPath}/../../node-js/recipes/install.bash" "${ghostNodeJSVersion:?}" "${ghostNodeJSInstallFolder}"
     fi
 }
 
@@ -12,15 +12,15 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${ghostInstallFolder}"
+    initializeFolder "${ghostInstallFolder:?}"
 
     # Install
 
     local -r currentPath="$(pwd)"
 
-    unzipRemoteFile "${ghostDownloadURL}" "${ghostInstallFolder}"
+    unzipRemoteFile "${ghostDownloadURL:?}" "${ghostInstallFolder}"
     cd "${ghostInstallFolder}"
-    npm install "--${ghostEnvironment}" --silent
+    npm install "--${ghostEnvironment:?}" --silent
     cd "${currentPath}"
 
     # Config Server
@@ -50,7 +50,7 @@ function install()
         '__GROUP_NAME__' "${ghostGroupName}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/ghost.conf.upstart" "/etc/init/${ghostServiceName}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/ghost.conf.upstart" "/etc/init/${ghostServiceName:?}.conf" "${upstartConfigData[@]}"
 
     # Start
 

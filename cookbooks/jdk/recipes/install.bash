@@ -8,7 +8,7 @@ function install()
 
     # Install
 
-    unzipRemoteFile "${jdkDownloadURL}" "${jdkInstallFolder}"
+    unzipRemoteFile "${jdkDownloadURL:?}" "${jdkInstallFolder}"
 
     # Config Lib
 

@@ -4,12 +4,12 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${packerInstallFolder}"
+    initializeFolder "${packerInstallFolder:?}"
     mkdir -p "${packerInstallFolder}/bin"
 
     # Install
 
-    unzipRemoteFile "${packerDownloadURL}" "${packerInstallFolder}/bin"
+    unzipRemoteFile "${packerDownloadURL:?}" "${packerInstallFolder}/bin"
     chown -R "$(whoami):$(whoami)" "${packerInstallFolder}"
     symlinkLocalBin "${packerInstallFolder}/bin"
 
