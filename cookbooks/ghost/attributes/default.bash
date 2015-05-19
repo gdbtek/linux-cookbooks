@@ -2,28 +2,28 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../node-js/attributes/default.bash"
 
-export ghostDownloadURL='https://ghost.org/zip/ghost-latest.zip'
+export GHOST_DOWNLOAD_URL='https://ghost.org/zip/ghost-latest.zip'
 
-export ghostInstallFolder='/opt/ghost'
-export ghostNodeJSInstallFolder="${nodejsInstallFolder:?}"
-export ghostNodeJSVersion="${nodejsVersion:?}"
+export GHOST_INSTALL_FOLDER='/opt/ghost'
+export GHOST_NODE_JS_INSTALL_FOLDER="${nodejsInstallFolder:?}"
+export GHOST_NODE_JS_VERSION="${nodejsVersion:?}"
 
-export ghostServiceName='ghost'
+export GHOST_SERVICE_NAME='ghost'
 
-export ghostUserName='ghost'
-export ghostGroupName='ghost'
+export GHOST_USER_NAME='ghost'
+export GHOST_GROUP_NAME='ghost'
 
-export ghostProductionURL='http://127.0.0.1'
-export ghostProductionHost='127.0.0.1'
-export ghostProductionPort='2368'
+export GHOST_PRODUCTION_URL='http://127.0.0.1'
+export GHOST_PRODUCTION_HOST='127.0.0.1'
+export GHOST_PRODUCTION_PORT='2368'
 
-export ghostDevelopmentURL='http://127.0.0.1'
-export ghostDevelopmentHost='127.0.0.1'
-export ghostDevelopmentPort='2368'
+export GHOST_DEVELOPMENT_URL='http://127.0.0.1'
+export GHOST_DEVELOPMENT_HOST='127.0.0.1'
+export GHOST_DEVELOPMENT_PORT='2368'
 
-export ghostTestingURL='http://127.0.0.1:2369'
-export ghostTestingHost='127.0.0.1'
-export ghostTestingPort='2369'
+export GHOST_TESTING_URL='http://127.0.0.1:2369'
+export GHOST_TESTING_HOST='127.0.0.1'
+export GHOST_TESTING_PORT='2369'
 
-export ghostEnvironment='production'
-# export ghostEnvironment='development'
+export GHOST_ENVIRONMENT='production'
+# export GHOST_ENVIRONMENT='development'

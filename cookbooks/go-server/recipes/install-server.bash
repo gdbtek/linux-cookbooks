@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${goserverJDKInstallFolder:?}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${GO_SERVER_JDK_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${goserverJDKInstallFolder}"
+        "${appPath}/../../jdk/recipes/install.bash" "${GO_SERVER_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -12,13 +12,13 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${goserverServerInstallFolder:?}"
+    initializeFolder "${GO_SERVER_SERVER_INSTALL_FOLDER}"
 
     # Install
 
-    unzipRemoteFile "${goserverServerDownloadURL:?}" "${goserverServerInstallFolder}"
+    unzipRemoteFile "${GO_SERVER_SERVER_DOWNLOAD_URL}" "${GO_SERVER_SERVER_INSTALL_FOLDER}"
 
-    local -r unzipFolder="$(find "${goserverServerInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(find "${GO_SERVER_SERVER_INSTALL_FOLDER}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
@@ -35,31 +35,31 @@ function install()
     local -r currentPath="$(pwd)"
 
     cd "${unzipFolder}"
-    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${goserverServerInstallFolder}" \;
+    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${GO_SERVER_SERVER_INSTALL_FOLDER}" \;
     cd "${currentPath}"
 
     # Finalize
 
-    addUser "${goserverUserName:?}" "${goserverGroupName:?}" 'true' 'false' 'true'
-    chown -R "${goserverUserName}:${goserverGroupName}" "${goserverServerInstallFolder}"
+    addUser "${GO_SERVER_USER_NAME}" "${GO_SERVER_GROUP_NAME}" 'true' 'false' 'true'
+    chown -R "${GO_SERVER_USER_NAME}:${GO_SERVER_GROUP_NAME}" "${GO_SERVER_SERVER_INSTALL_FOLDER}"
     rm -f -r "${unzipFolder}"
 }
 
 function configUpstart()
 {
     local -r upstartConfigData=(
-        '__SERVER_INSTALL_FOLDER__' "${goserverServerInstallFolder}"
-        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${goserverUserName}")"
-        '__USER_NAME__' "${goserverUserName}"
-        '__GROUP_NAME__' "${goserverGroupName}"
+        '__SERVER_INSTALL_FOLDER__' "${GO_SERVER_SERVER_INSTALL_FOLDER}"
+        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${GO_SERVER_USER_NAME}")"
+        '__USER_NAME__' "${GO_SERVER_USER_NAME}"
+        '__GROUP_NAME__' "${GO_SERVER_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/go-server.conf.upstart" "/etc/init/${goserverServerServiceName:?}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/go-server.conf.upstart" "/etc/init/${GO_SERVER_SERVER_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 }
 
 function startServer()
 {
-    start "${goserverServerServiceName}"
+    start "${GO_SERVER_SERVER_SERVICE_NAME}"
 }
 
 function main()

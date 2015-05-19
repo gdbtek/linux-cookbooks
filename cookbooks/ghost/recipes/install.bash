@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${ghostNodeJSInstallFolder:?}" ]]
+    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${GHOST_NODE_JS_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../node-js/recipes/install.bash" "${ghostNodeJSVersion:?}" "${ghostNodeJSInstallFolder}"
+        "${appPath}/../../node-js/recipes/install.bash" "${GHOST_NODE_JS_VERSION}" "${GHOST_NODE_JS_INSTALL_FOLDER}"
     fi
 }
 
@@ -12,51 +12,51 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${ghostInstallFolder:?}"
+    initializeFolder "${GHOST_INSTALL_FOLDER}"
 
     # Install
 
     local -r currentPath="$(pwd)"
 
-    unzipRemoteFile "${ghostDownloadURL:?}" "${ghostInstallFolder}"
-    cd "${ghostInstallFolder}"
-    npm install "--${ghostEnvironment:?}" --silent
+    unzipRemoteFile "${GHOST_DOWNLOAD_URL}" "${GHOST_INSTALL_FOLDER}"
+    cd "${GHOST_INSTALL_FOLDER}"
+    npm install "--${GHOST_ENVIRONMENT}" --silent
     cd "${currentPath}"
 
     # Config Server
 
     local -r serverConfigData=(
-        '__PRODUCTION_URL__' "${ghostProductionURL}"
-        '__PRODUCTION_HOST__' "${ghostProductionHost}"
-        '__PRODUCTION_PORT__' "${ghostProductionPort}"
+        '__PRODUCTION_URL__' "${GHOST_PRODUCTION_URL}"
+        '__PRODUCTION_HOST__' "${GHOST_PRODUCTION_HOST}"
+        '__PRODUCTION_PORT__' "${GHOST_PRODUCTION_PORT}"
 
-        '__DEVELOPMENT_URL__' "${ghostDevelopmentURL}"
-        '__DEVELOPMENT_HOST__' "${ghostDevelopmentHost}"
-        '__DEVELOPMENT_PORT__' "${ghostDevelopmentPort}"
+        '__DEVELOPMENT_URL__' "${GHOST_DEVELOPMENT_URL}"
+        '__DEVELOPMENT_HOST__' "${GHOST_DEVELOPMENT_HOST}"
+        '__DEVELOPMENT_PORT__' "${GHOST_DEVELOPMENT_PORT}"
 
-        '__TESTING_URL__' "${ghostTestingURL}"
-        '__TESTING_HOST__' "${ghostTestingHost}"
-        '__TESTING_PORT__' "${ghostTestingPort}"
+        '__TESTING_URL__' "${GHOST_TESTING_URL}"
+        '__TESTING_HOST__' "${GHOST_TESTING_HOST}"
+        '__TESTING_PORT__' "${GHOST_TESTING_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/config.js.conf" "${ghostInstallFolder}/config.js" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/config.js.conf" "${GHOST_INSTALL_FOLDER}/config.js" "${serverConfigData[@]}"
 
     # Config Upstart
 
     local -r upstartConfigData=(
-        '__ENVIRONMENT__' "${ghostEnvironment}"
-        '__INSTALL_FOLDER__' "${ghostInstallFolder}"
-        '__USER_NAME__' "${ghostUserName}"
-        '__GROUP_NAME__' "${ghostGroupName}"
+        '__ENVIRONMENT__' "${GHOST_ENVIRONMENT}"
+        '__INSTALL_FOLDER__' "${GHOST_INSTALL_FOLDER}"
+        '__USER_NAME__' "${GHOST_USER_NAME}"
+        '__GROUP_NAME__' "${GHOST_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/ghost.conf.upstart" "/etc/init/${ghostServiceName:?}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/ghost.conf.upstart" "/etc/init/${GHOST_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addUser "${ghostUserName}" "${ghostGroupName}" 'false' 'true' 'false'
-    chown -R "${ghostUserName}:${ghostGroupName}" "${ghostInstallFolder}"
-    start "${ghostServiceName}"
+    addUser "${GHOST_USER_NAME}" "${GHOST_GROUP_NAME}" 'false' 'true' 'false'
+    chown -R "${GHOST_USER_NAME}:${GHOST_GROUP_NAME}" "${GHOST_INSTALL_FOLDER}"
+    start "${GHOST_SERVICE_NAME}"
 }
 
 function main()
@@ -71,14 +71,14 @@ function main()
 
     header 'INSTALLING GHOST'
 
-    if [[ "${ghostEnvironment}" = 'production' ]]
+    if [[ "${GHOST_ENVIRONMENT}" = 'production' ]]
     then
-        checkRequirePort "${ghostProductionPort}"
-    elif [[ "${ghostEnvironment}" = 'development' ]]
+        checkRequirePort "${GHOST_PRODUCTION_PORT}"
+    elif [[ "${GHOST_ENVIRONMENT}" = 'development' ]]
     then
-        checkRequirePort "${ghostDevelopmentPort}"
+        checkRequirePort "${GHOST_DEVELOPMENT_PORT}"
     else
-        fatal "\nFATAL : environment '${ghostEnvironment}' not supported"
+        fatal "\nFATAL : environment '${GHOST_ENVIRONMENT}' not supported"
     fi
 
     installDependencies

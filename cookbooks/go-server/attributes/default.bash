@@ -2,15 +2,15 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
-export goserverServerDownloadURL='http://download.go.cd/gocd/go-server-15.1.0-1863.zip'
-export goserverAgentDownloadURL='http://download.go.cd/gocd/go-agent-15.1.0-1863.zip'
+export GO_SERVER_SERVER_DOWNLOAD_URL='http://download.go.cd/gocd/go-server-15.1.0-1863.zip'
+export GO_SERVER_AGENT_DOWNLOAD_URL='http://download.go.cd/gocd/go-agent-15.1.0-1863.zip'
 
-export goserverServerInstallFolder='/opt/go-server/server'
-export goserverAgentInstallFolder='/opt/go-server/agents/agent'
-export goserverJDKInstallFolder="${jdkInstallFolder:?}"
+export GO_SERVER_SERVER_INSTALL_FOLDER='/opt/go-server/server'
+export GO_SERVER_AGENT_INSTALL_FOLDER='/opt/go-server/agents/agent'
+export GO_SERVER_JDK_INSTALL_FOLDER="${jdkInstallFolder:?}"
 
-export goserverServerServiceName='go-server'
-export goserverAgentServiceName='go-agent'
+export GO_SERVER_SERVER_SERVICE_NAME='go-server'
+export GO_SERVER_AGENT_SERVICE_NAME='go-agent'
 
-export goserverUserName='go'
-export goserverGroupName='go'
+export GO_SERVER_USER_NAME='go'
+export GO_SERVER_GROUP_NAME='go'

@@ -9,24 +9,24 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${golangInstallFolder}"
+    initializeFolder "${GO_LANG_INSTALL_FOLDER}"
 
     # Install
 
-    unzipRemoteFile "${golangDownloadURL:?}" "${golangInstallFolder}"
-    chown -R "$(whoami):$(whoami)" "${golangInstallFolder}"
-    symlinkLocalBin "${golangInstallFolder}/bin"
-    ln -f -s "${golangInstallFolder}" '/usr/local/go'
+    unzipRemoteFile "${GO_LANG_DOWNLOAD_URL}" "${GO_LANG_INSTALL_FOLDER}"
+    chown -R "$(whoami):$(whoami)" "${GO_LANG_INSTALL_FOLDER}"
+    symlinkLocalBin "${GO_LANG_INSTALL_FOLDER}/bin"
+    ln -f -s "${GO_LANG_INSTALL_FOLDER}" '/usr/local/go'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${golangInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${GO_LANG_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/go-lang.sh.profile" '/etc/profile.d/go-lang.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    export GOROOT="${golangInstallFolder}"
+    export GOROOT="${GO_LANG_INSTALL_FOLDER}"
     info "$(go version)"
 }
 
@@ -48,7 +48,7 @@ function main()
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        golangInstallFolder="${installFolder}"
+        GO_LANG_INSTALL_FOLDER="${installFolder}"
     fi
 
     # Install
