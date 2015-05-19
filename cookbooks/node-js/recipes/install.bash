@@ -9,30 +9,30 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${nodejsInstallFolder}"
+    initializeFolder "${NODE_JS_INSTALL_FOLDER}"
 
     # Install
 
-    if [[ "${nodejsVersion}" = 'latest' ]]
+    if [[ "${NODE_JS_VERSION}" = 'latest' ]]
     then
-        nodejsVersion="$(getLatestVersionNumber)"
-        local -r url="http://nodejs.org/dist/latest/node-${nodejsVersion}-linux-x64.tar.gz"
+        NODE_JS_VERSION="$(getLatestVersionNumber)"
+        local -r url="http://nodejs.org/dist/latest/node-${NODE_JS_VERSION}-linux-x64.tar.gz"
     else
-        if [[ "$(grep -o '^v' <<< "${nodejsVersion}")" = '' ]]
+        if [[ "$(grep -o '^v' <<< "${NODE_JS_VERSION}")" = '' ]]
         then
-            nodejsVersion="v${nodejsVersion}"
+            NODE_JS_VERSION="v${NODE_JS_VERSION}"
         fi
 
-        local -r url="http://nodejs.org/dist/${nodejsVersion}/node-${nodejsVersion}-linux-x64.tar.gz"
+        local -r url="http://nodejs.org/dist/${NODE_JS_VERSION}/node-${NODE_JS_VERSION}-linux-x64.tar.gz"
     fi
 
-    unzipRemoteFile "${url}" "${nodejsInstallFolder}"
-    chown -R "$(whoami):$(whoami)" "${nodejsInstallFolder}"
-    symlinkLocalBin "${nodejsInstallFolder}/bin"
+    unzipRemoteFile "${url}" "${NODE_JS_INSTALL_FOLDER}"
+    chown -R "$(whoami):$(whoami)" "${NODE_JS_INSTALL_FOLDER}"
+    symlinkLocalBin "${NODE_JS_INSTALL_FOLDER}/bin"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${nodejsInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${NODE_JS_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
@@ -40,7 +40,7 @@ function install()
 
     local package=''
 
-    for package in "${nodejsInstallNPMPackages[@]}"
+    for package in "${NODE_JS_INSTALL_NPM_PACKAGES[@]}"
     do
         header "INSTALLING NODE-JS NPM PACKAGE ${package}"
         npm install "${package}" -g
@@ -90,12 +90,12 @@ function main()
 
     if [[ "$(isEmptyString "${version}")" = 'false' ]]
     then
-        nodejsVersion="${version}"
+        NODE_JS_VERSION="${version}"
     fi
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        nodejsInstallFolder="${installFolder}"
+        NODE_JS_INSTALL_FOLDER="${installFolder}"
     fi
 
     # Install

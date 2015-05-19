@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
-export nodejsInstallFolder='/opt/node-js'
+export NODE_JS_INSTALL_FOLDER='/opt/node-js'
 
-# export nodejsVersion='v0.10.38'
-export nodejsVersion='latest'
+# export NODE_JS_VERSION='v0.10.38'
+export NODE_JS_VERSION='latest'
 
-export nodejsInstallNPMPackages=(
+export NODE_JS_INSTALL_NPM_PACKAGES=(
     'forever'
     'grunt-cli'
     'pm2'
