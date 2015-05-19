@@ -18,7 +18,7 @@ export jenkinsGroupName="${tomcatGroupName:?}"
 
 export jenkinsUpdateAllPlugins='true'
 
-export jenkinsInstallPlugins=(
+export JENKINS_INSTALL_PLUGINS=(
     'ansicolor'
     'build-flow-plugin'
     'build-pipeline-plugin'

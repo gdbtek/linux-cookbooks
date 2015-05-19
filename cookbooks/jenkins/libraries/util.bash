@@ -58,15 +58,15 @@ function jenkinsMasterUpdatePlugins()
 
 function jenkinsMasterInstallPlugins()
 {
-    if [[ "${#jenkinsInstallPlugins[@]}" -gt '0' ]]
+    if [[ "${#JENKINS_INSTALL_PLUGINS[@]}" -gt '0' ]]
     then
-        "$(dirname "${BASH_SOURCE[0]}")/../recipes/install-master-plugins.bash" "${jenkinsInstallPlugins[@]}"
+        "$(dirname "${BASH_SOURCE[0]}")/../recipes/install-master-plugins.bash" "${JENKINS_INSTALL_PLUGINS[@]}"
     fi
 }
 
 function jenkinsMasterSafeRestart()
 {
-    if [[ "${#jenkinsInstallPlugins[@]}" -gt '0' || "${jenkinsUpdateAllPlugins}" = 'true' ]]
+    if [[ "${#JENKINS_INSTALL_PLUGINS[@]}" -gt '0' || "${jenkinsUpdateAllPlugins}" = 'true' ]]
     then
         "$(dirname "${BASH_SOURCE[0]}")/../recipes/safe-restart-master.bash"
     fi
