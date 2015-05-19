@@ -1,20 +1,20 @@
 #!/bin/bash -e
 
-export mysqlDownloadURL='http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.24-linux-glibc2.5-x86_64.tar.gz'
+export MYSQL_DOWNLOAD_URL='http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.24-linux-glibc2.5-x86_64.tar.gz'
 
-export mysqlInstallFolder='/opt/mysql'
+export MYSQL_INSTALL_FOLDER='/opt/mysql'
 
-export mysqlUserName='mysql'
-export mysqlGroupName='mysql'
+export MYSQL_USER_NAME='mysql'
+export MYSQL_GROUP_NAME='mysql'
 
-export mysqlServiceName='mysql'
+export MYSQL_SERVICE_NAME='mysql'
 
-export mysqlPort='3306'
+export MYSQL_PORT='3306'
 
-export mysqlRunPostSecureInstallation='true'
+export MYSQL_RUN_POST_SECURE_INSTALLATION='true'
 
-export mysqlRootPassword=''
-export mysqlDeleteAnonymousUsers='true'
-export mysqlDisallowRootLoginRemotely='true'
-export mysqlDeleteTestDatabase='true'
-export mysqlReloadPrivilegeTable='true'
+export MYSQL_ROOT_PASSWORD=''
+export MYSQL_DELETE_ANONYMOUS_USERS='true'
+export MYSQL_DISALLOW_ROOT_LOGIN_REMOTELY='true'
+export MYSQL_DELETE_TEST_DATABASE='true'
+export MYSQL_RELOAD_PRIVILEGE_TABLE='true'

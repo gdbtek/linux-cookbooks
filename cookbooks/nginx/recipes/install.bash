@@ -24,7 +24,7 @@ function install()
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${nginxDownloadURL:?}" "${tempFolder}"
+    unzipRemoteFile "${NGINX_DOWNLOAD_URL}" "${tempFolder}"
     addUser "${nginxUserName:?}" "${nginxGroupName:?}" 'false' 'true' 'false'
     cd "${tempFolder}"
     "${tempFolder}/configure" \

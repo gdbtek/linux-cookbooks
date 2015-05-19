@@ -9,59 +9,59 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${mysqlInstallFolder:?}"
-    rm -f -r "/usr/local/$(getFileName "${mysqlInstallFolder}")"
+    initializeFolder "${MYSQL_INSTALL_FOLDER:?}"
+    rm -f -r "/usr/local/$(getFileName "${MYSQL_INSTALL_FOLDER}")"
 
     # Install
 
     local -r currentPath="$(pwd)"
 
-    unzipRemoteFile "${mysqlDownloadURL:?}" "${mysqlInstallFolder}"
-    addUser "${mysqlUserName:?}" "${mysqlGroupName:?}" 'false' 'true' 'false'
-    ln -f -s "${mysqlInstallFolder}" "/usr/local/$(getFileName "${mysqlInstallFolder}")"
-    chown -R "${mysqlUserName}:${mysqlGroupName}" "${mysqlInstallFolder}"
-    cd "${mysqlInstallFolder}"
-    "${mysqlInstallFolder}/scripts/mysql_install_db" --user="${mysqlUserName}"
-    chown -R "$(whoami)" "${mysqlInstallFolder}"
-    chown -R "${mysqlUserName}" "${mysqlInstallFolder}/data"
+    unzipRemoteFile "${MYSQL_DOWNLOAD_URL:?}" "${MYSQL_INSTALL_FOLDER}"
+    addUser "${MYSQL_USER_NAME:?}" "${MYSQL_GROUP_NAME:?}" 'false' 'true' 'false'
+    ln -f -s "${MYSQL_INSTALL_FOLDER}" "/usr/local/$(getFileName "${MYSQL_INSTALL_FOLDER}")"
+    chown -R "${MYSQL_USER_NAME}:${MYSQL_GROUP_NAME}" "${MYSQL_INSTALL_FOLDER}"
+    cd "${MYSQL_INSTALL_FOLDER}"
+    "${MYSQL_INSTALL_FOLDER}/scripts/mysql_install_db" --user="${MYSQL_USER_NAME}"
+    chown -R "$(whoami)" "${MYSQL_INSTALL_FOLDER}"
+    chown -R "${MYSQL_USER_NAME}" "${MYSQL_INSTALL_FOLDER}/data"
     cd "${currentPath}"
 
     # Config Server
 
-    local -r serverConfigData=('__PORT__' "${mysqlPort}")
+    local -r serverConfigData=('__PORT__' "${MYSQL_PORT}")
 
-    createFileFromTemplate "${appPath}/../templates/default/my.cnf.conf" "${mysqlInstallFolder}/my.cnf" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/my.cnf.conf" "${MYSQL_INSTALL_FOLDER}/my.cnf" "${serverConfigData[@]}"
 
     # Config Service
 
-    cp -f "${mysqlInstallFolder}/support-files/mysql.server" "/etc/init.d/${mysqlServiceName:?}"
-    sysv-rc-conf --level 2345 "${mysqlServiceName}" on
+    cp -f "${MYSQL_INSTALL_FOLDER}/support-files/mysql.server" "/etc/init.d/${MYSQL_SERVICE_NAME}"
+    sysv-rc-conf --level 2345 "${MYSQL_SERVICE_NAME}" on
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${mysqlInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${MYSQL_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/mysql.sh.profile" '/etc/profile.d/mysql.sh' "${profileConfigData[@]}"
 
     # Start
 
-    service "${mysqlServiceName}" start
+    service "${MYSQL_SERVICE_NAME}" start
 
     # Run Secure Installation
 
-    if [[ "${mysqlRunPostSecureInstallation:?}" = 'true' ]]
+    if [[ "${MYSQL_RUN_POST_SECURE_INSTALLATION}" = 'true' ]]
     then
         secureInstallation
     fi
 
     # Display Version
 
-    info "\n\n$("${mysqlInstallFolder}/bin/mysql" --version)"
+    info "\n\n$("${MYSQL_INSTALL_FOLDER}/bin/mysql" --version)"
 }
 
 function secureInstallation()
 {
-    local -r secureInstaller="${mysqlInstallFolder}/bin/mysql_secure_installation"
+    local -r secureInstaller="${MYSQL_INSTALL_FOLDER}/bin/mysql_secure_installation"
 
     checkExistFile "${secureInstaller}"
 
@@ -73,42 +73,42 @@ function secureInstallation()
 
     local setMySQLRootPassword='n'
 
-    if [[ "${mysqlRootPassword:?}" != '' ]]
+    if [[ "${MYSQL_ROOT_PASSWORD}" != '' ]]
     then
         setMySQLRootPassword='Y'
     fi
 
-    if [[ "${mysqlDeleteAnonymousUsers}" = 'true' ]]
+    if [[ "${MYSQL_DELETE_ANONYMOUS_USERS}" = 'true' ]]
     then
-        mysqlDeleteAnonymousUsers='Y'
+        MYSQL_DELETE_ANONYMOUS_USERS='Y'
     else
-        mysqlDeleteAnonymousUsers='n'
+        MYSQL_DELETE_ANONYMOUS_USERS='n'
     fi
 
-    if [[ "${mysqlDisallowRootLoginRemotely}" = 'true' ]]
+    if [[ "${MYSQL_DISALLOW_ROOT_LOGIN_REMOTELY}" = 'true' ]]
     then
-        mysqlDisallowRootLoginRemotely='Y'
+        MYSQL_DISALLOW_ROOT_LOGIN_REMOTELY='Y'
     else
-        mysqlDisallowRootLoginRemotely='n'
+        MYSQL_DISALLOW_ROOT_LOGIN_REMOTELY='n'
     fi
 
-    if [[ "${mysqlDeleteTestDatabase}" = 'true' ]]
+    if [[ "${MYSQL_DELETE_TEST_DATABASE}" = 'true' ]]
     then
-        mysqlDeleteTestDatabase='Y'
+        MYSQL_DELETE_TEST_DATABASE='Y'
     else
-        mysqlDeleteTestDatabase='n'
+        MYSQL_DELETE_TEST_DATABASE='n'
     fi
 
-    if [[ "${mysqlReloadPrivilegeTable}" = 'true' ]]
+    if [[ "${MYSQL_RELOAD_PRIVILEGE_TABLE}" = 'true' ]]
     then
-        mysqlReloadPrivilegeTable='Y'
+        MYSQL_RELOAD_PRIVILEGE_TABLE='Y'
     else
-        mysqlReloadPrivilegeTable='n'
+        MYSQL_RELOAD_PRIVILEGE_TABLE='n'
     fi
 
     # Run Config
 
-    cd "${mysqlInstallFolder}"
+    cd "${MYSQL_INSTALL_FOLDER}"
 
     expect << DONE
         set timeout 3
@@ -122,23 +122,23 @@ function secureInstallation()
 
         if { "${setMySQLRootPassword}" == "Y" } {
             expect "New password: "
-            send -- "${mysqlRootPassword}\r"
+            send -- "${MYSQL_ROOT_PASSWORD}\r"
 
             expect "Re-enter new password: "
-            send -- "${mysqlRootPassword}\r"
+            send -- "${MYSQL_ROOT_PASSWORD}\r"
         }
 
         expect "Remove anonymous users? \[Y/n] "
-        send -- "${mysqlDeleteAnonymousUsers}\r"
+        send -- "${MYSQL_DELETE_ANONYMOUS_USERS}\r"
 
         expect "Disallow root login remotely? \[Y/n] "
-        send -- "${mysqlDisallowRootLoginRemotely}\r"
+        send -- "${MYSQL_DISALLOW_ROOT_LOGIN_REMOTELY}\r"
 
         expect "Remove test database and access to it? \[Y/n] "
-        send -- "${mysqlDeleteTestDatabase}\r"
+        send -- "${MYSQL_DELETE_TEST_DATABASE}\r"
 
         expect "Reload privilege tables now? \[Y/n] "
-        send -- "${mysqlReloadPrivilegeTable}\r"
+        send -- "${MYSQL_RELOAD_PRIVILEGE_TABLE}\r"
 
         expect eof
 DONE
@@ -156,7 +156,7 @@ function main()
 
     header 'INSTALLING MYSQL'
 
-    checkRequirePort "${mysqlPort}"
+    checkRequirePort "${MYSQL_PORT}"
 
     installDependencies
     install
