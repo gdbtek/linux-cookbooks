@@ -27,15 +27,15 @@ function main()
     "${appPath}/../../../../../../../cookbooks/jenkins/recipes/install-master.bash"
     "${appPath}/../../../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${ccmuiJenkinsInstallPlugins[@]}"
     "${appPath}/../../../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
-    "${appPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${jenkinsUserName:?}, $(whoami)"
+    "${appPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami)"
 
     # Config SSH and GIT
 
     addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
-    addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName:?}" "$(cat "${appPath}/../files/default/known_hosts")"
+    addUserSSHKnownHost "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}" "$(cat "${appPath}/../files/default/known_hosts")"
 
-    configUserGIT "${jenkinsUserName}" "${ccmuiJenkinsGITUserName:?}" "${ccmuiJenkinsGITUserEmail:?}"
-    generateUserSSHKey "${jenkinsUserName}"
+    configUserGIT "${JENKINS_USER_NAME}" "${ccmuiJenkinsGITUserName:?}" "${ccmuiJenkinsGITUserEmail:?}"
+    generateUserSSHKey "${JENKINS_USER_NAME}"
 
     # Config Nginx
 
@@ -45,7 +45,7 @@ function main()
 
     local -r nginxConfigData=(
         '__NGINX_PORT__' "${nginxPort}"
-        '__JENKINS_TOMCAT_HTTP_PORT__' "${jenkinsTomcatHTTPPort}"
+        '__JENKINS_TOMCAT_HTTP_PORT__' "${JENKINS_TOMCAT_HTTP_PORT}"
     )
 
     createFileFromTemplate "${appPath}/../templates/default/nginx.conf.conf" "${nginxInstallFolder:?}/conf/nginx.conf" "${nginxConfigData[@]}"
@@ -60,7 +60,7 @@ function main()
 
     # Display Notice
 
-    displayNotice "${jenkinsUserName}"
+    displayNotice "${JENKINS_USER_NAME}"
 }
 
 main "${@}"

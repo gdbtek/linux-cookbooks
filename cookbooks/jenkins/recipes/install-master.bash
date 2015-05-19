@@ -4,16 +4,16 @@ function installDependencies()
 {
     # Groovy
 
-    if [[ "$(existCommand 'groovy')" = 'false' || ! -d "${jenkinsGroovyInstallFolder:?}" ]]
+    if [[ "$(existCommand 'groovy')" = 'false' || ! -d "${JENKINS_GROOVY_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../groovy/recipes/install.bash" "${jenkinsGroovyInstallFolder}"
+        "${appPath}/../../groovy/recipes/install.bash" "${JENKINS_GROOVY_INSTALL_FOLDER}"
     fi
 
     # Tomcat
 
-    if [[ ! -f "${jenkinsTomcatInstallFolder:?}/bin/catalina.sh" ]]
+    if [[ ! -f "${JENKINS_TOMCAT_INSTALL_FOLDER}/bin/catalina.sh" ]]
     then
-        "${appPath}/../../tomcat/recipes/install.bash" "${jenkinsTomcatInstallFolder}"
+        "${appPath}/../../tomcat/recipes/install.bash" "${JENKINS_TOMCAT_INSTALL_FOLDER}"
     fi
 }
 
@@ -21,31 +21,31 @@ function install()
 {
     # Set Install Folder Path
 
-    local -r jenkinsDefaultInstallFolder="$(getUserHomeFolder "${jenkinsUserName:?}")/.jenkins"
+    local -r jenkinsDefaultInstallFolder="$(getUserHomeFolder "${JENKINS_USER_NAME}")/.jenkins"
 
-    if [[ "$(isEmptyString "${jenkinsInstallFolder}")" = 'true' ]]
+    if [[ "$(isEmptyString "${JENKINS_INSTALL_FOLDER}")" = 'true' ]]
     then
-        jenkinsInstallFolder="${jenkinsDefaultInstallFolder}"
+        JENKINS_INSTALL_FOLDER="${jenkinsDefaultInstallFolder}"
     fi
 
     # Clean Up
 
     jenkinsMasterWARAppCleanUp
 
-    rm -f -r "${jenkinsDefaultInstallFolder}" "${jenkinsInstallFolder}"
+    rm -f -r "${jenkinsDefaultInstallFolder}" "${JENKINS_INSTALL_FOLDER}"
 
     # Create Non-Default Jenkins Home
 
-    if [[ "${jenkinsInstallFolder}" != "${jenkinsDefaultInstallFolder}" ]]
+    if [[ "${JENKINS_INSTALL_FOLDER}" != "${jenkinsDefaultInstallFolder}" ]]
     then
-        initializeFolder "${jenkinsInstallFolder}"
-        ln -f -s "${jenkinsInstallFolder}" "${jenkinsDefaultInstallFolder}"
-        chown -R "${jenkinsUserName}:${jenkinsGroupName:?}" "${jenkinsDefaultInstallFolder}" "${jenkinsInstallFolder}"
+        initializeFolder "${JENKINS_INSTALL_FOLDER}"
+        ln -f -s "${JENKINS_INSTALL_FOLDER}" "${jenkinsDefaultInstallFolder}"
+        chown -R "${JENKINS_USER_NAME}:${JENKINS_GROUP_NAME}" "${jenkinsDefaultInstallFolder}" "${JENKINS_INSTALL_FOLDER}"
     fi
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${jenkinsInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${JENKINS_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
 

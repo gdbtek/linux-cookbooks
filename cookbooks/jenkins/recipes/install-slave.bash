@@ -11,7 +11,7 @@ function installDependencies()
 function install()
 {
     initializeFolder "${jenkinsWorkspaceFolder:?}"
-    chown -R "${jenkinsUserName:?}:${jenkinsGroupName:?}" "${jenkinsWorkspaceFolder}"
+    chown -R "${JENKINS_USER_NAME}:${JENKINS_GROUP_NAME}" "${jenkinsWorkspaceFolder}"
 }
 
 function main()

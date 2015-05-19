@@ -24,15 +24,15 @@ function main()
     "${appPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
     "${appPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiJenkinsNodeJSVersion:?}" "${ccmuiJenkinsNodeJSInstallFolder:?}"
     "${appPath}/../../../../../../../cookbooks/jenkins/recipes/install-slave.bash"
-    "${appPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${jenkinsUserName:?}, $(whoami)"
+    "${appPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami)"
 
     # Config SSH and GIT
 
     addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
-    addUserSSHKnownHost "${jenkinsUserName}" "${jenkinsGroupName:?}" "$(cat "${appPath}/../files/default/known_hosts")"
+    addUserSSHKnownHost "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}" "$(cat "${appPath}/../files/default/known_hosts")"
 
-    configUserGIT "${jenkinsUserName}" "${ccmuiJenkinsGITUserName:?}" "${ccmuiJenkinsGITUserEmail:?}"
-    generateUserSSHKey "${jenkinsUserName}"
+    configUserGIT "${JENKINS_USER_NAME}" "${ccmuiJenkinsGITUserName:?}" "${ccmuiJenkinsGITUserEmail:?}"
+    generateUserSSHKey "${JENKINS_USER_NAME}"
 
     # Clean Up
 
@@ -41,7 +41,7 @@ function main()
 
     # Display Notice
 
-    displayNotice "${jenkinsUserName}"
+    displayNotice "${JENKINS_USER_NAME}"
 }
 
 main "${@}"

@@ -6,5 +6,5 @@ export jenkinsWorkspaceFolder='/opt/jenkins'
 
 export jenkinsJDKInstallFolder="${JDK_INSTALL_FOLDER}"
 
-export jenkinsUserName='root'
-export jenkinsGroupName='root'
+export JENKINS_USER_NAME='root'
+export JENKINS_GROUP_NAME='root'

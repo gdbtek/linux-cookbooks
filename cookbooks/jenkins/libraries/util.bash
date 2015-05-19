@@ -5,52 +5,52 @@ source "$(dirname "${BASH_SOURCE[0]}")/../attributes/master.bash"
 
 function jenkinsMasterWARAppCleanUp()
 {
-    local -r appName="$(getFileName "${jenkinsDownloadURL:?}")"
+    local -r appName="$(getFileName "${JENKINS_DOWNLOAD_URL}")"
 
     checkNonEmptyString "${appName}"
 
-    rm -f -r "${jenkinsTomcatInstallFolder:?}/webapps/${appName}.war" \
-             "${jenkinsTomcatInstallFolder}/webapps/${appName}"
+    rm -f -r "${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps/${appName}.war" \
+             "${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps/${appName}"
 }
 
 function jenkinsMasterDownloadWARApp()
 {
-    local -r appName="$(getFileName "${jenkinsDownloadURL}")"
+    local -r appName="$(getFileName "${JENKINS_DOWNLOAD_URL}")"
     local -r temporaryFile="$(getTemporaryFile)"
 
     checkNonEmptyString "${appName}"
     checkExistFile "${temporaryFile}"
-    checkExistFolder "${jenkinsTomcatInstallFolder}/webapps"
+    checkExistFolder "${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps"
 
-    downloadFile "${jenkinsDownloadURL}" "${temporaryFile}" 'true'
-    chown "${jenkinsUserName:?}:${jenkinsGroupName:?}" "${temporaryFile}"
-    mv "${temporaryFile}" "${jenkinsTomcatInstallFolder}/webapps/${appName}.war"
+    downloadFile "${JENKINS_DOWNLOAD_URL}" "${temporaryFile}" 'true'
+    chown "${JENKINS_USER_NAME}:${JENKINS_GROUP_NAME}" "${temporaryFile}"
+    mv "${temporaryFile}" "${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps/${appName}.war"
     sleep 75
 }
 
 function jenkinsMasterDisplayVersion()
 {
-    local -r appName="$(getFileName "${jenkinsDownloadURL}")"
-    local -r jenkinsCLIPath="${jenkinsTomcatInstallFolder}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
+    local -r appName="$(getFileName "${JENKINS_DOWNLOAD_URL}")"
+    local -r jenkinsCLIPath="${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
 
     checkNonEmptyString "${appName}"
     checkExistFile "${jenkinsCLIPath}"
 
     info "\nVersion: $('java' -jar "${jenkinsCLIPath}" \
-                              -s "http://127.0.0.1:${jenkinsTomcatHTTPPort:?}/${appName}" \
+                              -s "http://127.0.0.1:${JENKINS_TOMCAT_HTTP_PORT:?}/${appName}" \
                               version)"
 }
 
 function jenkinsMasterRefreshUpdateCenter()
 {
-    checkTrueFalseString "${jenkinsUpdateAllPlugins:?}"
+    checkTrueFalseString "${JENKINS_UPDATE_ALL_PLUGINS}"
 
     "$(dirname "${BASH_SOURCE[0]}")/../recipes/refresh-master-update-center.bash"
 }
 
 function jenkinsMasterUpdatePlugins()
 {
-    if [[ "${jenkinsUpdateAllPlugins}" = 'true' ]]
+    if [[ "${JENKINS_UPDATE_ALL_PLUGINS}" = 'true' ]]
     then
         "$(dirname "${BASH_SOURCE[0]}")/../recipes/update-master-plugins.bash"
     fi
@@ -66,7 +66,7 @@ function jenkinsMasterInstallPlugins()
 
 function jenkinsMasterSafeRestart()
 {
-    if [[ "${#JENKINS_INSTALL_PLUGINS[@]}" -gt '0' || "${jenkinsUpdateAllPlugins}" = 'true' ]]
+    if [[ "${#JENKINS_INSTALL_PLUGINS[@]}" -gt '0' || "${JENKINS_UPDATE_ALL_PLUGINS}" = 'true' ]]
     then
         "$(dirname "${BASH_SOURCE[0]}")/../recipes/safe-restart-master.bash"
     fi
