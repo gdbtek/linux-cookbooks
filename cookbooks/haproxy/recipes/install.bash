@@ -14,42 +14,42 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${haproxyInstallFolder:?}"
+    initializeFolder "${HAPROXY_INSTALL_FOLDER}"
 
     # Install
 
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${haproxyDownloadURL:?}" "${tempFolder}"
+    unzipRemoteFile "${HAPROXY_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
-    make "${haproxyConfig[@]}"
-    make install PREFIX='' DESTDIR="${haproxyInstallFolder}"
+    make "${HAPROXY_CONFIG[@]}"
+    make install PREFIX='' DESTDIR="${HAPROXY_INSTALL_FOLDER}"
 
     rm -f -r "${tempFolder}"
     cd "${currentPath}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
-    local -r upstartConfigData=('__INSTALL_FOLDER__' "${haproxyInstallFolder}")
+    local -r upstartConfigData=('__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/haproxy.conf.upstart" "/etc/init/${haproxyServiceName:?}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/haproxy.conf.upstart" "/etc/init/${HAPROXY_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addUser "${haproxyUserName:?}" "${haproxyGroupName:?}" 'false' 'true' 'false'
-    chown -R "${haproxyUserName}:${haproxyGroupName}" "${haproxyInstallFolder}"
-    start "${haproxyServiceName}"
+    addUser "${HAPROXY_USER_NAME}" "${HAPROXY_GROUP_NAME}" 'false' 'true' 'false'
+    chown -R "${HAPROXY_USER_NAME}:${HAPROXY_GROUP_NAME}" "${HAPROXY_INSTALL_FOLDER}"
+    start "${HAPROXY_SERVICE_NAME}"
 
     # Display Version
 
-    info "\n$("${haproxyInstallFolder}/sbin/haproxy" -vv 2>&1)"
+    info "\n$("${HAPROXY_INSTALL_FOLDER}/sbin/haproxy" -vv 2>&1)"
 }
 
 function main()
@@ -64,7 +64,7 @@ function main()
 
     header 'INSTALLING HAPROXY'
 
-    checkRequirePort "${haproxyPort:?}"
+    checkRequirePort "${HAPROXY_PORT}"
 
     installDependencies
     install

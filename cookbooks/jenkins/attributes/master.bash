@@ -8,7 +8,7 @@ export jenkinsUpdateCenterURL='http://updates.jenkins-ci.org/update-center.json'
 
 export jenkinsInstallFolder='/opt/jenkins'
 
-export jenkinsGroovyInstallFolder="${groovyInstallFolder:?}"
+export jenkinsGroovyInstallFolder="${GROOVY_INSTALL_FOLDER}"
 
 export jenkinsTomcatInstallFolder="${tomcatInstallFolder:?}"
 export jenkinsTomcatHTTPPort="${tomcatHTTPPort:?}"

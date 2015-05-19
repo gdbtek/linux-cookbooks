@@ -2,18 +2,18 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../pcre/attributes/default.bash"
 
-export haproxyDownloadURL='http://www.haproxy.org/download/1.5/src/haproxy-1.5.12.tar.gz'
+export HAPROXY_DOWNLOAD_URL='http://www.haproxy.org/download/1.5/src/haproxy-1.5.12.tar.gz'
 
-export haproxyInstallFolder='/opt/haproxy'
+export HAPROXY_INSTALL_FOLDER='/opt/haproxy'
 
-export haproxyServiceName='haproxy'
+export HAPROXY_SERVICE_NAME='haproxy'
 
-export haproxyUserName='haproxy'
-export haproxyGroupName='haproxy'
+export HAPROXY_USER_NAME='haproxy'
+export HAPROXY_GROUP_NAME='haproxy'
 
-export haproxyPort='80'
+export HAPROXY_PORT='80'
 
-export haproxyConfig=(
+export HAPROXY_CONFIG=(
     'CPU=native'
     'TARGET=custom'
     "PCREDIR='${pcreInstallFolder}'"
