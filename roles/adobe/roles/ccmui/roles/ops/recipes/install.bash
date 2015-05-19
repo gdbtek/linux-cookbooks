@@ -13,7 +13,7 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${ccmuiOpsDisk:?}" "${ccmuiOpsMountOn:?}" "${mounthdPartitionNumber:?}"
+    extendOPTPartition "${ccmuiOpsDisk:?}" "${ccmuiOpsMountOn:?}" "${MOUNT_HD_PARTITION_NUMBER:?}"
 
     # Install Apps
 

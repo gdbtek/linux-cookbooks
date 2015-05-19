@@ -15,7 +15,7 @@ function install()
         fatal "FATAL : disk '${disk}' not found"
     fi
 
-    local -r newDisk="${disk}${mounthdPartitionNumber:?}"
+    local -r newDisk="${disk}${MOUNT_HD_PARTITION_NUMBER:?}"
 
     if [[ -d "${mountOn}" ]]
     then
