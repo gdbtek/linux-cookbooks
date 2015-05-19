@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-export chefDownloadURL='https://www.chef.io/chef/install.sh'
+export CHEF_DOWNLOAD_URL='https://www.chef.io/chef/install.sh'

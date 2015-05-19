@@ -2,15 +2,15 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
-export elasticsearchDownloadURL='https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.5.1.tar.gz'
+export ELASTIC_SEARCH_DOWNLOAD_URL='https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.5.1.tar.gz'
 
-export elasticsearchInstallFolder='/opt/elastic-search'
-export elasticsearchJDKInstallFolder="${jdkInstallFolder:?}"
+export ELASTIC_SEARCH_INSTALL_FOLDER='/opt/elastic-search'
+export ELASTIC_SEARCH_JDK_INSTALL_FOLDER="${jdkInstallFolder:?}"
 
-export elasticsearchServiceName='elastic-search'
+export ELASTIC_SEARCH_SERVICE_NAME='elastic-search'
 
-export elasticsearchUserName='elastic'
-export elasticsearchGroupName='elastic'
+export ELASTIC_SEARCH_USER_NAME='elastic'
+export ELASTIC_SEARCH_GROUP_NAME='elastic'
 
-export elasticsearchHTTPPort='9200'
-export elasticsearchTransportTCPPort='9300'
+export ELASTIC_SEARCH_HTTP_PORT='9200'
+export ELASTIC_SEARCH_TRANSPORT_TCP_PORT='9300'

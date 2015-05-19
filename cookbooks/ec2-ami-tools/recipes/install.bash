@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${ec2amitoolsRubyInstallFolder:?}" ]]
+    if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${EC2_AMI_TOOLS_RUBY_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../ruby/recipes/install.bash" "${ec2amitoolsRubyInstallFolder}"
+        "${appPath}/../../ruby/recipes/install.bash" "${EC2_AMI_TOOLS_RUBY_INSTALL_FOLDER}"
     fi
 }
 
@@ -12,13 +12,13 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${ec2amitoolsInstallFolder:?}"
+    initializeFolder "${EC2_AMI_TOOLS_INSTALL_FOLDER}"
 
     # Install
 
-    unzipRemoteFile "${ec2amitoolsDownloadURL:?}" "${ec2amitoolsInstallFolder}"
+    unzipRemoteFile "${EC2_AMI_TOOLS_DOWNLOAD_URL}" "${EC2_AMI_TOOLS_INSTALL_FOLDER}"
 
-    local -r unzipFolder="$(find "${ec2amitoolsInstallFolder}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(find "${EC2_AMI_TOOLS_INSTALL_FOLDER}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
@@ -35,20 +35,20 @@ function install()
     local -r currentPath="$(pwd)"
 
     cd "${unzipFolder}"
-    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${ec2amitoolsInstallFolder}" \;
+    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${EC2_AMI_TOOLS_INSTALL_FOLDER}" \;
     cd "${currentPath}"
-    symlinkLocalBin "${ec2amitoolsInstallFolder}/bin"
+    symlinkLocalBin "${EC2_AMI_TOOLS_INSTALL_FOLDER}/bin"
     rm -f -r "${unzipFolder}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${ec2amitoolsInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${EC2_AMI_TOOLS_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/ec2-ami-tools.sh.profile" '/etc/profile.d/ec2-ami-tools.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    info "$("${ec2amitoolsInstallFolder}/bin/ec2-ami-tools-version")"
+    info "$("${EC2_AMI_TOOLS_INSTALL_FOLDER}/bin/ec2-ami-tools-version")"
 }
 
 function main()

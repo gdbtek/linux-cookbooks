@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${elasticsearchJDKInstallFolder:?}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${ELASTIC_SEARCH_JDK_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${elasticsearchJDKInstallFolder}"
+        "${appPath}/../../jdk/recipes/install.bash" "${ELASTIC_SEARCH_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -12,47 +12,47 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${elasticsearchInstallFolder:?}"
+    initializeFolder "${ELASTIC_SEARCH_INSTALL_FOLDER}"
 
     # Install
 
-    unzipRemoteFile "${elasticsearchDownloadURL:?}" "${elasticsearchInstallFolder}"
+    unzipRemoteFile "${ELASTIC_SEARCH_DOWNLOAD_URL}" "${ELASTIC_SEARCH_INSTALL_FOLDER}"
 
     # Config Server
 
     local -r serverConfigData=(
-        '__HTTP_PORT__' "${elasticsearchHTTPPort}"
-        '__TRANSPORT_TCP_PORT__' "${elasticsearchTransportTCPPort}"
+        '__HTTP_PORT__' "${ELASTIC_SEARCH_HTTP_PORT}"
+        '__TRANSPORT_TCP_PORT__' "${ELASTIC_SEARCH_TRANSPORT_TCP_PORT}"
     )
 
-    createFileFromTemplate  "${appPath}/../templates/default/elasticsearch.yml.conf" "${elasticsearchInstallFolder}/config/elasticsearch.yml" "${serverConfigData[@]}"
+    createFileFromTemplate  "${appPath}/../templates/default/elasticsearch.yml.conf" "${ELASTIC_SEARCH_INSTALL_FOLDER}/config/elasticsearch.yml" "${serverConfigData[@]}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${elasticsearchInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${ELASTIC_SEARCH_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/elastic-search.sh.profile" '/etc/profile.d/elastic-search.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
     local -r upstartConfigData=(
-        '__INSTALL_FOLDER__' "${elasticsearchInstallFolder}"
-        '__JDK_INSTALL_FOLDER__' "${elasticsearchJDKInstallFolder}"
-        '__USER_NAME__' "${elasticsearchUserName}"
-        '__GROUP_NAME__' "${elasticsearchGroupName}"
+        '__INSTALL_FOLDER__' "${ELASTIC_SEARCH_INSTALL_FOLDER}"
+        '__JDK_INSTALL_FOLDER__' "${ELASTIC_SEARCH_JDK_INSTALL_FOLDER}"
+        '__USER_NAME__' "${ELASTIC_SEARCH_USER_NAME}"
+        '__GROUP_NAME__' "${ELASTIC_SEARCH_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/elastic-search.conf.upstart" "/etc/init/${elasticsearchServiceName:?}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/elastic-search.conf.upstart" "/etc/init/${ELASTIC_SEARCH_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addUser "${elasticsearchUserName}" "${elasticsearchGroupName}" 'false' 'true' 'false'
-    chown -R "${elasticsearchUserName}:${elasticsearchGroupName}" "${elasticsearchInstallFolder}"
-    start "${elasticsearchServiceName}"
+    addUser "${ELASTIC_SEARCH_USER_NAME}" "${ELASTIC_SEARCH_GROUP_NAME}" 'false' 'true' 'false'
+    chown -R "${ELASTIC_SEARCH_USER_NAME}:${ELASTIC_SEARCH_GROUP_NAME}" "${ELASTIC_SEARCH_INSTALL_FOLDER}"
+    start "${ELASTIC_SEARCH_SERVICE_NAME}"
 
     # Display Version
 
-    info "\n$("${elasticsearchInstallFolder}/bin/elasticsearch" -v)"
+    info "\n$("${ELASTIC_SEARCH_INSTALL_FOLDER}/bin/elasticsearch" -v)"
 }
 
 function main()
@@ -67,7 +67,7 @@ function main()
 
     header 'INSTALLING ELASTIC SEARCH'
 
-    checkRequirePort "${elasticsearchHTTPPort}" "${elasticsearchTransportTCPPort}"
+    checkRequirePort "${ELASTIC_SEARCH_HTTP_PORT}" "${ELASTIC_SEARCH_TRANSPORT_TCP_PORT}"
 
     installDependencies
     install
