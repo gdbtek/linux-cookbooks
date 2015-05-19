@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-export essentialPackages=(
+export ESSENTIAL_PACKAGES=(
     'curl'
     'git'
     'iptables'

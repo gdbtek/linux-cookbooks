@@ -18,7 +18,7 @@ function main()
     header 'INSTALLING ESSENTIAL PACKAGES'
 
     installDependencies
-    installAptGetPackages "${essentialPackages[@]}"
+    installAptGetPackages "${ESSENTIAL_PACKAGES[@]}"
     installCleanUp
 }
 
