@@ -7,7 +7,7 @@ export GO_SERVER_AGENT_DOWNLOAD_URL='http://download.go.cd/gocd/go-agent-15.1.0-
 
 export GO_SERVER_SERVER_INSTALL_FOLDER='/opt/go-server/server'
 export GO_SERVER_AGENT_INSTALL_FOLDER='/opt/go-server/agents/agent'
-export GO_SERVER_JDK_INSTALL_FOLDER="${jdkInstallFolder:?}"
+export GO_SERVER_JDK_INSTALL_FOLDER="${JDK_INSTALL_FOLDER}"
 
 export GO_SERVER_SERVER_SERVICE_NAME='go-server'
 export GO_SERVER_AGENT_SERVICE_NAME='go-agent'

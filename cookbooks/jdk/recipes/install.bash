@@ -4,22 +4,22 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${jdkInstallFolder}"
+    initializeFolder "${JDK_INSTALL_FOLDER}"
 
     # Install
 
-    unzipRemoteFile "${jdkDownloadURL:?}" "${jdkInstallFolder}"
+    unzipRemoteFile "${JDK_DOWNLOAD_URL}" "${JDK_INSTALL_FOLDER}"
 
     # Config Lib
 
-    chown -R "$(whoami):$(whoami)" "${jdkInstallFolder}"
-    ln -f -s "${jdkInstallFolder}/bin/jar" '/usr/local/bin/jar'
-    ln -f -s "${jdkInstallFolder}/bin/java" '/usr/local/bin/java'
-    ln -f -s "${jdkInstallFolder}/bin/javac" '/usr/local/bin/javac'
+    chown -R "$(whoami):$(whoami)" "${JDK_INSTALL_FOLDER}"
+    ln -f -s "${JDK_INSTALL_FOLDER}/bin/jar" '/usr/local/bin/jar'
+    ln -f -s "${JDK_INSTALL_FOLDER}/bin/java" '/usr/local/bin/java'
+    ln -f -s "${JDK_INSTALL_FOLDER}/bin/javac" '/usr/local/bin/javac'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${jdkInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${JDK_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/jdk.sh.profile" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
 
@@ -46,7 +46,7 @@ function main()
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        jdkInstallFolder="${installFolder}"
+        JDK_INSTALL_FOLDER="${installFolder}"
     fi
 
     # Install
