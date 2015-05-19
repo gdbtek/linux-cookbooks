@@ -4,42 +4,42 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${mongodbInstallFolder:?}"
-    initializeFolder "${mongodbInstallDataFolder:?}"
+    initializeFolder "${MONGODB_INSTALL_FOLDER}"
+    initializeFolder "${MONGODB_INSTALL_DATA_FOLDER}"
 
     # Install
 
-    unzipRemoteFile "${mongodbDownloadURL:?}" "${mongodbInstallFolder}"
-    find "${mongodbInstallFolder}" -maxdepth 1 -type f -delete
+    unzipRemoteFile "${MONGODB_DOWNLOAD_URL}" "${MONGODB_INSTALL_FOLDER}"
+    find "${MONGODB_INSTALL_FOLDER}" -maxdepth 1 -type f -delete
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${mongodbInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${MONGODB_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/mongodb.sh.profile" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
     local -r upstartConfigData=(
-        '__INSTALL_FOLDER__' "${mongodbInstallFolder}"
-        '__INSTALL_DATA_FOLDER__' "${mongodbInstallDataFolder}"
-        '__USER_NAME__' "${mongodbUserName}"
-        '__GROUP_NAME__' "${mongodbGroupName}"
-        '__PORT__' "${mongodbPort}"
+        '__INSTALL_FOLDER__' "${MONGODB_INSTALL_FOLDER}"
+        '__INSTALL_DATA_FOLDER__' "${MONGODB_INSTALL_DATA_FOLDER}"
+        '__USER_NAME__' "${MONGODB_USER_NAME}"
+        '__GROUP_NAME__' "${MONGODB_GROUP_NAME}"
+        '__PORT__' "${MONGODB_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/mongodb.conf.upstart" "/etc/init/${mongodbServiceName:?}.conf" "${upstartConfigData[@]}"
-    chown -R "$(whoami):$(whoami)" "${mongodbInstallFolder}"
+    createFileFromTemplate "${appPath}/../templates/default/mongodb.conf.upstart" "/etc/init/${MONGODB_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    chown -R "$(whoami):$(whoami)" "${MONGODB_INSTALL_FOLDER}"
 
     # Start
 
-    addUser "${mongodbUserName}" "${mongodbGroupName}" 'false' 'true' 'false'
-    chown -R "${mongodbUserName}:${mongodbGroupName}" "${mongodbInstallFolder}"
-    start "${mongodbServiceName}"
+    addUser "${MONGODB_USER_NAME}" "${MONGODB_GROUP_NAME}" 'false' 'true' 'false'
+    chown -R "${MONGODB_USER_NAME}:${MONGODB_GROUP_NAME}" "${MONGODB_INSTALL_FOLDER}"
+    start "${MONGODB_SERVICE_NAME}"
 
     # Display Version
 
-    info "\n$("${mongodbInstallFolder}/bin/mongo" --version)"
+    info "\n$("${MONGODB_INSTALL_FOLDER}/bin/mongo" --version)"
 }
 
 function main()
@@ -54,7 +54,7 @@ function main()
 
     header 'INSTALLING MONGODB'
 
-    checkRequirePort "${mongodbPort}"
+    checkRequirePort "${MONGODB_PORT}"
 
     install
     installCleanUp

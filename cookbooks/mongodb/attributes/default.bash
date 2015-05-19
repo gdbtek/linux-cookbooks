@@ -1,13 +1,13 @@
 #!/bin/bash -e
 
-export mongodbDownloadURL='https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.0.3.tgz'
+export MONGODB_DOWNLOAD_URL='https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.0.3.tgz'
 
-export mongodbInstallFolder='/opt/mongodb'
-export mongodbInstallDataFolder='/opt/mongodb/data'
+export MONGODB_INSTALL_FOLDER='/opt/mongodb'
+export MONGODB_INSTALL_DATA_FOLDER='/opt/mongodb/data'
 
-export mongodbServiceName='mongodb'
+export MONGODB_SERVICE_NAME='mongodb'
 
-export mongodbUserName='mongodb'
-export mongodbGroupName='mongodb'
+export MONGODB_USER_NAME='mongodb'
+export MONGODB_GROUP_NAME='mongodb'
 
-export mongodbPort='27017'
+export MONGODB_PORT='27017'
