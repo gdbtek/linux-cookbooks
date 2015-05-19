@@ -9,15 +9,15 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${nginxInstallFolder:?}"
+    initializeFolder "${NGINX_INSTALL_FOLDER:?}"
 
     # Download Dependencies
 
     local -r tempPCREFolder="$(getTemporaryFolder)"
-    unzipRemoteFile "${nginxPCREDownloadURL:?}" "${tempPCREFolder}"
+    unzipRemoteFile "${NGINX_PCRE_DOWNLOAD_URL}" "${tempPCREFolder}"
 
     local -r tempZLIBFolder="$(getTemporaryFolder)"
-    unzipRemoteFile "${nginxZLIBDownloadURL:?}" "${tempZLIBFolder}"
+    unzipRemoteFile "${NGINX_ZLIB_DOWNLOAD_URL}" "${tempZLIBFolder}"
 
     # Install
 
@@ -25,10 +25,10 @@ function install()
     local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${NGINX_DOWNLOAD_URL}" "${tempFolder}"
-    addUser "${nginxUserName:?}" "${nginxGroupName:?}" 'false' 'true' 'false'
+    addUser "${NGINX_USER_NAME:?}" "${NGINX_GROUP_NAME:?}" 'false' 'true' 'false'
     cd "${tempFolder}"
     "${tempFolder}/configure" \
-        "${nginxConfig[@]}" \
+        "${NGINX_CONFIG[@]}" \
         --with-pcre="${tempPCREFolder}" \
         --with-zlib="${tempZLIBFolder}"
     make
@@ -38,35 +38,35 @@ function install()
 
     # Config Server
 
-    local -r serverConfigData=('__PORT__' "${nginxPort}")
+    local -r serverConfigData=('__PORT__' "${NGINX_PORT}")
 
-    createFileFromTemplate  "${appPath}/../templates/default/nginx.conf.conf" "${nginxInstallFolder}/conf/nginx.conf" "${serverConfigData[@]}"
+    createFileFromTemplate  "${appPath}/../templates/default/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${serverConfigData[@]}"
 
     # Config Log
 
-    touch "${nginxInstallFolder}/logs/access.log"
-    touch "${nginxInstallFolder}/logs/error.log"
+    touch "${NGINX_INSTALL_FOLDER}/logs/access.log"
+    touch "${NGINX_INSTALL_FOLDER}/logs/error.log"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${nginxInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/nginx.sh.profile" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
-    local -r upstartConfigData=('__INSTALL_FOLDER__' "${nginxInstallFolder}")
+    local -r upstartConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.upstart" "/etc/init/${nginxServiceName:?}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.upstart" "/etc/init/${NGINX_SERVICE_NAME:?}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    chown -R "${nginxUserName}:${nginxGroupName}" "${nginxInstallFolder}"
-    start "${nginxServiceName}"
+    chown -R "${NGINX_USER_NAME}:${NGINX_GROUP_NAME}" "${NGINX_INSTALL_FOLDER}"
+    start "${NGINX_SERVICE_NAME}"
 
     # Display Version
 
-    info "\n$("${nginxInstallFolder}/sbin/nginx" -V 2>&1)"
+    info "\n$("${NGINX_INSTALL_FOLDER}/sbin/nginx" -V 2>&1)"
 }
 
 function main()
@@ -81,7 +81,7 @@ function main()
 
     header 'INSTALLING NGINX'
 
-    checkRequirePort "${nginxPort}"
+    checkRequirePort "${NGINX_PORT}"
 
     installDependencies
     install

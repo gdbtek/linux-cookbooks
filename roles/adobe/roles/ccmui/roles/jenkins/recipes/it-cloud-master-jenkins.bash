@@ -44,14 +44,14 @@ function main()
     header 'CONFIGURING NGINX PROXY'
 
     local -r nginxConfigData=(
-        '__NGINX_PORT__' "${nginxPort}"
+        '__NGINX_PORT__' "${NGINX_PORT}"
         '__JENKINS_TOMCAT_HTTP_PORT__' "${JENKINS_TOMCAT_HTTP_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.conf" "${nginxInstallFolder:?}/conf/nginx.conf" "${nginxConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.conf" "${NGINX_INSTALL_FOLDER:?}/conf/nginx.conf" "${nginxConfigData[@]}"
 
-    stop "${nginxServiceName:?}"
-    start "${nginxServiceName}"
+    stop "${NGINX_SERVICE_NAME:?}"
+    start "${NGINX_SERVICE_NAME}"
 
     # Clean Up
 
