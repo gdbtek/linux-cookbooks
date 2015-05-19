@@ -9,7 +9,7 @@ function install()
 
     # Install
 
-    unzipRemoteFile "${packerDownloadURL:?}" "${packerInstallFolder}/bin"
+    unzipRemoteFile "${PACKER_DOWNLOAD_URL}" "${packerInstallFolder}/bin"
     chown -R "$(whoami):$(whoami)" "${packerInstallFolder}"
     symlinkLocalBin "${packerInstallFolder}/bin"
 

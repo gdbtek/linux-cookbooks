@@ -1,4 +1,4 @@
 #!/bin/bash -e
 
-# export ntpTimeZone='Etc/UTC'
-export ntpTimeZone='America/Los_Angeles'
+# export NTP_TIME_ZONE='Etc/UTC'
+export NTP_TIME_ZONE='America/Los_Angeles'
