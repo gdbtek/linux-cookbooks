@@ -4,17 +4,17 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${kibanaInstallFolder:?}"
+    initializeFolder "${KIBANA_INSTALL_FOLDER}"
 
     # Install
 
-    unzipRemoteFile "${kibanaDownloadURL:?}" "${kibanaInstallFolder}"
+    unzipRemoteFile "${KIBANA_DOWNLOAD_URL}" "${KIBANA_INSTALL_FOLDER}"
 
     # Config
 
-    local -r configData=('"http://"+window.location.hostname+":9200"' "\"${kibanaElasticSearchURL}\"")
+    local -r configData=('"http://"+window.location.hostname+":9200"' "\"${KIBANA_ELASTIC_SEARCH_URL}\"")
 
-    createFileFromTemplate "${kibanaInstallFolder}/config.js" "${kibanaInstallFolder}/config.js" "${configData[@]}"
+    createFileFromTemplate "${KIBANA_INSTALL_FOLDER}/config.js" "${KIBANA_INSTALL_FOLDER}/config.js" "${configData[@]}"
 }
 
 function main()
