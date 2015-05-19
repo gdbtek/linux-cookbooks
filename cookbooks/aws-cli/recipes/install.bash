@@ -10,7 +10,7 @@ function install()
 
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${awscliDownloadURL:?}" "${tempFolder}"
+    unzipRemoteFile "${AWS_CLI_DOWNLOAD_URL:?}" "${tempFolder}"
     "${tempFolder}/awscli-bundle/install" -b '/usr/local/bin/aws' -i "${awscliInstallFolder}"
     rm -f -r "${tempFolder}"
 
