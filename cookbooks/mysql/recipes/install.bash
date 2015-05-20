@@ -12,7 +12,7 @@ function install()
     local -r installFolderName="$(getFileName "${MYSQL_INSTALL_FOLDER}")"
 
     initializeFolder "${MYSQL_INSTALL_FOLDER}"
-    rm -f -r "/usr/local/${installFolderName:?}"
+    rm -f -r "/usr/local/${installFolderName}"
 
     # Install
 
