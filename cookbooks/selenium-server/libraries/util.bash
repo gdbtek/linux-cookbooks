@@ -13,7 +13,7 @@ function installRole()
 
     # Clean Up
 
-    initializeFolder "${SELENIUM_SERVER_INSTALL_FOLDER:?}"
+    initializeFolder "${SELENIUM_SERVER_INSTALL_FOLDER}"
 
     # Install
 
@@ -36,7 +36,7 @@ function installRole()
         '__GROUP_NAME__' "${SELENIUM_SERVER_GROUP_NAME}"
     )
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.conf.upstart" "/etc/init/${SELENIUM_SERVER_SERVICE_NAME:?}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.conf.upstart" "/etc/init/${SELENIUM_SERVER_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 

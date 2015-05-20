@@ -4,7 +4,7 @@ function installDependencies()
 {
     installAptGetPackages 'build-essential' 'libssl-dev'
 
-    if [[ ! -f "${PCRE_INSTALL_FOLDER:?}/bin/pcregrep" ]]
+    if [[ ! -f "${PCRE_INSTALL_FOLDER}/bin/pcregrep" ]]
     then
         "${appPath}/../../pcre/recipes/install.bash"
     fi

@@ -14,11 +14,11 @@ function main()
         ~root/.npm \
         ~root/.qws \
         ~root/tmp \
-        ~${tomcatUserName:?}/.cache \
-        ~${tomcatUserName}/.node-gyp \
-        ~${tomcatUserName}/.npm \
-        ~${tomcatUserName}/.qws \
-        ~${tomcatUserName}/tmp \
+        ~${TOMCAT_USER_NAME}/.cache \
+        ~${TOMCAT_USER_NAME}/.node-gyp \
+        ~${TOMCAT_USER_NAME}/.npm \
+        ~${TOMCAT_USER_NAME}/.qws \
+        ~${TOMCAT_USER_NAME}/tmp \
     "
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \

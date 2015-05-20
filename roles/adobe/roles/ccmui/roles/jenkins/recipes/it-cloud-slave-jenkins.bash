@@ -14,7 +14,7 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${ccmuiJenkinsDisk:?}" "${ccmuiJenkinsMountOn:?}" "${MOUNT_HD_PARTITION_NUMBER:?}"
+    extendOPTPartition "${ccmuiJenkinsDisk:?}" "${ccmuiJenkinsMountOn:?}" "${MOUNT_HD_PARTITION_NUMBER}"
 
     # Install Apps
 

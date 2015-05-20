@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${tomcatJDKInstallFolder:?}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${TOMCAT_JDK_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${tomcatJDKInstallFolder}"
+        "${appPath}/../../jdk/recipes/install.bash" "${TOMCAT_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -12,57 +12,57 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${tomcatInstallFolder}"
+    initializeFolder "${TOMCAT_INSTALL_FOLDER}"
 
     # Install
 
-    unzipRemoteFile "${tomcatDownloadURL:?}" "${tomcatInstallFolder}"
+    unzipRemoteFile "${TOMCAT_DOWNLOAD_URL}" "${TOMCAT_INSTALL_FOLDER}"
 
     # Config Server
 
     local -r serverConfigData=(
-        8009 "${tomcatAJPPort}"
-        8005 "${tomcatCommandPort}"
-        8080 "${tomcatHTTPPort}"
-        8443 "${tomcatHTTPSPort}"
+        8009 "${TOMCAT_AJP_PORT}"
+        8005 "${TOMCAT_COMMAND_PORT}"
+        8080 "${TOMCAT_HTTP_PORT}"
+        8443 "${TOMCAT_HTTPS_PORT}"
     )
 
-    createFileFromTemplate "${tomcatInstallFolder}/conf/server.xml" "${tomcatInstallFolder}/conf/server.xml" "${serverConfigData[@]}"
+    createFileFromTemplate "${TOMCAT_INSTALL_FOLDER}/conf/server.xml" "${TOMCAT_INSTALL_FOLDER}/conf/server.xml" "${serverConfigData[@]}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${tomcatInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/tomcat.sh.profile" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 
     # Add User
 
-    addUser "${tomcatUserName:?}" "${tomcatGroupName:?}" 'true' 'true' 'true'
+    addUser "${TOMCAT_USER_NAME}" "${TOMCAT_GROUP_NAME}" 'true' 'true' 'true'
 
-    local -r userHome="$(getUserHomeFolder "${tomcatUserName}")"
+    local -r userHome="$(getUserHomeFolder "${TOMCAT_USER_NAME}")"
 
     checkExistFolder "${userHome}"
 
     # Config Upstart
 
     local -r upstartConfigData=(
-        '__INSTALL_FOLDER__' "${tomcatInstallFolder}"
+        '__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}"
         '__HOME_FOLDER__' "${userHome}"
-        '__JDK_INSTALL_FOLDER__' "${tomcatJDKInstallFolder}"
-        '__USER_NAME__' "${tomcatUserName}"
-        '__GROUP_NAME__' "${tomcatGroupName}"
+        '__JDK_INSTALL_FOLDER__' "${TOMCAT_JDK_INSTALL_FOLDER}"
+        '__USER_NAME__' "${TOMCAT_USER_NAME}"
+        '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/tomcat.conf.upstart" "/etc/init/${tomcatServiceName:?}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/tomcat.conf.upstart" "/etc/init/${TOMCAT_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    chown -R "${tomcatUserName}:${tomcatGroupName}" "${tomcatInstallFolder}"
-    start "${tomcatServiceName}"
+    chown -R "${TOMCAT_USER_NAME}:${TOMCAT_GROUP_NAME}" "${TOMCAT_INSTALL_FOLDER}"
+    start "${TOMCAT_SERVICE_NAME}"
 
     # Display Version
 
-    info "\n$("${tomcatInstallFolder}/bin/version.sh")"
+    info "\n$("${TOMCAT_INSTALL_FOLDER}/bin/version.sh")"
 }
 
 function main()
@@ -83,12 +83,12 @@ function main()
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        tomcatInstallFolder="${installFolder}"
+        TOMCAT_INSTALL_FOLDER="${installFolder}"
     fi
 
     # Install
 
-    checkRequirePort "${tomcatAJPPort}" "${tomcatCommandPort}" "${tomcatHTTPPort}" "${tomcatHTTPSPort}"
+    checkRequirePort "${TOMCAT_AJP_PORT}" "${TOMCAT_COMMAND_PORT}" "${TOMCAT_HTTP_PORT}" "${TOMCAT_HTTPS_PORT}"
 
     installDependencies
     install

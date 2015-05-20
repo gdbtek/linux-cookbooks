@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
-export wrkDownloadURL='https://github.com/wg/wrk.git'
+export WRK_DOWNLOAD_URL='https://github.com/wg/wrk.git'
 
-export wrkInstallFolder='/opt/wrk'
+export WRK_INSTALL_FOLDER='/opt/wrk'

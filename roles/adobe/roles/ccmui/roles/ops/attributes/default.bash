@@ -8,5 +8,5 @@ export ccmuiOpsMountOn='/opt'
 export ccmuiOpsGITUserName='Nam Nguyen'
 export ccmuiOpsGITUserEmail='namnguye@adobe.com'
 
-export ccmuiOpsNodeJSInstallFolder="${NODE_JS_INSTALL_FOLDER:?}"
+export ccmuiOpsNodeJSInstallFolder="${NODE_JS_INSTALL_FOLDER}"
 export ccmuiOpsNodeJSVersion='latest'

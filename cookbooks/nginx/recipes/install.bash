@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${NGINX_INSTALL_FOLDER:?}"
+    initializeFolder "${NGINX_INSTALL_FOLDER}"
 
     # Download Dependencies
 
@@ -25,7 +25,7 @@ function install()
     local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${NGINX_DOWNLOAD_URL}" "${tempFolder}"
-    addUser "${NGINX_USER_NAME:?}" "${NGINX_GROUP_NAME:?}" 'false' 'true' 'false'
+    addUser "${NGINX_USER_NAME}" "${NGINX_GROUP_NAME}" 'false' 'true' 'false'
     cd "${tempFolder}"
     "${tempFolder}/configure" \
         "${NGINX_CONFIG[@]}" \
@@ -57,7 +57,7 @@ function install()
 
     local -r upstartConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.upstart" "/etc/init/${NGINX_SERVICE_NAME:?}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.upstart" "/etc/init/${NGINX_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 

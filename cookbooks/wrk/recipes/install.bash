@@ -9,30 +9,30 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${wrkInstallFolder:?}"
-    mkdir -p "${wrkInstallFolder}/bin"
+    initializeFolder "${WRK_INSTALL_FOLDER}"
+    mkdir -p "${WRK_INSTALL_FOLDER}/bin"
 
     # Install
 
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    git clone "${wrkDownloadURL:?}" "${tempFolder}"
+    git clone "${WRK_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f '{}' "${wrkInstallFolder}/bin" \;
+    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f '{}' "${WRK_INSTALL_FOLDER}/bin" \;
     rm -f -r "${tempFolder}"
     cd "${currentPath}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${wrkInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${WRK_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/wrk.sh.profile" '/etc/profile.d/wrk.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    info "\n$("${wrkInstallFolder}/bin/wrk" --version)"
+    info "\n$("${WRK_INSTALL_FOLDER}/bin/wrk" --version)"
 }
 
 function main()

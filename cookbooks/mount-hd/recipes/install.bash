@@ -15,7 +15,7 @@ function install()
         fatal "FATAL : disk '${disk}' not found"
     fi
 
-    local -r newDisk="${disk}${MOUNT_HD_PARTITION_NUMBER:?}"
+    local -r newDisk="${disk}${MOUNT_HD_PARTITION_NUMBER}"
 
     if [[ -d "${mountOn}" ]]
     then
@@ -28,13 +28,13 @@ function install()
         fi
     else
         createPartition "${disk}"
-        mkfs -t "${MOUNT_HD_FS_TYPE:?}" "${newDisk}"
+        mkfs -t "${MOUNT_HD_FS_TYPE}" "${newDisk}"
         mkdir "${mountOn}"
         mount -t "${MOUNT_HD_FS_TYPE}" "${newDisk}" "${mountOn}"
 
         # Config Static File System
 
-        local -r fstabPattern="^\s*${newDisk}\s+${mountOn}\s+${MOUNT_HD_FS_TYPE}\s+${MOUNT_HD_MOUNT_OPTIONS:?}\s+${MOUNT_HD_DUMP:?}\s+${MOUNT_HD_FSCK_OPTION:?}\s*$"
+        local -r fstabPattern="^\s*${newDisk}\s+${mountOn}\s+${MOUNT_HD_FS_TYPE}\s+${MOUNT_HD_MOUNT_OPTIONS}\s+${MOUNT_HD_DUMP}\s+${MOUNT_HD_FSCK_OPTION}\s*$"
         local -r fstabConfig="${newDisk} ${mountOn} ${MOUNT_HD_FS_TYPE} ${MOUNT_HD_MOUNT_OPTIONS} ${MOUNT_HD_DUMP} ${MOUNT_HD_FSCK_OPTION}"
 
         appendToFileIfNotFound '/etc/fstab' "${fstabPattern}" "${fstabConfig}" 'true' 'false' 'true'

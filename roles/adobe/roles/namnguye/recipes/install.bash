@@ -13,7 +13,7 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${namnguyeDisk:?}" "${namnguyeMountOn:?}" "${MOUNT_HD_PARTITION_NUMBER:?}"
+    extendOPTPartition "${namnguyeDisk:?}" "${namnguyeMountOn:?}" "${MOUNT_HD_PARTITION_NUMBER}"
 
     # Install Apps
 

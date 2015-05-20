@@ -8,7 +8,7 @@ export ccmuiJenkinsMountOn='/opt'
 export ccmuiJenkinsGITUserName='Nam Nguyen'
 export ccmuiJenkinsGITUserEmail='namnguye@adobe.com'
 
-export ccmuiJenkinsNodeJSInstallFolder="${NODE_JS_INSTALL_FOLDER:?}"
+export ccmuiJenkinsNodeJSInstallFolder="${NODE_JS_INSTALL_FOLDER}"
 export ccmuiJenkinsNodeJSVersion='v0.10.38'
 
 export ccmuiJenkinsInstallPlugins=(

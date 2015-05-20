@@ -9,15 +9,15 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${MYSQL_INSTALL_FOLDER:?}"
+    initializeFolder "${MYSQL_INSTALL_FOLDER}"
     rm -f -r "/usr/local/$(getFileName "${MYSQL_INSTALL_FOLDER}")"
 
     # Install
 
     local -r currentPath="$(pwd)"
 
-    unzipRemoteFile "${MYSQL_DOWNLOAD_URL:?}" "${MYSQL_INSTALL_FOLDER}"
-    addUser "${MYSQL_USER_NAME:?}" "${MYSQL_GROUP_NAME:?}" 'false' 'true' 'false'
+    unzipRemoteFile "${MYSQL_DOWNLOAD_URL}" "${MYSQL_INSTALL_FOLDER}"
+    addUser "${MYSQL_USER_NAME}" "${MYSQL_GROUP_NAME}" 'false' 'true' 'false'
     ln -f -s "${MYSQL_INSTALL_FOLDER}" "/usr/local/$(getFileName "${MYSQL_INSTALL_FOLDER}")"
     chown -R "${MYSQL_USER_NAME}:${MYSQL_GROUP_NAME}" "${MYSQL_INSTALL_FOLDER}"
     cd "${MYSQL_INSTALL_FOLDER}"

@@ -15,7 +15,7 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${ccmuiJenkinsDisk:?}" "${ccmuiJenkinsMountOn:?}" "${MOUNT_HD_PARTITION_NUMBER:?}"
+    extendOPTPartition "${ccmuiJenkinsDisk:?}" "${ccmuiJenkinsMountOn:?}" "${MOUNT_HD_PARTITION_NUMBER}"
 
     # Install Apps
 
@@ -48,9 +48,9 @@ function main()
         '__JENKINS_TOMCAT_HTTP_PORT__' "${JENKINS_TOMCAT_HTTP_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.conf" "${NGINX_INSTALL_FOLDER:?}/conf/nginx.conf" "${nginxConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${nginxConfigData[@]}"
 
-    stop "${NGINX_SERVICE_NAME:?}"
+    stop "${NGINX_SERVICE_NAME}"
     start "${NGINX_SERVICE_NAME}"
 
     # Clean Up
