@@ -1,10 +1,10 @@
 #!/bin/bash -e
 
-export user='ec2-user'
+export SSH_LOGIN='ec2-user'
 
-export master=''
+export MASTER=''
 
-export slaves=(
+export SLAVES=(
     # ap-northeast-1
 
     'ec2-54-65-251-26.ap-northeast-1.compute.amazonaws.com'
@@ -37,4 +37,4 @@ export slaves=(
     'ec2-54-164-73-94.compute-1.amazonaws.com'
 )
 
-export identityFile='/Volumes/Data/Data/Keys/ssh/adobe/aws/ccmui/production.pem'
+export IDENTITY_FILE='/Volumes/Data/Data/Keys/ssh/adobe/aws/ccmui/production.pem'

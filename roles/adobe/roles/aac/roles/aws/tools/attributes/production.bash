@@ -1,10 +1,10 @@
 #!/bin/bash -e
 
-export user='ec2-user'
+export SSH_LOGIN='ec2-user'
 
-export master=''
+export MASTER=''
 
-export slaves=(
+export SLAVES=(
     # ap-northeast-1
 
     'ec2-52-68-9-36.ap-northeast-1.compute.amazonaws.com'
@@ -24,4 +24,4 @@ export slaves=(
     'ec2-52-6-212-79.compute-1.amazonaws.com'
 )
 
-export identityFile='/Volumes/Data/Data/Keys/ssh/adobe/aws/aac/production.pem'
+export IDENTITY_FILE='/Volumes/Data/Data/Keys/ssh/adobe/aws/aac/production.pem'

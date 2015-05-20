@@ -19,13 +19,13 @@ function displayUsage()
     echo    "    --attribute-file    Path to attribute file (require). Sample file :"
     echo -e "\033[1;32m"
     echo    "                        #!/bin/bash -e"
-    echo    "                        user='root'"
-    echo    "                        master='master.domain.com'"
-    echo    "                        slaves=("
+    echo    "                        SSH_LOGIN='root'"
+    echo    "                        MASTER='master.domain.com'"
+    echo    "                        SLAVES=("
     echo    "                            'slave-1.domain.com'"
     echo    "                            'slave-2.domain.com'"
     echo    "                        )"
-    echo    "                        identityFile='/data/my-private.pem'"
+    echo    "                        IDENTITY_FILE='/data/my-private.pem'"
     echo -e "\033[1;35m"
     echo    "    --command           Command that will be run in remote servers (require)"
     echo    "    --machine-type      Machine type (require)"
@@ -54,18 +54,18 @@ function run()
 
     if [[ "${machineType}" = 'master' ]]
     then
-        machines+=("${master}")
+        machines+=("${MASTER}")
     elif [[ "${machineType}" = 'slave' ]]
     then
-        machines+=("${slaves[@]}")
+        machines+=("${SLAVES[@]}")
     elif [[ "${machineType}" = 'master-slave' ]]
     then
-        machines+=("${master}")
-        machines+=("${slaves[@]}")
+        machines+=("${MASTER}")
+        machines+=("${SLAVES[@]}")
     elif [[ "${machineType}" = 'slave-master' ]]
     then
-        machines+=("${slaves[@]}")
-        machines+=("${master}")
+        machines+=("${SLAVES[@]}")
+        machines+=("${MASTER}")
     fi
 
     # Built Prompt
@@ -75,9 +75,9 @@ function run()
 
     # Get Identity File Option
 
-    if [[ "$(isEmptyString "${identityFile:?}")" = 'false' && -f "${identityFile}" ]]
+    if [[ "$(isEmptyString "${IDENTITY_FILE}")" = 'false' && -f "${IDENTITY_FILE}" ]]
     then
-        local -r identityOption=('-i' "${identityFile}")
+        local -r identityOption=('-i' "${IDENTITY_FILE}")
     else
         local -r identityOption=()
     fi
@@ -93,10 +93,10 @@ function run()
         if [[ "${async}" = 'true' ]]
         then
             # shellcheck disable=SC2029
-            ssh "${identityOption[@]}" -n "${user:?}@${machine}" "${prompt} && ${command}" &
+            ssh "${identityOption[@]}" -n "${SSH_LOGIN}@${machine}" "${prompt} && ${command}" &
         else
             # shellcheck disable=SC2029
-            ssh "${identityOption[@]}" -n "${user}@${machine}" "${prompt} && ${command}"
+            ssh "${identityOption[@]}" -n "${SSH_LOGIN}@${machine}" "${prompt} && ${command}"
         fi
     done
 
