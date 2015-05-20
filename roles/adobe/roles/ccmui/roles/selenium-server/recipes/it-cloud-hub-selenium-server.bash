@@ -13,7 +13,7 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${ccmuiSeleniumServerDisk:?}" "${ccmuiSeleniumServerMountOn:?}" "${MOUNT_HD_PARTITION_NUMBER}"
+    extendOPTPartition "${CCMUI_SELENIUM_SERVER_DISK}" "${CCMUI_SELENIUM_SERVER_MOUNT_ON}" "${MOUNT_HD_PARTITION_NUMBER}"
 
     # Install Apps
 
@@ -28,7 +28,7 @@ function main()
 
     local host=''
 
-    for host in "${ccmuiSeleniumServerHosts[@]}"
+    for host in "${CCMUI_SELENIUM_SERVER_HOSTS[@]}"
     do
         header "ADDING HOST '${host}' to '/etc/hosts'"
         appendToFileIfNotFound '/etc/hosts' "${host}" "${host}" 'false' 'false' 'false'

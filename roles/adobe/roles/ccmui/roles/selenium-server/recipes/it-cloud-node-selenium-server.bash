@@ -17,19 +17,19 @@ function main()
 
     if [[ "$(isEmptyString "${hubHost}")" = 'false' ]]
     then
-        ccmuiSeleniumServerHubHost="${hubHost}"
+        CCMUI_SELENIUM_SERVER_HUB_HOST="${hubHost}"
     fi
 
-    checkNonEmptyString "${ccmuiSeleniumServerHubHost}" 'undefined hub host'
+    checkNonEmptyString "${CCMUI_SELENIUM_SERVER_HUB_HOST}" 'undefined hub host'
 
     # Extend HD
 
-    extendOPTPartition "${ccmuiSeleniumServerDisk:?}" "${ccmuiSeleniumServerMountOn:?}" "${MOUNT_HD_PARTITION_NUMBER}"
+    extendOPTPartition "${CCMUI_SELENIUM_SERVER_DISK}" "${CCMUI_SELENIUM_SERVER_MOUNT_ON}" "${MOUNT_HD_PARTITION_NUMBER}"
 
     # Install Apps
 
     "${appPath}/../../../../../../essential.bash" 'selenium-linux-XXX.ccmui.adobe.com'
-    "${appPath}/../../../../../../../cookbooks/selenium-server/recipes/install-node.bash" "${ccmuiSeleniumServerHubHost}"
+    "${appPath}/../../../../../../../cookbooks/selenium-server/recipes/install-node.bash" "${CCMUI_SELENIUM_SERVER_HUB_HOST}"
 
     # Config SSH
 

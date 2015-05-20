@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-export ccmuiSeleniumServerDisk='/dev/sdb'
-export ccmuiSeleniumServerMountOn='/opt'
+export CCMUI_SELENIUM_SERVER_DISK='/dev/sdb'
+export CCMUI_SELENIUM_SERVER_MOUNT_ON='/opt'
 
-export ccmuiSeleniumServerHubHost='127.0.0.1'
+export CCMUI_SELENIUM_SERVER_HUB_HOST='127.0.0.1'

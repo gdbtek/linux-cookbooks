@@ -13,20 +13,20 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${ccmuiOpsDisk:?}" "${ccmuiOpsMountOn:?}" "${MOUNT_HD_PARTITION_NUMBER}"
+    extendOPTPartition "${CCMUI_OPS_DISK}" "${CCMUI_OPS_MOUNT_ON}" "${MOUNT_HD_PARTITION_NUMBER}"
 
     # Install Apps
 
     "${appPath}/../../../../../../essential.bash" 'ops.ccmui.adobe.com'
     "${appPath}/../../../../../../../cookbooks/mongodb/recipes/install.bash"
-    "${appPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${ccmuiOpsNodeJSVersion:?}" "${ccmuiOpsNodeJSInstallFolder:?}"
+    "${appPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CCMUI_OPS_NODE_JS_VERSION}" "${CCMUI_OPS_NODE_JS_INSTALL_FOLDER}"
 
     # Config SSH and GIT
 
     addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/authorized_keys")"
     addUserSSHKnownHost "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/default/known_hosts")"
 
-    configUserGIT "$(whoami)" "${ccmuiOpsGITUserName:?}" "${ccmuiOpsGITUserEmail:?}"
+    configUserGIT "$(whoami)" "${CCMUI_OPS_GIT_USER_NAME}" "${CCMUI_OPS_GIT_USER_EMAIL}"
     generateUserSSHKey "$(whoami)"
 
     # Clean Up
