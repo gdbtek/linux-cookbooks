@@ -66,7 +66,8 @@ function install()
     do
         # Use Auto Detect Profile File Path Or Use Specified Profile File Name
 
-        local profileFilePath="$(getProfileFilePath "${user}")"
+        local profileFilePath
+        profileFilePath="$(getProfileFilePath "${user}")"
 
         if [[ "$(isEmptyString "${profileFileName}")" = 'false' ]]
         then

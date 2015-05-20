@@ -117,7 +117,9 @@ function createFileFromTemplate()
     checkExistFile "${sourceFile}"
     checkExistFolder "$(dirname "${destinationFile}")"
 
-    local content="$(cat "${sourceFile}")"
+    local content
+    content="$(cat "${sourceFile}")"
+
     local i=0
 
     for ((i = 0; i < ${#data[@]}; i = i + 2))
@@ -820,7 +822,8 @@ function checkRequirePort()
 
     for port in "${ports[@]}"
     do
-        local found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
+        local found
+        found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]
         then
