@@ -10,7 +10,7 @@ function install()
     # Clean Up
 
     initializeFolder "${MYSQL_INSTALL_FOLDER}"
-    rm -f -r "/usr/local/$(getFileName "${MYSQL_INSTALL_FOLDER:?}")"
+    rm -f -r "/usr/local/$(getFileName "${MYSQL_INSTALL_FOLDER}")"
 
     # Install
 
