@@ -822,8 +822,8 @@ function checkRequirePort()
 
     for port in "${ports[@]}"
     do
-        local found
-        found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
+        # shellcheck disable=SC2016
+        local found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]
         then
