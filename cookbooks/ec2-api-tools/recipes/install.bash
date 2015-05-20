@@ -1,5 +1,13 @@
 #!/bin/bash -e
 
+function installDependencies()
+{
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${EC2_API_TOOLS_JDK_INSTALL_FOLDER}" ]]
+    then
+        "${appPath}/../../jdk/recipes/install.bash" "${EC2_API_TOOLS_JDK_INSTALL_FOLDER}"
+    fi
+}
+
 function install()
 {
     # Clean Up
@@ -50,6 +58,7 @@ function main()
 
     header 'INSTALLING EC2-API-TOOLS'
 
+    installDependencies
     install
     installCleanUp
 }
