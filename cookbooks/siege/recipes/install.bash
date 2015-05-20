@@ -9,17 +9,17 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${siegeInstallFolder:?}"
-    mkdir -p "${siegeInstallFolder}/bin"
+    initializeFolder "${SIEGE_INSTALL_FOLDER}"
+    mkdir -p "${SIEGE_INSTALL_FOLDER}/bin"
 
     # Install
 
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${siegeDownloadURL:?}" "${tempFolder}"
+    unzipRemoteFile "${SIEGE_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${siegeInstallFolder}"
+    "${tempFolder}/configure" --prefix="${SIEGE_INSTALL_FOLDER}"
     make
     make install
     rm -f -r "${tempFolder}"
@@ -27,13 +27,13 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${siegeInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${SIEGE_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/siege.sh.profile" '/etc/profile.d/siege.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    info "\n$("${siegeInstallFolder}/bin/siege" --version)"
+    info "\n$("${SIEGE_INSTALL_FOLDER}/bin/siege" --version)"
 }
 
 function main()

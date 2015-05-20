@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
-export pcreDownloadURL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz'
+export PCRE_DOWNLOAD_URL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz'
 
-export pcreInstallFolder='/opt/pcre'
+export PCRE_INSTALL_FOLDER='/opt/pcre'
 
-export pcreConfig=(
-    "--prefix=${pcreInstallFolder}"
+export PCRE_CONFIG=(
+    "--prefix=${PCRE_INSTALL_FOLDER}"
     '--disable-bsr-anycrlf'
     '--enable-jit'
     '--enable-newline-is-lf'

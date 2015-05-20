@@ -10,20 +10,20 @@ function install()
     # Clean Up
 
     rm -f -r ~/.cabal
-    initializeFolder "${cabalInstallFolder:?}"
+    initializeFolder "${CABAL_INSTALL_FOLDER}"
 
     # Install
 
     cabal update
     cabal install 'shellcheck'
 
-    mv ~/.cabal/* "${cabalInstallFolder}"
+    mv ~/.cabal/* "${CABAL_INSTALL_FOLDER}"
     rm -f -r ~/.cabal
-    ln -f -s "${cabalInstallFolder}/bin/shellcheck" '/usr/local/bin/shellcheck'
+    ln -f -s "${CABAL_INSTALL_FOLDER}/bin/shellcheck" '/usr/local/bin/shellcheck'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${cabalInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${CABAL_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/cabal.sh.profile" '/etc/profile.d/cabal.sh' "${profileConfigData[@]}"
 
@@ -31,7 +31,7 @@ function install()
 
     header 'DISPLAYING VERSIONS'
 
-    info "$("${cabalInstallFolder}/bin/shellcheck" -V)"
+    info "$("${CABAL_INSTALL_FOLDER}/bin/shellcheck" -V)"
 }
 
 function main()

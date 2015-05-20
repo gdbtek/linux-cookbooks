@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
-export rubyDownloadURL='http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.2.tar.gz'
+export RUBY_DOWNLOAD_URL='http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.2.tar.gz'
 
-export rubyInstallFolder='/opt/ruby'
+export RUBY_INSTALL_FOLDER='/opt/ruby'

@@ -47,8 +47,8 @@ function install()
 
     if [[ "$(isEmptyString "${hostName}")" = 'false' ]]
     then
-        ps1RootPrompt="$(replaceString "${ps1RootPrompt}" '\\h' "${hostName}")"
-        ps1UserPrompt="$(replaceString "${ps1UserPrompt}" '\\h' "${hostName}")"
+        PS1_ROOT_PROMPT="$(replaceString "${PS1_ROOT_PROMPT}" '\\h' "${hostName}")"
+        PS1_USER_PROMPT="$(replaceString "${PS1_USER_PROMPT}" '\\h' "${hostName}")"
     fi
 
     # Add Current User To List When Array Is Empty
@@ -79,9 +79,9 @@ function install()
         then
             if [[ "$(whoami)" = "${user}" ]]
             then
-                local prompt="export PS1=\"${ps1RootPrompt}\""
+                local prompt="export PS1=\"${PS1_ROOT_PROMPT}\""
             else
-                local prompt="export PS1=\"${ps1UserPrompt}\""
+                local prompt="export PS1=\"${PS1_USER_PROMPT}\""
             fi
 
             echo -e "Updating '\033[1;32m${profileFilePath}\033[0m'"

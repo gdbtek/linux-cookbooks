@@ -13,17 +13,17 @@ function installRole()
 
     # Clean Up
 
-    initializeFolder "${seleniumserverInstallFolder:?}"
+    initializeFolder "${SELENIUM_SERVER_INSTALL_FOLDER:?}"
 
     # Install
 
-    local -r jarFile="${seleniumserverInstallFolder}/selenium-server.jar"
+    local -r jarFile="${SELENIUM_SERVER_INSTALL_FOLDER}/selenium-server.jar"
 
-    downloadFile "${seleniumserverDownloadURL:?}" "${jarFile}" 'true'
+    downloadFile "${SELENIUM_SERVER_DOWNLOAD_URL}" "${jarFile}" 'true'
 
     # Config Server
 
-    local -r configFile="${seleniumserverInstallFolder}/selenium-server-${role}.json"
+    local -r configFile="${SELENIUM_SERVER_INSTALL_FOLDER}/selenium-server-${role}.json"
 
     createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigData[@]}"
 
@@ -32,15 +32,15 @@ function installRole()
     local -r upstartConfigData=(
         '__INSTALL_FILE__' "${jarFile}"
         '__CONFIG_FILE__' "${configFile}"
-        '__USER_NAME__' "${seleniumserverUserName}"
-        '__GROUP_NAME__' "${seleniumserverGroupName}"
+        '__USER_NAME__' "${SELENIUM_SERVER_USER_NAME}"
+        '__GROUP_NAME__' "${SELENIUM_SERVER_GROUP_NAME}"
     )
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.conf.upstart" "/etc/init/${seleniumserverServiceName:?}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.conf.upstart" "/etc/init/${SELENIUM_SERVER_SERVICE_NAME:?}.conf" "${upstartConfigData[@]}"
 
     # Start
 
-    addUser "${seleniumserverUserName}" "${seleniumserverGroupName}" 'false' 'true' 'false'
-    chown -R "${seleniumserverUserName}:${seleniumserverGroupName}" "${seleniumserverInstallFolder}"
-    start "${seleniumserverServiceName}"
+    addUser "${SELENIUM_SERVER_USER_NAME}" "${SELENIUM_SERVER_GROUP_NAME}" 'false' 'true' 'false'
+    chown -R "${SELENIUM_SERVER_USER_NAME}:${SELENIUM_SERVER_GROUP_NAME}" "${SELENIUM_SERVER_INSTALL_FOLDER}"
+    start "${SELENIUM_SERVER_SERVICE_NAME}"
 }

@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${seleniumserverJDKInstallFolder:?}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${SELENIUM_SERVER_JDK_INSTALL_FOLDER:?}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${seleniumserverJDKInstallFolder}"
+        "${appPath}/../../jdk/recipes/install.bash" "${SELENIUM_SERVER_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -16,17 +16,17 @@ function install()
 
     if [[ "$(isEmptyString "${hubHost}")" = 'false' ]]
     then
-        seleniumserverHubHost="${hubHost}"
+        SELENIUM_SERVER_HUB_HOST="${hubHost}"
     fi
 
-    checkNonEmptyString "${seleniumserverHubHost}" 'undefined hub host'
+    checkNonEmptyString "${SELENIUM_SERVER_HUB_HOST}" 'undefined hub host'
 
     # Install Role
 
     local -r serverConfigData=(
-        '__PORT__' "${seleniumserverPort}"
-        '__HUB_PORT__' "${seleniumserverHubPort}"
-        '__HUB_HOST__' "${seleniumserverHubHost}"
+        '__PORT__' "${SELENIUM_SERVER_PORT}"
+        '__HUB_PORT__' "${SELENIUM_SERVER_HUB_PORT}"
+        '__HUB_HOST__' "${SELENIUM_SERVER_HUB_HOST}"
     )
 
     installRole 'node' "${serverConfigData[@]}"
@@ -45,7 +45,7 @@ function main()
 
     header 'INSTALLING NODE SELENIUM-SERVER'
 
-    checkRequirePort "${seleniumserverPort}"
+    checkRequirePort "${SELENIUM_SERVER_PORT}"
 
     installDependencies
     install "${@}"

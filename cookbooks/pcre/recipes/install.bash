@@ -9,16 +9,16 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${pcreInstallFolder:?}"
+    initializeFolder "${PCRE_INSTALL_FOLDER}"
 
     # Install
 
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${pcreDownloadURL:?}" "${tempFolder}"
+    unzipRemoteFile "${PCRE_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
-    "${tempFolder}/configure" "${pcreConfig[@]}"
+    "${tempFolder}/configure" "${PCRE_CONFIG[@]}"
     make
     make install
     rm -f -r "${tempFolder}"
@@ -26,13 +26,13 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${pcreInstallFolder}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${PCRE_INSTALL_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/pcre.sh.profile" '/etc/profile.d/pcre.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    info "\n$("${pcreInstallFolder}/bin/pcregrep" --version 2>&1)"
+    info "\n$("${PCRE_INSTALL_FOLDER}/bin/pcregrep" --version 2>&1)"
 }
 
 function main()

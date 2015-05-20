@@ -9,66 +9,66 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${redisInstallBinFolder:?}"
-    initializeFolder "${redisInstallConfigFolder:?}"
-    initializeFolder "${redisInstallDataFolder:?}"
+    initializeFolder "${REDIS_INSTALL_BIN_FOLDER}"
+    initializeFolder "${REDIS_INSTALL_CONFIG_FOLDER}"
+    initializeFolder "${REDIS_INSTALL_DATA_FOLDER}"
 
     # Install
 
     local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
-    unzipRemoteFile "${redisDownloadURL:?}" "${tempFolder}"
+    unzipRemoteFile "${REDIS_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}/src" -type f -not -name "*.sh" -perm -u+x -exec cp -f '{}' "${redisInstallBinFolder}" \;
+    find "${tempFolder}/src" -type f -not -name "*.sh" -perm -u+x -exec cp -f '{}' "${REDIS_INSTALL_BIN_FOLDER}" \;
     rm -f -r "${tempFolder}"
     cd "${currentPath}"
 
     # Config Server
 
     local -r serverConfigData=(
-        '__INSTALL_DATA_FOLDER__' "${redisInstallDataFolder}"
-        6379 "${redisPort}"
+        '__INSTALL_DATA_FOLDER__' "${REDIS_INSTALL_DATA_FOLDER}"
+        6379 "${REDIS_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/redis.conf.conf" "${redisInstallConfigFolder}/redis.conf" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/redis.conf.conf" "${REDIS_INSTALL_CONFIG_FOLDER}/redis.conf" "${serverConfigData[@]}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_BIN_FOLDER__' "${redisInstallBinFolder}")
+    local -r profileConfigData=('__INSTALL_BIN_FOLDER__' "${REDIS_INSTALL_BIN_FOLDER}")
 
     createFileFromTemplate "${appPath}/../templates/default/redis.sh.profile" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
     local -r upstartConfigData=(
-        '__INSTALL_BIN_FOLDER__' "${redisInstallBinFolder}"
-        '__INSTALL_CONFIG_FOLDER__' "${redisInstallConfigFolder}"
-        '__USER_NAME__' "${redisUserName}"
-        '__GROUP_NAME__' "${redisGroupName}"
-        '__SOFT_NO_FILE_LIMIT__' "${redisSoftNoFileLimit}"
-        '__HARD_NO_FILE_LIMIT__' "${redisHardNoFileLimit}"
+        '__INSTALL_BIN_FOLDER__' "${REDIS_INSTALL_BIN_FOLDER}"
+        '__INSTALL_CONFIG_FOLDER__' "${REDIS_INSTALL_CONFIG_FOLDER}"
+        '__USER_NAME__' "${REDIS_USER_NAME}"
+        '__GROUP_NAME__' "${REDIS_GROUP_NAME}"
+        '__SOFT_NO_FILE_LIMIT__' "${REDIS_SOFT_NO_FILE_LIMIT}"
+        '__HARD_NO_FILE_LIMIT__' "${REDIS_HARD_NO_FILE_LIMIT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/redis.conf.upstart" "/etc/init/${redisServiceName:?}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/default/redis.conf.upstart" "/etc/init/${REDIS_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Config System
 
-    local -r overCommitMemoryConfig="vm.overcommit_memory=${redisVMOverCommitMemory:?}"
+    local -r overCommitMemoryConfig="vm.overcommit_memory=${REDIS_VM_OVER_COMMIT_MEMORY}"
 
-    appendToFileIfNotFound '/etc/sysctl.conf' "^\s*vm.overcommit_memory\s*=\s*${redisVMOverCommitMemory}\s*$" "\n${overCommitMemoryConfig}" 'true' 'true' 'true'
+    appendToFileIfNotFound '/etc/sysctl.conf' "^\s*vm.overcommit_memory\s*=\s*${REDIS_VM_OVER_COMMIT_MEMORY}\s*$" "\n${overCommitMemoryConfig}" 'true' 'true' 'true'
     sysctl "${overCommitMemoryConfig}"
 
     # Start
 
-    addUser "${redisUserName}" "${redisGroupName}" 'false' 'true' 'false'
-    chown -R "${redisUserName}:${redisGroupName}" "${redisInstallBinFolder}" "${redisInstallConfigFolder}" "${redisInstallDataFolder}"
-    start "${redisServiceName}"
+    addUser "${REDIS_USER_NAME}" "${REDIS_GROUP_NAME}" 'false' 'true' 'false'
+    chown -R "${REDIS_USER_NAME}:${REDIS_GROUP_NAME}" "${REDIS_INSTALL_BIN_FOLDER}" "${REDIS_INSTALL_CONFIG_FOLDER}" "${REDIS_INSTALL_DATA_FOLDER}"
+    start "${REDIS_SERVICE_NAME}"
 
     # Display Version
 
-    info "\n$("${redisInstallBinFolder}/redis-server" --version)"
+    info "\n$("${REDIS_INSTALL_BIN_FOLDER}/redis-server" --version)"
 }
 
 function main()
@@ -83,7 +83,7 @@ function main()
 
     header 'INSTALLING REDIS'
 
-    checkRequirePort "${redisPort}"
+    checkRequirePort "${REDIS_PORT}"
 
     installDependencies
     install

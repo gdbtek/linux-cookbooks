@@ -2,16 +2,16 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${seleniumserverJDKInstallFolder:?}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${SELENIUM_SERVER_JDK_INSTALL_FOLDER:?}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${seleniumserverJDKInstallFolder}"
+        "${appPath}/../../jdk/recipes/install.bash" "${SELENIUM_SERVER_JDK_INSTALL_FOLDER}"
     fi
 }
 
 function install()
 {
     local -r serverConfigData=(
-        '__PORT__' "${seleniumserverPort}"
+        '__PORT__' "${SELENIUM_SERVER_PORT}"
     )
 
     installRole 'hub' "${serverConfigData[@]}"
@@ -30,7 +30,7 @@ function main()
 
     header 'INSTALLING HUB SELENIUM-SERVER'
 
-    checkRequirePort "${seleniumserverPort}"
+    checkRequirePort "${SELENIUM_SERVER_PORT}"
 
     installDependencies
     install
