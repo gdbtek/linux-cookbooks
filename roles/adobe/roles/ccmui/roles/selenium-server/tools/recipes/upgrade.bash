@@ -11,7 +11,7 @@ function main()
                       sudo apt-get autoclean"
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
-        --attribute-file "${appPath}/../attributes/selenium.bash" \
+        --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${command}" \
         --machine-type 'master'
 }

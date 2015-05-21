@@ -6,7 +6,7 @@ function main()
     local -r command="java -version"
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
-        --attribute-file "${appPath}/../attributes/selenium.bash" \
+        --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${command}" \
         --machine-type 'master'
 }
