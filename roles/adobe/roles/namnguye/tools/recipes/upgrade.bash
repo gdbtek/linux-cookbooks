@@ -10,10 +10,10 @@ function main()
                       sudo apt-get clean &&
                       sudo apt-get autoclean"
 
-    "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
+    "${appPath}/../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${command}" \
-        --machine-type 'master-slave'
+        --machine-type 'master'
 }
 
 main "${@}"

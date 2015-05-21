@@ -11,7 +11,7 @@ function main()
     local -r masterCommand="cat ~${TOMCAT_USER_NAME}/.ssh/id_rsa.pub"
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
-        --attribute-file "${appPath}/../attributes/jenkins.bash" \
+        --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${masterCommand}" \
         --machine-type 'master'
 
@@ -20,7 +20,7 @@ function main()
     local -r slaveCommand='cat ~root/.ssh/id_rsa.pub'
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
-        --attribute-file "${appPath}/../attributes/jenkins.bash" \
+        --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${slaveCommand}" \
         --machine-type 'slave'
 }

@@ -6,7 +6,7 @@ function main()
     local -r command='sudo shutdown -r now'
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
-        --attribute-file "${appPath}/../attributes/jenkins.bash" \
+        --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${command}" \
         --machine-type 'slave-master'
 }

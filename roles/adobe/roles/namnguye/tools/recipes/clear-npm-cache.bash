@@ -4,8 +4,6 @@ function main()
 {
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../../../../../../cookbooks/tomcat/attributes/default.bash"
-
     local -r command="sudo rm -f -r \
         /tmp/* \
         /var/tmp/* \
@@ -14,17 +12,12 @@ function main()
         ~root/.npm \
         ~root/.qws \
         ~root/tmp \
-        ~${TOMCAT_USER_NAME}/.cache \
-        ~${TOMCAT_USER_NAME}/.node-gyp \
-        ~${TOMCAT_USER_NAME}/.npm \
-        ~${TOMCAT_USER_NAME}/.qws \
-        ~${TOMCAT_USER_NAME}/tmp \
     "
 
-    "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
+    "${appPath}/../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${command}" \
-        --machine-type 'master-slave'
+        --machine-type 'master'
 }
 
 main "${@}"

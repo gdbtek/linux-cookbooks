@@ -6,7 +6,7 @@ function main()
     local -r command='date'
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
-        --attribute-file "${appPath}/../attributes/jenkins.bash" \
+        --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${command}" \
         --machine-type 'master-slave'
 }
