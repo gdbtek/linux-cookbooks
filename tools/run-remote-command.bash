@@ -25,7 +25,7 @@ function displayUsage()
     echo    "                            'slave-1.domain.com'"
     echo    "                            'slave-2.domain.com'"
     echo    "                        )"
-    echo    "                        IDENTITY_FILE='/data/my-private.pem'"
+    echo    "                        SSH_IDENTITY_FILE='/data/my-private.pem'"
     echo -e "\033[1;35m"
     echo    "    --command           Command that will be run in remote servers (require)"
     echo    "    --machine-type      Machine type (require)"
@@ -75,9 +75,9 @@ function run()
 
     # Get Identity File Option
 
-    if [[ "$(isEmptyString "${IDENTITY_FILE}")" = 'false' && -f "${IDENTITY_FILE}" ]]
+    if [[ "$(isEmptyString "${SSH_IDENTITY_FILE}")" = 'false' && -f "${SSH_IDENTITY_FILE}" ]]
     then
-        local -r identityOption=('-i' "${IDENTITY_FILE}")
+        local -r identityOption=('-i' "${SSH_IDENTITY_FILE}")
     else
         local -r identityOption=()
     fi

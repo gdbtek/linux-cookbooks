@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 export SSH_LOGIN='ec2-user'
+export SSH_IDENTITY_FILE='/Volumes/Data/Data/Keys/ssh/adobe/aws/aac/production.pem'
 
 export MASTER=''
 
@@ -23,5 +24,3 @@ export SLAVES=(
     'ec2-52-6-155-176.compute-1.amazonaws.com'
     'ec2-52-6-212-79.compute-1.amazonaws.com'
 )
-
-export IDENTITY_FILE='/Volumes/Data/Data/Keys/ssh/adobe/aws/aac/production.pem'
