@@ -3,9 +3,7 @@
 export SSH_LOGIN='ec2-user'
 export SSH_IDENTITY_FILE='/Volumes/Data/Data/Keys/ssh/adobe/aws/ccmui/production.pem'
 
-export MASTER_SERVERS=()
-
-export SLAVE_SERVERS=(
+export MASTER_SERVERS=(
     # ap-northeast-1
 
     'ec2-54-65-251-26.ap-northeast-1.compute.amazonaws.com'
@@ -37,3 +35,5 @@ export SLAVE_SERVERS=(
     'ec2-54-152-253-191.compute-1.amazonaws.com'
     'ec2-54-164-73-94.compute-1.amazonaws.com'
 )
+
+export SLAVE_SERVERS=()

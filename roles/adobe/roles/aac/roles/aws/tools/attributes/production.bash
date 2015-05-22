@@ -3,9 +3,7 @@
 export SSH_LOGIN='ec2-user'
 export SSH_IDENTITY_FILE='/Volumes/Data/Data/Keys/ssh/adobe/aws/aac/production.pem'
 
-export MASTER_SERVERS=()
-
-export SLAVE_SERVERS=(
+export MASTER_SERVERS=(
     # ap-northeast-1
 
     'ec2-52-68-9-36.ap-northeast-1.compute.amazonaws.com'
@@ -24,3 +22,5 @@ export SLAVE_SERVERS=(
     'ec2-52-6-155-176.compute-1.amazonaws.com'
     'ec2-52-6-212-79.compute-1.amazonaws.com'
 )
+
+export SLAVE_SERVERS=()

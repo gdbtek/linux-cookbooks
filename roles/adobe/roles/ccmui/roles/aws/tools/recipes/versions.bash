@@ -12,7 +12,7 @@ function main()
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${attributeFile}" \
         --command "${command}" \
-        --machine-type 'slaves'
+        --machine-type 'masters'
 }
 
 main "${@}"
