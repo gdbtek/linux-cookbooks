@@ -15,7 +15,7 @@ function main()
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${command}" \
-        --machine-type 'master-slave'
+        --machine-type 'masters-slaves'
 }
 
 main "${@}"

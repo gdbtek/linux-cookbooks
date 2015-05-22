@@ -13,7 +13,7 @@ function main()
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${masterCommand}" \
-        --machine-type 'master'
+        --machine-type 'masters'
 
     # Slave
 
@@ -22,7 +22,7 @@ function main()
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appPath}/../attributes/default.bash" \
         --command "${slaveCommand}" \
-        --machine-type 'slave'
+        --machine-type 'slaves'
 }
 
 main "${@}"

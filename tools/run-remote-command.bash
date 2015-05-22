@@ -20,23 +20,26 @@ function displayUsage()
     echo -e "\033[1;32m"
     echo    "                        #!/bin/bash -e"
     echo    "                        SSH_LOGIN='root'"
-    echo    "                        MASTER='master.domain.com'"
-    echo    "                        SLAVES=("
+    echo    "                        SSH_IDENTITY_FILE='/data/my-private.pem'"
+    echo    "                        MASTER_SERVERS=("
+    echo    "                            'master-1.domain.com'"
+    echo    "                            'master-2.domain.com'"
+    echo    "                        )"
+    echo    "                        SLAVE_SERVERS=("
     echo    "                            'slave-1.domain.com'"
     echo    "                            'slave-2.domain.com'"
     echo    "                        )"
-    echo    "                        SSH_IDENTITY_FILE='/data/my-private.pem'"
     echo -e "\033[1;35m"
     echo    "    --command           Command that will be run in remote servers (require)"
     echo    "    --machine-type      Machine type (require)"
-    echo    "                        Valid machine type : 'master', 'slave', 'master-slave', or 'slave-master'"
+    echo    "                        Valid machine type : 'masters', 'slaves', 'masters-slaves', or 'slaves-masters'"
     echo -e "\033[1;36m"
     echo    "EXAMPLES :"
     echo    "    ./${scriptName} --help"
-    echo    "    ./${scriptName} --attribute-file '/attribute.file' --command 'date' --machine-type 'slave'"
-    echo    "    ./${scriptName} --async 'true' --attribute-file '/attribute.file' --command 'date' --machine-type 'slave'"
-    echo    "    ./${scriptName} --async 'true' --attribute-file '/attribute.file' --command 'uname -a' --machine-type 'master-slave'"
-    echo    "    ./${scriptName} --async 'true' --attribute-file '/attribute.file' --command 'sudo shutdown -r' --machine-type 'slave-master'"
+    echo    "    ./${scriptName} --attribute-file '/attribute.file' --command 'date' --machine-type 'slaves'"
+    echo    "    ./${scriptName} --async 'true' --attribute-file '/attribute.file' --command 'date' --machine-type 'slaves'"
+    echo    "    ./${scriptName} --async 'true' --attribute-file '/attribute.file' --command 'uname -a' --machine-type 'masters-slaves'"
+    echo    "    ./${scriptName} --async 'true' --attribute-file '/attribute.file' --command 'sudo shutdown -r' --machine-type 'slaves-masters'"
     echo -e "\033[0m"
 
     exit "${1}"
@@ -52,20 +55,20 @@ function run()
 
     local machines=()
 
-    if [[ "${machineType}" = 'master' ]]
+    if [[ "${machineType}" = 'masters' ]]
     then
-        machines+=("${MASTER}")
-    elif [[ "${machineType}" = 'slave' ]]
+        machines+=("${MASTER_SERVERS[@]}")
+    elif [[ "${machineType}" = 'slaves' ]]
     then
-        machines+=("${SLAVES[@]}")
-    elif [[ "${machineType}" = 'master-slave' ]]
+        machines+=("${SLAVE_SERVERS[@]}")
+    elif [[ "${machineType}" = 'masters-slaves' ]]
     then
-        machines+=("${MASTER}")
-        machines+=("${SLAVES[@]}")
-    elif [[ "${machineType}" = 'slave-master' ]]
+        machines+=("${MASTER_SERVERS[@]}")
+        machines+=("${SLAVE_SERVERS[@]}")
+    elif [[ "${machineType}" = 'slaves-masters' ]]
     then
-        machines+=("${SLAVES[@]}")
-        machines+=("${MASTER}")
+        machines+=("${SLAVE_SERVERS[@]}")
+        machines+=("${MASTER_SERVERS[@]}")
     fi
 
     # Built Prompt
@@ -203,9 +206,9 @@ function main()
 
     # Validate Machine Type
 
-    if [[ "${machineType}" != 'master' && "${machineType}" != 'slave' && "${machineType}" != 'master-slave' && "${machineType}" != 'slave-master' ]]
+    if [[ "${machineType}" != 'masters' && "${machineType}" != 'slaves' && "${machineType}" != 'masters-slaves' && "${machineType}" != 'slaves-masters' ]]
     then
-        error "\nERROR : machineType must be 'master', 'slave', 'master-slave', or 'slave-master'"
+        error "\nERROR : machineType must be 'masters', 'slaves', 'masters-slaves', or 'slaves-masters'"
         displayUsage 1
     fi
 
