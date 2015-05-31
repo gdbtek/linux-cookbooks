@@ -26,12 +26,12 @@ function isValidRegion()
 
 function getInstanceAvailabilityZone()
 {
-    curl -s --retry 3 --retry-delay 5 'http://instance-data/latest/meta-data/placement/availability-zone'
+    curl -s --retry 5 --retry-delay 5 'http://instance-data/latest/meta-data/placement/availability-zone'
 }
 
 function getInstanceID()
 {
-    curl -s --retry 3 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id'
+    curl -s --retry 5 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id'
 }
 
 ################
@@ -68,7 +68,7 @@ function getUserDataValue()
 {
     local -r key="${1}"
 
-    local -r value="$(curl -s --retry 3 --retry-delay 5 'http://instance-data/latest/user-data' | \
+    local -r value="$(curl -s --retry 5 --retry-delay 5 'http://instance-data/latest/user-data' | \
                       grep -E "^\s*${key}\s*=\s*" | \
                       awk -F '=' '{ print $2 }')"
 
