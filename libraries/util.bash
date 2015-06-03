@@ -948,7 +948,7 @@ function displayOpenPorts()
 {
     header 'DISPLAY OPEN PORTS'
 
-    sleep 10
+    sleep 5
     lsof -i -n -P | grep -i ' (LISTEN)$' | sort -f
 }
 
