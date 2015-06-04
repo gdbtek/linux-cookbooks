@@ -53,11 +53,16 @@ function getS3Protocol()
     fi
 }
 
-function getInstanceS3Protocol()
+function getInstanceRegion()
 {
     local -r availabilityZone="$(getInstanceAvailabilityZone)"
 
-    getS3Protocol "${availabilityZone:0:${#availabilityZone} - 1}"
+    echo "${availabilityZone:0:${#availabilityZone} - 1}"
+}
+
+function getInstanceS3Protocol()
+{
+    getS3Protocol "$(getInstanceRegion)"
 }
 
 #######################
