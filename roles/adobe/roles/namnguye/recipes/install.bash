@@ -20,6 +20,7 @@ function main()
     "${appPath}/../../../../essential.bash" 'nam-itc'
     "${appPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/chef/recipes/install.bash"
+    "${appPath}/../../../../../cookbooks/foodcritic/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/go-lang/recipes/install.bash"
     "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${NAMNGUYE_NODE_JS_VERSION}" "${NAMNGUYE_NODE_JS_INSTALL_FOLDER}"
     "${appPath}/../../../../../cookbooks/packer/recipes/install.bash"
