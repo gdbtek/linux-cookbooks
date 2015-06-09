@@ -560,6 +560,13 @@ function error()
     echo -e "\033[1;31m${message}\033[0m" 1>&2
 }
 
+function escapeGrepSearchPattern()
+{
+    local -r searchPattern="${1}"
+
+    sed 's/[]\.|$(){}?+*^]/\\&/g' <<< "${searchPattern}"
+}
+
 function escapeSearchPattern()
 {
     local -r searchPattern="${1}"
