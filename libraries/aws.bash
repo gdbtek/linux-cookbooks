@@ -71,7 +71,7 @@ function getInstanceS3Protocol()
 
 function getUserDataValue()
 {
-    local -r key="${1}"
+    local -r key="$(escapeGrepSearchPattern "${1}")"
 
     local -r value="$(curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/user-data' | \
                       grep -E "^\s*${key}\s*=\s*" | \
