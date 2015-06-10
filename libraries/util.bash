@@ -1236,7 +1236,7 @@ function isOperatingSystem()
 
 function isPortOpen()
 {
-    local port="$(escapeGrepSearchPattern "${1}")"
+    local -r port="$(escapeGrepSearchPattern "${1}")"
 
     checkNonEmptyString "${port}" 'undefined port'
 
