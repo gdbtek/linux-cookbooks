@@ -423,7 +423,7 @@ function installUnzipCommand()
 
 function isAptGetPackageInstall()
 {
-    local -r package="${1}"
+    local -r package="$(escapeGrepSearchPattern "${1}")"
 
     local -r found="$(dpkg --get-selections | grep -E -o "^${package}(:amd64)*\s+install$")"
 
@@ -437,7 +437,7 @@ function isAptGetPackageInstall()
 
 function isPIPPackageInstall()
 {
-    local -r package="${1}"
+    local -r package="$(escapeGrepSearchPattern "${1}")"
 
     # Install PIP
 
@@ -989,7 +989,7 @@ function existDisk()
 {
     local -r disk="${1}"
 
-    local -r foundDisk="$(fdisk -l "${disk}" 2> '/dev/null' | grep -E -i -o "^Disk\s+$(escapeSearchPattern "${disk}"): ")"
+    local -r foundDisk="$(fdisk -l "${disk}" 2> '/dev/null' | grep -E -i -o "^Disk\s+$(escapeGrepSearchPattern "${disk}"): ")"
 
     if [[ "$(isEmptyString "${disk}")" = 'false' && "$(isEmptyString "${foundDisk}")" = 'false' ]]
     then
@@ -1001,8 +1001,8 @@ function existDisk()
 
 function existDiskMount()
 {
-    local -r disk="${1}"
-    local -r mountOn="${2}"
+    local -r disk="$(escapeGrepSearchPattern "${1}")"
+    local -r mountOn="$(escapeGrepSearchPattern "${2}")"
 
     local -r foundMount="$(df | grep -E "^${disk}\s+.*\s+${mountOn}$")"
 
@@ -1203,7 +1203,7 @@ function isLinuxOperatingSystem()
 
 function isMachineHardware()
 {
-    local -r machineHardware="${1}"
+    local -r machineHardware="$(escapeGrepSearchPattern "${1}")"
 
     local -r found="$(uname -m | grep -E -i -o "^${machineHardware}$")"
 
@@ -1222,7 +1222,7 @@ function isMacOperatingSystem()
 
 function isOperatingSystem()
 {
-    local -r operatingSystem="${1}"
+    local -r operatingSystem="$(escapeGrepSearchPattern "${1}")"
 
     local -r found="$(uname -s | grep -E -i -o "^${operatingSystem}$")"
 
@@ -1236,7 +1236,7 @@ function isOperatingSystem()
 
 function isPortOpen()
 {
-    local -r port="${1}"
+    local port="$(escapeGrepSearchPattern "${1}")"
 
     checkNonEmptyString "${port}" 'undefined port'
 
