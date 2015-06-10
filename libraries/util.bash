@@ -564,6 +564,7 @@ function escapeGrepSearchPattern()
 {
     local -r searchPattern="${1}"
 
+    # shellcheck disable=SC2016
     sed 's/[]\.|$(){}?+*^]/\\&/g' <<< "${searchPattern}"
 }
 
