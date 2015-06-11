@@ -20,6 +20,33 @@ function isValidRegion()
     isElementInArray "${region}" "${allowedRegions[@]}"
 }
 
+function unzipAWSS3RemoteFile()
+{
+    local -r downloadURL="${1}"
+    local -r installFolder="${2}"
+    local extension="${3}"
+
+    # Find Extension
+
+    local exExtension=''
+
+    if [[ "$(isEmptyString "${extension}")" = 'true' ]]
+    then
+        extension="$(getFileExtension "${downloadURL}")"
+        exExtension="$(rev <<< "${downloadURL}" | cut -d '.' -f 1-2 | rev)"
+    fi
+
+    # Unzip
+
+    if [[ "$(grep -i '^tgz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${exExtension}")" != '' ]]
+    then
+        debug "Downloading '${downloadURL}'"
+        aws s3 cp "${downloadURL}" - | tar -C "${installFolder}" -x -z --strip 1
+    else
+        fatal "\nFATAL : file extension '${extension}' not supported"
+    fi
+}
+
 #######################
 # META-DATA UTILITIES #
 #######################
