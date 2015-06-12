@@ -65,7 +65,19 @@ function getInstanceID()
 # S3 UTILITIES #
 ################
 
-function getS3Protocol()
+function getInstanceRegion()
+{
+    local -r availabilityZone="$(getInstanceAvailabilityZone)"
+
+    echo "${availabilityZone:0:${#availabilityZone} - 1}"
+}
+
+function getInstanceS3Endpoint()
+{
+    getS3Endpoint "$(getInstanceRegion)"
+}
+
+function getS3Endpoint()
 {
     local -r region="${1}"
 
@@ -78,18 +90,6 @@ function getS3Protocol()
     else
         echo
     fi
-}
-
-function getInstanceRegion()
-{
-    local -r availabilityZone="$(getInstanceAvailabilityZone)"
-
-    echo "${availabilityZone:0:${#availabilityZone} - 1}"
-}
-
-function getInstanceS3Protocol()
-{
-    getS3Protocol "$(getInstanceRegion)"
 }
 
 #######################
