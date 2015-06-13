@@ -19,13 +19,13 @@ function install()
 
     if [[ -d "${mountOn}" ]]
     then
-        if [[ "$(existDiskMount "${newDisk}" "${mountOn}")" = 'true' ]]
+        if [[ "$(existDiskMount "${newDisk}" "${mountOn}")" = 'false' ]]
         then
-            info "Already mounted '${newDisk}' to '${mountOn}'\n"
-            df -h -T
-        else
             fatal "FATAL : mount-on '${mountOn}' found"
         fi
+
+        info "Already mounted '${newDisk}' to '${mountOn}'\n"
+        df -h -T
     else
         createPartition "${disk}"
         mkfs -t "${MOUNT_HD_FS_TYPE}" "${newDisk}"

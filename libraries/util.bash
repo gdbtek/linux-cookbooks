@@ -215,12 +215,12 @@ function downloadFile()
 
     if [[ -f "${destinationFile}" ]]
     then
-        if [[ "${overwrite}" = 'true' ]]
+        if [[ "${overwrite}" = 'false' ]]
         then
-            rm -f "${destinationFile}"
-        else
             fatal "\nFATAL : file '${destinationFile}' found"
         fi
+
+        rm -f "${destinationFile}"
     elif [[ -e "${destinationFile}" ]]
     then
         fatal "\nFATAL : file '${destinationFile}' exists"
@@ -530,9 +530,9 @@ function checkNonEmptyString()
         if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
         then
             fatal "\nFATAL : empty value detected"
-        else
-            fatal "\nFATAL : ${errorMessage}"
         fi
+
+        fatal "\nFATAL : ${errorMessage}"
     fi
 }
 
@@ -761,9 +761,9 @@ function checkExistCommand()
         if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
         then
             fatal "\nFATAL : command '${command}' not found"
-        else
-            fatal "\nFATAL : ${errorMessage}"
         fi
+
+        fatal "\nFATAL : ${errorMessage}"
     fi
 }
 
@@ -777,9 +777,9 @@ function checkExistFile()
         if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
         then
             fatal "\nFATAL : file '${file}' not found"
-        else
-            fatal "\nFATAL : ${errorMessage}"
         fi
+
+        fatal "\nFATAL : ${errorMessage}"
     fi
 }
 
@@ -793,9 +793,9 @@ function checkExistFolder()
         if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
         then
             fatal "\nFATAL : folder '${folder}' not found"
-        else
-            fatal "\nFATAL : ${errorMessage}"
         fi
+
+        fatal "\nFATAL : ${errorMessage}"
     fi
 }
 
