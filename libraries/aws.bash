@@ -41,7 +41,7 @@ function unzipAWSS3RemoteFile()
     if [[ "$(grep -i '^tgz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${exExtension}")" != '' ]]
     then
         debug "Downloading '${downloadURL}'"
-        aws s3 cp "${downloadURL}" - | tar -C "${installFolder}" -x -z --strip 1
+        aws s3 cp "${downloadURL}" - | tar -C "${installFolder}" -x -z --strip 1 || fatal "\n'${downloadURL}' does not exist or authentication failed"
     else
         fatal "\nFATAL : file extension '${extension}' not supported"
     fi
