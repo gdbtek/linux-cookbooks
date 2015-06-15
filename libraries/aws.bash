@@ -41,10 +41,26 @@ function unzipAWSS3RemoteFile()
     if [[ "$(grep -i '^tgz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${exExtension}")" != '' ]]
     then
         debug "Downloading '${downloadURL}'"
-        aws s3 cp "${downloadURL}" - | tar -C "${installFolder}" -x -z --strip 1 || fatal "\n'${downloadURL}' does not exist or authentication failed"
+
+        aws s3 cp "${downloadURL}" - | tar -C "${installFolder}" -x -z --strip 1 || \
+        fatal "\n'${downloadURL}' does not exist or authentication failed"
     else
         fatal "\nFATAL : file extension '${extension}' not supported"
     fi
+}
+
+function updateInstanceName()
+{
+    local -r instanceName="${1}"
+
+    header 'UPDATING INSTANCE NAME'
+
+    info "${instanceName}"
+
+    aws ec2 create-tags \
+        --region "$(getInstanceRegion)" \
+        --resources "$(getInstanceID)" \
+        --tags "Key='Name',Value='${instanceName}'"
 }
 
 #######################
@@ -72,26 +88,6 @@ function getInstanceRegion()
     echo "${availabilityZone:0:${#availabilityZone} - 1}"
 }
 
-function getInstanceS3Endpoint()
-{
-    getS3Endpoint "$(getInstanceRegion)"
-}
-
-function getS3Endpoint()
-{
-    local -r region="${1}"
-
-    if [[ "${region}" = 'us-east-1' ]]
-    then
-        echo 's3'
-    elif [[ "$(isValidRegion "${region}")" = 'true' ]]
-    then
-        echo "s3-${region}"
-    else
-        echo
-    fi
-}
-
 #######################
 # USER-DATA UTILITIES #
 #######################
@@ -100,9 +96,9 @@ function getUserDataValue()
 {
     local -r key="$(escapeGrepSearchPattern "${1}")"
 
-    local -r value="$(curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/user-data' | \
-                      grep -E "^\s*${key}\s*=\s*" | \
-                      awk -F '=' '{ print $2 }')"
-
-    trimString "${value}"
+    trimString "$(
+        curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/user-data' | \
+        grep -E "^\s*${key}\s*=\s*" | \
+        awk -F '=' '{ print $2 }'
+    )"
 }
