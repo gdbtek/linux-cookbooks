@@ -2,6 +2,41 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/util.bash"
 
+#################
+# EC2 UTILITIES #
+#################
+
+function getInstanceAvailabilityZone()
+{
+    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/placement/availability-zone'
+}
+
+function getInstanceID()
+{
+    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id'
+}
+
+function getInstanceRegion()
+{
+    local -r availabilityZone="$(getInstanceAvailabilityZone)"
+
+    echo "${availabilityZone:0:${#availabilityZone} - 1}"
+}
+
+function updateInstanceName()
+{
+    local -r instanceName="${1}"
+
+    header 'UPDATING INSTANCE NAME'
+
+    info "${instanceName}"
+
+    aws ec2 create-tags \
+        --region "$(getInstanceRegion)" \
+        --resources "$(getInstanceID)" \
+        --tags "Key='Name',Value='${instanceName}'"
+}
+
 #####################
 # GENERAL UTILITIES #
 #####################
@@ -47,45 +82,6 @@ function unzipAWSS3RemoteFile()
     else
         fatal "\nFATAL : file extension '${extension}' not supported"
     fi
-}
-
-function updateInstanceName()
-{
-    local -r instanceName="${1}"
-
-    header 'UPDATING INSTANCE NAME'
-
-    info "${instanceName}"
-
-    aws ec2 create-tags \
-        --region "$(getInstanceRegion)" \
-        --resources "$(getInstanceID)" \
-        --tags "Key='Name',Value='${instanceName}'"
-}
-
-#######################
-# META-DATA UTILITIES #
-#######################
-
-function getInstanceAvailabilityZone()
-{
-    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/placement/availability-zone'
-}
-
-function getInstanceID()
-{
-    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id'
-}
-
-################
-# S3 UTILITIES #
-################
-
-function getInstanceRegion()
-{
-    local -r availabilityZone="$(getInstanceAvailabilityZone)"
-
-    echo "${availabilityZone:0:${#availabilityZone} - 1}"
 }
 
 #######################
