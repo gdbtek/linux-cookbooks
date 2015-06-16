@@ -94,7 +94,8 @@ function getUserDataValue()
 
     trimString "$(
         curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/user-data' | \
-        grep -E "^\s*${key}\s*=\s*" | \
+        grep -E -o "^\s*${key}\s*=\s*.*$" | \
+        tail -1 | \
         awk -F '=' '{ print $2 }'
     )"
 }
