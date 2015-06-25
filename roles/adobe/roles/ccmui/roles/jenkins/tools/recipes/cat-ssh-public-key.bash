@@ -2,6 +2,8 @@
 
 function main()
 {
+    local -r attributeFile="${1}"
+
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../../../../../../cookbooks/tomcat/attributes/default.bash"
@@ -11,7 +13,7 @@ function main()
     local -r masterCommand="cat ~${TOMCAT_USER_NAME}/.ssh/id_rsa.pub"
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
-        --attribute-file "${appPath}/../attributes/default.bash" \
+        --attribute-file "${attributeFile}" \
         --command "${masterCommand}" \
         --machine-type 'masters'
 
@@ -20,7 +22,7 @@ function main()
     local -r slaveCommand='cat ~root/.ssh/id_rsa.pub'
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
-        --attribute-file "${appPath}/../attributes/default.bash" \
+        --attribute-file "${attributeFile}" \
         --command "${slaveCommand}" \
         --machine-type 'slaves'
 }
