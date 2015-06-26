@@ -8,6 +8,8 @@ function cleanUpITMess
 
     deleteUser 'itcloud'
     rm -f -r '/opt/chef' '/opt/lost+found'
+
+    touch '/var/log/wtmp'
 }
 
 function displayNotice()
