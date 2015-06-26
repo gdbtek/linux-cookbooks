@@ -8,6 +8,7 @@ export ESSENTIAL_PACKAGES=(
     'rsync'
     'screen'
     'sysv-rc-conf'
+    'tmpreaper'
     'tree'
     'unzip'
     'w3m'

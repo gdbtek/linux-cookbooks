@@ -881,6 +881,8 @@ function cleanUpSystemFolders()
 {
     header "CLEANING UP SYSTEM FOLDERS"
 
+    # Clean Up Temporary Folders
+
     local -r folders=(
         '/tmp'
         '/var/tmp'
@@ -893,6 +895,10 @@ function cleanUpSystemFolders()
         echo "Cleaning up folder '${folder}'"
         emptyFolder "${folder}"
     done
+
+    # Clean Up Log Folder
+
+    resetLogs
 }
 
 function configUserGIT()
@@ -1282,4 +1288,10 @@ function isUserLoginInGroupName()
     else
         echo 'false'
     fi
+}
+
+function resetLogs()
+{
+    find '/var/log' -type f \( -regex '.*\.[0-9]+' -o -regex '.*\.[0-9]+.gz' \) -delete -print
+    find '/var/log' -type f -exec cp -f '/dev/null' {} \; -print
 }
