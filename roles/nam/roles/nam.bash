@@ -9,10 +9,10 @@ function main()
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../libraries/util.bash"
 
+    resetLogs
+
     # "${appPath}/../../../cookbooks/apt-source/recipes/install.bash"
-
     "${appPath}/../../essential.bash" "${hostName}" "${users}"
-
     "${appPath}/../../../cookbooks/ufw/recipes/install.bash"
     "${appPath}/../../../cookbooks/node-js/recipes/install.bash"
     "${appPath}/../../../cookbooks/nginx/recipes/install.bash"
@@ -23,6 +23,7 @@ function main()
 
     setupRepository
     cleanUpSystemFolders
+    resetLogs
 }
 
 main "${@}"

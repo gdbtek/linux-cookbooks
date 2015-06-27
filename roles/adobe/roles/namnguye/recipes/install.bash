@@ -11,6 +11,10 @@ function main()
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"
 
+    # Clean Up
+
+    resetLogs
+
     # Extend HD
 
     extendOPTPartition "${NAMNGUYE_DISK}" "${NAMNGUYE_MOUNT_ON}" "${MOUNT_HD_PARTITION_NUMBER}"

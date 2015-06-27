@@ -881,8 +881,6 @@ function cleanUpSystemFolders()
 {
     header "CLEANING UP SYSTEM FOLDERS"
 
-    # Clean Up Temporary Folders
-
     local -r folders=(
         '/tmp'
         '/var/tmp'
@@ -895,10 +893,6 @@ function cleanUpSystemFolders()
         echo "Cleaning up folder '${folder}'"
         emptyFolder "${folder}"
     done
-
-    # Clean Up Log Folder
-
-    resetLogs
 }
 
 function configUserGIT()

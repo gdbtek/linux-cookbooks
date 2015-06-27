@@ -12,6 +12,10 @@ function main()
     source "${appPath}/../../../../../libraries/util.bash"
     source "${appPath}/../attributes/slave.bash"
 
+    # Clean Up
+
+    resetLogs
+
     # Extend HD
 
     extendOPTPartition "${CCMUI_JENKINS_DISK}" "${CCMUI_JENKINS_MOUNT_ON}" "${MOUNT_HD_PARTITION_NUMBER}"

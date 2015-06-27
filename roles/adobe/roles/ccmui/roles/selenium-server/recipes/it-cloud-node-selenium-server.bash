@@ -22,6 +22,10 @@ function main()
 
     checkNonEmptyString "${CCMUI_SELENIUM_SERVER_HUB_HOST}" 'undefined hub host'
 
+    # Clean Up
+
+    resetLogs
+
     # Extend HD
 
     extendOPTPartition "${CCMUI_SELENIUM_SERVER_DISK}" "${CCMUI_SELENIUM_SERVER_MOUNT_ON}" "${MOUNT_HD_PARTITION_NUMBER}"

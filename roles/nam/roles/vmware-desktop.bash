@@ -7,6 +7,8 @@ function main()
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../libraries/util.bash"
 
+    resetLogs
+
     "${appPath}/../../../cookbooks/essential/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --profile-file-name '.bashrc' --users 'nam'
