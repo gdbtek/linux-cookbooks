@@ -6,6 +6,7 @@ function main()
 
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local -r command="find '/var/log' -type f \( -regex '.*\.[0-9]+' -o -regex '.*\.[0-9]+.gz' \) -delete -print &&
+                      echo &&
                       find '/var/log' -type f -exec cp -f '/dev/null' {} \; -print"
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
