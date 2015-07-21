@@ -16,7 +16,7 @@ export MASTER_SERVERS=(
 
     # us-east-1
 
-    'ec2-52-6-89-54.compute-1.amazonaws.com'
+    'ec2-52-2-113-142.compute-1.amazonaws.com'
     'ec2-52-1-53-107.compute-1.amazonaws.com'
 )
 
