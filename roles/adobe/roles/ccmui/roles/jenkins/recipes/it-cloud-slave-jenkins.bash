@@ -28,6 +28,7 @@ function main()
     "${appPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
     "${appPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CCMUI_JENKINS_NODE_JS_VERSION}" "${CCMUI_JENKINS_NODE_JS_INSTALL_FOLDER}"
     "${appPath}/../../../../../../../cookbooks/jenkins/recipes/install-slave.bash"
+    "${appPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
     "${appPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami)"
 
     # Config SSH and GIT
