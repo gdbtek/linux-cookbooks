@@ -19,6 +19,8 @@ function main()
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
 
+    "${appPath}/../../../cookbooks/vmware-tools/recipes/install.bash"
+
     cleanUpSystemFolders
 }
 
