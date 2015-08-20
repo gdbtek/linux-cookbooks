@@ -16,6 +16,8 @@ function install()
         appendToFileIfNotFound '/etc/ssh/sshd_config' "${SSH_CONFIGS[${i}]}" "${SSH_CONFIGS[${i} + 1]}" 'true' 'false' 'false'
     done
 
+    header 'RESTARTING SSH SERVICE'
+
     service ssh restart
 }
 
