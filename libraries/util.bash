@@ -246,7 +246,12 @@ function existURL()
     then
         echo 'true'
     else
-        echo 'false'
+        if ( curl -f -L "${url}" -o '/dev/null' -r 0-0 -s --retry 12 --retry-delay 5 )
+        then
+            echo 'true'
+        else
+            echo 'false'
+        fi
     fi
 }
 
