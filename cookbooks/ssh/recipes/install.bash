@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+function installDependencies()
+{
+    installAptGetPackages 'openssh-server'
+}
+
 function install()
 {
     local i=0
@@ -8,8 +13,10 @@ function install()
     do
         header "ADDING SSH CONFIG '${SSH_CONFIGS[${i} + 1]}'"
 
-        appendToFileIfNotFound '/etc/ssh/ssh_config' "${SSH_CONFIGS[${i}]}" "${SSH_CONFIGS[${i} + 1]}" 'true' 'false' 'false'
+        appendToFileIfNotFound '/etc/ssh/sshd_config' "${SSH_CONFIGS[${i}]}" "${SSH_CONFIGS[${i} + 1]}" 'true' 'false' 'false'
     done
+
+    service ssh restart
 }
 
 function main()
@@ -24,6 +31,7 @@ function main()
 
     header 'INSTALLING SSH'
 
+    installDependencies
     install
     installCleanUp
 }
