@@ -2,11 +2,13 @@
 
 function install()
 {
-    local package=''
+    local i=0
 
-    for config in "${SSH_CONFIGS[@]}"
+    for ((i = 0; i < ${#SSH_CONFIGS[@]}; i = i + 2))
     do
-        header "ADDING SSH CONFIG ${config}"
+        header "ADDING SSH CONFIG '${SSH_CONFIGS[${i} + 1]}'"
+
+        appendToFileIfNotFound '/etc/ssh/ssh_config' "${SSH_CONFIGS[${i}]}" "${SSH_CONFIGS[${i} + 1]}" 'true' 'false' 'true'
     done
 }
 

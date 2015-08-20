@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
 export SSH_CONFIGS=(
-    'UseDNS no'
+    '^\s*UseDNS\s+no\s*$' 'UseDNS no'
 )
