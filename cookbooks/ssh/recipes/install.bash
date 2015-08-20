@@ -8,7 +8,7 @@ function install()
     do
         header "ADDING SSH CONFIG '${SSH_CONFIGS[${i} + 1]}'"
 
-        appendToFileIfNotFound '/etc/ssh/ssh_config' "${SSH_CONFIGS[${i}]}" "${SSH_CONFIGS[${i} + 1]}" 'true' 'false' 'true'
+        appendToFileIfNotFound '/etc/ssh/ssh_config' "${SSH_CONFIGS[${i}]}" "${SSH_CONFIGS[${i} + 1]}" 'true' 'false' 'false'
     done
 }
 
