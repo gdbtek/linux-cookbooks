@@ -10,6 +10,7 @@ function main()
     "${appPath}/../cookbooks/essential/recipes/install.bash"
     "${appPath}/../cookbooks/ntp/recipes/install.bash"
     "${appPath}/../cookbooks/ps1/recipes/install.bash" --host-name "${ps1HostName}" --users "${ps1Users}"
+    "${appPath}/../cookbooks/ssh/recipes/install.bash"
     "${appPath}/../cookbooks/vim/recipes/install.bash"
 }
 
