@@ -5,7 +5,7 @@ function install()
     # Clean Up
 
     initializeFolder "${JQ_INSTALL_FOLDER}"
-    mkdir -p "${JQ_INSTALL_FOLDER}/bin"
+    mkdir -p "${JQ_INSTALL_FOLDER}"
 
     # Install
 
@@ -22,7 +22,7 @@ function install()
 
     # Display Version
 
-    info "$("${JQ_INSTALL_FOLDER}/jq" --version)"
+    info "\n$("${JQ_INSTALL_FOLDER}/jq" --version)"
 }
 
 function main()
