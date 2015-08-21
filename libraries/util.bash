@@ -640,16 +640,13 @@ function replaceString()
 
 function stringToSearchPattern()
 {
-    local string="${1}"
-
-    string="$(trimString "${string}")"
-    string="$(sed -e 's/\s\+/\\s+/g' <<< "$(escapeSearchPattern "${string}")")"
+    local -r string="$(trimString "${1}")"
 
     if [[ "$(isEmptyString "${string}")" = 'true' ]]
     then
         echo "${string}"
     else
-        echo "^\s*${string}\s*$"
+        echo "^\s*$(sed -e 's/\s\+/\\s+/g' <<< "$(escapeSearchPattern "${string}")")\s*$"
     fi
 }
 
