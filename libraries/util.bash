@@ -1047,6 +1047,7 @@ function generateUserSSHKey()
     rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
     ssh-keygen -q -t rsa -N '' -f "${userHome}/.ssh/id_rsa"
     chmod 600 "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
+    cat "${userHome}/.ssh/id_rsa.pub"
 }
 
 function getCurrentUserHomeFolder()
