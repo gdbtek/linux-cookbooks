@@ -547,6 +547,13 @@ function debug()
     echo -e "\033[1;34m${message}\033[0m" 2>&1
 }
 
+function deleteSpaces()
+{
+    local -r content="${1}"
+
+    replaceString "${content}" ' ' ''
+}
+
 function error()
 {
     local -r message="${1}"
