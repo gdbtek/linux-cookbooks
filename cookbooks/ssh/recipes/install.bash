@@ -7,17 +7,15 @@ function installDependencies()
 
 function install()
 {
-    local i=0
+    local config=''
 
-    for ((i = 0; i < ${#SSH_CONFIGS[@]}; i = i + 2))
+    for config in "${SSH_CONFIGS[@]}"
     do
-        header "ADDING SSH CONFIG '${SSH_CONFIGS[${i} + 1]}'"
-
-        appendToFileIfNotFound '/etc/ssh/sshd_config' "${SSH_CONFIGS[${i}]}" "${SSH_CONFIGS[${i} + 1]}" 'true' 'false' 'false'
+        header "ADDING SSH CONFIG '${config}'"
+        appendToFileIfNotFound '/etc/ssh/sshd_config' "$(stringToSearchPattern "${config}")" "${config}" 'true' 'false' 'false'
     done
 
     header 'RESTARTING SSH SERVICE'
-
     service ssh restart
 }
 

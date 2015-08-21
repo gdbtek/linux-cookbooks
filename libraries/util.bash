@@ -638,6 +638,20 @@ function replaceString()
     sed "s@${oldValue}@${newValue}@g" <<< "${content}"
 }
 
+function stringToSearchPattern()
+{
+    local string="$(trimString "${1}")"
+
+    string="$(sed -e 's/\s\+/\\s+/g' <<< "$(escapeSearchPattern "${string}")")"
+
+    if [[ "$(isEmptyString "${string}")" = 'true' ]]
+    then
+        echo "${string}"
+    else
+        echo "^\s*${string}\s*$"
+    fi
+}
+
 function trimString()
 {
     local -r string="${1}"
