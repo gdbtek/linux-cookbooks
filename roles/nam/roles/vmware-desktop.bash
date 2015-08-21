@@ -10,8 +10,10 @@ function main()
     resetLogs
 
     "${appPath}/../../../cookbooks/essential/recipes/install.bash"
+    "${appPath}/../../../cookbooks/jq/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --profile-file-name '.bashrc' --users 'nam'
+    "${appPath}/../../../cookbooks/ssh/recipes/install.bash"
     "${appPath}/../../../cookbooks/vim/recipes/install.bash"
 
     addUserToSudoWithoutPassword 'nam'

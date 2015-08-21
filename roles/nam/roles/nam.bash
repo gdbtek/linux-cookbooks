@@ -14,12 +14,15 @@ function main()
     # "${appPath}/../../../cookbooks/apt-source/recipes/install.bash"
     "${appPath}/../../essential.bash" "${hostName}" "${users}"
     "${appPath}/../../../cookbooks/ufw/recipes/install.bash"
+    "${appPath}/../../../cookbooks/go-lang/recipes/install.bash"
     "${appPath}/../../../cookbooks/node-js/recipes/install.bash"
     "${appPath}/../../../cookbooks/nginx/recipes/install.bash"
     "${appPath}/../../../cookbooks/redis/recipes/install.bash"
     "${appPath}/../../../cookbooks/mongodb/recipes/install.bash"
     "${appPath}/../../../cookbooks/jdk/recipes/install.bash"
+    "${appPath}/../../../cookbooks/jq/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${users}"
+    "${appPath}/../../../cookbooks/ssh/recipes/install.bash"
 
     setupRepository
     cleanUpSystemFolders

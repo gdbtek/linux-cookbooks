@@ -9,7 +9,9 @@ function main()
 
     resetLogs
 
+    "${appPath}/../../../cookbooks/jq/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --users "nam, $(whoami)"
+    "${appPath}/../../../cookbooks/ssh/recipes/install.bash"
 
     runAptGetUpgrade
     addUserToSudoWithoutPassword 'nam'
