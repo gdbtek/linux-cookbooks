@@ -8,12 +8,14 @@ function removeNewlineAtEndOfFile()
         "${repositoryFolderPath}" \
         -type f \
         \( \
-            -name 'authorized_keys' -o \
-            -name 'known_hosts' -o \
             -name '*.bash' -o \
             -name '*.conf' -o \
             -name '*.profile' -o \
-            -name '*.upstart' \
+            -name '*.upstart' -o \
+            -name 'authorized_keys' -o \
+            -name 'known_hosts' -o \
+            -name 'LICENSE' -o \
+            -name 'README.md' \
         \) \
         \( \
             -not -path "${repositoryFolderPath}/.git/*" \
