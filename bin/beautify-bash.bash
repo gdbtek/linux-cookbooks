@@ -10,10 +10,10 @@ function removeNewlineAtEndOfFile()
         \( \
             -name 'authorized_keys' -o \
             -name 'known_hosts' -o \
-            -name "*.bash" -o \
-            -name "*.conf" -o \
-            -name "*.profile" -o \
-            -name "*.upstart" \
+            -name '*.bash' -o \
+            -name '*.conf' -o \
+            -name '*.profile' -o \
+            -name '*.upstart' \
         \) \
         \( \
             -not -path "${repositoryFolderPath}/.git/*" \
