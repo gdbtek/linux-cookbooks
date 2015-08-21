@@ -75,7 +75,7 @@ function unzipAWSS3RemoteFile()
 
     if [[ "$(grep -i '^tgz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${exExtension}")" != '' ]]
     then
-        debug "Downloading '${downloadURL}'"
+        debug "Downloading '${downloadURL}'\n"
 
         aws s3 cp "${downloadURL}" - | tar -C "${installFolder}" -x -z --strip 1 || \
         fatal "\n'${downloadURL}' does not exist or authentication failed"

@@ -228,7 +228,7 @@ function downloadFile()
 
     # Download
 
-    debug "\nDownloading '${url}' to '${destinationFile}'"
+    debug "\nDownloading '${url}' to '${destinationFile}'\n"
     curl -L "${url}" -o "${destinationFile}" --retry 12 --retry-delay 5
 }
 
@@ -287,7 +287,7 @@ function unzipRemoteFile()
 
     if [[ "$(grep -i '^tgz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${exExtension}")" != '' ]]
     then
-        debug "\nDownloading '${downloadURL}'"
+        debug "\nDownloading '${downloadURL}'\n"
         curl -L "${downloadURL}" --retry 12 --retry-delay 5 | tar -C "${installFolder}" -x -z --strip 1
         echo
     elif [[ "$(grep -i '^zip$' <<< "${extension}")" != '' ]]
