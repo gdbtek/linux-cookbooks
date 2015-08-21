@@ -388,13 +388,6 @@ function installCURLCommand()
     installCommands "${commandPackage[@]}"
 }
 
-function installExpectCommand()
-{
-    local -r commandPackage=('expect' 'expect')
-
-    installCommands "${commandPackage[@]}"
-}
-
 function installPIPCommand()
 {
     local -r commandPackage=('pip' 'python-pip')
@@ -1049,34 +1042,10 @@ function generateUserSSHKey()
 
     checkExistFolder "${userHome}"
 
-    # Install Expect
-
-    installExpectCommand
-
     # Generate SSH Key
 
-    if [[ "$(existCommand 'expect')" = 'false' ]]
-    then
-        fatal "\nFATAL : command 'expect' not found"
-    fi
-
     rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
-
-    expect << DONE
-        spawn su - "${user}" -c 'ssh-keygen'
-
-        expect "Enter file in which to save the key (*): "
-        send -- "\r"
-
-        expect "Enter passphrase (empty for no passphrase): "
-        send -- "\r"
-
-        expect "Enter same passphrase again: "
-        send -- "\r"
-
-        expect eof
-DONE
-
+    ssh-keygen -q -t rsa -N '' -f "${userHome}/.ssh/id_rsa"
     chmod 600 "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
 }
 
