@@ -335,7 +335,7 @@ function installAptGetPackage()
         debug "\nApt-Get Package '${package}' has already been installed"
     else
         echo -e "\033[1;35m\nInstalling Apt-Get package '${package}'\033[0m"
-        apt-get install -y "${package}"
+        apt-get install --force-yes -y -o Dpkg::Options::="--force-confnew" "${package}"
     fi
 }
 
