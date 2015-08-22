@@ -335,7 +335,7 @@ function installAptGetPackage()
         debug "\nApt-Get Package '${package}' has already been installed"
     else
         echo -e "\033[1;35m\nInstalling Apt-Get package '${package}'\033[0m"
-        apt-get install --force-yes -y -o Dpkg::Options::="--force-confnew" "${package}"
+        apt-get install -y "${package}"
     fi
 }
 
@@ -355,7 +355,7 @@ function installAptGetPackages()
 
 function installCleanUp()
 {
-    apt-get clean
+    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
 }
 
 function installCommands()
@@ -488,13 +488,13 @@ function runAptGetUpgrade()
     DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
 
     info "\napt-get autoremove"
-    apt-get autoremove -y
+    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoremove
 
     info "\napt-get clean"
-    apt-get clean
+    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
 
     info "\napt-get autoclean"
-    apt-get autoclean
+    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoclean
 }
 
 function upgradePIPPackage()
