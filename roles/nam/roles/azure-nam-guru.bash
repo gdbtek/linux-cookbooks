@@ -10,7 +10,6 @@ function main()
     source "${appPath}/../libraries/util.bash"
 
     "${appPath}/../../essential.bash" "${hostName}" "${users}"
-    "${appPath}/../../../cookbooks/docker/recipes/install.bash"
     "${appPath}/../../../cookbooks/go-lang/recipes/install.bash"
     "${appPath}/../../../cookbooks/nginx/recipes/install.bash"
     "${appPath}/../../../cookbooks/node-js/recipes/install.bash"
