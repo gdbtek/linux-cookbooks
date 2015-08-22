@@ -27,26 +27,3 @@ function displayNotice()
     cat "${userHome}/.ssh/id_rsa.pub"
     echo
 }
-
-function extendOPTPartition()
-{
-    local -r disk="${1}"
-    local -r mountOn="${2}"
-    local -r mounthdPartitionNumber="${3}"
-
-    if [[ "$(existDisk "${disk}")" = 'true' ]]
-    then
-        if [[ "$(existDiskMount "${disk}${mounthdPartitionNumber}" "${mountOn}")" = 'false' ]]
-        then
-            rm -f -r "${mountOn}"
-            "$(dirname "${BASH_SOURCE[0]}")/../../../cookbooks/mount-hd/recipes/install.bash" "${disk}" "${mountOn}"
-        else
-            header 'EXTENDING OPT PARTITION'
-            info "Already mounted '${disk}${mounthdPartitionNumber}' to '${mountOn}'\n"
-            df -h -T
-        fi
-    else
-        header 'EXTENDING OPT PARTITION'
-        info "Extended volume '${disk}' not found"
-    fi
-}

@@ -6,7 +6,6 @@ function main()
 
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../../../../../cookbooks/mount-hd/attributes/default.bash"
     source "${appPath}/../../../../../../../libraries/util.bash"
     source "${appPath}/../../../../../libraries/util.bash"
     source "${appPath}/../attributes/hub.bash"
@@ -17,7 +16,7 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${CCMUI_SELENIUM_SERVER_DISK}" "${CCMUI_SELENIUM_SERVER_MOUNT_ON}" "${MOUNT_HD_PARTITION_NUMBER}"
+    "${appPath}/../../../../../../../cookbooks/mount-hd/recipes/extend.bash" "${CCMUI_SELENIUM_SERVER_DISK}" "${CCMUI_SELENIUM_SERVER_MOUNT_ON}"
 
     # Install Apps
 

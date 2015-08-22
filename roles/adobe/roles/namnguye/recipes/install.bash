@@ -6,7 +6,6 @@ function main()
 
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../../../cookbooks/mount-hd/attributes/default.bash"
     source "${appPath}/../../../../../libraries/util.bash"
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"
@@ -17,7 +16,7 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${NAMNGUYE_DISK}" "${NAMNGUYE_MOUNT_ON}" "${MOUNT_HD_PARTITION_NUMBER}"
+    "${appPath}/../../../../../cookbooks/mount-hd/recipes/extend.bash" "${NAMNGUYE_DISK}" "${NAMNGUYE_MOUNT_ON}"
 
     # Install Apps
 

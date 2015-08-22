@@ -7,7 +7,6 @@ function main()
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../../../../../cookbooks/jenkins/attributes/master.bash"
-    source "${appPath}/../../../../../../../cookbooks/mount-hd/attributes/default.bash"
     source "${appPath}/../../../../../../../cookbooks/nginx/attributes/default.bash"
     source "${appPath}/../../../../../../../libraries/util.bash"
     source "${appPath}/../../../../../libraries/util.bash"
@@ -19,7 +18,7 @@ function main()
 
     # Extend HD
 
-    extendOPTPartition "${CCMUI_JENKINS_DISK}" "${CCMUI_JENKINS_MOUNT_ON}" "${MOUNT_HD_PARTITION_NUMBER}"
+    "${appPath}/../../../../../../../cookbooks/mount-hd/recipes/extend.bash" "${CCMUI_JENKINS_DISK}" "${CCMUI_JENKINS_MOUNT_ON}"
 
     # Install Apps
 
