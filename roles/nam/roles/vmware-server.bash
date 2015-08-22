@@ -7,18 +7,20 @@ function main()
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../libraries/util.bash"
 
-    resetLogs
-
     "${appPath}/../../../cookbooks/jq/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --users "nam, $(whoami)"
     "${appPath}/../../../cookbooks/ssh/recipes/install.bash"
 
     runAptGetUpgrade
+
     addUserToSudoWithoutPassword 'nam'
     autoSudo 'nam' '.profile'
+
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
+
     cleanUpSystemFolders
+    resetLogs
 }
 
 main "${@}"

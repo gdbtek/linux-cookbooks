@@ -4,12 +4,10 @@ function main()
 {
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local -r hostName='nam.guru'
-    local -r users="nam, ubuntu, $(whoami)"
+    local -r users="nam, $(whoami)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../libraries/util.bash"
-
-    resetLogs
 
     "${appPath}/../../essential.bash" "${hostName}" "${users}"
     "${appPath}/../../../cookbooks/docker/recipes/install.bash"
@@ -17,7 +15,12 @@ function main()
     "${appPath}/../../../cookbooks/nginx/recipes/install.bash"
     "${appPath}/../../../cookbooks/node-js/recipes/install.bash"
 
+    addUserToSudoWithoutPassword 'nam'
+    autoSudo 'nam' '.bashrc'
+
     setupRepository
+    updateRepositoryOnLogin "$(whoami)"
+
     cleanUpSystemFolders
     resetLogs
 }
