@@ -2,13 +2,8 @@
 
 function installDependencies()
 {
-    local -r requireModule='aufs'
-
-    if [[ "$(existModule "${requireModule}")" = 'false' ]]
-    then
-        installAptGetPackage "linux-image-extra-$(uname -r)"
-        modprobe "${requireModule}"
-    fi
+    cp -f "${appPath}/../files/default/aufs.conf.upstart" '/etc/init/aufs.conf'
+    start 'aufs'
 }
 
 function install()

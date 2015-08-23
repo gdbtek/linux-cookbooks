@@ -1,0 +1,23 @@
+description 'AUFS Module'
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+
+limit nofile 524288 1048576
+limit nproc 524288 1048576
+
+respawn
+respawn limit 10 5
+
+kill timeout 20
+
+script
+    /bin/bash -e <<EOT
+
+    if [[ "$(lsmod | awk '{ print $1 }' | grep -F -o 'aufs')" = '' ]]
+    then
+        apt-get install -y "linux-image-extra-$(uname -r)"
+        modprobe 'aufs'
+    fi
+EOT
+end script
