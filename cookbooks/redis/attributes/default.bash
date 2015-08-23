@@ -13,7 +13,4 @@ export REDIS_INSTALL_BIN_FOLDER='/opt/redis/bin'
 export REDIS_INSTALL_CONFIG_FOLDER='/opt/redis/config'
 export REDIS_INSTALL_DATA_FOLDER='/opt/redis/data'
 
-export REDIS_SOFT_NO_FILE_LIMIT='50000'
-export REDIS_HARD_NO_FILE_LIMIT='50000'
-
 export REDIS_VM_OVER_COMMIT_MEMORY='1'

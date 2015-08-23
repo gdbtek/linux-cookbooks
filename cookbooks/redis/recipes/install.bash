@@ -47,8 +47,6 @@ function install()
         '__INSTALL_CONFIG_FOLDER__' "${REDIS_INSTALL_CONFIG_FOLDER}"
         '__USER_NAME__' "${REDIS_USER_NAME}"
         '__GROUP_NAME__' "${REDIS_GROUP_NAME}"
-        '__SOFT_NO_FILE_LIMIT__' "${REDIS_SOFT_NO_FILE_LIMIT}"
-        '__HARD_NO_FILE_LIMIT__' "${REDIS_HARD_NO_FILE_LIMIT}"
     )
 
     createFileFromTemplate "${appPath}/../templates/default/redis.conf.upstart" "/etc/init/${REDIS_SERVICE_NAME}.conf" "${upstartConfigData[@]}"

@@ -3,10 +3,15 @@ description 'Selenium Server (Hub)'
 start on (local-filesystems and net-device-up IFACE!=lo)
 stop on shutdown
 
-setuid '__USER_NAME__'
-setgid '__GROUP_NAME__'
+limit nofile 524288 1048576
+limit nproc 524288 1048576
+
+kill timeout 20
 
 respawn
 respawn limit 10 5
+
+setuid '__USER_NAME__'
+setgid '__GROUP_NAME__'
 
 exec java -jar '__INSTALL_FILE__' -role 'hub' -hubConfig '__CONFIG_FILE__'

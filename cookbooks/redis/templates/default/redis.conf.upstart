@@ -3,12 +3,15 @@ description 'Redis Server'
 start on (local-filesystems and net-device-up IFACE!=lo)
 stop on shutdown
 
-setuid '__USER_NAME__'
-setgid '__GROUP_NAME__'
+limit nofile 524288 1048576
+limit nproc 524288 1048576
+
+kill timeout 20
 
 respawn
 respawn limit 10 5
 
-limit nofile __SOFT_NO_FILE_LIMIT__ __HARD_NO_FILE_LIMIT__
+setuid '__USER_NAME__'
+setgid '__GROUP_NAME__'
 
 exec '__INSTALL_BIN_FOLDER__/redis-server' '__INSTALL_CONFIG_FOLDER__/redis.conf'
