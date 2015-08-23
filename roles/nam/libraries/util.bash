@@ -7,7 +7,7 @@ function autoSudo()
     local -r userLogin="${1}"
     local -r profileFileName="${2}"
 
-    header 'AUTO SUDO'
+    header 'SETTING UP AUTO SUDO'
 
     local -r command='sudo su -'
 
@@ -18,7 +18,7 @@ function setupRepository()
 {
     local -r repositoryPath="$(getCurrentUserHomeFolder)/git/github.com/gdbtek"
 
-    header 'SETUP REPOSITORY'
+    header 'SETTING UP REPOSITORY'
 
     mkdir -p "${repositoryPath}"
 
@@ -36,7 +36,7 @@ function updateRepositoryOnLogin()
 {
     local -r userLogin="${1}"
 
-    header 'UPDATE REPOSITORY ON LOGIN'
+    header 'UPDATING REPOSITORY ON LOGIN'
 
     local -r command='cd ~/git/github.com/gdbtek/ubuntu-cookbooks/cookbooks && git pull'
 
