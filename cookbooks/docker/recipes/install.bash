@@ -16,6 +16,8 @@ function install()
 
     # Config Grub
 
+    header 'UPDATING GRUB CONFIG'
+
     local -r grubConfigFile='/etc/default/grub'
 
     local -r grubConfigAttribute='GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"'
@@ -28,6 +30,7 @@ function install()
 
     # Display Version
 
+    header 'DISPLAYING DOCKER VERSION'
     info "$(docker --version)"
 }
 
