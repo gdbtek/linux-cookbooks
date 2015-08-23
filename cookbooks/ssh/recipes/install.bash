@@ -17,6 +17,11 @@ function install()
 
     header 'RESTARTING SSH SERVICE'
     service ssh restart
+
+    if [[ "$(isPortOpen '22')" = 'false' ]]
+    then
+        fatal 'FATAL : ssh service restart failed'
+    fi
 }
 
 function main()
