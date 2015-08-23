@@ -1276,6 +1276,8 @@ function isUserLoginInGroupName()
 
 function resetLogs()
 {
+    header 'RESETTING LOGS'
+
     find '/var/log' -type f \( -regex '.*\.[0-9]+' -o -regex '.*\.[0-9]+.gz' \) -delete -print
     find '/var/log' -type f -exec cp -f '/dev/null' {} \; -print
 }
