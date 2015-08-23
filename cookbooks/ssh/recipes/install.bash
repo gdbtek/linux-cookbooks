@@ -12,7 +12,7 @@ function install()
     for config in "${SSH_CONFIGS[@]}"
     do
         header "ADDING SSH CONFIG '${config}'"
-        appendToFileIfNotFound '/etc/ssh/sshd_config' "$(stringToSearchPattern "${config}")" "${config}" 'true' 'false' 'false'
+        appendToFileIfNotFound '/etc/ssh/sshd_config' "$(stringToSearchPattern "${config}")" "${config}" 'true' 'false' 'true'
     done
 
     header 'RESTARTING SSH SERVICE'
