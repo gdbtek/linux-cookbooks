@@ -8,9 +8,26 @@ function installDependencies()
 
 function install()
 {
+    # Download and Install
+
     checkExistURL "${DOCKER_DOWNLOAD_URL}"
     debug "\nDownloading '${DOCKER_DOWNLOAD_URL}'\n"
     curl -L "${DOCKER_DOWNLOAD_URL}" --retry 12 --retry-delay 5 | bash -e
+
+    # Config Grub
+
+    local -r grubConfigFile='/etc/default/grub'
+
+    local -r grubConfigAttribute='GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"'
+    local -r grubConfigData=('GRUB_CMDLINE_LINUX=""' "${grubConfigAttribute}")
+
+    createFileFromTemplate "${grubConfigFile}" "${grubConfigFile}" "${grubConfigData[@]}"
+    appendToFileIfNotFound "${grubConfigFile}" "$(stringToSearchPattern "${grubConfigAttribute}")" "${grubConfigAttribute}" 'true' 'false' 'true'
+
+    update-grub
+
+    # Display Version
+
     info "$(docker --version)"
 }
 
