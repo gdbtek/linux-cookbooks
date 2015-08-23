@@ -2,8 +2,13 @@
 
 function installDependencies()
 {
-    installAptGetPackage "linux-image-extra-$(uname -r)"
-    modprobe aufs
+    local -r requireModule='aufs'
+
+    if [[ "$(existModule "${requireModule}")" = 'false' ]]
+    then
+        installAptGetPackage "linux-image-extra-$(uname -r)"
+        modprobe "${requireModule}"
+    fi
 }
 
 function install()
