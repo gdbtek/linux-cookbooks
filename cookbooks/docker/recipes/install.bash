@@ -9,7 +9,7 @@ function installDependencies()
 function install()
 {
     checkExistURL "${DOCKER_DOWNLOAD_URL}"
-    debug "Downloading '${DOCKER_DOWNLOAD_URL}'\n"
+    debug "\nDownloading '${DOCKER_DOWNLOAD_URL}'\n"
     curl -L "${DOCKER_DOWNLOAD_URL}" --retry 12 --retry-delay 5 | bash -e
     info "$(docker --version)"
 }
