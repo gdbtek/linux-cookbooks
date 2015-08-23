@@ -26,6 +26,8 @@ function main()
 
     cleanUpSystemFolders
     resetLogs
+
+    generateUserSSHKey "$(whoami)"
 }
 
 main "${@}"
