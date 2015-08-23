@@ -1,6 +1,6 @@
 description 'Go-Server (Agent)'
 
-start on filesystem and net-device-up IFACE=lo
+start on (local-filesystems and net-device-up IFACE!=lo)
 stop on shutdown
 
 setuid '__USER_NAME__'
