@@ -1,15 +1,15 @@
 description 'Redis Server'
 
 start on (local-filesystems and net-device-up IFACE!=lo)
-stop on shutdown
+stop on runlevel [!2345]
 
 limit nofile 524288 1048576
 limit nproc 524288 1048576
 
-kill timeout 20
-
 respawn
 respawn limit 10 5
+
+kill timeout 20
 
 setuid '__USER_NAME__'
 setgid '__GROUP_NAME__'
