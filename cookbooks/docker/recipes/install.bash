@@ -2,8 +2,13 @@
 
 function installDependencies()
 {
-    cp -f "${appPath}/../files/default/aufs.conf.upstart" '/etc/init/aufs.conf'
-    start 'aufs'
+    local -r requireModule='aufs'
+
+    if [[ "$(existModule "${requireModule}")" = 'false' ]]
+    then
+        installAptGetPackage "linux-image-extra-$(uname -r)"
+        modprobe "${requireModule}"
+    fi
 }
 
 function install()
@@ -27,6 +32,11 @@ function install()
     appendToFileIfNotFound "${grubConfigFile}" "$(stringToSearchPattern "${grubConfigAttribute}")" "${grubConfigAttribute}" 'true' 'false' 'true'
 
     update-grub
+
+    # Config AUFS Upstart
+
+    header 'UPDATING AUFS UPSTART'
+    cp -f "${appPath}/../files/default/aufs.conf.upstart" '/etc/init/aufs.conf'
 
     # Display Version
 

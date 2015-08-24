@@ -1039,6 +1039,20 @@ function existGroupName()
     fi
 }
 
+function existModule()
+{
+    local -r module="${1}"
+
+    checkNonEmptyString "${module}" 'undefined module'
+
+    if [[ "$(lsmod | awk '{ print $1 }' | grep -F -o "${module}")" = '' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}
+
 function existUserLogin()
 {
     local -r user="${1}"
