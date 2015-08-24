@@ -10,4 +10,5 @@ kill timeout 20
 
 script
     lsmod | awk '{ print $1 }' | grep -F -o 'aufs' > '/dev/null' || modprobe -q 'aufs' || apt-get install -y "linux-image-extra-$(uname -r)" && modprobe 'aufs'
+    start 'docker'
 end script
