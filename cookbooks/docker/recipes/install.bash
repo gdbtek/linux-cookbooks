@@ -32,7 +32,7 @@ function install()
 
     header 'DISPLAYING DOCKER VERSION AND STATUS'
     info "$(docker --version)"
-    info "$(status 'docker')"
+    info "\n$(status 'docker')"
 }
 
 function main()
