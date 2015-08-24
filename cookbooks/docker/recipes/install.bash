@@ -40,8 +40,9 @@ function install()
 
     # Display Version
 
-    header 'DISPLAYING DOCKER VERSION AND STATUS'
-    info "$(docker --version)"
+    header 'DISPLAYING DOCKER INFO AND STATUS'
+    info "$(docker version)"
+    info "\n$(docker info)"
     info "\n$(status 'docker')"
 }
 
