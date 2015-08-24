@@ -9,5 +9,7 @@ limit nproc 524288 1048576
 kill timeout 20
 
 script
-    lsmod | awk '{ print $1 }' | grep -F -o 'aufs' > '/dev/null' || modprobe -q 'aufs' || (apt-get install -y "linux-image-extra-$(uname -r)" && modprobe 'aufs' && start 'docker')
+    lsmod | awk '{ print $1 }' | grep -F -o 'aufs' > '/dev/null' ||
+    modprobe -q 'aufs' ||
+    (apt-get install -y "linux-image-extra-$(uname -r)" && modprobe 'aufs' && which 'docker' && start 'docker')
 end script
