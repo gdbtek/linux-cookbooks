@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installAptGetPackages 'build-essential' 'lcov' 'pkgconfig' 'zlib1g-dev'
+    installAptGetPackages 'build-essential' 'lcov' 'pkg-config' 'zlib1g-dev'
     # 'libbz2-dev' 'valgrind' 'zlib1g-dev'
 }
 
