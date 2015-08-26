@@ -32,7 +32,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${PCRE_INSTALL_FOLDER}/bin/pcre2grep" --version 2>&1)"
+    info "\n$("${PCRE_INSTALL_FOLDER}/bin/pcregrep" --version 2>&1)"
 }
 
 function main()

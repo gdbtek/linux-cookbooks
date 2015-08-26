@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-export PCRE_DOWNLOAD_URL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre2-10.20.tar.gz'
+export PCRE_DOWNLOAD_URL='ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.37.tar.gz'
 
 export PCRE_INSTALL_FOLDER='/opt/pcre'
 
@@ -15,11 +15,11 @@ export PCRE_CONFIG=(
     '--enable-newline-is-cr'
     '--enable-newline-is-crlf'
     '--enable-newline-is-lf'
-    '--enable-pcre2-16'
-    '--enable-pcre2-32'
-    '--enable-pcre2-8'
-    '--enable-pcre2grep-libbz2'
-    '--enable-pcre2grep-libz'
+    '--enable-pcre-16'
+    '--enable-pcre-32'
+    '--enable-pcre-8'
+    '--enable-pcregrep-libbz2'
+    '--enable-pcregrep-libz'
     '--enable-rebuild-chartables'
     '--enable-shared'
     '--enable-static'
@@ -32,5 +32,5 @@ export PCRE_CONFIG=(
     '--with-match-limit=10000000'
     '--with-match-limit-recursion=MATCH_LIMIT'
     '--with-parens-nest-limit=250'
-    '--with-pcre2grep-bufsize=20480'
+    '--with-pcregrep-bufsize=20480'
 )
