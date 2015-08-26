@@ -57,7 +57,7 @@ function install()
 
     # Display Open Ports
 
-    displayOpenPorts '30'
+    displayOpenPorts '45'
 }
 
 function main()
