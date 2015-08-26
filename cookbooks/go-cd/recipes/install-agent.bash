@@ -18,7 +18,7 @@ function install()
 
     unzipRemoteFile "${GO_CD_AGENT_DOWNLOAD_URL}" "${GO_CD_AGENT_INSTALL_FOLDER}"
 
-    local -r unzipFolder="$(find "${GO_CD_SERVER_INSTALL_FOLDER}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(find "${GO_CD_AGENT_INSTALL_FOLDER}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
