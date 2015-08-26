@@ -6,7 +6,6 @@ export PCRE_INSTALL_FOLDER='/opt/pcre'
 
 export PCRE_CONFIG=(
     '--enable-bsr-anycrlf'
-    '--enable-coverage'
     '--enable-dependency-tracking'
     '--enable-fast-install'
     '--enable-jit'
