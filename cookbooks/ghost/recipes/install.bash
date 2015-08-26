@@ -85,7 +85,7 @@ function main()
     install
     installCleanUp
 
-    displayOpenPorts
+    displayOpenPorts '5'
 }
 
 main "${@}"

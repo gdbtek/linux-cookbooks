@@ -86,6 +86,7 @@ function main()
     install
     configUpstart "${@}"
     startAgent
+
     installCleanUp
 }
 

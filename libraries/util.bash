@@ -967,9 +967,15 @@ function deleteUser()
 
 function displayOpenPorts()
 {
+    local -r sleepTimeInSecond="${1}"
+
     header 'DISPLAYING OPEN PORTS'
 
-    sleep 5
+    if [[ "$(isEmptyString "${sleepTimeInSecond}")" = 'false' ]]
+    then
+        sleep "${sleepTimeInSecond}"
+    fi
+
     lsof -i -n -P | grep -i ' (LISTEN)$' | sort -f
 }
 

@@ -80,9 +80,9 @@ function main()
     install
     configUpstart
     startServer
-    installCleanUp
 
-    displayOpenPorts
+    installCleanUp
+    displayOpenPorts '10'
 }
 
 main "${@}"
