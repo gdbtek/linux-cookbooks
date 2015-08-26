@@ -43,11 +43,9 @@ function install()
     addUser "${GO_CD_USER_NAME}" "${GO_CD_GROUP_NAME}" 'true' 'false' 'true'
     chown -R "${GO_CD_USER_NAME}:${GO_CD_GROUP_NAME}" "${GO_CD_SERVER_INSTALL_FOLDER}"
     rm -f -r "${unzipFolder}"
-}
 
-function configUpstart()
-{
-    local -r upstartConfigData=(
+    # Config Upstart
+        local -r upstartConfigData=(
         '__SERVER_INSTALL_FOLDER__' "${GO_CD_SERVER_INSTALL_FOLDER}"
         '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${GO_CD_USER_NAME}")"
         '__USER_NAME__' "${GO_CD_USER_NAME}"
@@ -55,11 +53,11 @@ function configUpstart()
     )
 
     createFileFromTemplate "${appPath}/../templates/default/server.conf.upstart" "/etc/init/${GO_CD_SERVER_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
-}
-
-function startServer()
-{
     start "${GO_CD_SERVER_SERVICE_NAME}"
+
+    # Display Open Port
+
+    displayOpenPorts '10'
 }
 
 function main()
@@ -78,11 +76,7 @@ function main()
 
     installDependencies
     install
-    configUpstart
-    startServer
-
     installCleanUp
-    displayOpenPorts '10'
 }
 
 main "${@}"
