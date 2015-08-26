@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    local serverHostname="${1}"
+
     # Clean Up
 
     initializeFolder "${GO_CD_AGENT_INSTALL_FOLDER}"
@@ -43,11 +45,8 @@ function install()
     addUser "${GO_CD_USER_NAME}" "${GO_CD_GROUP_NAME}" 'true' 'false' 'true'
     chown -R "${GO_CD_USER_NAME}:${GO_CD_GROUP_NAME}" "${GO_CD_AGENT_INSTALL_FOLDER}"
     rm -f -r "${unzipFolder}"
-}
 
-function configUpstart()
-{
-    local serverHostname="${1}"
+    # Config Upstart
 
     if [[ "$(isEmptyString "${serverHostname}")" = 'true' ]]
     then
@@ -63,10 +62,6 @@ function configUpstart()
     )
 
     createFileFromTemplate "${appPath}/../templates/default/agent.conf.upstart" "/etc/init/${GO_CD_AGENT_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
-}
-
-function startAgent()
-{
     start "${GO_CD_AGENT_SERVICE_NAME}"
 }
 
@@ -83,10 +78,7 @@ function main()
     header 'INSTALLING GO-CD (AGENT)'
 
     installDependencies
-    install
-    configUpstart "${@}"
-    startAgent
-
+    install "${@}"
     installCleanUp
 }
 

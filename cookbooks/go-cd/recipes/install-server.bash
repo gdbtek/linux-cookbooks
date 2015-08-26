@@ -45,7 +45,8 @@ function install()
     rm -f -r "${unzipFolder}"
 
     # Config Upstart
-        local -r upstartConfigData=(
+
+    local -r upstartConfigData=(
         '__SERVER_INSTALL_FOLDER__' "${GO_CD_SERVER_INSTALL_FOLDER}"
         '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${GO_CD_USER_NAME}")"
         '__USER_NAME__' "${GO_CD_USER_NAME}"
