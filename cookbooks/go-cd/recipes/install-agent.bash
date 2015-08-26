@@ -75,7 +75,7 @@ function main()
     checkRequireSystem
     checkRequireRootUser
 
-    header 'INSTALLING GO-CD (AGENT)'
+    header 'INSTALLING GO-CD AGENT'
 
     installDependencies
     install "${@}"

@@ -10,11 +10,33 @@ function install()
 
     unzipRemoteFile "${KIBANA_DOWNLOAD_URL}" "${KIBANA_INSTALL_FOLDER}"
 
-    # Config
+    # Config Server
 
-    local -r configData=('"http://"+window.location.hostname+":9200"' "\"${KIBANA_ELASTIC_SEARCH_URL}\"")
+    local -r serverConfigData=(
+        'http://localhost:9200' "${KIBANA_ELASTIC_SEARCH_URL}"
+    )
 
-    createFileFromTemplate "${KIBANA_INSTALL_FOLDER}/config.js" "${KIBANA_INSTALL_FOLDER}/config.js" "${configData[@]}"
+    createFileFromTemplate "${KIBANA_INSTALL_FOLDER}/config/kibana.yml" "${KIBANA_INSTALL_FOLDER}/config/kibana.yml" "${serverConfigData[@]}"
+
+    # Config Upstart
+
+    local -r upstartConfigData=(
+        '__INSTALL_FOLDER__' "${KIBANA_INSTALL_FOLDER}"
+        '__USER_NAME__' "${KIBANA_USER_NAME}"
+        '__GROUP_NAME__' "${KIBANA_GROUP_NAME}"
+    )
+
+    createFileFromTemplate "${appPath}/../templates/default/kibana.conf.upstart" "/etc/init/${KIBANA_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+
+    # Start
+
+    addUser "${KIBANA_USER_NAME}" "${KIBANA_GROUP_NAME}" 'false' 'true' 'false'
+    chown -R "${KIBANA_USER_NAME}:${KIBANA_GROUP_NAME}" "${KIBANA_INSTALL_FOLDER}"
+    start "${KIBANA_SERVICE_NAME}"
+
+    # Display Open Ports
+
+    displayOpenPorts '5'
 }
 
 function main()

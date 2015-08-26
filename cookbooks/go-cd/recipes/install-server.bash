@@ -71,7 +71,7 @@ function main()
     checkRequireSystem
     checkRequireRootUser
 
-    header 'INSTALLING GO-CD (SERVER)'
+    header 'INSTALLING GO-CD SERVER'
 
     checkRequirePort '8153' '8154'
 
