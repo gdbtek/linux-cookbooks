@@ -50,6 +50,10 @@ function install()
     chown -R "${ELASTIC_SEARCH_USER_NAME}:${ELASTIC_SEARCH_GROUP_NAME}" "${ELASTIC_SEARCH_INSTALL_FOLDER}"
     start "${ELASTIC_SEARCH_SERVICE_NAME}"
 
+    # Display Open Ports
+
+    displayOpenPorts '5'
+
     # Display Version
 
     info "\n$("${ELASTIC_SEARCH_INSTALL_FOLDER}/bin/elasticsearch" -v)"
@@ -72,8 +76,6 @@ function main()
     installDependencies
     install
     installCleanUp
-
-    displayOpenPorts '5'
 }
 
 main "${@}"

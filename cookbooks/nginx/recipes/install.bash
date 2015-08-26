@@ -64,6 +64,10 @@ function install()
     chown -R "${NGINX_USER_NAME}:${NGINX_GROUP_NAME}" "${NGINX_INSTALL_FOLDER}"
     start "${NGINX_SERVICE_NAME}"
 
+    # Display Open Ports
+
+    displayOpenPorts '5'
+
     # Display Version
 
     info "\n$("${NGINX_INSTALL_FOLDER}/sbin/nginx" -V 2>&1)"
@@ -86,8 +90,6 @@ function main()
     installDependencies
     install
     installCleanUp
-
-    displayOpenPorts '5'
 }
 
 main "${@}"

@@ -64,6 +64,10 @@ function install()
     chown -R "${REDIS_USER_NAME}:${REDIS_GROUP_NAME}" "${REDIS_INSTALL_BIN_FOLDER}" "${REDIS_INSTALL_CONFIG_FOLDER}" "${REDIS_INSTALL_DATA_FOLDER}"
     start "${REDIS_SERVICE_NAME}"
 
+    # Display Open Ports
+
+    displayOpenPorts '5'
+
     # Display Version
 
     info "\n$("${REDIS_INSTALL_BIN_FOLDER}/redis-server" --version)"
@@ -86,8 +90,6 @@ function main()
     installDependencies
     install
     installCleanUp
-
-    displayOpenPorts '5'
 }
 
 main "${@}"

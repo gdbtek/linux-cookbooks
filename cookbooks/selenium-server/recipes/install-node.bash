@@ -30,6 +30,10 @@ function install()
     )
 
     installRole 'node' "${serverConfigData[@]}"
+
+    # Display Open Ports
+
+    displayOpenPorts '5'
 }
 
 function main()
@@ -50,8 +54,6 @@ function main()
     installDependencies
     install "${@}"
     installCleanUp
-
-    displayOpenPorts '5'
 }
 
 main "${@}"

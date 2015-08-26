@@ -56,6 +56,10 @@ function install()
         secureInstallation
     fi
 
+    # Display Open Ports
+
+    displayOpenPorts '5'
+
     # Display Version
 
     info "\n\n$("${MYSQL_INSTALL_FOLDER}/bin/mysql" --version)"
@@ -163,8 +167,6 @@ function main()
     installDependencies
     install
     installCleanUp
-
-    displayOpenPorts '5'
 }
 
 main "${@}"

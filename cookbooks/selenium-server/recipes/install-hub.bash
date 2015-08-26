@@ -10,11 +10,17 @@ function installDependencies()
 
 function install()
 {
+    # Install
+
     local -r serverConfigData=(
         '__PORT__' "${SELENIUM_SERVER_PORT}"
     )
 
     installRole 'hub' "${serverConfigData[@]}"
+
+    # Display Open Ports
+
+    displayOpenPorts '5'
 }
 
 function main()
@@ -35,8 +41,6 @@ function main()
     installDependencies
     install
     installCleanUp
-
-    displayOpenPorts '5'
 }
 
 main "${@}"

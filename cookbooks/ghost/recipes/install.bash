@@ -57,6 +57,10 @@ function install()
     addUser "${GHOST_USER_NAME}" "${GHOST_GROUP_NAME}" 'false' 'true' 'false'
     chown -R "${GHOST_USER_NAME}:${GHOST_GROUP_NAME}" "${GHOST_INSTALL_FOLDER}"
     start "${GHOST_SERVICE_NAME}"
+
+    # Display Open Ports
+
+    displayOpenPorts '5'
 }
 
 function main()
@@ -84,8 +88,6 @@ function main()
     installDependencies
     install
     installCleanUp
-
-    displayOpenPorts '5'
 }
 
 main "${@}"

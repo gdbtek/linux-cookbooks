@@ -60,6 +60,10 @@ function install()
     chown -R "${TOMCAT_USER_NAME}:${TOMCAT_GROUP_NAME}" "${TOMCAT_INSTALL_FOLDER}"
     start "${TOMCAT_SERVICE_NAME}"
 
+    # Display Open Ports
+
+    displayOpenPorts '5'
+
     # Display Version
 
     info "\n$("${TOMCAT_INSTALL_FOLDER}/bin/version.sh")"
@@ -93,8 +97,6 @@ function main()
     installDependencies
     install
     installCleanUp
-
-    displayOpenPorts '5'
 }
 
 main "${@}"

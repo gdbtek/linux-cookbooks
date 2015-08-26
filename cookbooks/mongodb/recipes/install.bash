@@ -37,6 +37,10 @@ function install()
     chown -R "${MONGODB_USER_NAME}:${MONGODB_GROUP_NAME}" "${MONGODB_INSTALL_FOLDER}"
     start "${MONGODB_SERVICE_NAME}"
 
+    # Display Open Ports
+
+    displayOpenPorts '5'
+
     # Display Version
 
     info "\n$("${MONGODB_INSTALL_FOLDER}/bin/mongo" --version)"
@@ -58,8 +62,6 @@ function main()
 
     install
     installCleanUp
-
-    displayOpenPorts '5'
 }
 
 main "${@}"

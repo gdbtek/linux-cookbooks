@@ -47,6 +47,10 @@ function install()
     chown -R "${HAPROXY_USER_NAME}:${HAPROXY_GROUP_NAME}" "${HAPROXY_INSTALL_FOLDER}"
     start "${HAPROXY_SERVICE_NAME}"
 
+    # Display Open Ports
+
+    displayOpenPorts '5'
+
     # Display Version
 
     info "\n$("${HAPROXY_INSTALL_FOLDER}/sbin/haproxy" -vv 2>&1)"
@@ -69,8 +73,6 @@ function main()
     installDependencies
     install
     installCleanUp
-
-    displayOpenPorts '5'
 }
 
 main "${@}"
