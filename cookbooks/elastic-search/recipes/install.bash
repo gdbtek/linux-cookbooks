@@ -18,15 +18,6 @@ function install()
 
     unzipRemoteFile "${ELASTIC_SEARCH_DOWNLOAD_URL}" "${ELASTIC_SEARCH_INSTALL_FOLDER}"
 
-    # Config Server
-
-    local -r serverConfigData=(
-        '__HTTP_PORT__' "${ELASTIC_SEARCH_HTTP_PORT}"
-        '__TRANSPORT_TCP_PORT__' "${ELASTIC_SEARCH_TRANSPORT_TCP_PORT}"
-    )
-
-    createFileFromTemplate  "${appPath}/../templates/default/elasticsearch.yml.conf" "${ELASTIC_SEARCH_INSTALL_FOLDER}/config/elasticsearch.yml" "${serverConfigData[@]}"
-
     # Config Profile
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${ELASTIC_SEARCH_INSTALL_FOLDER}")
@@ -71,7 +62,7 @@ function main()
 
     header 'INSTALLING ELASTIC SEARCH'
 
-    checkRequirePort "${ELASTIC_SEARCH_HTTP_PORT}" "${ELASTIC_SEARCH_TRANSPORT_TCP_PORT}"
+    checkRequirePort '9200' '9300'
 
     installDependencies
     install
