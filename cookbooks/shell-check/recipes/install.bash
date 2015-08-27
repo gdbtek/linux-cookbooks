@@ -9,7 +9,7 @@ function install()
 {
     # Clean Up
 
-    rm -f -r ~/.cabal
+    rm -f -r ~/.cabal ~/.ghc
     initializeFolder "${CABAL_INSTALL_FOLDER}"
 
     # Install
