@@ -18,6 +18,12 @@ function install()
 
     createFileFromTemplate "${KIBANA_INSTALL_FOLDER}/config/kibana.yml" "${KIBANA_INSTALL_FOLDER}/config/kibana.yml" "${serverConfigData[@]}"
 
+    # Config Profile
+
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${KIBANA_INSTALL_FOLDER}")
+
+    createFileFromTemplate "${appPath}/../templates/default/kibana.sh.profile" '/etc/profile.d/kibana.sh' "${profileConfigData[@]}"
+
     # Config Upstart
 
     local -r upstartConfigData=(
