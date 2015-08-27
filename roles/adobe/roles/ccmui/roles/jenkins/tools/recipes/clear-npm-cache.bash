@@ -6,9 +6,12 @@ function main()
 
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+    source "${appPath}/../../../../../../../../cookbooks/jenkins/attributes/slave.bash"
     source "${appPath}/../../../../../../../../cookbooks/tomcat/attributes/default.bash"
 
-    local -r command="sudo rm -f -r \
+    # Master and Slaves
+
+    local -r deleteCacheCommand="sudo rm -f -r \
         /tmp/* \
         /var/tmp/* \
         ~root/.cache \
@@ -25,8 +28,17 @@ function main()
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${attributeFile}" \
-        --command "${command}" \
+        --command "${deleteCacheCommand}" \
         --machine-type 'masters-slaves'
+
+    # Slaves
+
+    local -r deleteNodeModulesCommand="find ${JENKINS_WORKSPACE_FOLDER}/workspace -maxdepth 5 -type d -name 'node_modules' -exec rm -f -r {} \;"
+
+    "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
+        --attribute-file "${attributeFile}" \
+        --command "${deleteNodeModulesCommand}" \
+        --machine-type 'slaves'
 }
 
 main "${@}"
