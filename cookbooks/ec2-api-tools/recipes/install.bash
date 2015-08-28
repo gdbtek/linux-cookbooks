@@ -32,11 +32,7 @@ function install()
 
     # Move Folder
 
-    local -r currentPath="$(pwd)"
-
-    cd "${unzipFolder}"
-    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${EC2_API_TOOLS_INSTALL_FOLDER}" \;
-    cd "${currentPath}"
+    moveFolderContent "${unzipFolder}" "${EC2_API_TOOLS_INSTALL_FOLDER}"
     rm -f -r "${unzipFolder}"
 
     # Config Profile

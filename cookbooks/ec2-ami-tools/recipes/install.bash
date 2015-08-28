@@ -32,11 +32,7 @@ function install()
 
     # Move Folder
 
-    local -r currentPath="$(pwd)"
-
-    cd "${unzipFolder}"
-    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${EC2_AMI_TOOLS_INSTALL_FOLDER}" \;
-    cd "${currentPath}"
+    moveFolderContent "${unzipFolder}" "${EC2_AMI_TOOLS_INSTALL_FOLDER}"
     symlinkLocalBin "${EC2_AMI_TOOLS_INSTALL_FOLDER}/bin"
     rm -f -r "${unzipFolder}"
 

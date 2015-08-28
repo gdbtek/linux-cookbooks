@@ -32,11 +32,7 @@ function install()
 
     # Move Folder
 
-    local -r currentPath="$(pwd)"
-
-    cd "${unzipFolder}"
-    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${GROOVY_INSTALL_FOLDER}" \;
-    cd "${currentPath}"
+    moveFolderContent "${unzipFolder}" "${GROOVY_INSTALL_FOLDER}"
     rm -f -r "${unzipFolder}"
 
     # Config Lib

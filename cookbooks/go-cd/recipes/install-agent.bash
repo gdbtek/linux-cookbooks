@@ -34,11 +34,7 @@ function install()
 
     # Move Folder
 
-    local -r currentPath="$(pwd)"
-
-    cd "${unzipFolder}"
-    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${GO_CD_AGENT_INSTALL_FOLDER}" \;
-    cd "${currentPath}"
+    moveFolderContent "${unzipFolder}" "${GO_CD_AGENT_INSTALL_FOLDER}"
 
     # Finalize
 

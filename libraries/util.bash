@@ -169,6 +169,21 @@ function isValidJSONFile()
     isValidJSONContent "$(cat "${file}")"
 }
 
+function moveFolderContent()
+{
+    local -r sourceFolder="${1}"
+    local -r destinationFolder="${2}"
+
+    checkExistFolder "${sourceFolder}"
+    checkExistFolder "${destinationFolder}"
+
+    local -r currentPath="$(pwd)"
+
+    cd "${sourceFolder}"
+    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${destinationFolder}" \;
+    cd "${currentPath}"
+}
+
 function symlinkLocalBin()
 {
     local -r sourceBinFolder="${1}"

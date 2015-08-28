@@ -7,9 +7,11 @@ function installDependencies()
 
 function install()
 {
+    local -r userHomeFolderPath="$(getCurrentUserHomeFolder)"
+
     # Clean Up
 
-    rm -f -r ~/.cabal ~/.ghc
+    rm -f -r "${userHomeFolderPath}/.cabal" "${userHomeFolderPath}/.ghc"
     initializeFolder "${CABAL_INSTALL_FOLDER}"
 
     # Install
@@ -17,8 +19,8 @@ function install()
     cabal update
     cabal install 'shellcheck'
 
-    mv ~/.cabal/* "${CABAL_INSTALL_FOLDER}"
-    rm -f -r ~/.cabal ~/.ghc
+    moveFolderContent "${userHomeFolderPath}/.cabal" "${CABAL_INSTALL_FOLDER}"
+    rm -f -r "${userHomeFolderPath}/.cabal" "${userHomeFolderPath}/.ghc"
     ln -f -s "${CABAL_INSTALL_FOLDER}/bin/shellcheck" '/usr/local/bin/shellcheck'
 
     # Config Profile
