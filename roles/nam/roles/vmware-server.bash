@@ -8,6 +8,7 @@ function main()
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../libraries/util.bash"
 
+    "${appPath}/../../../cookbooks/jdk/recipes/install.bash"
     "${appPath}/../../../cookbooks/jq/recipes/install.bash"
     "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --users "${firstLoginUser}, $(whoami)"
     "${appPath}/../../../cookbooks/ssh/recipes/install.bash"
