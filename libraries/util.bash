@@ -184,6 +184,14 @@ function moveFolderContent()
     cd "${currentPath}"
 }
 
+function redirectOutputToLogFile()
+{
+    local -r logFile="${1}"
+
+    mkdir -p "$(dirname "${logFile}")"
+    exec 2>&1 > >(tee -a "${logFile}")
+}
+
 function symlinkLocalBin()
 {
     local -r sourceBinFolder="${1}"
