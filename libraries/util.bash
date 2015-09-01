@@ -189,7 +189,7 @@ function redirectOutputToLogFile()
     local -r logFile="${1}"
 
     mkdir -p "$(dirname "${logFile}")"
-    exec 2>&1 > >(tee -a "${logFile}")
+    exec > >(tee -a "${logFile}") 2>&1
 }
 
 function symlinkLocalBin()
