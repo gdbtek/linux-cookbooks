@@ -22,7 +22,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${GO_LANG_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/go-lang.sh.profile" '/etc/profile.d/go-lang.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/go-lang.sh.profile" '/etc/profile.d/go-lang.sh' "${profileConfigData[@]}"
 
     # Display Version
 

@@ -44,7 +44,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${GROOVY_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/groovy.sh.profile" '/etc/profile.d/groovy.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/groovy.sh.profile" '/etc/profile.d/groovy.sh' "${profileConfigData[@]}"
 
     # Display Version
 

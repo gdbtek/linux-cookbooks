@@ -32,13 +32,13 @@ function install()
         6379 "${REDIS_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/redis.conf.conf" "${REDIS_INSTALL_CONFIG_FOLDER}/redis.conf" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/redis.conf.conf" "${REDIS_INSTALL_CONFIG_FOLDER}/redis.conf" "${serverConfigData[@]}"
 
     # Config Profile
 
     local -r profileConfigData=('__INSTALL_BIN_FOLDER__' "${REDIS_INSTALL_BIN_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/redis.sh.profile" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/redis.sh.profile" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -49,7 +49,7 @@ function install()
         '__GROUP_NAME__' "${REDIS_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/redis.conf.upstart" "/etc/init/${REDIS_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/redis.conf.upstart" "/etc/init/${REDIS_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Config System
 

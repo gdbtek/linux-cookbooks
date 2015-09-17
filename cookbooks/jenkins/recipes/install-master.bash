@@ -47,7 +47,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${JENKINS_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
 
     # Install
 

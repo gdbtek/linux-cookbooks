@@ -3,7 +3,7 @@
 function install()
 {
     installAptGetPackages 'vim'
-    cp -f "${appPath}/../files/default/vimrc.local.conf" '/etc/vim/vimrc.local'
+    cp -f "${appPath}/../files/vimrc.local.conf" '/etc/vim/vimrc.local'
 }
 
 function main()

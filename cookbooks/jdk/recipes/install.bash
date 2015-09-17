@@ -21,7 +21,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${JDK_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/jdk.sh.profile" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/jdk.sh.profile" '/etc/profile.d/jdk.sh' "${profileConfigData[@]}"
 
     # Display Version
 

@@ -25,7 +25,7 @@ function installRole()
 
     local -r configFile="${SELENIUM_SERVER_INSTALL_FOLDER}/selenium-server-${role}.json"
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigData[@]}"
 
     # Config Upstart
 
@@ -36,7 +36,7 @@ function installRole()
         '__GROUP_NAME__' "${SELENIUM_SERVER_GROUP_NAME}"
     )
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/default/selenium-server-${role}.conf.upstart" "/etc/init/${SELENIUM_SERVER_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.conf.upstart" "/etc/init/${SELENIUM_SERVER_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 

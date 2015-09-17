@@ -29,7 +29,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${RUBY_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/ruby.sh.profile" '/etc/profile.d/ruby.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/ruby.sh.profile" '/etc/profile.d/ruby.sh' "${profileConfigData[@]}"
 
     # Display Version
 

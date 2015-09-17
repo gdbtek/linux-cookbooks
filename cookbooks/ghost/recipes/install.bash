@@ -39,7 +39,7 @@ function install()
         '__TESTING_PORT__' "${GHOST_TESTING_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/config.js.conf" "${GHOST_INSTALL_FOLDER}/config.js" "${serverConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/config.js.conf" "${GHOST_INSTALL_FOLDER}/config.js" "${serverConfigData[@]}"
 
     # Config Upstart
 
@@ -50,7 +50,7 @@ function install()
         '__GROUP_NAME__' "${GHOST_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/ghost.conf.upstart" "/etc/init/${GHOST_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/ghost.conf.upstart" "/etc/init/${GHOST_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 

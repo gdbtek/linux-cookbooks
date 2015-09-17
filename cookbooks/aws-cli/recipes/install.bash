@@ -18,7 +18,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${AWS_CLI_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/aws-cli.sh.profile" '/etc/profile.d/aws-cli.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/aws-cli.sh.profile" '/etc/profile.d/aws-cli.sh' "${profileConfigData[@]}"
 
     # Display Version
 

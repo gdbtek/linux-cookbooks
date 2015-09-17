@@ -16,7 +16,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${MONGODB_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/mongodb.sh.profile" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/mongodb.sh.profile" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -28,7 +28,7 @@ function install()
         '__PORT__' "${MONGODB_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/default/mongodb.conf.upstart" "/etc/init/${MONGODB_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/mongodb.conf.upstart" "/etc/init/${MONGODB_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
     chown -R "$(whoami):$(whoami)" "${MONGODB_INSTALL_FOLDER}"
 
     # Start

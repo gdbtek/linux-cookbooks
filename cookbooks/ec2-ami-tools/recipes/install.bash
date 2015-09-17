@@ -40,7 +40,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${EC2_AMI_TOOLS_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/ec2-ami-tools.sh.profile" '/etc/profile.d/ec2-ami-tools.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/ec2-ami-tools.sh.profile" '/etc/profile.d/ec2-ami-tools.sh' "${profileConfigData[@]}"
 
     # Display Version
 

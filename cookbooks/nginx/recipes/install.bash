@@ -40,7 +40,7 @@ function install()
 
     local -r serverConfigData=('__PORT__' "${NGINX_PORT}")
 
-    createFileFromTemplate  "${appPath}/../templates/default/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${serverConfigData[@]}"
+    createFileFromTemplate  "${appPath}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${serverConfigData[@]}"
 
     # Config Log
 
@@ -51,13 +51,13 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/nginx.sh.profile" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/nginx.sh.profile" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
     local -r upstartConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/nginx.conf.upstart" "/etc/init/${NGINX_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/nginx.conf.upstart" "/etc/init/${NGINX_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 

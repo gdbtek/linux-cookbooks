@@ -29,7 +29,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${PYTHON_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/python.sh.profile" '/etc/profile.d/python.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/python.sh.profile" '/etc/profile.d/python.sh' "${profileConfigData[@]}"
 
     # Display Version
 

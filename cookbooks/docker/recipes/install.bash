@@ -36,7 +36,7 @@ function install()
     # Config AUFS Upstart
 
     header 'UPDATING AUFS UPSTART'
-    cp -f "${appPath}/../files/default/aufs.conf.upstart" '/etc/init/aufs.conf'
+    cp -f "${appPath}/../files/aufs.conf.upstart" '/etc/init/aufs.conf'
 
     # Display Version
 

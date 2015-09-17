@@ -18,7 +18,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${JQ_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/jq.sh.profile" '/etc/profile.d/jq.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/jq.sh.profile" '/etc/profile.d/jq.sh' "${profileConfigData[@]}"
 
     # Display Version
 

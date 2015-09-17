@@ -39,7 +39,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${EC2_API_TOOLS_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/default/ec2-api-tools.sh.profile" '/etc/profile.d/ec2-api-tools.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appPath}/../templates/ec2-api-tools.sh.profile" '/etc/profile.d/ec2-api-tools.sh' "${profileConfigData[@]}"
 }
 
 function main()
