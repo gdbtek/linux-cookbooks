@@ -8,8 +8,8 @@ function main()
 
     "${appPath}/upgrade.bash" "${attributeFile}"
     "${appPath}/clear-bash-history.bash" "${attributeFile}"
-    "${appPath}/clear-npm-cache.bash" "${attributeFile}"
     "${appPath}/clear-workspace.bash" "${attributeFile}"
+    "${appPath}/clear-npm-cache.bash" "${attributeFile}"
     "${appPath}/reset-logs.bash" "${attributeFile}"
     # "${appPath}/restart-machines.bash" "${attributeFile}"
 }
