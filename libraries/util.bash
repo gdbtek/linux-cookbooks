@@ -782,9 +782,8 @@ function addUserToSudoWithoutPassword()
 {
     local -r userLogin="${1}"
 
-    local -r config="${userLogin} ALL=(ALL) NOPASSWD: ALL"
-
-    appendToFileIfNotFound '/etc/sudoers' "${config}" "${config}" 'false' 'false' 'true'
+    echo "${userLogin} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${userLogin}"
+    chmod 440 "/etc/sudoers.d/${userLogin}"
 }
 
 function checkExistCommand()
