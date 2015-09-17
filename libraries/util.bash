@@ -1159,12 +1159,12 @@ function getTemporaryFile()
         extension=".${extension}"
     fi
 
-    mktemp "$(getTemporaryFolderRoot)/$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX${extension}"
+    mktemp "$(getTemporaryFolderRoot)/$(date +'%Y%m%d-%H%M%S')-XXXXXXXXXX${extension}"
 }
 
 function getTemporaryFolder()
 {
-    mktemp -d "$(getTemporaryFolderRoot)/$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX"
+    mktemp -d "$(getTemporaryFolderRoot)/$(date +'%Y%m%d-%H%M%S')-XXXXXXXXXX"
 }
 
 function getTemporaryFolderRoot()
