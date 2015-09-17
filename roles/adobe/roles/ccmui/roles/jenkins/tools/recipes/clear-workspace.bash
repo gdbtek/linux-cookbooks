@@ -8,7 +8,10 @@ function main()
 
     source "${appPath}/../../../../../../../../cookbooks/jenkins/attributes/slave.bash"
 
-    local -r command="sudo rm -f -r ${JENKINS_WORKSPACE_FOLDER}/workspace"
+    local -r command="
+        sudo rm -f -r ${JENKINS_WORKSPACE_FOLDER}/workspace &&
+        sudo mkdir -p ${JENKINS_WORKSPACE_FOLDER}/workspace
+    "
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${attributeFile}" \
