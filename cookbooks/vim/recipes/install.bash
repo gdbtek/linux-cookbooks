@@ -10,6 +10,7 @@ function main()
 {
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+    # shellcheck source=/dev/null
     source "${appPath}/../../../libraries/util.bash"
 
     checkRequireSystem
