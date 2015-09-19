@@ -5,9 +5,7 @@ function main()
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local -r firstLoginUser='nam'
 
-    # shellcheck source=/dev/null
     source "${appPath}/../../../libraries/util.bash"
-    # shellcheck source=/dev/null
     source "${appPath}/../libraries/util.bash"
 
     "${appPath}/../../../cookbooks/jdk/recipes/install.bash"

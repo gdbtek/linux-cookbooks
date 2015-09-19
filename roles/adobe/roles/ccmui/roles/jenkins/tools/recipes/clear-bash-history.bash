@@ -6,7 +6,6 @@ function main()
 
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    # shellcheck source=/dev/null
     source "${appPath}/../../../../../../../../cookbooks/tomcat/attributes/default.bash"
 
     local -r command="sudo rm -f \

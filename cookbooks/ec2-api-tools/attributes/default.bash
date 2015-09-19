@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-# shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
 export EC2_API_TOOLS_DOWNLOAD_URL='http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip'

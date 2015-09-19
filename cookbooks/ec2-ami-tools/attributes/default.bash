@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-# shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/../../ruby/attributes/default.bash"
 
 export EC2_AMI_TOOLS_DOWNLOAD_URL='http://s3.amazonaws.com/ec2-downloads/ec2-ami-tools-1.5.7.zip'

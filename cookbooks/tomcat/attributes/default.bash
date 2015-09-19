@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-# shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
 export TOMCAT_DOWNLOAD_URL='http://www.us.apache.org/dist/tomcat/tomcat-8/v8.0.26/bin/apache-tomcat-8.0.26.tar.gz'

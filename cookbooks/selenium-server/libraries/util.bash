@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-# shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
 function installRole()
@@ -10,7 +9,6 @@ function installRole()
 
     checkNonEmptyString "${role}" 'undefined role'
 
-    # shellcheck source=/dev/null
     source "$(dirname "${BASH_SOURCE[0]}")/../attributes/${role}.bash"
 
     # Clean Up

@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-# shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
 export ELASTIC_SEARCH_DOWNLOAD_URL='https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.1.tar.gz'

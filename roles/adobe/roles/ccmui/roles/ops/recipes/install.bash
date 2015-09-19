@@ -6,11 +6,8 @@ function main()
 
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    # shellcheck source=/dev/null
     source "${appPath}/../../../../../../../libraries/util.bash"
-    # shellcheck source=/dev/null
     source "${appPath}/../../../../../libraries/util.bash"
-    # shellcheck source=/dev/null
     source "${appPath}/../attributes/default.bash"
 
     # Clean Up

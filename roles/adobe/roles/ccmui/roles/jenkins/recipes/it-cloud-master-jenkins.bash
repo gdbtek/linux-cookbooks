@@ -6,15 +6,10 @@ function main()
 
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    # shellcheck source=/dev/null
     source "${appPath}/../../../../../../../cookbooks/jenkins/attributes/master.bash"
-    # shellcheck source=/dev/null
     source "${appPath}/../../../../../../../cookbooks/nginx/attributes/default.bash"
-    # shellcheck source=/dev/null
     source "${appPath}/../../../../../../../libraries/util.bash"
-    # shellcheck source=/dev/null
     source "${appPath}/../../../../../libraries/util.bash"
-    # shellcheck source=/dev/null
     source "${appPath}/../attributes/master.bash"
 
     # Clean Up
@@ -44,7 +39,7 @@ function main()
     addUserSSHKnownHost "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}" "$(cat "${appPath}/../files/known_hosts")"
 
     configUserGIT "${JENKINS_USER_NAME}" "${CCMUI_JENKINS_GIT_USER_NAME}" "${CCMUI_JENKINS_GIT_USER_EMAIL}"
-    generateUserSSHKey "${JENKINS_USER_NAME}" "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}"
+    generateUserSSHKey "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}"
 
     # Config Nginx
 
