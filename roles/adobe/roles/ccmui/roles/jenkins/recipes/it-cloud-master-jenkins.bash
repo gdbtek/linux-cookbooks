@@ -39,7 +39,7 @@ function main()
     addUserSSHKnownHost "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}" "$(cat "${appPath}/../files/known_hosts")"
 
     configUserGIT "${JENKINS_USER_NAME}" "${CCMUI_JENKINS_GIT_USER_NAME}" "${CCMUI_JENKINS_GIT_USER_EMAIL}"
-    generateUserSSHKey "${JENKINS_USER_NAME}"
+    generateUserSSHKey "${JENKINS_USER_NAME}" "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}"
 
     # Config Nginx
 
