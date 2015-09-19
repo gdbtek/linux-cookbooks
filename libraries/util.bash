@@ -1096,34 +1096,34 @@ function existUserLogin()
 function generateUserSSHKey()
 {
     local -r userLogin="${1}"
-    local groupName="${2}"
+    local -r chownUserLogin="${2}"
+    local -r chownGroupName="${3}"
 
-    # Set Default
-
-    if [[ "$(isEmptyString "${groupName}")" = 'true' ]]
-    then
-        groupName="${userLogin}"
-    fi
-
-    # Validate Input
-
-    checkExistUserLogin "${userLogin}"
-    checkExistGroupName "${groupName}"
+    header "GENERATING SSH KEY FOR USER '${userLogin}'"
 
     local -r userHome="$(getUserHomeFolder "${userLogin}")"
 
+    # Validate Input
+
     checkExistFolder "${userHome}"
 
-    # Generate SSH Key
+    if [[ "$(isEmptyString "${chownUserLogin}")" = 'false' && "$(isEmptyString "${chownGroupName}")" = 'false' ]]
+    then
+        checkExistUserLogin "${chownUserLogin}"
+        checkExistGroupName "${chownGroupName}"
+    fi
 
-    header "GENERATING SSH KEY FOR USER '${userLogin}'"
+    # Generate SSH Key
 
     rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
     ssh-keygen -q -t rsa -N '' -f "${userHome}/.ssh/id_rsa"
     chmod 600 "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
-    chown "${userLogin}:${groupName}" "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
-
     cat "${userHome}/.ssh/id_rsa.pub"
+
+    if [[ "$(isEmptyString "${chownUserLogin}")" = 'false' && "$(isEmptyString "${chownGroupName}")" = 'false' ]]
+    then
+        chown "${chownUserLogin}:${chownGroupName}" "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
+    fi
 }
 
 function getCurrentUserHomeFolder()
