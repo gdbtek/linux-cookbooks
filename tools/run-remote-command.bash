@@ -115,6 +115,7 @@ function main()
 
     local -r optCount="${#}"
 
+    # shellcheck source=/dev/null
     source "${appPath}/../libraries/util.bash"
 
     while [[ "${#}" -gt '0' ]]
@@ -193,6 +194,7 @@ function main()
         error "\nERROR : file '${attributeFile}' not found"
         displayUsage 1
     else
+        # shellcheck source=/dev/null
         source "${attributeFile}"
     fi
 

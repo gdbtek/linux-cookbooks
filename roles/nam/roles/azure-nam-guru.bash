@@ -6,7 +6,9 @@ function main()
     local -r firstLoginUser='nam'
     local -r hostName='nam.guru'
 
+    # shellcheck source=/dev/null
     source "${appPath}/../../../libraries/util.bash"
+    # shellcheck source=/dev/null
     source "${appPath}/../libraries/util.bash"
 
     "${appPath}/../../essential.bash" "${hostName}" "${firstLoginUser}, $(whoami)"

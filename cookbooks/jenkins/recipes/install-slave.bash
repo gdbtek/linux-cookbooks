@@ -18,7 +18,9 @@ function main()
 {
     appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+    # shellcheck source=/dev/null
     source "${appPath}/../../../libraries/util.bash"
+    # shellcheck source=/dev/null
     source "${appPath}/../attributes/slave.bash"
 
     checkRequireSystem
