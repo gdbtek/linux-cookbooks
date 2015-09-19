@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+# shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
 export GO_CD_SERVER_DOWNLOAD_URL='http://download.go.cd/gocd/go-server-15.2.0-2248.zip'

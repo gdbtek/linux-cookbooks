@@ -1,6 +1,8 @@
 #!/bin/bash -e
 
+# shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/../../groovy/attributes/default.bash"
+# shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/../../tomcat/attributes/default.bash"
 
 export JENKINS_DOWNLOAD_URL='http://mirrors.jenkins-ci.org/war/latest/jenkins.war'

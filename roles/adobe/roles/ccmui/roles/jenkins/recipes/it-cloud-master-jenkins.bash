@@ -6,10 +6,15 @@ function main()
 
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+    # shellcheck source=/dev/null
     source "${appPath}/../../../../../../../cookbooks/jenkins/attributes/master.bash"
+    # shellcheck source=/dev/null
     source "${appPath}/../../../../../../../cookbooks/nginx/attributes/default.bash"
+    # shellcheck source=/dev/null
     source "${appPath}/../../../../../../../libraries/util.bash"
+    # shellcheck source=/dev/null
     source "${appPath}/../../../../../libraries/util.bash"
+    # shellcheck source=/dev/null
     source "${appPath}/../attributes/master.bash"
 
     # Clean Up

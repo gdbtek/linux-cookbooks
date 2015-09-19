@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+# shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
 export SELENIUM_SERVER_DOWNLOAD_URL='http://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.1.jar'

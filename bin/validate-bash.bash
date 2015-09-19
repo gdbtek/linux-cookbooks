@@ -4,6 +4,7 @@ function main()
 {
     local -r projectPath="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+    # shellcheck source=/dev/null
     source "${projectPath}/libraries/util.bash"
 
     local -r command='shellcheck'
