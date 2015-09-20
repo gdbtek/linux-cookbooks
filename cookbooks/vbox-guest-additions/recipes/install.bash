@@ -13,7 +13,7 @@ function install()
     local -r tempMountFolderPath="$(getTemporaryFolder)"
 
     downloadFile "${VBOX_GUEST_ADDITIONS_DOWNLOAD_URL}" "${tempISOFilePath}" true
-    mount -o loop "${tempISOFilePath}" "${tempMountFolderPath}"
+    mount -o loop -v "${tempISOFilePath}" "${tempMountFolderPath}"
     yes | "${tempMountFolderPath}/VBoxLinuxAdditions.run" || true
 
     # Clean Up
@@ -29,7 +29,7 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"
