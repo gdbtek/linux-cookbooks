@@ -18,8 +18,8 @@ function install()
 
     # Clean Up
 
-    umount "${tempMountFolderPath}"
-    rm -f -r "${tempISOFilePath}" "${tempMountFolderPath}"
+    umount -v "${tempMountFolderPath}"
+    rm -f -r -v "${tempISOFilePath}" "${tempMountFolderPath}"
 
     # Check Service Status
 
