@@ -21,6 +21,10 @@ function install()
     umount -v "${tempMountFolderPath}"
     rm -f -r -v "${tempISOFilePath}" "${tempMountFolderPath}"
 
+    # Config Upstart
+
+    cp "${appPath}/../files/vbox-guest-additions.conf.upstart" '/etc/init/vbox-guest-additions.conf'
+
     # Check Service Status
 
     service vboxadd status
@@ -29,7 +33,7 @@ function install()
 
 function main()
 {
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appPath}/../../../libraries/util.bash"
     source "${appPath}/../attributes/default.bash"
