@@ -27,7 +27,9 @@ function install()
         info "Already mounted '${newDisk}' to '${mountOn}'\n"
         df -h -T
     else
+        resetPartition "${disk}"
         createPartition "${disk}"
+
         mkfs -t "${MOUNT_HD_FS_TYPE}" "${newDisk}"
         mkdir "${mountOn}"
         mount -t "${MOUNT_HD_FS_TYPE}" "${newDisk}" "${mountOn}"
@@ -41,6 +43,18 @@ function install()
         # Display File System
 
         df -h -T
+    fi
+}
+
+function resetPartition()
+{
+    local -r disk="${1}"
+
+    local -r mountOn="$(df "${disk}" --output='target' | tail -1)"
+
+    if [[ "$(isEmptyString "${mountOn}")" = 'false' ]]
+    then
+        umount -v "${mountOn}"
     fi
 }
 
