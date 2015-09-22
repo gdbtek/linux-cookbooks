@@ -9,7 +9,7 @@ function main()
     source "${appPath}/../../../../../../../cookbooks/jenkins/attributes/slave.bash"
     source "${appPath}/../../../../../../../libraries/util.bash"
     source "${appPath}/../../../../../libraries/util.bash"
-    source "${appPath}/../attributes/slave.bash"
+    source "${appPath}/../attributes/it-cloud-slave.bash"
 
     # Clean Up
 

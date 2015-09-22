@@ -9,8 +9,7 @@ function main()
     source "${appPath}/../../../../../../../cookbooks/jenkins/attributes/master.bash"
     source "${appPath}/../../../../../../../cookbooks/nginx/attributes/default.bash"
     source "${appPath}/../../../../../../../libraries/util.bash"
-    source "${appPath}/../../../../../libraries/util.bash"
-    source "${appPath}/../attributes/it-cloud-master.bash"
+    source "${appPath}/../attributes/amazon-master.bash"
 
     # Clean Up
 
@@ -22,7 +21,7 @@ function main()
 
     # Install Apps
 
-    local -r hostName='jenkins.ccmui.adobe.com'
+    local -r hostName='jenkins-pub.ccmui.adobe.com'
 
     "${appPath}/../../../../../../essential.bash" "${hostName}"
     "${appPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
@@ -32,14 +31,6 @@ function main()
     "${appPath}/../../../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
     "${appPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
     "${appPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami)"
-
-    # Config SSH and GIT
-
-    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/authorized_keys")"
-    addUserSSHKnownHost "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}" "$(cat "${appPath}/../files/known_hosts")"
-
-    configUserGIT "${JENKINS_USER_NAME}" "${CCMUI_JENKINS_GIT_USER_NAME}" "${CCMUI_JENKINS_GIT_USER_EMAIL}"
-    generateUserSSHKey "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}"
 
     # Config Nginx
 
@@ -60,11 +51,6 @@ function main()
     # Clean Up
 
     cleanUpSystemFolders
-    cleanUpITMess
-
-    # Display Notice
-
-    displayNotice "${JENKINS_USER_NAME}"
 }
 
 main "${@}"
