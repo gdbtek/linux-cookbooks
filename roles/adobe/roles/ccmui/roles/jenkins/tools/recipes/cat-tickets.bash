@@ -6,7 +6,7 @@ function main()
 
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    local -r command="find / -type f -name 'tickets_*' -exec cat {} \; print"
+    local -r command="find / -type f -name 'tickets_*' -exec cat {} \; -print"
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${attributeFile}" \
