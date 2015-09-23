@@ -7,7 +7,7 @@ function main()
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local -r command="cd /tmp &&
                       sudo rm -f -r ubuntu-cookbooks &&
-                      sudo git clone https://github.com/gdbtek/ubuntu-cookbooks.git &&
+                      sudo git clone --depth=1 https://github.com/gdbtek/ubuntu-cookbooks.git &&
                       sudo /tmp/ubuntu-cookbooks/cookbooks/packer/recipes/install.bash
                       sudo rm -f -r /tmp/ubuntu-cookbooks"
 

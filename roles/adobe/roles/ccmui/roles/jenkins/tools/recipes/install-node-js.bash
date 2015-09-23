@@ -6,11 +6,11 @@ function main()
 
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../attributes/slave.bash"
+    source "${appPath}/../../attributes/it-cloud-slave.bash"
 
     local -r command="cd /tmp &&
                       sudo rm -f -r ubuntu-cookbooks &&
-                      sudo git clone https://github.com/gdbtek/ubuntu-cookbooks.git &&
+                      sudo git clone --depth=1 https://github.com/gdbtek/ubuntu-cookbooks.git &&
                       sudo /tmp/ubuntu-cookbooks/cookbooks/node-js/recipes/install.bash '${CCMUI_JENKINS_NODE_JS_VERSION}' '${CCMUI_JENKINS_NODE_JS_INSTALL_FOLDER}'
                       sudo rm -f -r /tmp/ubuntu-cookbooks"
 

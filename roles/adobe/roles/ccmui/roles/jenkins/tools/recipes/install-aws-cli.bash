@@ -2,18 +2,20 @@
 
 function main()
 {
+    local -r attributeFile="${1}"
+
     local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    local -r command="sudo stop selenium-server-hub &&
-                      cd /tmp &&
+
+    local -r command="cd /tmp &&
                       sudo rm -f -r ubuntu-cookbooks &&
                       sudo git clone --depth=1 https://github.com/gdbtek/ubuntu-cookbooks.git &&
-                      sudo /tmp/ubuntu-cookbooks/cookbooks/selenium-server/recipes/install-hub.bash
+                      sudo /tmp/ubuntu-cookbooks/cookbooks/aws-cli/recipes/install.bash
                       sudo rm -f -r /tmp/ubuntu-cookbooks"
 
     "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
-        --attribute-file "${appPath}/../attributes/default.bash" \
+        --attribute-file "${attributeFile}" \
         --command "${command}" \
-        --machine-type 'masters'
+        --machine-type 'masters-slaves'
 }
 
 main "${@}"
