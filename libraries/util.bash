@@ -967,8 +967,7 @@ function configUserSSH()
 
     checkExistFolder "${userHome}"
 
-    mkdir -p "${userHome}/.ssh"
-    chmod 700 "${userHome}/.ssh"
+    mkdir -m 700 -p "${userHome}/.ssh"
 
     touch "${userHome}/.ssh/${configFileName}"
     appendToFileIfNotFound "${userHome}/.ssh/${configFileName}" "${sshRSA}" "${sshRSA}" 'false' 'false' 'false'
