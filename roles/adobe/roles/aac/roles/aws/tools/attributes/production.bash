@@ -20,7 +20,7 @@ export MASTER_SERVERS=(
 
     'ec2-52-0-58-187.compute-1.amazonaws.com'
     'ec2-52-6-155-176.compute-1.amazonaws.com'
-    'ec2-52-6-212-79.compute-1.amazonaws.com'
+    'ec2-54-174-157-108.compute-1.amazonaws.com'
 )
 
 export SLAVE_SERVERS=()
