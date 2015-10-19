@@ -20,6 +20,8 @@ function getInstanceRegion()
 {
     local -r availabilityZone="$(getInstanceAvailabilityZone)"
 
+    checkNonEmptyString "${availabilityZone}" 'undefined availabilityZone'
+
     echo "${availabilityZone:0:${#availabilityZone} - 1}"
 }
 
