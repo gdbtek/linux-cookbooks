@@ -79,7 +79,7 @@ function unzipAWSS3RemoteFile()
     then
         debug "Downloading '${downloadURL}'\n"
 
-        aws s3 cp "${downloadURL}" - | tar -C "${installFolder}" -x -z --strip 1 || \
+        aws s3 cp "${downloadURL}" - | tar -C "${installFolder}" -x -z --strip 1 ||
         fatal "\n'${downloadURL}' does not exist or authentication failed"
     else
         fatal "\nFATAL : file extension '${extension}' not supported"
