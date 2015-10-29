@@ -4,9 +4,10 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../pcre/attributes/default.bash"
 
 export HAPROXY_DOWNLOAD_URL='http://www.haproxy.org/download/1.6/src/haproxy-1.6.1.tar.gz'
 
-export HAPROXY_INSTALL_FOLDER='/opt/haproxy'
-
 export HAPROXY_SERVICE_NAME='haproxy'
+
+export HAPROXY_INSTALL_FOLDER='/opt/haproxy'
+export HAPROXY_CONFIG_FILE="${HAPROXY_INSTALL_FOLDER}/conf/${HAPROXY_SERVICE_NAME}.conf"
 
 export HAPROXY_USER_NAME='haproxy'
 export HAPROXY_GROUP_NAME='haproxy'

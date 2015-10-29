@@ -37,7 +37,10 @@ function install()
 
     # Config Upstart
 
-    local -r upstartConfigData=('__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}")
+    local -r upstartConfigData=(
+        '__CONFIG_FILE__' "${HAPROXY_CONFIG_FILE}"
+        '__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}"
+    )
 
     createFileFromTemplate "${appPath}/../templates/haproxy.conf.upstart" "/etc/init/${HAPROXY_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
@@ -45,7 +48,7 @@ function install()
 
     local -r configData=('__PORT__' "${HAPROXY_PORT}")
 
-    createFileFromTemplate "${appPath}/../templates/haproxy.conf.conf" "${HAPROXY_INSTALL_FOLDER}/conf/${HAPROXY_SERVICE_NAME}.conf" "${configData[@]}"
+    createFileFromTemplate "${appPath}/../templates/haproxy.conf.conf" "${HAPROXY_CONFIG_FILE}" "${configData[@]}"
 
     # Start
 
