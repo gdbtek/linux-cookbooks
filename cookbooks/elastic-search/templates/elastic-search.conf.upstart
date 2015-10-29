@@ -16,7 +16,7 @@ setgid '__GROUP_NAME__'
 
 env JAVA_HOME='__JDK_INSTALL_FOLDER__'
 
-exec '__INSTALL_FOLDER__/bin/elasticsearch' -Des.config='__INSTALL_FOLDER__/config/elasticsearch.yml'
+exec '__INSTALL_FOLDER__/bin/elasticsearch'
 
 post-stop script
     cd '__INSTALL_FOLDER__/logs' && find '.' -not -name '.' -delete
