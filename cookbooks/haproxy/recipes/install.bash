@@ -41,6 +41,12 @@ function install()
 
     createFileFromTemplate "${appPath}/../templates/haproxy.conf.upstart" "/etc/init/${HAPROXY_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
+    # Config Default Config
+
+    local -r configData=('__PORT__' "${HAPROXY_PORT}")
+
+    createFileFromTemplate "${appPath}/../templates/haproxy.conf.conf" "${HAPROXY_INSTALL_FOLDER}/${HAPROXY_SERVICE_NAME}.conf" "${configData[@]}"
+
     # Start
 
     addUser "${HAPROXY_USER_NAME}" "${HAPROXY_GROUP_NAME}" 'false' 'true' 'false'
