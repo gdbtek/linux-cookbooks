@@ -13,4 +13,4 @@ kill timeout 20
 
 expect fork
 
-exec '__INSTALL_FOLDER__/sbin/haproxy' -f '__CONFIG_FILE__'
+exec '__INSTALL_FOLDER__/sbin/haproxy' -D -f '__CONFIG_FILE__'
