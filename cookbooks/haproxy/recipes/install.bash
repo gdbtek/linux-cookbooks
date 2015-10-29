@@ -15,7 +15,7 @@ function install()
     # Clean Up
 
     initializeFolder "${HAPROXY_INSTALL_FOLDER}"
-    mkdir -p "$(dir name "${HAPROXY_CONFIG_FILE}")"
+    mkdir -p "$(dirname "${HAPROXY_CONFIG_FILE}")"
 
     # Install
 
