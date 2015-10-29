@@ -45,7 +45,7 @@ function install()
 
     local -r configData=('__PORT__' "${HAPROXY_PORT}")
 
-    createFileFromTemplate "${appPath}/../templates/haproxy.conf.conf" "${HAPROXY_INSTALL_FOLDER}/${HAPROXY_SERVICE_NAME}.conf" "${configData[@]}"
+    createFileFromTemplate "${appPath}/../templates/haproxy.conf.conf" "${HAPROXY_INSTALL_FOLDER}/conf/${HAPROXY_SERVICE_NAME}.conf" "${configData[@]}"
 
     # Start
 
