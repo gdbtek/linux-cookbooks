@@ -15,7 +15,7 @@ function install()
     # Clean Up
 
     initializeFolder "${HAPROXY_INSTALL_FOLDER}"
-    mkdir -p "$(dirname "${HAPROXY_CONFIG_FILE}")"
+    initializeFolder '/etc/haproxy'
 
     # Install
 
@@ -26,6 +26,7 @@ function install()
     cd "${tempFolder}"
     make "${HAPROXY_CONFIG[@]}"
     make install PREFIX='' DESTDIR="${HAPROXY_INSTALL_FOLDER}"
+    cp "${HAPROXY_INSTALL_FOLDER}/sbin/haproxy-systemd-wrapper" "/etc/init.d/${HAPROXY_SERVICE_NAME}"
 
     rm -f -r "${tempFolder}"
     cd "${currentPath}"
@@ -36,26 +37,17 @@ function install()
 
     createFileFromTemplate "${appPath}/../templates/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
 
-    # Config Upstart
-
-    local -r upstartConfigData=(
-        '__CONFIG_FILE__' "${HAPROXY_CONFIG_FILE}"
-        '__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}"
-    )
-
-    createFileFromTemplate "${appPath}/../templates/haproxy.conf.upstart" "/etc/init/${HAPROXY_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
-
     # Config Default Config
 
     local -r configData=('__PORT__' "${HAPROXY_PORT}")
 
-    createFileFromTemplate "${appPath}/../templates/haproxy.conf.conf" "${HAPROXY_CONFIG_FILE}" "${configData[@]}"
+    createFileFromTemplate "${appPath}/../templates/haproxy.conf.conf" '/etc/haproxy/haproxy.cfg' "${configData[@]}"
 
     # Start
 
     addUser "${HAPROXY_USER_NAME}" "${HAPROXY_GROUP_NAME}" 'false' 'true' 'false'
     chown -R "${HAPROXY_USER_NAME}:${HAPROXY_GROUP_NAME}" "${HAPROXY_INSTALL_FOLDER}"
-    start "${HAPROXY_SERVICE_NAME}"
+    service "${HAPROXY_SERVICE_NAME}" start
 
     # Display Open Ports
 
