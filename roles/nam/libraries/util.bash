@@ -9,7 +9,7 @@ function autoSudo()
 
     header 'SETTING UP AUTO SUDO'
 
-    local -r command='sudo su -'
+    local -r command='sudo su -l'
 
     appendToFileIfNotFound "$(getUserHomeFolder "${userLogin}")/${profileFileName}" "${command}" "${command}" 'false' 'false' 'true'
 }
