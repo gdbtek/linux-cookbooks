@@ -34,7 +34,7 @@ function install()
 
     for package in "${NODE_JS_INSTALL_NPM_PACKAGES[@]}"
     do
-        header "INSTALLING NODE-JS NPM PACKAGE ${package}"
+        header "INSTALLING NODE-JS PACKAGE ${package}"
         "${NODE_JS_INSTALL_FOLDER}/bin/npm" install "${package}" -g
     done
 
