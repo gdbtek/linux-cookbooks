@@ -27,14 +27,6 @@ function install()
     fi
 
     unzipRemoteFile "${url}" "${NODE_JS_INSTALL_FOLDER}"
-    chown -R "$(whoami):$(whoami)" "${NODE_JS_INSTALL_FOLDER}"
-    symlinkLocalBin "${NODE_JS_INSTALL_FOLDER}/bin"
-
-    # Config Profile
-
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${NODE_JS_INSTALL_FOLDER}")
-
-    createFileFromTemplate "${appPath}/../templates/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
     # Install NPM Packages
 
@@ -43,8 +35,22 @@ function install()
     for package in "${NODE_JS_INSTALL_NPM_PACKAGES[@]}"
     do
         header "INSTALLING NODE-JS NPM PACKAGE ${package}"
-        npm install "${package}" -g
+        "${NODE_JS_INSTALL_FOLDER}/bin/npm" install "${package}" -g
     done
+
+    # Reset Owner
+
+    chown -R "$(whoami):$(whoami)" "${NODE_JS_INSTALL_FOLDER}"
+
+    # Symlink Local Bin
+
+    symlinkLocalBin "${NODE_JS_INSTALL_FOLDER}/bin"
+
+    # Config Profile
+
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${NODE_JS_INSTALL_FOLDER}")
+
+    createFileFromTemplate "${appPath}/../templates/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
     # Clean Up
 
