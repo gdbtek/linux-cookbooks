@@ -45,7 +45,7 @@ function install()
     for package in "${NODE_JS_INSTALL_NPM_PACKAGES[@]}"
     do
         header "INSTALLING NODE-JS PACKAGE ${package}"
-        "${NODE_JS_INSTALL_FOLDER}/bin/npm" install -g "${package}@latest"
+        "${NODE_JS_INSTALL_FOLDER}/bin/npm" install -g --prefix "${NODE_JS_INSTALL_FOLDER}" "${package}@latest"
     done
 
     # Reset Owner And Symlink Local Bin
