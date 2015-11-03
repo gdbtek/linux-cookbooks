@@ -5,6 +5,12 @@ function installDependencies()
     installAptGetPackages 'build-essential'
 }
 
+function resetOwnerAndSymlinkLocalBin()
+{
+    chown -R "$(whoami):$(whoami)" "${NODE_JS_INSTALL_FOLDER}"
+    symlinkLocalBin "${NODE_JS_INSTALL_FOLDER}/bin"
+}
+
 function install()
 {
     # Clean Up
@@ -28,6 +34,10 @@ function install()
 
     unzipRemoteFile "${url}" "${NODE_JS_INSTALL_FOLDER}"
 
+    # Reset Owner And Symlink Local Bin
+
+    resetOwnerAndSymlinkLocalBin
+
     # Install NPM Packages
 
     local package=''
@@ -38,13 +48,9 @@ function install()
         "${NODE_JS_INSTALL_FOLDER}/bin/npm" install "${package}" -g
     done
 
-    # Reset Owner
+    # Reset Owner And Symlink Local Bin
 
-    chown -R "$(whoami):$(whoami)" "${NODE_JS_INSTALL_FOLDER}"
-
-    # Symlink Local Bin
-
-    symlinkLocalBin "${NODE_JS_INSTALL_FOLDER}/bin"
+    resetOwnerAndSymlinkLocalBin
 
     # Config Profile
 
