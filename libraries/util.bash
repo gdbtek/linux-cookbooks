@@ -358,7 +358,7 @@ function installAptGetPackage()
         debug "\nApt-Get Package '${package}' has already been installed"
     else
         echo -e "\033[1;35m\nInstalling Apt-Get Package '${package}'\033[0m"
-        apt-get install -y "${package}"
+        DEBIAN_FRONTEND='noninteractive' apt-get install -y "${package}"
     fi
 }
 
