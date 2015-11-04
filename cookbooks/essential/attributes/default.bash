@@ -4,6 +4,7 @@ export ESSENTIAL_PACKAGES=(
     'curl'
     'git'
     'iptables'
+    'libfontconfig'
     'logrotate'
     'rsync'
     'screen'
