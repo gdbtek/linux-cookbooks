@@ -13,10 +13,10 @@ function install()
 
     for ((i = 0; i < ${#TMP_REAPER_FOLDERS[@]}; i = i + 3))
     do
-        content="tmpreaper -a -f -s -v --protect '${TMP_REAPER_FOLDERS[${i} + 1]}' '${TMP_REAPER_FOLDERS[${i} + 2]}' '${TMP_REAPER_FOLDERS[${i}]}'\n${content}"
+        content="${content}\ntmpreaper -a -f -s -v --protect '${TMP_REAPER_FOLDERS[${i} + 1]}' '${TMP_REAPER_FOLDERS[${i} + 2]}' '${TMP_REAPER_FOLDERS[${i}]}'"
     done
 
-    echo -e "${content}" > "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
+    echo -e "$(trimString "${content}")" > "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
     chmod 755 "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
 }
 
