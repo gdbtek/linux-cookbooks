@@ -663,7 +663,7 @@ function removeEmptyLines()
 {
     local -r content="${1}"
 
-    sed '/^\s*$/d' <<< "${content}"
+    echo -e "${content}" | sed '/^\s*$/d'
 }
 
 function replaceString()
