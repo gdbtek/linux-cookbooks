@@ -659,6 +659,13 @@ function isEmptyString()
     fi
 }
 
+function removeEmptyLines()
+{
+    local -r content="${1}"
+
+    sed '/^\s*$/d' "${content}"
+}
+
 function replaceString()
 {
     local -r content="${1}"

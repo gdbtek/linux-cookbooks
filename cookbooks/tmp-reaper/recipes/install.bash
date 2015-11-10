@@ -16,7 +16,7 @@ function install()
         content="${content}\ntmpreaper -a -f -s -v --protect '${TMP_REAPER_FOLDERS[${i} + 1]}' '${TMP_REAPER_FOLDERS[${i} + 2]}' '${TMP_REAPER_FOLDERS[${i}]}'"
     done
 
-    echo -e "$(trimString "${content}")" > "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
+    echo -e "$(removeEmptyLines "${content}")" > "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
     chmod 755 "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
 }
 
