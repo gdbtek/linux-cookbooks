@@ -51,6 +51,7 @@ export JENKINS_INSTALL_PLUGINS=(
     'parameterized-trigger'
     'project-inheritance'
     'publish-over-ssh'
+    'rebuild'
     'run-condition'
     'slack'
     'template-workflows'
