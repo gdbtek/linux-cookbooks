@@ -101,6 +101,8 @@ function install()
 
     # Update Default Prompt
 
+    echo -e "Updating '\033[1;32m'/etc/skel/.profile'\033[0m'"
+
     prompt="export PS1=\"${PS1_USER_PROMPT}\""
 
     appendToFileIfNotFound '/etc/skel/.profile' "${prompt}" "${prompt}" 'false' 'false' 'true'
