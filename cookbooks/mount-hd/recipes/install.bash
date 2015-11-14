@@ -28,7 +28,6 @@ function install()
         df -h -T
     else
         resetPartition "${disk}"
-        sleep 5
         createPartition "${disk}"
 
         mkfs -t "${MOUNT_HD_FS_TYPE}" "${newDisk}"
