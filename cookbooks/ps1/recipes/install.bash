@@ -98,6 +98,12 @@ function install()
             warn "WARN : profile '${user}' not found"
         fi
     done
+
+    # Update Default Prompt
+
+    prompt="export PS1=\"${PS1_USER_PROMPT}\""
+
+    appendToFileIfNotFound '/etc/skel/.profile' "${prompt}" "${prompt}" 'false' 'false' 'true'
 }
 
 function main()
