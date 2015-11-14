@@ -16,7 +16,7 @@ function install()
 
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin "${pluginList[@]}"
     else
-        info "No installs/updates available"
+        info 'No installs/updates available'
     fi
 }
 

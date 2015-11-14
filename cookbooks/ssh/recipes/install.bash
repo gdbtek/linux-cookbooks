@@ -20,7 +20,7 @@ function install()
 
     if [[ "$(isPortOpen '22')" = 'false' ]]
     then
-        fatal "\nFATAL : ssh service start failed"
+        fatal '\nFATAL : ssh service start failed'
     fi
 }
 

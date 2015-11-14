@@ -200,7 +200,7 @@ function main()
 
     if [[ "$(isEmptyString "${command}")" = 'true' ]]
     then
-        error "\nERROR : command not found"
+        error '\nERROR : command not found'
         displayUsage 1
     fi
 
@@ -208,7 +208,7 @@ function main()
 
     if [[ "${machineType}" != 'masters' && "${machineType}" != 'slaves' && "${machineType}" != 'masters-slaves' && "${machineType}" != 'slaves-masters' ]]
     then
-        error "\nERROR : machineType must be 'masters', 'slaves', 'masters-slaves', or 'slaves-masters'"
+        error '\nERROR : machineType must be masters, slaves, masters-slaves, or slaves-masters'
         displayUsage 1
     fi
 

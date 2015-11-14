@@ -94,7 +94,7 @@ function checkValidJSONContent()
 
     if [[ "$(isValidJSONContent "${content}")" = 'false' ]]
     then
-        fatal "\nFATAL : invalid JSON"
+        fatal '\nFATAL : invalid JSON'
     fi
 }
 
@@ -323,7 +323,7 @@ function unzipRemoteFile()
 
         if [[ "$(existCommand 'unzip')" = 'false' ]]
         then
-            fatal "FATAL : command 'unzip' not found"
+            fatal 'FATAL : command unzip not found'
         fi
 
         local -r zipFile="${installFolder}/$(basename "${downloadURL}")"
@@ -464,7 +464,7 @@ function isPIPPackageInstall()
 
     if [[ "$(existCommand 'pip')" = 'false' ]]
     then
-        fatal "FATAL : command 'python-pip' not found"
+        fatal 'FATAL : command python-pip not found'
     fi
 
     local -r found="$(pip list | grep -E -o "^${package}\s+\(.*\)$")"
@@ -491,7 +491,7 @@ function runAptGetUpdate()
 
     if [[ "${lastAptGetUpdate}" -gt "${updateInterval}" ]]
     then
-        info "apt-get update"
+        info 'apt-get update'
         apt-get update -m
     else
         local -r lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
@@ -504,19 +504,19 @@ function runAptGetUpgrade()
 {
     runAptGetUpdate ''
 
-    info "\napt-get upgrade"
+    info '\napt-get upgrade'
     DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
 
-    info "\napt-get dist-upgrade"
+    info '\napt-get dist-upgrade'
     DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
 
-    info "\napt-get autoremove"
+    info '\napt-get autoremove'
     DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoremove
 
-    info "\napt-get clean"
+    info '\napt-get clean'
     DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
 
-    info "\napt-get autoclean"
+    info '\napt-get autoclean'
     DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoclean
 }
 
@@ -546,7 +546,7 @@ function checkNonEmptyString()
     then
         if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
         then
-            fatal "\nFATAL : empty value detected"
+            fatal '\nFATAL : empty value detected'
         fi
 
         fatal "\nFATAL : ${errorMessage}"
@@ -900,12 +900,12 @@ function checkRequireSystem()
 {
     if [[ "$(isUbuntuDistributor)" = 'false' ]]
     then
-        fatal "\nFATAL : non 'Ubuntu' OS found"
+        fatal '\nFATAL : non Ubuntu OS found'
     fi
 
     if [[ "$(is64BitSystem)" = 'false' ]]
     then
-        fatal "\nFATAL : non 'x86_64' OS found"
+        fatal '\nFATAL : non x86_64 OS found'
     fi
 }
 
@@ -921,7 +921,7 @@ function checkRequireUserLogin()
 
 function cleanUpSystemFolders()
 {
-    header "CLEANING UP SYSTEM FOLDERS"
+    header 'CLEANING UP SYSTEM FOLDERS'
 
     local -r folders=(
         '/tmp'
@@ -1301,7 +1301,7 @@ function isPortOpen()
     then
         local -r process="$(lsof -i -n -P | grep -E -i ":${port}\s+\(LISTEN\)$" | head -1)"
     else
-        fatal "\nFATAL : operating system not supported"
+        fatal '\nFATAL : operating system not supported'
     fi
 
     if [[ "$(isEmptyString "${process}")" = 'true' ]]
