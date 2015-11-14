@@ -55,6 +55,16 @@ function install()
 
     createFileFromTemplate "${appPath}/../templates/tomcat.conf.upstart" "/etc/init/${TOMCAT_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
+    # Config Cron
+
+    local -r cronConfigData=(
+        '__USER_NAME__' "${TOMCAT_USER_NAME}"
+        '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
+        '__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}"
+    )
+
+    createFileFromTemplate "${appPath}/../templates/tomcat.cron" '/etc/cron.daily/tomcat' "${cronConfigData[@]}"
+
     # Start
 
     chown -R "${TOMCAT_USER_NAME}:${TOMCAT_GROUP_NAME}" "${TOMCAT_INSTALL_FOLDER}"

@@ -49,6 +49,16 @@ function install()
 
     createFileFromTemplate "${appPath}/../templates/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
 
+    # Config Cron
+
+    local -r cronConfigData=(
+        '__USER_NAME__' "${JENKINS_USER_NAME}"
+        '__GROUP_NAME__' "${JENKINS_GROUP_NAME}"
+        '__INSTALL_FOLDER__' "${JENKINS_INSTALL_FOLDER}"
+    )
+
+    createFileFromTemplate "${appPath}/../templates/jenkins.cron" '/etc/cron.daily/jenkins' "${cronConfigData[@]}"
+
     # Install
 
     jenkinsMasterDownloadWARApp
