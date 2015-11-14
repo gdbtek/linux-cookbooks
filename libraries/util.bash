@@ -1296,7 +1296,7 @@ function isPortOpen()
 
     if [[ "$(isLinuxOperatingSystem)" = 'true' ]]
     then
-        local -r process="$(netstat -l -n -t -u | grep -E ":${port}\s+" | head -1)"
+        local -r process="$(netstat -a -l -n -t -u | grep -E ":${port}\s+" | head -1)"
     elif [[ "$(isMacOperatingSystem)" = 'true' ]]
     then
         local -r process="$(lsof -i -n -P | grep -E -i ":${port}\s+\(LISTEN\)$" | head -1)"
