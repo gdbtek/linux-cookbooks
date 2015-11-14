@@ -58,6 +58,7 @@ function install()
     )
 
     createFileFromTemplate "${appPath}/../templates/jenkins.cron" '/etc/cron.daily/jenkins' "${cronConfigData[@]}"
+    chmod 755 '/etc/cron.daily/jenkins'
 
     # Install
 

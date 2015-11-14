@@ -64,6 +64,7 @@ function install()
     )
 
     createFileFromTemplate "${appPath}/../templates/tomcat.cron" '/etc/cron.daily/tomcat' "${cronConfigData[@]}"
+    chmod 755 '/etc/cron.daily/tomcat'
 
     # Start
 
