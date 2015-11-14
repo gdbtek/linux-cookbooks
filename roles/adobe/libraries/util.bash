@@ -10,6 +10,8 @@ function cleanUpITMess
     rm -f -r '/opt/chef' '/opt/lost+found'
 
     touch '/var/log/wtmp'
+
+    rm -f '/etc/motd'
 }
 
 function displayNotice()
