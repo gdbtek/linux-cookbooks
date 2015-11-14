@@ -53,9 +53,9 @@ function resetPartition()
 
     local -r mountOn="$(df "${disk}" --output='target' | tail -1)"
 
-    if [[ "$(isEmptyString "${mountOn}")" = 'false' ]]
+    if [[ "$(isEmptyString "${mountOn}")" = 'false' && "$(dirname "${mountOn}")" != '/' ]]
     then
-        umount -l -v "${mountOn}"
+        umount -v "${mountOn}"
     fi
 }
 
