@@ -1088,6 +1088,20 @@ function existModule()
     fi
 }
 
+function existMount()
+{
+    local -r mountOn="$(escapeGrepSearchPattern "${1}")"
+
+    local -r foundMount="$(df | grep -E ".*\s+${mountOn}$")"
+
+    if [[ "$(isEmptyString "${foundMount}")" = 'true' ]]
+    then
+        echo 'false'
+    else
+        echo 'true'
+    fi
+}
+
 function existUserLogin()
 {
     local -r user="${1}"
@@ -1342,7 +1356,12 @@ function remountTMP()
 {
     header 'RE-MOUNTING TMP'
 
-    mount -o 'remount,rw,exec,nosuid' -v '/tmp'
+    if [[ "$(existMount '/tmp')" = 'true' ]]
+    then
+        mount -o 'remount,rw,exec,nosuid' -v '/tmp'
+    else
+        warn 'Mount /tmp not found'
+    fi
 }
 
 function resetLogs()
