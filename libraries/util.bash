@@ -1338,6 +1338,13 @@ function isUserLoginInGroupName()
     fi
 }
 
+function remountTMP()
+{
+    header 'RE-MOUNTING TMP'
+
+    mount -o 'remount,rw,exec,nosuid' -v '/tmp'
+}
+
 function resetLogs()
 {
     header 'RESETTING LOGS'
