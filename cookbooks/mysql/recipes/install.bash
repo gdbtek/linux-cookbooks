@@ -23,7 +23,7 @@ function install()
     ln -f -s "${MYSQL_INSTALL_FOLDER}" "/usr/local/$(getFileName "${MYSQL_INSTALL_FOLDER}")"
     chown -R "${MYSQL_USER_NAME}:${MYSQL_GROUP_NAME}" "${MYSQL_INSTALL_FOLDER}"
     cd "${MYSQL_INSTALL_FOLDER}"
-    "${MYSQL_INSTALL_FOLDER}/scripts/mysql_install_db" --user="${MYSQL_USER_NAME}"
+    "${MYSQL_INSTALL_FOLDER}/bin/mysql_install_db" --user="${MYSQL_USER_NAME}"
     chown -R "$(whoami)" "${MYSQL_INSTALL_FOLDER}"
     chown -R "${MYSQL_USER_NAME}" "${MYSQL_INSTALL_FOLDER}/data"
     cd "${currentPath}"
