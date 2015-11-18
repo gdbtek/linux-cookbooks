@@ -691,7 +691,7 @@ function trimString()
 {
     local -r string="${1}"
 
-    sed -e 's/^ *//g' -e 's/ *$//g' <<< "${string}"
+    sed -e 's/^\s*//g' -e 's/\s*$//g' <<< "${string}"
 }
 
 function warn()
