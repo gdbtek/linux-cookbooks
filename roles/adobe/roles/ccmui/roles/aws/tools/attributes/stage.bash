@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-export SSH_LOGIN='ec2-user'
+export SSH_LOGIN='ubuntu'
 export SSH_IDENTITY_FILE='/Volumes/Data/Data/Keys/ssh/adobe/aws/ccmui/stage.pem'
 
 export MASTER_SERVERS=(
