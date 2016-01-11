@@ -24,6 +24,7 @@ function main()
     "${appPath}/../../../../../../essential.bash" 'ops.ccmui.adobe.com'
     "${appPath}/../../../../../../../cookbooks/mongodb/recipes/install.bash"
     "${appPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CCMUI_OPS_NODE_JS_VERSION}" "${CCMUI_OPS_NODE_JS_INSTALL_FOLDER}"
+    "${appPath}/../../../../../../../cookbooks/nginx/recipes/install.bash" "${CCMUI_OPS_NODE_JS_VERSION}" "${CCMUI_OPS_NODE_JS_INSTALL_FOLDER}"
 
     # Config SSH and GIT
 
