@@ -28,7 +28,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${WRK_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appFolderPath}/../templates/wrk.sh.profile" '/etc/profile.d/wrk.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/wrk.sh.profile" '/etc/profile.d/wrk.sh' "${profileConfigData[@]}"
 
     # Display Version
 
@@ -37,10 +37,10 @@ function install()
 
 function main()
 {
-    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/default.bash"
+    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
+    source "${APP_FOLDER_PATH}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

@@ -10,7 +10,7 @@ function extend()
         if [[ "$(existDiskMount "${disk}${MOUNT_HD_PARTITION_NUMBER}" "${mountOn}")" = 'false' ]]
         then
             rm -f -r -v "${mountOn}"
-            "${appFolderPath}/install.bash" "${disk}" "${mountOn}"
+            "${APP_FOLDER_PATH}/install.bash" "${disk}" "${mountOn}"
         else
             info "Already mounted '${disk}${MOUNT_HD_PARTITION_NUMBER}' to '${mountOn}'\n"
             df -h -T
@@ -22,10 +22,10 @@ function extend()
 
 function main()
 {
-    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/default.bash"
+    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
+    source "${APP_FOLDER_PATH}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

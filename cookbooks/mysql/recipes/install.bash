@@ -32,7 +32,7 @@ function install()
 
     local -r serverConfigData=('__PORT__' "${MYSQL_PORT}")
 
-    createFileFromTemplate "${appFolderPath}/../templates/my.cnf.conf" "${MYSQL_INSTALL_FOLDER}/my.cnf" "${serverConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/my.cnf.conf" "${MYSQL_INSTALL_FOLDER}/my.cnf" "${serverConfigData[@]}"
 
     # Config Service
 
@@ -43,7 +43,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${MYSQL_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appFolderPath}/../templates/mysql.sh.profile" '/etc/profile.d/mysql.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/mysql.sh.profile" '/etc/profile.d/mysql.sh' "${profileConfigData[@]}"
 
     # Start
 
@@ -152,10 +152,10 @@ DONE
 
 function main()
 {
-    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/default.bash"
+    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
+    source "${APP_FOLDER_PATH}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

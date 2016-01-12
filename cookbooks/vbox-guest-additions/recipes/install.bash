@@ -23,7 +23,7 @@ function install()
 
     # Config Upstart
 
-    cp "${appFolderPath}/../files/vbox-guest-additions.conf.upstart" '/etc/init/vbox-guest-additions.conf'
+    cp "${APP_FOLDER_PATH}/../files/vbox-guest-additions.conf.upstart" '/etc/init/vbox-guest-additions.conf'
 
     # Check Service Status
 
@@ -33,10 +33,10 @@ function install()
 
 function main()
 {
-    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/default.bash"
+    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
+    source "${APP_FOLDER_PATH}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

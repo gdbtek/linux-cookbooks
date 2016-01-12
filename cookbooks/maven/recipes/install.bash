@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'java')" = 'false' || ! -d "${MAVEN_JDK_INSTALL_FOLDER}" ]]
     then
-        "${appFolderPath}/../../jdk/recipes/install.bash" "${MAVEN_JDK_INSTALL_FOLDER}"
+        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${MAVEN_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -27,7 +27,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${MAVEN_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appFolderPath}/../templates/maven.sh.profile" '/etc/profile.d/maven.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/maven.sh.profile" '/etc/profile.d/maven.sh' "${profileConfigData[@]}"
 
     # Display Version
 
@@ -36,10 +36,10 @@ function install()
 
 function main()
 {
-    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/default.bash"
+    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
+    source "${APP_FOLDER_PATH}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

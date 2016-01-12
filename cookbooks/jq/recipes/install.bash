@@ -18,7 +18,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${JQ_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appFolderPath}/../templates/jq.sh.profile" '/etc/profile.d/jq.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/jq.sh.profile" '/etc/profile.d/jq.sh' "${profileConfigData[@]}"
 
     # Display Version
 
@@ -27,10 +27,10 @@ function install()
 
 function main()
 {
-    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/default.bash"
+    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
+    source "${APP_FOLDER_PATH}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

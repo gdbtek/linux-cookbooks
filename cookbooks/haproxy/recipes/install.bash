@@ -6,7 +6,7 @@ function installDependencies()
 
     if [[ ! -f "${PCRE_INSTALL_FOLDER}/bin/pcregrep" ]]
     then
-        "${appFolderPath}/../../pcre/recipes/install.bash"
+        "${APP_FOLDER_PATH}/../../pcre/recipes/install.bash"
     fi
 }
 
@@ -35,13 +35,13 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appFolderPath}/../templates/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
 
     # Config Default Config
 
     local -r configData=('__PORT__' "${HAPROXY_PORT}")
 
-    createFileFromTemplate "${appFolderPath}/../templates/haproxy.conf.conf" '/etc/haproxy/haproxy.cfg' "${configData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/haproxy.conf.conf" '/etc/haproxy/haproxy.cfg' "${configData[@]}"
 
     # Start
 
@@ -60,10 +60,10 @@ function install()
 
 function main()
 {
-    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/default.bash"
+    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
+    source "${APP_FOLDER_PATH}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser
