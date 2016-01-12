@@ -8,7 +8,7 @@ function install()
 
     # Install
 
-    curl -b 'oraclelicense=accept-securebackup-cookie' -C - -s -L "${JDK_DOWNLOAD_URL}" --retry 12 --retry-delay 5 | \
+    curl -b 'oraclelicense=accept-securebackup-cookie' -C - -L "${JDK_DOWNLOAD_URL}" --retry 12 --retry-delay 5 | \
     tar -C "${JDK_INSTALL_FOLDER}" -x -z --strip 1
 
     # Config Lib
