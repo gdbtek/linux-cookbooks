@@ -2,11 +2,11 @@
 
 function main()
 {
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    "${appPath}/essential.bash"
+    "${appFolderPath}/essential.bash"
 
-    "${appPath}/../cookbooks/elastic-search/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/elastic-search/recipes/install.bash"
 }
 
 main "${@}"

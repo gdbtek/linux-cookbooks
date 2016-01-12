@@ -4,7 +4,7 @@ function install()
 {
     # Install
 
-    local -r sourceListFile="${appPath}/../files/$(getMachineRelease).list.conf"
+    local -r sourceListFile="${appFolderPath}/../files/$(getMachineRelease).list.conf"
 
     if [[ -f "${sourceListFile}" ]]
     then
@@ -18,9 +18,9 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
 
     checkRequireSystem
     checkRequireRootUser

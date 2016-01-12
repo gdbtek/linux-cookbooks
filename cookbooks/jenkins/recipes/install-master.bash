@@ -6,14 +6,14 @@ function installDependencies()
 
     if [[ "$(existCommand 'groovy')" = 'false' || ! -d "${JENKINS_GROOVY_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../groovy/recipes/install.bash" "${JENKINS_GROOVY_INSTALL_FOLDER}"
+        "${appFolderPath}/../../groovy/recipes/install.bash" "${JENKINS_GROOVY_INSTALL_FOLDER}"
     fi
 
     # Tomcat
 
     if [[ ! -f "${JENKINS_TOMCAT_INSTALL_FOLDER}/bin/catalina.sh" ]]
     then
-        "${appPath}/../../tomcat/recipes/install.bash" "${JENKINS_TOMCAT_INSTALL_FOLDER}"
+        "${appFolderPath}/../../tomcat/recipes/install.bash" "${JENKINS_TOMCAT_INSTALL_FOLDER}"
     fi
 }
 
@@ -47,7 +47,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${JENKINS_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
 
     # Config Cron
 
@@ -57,7 +57,7 @@ function install()
         '__INSTALL_FOLDER__' "${JENKINS_INSTALL_FOLDER}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/jenkins.cron" '/etc/cron.daily/jenkins' "${cronConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/jenkins.cron" '/etc/cron.daily/jenkins' "${cronConfigData[@]}"
     chmod 755 '/etc/cron.daily/jenkins'
 
     # Install
@@ -72,11 +72,11 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/master.bash"
-    source "${appPath}/../libraries/util.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/master.bash"
+    source "${appFolderPath}/../libraries/util.bash"
 
     checkRequireSystem
     checkRequireRootUser

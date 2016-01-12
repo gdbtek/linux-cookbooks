@@ -111,11 +111,11 @@ function run()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     local -r optCount="${#}"
 
-    source "${appPath}/../libraries/util.bash"
+    source "${appFolderPath}/../libraries/util.bash"
 
     while [[ "${#}" -gt '0' ]]
     do

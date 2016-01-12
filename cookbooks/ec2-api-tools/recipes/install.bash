@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'java')" = 'false' || ! -d "${EC2_API_TOOLS_JDK_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${EC2_API_TOOLS_JDK_INSTALL_FOLDER}"
+        "${appFolderPath}/../../jdk/recipes/install.bash" "${EC2_API_TOOLS_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -39,15 +39,15 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${EC2_API_TOOLS_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/ec2-api-tools.sh.profile" '/etc/profile.d/ec2-api-tools.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/ec2-api-tools.sh.profile" '/etc/profile.d/ec2-api-tools.sh' "${profileConfigData[@]}"
 }
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

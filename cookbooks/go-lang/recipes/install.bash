@@ -22,7 +22,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${GO_LANG_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/go-lang.sh.profile" '/etc/profile.d/go-lang.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/go-lang.sh.profile" '/etc/profile.d/go-lang.sh' "${profileConfigData[@]}"
 
     # Display Version
 
@@ -34,10 +34,10 @@ function main()
 {
     local -r installFolder="${1}"
 
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

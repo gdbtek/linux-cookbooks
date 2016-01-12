@@ -111,10 +111,10 @@ function install()
 
 function main()
 {
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     while [[ "${#}" -gt '0' ]]
     do

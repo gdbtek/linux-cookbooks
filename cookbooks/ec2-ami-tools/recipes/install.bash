@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${EC2_AMI_TOOLS_RUBY_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../ruby/recipes/install.bash" "${EC2_AMI_TOOLS_RUBY_INSTALL_FOLDER}"
+        "${appFolderPath}/../../ruby/recipes/install.bash" "${EC2_AMI_TOOLS_RUBY_INSTALL_FOLDER}"
     fi
 }
 
@@ -40,7 +40,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${EC2_AMI_TOOLS_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/ec2-ami-tools.sh.profile" '/etc/profile.d/ec2-ami-tools.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/ec2-ami-tools.sh.profile" '/etc/profile.d/ec2-ami-tools.sh' "${profileConfigData[@]}"
 
     # Display Version
 
@@ -49,10 +49,10 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

@@ -27,7 +27,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${CABAL_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/cabal.sh.profile" '/etc/profile.d/cabal.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/cabal.sh.profile" '/etc/profile.d/cabal.sh' "${profileConfigData[@]}"
 
     # Display Version
 
@@ -38,10 +38,10 @@ function install()
 
 function main()
 {
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

@@ -4,11 +4,11 @@ function main()
 {
     # Load Libraries
 
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../../../../../libraries/util.bash"
-    source "${appPath}/../../../../../libraries/util.bash"
-    source "${appPath}/../attributes/hub.bash"
+    source "${appFolderPath}/../../../../../../../libraries/util.bash"
+    source "${appFolderPath}/../../../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/hub.bash"
 
     # Clean Up
 
@@ -17,16 +17,16 @@ function main()
 
     # Extend HD
 
-    "${appPath}/../../../../../../../cookbooks/mount-hd/recipes/extend.bash" "${CCMUI_SELENIUM_SERVER_DISK}" "${CCMUI_SELENIUM_SERVER_MOUNT_ON}"
+    "${appFolderPath}/../../../../../../../cookbooks/mount-hd/recipes/extend.bash" "${CCMUI_SELENIUM_SERVER_DISK}" "${CCMUI_SELENIUM_SERVER_MOUNT_ON}"
 
     # Install Apps
 
-    "${appPath}/../../../../../../essential.bash" 'selenium.ccmui.adobe.com'
-    "${appPath}/../../../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
+    "${appFolderPath}/../../../../../../essential.bash" 'selenium.ccmui.adobe.com'
+    "${appFolderPath}/../../../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
 
     # Config SSH
 
-    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/authorized_keys")"
+    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../files/authorized_keys")"
 
     # Config Hosts
 

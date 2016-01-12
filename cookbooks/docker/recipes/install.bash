@@ -36,7 +36,7 @@ function install()
     # Config AUFS Upstart
 
     header 'UPDATING AUFS UPSTART'
-    cp -f "${appPath}/../files/aufs.conf.upstart" '/etc/init/aufs.conf'
+    cp -f "${appFolderPath}/../files/aufs.conf.upstart" '/etc/init/aufs.conf'
 
     # Display Version
 
@@ -52,10 +52,10 @@ function install()
 
 function main()
 {
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

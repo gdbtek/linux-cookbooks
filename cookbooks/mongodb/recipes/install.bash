@@ -16,7 +16,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${MONGODB_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/mongodb.sh.profile" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/mongodb.sh.profile" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -28,7 +28,7 @@ function install()
         '__PORT__' "${MONGODB_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/mongodb.conf.upstart" "/etc/init/${MONGODB_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/mongodb.conf.upstart" "/etc/init/${MONGODB_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
     chown -R "$(whoami):$(whoami)" "${MONGODB_INSTALL_FOLDER}"
 
     # Start
@@ -48,10 +48,10 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

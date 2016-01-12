@@ -2,14 +2,14 @@
 
 function main()
 {
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    "${appPath}/essential.bash"
+    "${appFolderPath}/essential.bash"
 
-    "${appPath}/../cookbooks/node-js/recipes/install.bash"
-    "${appPath}/../cookbooks/redis/recipes/install.bash"
-    "${appPath}/../cookbooks/mongodb/recipes/install.bash"
-    "${appPath}/../cookbooks/nginx/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/node-js/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/redis/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/mongodb/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/nginx/recipes/install.bash"
 }
 
 main "${@}"

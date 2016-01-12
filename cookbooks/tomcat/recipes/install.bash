@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'java')" = 'false' || ! -d "${TOMCAT_JDK_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${TOMCAT_JDK_INSTALL_FOLDER}"
+        "${appFolderPath}/../../jdk/recipes/install.bash" "${TOMCAT_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -33,7 +33,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/tomcat.sh.profile" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/tomcat.sh.profile" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 
     # Add User
 
@@ -53,7 +53,7 @@ function install()
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/tomcat.conf.upstart" "/etc/init/${TOMCAT_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/tomcat.conf.upstart" "/etc/init/${TOMCAT_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Config Cron
 
@@ -63,7 +63,7 @@ function install()
         '__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/tomcat.cron" '/etc/cron.daily/tomcat' "${cronConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/tomcat.cron" '/etc/cron.daily/tomcat' "${cronConfigData[@]}"
     chmod 755 '/etc/cron.daily/tomcat'
 
     # Start
@@ -84,10 +84,10 @@ function main()
 {
     local -r installFolder="${1}"
 
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

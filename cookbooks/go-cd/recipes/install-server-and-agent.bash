@@ -2,15 +2,15 @@
 
 function install()
 {
-    "${appPath}/install-server.bash"
-    "${appPath}/install-agent.bash"
+    "${appFolderPath}/install-server.bash"
+    "${appFolderPath}/install-agent.bash"
 }
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
 
     checkRequireSystem
     checkRequireRootUser

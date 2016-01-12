@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'java')" = 'false' || ! -d "${JENKINS_JDK_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${JENKINS_JDK_INSTALL_FOLDER}"
+        "${appFolderPath}/../../jdk/recipes/install.bash" "${JENKINS_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -16,10 +16,10 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/slave.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/slave.bash"
 
     checkRequireSystem
     checkRequireRootUser

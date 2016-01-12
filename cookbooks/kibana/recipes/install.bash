@@ -22,7 +22,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${KIBANA_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/kibana.sh.profile" '/etc/profile.d/kibana.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/kibana.sh.profile" '/etc/profile.d/kibana.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -32,7 +32,7 @@ function install()
         '__GROUP_NAME__' "${KIBANA_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/kibana.conf.upstart" "/etc/init/${KIBANA_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/kibana.conf.upstart" "/etc/init/${KIBANA_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 
@@ -47,11 +47,11 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
-    source "${appPath}/../../nginx/attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../nginx/attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

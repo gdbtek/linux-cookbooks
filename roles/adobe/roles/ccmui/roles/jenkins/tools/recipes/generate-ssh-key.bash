@@ -14,20 +14,20 @@ function main()
 {
     local -r attributeFile="${1}"
 
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../../../../../../cookbooks/tomcat/attributes/default.bash"
+    source "${appFolderPath}/../../../../../../../../cookbooks/tomcat/attributes/default.bash"
 
     # Master
 
-    "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
+    "${appFolderPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${attributeFile}" \
         --command "$(getCommands "${TOMCAT_USER_NAME}")" \
         --machine-type 'masters'
 
     # Slave
 
-    "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
+    "${appFolderPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${attributeFile}" \
         --command "$(getCommands 'root')" \
         --machine-type 'slaves'

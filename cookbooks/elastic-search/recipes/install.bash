@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'java')" = 'false' || ! -d "${ELASTIC_SEARCH_JDK_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${ELASTIC_SEARCH_JDK_INSTALL_FOLDER}"
+        "${appFolderPath}/../../jdk/recipes/install.bash" "${ELASTIC_SEARCH_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -22,7 +22,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${ELASTIC_SEARCH_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/elastic-search.sh.profile" '/etc/profile.d/elastic-search.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/elastic-search.sh.profile" '/etc/profile.d/elastic-search.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
@@ -33,7 +33,7 @@ function install()
         '__GROUP_NAME__' "${ELASTIC_SEARCH_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/elastic-search.conf.upstart" "/etc/init/${ELASTIC_SEARCH_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/elastic-search.conf.upstart" "/etc/init/${ELASTIC_SEARCH_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 
@@ -52,10 +52,10 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

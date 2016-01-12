@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${GHOST_NODE_JS_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../node-js/recipes/install.bash" "${GHOST_NODE_JS_VERSION}" "${GHOST_NODE_JS_INSTALL_FOLDER}"
+        "${appFolderPath}/../../node-js/recipes/install.bash" "${GHOST_NODE_JS_VERSION}" "${GHOST_NODE_JS_INSTALL_FOLDER}"
     fi
 }
 
@@ -39,7 +39,7 @@ function install()
         '__TESTING_PORT__' "${GHOST_TESTING_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/config.js.conf" "${GHOST_INSTALL_FOLDER}/config.js" "${serverConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/config.js.conf" "${GHOST_INSTALL_FOLDER}/config.js" "${serverConfigData[@]}"
 
     # Config Upstart
 
@@ -50,7 +50,7 @@ function install()
         '__GROUP_NAME__' "${GHOST_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/ghost.conf.upstart" "/etc/init/${GHOST_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/ghost.conf.upstart" "/etc/init/${GHOST_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 
@@ -65,10 +65,10 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

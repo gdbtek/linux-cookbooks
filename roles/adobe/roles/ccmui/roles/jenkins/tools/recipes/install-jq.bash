@@ -4,7 +4,7 @@ function main()
 {
     local -r attributeFile="${1}"
 
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     local -r command="cd /tmp &&
                       sudo rm -f -r ubuntu-cookbooks &&
@@ -12,7 +12,7 @@ function main()
                       sudo /tmp/ubuntu-cookbooks/cookbooks/jq/recipes/install.bash
                       sudo rm -f -r /tmp/ubuntu-cookbooks"
 
-    "${appPath}/../../../../../../../../tools/run-remote-command.bash" \
+    "${appFolderPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${attributeFile}" \
         --command "${command}" \
         --machine-type 'masters-slaves'

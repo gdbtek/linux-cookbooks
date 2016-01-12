@@ -4,11 +4,11 @@ function main()
 {
     # Load Libraries
 
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../../../libraries/util.bash"
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../../../libraries/util.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     # Clean Up
 
@@ -17,23 +17,23 @@ function main()
 
     # Extend HD
 
-    "${appPath}/../../../../../cookbooks/mount-hd/recipes/extend.bash" "${NAMNGUYE_DISK}" "${NAMNGUYE_MOUNT_ON}"
+    "${appFolderPath}/../../../../../cookbooks/mount-hd/recipes/extend.bash" "${NAMNGUYE_DISK}" "${NAMNGUYE_MOUNT_ON}"
 
     # Install Apps
 
-    "${appPath}/../../../../essential.bash" 'nam-itc'
-    "${appPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/chef/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/foodcritic/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/go-lang/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${NAMNGUYE_NODE_JS_VERSION}" "${NAMNGUYE_NODE_JS_INSTALL_FOLDER}"
-    "${appPath}/../../../../../cookbooks/packer/recipes/install.bash"
-    "${appPath}/../../../../../cookbooks/shell-check/recipes/install.bash"
+    "${appFolderPath}/../../../../essential.bash" 'nam-itc'
+    "${appFolderPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
+    "${appFolderPath}/../../../../../cookbooks/chef/recipes/install.bash"
+    "${appFolderPath}/../../../../../cookbooks/foodcritic/recipes/install.bash"
+    "${appFolderPath}/../../../../../cookbooks/go-lang/recipes/install.bash"
+    "${appFolderPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${NAMNGUYE_NODE_JS_VERSION}" "${NAMNGUYE_NODE_JS_INSTALL_FOLDER}"
+    "${appFolderPath}/../../../../../cookbooks/packer/recipes/install.bash"
+    "${appFolderPath}/../../../../../cookbooks/shell-check/recipes/install.bash"
 
     # Config SSH and GIT
 
-    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/authorized_keys")"
-    addUserSSHKnownHost "$(whoami)" "$(whoami)" "$(cat "${appPath}/../files/known_hosts")"
+    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../files/authorized_keys")"
+    addUserSSHKnownHost "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../files/known_hosts")"
 
     configUserGIT "$(whoami)" "${NAMNGUYE_GIT_USER_NAME}" "${NAMNGUYE_GIT_USER_EMAIL}"
     generateUserSSHKey "$(whoami)"

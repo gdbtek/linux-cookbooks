@@ -17,7 +17,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${PACKER_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/packer.sh.profile" '/etc/profile.d/packer.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/packer.sh.profile" '/etc/profile.d/packer.sh' "${profileConfigData[@]}"
 
     # Display Version
 
@@ -26,10 +26,10 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

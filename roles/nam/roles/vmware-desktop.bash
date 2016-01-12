@@ -2,20 +2,20 @@
 
 function main()
 {
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local -r firstLoginUser='nam'
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../libraries/util.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../libraries/util.bash"
 
-    "${appPath}/../../../cookbooks/essential/recipes/install.bash"
-    "${appPath}/../../../cookbooks/jdk/recipes/install.bash"
-    "${appPath}/../../../cookbooks/jq/recipes/install.bash"
-    "${appPath}/../../../cookbooks/ps1/recipes/install.bash"
-    "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --profile-file-name '.bashrc' --users "${firstLoginUser}"
-    "${appPath}/../../../cookbooks/ssh/recipes/install.bash"
-    "${appPath}/../../../cookbooks/vim/recipes/install.bash"
-    "${appPath}/../../../cookbooks/vmware-tools/recipes/install.bash"
+    "${appFolderPath}/../../../cookbooks/essential/recipes/install.bash"
+    "${appFolderPath}/../../../cookbooks/jdk/recipes/install.bash"
+    "${appFolderPath}/../../../cookbooks/jq/recipes/install.bash"
+    "${appFolderPath}/../../../cookbooks/ps1/recipes/install.bash"
+    "${appFolderPath}/../../../cookbooks/ps1/recipes/install.bash" --profile-file-name '.bashrc' --users "${firstLoginUser}"
+    "${appFolderPath}/../../../cookbooks/ssh/recipes/install.bash"
+    "${appFolderPath}/../../../cookbooks/vim/recipes/install.bash"
+    "${appFolderPath}/../../../cookbooks/vmware-tools/recipes/install.bash"
 
     addUserToSudoWithoutPassword "${firstLoginUser}"
     autoSudo "${firstLoginUser}" '.bashrc'
@@ -23,7 +23,7 @@ function main()
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
 
-    addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appPath}/../files/authorized_keys")"
+    addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../files/authorized_keys")"
 
     cleanUpSystemFolders
     resetLogs

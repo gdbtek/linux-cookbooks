@@ -3,14 +3,14 @@
 function install()
 {
     installAptGetPackages 'vim'
-    cp -f "${appPath}/../files/vimrc.local.conf" '/etc/vim/vimrc.local'
+    cp -f "${appFolderPath}/../files/vimrc.local.conf" '/etc/vim/vimrc.local'
 }
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
 
     checkRequireSystem
     checkRequireRootUser

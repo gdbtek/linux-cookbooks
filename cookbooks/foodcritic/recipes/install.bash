@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${FOODCRITIC_RUBY_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../ruby/recipes/install.bash" "${FOODCRITIC_RUBY_INSTALL_FOLDER}"
+        "${appFolderPath}/../../ruby/recipes/install.bash" "${FOODCRITIC_RUBY_INSTALL_FOLDER}"
     fi
 }
 
@@ -26,10 +26,10 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

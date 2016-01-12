@@ -56,7 +56,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${NODE_JS_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
     # Clean Up
 
@@ -88,10 +88,10 @@ function main()
     local -r version="${1}"
     local -r installFolder="${2}"
 
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

@@ -2,14 +2,14 @@
 
 function main()
 {
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     local -r firstLoginUser='nam'
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../libraries/util.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../libraries/util.bash"
 
-    "${appPath}/../../../cookbooks/ps1/recipes/install.bash" --users "${firstLoginUser}, $(whoami)"
-    "${appPath}/../../../cookbooks/ssh/recipes/install.bash"
+    "${appFolderPath}/../../../cookbooks/ps1/recipes/install.bash" --users "${firstLoginUser}, $(whoami)"
+    "${appFolderPath}/../../../cookbooks/ssh/recipes/install.bash"
 
     addUserToSudoWithoutPassword "${firstLoginUser}"
     autoSudo "${firstLoginUser}" '.profile'
@@ -17,7 +17,7 @@ function main()
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
 
-    addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appPath}/../files/authorized_keys")"
+    addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../files/authorized_keys")"
 
     cleanUpSystemFolders
     resetLogs

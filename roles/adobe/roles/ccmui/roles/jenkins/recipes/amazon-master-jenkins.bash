@@ -4,12 +4,12 @@ function main()
 {
     # Load Libraries
 
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../../../../../cookbooks/jenkins/attributes/master.bash"
-    source "${appPath}/../../../../../../../cookbooks/nginx/attributes/default.bash"
-    source "${appPath}/../../../../../../../libraries/util.bash"
-    source "${appPath}/../attributes/amazon-master.bash"
+    source "${appFolderPath}/../../../../../../../cookbooks/jenkins/attributes/master.bash"
+    source "${appFolderPath}/../../../../../../../cookbooks/nginx/attributes/default.bash"
+    source "${appFolderPath}/../../../../../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/amazon-master.bash"
 
     # Clean Up
 
@@ -17,24 +17,24 @@ function main()
 
     # Extend HD
 
-    "${appPath}/../../../../../../../cookbooks/mount-hd/recipes/extend.bash" "${CCMUI_JENKINS_DISK}" "${CCMUI_JENKINS_MOUNT_ON}"
+    "${appFolderPath}/../../../../../../../cookbooks/mount-hd/recipes/extend.bash" "${CCMUI_JENKINS_DISK}" "${CCMUI_JENKINS_MOUNT_ON}"
 
     # Install Apps
 
     local -r hostName='jenkins-pub.ccmui.adobe.com'
 
-    "${appPath}/../../../../../../essential.bash" "${hostName}"
-    "${appPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
-    "${appPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CCMUI_JENKINS_NODE_JS_VERSION}" "${CCMUI_JENKINS_NODE_JS_INSTALL_FOLDER}"
-    "${appPath}/../../../../../../../cookbooks/jenkins/recipes/install-master.bash"
-    "${appPath}/../../../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${CCMUI_JENKINS_INSTALL_PLUGINS[@]}"
-    "${appPath}/../../../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
-    "${appPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
-    "${appPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami), ubuntu"
+    "${appFolderPath}/../../../../../../essential.bash" "${hostName}"
+    "${appFolderPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CCMUI_JENKINS_NODE_JS_VERSION}" "${CCMUI_JENKINS_NODE_JS_INSTALL_FOLDER}"
+    "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-master.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${CCMUI_JENKINS_INSTALL_PLUGINS[@]}"
+    "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami), ubuntu"
 
     # Config Nginx
 
-    "${appPath}/../../../../../../../cookbooks/nginx/recipes/install.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/nginx/recipes/install.bash"
 
     header 'CONFIGURING NGINX PROXY'
 
@@ -43,7 +43,7 @@ function main()
         '__JENKINS_TOMCAT_HTTP_PORT__' "${JENKINS_TOMCAT_HTTP_PORT}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${nginxConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${nginxConfigData[@]}"
 
     stop "${NGINX_SERVICE_NAME}"
     start "${NGINX_SERVICE_NAME}"

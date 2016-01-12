@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'java')" = 'false' || ! -d "${GO_CD_JDK_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${GO_CD_JDK_INSTALL_FOLDER}"
+        "${appFolderPath}/../../jdk/recipes/install.bash" "${GO_CD_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -57,16 +57,16 @@ function install()
         '__GROUP_NAME__' "${GO_CD_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${appPath}/../templates/agent.conf.upstart" "/etc/init/${GO_CD_AGENT_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/agent.conf.upstart" "/etc/init/${GO_CD_AGENT_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
     start "${GO_CD_AGENT_SERVICE_NAME}"
 }
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

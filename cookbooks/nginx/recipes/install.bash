@@ -40,7 +40,7 @@ function install()
 
     local -r serverConfigData=('__PORT__' "${NGINX_PORT}")
 
-    createFileFromTemplate  "${appPath}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${serverConfigData[@]}"
+    createFileFromTemplate  "${appFolderPath}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${serverConfigData[@]}"
 
     # Config Log
 
@@ -51,13 +51,13 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/nginx.sh.profile" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/nginx.sh.profile" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
 
     # Config Upstart
 
     local -r upstartConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/nginx.conf.upstart" "/etc/init/${NGINX_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/nginx.conf.upstart" "/etc/init/${NGINX_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
 
     # Start
 
@@ -75,10 +75,10 @@ function install()
 
 function main()
 {
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

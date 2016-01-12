@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'java')" = 'false' || ! -d "${GROOVY_JDK_INSTALL_FOLDER}" ]]
     then
-        "${appPath}/../../jdk/recipes/install.bash" "${GROOVY_JDK_INSTALL_FOLDER}"
+        "${appFolderPath}/../../jdk/recipes/install.bash" "${GROOVY_JDK_INSTALL_FOLDER}"
     fi
 }
 
@@ -44,7 +44,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER__' "${GROOVY_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${appPath}/../templates/groovy.sh.profile" '/etc/profile.d/groovy.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/groovy.sh.profile" '/etc/profile.d/groovy.sh' "${profileConfigData[@]}"
 
     # Display Version
 
@@ -55,10 +55,10 @@ function main()
 {
     local -r installFolder="${1}"
 
-    appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appPath}/../../../libraries/util.bash"
-    source "${appPath}/../attributes/default.bash"
+    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

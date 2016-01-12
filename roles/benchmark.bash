@@ -2,10 +2,10 @@
 
 function main()
 {
-    local -r appPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    "${appPath}/../cookbooks/siege/recipes/install.bash"
-    "${appPath}/../cookbooks/wrk/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/siege/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/wrk/recipes/install.bash"
 }
 
 main "${@}"
