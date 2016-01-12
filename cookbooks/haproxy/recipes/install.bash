@@ -26,7 +26,7 @@ function install()
     cd "${tempFolder}"
     make "${HAPROXY_CONFIG[@]}"
     make install PREFIX='' DESTDIR="${HAPROXY_INSTALL_FOLDER}"
-    cp "${HAPROXY_INSTALL_FOLDER}/sbin/haproxy-systemd-wrapper" "/etc/init.d/${HAPROXY_SERVICE_NAME}"
+    cp "${tempFolder}/examples/haproxy.init" "/etc/init.d/${HAPROXY_SERVICE_NAME}"
 
     rm -f -r "${tempFolder}"
     cd "${currentPath}"
