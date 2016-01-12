@@ -27,6 +27,7 @@ function install()
     make "${HAPROXY_CONFIG[@]}"
     make install PREFIX='' DESTDIR="${HAPROXY_INSTALL_FOLDER}"
     cp "${tempFolder}/examples/haproxy.init" "/etc/init.d/${HAPROXY_SERVICE_NAME}"
+    chmod 755 "/etc/init.d/${HAPROXY_SERVICE_NAME}"
 
     rm -f -r "${tempFolder}"
     cd "${currentPath}"
