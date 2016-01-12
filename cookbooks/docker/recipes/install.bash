@@ -44,10 +44,6 @@ function install()
     info "$(docker version)"
     info "\n$(docker info)"
     info "\n$(status 'docker')"
-
-    # Display Open Ports
-
-    displayOpenPorts '5'
 }
 
 function main()
