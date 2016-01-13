@@ -59,7 +59,7 @@ function install()
     pm2 startup 'linux' --hp "${userHome}/.pm2" --user "${PM2_USER_NAME}"
     pkill -f 'PM2'
     chown -R "${PM2_USER_NAME}:${PM2_GROUP_NAME}" "${userHome}/.pm2"
-    service 'pm2-init.sh' restart
+    service 'pm2-init.sh' start
 
     # Display Version
 

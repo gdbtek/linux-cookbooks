@@ -25,6 +25,7 @@ function main()
     "${appFolderPath}/../../../../../../essential.bash" 'featureflipper.ccmui.adobe.com'
     "${appFolderPath}/../../../../../../../cookbooks/mongodb/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CCMUI_FEATURE_FLIPPER_NODE_JS_VERSION}" "${CCMUI_FEATURE_FLIPPER_NODE_JS_INSTALL_FOLDER}"
+    "${appFolderPath}/../../../../../../../cookbooks/pm2/recipes/install.bash"
 
     # Config SSH and GIT
 
