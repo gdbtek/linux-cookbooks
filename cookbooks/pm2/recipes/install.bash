@@ -26,7 +26,7 @@ function install()
 
     # Add User
 
-    addUser "${PM2_USER_NAME}" "${PM2_GROUP_NAME}" 'false' 'true' 'false'
+    addUser "${PM2_USER_NAME}" "${PM2_GROUP_NAME}" 'true' 'true' 'true'
 
     local -r userHome="$(getUserHomeFolder "${PM2_USER_NAME}")"
 
