@@ -34,7 +34,7 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__HOME_FOLDER__' "${userHome}")
+    local -r profileConfigData=('__HOME_FOLDER__' "${userHome}/.pm2")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/pm2.sh.profile" '/etc/profile.d/pm2.sh' "${profileConfigData[@]}"
 
@@ -49,7 +49,7 @@ function install()
 
     # Start
 
-    export PM2_HOME="${userHome}"
+    export PM2_HOME="${userHome}/.pm2"
     pm2 startup 'linux' --hp "${userHome}/.pm2" --user "${PM2_USER_NAME}"
     chown -R "${PM2_USER_NAME}:${PM2_GROUP_NAME}" "${userHome}/.pm2"
 
