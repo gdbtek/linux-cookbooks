@@ -57,8 +57,8 @@ function install()
 
     export PM2_HOME="${userHome}/.pm2"
     pm2 startup 'linux' --hp "${userHome}/.pm2" --user "${PM2_USER_NAME}"
-    service 'pm2-init.sh' restart
     chown -R "${PM2_USER_NAME}:${PM2_GROUP_NAME}" "${userHome}/.pm2"
+    service 'pm2-init.sh' restart
 
     # Display Version
 
