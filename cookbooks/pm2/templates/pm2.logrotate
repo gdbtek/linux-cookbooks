@@ -1,0 +1,8 @@
+__HOME_FOLDER__/pm2.log __HOME_FOLDER__/logs/*.log {
+    compress
+    create 644 pm2 pm2
+    daily
+    missingok
+    notifempty
+    rotate 7
+}
