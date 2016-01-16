@@ -36,9 +36,9 @@ function jenkinsMasterDisplayVersion()
     checkNonEmptyString "${appName}"
     checkExistFile "${jenkinsCLIPath}"
 
-    info "\nVersion: $('java' -jar "${jenkinsCLIPath}" \
-                              -s "http://127.0.0.1:${JENKINS_TOMCAT_HTTP_PORT}/${appName}" \
-                              version)"
+    info "\nVersion : $('java' -jar "${jenkinsCLIPath}" \
+                               -s "http://127.0.0.1:${JENKINS_TOMCAT_HTTP_PORT}/${appName}" \
+                               version)"
 }
 
 function jenkinsMasterRefreshUpdateCenter()
