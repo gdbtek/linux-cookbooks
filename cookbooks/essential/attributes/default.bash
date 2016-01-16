@@ -8,6 +8,7 @@ export ESSENTIAL_PACKAGES=(
     'logrotate'
     'rsync'
     'screen'
+    'software-properties-common'
     'sysv-rc-conf'
     'tree'
     'unzip'
