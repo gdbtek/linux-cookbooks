@@ -32,7 +32,7 @@ function install()
 
     # Config Init
 
-    local -r initConfigData=('__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}")
+    local -r initConfigData=('__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}/sbin/haproxy")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/haproxy.init" '/etc/init.d/haproxy' "${initConfigData[@]}"
 
