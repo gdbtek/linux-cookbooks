@@ -26,11 +26,15 @@ function install()
     cd "${tempFolder}"
     make "${HAPROXY_CONFIG[@]}"
     make install PREFIX='' DESTDIR="${HAPROXY_INSTALL_FOLDER}"
-    cp "${tempFolder}/examples/haproxy.init" "/etc/init.d/${HAPROXY_SERVICE_NAME}"
-    chmod 755 "/etc/init.d/${HAPROXY_SERVICE_NAME}"
 
     rm -f -r "${tempFolder}"
     cd "${currentPath}"
+
+    # Config Init
+
+    local -r initConfigData=('__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}")
+
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/haproxy.init" '/etc/init.d/haproxy' "${initConfigData[@]}"
 
     # Config Profile
 
