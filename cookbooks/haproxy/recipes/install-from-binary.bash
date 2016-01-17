@@ -2,18 +2,31 @@
 
 function installDependencies()
 {
-    installAptGetPackages 'software-properties-common'
+    if [[ "${HAPROXY_VERSION}" != '1.4' ]]
+    then
+        installAptGetPackages 'software-properties-common'
+    fi
 }
 
 function install()
 {
-    info '\nadd-apt-repository'
-    add-apt-repository -y "ppa:vbernat/${HAPROXY_VERSION}"
+    if [[ "${HAPROXY_VERSION}" != '1.4' ]]
+    then
+        info '\nadd-apt-repository'
+        add-apt-repository -y "ppa:vbernat/haproxy-${HAPROXY_VERSION}"
 
-    info '\napt-get update'
-    apt-get update -m
+        info '\napt-get update'
+        apt-get update -m
+    fi
 
     installAptGetPackages 'haproxy'
+
+    # Enable Haproxy
+
+    if [[ "${HAPROXY_VERSION}" = '1.4' ]]
+    then
+        echo 'ENABLED=1' > '/etc/default/haproxy'
+    fi
 
     # Display Open Ports
 
