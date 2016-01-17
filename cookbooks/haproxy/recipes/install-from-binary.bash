@@ -8,7 +8,7 @@ function installDependencies()
 function install()
 {
     info 'add-apt-repository'
-    add-apt-repository "ppa:vbernat/${HAPROXY_VERSION}"
+    add-apt-repository -y "ppa:vbernat/${HAPROXY_VERSION}"
 
     info 'apt-get update'
     apt-get update -m
