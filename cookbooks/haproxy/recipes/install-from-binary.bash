@@ -7,10 +7,10 @@ function installDependencies()
 
 function install()
 {
-    info 'add-apt-repository'
+    info '\nadd-apt-repository'
     add-apt-repository -y "ppa:vbernat/${HAPROXY_VERSION}"
 
-    info 'apt-get update'
+    info '\napt-get update'
     apt-get update -m
 
     installAptGetPackages 'haproxy'
