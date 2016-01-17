@@ -1360,7 +1360,7 @@ function remountTMP()
     then
         mount -o 'remount,rw,exec,nosuid' -v '/tmp'
     else
-        warn 'Mount /tmp not found'
+        warn 'WARN : mount /tmp not found'
     fi
 }
 
