@@ -29,7 +29,7 @@ function main()
     local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/source.bash"
+    source "${appFolderPath}/../attributes/binary.bash"
 
     checkRequireSystem
     checkRequireRootUser
