@@ -68,12 +68,12 @@ function main()
     APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
+    source "${APP_FOLDER_PATH}/../attributes/source.bash"
 
     checkRequireSystem
     checkRequireRootUser
 
-    header 'INSTALLING HAPROXY'
+    header 'INSTALLING HAPROXY FROM SOURCE'
 
     checkRequirePort "${HAPROXY_PORT}"
 

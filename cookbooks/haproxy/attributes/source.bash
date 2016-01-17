@@ -46,7 +46,3 @@ export HAPROXY_CONFIG=(
     'USE_VSYSCALL=1'
     'USE_ZLIB=1'
 )
-
-# haproxy_USE_ACCEPT4=1
-# haproxy_USE_DLMALLOC=1
-# haproxy_USE_MY_SPLICE=1
