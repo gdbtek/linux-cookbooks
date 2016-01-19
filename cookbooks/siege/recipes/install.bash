@@ -14,7 +14,6 @@ function install()
 
     # Install
 
-    local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${SIEGE_DOWNLOAD_URL}" "${tempFolder}"
@@ -23,7 +22,6 @@ function install()
     make
     make install
     rm -f -r "${tempFolder}"
-    cd "${currentPath}"
 
     # Config Profile
 

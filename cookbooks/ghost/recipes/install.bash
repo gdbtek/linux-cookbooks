@@ -16,12 +16,9 @@ function install()
 
     # Install
 
-    local -r currentPath="$(pwd)"
-
     unzipRemoteFile "${GHOST_DOWNLOAD_URL}" "${GHOST_INSTALL_FOLDER}"
     cd "${GHOST_INSTALL_FOLDER}"
     npm install "--${GHOST_ENVIRONMENT}" --silent
-    cd "${currentPath}"
 
     # Config Server
 

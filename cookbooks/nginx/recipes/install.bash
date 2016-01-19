@@ -21,7 +21,6 @@ function install()
 
     # Install
 
-    local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${NGINX_DOWNLOAD_URL}" "${tempFolder}"
@@ -34,7 +33,6 @@ function install()
     make
     make install
     rm -f -r "${tempFolder}" "${tempPCREFolder}" "${tempZLIBFolder}"
-    cd "${currentPath}"
 
     # Config Server
 

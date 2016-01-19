@@ -15,7 +15,6 @@ function install()
 
     # Install
 
-    local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${REDIS_DOWNLOAD_URL}" "${tempFolder}"
@@ -23,7 +22,6 @@ function install()
     make
     find "${tempFolder}/src" -type f -not -name '*.sh' -perm -u+x -exec cp -f '{}' "${REDIS_INSTALL_BIN_FOLDER}" \;
     rm -f -r "${tempFolder}"
-    cd "${currentPath}"
 
     # Config Server
 

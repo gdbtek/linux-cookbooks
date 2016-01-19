@@ -13,7 +13,6 @@ function install()
 
     # Install
 
-    local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${PYTHON_DOWNLOAD_URL}" "${tempFolder}"
@@ -23,7 +22,6 @@ function install()
     make install
     ln -f -s "${PYTHON_INSTALL_FOLDER}/bin/python3" '/usr/local/bin/python'
     rm -f -r "${tempFolder}"
-    cd "${currentPath}"
 
     # Config Profile
 

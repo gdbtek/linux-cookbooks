@@ -14,7 +14,6 @@ function install()
 
     # Install
 
-    local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
     git clone "${WRK_DOWNLOAD_URL}" "${tempFolder}"
@@ -22,7 +21,6 @@ function install()
     make
     find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f '{}' "${WRK_INSTALL_FOLDER}/bin" \;
     rm -f -r "${tempFolder}"
-    cd "${currentPath}"
 
     # Config Profile
 

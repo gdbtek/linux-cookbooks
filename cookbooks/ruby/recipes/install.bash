@@ -13,7 +13,6 @@ function install()
 
     # Install
 
-    local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${RUBY_DOWNLOAD_URL}" "${tempFolder}"
@@ -23,7 +22,6 @@ function install()
     make install
     symlinkLocalBin "${RUBY_INSTALL_FOLDER}/bin"
     rm -f -r "${tempFolder}"
-    cd "${currentPath}"
 
     # Config Profile
 
