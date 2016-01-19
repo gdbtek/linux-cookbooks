@@ -19,6 +19,7 @@ function install()
 
     # Install
 
+    local -r currentPath="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${HAPROXY_DOWNLOAD_URL}" "${tempFolder}"
@@ -26,6 +27,7 @@ function install()
     make "${HAPROXY_CONFIG[@]}"
     make install PREFIX='' DESTDIR="${HAPROXY_INSTALL_FOLDER}"
     rm -f -r "${tempFolder}"
+    cd "${currentPath}"
 
     # Config Init
 
