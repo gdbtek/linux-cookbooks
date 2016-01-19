@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installAptGetPackages 'libaio-dev' 'sysv-rc-conf'
+    installAptGetPackages 'libaio1' 'sysv-rc-conf'
 }
 
 function install()
@@ -12,21 +12,24 @@ function install()
     local -r installFolderName="$(getFileName "${MYSQL_INSTALL_FOLDER}")"
 
     initializeFolder "${MYSQL_INSTALL_FOLDER}"
-    rm -f -r "/usr/local/${installFolderName:?}"
+    rm -f -r "/usr/local/${installFolderName}"
 
     # Install
-
-    local -r currentPath="$(pwd)"
 
     unzipRemoteFile "${MYSQL_DOWNLOAD_URL}" "${MYSQL_INSTALL_FOLDER}"
     addUser "${MYSQL_USER_NAME}" "${MYSQL_GROUP_NAME}" 'false' 'true' 'false'
     ln -f -s "${MYSQL_INSTALL_FOLDER}" "/usr/local/$(getFileName "${MYSQL_INSTALL_FOLDER}")"
-    chown -R "${MYSQL_USER_NAME}:${MYSQL_GROUP_NAME}" "${MYSQL_INSTALL_FOLDER}"
+
     cd "${MYSQL_INSTALL_FOLDER}"
-    "${MYSQL_INSTALL_FOLDER}/bin/mysql_install_db" --user="${MYSQL_USER_NAME}"
+
+    mkdir -m 770 -p 'mysql-files'
+    chown -R "${MYSQL_USER_NAME}:${MYSQL_GROUP_NAME}" "${MYSQL_INSTALL_FOLDER}"
+    "${MYSQL_INSTALL_FOLDER}/bin/mysqld" --initialize --user="${MYSQL_USER_NAME}"
+    "${MYSQL_INSTALL_FOLDER}/bin/mysql_ssl_rsa_setup"
     chown -R "$(whoami)" "${MYSQL_INSTALL_FOLDER}"
-    chown -R "${MYSQL_USER_NAME}" "${MYSQL_INSTALL_FOLDER}/data"
-    cd "${currentPath}"
+    chown -R "${MYSQL_USER_NAME}" 'data' 'mysql-files'
+
+    ln -s "${MYSQL_INSTALL_FOLDER}/bin/mysql" '/usr/local/bin/mysql'
 
     # Config Server
 
@@ -51,10 +54,10 @@ function install()
 
     # Run Secure Installation
 
-    if [[ "${MYSQL_RUN_POST_SECURE_INSTALLATION}" = 'true' ]]
-    then
-        secureInstallation
-    fi
+    #if [[ "${MYSQL_RUN_POST_SECURE_INSTALLATION}" = 'true' ]]
+    # then
+     #   secureInstallation
+    #fi
 
     # Display Open Ports
 
