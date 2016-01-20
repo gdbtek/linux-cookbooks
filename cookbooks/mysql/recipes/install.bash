@@ -29,7 +29,7 @@ function install()
     chown -R "$(whoami)" "${MYSQL_INSTALL_FOLDER}"
     chown -R "${MYSQL_USER_NAME}" 'data' 'mysql-files'
 
-    ln -s "${MYSQL_INSTALL_FOLDER}/bin/mysql" '/usr/local/bin/mysql'
+    ln -f -s "${MYSQL_INSTALL_FOLDER}/bin/mysql" '/usr/local/bin/mysql'
 
     # Config Server
 
