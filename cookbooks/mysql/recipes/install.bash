@@ -123,7 +123,7 @@ function secureInstallation()
         set timeout 3
         spawn "${secureInstaller}"
 
-        expect "Enter current password for root (enter for none): "
+        expect "Enter password for user root: "
         send -- "\r"
 
         expect "Set root password? \[Y/n] "
