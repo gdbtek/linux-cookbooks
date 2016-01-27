@@ -81,7 +81,7 @@ function main()
     checkRequireSystem
     checkRequireRootUser
 
-    header 'INSTALLING NGINX'
+    header 'INSTALLING NGINX FROM SOURCE'
 
     checkRequirePort "${NGINX_PORT}"
 

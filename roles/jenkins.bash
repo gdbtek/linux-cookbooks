@@ -7,7 +7,7 @@ function main()
     "${appFolderPath}/essential.bash"
 
     "${appFolderPath}/../cookbooks/jenkins/recipes/install-master.bash"
-    "${appFolderPath}/../cookbooks/nginx/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/nginx/recipes/install-from-source.bash"
 }
 
 main "${@}"

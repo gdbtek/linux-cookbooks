@@ -6,7 +6,7 @@ function main()
 
     "${appFolderPath}/essential.bash"
 
-    "${appFolderPath}/../cookbooks/nginx/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/nginx/recipes/install-from-source.bash"
     "${appFolderPath}/../cookbooks/kibana/recipes/install.bash"
 }
 

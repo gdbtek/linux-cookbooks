@@ -9,7 +9,7 @@ function main()
     "${appFolderPath}/../cookbooks/node-js/recipes/install.bash"
     "${appFolderPath}/../cookbooks/redis/recipes/install.bash"
     "${appFolderPath}/../cookbooks/mongodb/recipes/install.bash"
-    "${appFolderPath}/../cookbooks/nginx/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/nginx/recipes/install-from-source.bash"
 }
 
 main "${@}"

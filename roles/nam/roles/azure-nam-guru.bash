@@ -12,7 +12,7 @@ function main()
     "${appFolderPath}/../../essential.bash" "${hostName}" "${firstLoginUser}, $(whoami)"
     "${appFolderPath}/../../../cookbooks/docker/recipes/install.bash"
     "${appFolderPath}/../../../cookbooks/go-lang/recipes/install.bash"
-    "${appFolderPath}/../../../cookbooks/nginx/recipes/install.bash"
+    "${appFolderPath}/../../../cookbooks/nginx/recipes/install-from-source.bash"
     "${appFolderPath}/../../../cookbooks/node-js/recipes/install.bash"
 
     addUserToSudoWithoutPassword "${firstLoginUser}"

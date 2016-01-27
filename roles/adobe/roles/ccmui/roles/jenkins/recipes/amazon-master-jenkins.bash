@@ -34,7 +34,7 @@ function main()
 
     # Config Nginx
 
-    "${appFolderPath}/../../../../../../../cookbooks/nginx/recipes/install.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/nginx/recipes/install-from-source.bash"
 
     header 'CONFIGURING NGINX PROXY'
 
