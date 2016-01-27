@@ -38,7 +38,7 @@ function install()
 
     local -r serverConfigData=('__PORT__' "${NGINX_PORT}")
 
-    createFileFromTemplate  "${APP_FOLDER_PATH}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${serverConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${serverConfigData[@]}"
 
     # Config Log
 

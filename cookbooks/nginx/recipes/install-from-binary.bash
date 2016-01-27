@@ -5,18 +5,15 @@ function install()
     # Update Apt Source List
 
     local -r releaseFilePath='/etc/lsb-release'
-    local -r aptSourceListFilePath='/etc/apt/sources.list'
 
     checkExistFile "${releaseFilePath}"
 
     source "${releaseFilePath}"
 
-    echo >> "${aptSourceListFilePath}"
-    echo "deb http://nginx.org/packages/mainline/ubuntu ${DISTRIB_CODENAME} nginx" >> "${aptSourceListFilePath}"
-    echo "deb-src http://nginx.org/packages/mainline/ubuntu ${DISTRIB_CODENAME} nginx" >> "${aptSourceListFilePath}"
+    local -r configData=('__DISTRIBUTION_CODE_NAME__' "${DISTRIB_CODENAME}")
 
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.list.apt" '/etc/apt/sources.list.d/nginx.list' "${configData[@]}"
     curl -s -L 'http://nginx.org/keys/nginx_signing.key' --retry 12 --retry-delay 5 | apt-key add -
-
     apt-get update -m
 
     # Install
@@ -34,10 +31,10 @@ function install()
 
 function main()
 {
-    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/default.bash"
+    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
+    source "${APP_FOLDER_PATH}/../attributes/default.bash"
 
     checkRequireSystem
     checkRequireRootUser

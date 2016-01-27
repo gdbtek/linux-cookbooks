@@ -1,0 +1,2 @@
+deb http://nginx.org/packages/mainline/ubuntu __DISTRIBUTION_CODE_NAME__ nginx
+deb-src http://nginx.org/packages/mainline/ubuntu __DISTRIBUTION_CODE_NAME__ nginx
