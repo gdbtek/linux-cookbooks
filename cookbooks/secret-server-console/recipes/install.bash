@@ -21,7 +21,6 @@ function install()
 
     downloadFile "${SECRET_SERVER_CONSOLE_DOWNLOAD_URL}" "${consoleJARFilePath}" 'true'
     chown -R "$(whoami):$(whoami)" "${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}"
-    chmod 755 "${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}/jq"
 
     # Display Version
 
