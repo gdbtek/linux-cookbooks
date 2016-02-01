@@ -13,7 +13,6 @@ function install()
     # Clean Up
 
     initializeFolder "${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}"
-    mkdir -p "${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}"
 
     # Install
 
