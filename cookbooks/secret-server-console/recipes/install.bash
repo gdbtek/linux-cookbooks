@@ -16,7 +16,7 @@ function install()
 
     # Install
 
-    local -r consoleJARFilePath="${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}/$(getFileName "${SECRET_SERVER_CONSOLE_DOWNLOAD_URL}")"
+    local -r consoleJARFilePath="${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}/$(basename "${SECRET_SERVER_CONSOLE_DOWNLOAD_URL}")"
 
     downloadFile "${SECRET_SERVER_CONSOLE_DOWNLOAD_URL}" "${consoleJARFilePath}" 'true'
     chown -R "$(whoami):$(whoami)" "${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}"
