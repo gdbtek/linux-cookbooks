@@ -21,7 +21,7 @@ function main()
 
     # Install Apps
 
-    "${appFolderPath}/../../../../essential.bash" 'nam-itc'
+    "${appFolderPath}/../../../../essential.bash" 'nam.corp.adobe.com'
     "${appFolderPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/chef/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/foodcritic/recipes/install.bash"

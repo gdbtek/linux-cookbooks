@@ -7,7 +7,7 @@ function cleanUpITMess
     header 'CLEANING UP IT MESS'
 
     deleteUser 'itcloud'
-    rm -f -r '/opt/chef' '/opt/lost+found'
+    rm -f -r '/opt/lost+found' "$(whoami)/.customization"
 
     touch '/var/log/wtmp'
 
