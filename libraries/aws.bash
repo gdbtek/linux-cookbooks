@@ -29,7 +29,8 @@ function getSecurityGroupIDByName()
 {
     local -r securityGroupName="${1}"
 
-    aws ec2 describe-security-groups --filters "Name=group-name,Values=${securityGroupName}" | \
+    aws ec2 describe-security-groups \
+        --filters "Name=group-name,Values=${securityGroupName}" | \
     jq \
         --compact-output \
         --raw-output \
@@ -123,7 +124,8 @@ function getHostedZoneIDByDomainName()
 {
     local -r hostedZoneDomainName="${1}"
 
-    aws route53 list-hosted-zones-by-name --dns-name "${hostedZoneDomainName}" | \
+    aws route53 list-hosted-zones-by-name \
+        --dns-name "${hostedZoneDomainName}" | \
     jq \
         --compact-output \
         --raw-output \
