@@ -25,6 +25,17 @@ function getInstanceRegion()
     echo "${availabilityZone:0:${#availabilityZone} - 1}"
 }
 
+function getSecurityGroupIDByName()
+{
+    local -r securityGroupName="${1}"
+
+    aws ec2 describe-security-groups --filters "Name=group-name,Values=${securityGroupName}" | \
+    jq \
+        --compact-output \
+        --raw-output \
+        '.["SecurityGroups"] | .[0] | .["GroupId"] // empty'
+}
+
 function updateInstanceName()
 {
     local -r instanceName="${1}"
@@ -46,6 +57,24 @@ function updateInstanceName()
 function getAllowedRegions()
 {
     echo 'ap-northeast-1 ap-northeast-2 ap-southeast-1 ap-southeast-2 eu-central-1 eu-west-1 sa-east-1 us-east-1 us-west-1 us-west-2'
+}
+
+function getRegionFromRecordSetAliasTargetDNSName()
+{
+    local -r recordSetAliasTargetDNSName="${1}"
+
+    # Regions
+
+    local -r allowedRegions=($(getAllowedRegions))
+    local region=''
+
+    for region in "${allowedRegions[@]}"
+    do
+        if [[ "$(grep -F -i -o "${region}" <<< "${recordSetAliasTargetDNSName}")" != '' ]]
+        then
+            echo "${region}" && return 0
+        fi
+    done
 }
 
 function isValidRegion()
@@ -84,6 +113,22 @@ function unzipAWSS3RemoteFile()
     else
         fatal "\nFATAL : file extension '${extension}' not supported"
     fi
+}
+
+######################
+# ROUTE-53 UTILITIES #
+######################
+
+function getHostedZoneIDByDomainName()
+{
+    local -r hostedZoneDomainName="${1}"
+
+    aws route53 list-hosted-zones-by-name --dns-name "${hostedZoneDomainName}" | \
+    jq \
+        --compact-output \
+        --raw-output \
+        '.["HostedZones"] | .[0] | .["Id"] // empty' | \
+    awk -F '/' '{ print $3 }'
 }
 
 #######################
