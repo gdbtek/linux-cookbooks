@@ -6,11 +6,11 @@ function main()
 
     source "${appFolderPath}/../../attributes/default.bash"
 
-    local -r command="cd /tmp &&
+    local -r command="cd /var/tmp &&
                       sudo rm -f -r ubuntu-cookbooks &&
                       sudo git clone --depth=1 https://github.com/gdbtek/ubuntu-cookbooks.git &&
-                      sudo /tmp/ubuntu-cookbooks/cookbooks/node-js/recipes/install.bash '${NAMNGUYE_NODE_JS_VERSION}' '${NAMNGUYE_NODE_JS_INSTALL_FOLDER}'
-                      sudo rm -f -r /tmp/ubuntu-cookbooks"
+                      sudo /var/tmp/ubuntu-cookbooks/cookbooks/node-js/recipes/install.bash '${NAMNGUYE_NODE_JS_VERSION}' '${NAMNGUYE_NODE_JS_INSTALL_FOLDER}'
+                      sudo rm -f -r /var/tmp/ubuntu-cookbooks"
 
     "${appFolderPath}/../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${appFolderPath}/../attributes/default.bash" \

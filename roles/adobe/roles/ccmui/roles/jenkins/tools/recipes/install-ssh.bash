@@ -5,11 +5,11 @@ function main()
     local -r attributeFile="${1}"
 
     local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    local -r command="cd /tmp &&
+    local -r command="cd /var/tmp &&
                       sudo rm -f -r ubuntu-cookbooks &&
                       sudo git clone --depth=1 https://github.com/gdbtek/ubuntu-cookbooks.git &&
-                      sudo /tmp/ubuntu-cookbooks/cookbooks/ssh/recipes/install.bash
-                      sudo rm -f -r /tmp/ubuntu-cookbooks"
+                      sudo /var/tmp/ubuntu-cookbooks/cookbooks/ssh/recipes/install.bash
+                      sudo rm -f -r /var/tmp/ubuntu-cookbooks"
 
     "${appFolderPath}/../../../../../../../../tools/run-remote-command.bash" \
         --attribute-file "${attributeFile}" \
