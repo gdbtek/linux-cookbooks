@@ -30,7 +30,7 @@ function getSecurityGroupIDByName()
     local -r securityGroupName="${1}"
 
     aws ec2 describe-security-groups \
-        --filters "Name=group-name,Values=${securityGroupName}" | \
+        --filters "Name=group-name,Values=${securityGroupName}" |
     jq \
         --compact-output \
         --raw-output \
@@ -125,11 +125,11 @@ function getHostedZoneIDByDomainName()
     local -r hostedZoneDomainName="${1}"
 
     aws route53 list-hosted-zones-by-name \
-        --dns-name "${hostedZoneDomainName}" | \
+        --dns-name "${hostedZoneDomainName}" |
     jq \
         --compact-output \
         --raw-output \
-        '.["HostedZones"] | .[0] | .["Id"] // empty' | \
+        '.["HostedZones"] | .[0] | .["Id"] // empty' |
     awk -F '/' '{ print $3 }'
 }
 
@@ -142,9 +142,9 @@ function getUserDataValue()
     local -r key="$(escapeGrepSearchPattern "${1}")"
 
     trimString "$(
-        curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/user-data' | \
-        grep -E -o "^\s*${key}\s*=\s*.*$" | \
-        tail -1 | \
+        curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/user-data' |
+        grep -E -o "^\s*${key}\s*=\s*.*$" |
+        tail -1 |
         awk -F '=' '{ print $2 }'
     )"
 }
