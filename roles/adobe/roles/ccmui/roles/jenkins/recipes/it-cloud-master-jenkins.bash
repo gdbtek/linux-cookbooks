@@ -23,7 +23,7 @@ function main()
 
     # Install Apps
 
-    local -r hostName='jenkins.ccmui.adobe.com'
+    local -r hostName='ccmui-jenkins.corp.adobe.com'
 
     "${appFolderPath}/../../../../../../essential.bash" "${hostName}"
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
