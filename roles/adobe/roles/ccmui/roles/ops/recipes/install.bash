@@ -21,7 +21,7 @@ function main()
 
     # Install Apps
 
-    "${appFolderPath}/../../../../../../essential.bash" 'ops.ccmui.adobe.com'
+    "${appFolderPath}/../../../../../../essential.bash" 'ccmui-build-tracker.corp.adobe.com'
     "${appFolderPath}/../../../../../../../cookbooks/mongodb/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CCMUI_OPS_NODE_JS_VERSION}" "${CCMUI_OPS_NODE_JS_INSTALL_FOLDER}"
 
