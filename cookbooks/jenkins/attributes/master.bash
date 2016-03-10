@@ -36,6 +36,7 @@ export JENKINS_INSTALL_PLUGINS=(
     'envinject'
     'extended-choice-parameter'
     'git'
+    'git-changelog'
     'github'
     'github-oauth'
     'gravatar'
