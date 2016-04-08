@@ -2,8 +2,8 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
-export GO_CD_SERVER_DOWNLOAD_URL='https://download.go.cd/binaries/16.2.1-3027/generic/go-server-16.2.1-3027.zip'
-export GO_CD_AGENT_DOWNLOAD_URL='https://download.go.cd/binaries/16.2.1-3027/generic/go-agent-16.2.1-3027.zip'
+export GO_CD_SERVER_DOWNLOAD_URL='https://download.go.cd/binaries/16.3.0-3183/generic/go-server-16.3.0-3183.zip'
+export GO_CD_AGENT_DOWNLOAD_URL='https://download.go.cd/binaries/16.3.0-3183/generic/go-agent-16.3.0-3183.zip'
 
 export GO_CD_SERVER_INSTALL_FOLDER='/opt/go-cd/server'
 export GO_CD_AGENT_INSTALL_FOLDER='/opt/go-cd/agents/agent'

@@ -16,7 +16,7 @@ function autoSudo()
 
 function setupRepository()
 {
-    local -r repositoryPath="$(getCurrentUserHomeFolder)/git/github.com/gdbtek"
+    local -r repositoryPath='/opt/git/github.com/gdbtek'
 
     header 'SETTING UP REPOSITORY'
 
@@ -38,7 +38,7 @@ function updateRepositoryOnLogin()
 
     header 'UPDATING REPOSITORY ON LOGIN'
 
-    local -r command='cd ~/git/github.com/gdbtek/ubuntu-cookbooks/cookbooks && git pull'
+    local -r command='cd /opt/git/github.com/gdbtek/ubuntu-cookbooks/cookbooks && git pull'
 
     appendToFileIfNotFound "$(getProfileFilePath "${userLogin}")" "${command}" "${command}" 'false' 'false' 'true'
 }
