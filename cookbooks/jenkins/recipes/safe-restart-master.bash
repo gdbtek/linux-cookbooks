@@ -11,7 +11,7 @@ function safeRestart()
     checkExistURL "${jenkinsAppURL}"
 
     java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" safe-restart
-    sleep 180
+    sleep 75
 }
 
 function main()

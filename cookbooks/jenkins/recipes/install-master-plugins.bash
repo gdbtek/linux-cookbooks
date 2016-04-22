@@ -12,6 +12,7 @@ function install()
 
         checkNonEmptyString "${appName}"
         checkExistFile "${jenkinsCLIPath}"
+        sleep 75
         checkExistURL "${jenkinsAppURL}"
 
         java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" install-plugin "${pluginList[@]}"
