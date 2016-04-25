@@ -9,5 +9,5 @@ export MASTER_SERVERS=(
 
 export SLAVE_SERVERS=(
     'ccmapi-jenkins-slave-1.corp.adobe.com'
-    'sj1010006202021.corp.adobe.com'
+    'ccmapi-jenkins-slave-2.corp.adobe.com'
 )
