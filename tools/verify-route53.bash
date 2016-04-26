@@ -8,19 +8,19 @@ function displayUsage()
     echo    "SYNOPSIS :"
     echo    "    ${scriptName}"
     echo    "        --help"
-    echo    "        --zone-name        <ZONE_NAME>"
+    echo    "        --domain-name      <DOMAIN_NAME>"
     echo    "        --name-server-a    <NAME_SERVER_A>"
     echo    "        --name-server-b    <NAME_SERVER_B>"
     echo -e "\033[1;35m"
     echo    "DESCRIPTION :"
     echo    "    --help             Help page"
-    echo    "    --zone-name        Zone name"
+    echo    "    --domain-name      Domain name"
     echo    "    --name-server-a    Name server A"
     echo    "    --name-server-b    Name server B"
     echo -e "\033[1;36m"
     echo    "EXAMPLES :"
     echo    "    ./${scriptName} --help"
-    echo    "    ./${scriptName} --zone-name 'typekit.com' --name-server-a 'ns-964.awsdns-56.net' --name-server-b 'ns1.p23.dynect.net'"
+    echo    "    ./${scriptName} --domain-name 'typekit.com' --name-server-a 'ns-964.awsdns-56.net' --name-server-b 'ns1.p23.dynect.net'"
     echo -e "\033[0m"
 
     exit "${1}"
@@ -28,13 +28,15 @@ function displayUsage()
 
 function verify()
 {
-    local -r zoneName="${1}"
+    local -r domainName="${1}"
     local -r nameServerA="${2}"
     local -r nameServerB="${3}"
 
-    # Populate Machine List
+    local -r hostedZoneID="$(getHostedZoneIDByDomainName "${domainName}")"
 
+    checkNonEmptyString "${hostedZoneID}" 'undefined hosted zone ID'
 
+    aws route53 list-resource-record-sets --hosted-zone-id "${hostedZoneID}"
 }
 
 function main()
@@ -43,6 +45,7 @@ function main()
 
     local -r optCount="${#}"
 
+    source "${appFolderPath}/../libraries/aws.bash"
     source "${appFolderPath}/../libraries/util.bash"
 
     while [[ "${#}" -gt '0' ]]
@@ -52,12 +55,12 @@ function main()
                 displayUsage 0
                 ;;
 
-            --zone-name)
+            --domain-name)
                 shift
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local -r zoneName="${1}"
+                    local -r domainName="${1}"
                 fi
 
                 ;;
@@ -97,7 +100,7 @@ function main()
 
     # Verify
 
-    verify "${zoneName}" "${nameServerA}" "${nameServerB}"
+    verify "${domainName}" "${nameServerA}" "${nameServerB}"
 }
 
 main "${@}"
