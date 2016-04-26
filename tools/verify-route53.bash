@@ -20,7 +20,7 @@ function displayUsage()
     echo -e "\033[1;36m"
     echo    "EXAMPLES :"
     echo    "    ./${scriptName} --help"
-    echo    "    ./${scriptName} --domain-name 'typekit.com' --name-server-a 'ns-964.awsdns-56.net' --name-server-b 'ns1.p23.dynect.net'"
+    echo    "    ./${scriptName} --domain-name 'typekit.net' --name-server-a 'ns-964.awsdns-56.net' --name-server-b 'ns1.p23.dynect.net'"
     echo -e "\033[0m"
 
     exit "${1}"
