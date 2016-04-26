@@ -110,7 +110,10 @@ function verify()
 
             # Compare A and B
 
-            local diffResult="$(diff <(grep -v '^; <<>> DiG ' <<< "${digResultA}" | grep -v ' servers found)$') <(grep -v '^; <<>> DiG ' <<< "${digResultB}"  | grep -v ' servers found)$'))"
+            local diffResult="$(
+                diff <(grep -i -v '^; <<>> DIG ' <<< "${digResultA^^}" | grep -i -v ' found)$' | sort) \
+                     <(grep -i -v '^; <<>> DIG ' <<< "${digResultB^^}" | grep -i -v ' found)$' | sort)
+            )"
 
             if [[ "$(isEmptyString "${diffResult}")" = 'true' ]]
             then
