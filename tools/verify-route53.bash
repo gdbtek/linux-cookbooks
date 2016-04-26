@@ -111,8 +111,8 @@ function verify()
             # Compare A and B
 
             local diffResult="$(
-                diff <(grep -i -v '^; <<>> DIG ' <<< "${digResultA^^}" | grep -i -v ' found)$' | sort) \
-                     <(grep -i -v '^; <<>> DIG ' <<< "${digResultB^^}" | grep -i -v ' found)$' | sort)
+                diff <(grep -i -v '^; <<>> DIG ' <<< "${digResultA^^}" | grep -i -v ' found)$' | grep -E -i -v '(\s+SOA\s+|\s+NS\s+)' | sort) \
+                     <(grep -i -v '^; <<>> DIG ' <<< "${digResultB^^}" | grep -i -v ' found)$' | grep -E -i -v '(\s+SOA\s+|\s+NS\s+)' | sort)
             )"
 
             if [[ "$(isEmptyString "${diffResult}")" = 'true' ]]
