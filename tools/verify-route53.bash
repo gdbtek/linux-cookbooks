@@ -96,15 +96,15 @@ function verify()
 
             # Dig A
 
-            debug "        dig @$nameServerA '${recordSetName}' any +noall +nocl +nottlid +tcp +answer"
-            digResultA="$(dig @$nameServerA "${recordSetName}" any +noall +nocl +nottlid +tcp +answer 2>&1 || true)"
+            debug "        dig @$nameServerA '${recordSetName}' ANY +noall +answer"
+            digResultA="$(dig @$nameServerA "${recordSetName}" ANY +noall +answer 2>&1 || true)"
             sed 's/^/            /' <<< "${digResultA}"
             echo
 
             # Dig B
 
-            debug "        dig @$nameServerB '${recordSetName}' any +noall +nocl +nottlid +tcp +answer"
-            digResultB="$(dig @$nameServerB "${recordSetName}" any +noall +nocl +nottlid +tcp +answer 2>&1 || true)"
+            debug "        dig @$nameServerB '${recordSetName}' ANY +noall +answer"
+            digResultB="$(dig @$nameServerB "${recordSetName}" ANY +noall +answer 2>&1 || true)"
             sed 's/^/            /' <<< "${digResultB}"
             echo
 
