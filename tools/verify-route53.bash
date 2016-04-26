@@ -90,7 +90,34 @@ function verify()
 
         if [[ "${recordSetName}" = "${domainName}." && ("${recordSetType}" = 'NS' || "${recordSetType}" = 'SOA') ]]
         then
-            echo -e "        \033[1;33mskipped default record set\033[0m"
+            echo -e "    \033[1;33mskipped default record set\033[0m"
+        else
+            echo '    digging record set :'
+
+            # Dig A
+
+            debug "        dig @$nameServerA '${recordSetName}' any +noall +nocl +nottlid +tcp +answer"
+            digResultA="$(dig @$nameServerA "${recordSetName}" any +noall +nocl +nottlid +tcp +answer 2>&1 || true)"
+            sed 's/^/            /' <<< "${digResultA}"
+            echo
+
+            # Dig B
+
+            debug "        dig @$nameServerB '${recordSetName}' any +noall +nocl +nottlid +tcp +answer"
+            digResultB="$(dig @$nameServerB "${recordSetName}" any +noall +nocl +nottlid +tcp +answer 2>&1 || true)"
+            sed 's/^/            /' <<< "${digResultB}"
+            echo
+
+            # Compare A and B
+
+            local diffResult="$(diff <(grep -v '^; <<>> DiG ' <<< "${digResultA}") <(grep -v '^; <<>> DiG ' <<< "${digResultB}"))"
+
+            if [[ "$(isEmptyString "${diffResult}")" = 'true' ]]
+            then
+                echo -e "    \033[1;32mdig results are same\033[0m"
+            else
+                echo -e "    \033[1;31mdig results are different\033[0m"
+            fi
         fi
 
         echo
