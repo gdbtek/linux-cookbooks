@@ -32,11 +32,69 @@ function verify()
     local -r nameServerA="${2}"
     local -r nameServerB="${3}"
 
+    # Get Hosted Zone ID
+
     local -r hostedZoneID="$(getHostedZoneIDByDomainName "${domainName}")"
 
     checkNonEmptyString "${hostedZoneID}" 'undefined hosted zone ID'
 
-    aws route53 list-resource-record-sets --hosted-zone-id "${hostedZoneID}"
+    # Get Record Sets JSON
+
+    local -r recordSetsJSON="$(aws route53 list-resource-record-sets --hosted-zone-id "${hostedZoneID}")"
+
+    # Record Sets
+
+    local -r recordSetsLength="$(
+        jq \
+            --compact-output \
+            --raw-output \
+            '.["ResourceRecordSets"] | length // empty' \
+            <<< "${recordSetsJSON}"
+    )"
+
+    local i=0
+
+    for ((i = 0; i < recordSetsLength; i = i + 1))
+    do
+        info "verifying record set $((i + 1)) of ${recordSetsLength}"
+
+        local recordSet="$(
+            jq \
+                --compact-output \
+                --raw-output \
+                --arg jqRecordSetIndex "${i}" \
+                '.["ResourceRecordSets"] | .[$jqRecordSetIndex | tonumber] // empty' \
+                <<< "${recordSetsJSON}"
+        )"
+
+        local recordSetName="$(
+            jq \
+                --compact-output \
+                --raw-output \
+                '.["Name"] // empty' \
+                <<< "${recordSet}"
+        )"
+
+        local recordSetType="$(
+            jq \
+                --compact-output \
+                --raw-output \
+                '.["Type"] // empty' \
+                <<< "${recordSet}"
+        )"
+
+        echo -e "    name : \033[1;35m${recordSetName}\033[0m"
+        echo -e "    type : \033[1;35m${recordSetType}\033[0m"
+
+        # Skip Type NS and SOA
+
+        if [[ "${recordSetName}" = "${domainName}." && ("${recordSetType}" = 'NS' || "${recordSetType}" = 'SOA') ]]
+        then
+            echo -e "        \033[1;33mskipped default record set\033[0m"
+        fi
+
+        echo
+    done
 }
 
 function main()
