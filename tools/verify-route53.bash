@@ -11,19 +11,29 @@ function displayUsage()
     echo    "        --domain-name      <DOMAIN_NAME>"
     echo    "        --name-server-a    <NAME_SERVER_A>"
     echo    "        --name-server-b    <NAME_SERVER_B>"
+    echo    "        --aws-profile      <AWS_PROFILE>"
     echo -e "\033[1;35m"
     echo    "DESCRIPTION :"
     echo    "    --help             Help page"
     echo    "    --domain-name      Domain name"
     echo    "    --name-server-a    Name server A"
     echo    "    --name-server-b    Name server B"
+    echo    "    --aws-profile      AWS profile"
     echo -e "\033[1;36m"
     echo    "EXAMPLES :"
     echo    "    ./${scriptName} --help"
-    echo    "    ./${scriptName} --domain-name 'typekit.net' --name-server-a 'ns-964.awsdns-56.net' --name-server-b 'ns1.p23.dynect.net'"
+    echo    "    ./${scriptName} --domain-name 'typekit.net' --name-server-a 'ns-277.awsdns-34.com' --name-server-b 'ns1.p23.dynect.net'"
+    echo    "    ./${scriptName} --domain-name 'typekit.net' --name-server-a 'ns-277.awsdns-34.com' --name-server-b 'ns1.p23.dynect.net' --profile 'typekit'"
     echo -e "\033[0m"
 
     exit "${1}"
+}
+
+function filterResultForComparation()
+{
+    local -r result="${1}"
+
+    grep -i -v '^; <<>> DIG ' <<< "${result^^}" | grep -i -v ' found)$' | grep -E -i -v '(\s+SOA\s+|\s+NS\s+)' | sort
 }
 
 function verify()
@@ -31,6 +41,7 @@ function verify()
     local -r domainName="${1}"
     local -r nameServerA="${2}"
     local -r nameServerB="${3}"
+    local -r awsProfile="${4}"
 
     # Get Hosted Zone ID
 
@@ -40,7 +51,12 @@ function verify()
 
     # Get Record Sets JSON
 
-    local -r recordSetsJSON="$(aws route53 list-resource-record-sets --hosted-zone-id "${hostedZoneID}")"
+    if [[ "$(isEmptyString "${awsProfile}")" = 'true' ]]
+    then
+        local -r recordSetsJSON="$(aws route53 list-resource-record-sets --hosted-zone-id "${hostedZoneID}")"
+    else
+        local -r recordSetsJSON="$(aws route53 list-resource-record-sets --hosted-zone-id "${hostedZoneID}" --profile "${awsProfile}")"
+    fi
 
     # Record Sets
 
@@ -111,15 +127,16 @@ function verify()
             # Compare A and B
 
             local diffResult="$(
-                diff <(grep -i -v '^; <<>> DIG ' <<< "${digResultA^^}" | grep -i -v ' found)$' | grep -E -i -v '(\s+SOA\s+|\s+NS\s+)' | sort) \
-                     <(grep -i -v '^; <<>> DIG ' <<< "${digResultB^^}" | grep -i -v ' found)$' | grep -E -i -v '(\s+SOA\s+|\s+NS\s+)' | sort)
+                diff <(filterResultForComparation "${digResultA}") \
+                     <(filterResultForComparation "${digResultB}")
             )"
 
             if [[ "$(isEmptyString "${diffResult}")" = 'true' ]]
             then
                 echo -e "    \033[1;32mdig results are same\033[0m"
             else
-                echo -e "    \033[1;31mdig results are different\033[0m"
+                echo -e "    \033[1;31mdig results are different :\033[0m"
+                echo -e "    \033[1;31m$(sed 's/^/        /' <<< "${diffResult}")\033[0m"
             fi
         fi
 
@@ -173,6 +190,16 @@ function main()
 
                 ;;
 
+            --aws-profile)
+                shift
+
+                if [[ "${#}" -gt '0' ]]
+                then
+                    local -r awsProfile="${1}"
+                fi
+
+                ;;
+
             *)
                 shift
                 ;;
@@ -186,9 +213,29 @@ function main()
         displayUsage 0
     fi
 
+    # Validate Inputs
+
+    if [[ "$(isEmptyString "${domainName}")" = 'true' ]]
+    then
+        error '\nERROR : domain name not found'
+        displayUsage 1
+    fi
+
+    if [[ "$(isEmptyString "${nameServerA}")" = 'true' ]]
+    then
+        error '\nERROR : name server A not found'
+        displayUsage 1
+    fi
+
+    if [[ "$(isEmptyString "${nameServerB}")" = 'true' ]]
+    then
+        error '\nERROR : name server B not found'
+        displayUsage 1
+    fi
+
     # Verify
 
-    verify "${domainName}" "${nameServerA}" "${nameServerB}"
+    verify "${domainName}" "${nameServerA}" "${nameServerB}" "${awsProfile}"
 }
 
 main "${@}"
