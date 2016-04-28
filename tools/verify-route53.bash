@@ -8,22 +8,20 @@ function displayUsage()
     echo    "SYNOPSIS :"
     echo    "    ${scriptName}"
     echo    "        --help"
-    echo    "        --domain-name      <DOMAIN_NAME>"
-    echo    "        --name-server-a    <NAME_SERVER_A>"
-    echo    "        --name-server-b    <NAME_SERVER_B>"
-    echo    "        --aws-profile      <AWS_PROFILE>"
+    echo    "        --domain-name           <DOMAIN_NAME>"
+    echo    "        --target-name-server    <TARGET_NAME_SERVER>"
+    echo    "        --aws-profile           <AWS_PROFILE>"
     echo -e "\033[1;35m"
     echo    "DESCRIPTION :"
-    echo    "    --help             Help page"
-    echo    "    --domain-name      Domain name"
-    echo    "    --name-server-a    Name server A"
-    echo    "    --name-server-b    Name server B"
-    echo    "    --aws-profile      AWS profile"
+    echo    "    --help                  Help page"
+    echo    "    --domain-name           Domain name"
+    echo    "    --target-name-server    Target name server"
+    echo    "    --aws-profile           AWS profile"
     echo -e "\033[1;36m"
     echo    "EXAMPLES :"
     echo    "    ./${scriptName} --help"
-    echo    "    ./${scriptName} --domain-name 'typekit.net' --name-server-a 'ns-277.awsdns-34.com' --name-server-b 'ns1.p23.dynect.net'"
-    echo    "    ./${scriptName} --domain-name 'typekit.net' --name-server-a 'ns-277.awsdns-34.com' --name-server-b 'ns1.p23.dynect.net' --profile 'typekit'"
+    echo    "    ./${scriptName} --domain-name 'typekit.net' --target-name-server 'ns1.p23.dynect.net'"
+    echo    "    ./${scriptName} --domain-name 'typekit.net' --target-name-server 'ns1.p23.dynect.net' --profile 'typekit'"
     echo -e "\033[0m"
 
     exit "${1}"
@@ -36,12 +34,53 @@ function filterResultForComparation()
     grep -i -v '^; <<>> DIG ' <<< "${result^^}" | grep -i -v ' found)$' | grep -E -i -v '(\s+SOA\s+|\s+NS\s+)' | sort
 }
 
+function getAWSNameServer()
+{
+    local -r domainName="${1}"
+    local -r recordSetsJSON="${2}"
+    local -r recordSetsLength="${3}"
+
+    local i=0
+
+    for ((i = 0; i < recordSetsLength; i = i + 1))
+    do
+        local recordSet="$(
+            jq \
+                --compact-output \
+                --raw-output \
+                --arg jqRecordSetIndex "${i}" \
+                '.["ResourceRecordSets"] | .[$jqRecordSetIndex | tonumber] // empty' \
+                <<< "${recordSetsJSON}"
+        )"
+
+        local recordSetName="$(
+            jq \
+                --compact-output \
+                --raw-output \
+                '.["Name"] // empty' \
+                <<< "${recordSet}"
+        )"
+
+        local recordSetType="$(
+            jq \
+                --compact-output \
+                --raw-output \
+                '.["Type"] // empty' \
+                <<< "${recordSet}"
+        )"
+
+        if [[ "${recordSetName}" = "${domainName}." && "${recordSetType}" = 'NS' ]]
+        then
+
+        fi
+    done
+}
+
 function verify()
 {
     local -r domainName="${1}"
-    local -r nameServerA="${2}"
-    local -r nameServerB="${3}"
-    local -r awsProfile="${4}"
+    local -r targetNameServer="${2}"
+    local -r awsProfile="${3}"
 
     # Get Hosted Zone ID
 
@@ -69,6 +108,14 @@ function verify()
             '.["ResourceRecordSets"] | length // empty' \
             <<< "${recordSetsJSON}"
     )"
+
+    # Find One AWS Name Server
+
+    local -r awsNameServer="$(getAWSNameServer "${domainName}" "${recordSetsJSON}" "${recordSetsLength}")"
+
+    checkNonEmptyString "${awsNameServer}" 'undefined AWS name server'
+
+    # Dig Each Record Set
 
     local i=0
 
@@ -112,25 +159,25 @@ function verify()
         else
             echo '    digging record set :'
 
-            # Dig A
+            # Dig AWS Name Server
 
-            debug "        dig @$nameServerA '${recordSetName}' ANY +noall +answer"
-            digResultA="$(dig @$nameServerA "${recordSetName}" ANY +noall +answer 2>&1 || true)"
-            sed 's/^/            /' <<< "${digResultA}"
+            debug "        dig @${awsNameServer} '${recordSetName}' ANY +noall +answer"
+            local awsDigResult="$(dig @${awsNameServer} "${recordSetName}" ANY +noall +answer 2>&1 || true)"
+            sed 's/^/            /' <<< "${awsDigResult}"
             echo
 
-            # Dig B
+            # Dig Target Name Server
 
-            debug "        dig @$nameServerB '${recordSetName}' ANY +noall +answer"
-            digResultB="$(dig @$nameServerB "${recordSetName}" ANY +noall +answer 2>&1 || true)"
-            sed 's/^/            /' <<< "${digResultB}"
+            debug "        dig @${targetNameServer} '${recordSetName}' ANY +noall +answer"
+            local targetDigResult="$(dig @${targetNameServer} "${recordSetName}" ANY +noall +answer 2>&1 || true)"
+            sed 's/^/            /' <<< "${targetDigResult}"
             echo
 
-            # Compare A and B
+            # Compare AWS Result and Target Result
 
             local diffResult="$(
-                diff <(filterResultForComparation "${digResultA}") \
-                     <(filterResultForComparation "${digResultB}")
+                diff <(filterResultForComparation "${awsDigResult}") \
+                     <(filterResultForComparation "${targetDigResult}")
             )"
 
             if [[ "$(isEmptyString "${diffResult}")" = 'true' ]]
@@ -172,22 +219,12 @@ function main()
 
                 ;;
 
-            --name-server-a)
+            --target-name-server)
                 shift
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local -r nameServerA="${1}"
-                fi
-
-                ;;
-
-            --name-server-b)
-                shift
-
-                if [[ "${#}" -gt '0' ]]
-                then
-                    local -r nameServerB="${1}"
+                    local -r targetNameServer="${1}"
                 fi
 
                 ;;
@@ -223,21 +260,15 @@ function main()
         displayUsage 1
     fi
 
-    if [[ "$(isEmptyString "${nameServerA}")" = 'true' ]]
+    if [[ "$(isEmptyString "${targetNameServer}")" = 'true' ]]
     then
-        error '\nERROR : name server A not found'
-        displayUsage 1
-    fi
-
-    if [[ "$(isEmptyString "${nameServerB}")" = 'true' ]]
-    then
-        error '\nERROR : name server B not found'
+        error '\nERROR : target name server not found'
         displayUsage 1
     fi
 
     # Verify
 
-    verify "${domainName}" "${nameServerA}" "${nameServerB}" "${awsProfile}"
+    verify "${domainName}" "${targetNameServer}" "${awsProfile}"
 }
 
 main "${@}"
