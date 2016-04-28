@@ -172,6 +172,7 @@ function verify()
             # Dig AWS Name Server
 
             debug "        dig @${awsNameServer} '${recordSetName}' ANY +noall +answer"
+            # shellcheck disable=SC2155
             local awsDigResult="$(dig @${awsNameServer} "${recordSetName}" ANY +noall +answer 2>&1 || true)"
             sed 's/^/            /' <<< "${awsDigResult}"
             echo
@@ -179,12 +180,14 @@ function verify()
             # Dig Target Name Server
 
             debug "        dig @${targetNameServer} '${recordSetName}' ANY +noall +answer"
+            # shellcheck disable=SC2155
             local targetDigResult="$(dig @${targetNameServer} "${recordSetName}" ANY +noall +answer 2>&1 || true)"
             sed 's/^/            /' <<< "${targetDigResult}"
             echo
 
             # Compare AWS Result and Target Result
 
+            # shellcheck disable=SC2155
             local diffResult="$(
                 diff <(filterResultForComparation "${awsDigResult}") \
                      <(filterResultForComparation "${targetDigResult}")
