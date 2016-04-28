@@ -71,7 +71,11 @@ function getAWSNameServer()
 
         if [[ "${recordSetName}" = "${domainName}." && "${recordSetType}" = 'NS' ]]
         then
-
+            jq \
+                --compact-output \
+                --raw-output \
+                '.["ResourceRecords"] | .[0][] // empty' \
+                <<< "${recordSet}"
         fi
     done
 }
