@@ -44,6 +44,7 @@ function getAWSNameServer()
 
     for ((i = 0; i < recordSetsLength; i = i + 1))
     do
+        # shellcheck disable=SC2155
         local recordSet="$(
             jq \
                 --compact-output \
@@ -53,6 +54,7 @@ function getAWSNameServer()
                 <<< "${recordSetsJSON}"
         )"
 
+        # shellcheck disable=SC2155
         local recordSetName="$(
             jq \
                 --compact-output \
@@ -61,6 +63,7 @@ function getAWSNameServer()
                 <<< "${recordSet}"
         )"
 
+        # shellcheck disable=SC2155
         local recordSetType="$(
             jq \
                 --compact-output \
@@ -127,6 +130,7 @@ function verify()
     do
         info "verifying record set $((i + 1)) of ${recordSetsLength}"
 
+        # shellcheck disable=SC2155
         local recordSet="$(
             jq \
                 --compact-output \
@@ -136,6 +140,7 @@ function verify()
                 <<< "${recordSetsJSON}"
         )"
 
+        # shellcheck disable=SC2155
         local recordSetName="$(
             jq \
                 --compact-output \
@@ -144,6 +149,7 @@ function verify()
                 <<< "${recordSet}"
         )"
 
+        # shellcheck disable=SC2155
         local recordSetType="$(
             jq \
                 --compact-output \
