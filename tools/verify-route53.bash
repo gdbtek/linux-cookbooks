@@ -173,7 +173,7 @@ function verify()
 
             debug "        dig '@${awsNameServer}' '${recordSetName}' ANY +noall +answer"
             # shellcheck disable=SC2016,SC2155
-            local awsDigResult="$(dig '@${awsNameServer}' "${recordSetName}" ANY +noall +answer 2>&1 || true)"
+            local awsDigResult="$(dig "@${awsNameServer}" "${recordSetName}" ANY +noall +answer 2>&1 || true)"
             sed 's/^/            /' <<< "${awsDigResult}"
             echo
 
@@ -181,7 +181,7 @@ function verify()
 
             debug "        dig '@${targetNameServer}' '${recordSetName}' ANY +noall +answer"
             # shellcheck disable=SC2016,SC2155
-            local targetDigResult="$(dig '@${targetNameServer}' "${recordSetName}" ANY +noall +answer 2>&1 || true)"
+            local targetDigResult="$(dig "@${targetNameServer}" "${recordSetName}" ANY +noall +answer 2>&1 || true)"
             sed 's/^/            /' <<< "${targetDigResult}"
             echo
 
