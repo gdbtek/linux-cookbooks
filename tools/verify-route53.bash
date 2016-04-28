@@ -49,14 +49,16 @@ function verify()
 
     checkNonEmptyString "${hostedZoneID}" 'undefined hosted zone ID'
 
+    # Set Default Profile
+
+    if [[ "$(isEmptyString "${awsProfile}")" = 'false' ]]
+    then
+        export AWS_DEFAULT_PROFILE="${awsProfile}"
+    fi
+
     # Get Record Sets JSON
 
-    if [[ "$(isEmptyString "${awsProfile}")" = 'true' ]]
-    then
-        local -r recordSetsJSON="$(aws route53 list-resource-record-sets --hosted-zone-id "${hostedZoneID}")"
-    else
-        local -r recordSetsJSON="$(aws route53 list-resource-record-sets --hosted-zone-id "${hostedZoneID}" --profile "${awsProfile}")"
-    fi
+    local -r recordSetsJSON="$(aws route53 list-resource-record-sets --hosted-zone-id "${hostedZoneID}")"
 
     # Record Sets
 
