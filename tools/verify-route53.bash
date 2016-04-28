@@ -124,6 +124,7 @@ function verify()
 
     # Dig Each Record Set
 
+    local hasDifferentResult='false'
     local i=0
 
     for ((i = 0; i < recordSetsLength; i = i + 1))
@@ -197,6 +198,8 @@ function verify()
             then
                 echo -e "    \033[1;32mdig results are same\033[0m"
             else
+                hasDifferentResult='true'
+
                 echo -e "    \033[1;31mdig results are different :\033[0m"
                 echo -e "    \033[1;31m$(sed 's/^/        /' <<< "${diffResult}")\033[0m"
             fi
@@ -204,6 +207,11 @@ function verify()
 
         echo
     done
+
+    if [[ "${hasDifferentResult}" = 'true' ]]
+    then
+        fatal 'FATAL : route53 verification failed'
+    fi
 }
 
 function main()
