@@ -44,7 +44,7 @@ function getAWSNameServer()
 
     for ((i = 0; i < recordSetsLength; i = i + 1))
     do
-        # shellcheck disable=SC2155
+        # shellcheck disable=SC2016,SC2155
         local recordSet="$(
             jq \
                 --compact-output \
@@ -130,7 +130,7 @@ function verify()
     do
         info "verifying record set $((i + 1)) of ${recordSetsLength}"
 
-        # shellcheck disable=SC2155
+        # shellcheck disable=SC2016,SC2155
         local recordSet="$(
             jq \
                 --compact-output \
@@ -172,7 +172,7 @@ function verify()
             # Dig AWS Name Server
 
             debug "        dig @${awsNameServer} '${recordSetName}' ANY +noall +answer"
-            # shellcheck disable=SC2155
+            # shellcheck disable=SC2016,SC2155
             local awsDigResult="$(dig @${awsNameServer} "${recordSetName}" ANY +noall +answer 2>&1 || true)"
             sed 's/^/            /' <<< "${awsDigResult}"
             echo
@@ -180,7 +180,7 @@ function verify()
             # Dig Target Name Server
 
             debug "        dig @${targetNameServer} '${recordSetName}' ANY +noall +answer"
-            # shellcheck disable=SC2155
+            # shellcheck disable=SC2016,SC2155
             local targetDigResult="$(dig @${targetNameServer} "${recordSetName}" ANY +noall +answer 2>&1 || true)"
             sed 's/^/            /' <<< "${targetDigResult}"
             echo
