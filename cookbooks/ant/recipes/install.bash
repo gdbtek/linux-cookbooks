@@ -21,7 +21,7 @@ function install()
 
     # Display Version
 
-    info "$(ant -version 2>&1)"
+    info "$(ant -version)"
 }
 
 function main()
