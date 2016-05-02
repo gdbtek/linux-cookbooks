@@ -1,5 +1,13 @@
 #!/bin/bash -e
 
+function installDependencies()
+{
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${ANT_JDK_INSTALL_FOLDER}" ]]
+    then
+        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${ANT_JDK_INSTALL_FOLDER}"
+    fi
+}
+
 function install()
 {
     # Clean Up
@@ -47,6 +55,7 @@ function main()
 
     # Install
 
+    installDependencies
     install
     installCleanUp
 }
