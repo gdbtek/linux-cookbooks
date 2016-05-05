@@ -596,7 +596,7 @@ function escapeSearchPattern()
 {
     local -r searchPattern="${1}"
 
-    sed -e "s@\[@\\\\[@g" -e "s@\*@\\\\*@g" -e "s@\%@\\\\%@g" <<< "${searchPattern}"
+    sed -e "s@\@@\\\\\\@@g" -e "s@\[@\\\\[@g" -e "s@\*@\\\\*@g" -e "s@\%@\\\\%@g" <<< "${searchPattern}"
 }
 
 function fatal()
