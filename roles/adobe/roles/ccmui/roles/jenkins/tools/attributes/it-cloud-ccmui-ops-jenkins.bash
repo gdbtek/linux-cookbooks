@@ -10,5 +10,4 @@ export MASTER_SERVERS=(
 export SLAVE_SERVERS=(
     'ccmui-jenkins-slave-1.corp.adobe.com'
     'ccmui-jenkins-slave-2.corp.adobe.com'
-    'ccmui-jenkins-slave-3.corp.adobe.com'
 )
