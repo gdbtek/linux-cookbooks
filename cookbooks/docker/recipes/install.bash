@@ -43,6 +43,7 @@ function install()
     # Start
 
     startService 'aufs'
+    startService 'docker'
 
     # Display Info and Status
 
