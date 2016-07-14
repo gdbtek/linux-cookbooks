@@ -3,8 +3,8 @@ description 'AUFS Module'
 start on (local-filesystems and net-device-up IFACE!=lo)
 stop on runlevel [!2345]
 
-limit nofile 524288 1048576
-limit nproc 524288 1048576
+limit nofile 524288 524288
+limit nproc 524288 524288
 
 kill timeout 20
 
