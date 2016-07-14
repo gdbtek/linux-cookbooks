@@ -50,7 +50,7 @@ function install()
     )
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/server.conf.upstart" "/etc/init/${GO_CD_SERVER_SERVICE_NAME}.conf" "${initConfigData[@]}"
-    start "${GO_CD_SERVER_SERVICE_NAME}"
+    startService "${GO_CD_SERVER_SERVICE_NAME}"
 
     # Display Open Ports
 

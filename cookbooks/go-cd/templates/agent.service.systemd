@@ -1,0 +1,27 @@
+[Unit]
+Description=Go-CD Agent
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+
+LimitNOFILE=524288
+LimitNPROC=524288
+
+Restart=always
+RestartSec=10
+
+TimeoutStartSec=20
+TimeoutStopSec=20
+
+User=__USER_NAME__
+Group=__GROUP_NAME__
+
+Environment='HOME=__GO_HOME_FOLDER__'
+
+WorkingDirectory='__AGENT_INSTALL_FOLDER__'
+
+ExecStart=java -jar 'agent-bootstrapper.jar' '__SERVER_HOSTNAME__'

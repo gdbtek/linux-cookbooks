@@ -57,8 +57,11 @@ function install()
         '__GROUP_NAME__' "${GO_CD_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/agent.conf.upstart" "/etc/init/${GO_CD_AGENT_SERVICE_NAME}.conf" "${initConfigData[@]}"
-    start "${GO_CD_AGENT_SERVICE_NAME}"
+    createInitFileFromTemplate "${GO_CD_AGENT_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
+
+    # Start
+
+    startService "${GO_CD_AGENT_SERVICE_NAME}"
 }
 
 function main()
