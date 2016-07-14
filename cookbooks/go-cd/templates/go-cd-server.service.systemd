@@ -1,12 +1,12 @@
 [Unit]
-Description=Tomcat Server
+Description=Go-CD Server
 After=network.target
 
 [Install]
 WantedBy=multi-user.target
 
 [Service]
-Type=forking
+Type=simple
 
 LimitNOFILE=524288
 LimitNPROC=524288
@@ -20,13 +20,8 @@ TimeoutStopSec=20
 User=__USER_NAME__
 Group=__GROUP_NAME__
 
-Environment='CATALINA_HOME=__INSTALL_FOLDER__'
-Environment='HOME=__HOME_FOLDER__'
-Environment='JAVA_HOME=__JDK_INSTALL_FOLDER__'
+Environment='HOME=__GO_HOME_FOLDER__'
 
-ExecStart='__INSTALL_FOLDER__/bin/startup.sh'
-ExecStop='__INSTALL_FOLDER__/bin/shutdown.sh'
-ExecStopPost=/bin/bash -e -c '\
-    cd \'__INSTALL_FOLDER__/logs\' && find \'.\' -not -name \'.\' -delete && \
-    cd \'__INSTALL_FOLDER__/temp\' && find \'.\' -not -name \'.\' -delete \
-'
+WorkingDirectory=__SERVER_INSTALL_FOLDER__
+
+ExecStart=/bin/bash -e -c 'java -jar 'go.jar''

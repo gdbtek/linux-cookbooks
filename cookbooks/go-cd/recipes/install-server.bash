@@ -49,7 +49,10 @@ function install()
         '__GROUP_NAME__' "${GO_CD_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/server.conf.upstart" "/etc/init/${GO_CD_SERVER_SERVICE_NAME}.conf" "${initConfigData[@]}"
+    createInitFileFromTemplate "${GO_CD_SERVER_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
+
+    # Start
+
     startService "${GO_CD_SERVER_SERVICE_NAME}"
 
     # Display Open Ports
