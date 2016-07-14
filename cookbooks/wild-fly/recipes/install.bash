@@ -28,7 +28,7 @@ function install()
         '__USER_NAME__' "${WILD_FLY_USER_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/wild-fly.conf.upstart" "/etc/init/${WILD_FLY_SERVICE_NAME}.conf" "${initConfigData[@]}"
+    createInitFileFromTemplate "${WILD_FLY_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
 
     # Add Management User
 
@@ -38,7 +38,7 @@ function install()
 
     addUser "${WILD_FLY_USER_NAME}" "${WILD_FLY_GROUP_NAME}" 'false' 'true' 'false'
     chown -R "${WILD_FLY_USER_NAME}:${WILD_FLY_GROUP_NAME}" "${WILD_FLY_INSTALL_FOLDER}"
-    start "${WILD_FLY_SERVICE_NAME}"
+    startService "${WILD_FLY_SERVICE_NAME}"
 
     # Display Open Ports
 

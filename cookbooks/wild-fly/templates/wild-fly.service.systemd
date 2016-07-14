@@ -1,0 +1,23 @@
+[Unit]
+Description=WildFly Server
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=forking
+
+LimitNOFILE=524288
+LimitNPROC=524288
+
+Restart=always
+RestartSec=10
+
+TimeoutStartSec=20
+TimeoutStopSec=20
+
+User=__USER_NAME__
+Group=__GROUP_NAME__
+
+ExecStart='__INSTALL_FOLDER__/bin/standalone.sh' -b=__APPLICATION_BIND_ADDRESS__ -bmanagement=__MANAGEMENT_BIND_ADDRESS__
