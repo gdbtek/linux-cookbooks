@@ -42,7 +42,6 @@ function install()
 
     # Start
 
-    systemctl disable 'docker'
     startService 'aufs'
 
     # Display Info and Status
