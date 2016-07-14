@@ -1381,5 +1381,5 @@ function startSystemdService()
     systemctl daemon-reload
     systemctl enable "${serviceName}"
     systemctl start "${serviceName}"
-    systemctl status "${serviceName}"
+    systemctl status "${serviceName}" --full --no-pager
 }
