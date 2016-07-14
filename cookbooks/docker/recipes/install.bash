@@ -28,7 +28,7 @@ function install()
     local -r grubConfigAttribute='GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"'
     local -r grubConfigData=(
         'GRUB_CMDLINE_LINUX=""' "${grubConfigAttribute}"
-        'GRUB_HIDDEN_TIMEOUT=0' '# GRUB_HIDDEN_TIMEOUT=0'
+        'GRUB_HIDDEN_TIMEOUT=0' ''
     )
 
     createFileFromTemplate "${grubConfigFile}" "${grubConfigFile}" "${grubConfigData[@]}"
@@ -42,7 +42,8 @@ function install()
 
     # Start
 
-    startService 'docker'
+    systemctl disable 'docker'
+    startService 'aufs'
 
     # Display Info and Status
 
