@@ -73,7 +73,7 @@ function install()
 
     # Display Open Ports
 
-    displayOpenPorts '5'
+    displayOpenPorts '8'
 
     # Display Version
 
