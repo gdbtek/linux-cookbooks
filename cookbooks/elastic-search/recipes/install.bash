@@ -47,7 +47,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${ELASTIC_SEARCH_INSTALL_FOLDER}/bin/elasticsearch" --version)"
+    displayVersion "\n$("${ELASTIC_SEARCH_INSTALL_FOLDER}/bin/elasticsearch" --version)"
 }
 
 function main()

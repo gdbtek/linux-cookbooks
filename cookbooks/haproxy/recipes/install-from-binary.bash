@@ -34,7 +34,7 @@ function install()
 
     # Display Version
 
-    info "\n$(haproxy -vv 2>&1)"
+    displayVersion "\n$(haproxy -vv 2>&1)"
 }
 
 function main()

@@ -23,7 +23,7 @@ function install()
 
     # Display Version
 
-    info "\n$(java -jar "${consoleJARFilePath}" -version)"
+    displayVersion "\n$(java -jar "${consoleJARFilePath}" -version)"
 }
 
 function main()

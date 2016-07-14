@@ -26,7 +26,7 @@ function install()
 
     # Display Version
 
-    info "\n$(nginx -V 2>&1)"
+    displayVersion "\n$(nginx -V 2>&1)"
 }
 
 function main()

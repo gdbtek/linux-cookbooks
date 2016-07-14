@@ -31,9 +31,7 @@ function install()
 
     # Display Version
 
-    header 'DISPLAYING VERSIONS'
-
-    info "$("${CABAL_INSTALL_FOLDER}/bin/shellcheck" -V)"
+    displayVersion "$("${CABAL_INSTALL_FOLDER}/bin/shellcheck" -V)"
 }
 
 function main()

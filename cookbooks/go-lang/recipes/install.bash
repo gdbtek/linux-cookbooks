@@ -27,7 +27,7 @@ function install()
     # Display Version
 
     export GOROOT="${GO_LANG_INSTALL_FOLDER}"
-    info "$(go version)"
+    displayVersion "$(go version)"
 }
 
 function main()

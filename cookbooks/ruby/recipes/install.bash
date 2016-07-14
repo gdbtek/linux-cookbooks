@@ -31,7 +31,7 @@ function install()
 
     # Display Version
 
-    info "\n$(ruby --version)"
+    displayVersion "\n$(ruby --version)"
 }
 
 function main()

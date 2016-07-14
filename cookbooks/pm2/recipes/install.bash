@@ -63,11 +63,7 @@ function install()
 
     # Display Version
 
-    header 'DISPLAYING VERSIONS'
-
-    info "Node Version : $(node --version)"
-    info "NPM Version  : $(npm --version)"
-    info "PM2 Version  : $(pm2 --version)"
+    displayVersion "Node Version : $(node --version)\nNPM Version  : $(npm --version)\nPM2 Version  : $(pm2 --version)"
 }
 
 function main()

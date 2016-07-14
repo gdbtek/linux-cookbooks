@@ -31,7 +31,7 @@ function install()
 
     # Display Version
 
-    info "$("${MAVEN_INSTALL_FOLDER}/bin/mvn" -v)"
+    displayVersion "$("${MAVEN_INSTALL_FOLDER}/bin/mvn" -v)"
 }
 
 function main()

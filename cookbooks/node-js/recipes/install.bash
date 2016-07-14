@@ -69,10 +69,7 @@ function install()
 
     # Display Version
 
-    header 'DISPLAYING VERSIONS'
-
-    info "Node Version : $(node --version)"
-    info "NPM Version  : $(npm --version)"
+    displayVersion "Node Version : $(node --version)\nNPM Version  : $(npm --version)"
 }
 
 function getLatestVersionNumber()

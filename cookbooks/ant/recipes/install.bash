@@ -29,7 +29,7 @@ function install()
 
     # Display Version
 
-    info "$(ant -version)"
+    displayVersion "$(ant -version)"
 }
 
 function main()

@@ -38,12 +38,15 @@ function install()
     header 'UPDATING AUFS UPSTART'
     cp -f "${APP_FOLDER_PATH}/../files/aufs.conf.upstart" '/etc/init/aufs.conf'
 
-    # Display Version
+    # Display Info and Status
 
     header 'DISPLAYING DOCKER INFO AND STATUS'
-    info "$(docker version)"
     info "\n$(docker info)"
     info "\n$(status 'docker')"
+
+    # Display Version
+
+    displayVersion "$(docker version)"
 }
 
 function main()

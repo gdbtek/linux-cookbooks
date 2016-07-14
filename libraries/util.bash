@@ -591,6 +591,14 @@ function deleteSpaces()
     replaceString "${content}" ' ' ''
 }
 
+function displayVersion()
+{
+    local -r message="${1}"
+
+    header 'DISPLAYING VERSION'
+    info "${message}"
+}
+
 function error()
 {
     local -r message="${1}"

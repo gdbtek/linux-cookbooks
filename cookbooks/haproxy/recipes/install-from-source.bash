@@ -60,7 +60,7 @@ function install()
 
     # Display Version
 
-    info "\n$("${HAPROXY_INSTALL_FOLDER}/sbin/haproxy" -vv 2>&1)"
+    displayVersion "\n$("${HAPROXY_INSTALL_FOLDER}/sbin/haproxy" -vv 2>&1)"
 }
 
 function main()

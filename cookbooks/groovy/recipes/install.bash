@@ -48,7 +48,7 @@ function install()
 
     # Display Version
 
-    info "$("${GROOVY_INSTALL_FOLDER}/bin/groovy" --version)"
+    displayVersion "$("${GROOVY_INSTALL_FOLDER}/bin/groovy" --version)"
 }
 
 function main()
