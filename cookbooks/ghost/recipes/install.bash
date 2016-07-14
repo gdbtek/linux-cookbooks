@@ -40,14 +40,14 @@ function install()
 
     # Config Systemd
 
-    local -r upstartConfigData=(
+    local -r systemdConfigData=(
         '__ENVIRONMENT__' "${GHOST_ENVIRONMENT}"
         '__INSTALL_FOLDER__' "${GHOST_INSTALL_FOLDER}"
         '__USER_NAME__' "${GHOST_USER_NAME}"
         '__GROUP_NAME__' "${GHOST_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/ghost.conf.upstart" "/etc/init/${GHOST_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/ghost.conf.upstart" "/etc/init/${GHOST_SERVICE_NAME}.conf" "${systemdConfigData[@]}"
 
     # Start
 

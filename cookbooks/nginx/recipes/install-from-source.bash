@@ -53,9 +53,9 @@ function install()
 
     # Config Systemd
 
-    local -r upstartConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
+    local -r systemdConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.conf.upstart" "/etc/init/${NGINX_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.conf.upstart" "/etc/init/${NGINX_SERVICE_NAME}.conf" "${systemdConfigData[@]}"
 
     # Start
 

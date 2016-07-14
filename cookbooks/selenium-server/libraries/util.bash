@@ -29,14 +29,14 @@ function installRole()
 
     # Config Systemd
 
-    local -r upstartConfigData=(
+    local -r systemdConfigData=(
         '__INSTALL_FILE__' "${jarFile}"
         '__CONFIG_FILE__' "${configFile}"
         '__USER_NAME__' "${SELENIUM_SERVER_USER_NAME}"
         '__GROUP_NAME__' "${SELENIUM_SERVER_GROUP_NAME}"
     )
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.conf.upstart" "/etc/init/${SELENIUM_SERVER_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.conf.upstart" "/etc/init/${SELENIUM_SERVER_SERVICE_NAME}.conf" "${systemdConfigData[@]}"
 
     # Start
 

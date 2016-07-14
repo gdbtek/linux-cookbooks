@@ -26,14 +26,14 @@ function install()
 
     # Config Systemd
 
-    local -r upstartConfigData=(
+    local -r systemdConfigData=(
         '__INSTALL_FOLDER__' "${ELASTIC_SEARCH_INSTALL_FOLDER}"
         '__JDK_INSTALL_FOLDER__' "${ELASTIC_SEARCH_JDK_INSTALL_FOLDER}"
         '__USER_NAME__' "${ELASTIC_SEARCH_USER_NAME}"
         '__GROUP_NAME__' "${ELASTIC_SEARCH_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/elastic-search.conf.upstart" "/etc/init/${ELASTIC_SEARCH_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/elastic-search.conf.upstart" "/etc/init/${ELASTIC_SEARCH_SERVICE_NAME}.conf" "${systemdConfigData[@]}"
 
     # Start
 

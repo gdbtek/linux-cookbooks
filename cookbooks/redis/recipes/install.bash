@@ -40,14 +40,14 @@ function install()
 
     # Config Systemd
 
-    local -r upstartConfigData=(
+    local -r systemdConfigData=(
         '__INSTALL_BIN_FOLDER__' "${REDIS_INSTALL_BIN_FOLDER}"
         '__INSTALL_CONFIG_FOLDER__' "${REDIS_INSTALL_CONFIG_FOLDER}"
         '__USER_NAME__' "${REDIS_USER_NAME}"
         '__GROUP_NAME__' "${REDIS_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/redis.conf.upstart" "/etc/init/${REDIS_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/redis.conf.upstart" "/etc/init/${REDIS_SERVICE_NAME}.conf" "${systemdConfigData[@]}"
 
     # Config System
 

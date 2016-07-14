@@ -20,7 +20,7 @@ function install()
 
     # Config Systemd
 
-    local -r upstartConfigData=(
+    local -r systemdConfigData=(
         '__APPLICATION_BIND_ADDRESS__' "${WILD_FLY_APPLICATION_BIND_ADDRESS}"
         '__GROUP_NAME__' "${WILD_FLY_GROUP_NAME}"
         '__INSTALL_FOLDER__' "${WILD_FLY_INSTALL_FOLDER}"
@@ -28,7 +28,7 @@ function install()
         '__USER_NAME__' "${WILD_FLY_USER_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/wild-fly.conf.upstart" "/etc/init/${WILD_FLY_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/wild-fly.conf.upstart" "/etc/init/${WILD_FLY_SERVICE_NAME}.conf" "${systemdConfigData[@]}"
 
     # Add Management User
 

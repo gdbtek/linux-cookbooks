@@ -45,7 +45,7 @@ function install()
 
     # Config Systemd
 
-    local -r upstartConfigData=(
+    local -r systemdConfigData=(
         '__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}"
         '__HOME_FOLDER__' "${userHome}"
         '__JDK_INSTALL_FOLDER__' "${TOMCAT_JDK_INSTALL_FOLDER}"
@@ -53,7 +53,7 @@ function install()
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.conf.upstart" "/etc/init/${TOMCAT_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.conf.upstart" "/etc/init/${TOMCAT_SERVICE_NAME}.conf" "${systemdConfigData[@]}"
 
     # Config Cron
 

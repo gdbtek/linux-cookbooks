@@ -49,7 +49,7 @@ function install()
         serverHostname='127.0.0.1'
     fi
 
-    local -r upstartConfigData=(
+    local -r systemdConfigData=(
         '__AGENT_INSTALL_FOLDER__' "${GO_CD_AGENT_INSTALL_FOLDER}"
         '__SERVER_HOSTNAME__' "${serverHostname}"
         '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${GO_CD_USER_NAME}")"
@@ -57,7 +57,7 @@ function install()
         '__GROUP_NAME__' "${GO_CD_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/agent.conf.upstart" "/etc/init/${GO_CD_AGENT_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/agent.conf.upstart" "/etc/init/${GO_CD_AGENT_SERVICE_NAME}.conf" "${systemdConfigData[@]}"
     start "${GO_CD_AGENT_SERVICE_NAME}"
 }
 
