@@ -130,6 +130,20 @@ function createFileFromTemplate()
     echo "${content}" > "${destinationFile}"
 }
 
+function createInitFileFromTemplate()
+{
+    local -r serviceName="${1}"
+    local -r templateFolderPath="${2}"
+    local -r initConfigData=("${@:3}")
+
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        createFileFromTemplate "${templateFolderPath}/${serviceName}.service.systemd" "/etc/systemd/system/${serviceName}.service" "${initConfigData[@]}"
+    else
+        createFileFromTemplate "${templateFolderPath}/${serviceName}.conf.upstart" "/etc/init/${serviceName}.conf" "${initConfigData[@]}"
+    fi
+}
+
 function getFileExtension()
 {
     local -r string="${1}"
@@ -1378,8 +1392,13 @@ function startService()
 
     header "STARTING SERVICE ${serviceName}"
 
-    systemctl daemon-reload
-    systemctl enable "${serviceName}"
-    systemctl start "${serviceName}"
-    systemctl status "${serviceName}" --full --no-pager
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        systemctl daemon-reload
+        systemctl enable "${serviceName}"
+        systemctl start "${serviceName}"
+        systemctl status "${serviceName}" --full --no-pager
+    else
+        start "${serviceName}"
+    fi
 }
