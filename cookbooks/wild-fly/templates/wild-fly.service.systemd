@@ -13,10 +13,31 @@ Environment='HOME=__HOME_FOLDER__'
 Environment='JAVA_HOME=__JDK_INSTALL_FOLDER__'
 
 ExecStart='__INSTALL_FOLDER__/bin/startup.sh'
-ExecStopPost=/bin/bash -e -c '\
+ExecStopPost=/bin/bash -c '\
     cd '__INSTALL_FOLDER__/logs' && find '.' -not -name '.' -delete && \
     cd '__INSTALL_FOLDER__/temp' && find '.' -not -name '.' -delete \
 '
 
 User=__USER_NAME__
 Group=__GROUP_NAME__
+
+
+
+
+description 'WildFly Server'
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+
+limit nofile 524288 1048576
+limit nproc 524288 1048576
+
+respawn
+respawn limit 10 5
+
+kill timeout 20
+
+setuid '__USER_NAME__'
+setgid '__GROUP_NAME__'
+
+exec '__INSTALL_FOLDER__/bin/standalone.sh' -b=__APPLICATION_BIND_ADDRESS__ -bmanagement=__MANAGEMENT_BIND_ADDRESS__
