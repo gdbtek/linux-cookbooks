@@ -53,7 +53,7 @@ function install()
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.conf.upstart" "/etc/init/${TOMCAT_SERVICE_NAME}.conf" "${systemdConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.service.systemd" "/etc/systemd/${TOMCAT_SERVICE_NAME}.service" "${systemdConfigData[@]}"
 
     # Config Cron
 
@@ -69,7 +69,8 @@ function install()
     # Start
 
     chown -R "${TOMCAT_USER_NAME}:${TOMCAT_GROUP_NAME}" "${TOMCAT_INSTALL_FOLDER}"
-    start "${TOMCAT_SERVICE_NAME}"
+    systemctl enable "${TOMCAT_SERVICE_NAME}"
+    systemctl start "${TOMCAT_SERVICE_NAME}"
 
     # Display Open Ports
 
