@@ -136,7 +136,7 @@ function createInitFileFromTemplate()
     local -r templateFolderPath="${2}"
     local -r initConfigData=("${@:3}")
 
-    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    if [[ "$(isSystemdSupport)" = 'true' ]]
     then
         createFileFromTemplate "${templateFolderPath}/${serviceName}.service.systemd" "/etc/systemd/system/${serviceName}.service" "${initConfigData[@]}"
     else
@@ -1345,6 +1345,16 @@ function isUbuntuDistributor()
     isDistributor 'Ubuntu'
 }
 
+function isSystemdSupport()
+{
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        echo 'true'
+    else
+        echo 'false'
+    fi
+}
+
 function isUserLoginInGroupName()
 {
     local -r userLogin="${1}"
@@ -1390,15 +1400,19 @@ function startService()
 {
     local -r serviceName="${1}"
 
-    header "STARTING SERVICE ${serviceName}"
+    checkNonEmptyString "${serviceName}" 'undefined service name'
 
-    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    if [[ "$(isSystemdSupport)" = 'true' ]]
     then
+        header "STARTING SYSTEMD SERVICE ${serviceName}"
+
         systemctl daemon-reload
-        systemctl enable "${serviceName}"
         systemctl start "${serviceName}"
         systemctl status "${serviceName}" --full --no-pager
+        systemctl enable "${serviceName}"
     else
+        header "STARTING UPSTART SERVICE ${serviceName}"
+
         start "${serviceName}"
     fi
 }
