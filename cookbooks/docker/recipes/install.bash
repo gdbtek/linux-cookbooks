@@ -33,9 +33,8 @@ function install()
 
     update-grub
 
-    # Config AUFS Systemd
+    # Config AUFS Init
 
-    header 'UPDATING AUFS UPSTART'
     createInitFileFromTemplate 'aufs' "${APP_FOLDER_PATH}/../files"
 
     # Display Info and Status
