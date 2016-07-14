@@ -33,7 +33,7 @@ function install()
 
     update-grub
 
-    # Config AUFS Upstart
+    # Config AUFS Systemd
 
     header 'UPDATING AUFS UPSTART'
     cp -f "${APP_FOLDER_PATH}/../files/aufs.conf.upstart" '/etc/init/aufs.conf'

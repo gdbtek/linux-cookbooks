@@ -38,16 +38,16 @@ function install()
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/config.js.conf" "${GHOST_INSTALL_FOLDER}/config.js" "${serverConfigData[@]}"
 
-    # Config Upstart
+    # Config Init
 
-    local -r upstartConfigData=(
+    local -r initConfigData=(
         '__ENVIRONMENT__' "${GHOST_ENVIRONMENT}"
         '__INSTALL_FOLDER__' "${GHOST_INSTALL_FOLDER}"
         '__USER_NAME__' "${GHOST_USER_NAME}"
         '__GROUP_NAME__' "${GHOST_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/ghost.conf.upstart" "/etc/init/${GHOST_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/ghost.conf.upstart" "/etc/init/${GHOST_SERVICE_NAME}.conf" "${initConfigData[@]}"
 
     # Start
 

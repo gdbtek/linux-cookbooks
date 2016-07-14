@@ -40,16 +40,16 @@ function install()
     chown -R "${GO_CD_USER_NAME}:${GO_CD_GROUP_NAME}" "${GO_CD_SERVER_INSTALL_FOLDER}"
     rm -f -r "${unzipFolder}"
 
-    # Config Upstart
+    # Config Init
 
-    local -r upstartConfigData=(
+    local -r initConfigData=(
         '__SERVER_INSTALL_FOLDER__' "${GO_CD_SERVER_INSTALL_FOLDER}"
         '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${GO_CD_USER_NAME}")"
         '__USER_NAME__' "${GO_CD_USER_NAME}"
         '__GROUP_NAME__' "${GO_CD_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/server.conf.upstart" "/etc/init/${GO_CD_SERVER_SERVICE_NAME}.conf" "${upstartConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/server.conf.upstart" "/etc/init/${GO_CD_SERVER_SERVICE_NAME}.conf" "${initConfigData[@]}"
     start "${GO_CD_SERVER_SERVICE_NAME}"
 
     # Display Open Ports
