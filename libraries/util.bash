@@ -1376,9 +1376,10 @@ function startSystemdService()
 {
     local -r serviceName="${1}"
 
-    header "STARTING SYSTEMD ${serviceName}"
+    header "STARTING SYSTEMD SERVICE ${serviceName}"
 
     systemctl daemon-reload
     systemctl enable "${serviceName}"
     systemctl start "${serviceName}"
+    systemctl status "${serviceName}"
 }
