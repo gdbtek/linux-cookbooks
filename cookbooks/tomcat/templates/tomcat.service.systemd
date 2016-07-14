@@ -1,0 +1,20 @@
+[Unit]
+Description=Tomcat Server
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+
+Environment=CATALINA_HOME='__INSTALL_FOLDER__'
+Environment=HOME='__HOME_FOLDER__'
+Environment=JAVA_HOME='__JDK_INSTALL_FOLDER__'
+
+ExecStart="${CATALINA_HOME}/bin/catalina.sh" run
+ExecStop=cd "${CATALINA_HOME}/logs" && find '.' -not -name '.' -delete && cd "${CATALINA_HOME}/temp" && find '.' -not -name '.' -delete
+
+[Socket]
+SocketUser=__USER_NAME__
+SocketGroup=__GROUP_NAME__
