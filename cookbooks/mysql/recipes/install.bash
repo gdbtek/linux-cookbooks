@@ -65,7 +65,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n\n$("${MYSQL_INSTALL_FOLDER}/bin/mysql" --version)"
+    displayVersion "$("${MYSQL_INSTALL_FOLDER}/bin/mysql" --version)"
 }
 
 function secureInstallation()

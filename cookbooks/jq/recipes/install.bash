@@ -21,7 +21,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n$("${JQ_INSTALL_FOLDER}/jq" --version)"
+    displayVersion "$("${JQ_INSTALL_FOLDER}/jq" --version)"
 }
 
 function main()

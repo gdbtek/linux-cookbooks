@@ -22,7 +22,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n$("${AWS_CLI_INSTALL_FOLDER}/bin/aws" --version 2>&1)"
+    displayVersion "$("${AWS_CLI_INSTALL_FOLDER}/bin/aws" --version 2>&1)"
 }
 
 function main()

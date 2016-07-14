@@ -77,7 +77,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n$("${TOMCAT_INSTALL_FOLDER}/bin/version.sh")"
+    displayVersion "$("${TOMCAT_INSTALL_FOLDER}/bin/version.sh")"
 }
 
 function main()

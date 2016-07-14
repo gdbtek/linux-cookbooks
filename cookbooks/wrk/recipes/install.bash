@@ -30,7 +30,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n$("${WRK_INSTALL_FOLDER}/bin/wrk" --version)"
+    displayVersion "$("${WRK_INSTALL_FOLDER}/bin/wrk" --version)"
 }
 
 function main()

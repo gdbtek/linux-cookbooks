@@ -31,7 +31,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n$(python --version)"
+    displayVersion "$(python --version)"
 }
 
 function main()

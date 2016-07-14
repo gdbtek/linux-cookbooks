@@ -43,7 +43,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n$("${MONGODB_INSTALL_FOLDER}/bin/mongo" --version)"
+    displayVersion "$("${MONGODB_INSTALL_FOLDER}/bin/mongo" --version)"
 }
 
 function main()

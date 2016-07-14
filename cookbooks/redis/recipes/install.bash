@@ -68,7 +68,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n$("${REDIS_INSTALL_BIN_FOLDER}/redis-server" --version)"
+    displayVersion "$("${REDIS_INSTALL_BIN_FOLDER}/redis-server" --version)"
 }
 
 function main()

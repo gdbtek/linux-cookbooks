@@ -21,7 +21,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n$(foodcritic --version)"
+    displayVersion "$(foodcritic --version)"
 }
 
 function main()

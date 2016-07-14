@@ -31,7 +31,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n$("${SIEGE_INSTALL_FOLDER}/bin/siege" --version)"
+    displayVersion "$("${SIEGE_INSTALL_FOLDER}/bin/siege" --version)"
 }
 
 function main()

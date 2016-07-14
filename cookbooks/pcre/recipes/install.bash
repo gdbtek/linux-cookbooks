@@ -30,7 +30,7 @@ function install()
 
     # Display Version
 
-    displayVersion "\n$("${PCRE_INSTALL_FOLDER}/bin/pcregrep" --version 2>&1)"
+    displayVersion "$("${PCRE_INSTALL_FOLDER}/bin/pcregrep" --version 2>&1)"
 }
 
 function main()
