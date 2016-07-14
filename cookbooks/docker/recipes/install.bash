@@ -40,6 +40,10 @@ function install()
 
     createInitFileFromTemplate 'aufs' "${APP_FOLDER_PATH}/../files"
 
+    # Start
+
+    startService 'docker'
+
     # Display Info and Status
 
     header 'DISPLAYING DOCKER INFO AND STATUS'
