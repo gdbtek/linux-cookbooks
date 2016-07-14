@@ -26,7 +26,10 @@ function install()
     local -r grubConfigFile='/etc/default/grub'
 
     local -r grubConfigAttribute='GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"'
-    local -r grubConfigData=('GRUB_CMDLINE_LINUX=""' "${grubConfigAttribute}")
+    local -r grubConfigData=(
+        'GRUB_CMDLINE_LINUX=""' "${grubConfigAttribute}"
+        'GRUB_HIDDEN_TIMEOUT=0' '# GRUB_HIDDEN_TIMEOUT=0'
+    )
 
     createFileFromTemplate "${grubConfigFile}" "${grubConfigFile}" "${grubConfigData[@]}"
     appendToFileIfNotFound "${grubConfigFile}" "$(stringToSearchPattern "${grubConfigAttribute}")" "${grubConfigAttribute}" 'true' 'false' 'true'
