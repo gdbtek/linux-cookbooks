@@ -12,10 +12,10 @@ LimitNOFILE=524288
 LimitNPROC=524288
 
 Restart=always
-RestartSec=10
+# RestartSec=10
 
-TimeoutStartSec=20
-TimeoutStopSec=20
+# TimeoutStartSec=20
+# TimeoutStopSec=20
 
 User=__USER_NAME__
 Group=__GROUP_NAME__
