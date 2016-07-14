@@ -1,0 +1,24 @@
+[Unit]
+Description=Nginx Server
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=forking
+
+LimitNOFILE=524288
+LimitNPROC=524288
+
+Restart=always
+RestartSec=10
+
+TimeoutStartSec=20
+TimeoutStopSec=20
+
+ExecStart='__INSTALL_FOLDER__/sbin/nginx'
+ExecStopPost=/bin/bash -e -c '\
+    rm -f -r __INSTALL_FOLDER__/*_temp && \
+    cd \'__INSTALL_FOLDER__/logs\' && find \'.\' -not -name \'.\' -delete \
+'

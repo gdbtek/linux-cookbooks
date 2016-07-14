@@ -55,12 +55,12 @@ function install()
 
     local -r initConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.conf.upstart" "/etc/init/${NGINX_SERVICE_NAME}.conf" "${initConfigData[@]}"
+    createInitFileFromTemplate "${NGINX_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
 
     # Start
 
     chown -R "${NGINX_USER_NAME}:${NGINX_GROUP_NAME}" "${NGINX_INSTALL_FOLDER}"
-    start "${NGINX_SERVICE_NAME}"
+    startService "${NGINX_SERVICE_NAME}"
 
     # Display Open Ports
 
