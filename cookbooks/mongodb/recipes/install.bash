@@ -28,14 +28,14 @@ function install()
         '__PORT__' "${MONGODB_PORT}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/mongodb.conf.upstart" "/etc/init/${MONGODB_SERVICE_NAME}.conf" "${initConfigData[@]}"
+    createInitFileFromTemplate "${MONGODB_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
     chown -R "$(whoami):$(whoami)" "${MONGODB_INSTALL_FOLDER}"
 
     # Start
 
     addUser "${MONGODB_USER_NAME}" "${MONGODB_GROUP_NAME}" 'false' 'true' 'false'
     chown -R "${MONGODB_USER_NAME}:${MONGODB_GROUP_NAME}" "${MONGODB_INSTALL_FOLDER}"
-    start "${MONGODB_SERVICE_NAME}"
+    startService "${MONGODB_SERVICE_NAME}"
 
     # Display Open Ports
 
