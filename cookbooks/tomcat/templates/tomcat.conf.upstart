@@ -20,6 +20,8 @@ env JAVA_HOME='__JDK_INSTALL_FOLDER__'
 
 exec '__INSTALL_FOLDER__/bin/startup.sh'
 
+pre-stop exec '__INSTALL_FOLDER__/bin/shutdown.sh'
+
 post-stop script
     cd '__INSTALL_FOLDER__/logs' && find '.' -not -name '.' -delete
     cd '__INSTALL_FOLDER__/temp' && find '.' -not -name '.' -delete
