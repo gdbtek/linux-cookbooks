@@ -69,8 +69,7 @@ function install()
     # Start
 
     chown -R "${TOMCAT_USER_NAME}:${TOMCAT_GROUP_NAME}" "${TOMCAT_INSTALL_FOLDER}"
-    systemctl enable "${TOMCAT_SERVICE_NAME}"
-    systemctl start "${TOMCAT_SERVICE_NAME}"
+    startSystemdService "${TOMCAT_SERVICE_NAME}"
 
     # Display Open Ports
 

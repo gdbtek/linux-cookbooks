@@ -1371,3 +1371,14 @@ function resetLogs()
     find '/var/log' -type f \( -regex '.*\.[0-9]+' -o -regex '.*\.[0-9]+.gz' \) -delete -print
     find '/var/log' -type f -exec cp -f '/dev/null' {} \; -print
 }
+
+function startSystemdService()
+{
+    local -r serviceName="${1}"
+
+    header "STARTING SYSTEMD ${serviceName}"
+
+    systemctl daemon-reload
+    systemctl enable "${serviceName}"
+    systemctl start "${serviceName}"
+}

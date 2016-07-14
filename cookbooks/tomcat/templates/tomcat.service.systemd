@@ -13,7 +13,6 @@ Environment='HOME=__HOME_FOLDER__'
 Environment='JAVA_HOME=__JDK_INSTALL_FOLDER__'
 
 ExecStart='__INSTALL_FOLDER__/bin/startup.sh'
-ExecStop=cd '__INSTALL_FOLDER__/logs' && find '.' -not -name '.' -delete && cd '__INSTALL_FOLDER__/temp' && find '.' -not -name '.' -delete
 
 User=__USER_NAME__
 Group=__GROUP_NAME__
