@@ -24,7 +24,7 @@ function install()
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/elastic-search.sh.profile" '/etc/profile.d/elastic-search.sh' "${profileConfigData[@]}"
 
-    # Config Upstart
+    # Config Systemd
 
     local -r upstartConfigData=(
         '__INSTALL_FOLDER__' "${ELASTIC_SEARCH_INSTALL_FOLDER}"

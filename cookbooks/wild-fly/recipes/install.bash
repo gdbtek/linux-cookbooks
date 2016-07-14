@@ -18,7 +18,7 @@ function install()
 
     unzipRemoteFile "${WILD_FLY_DOWNLOAD_URL}" "${WILD_FLY_INSTALL_FOLDER}"
 
-    # Config Upstart
+    # Config Systemd
 
     local -r upstartConfigData=(
         '__APPLICATION_BIND_ADDRESS__' "${WILD_FLY_APPLICATION_BIND_ADDRESS}"

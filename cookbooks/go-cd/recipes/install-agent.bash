@@ -42,7 +42,7 @@ function install()
     chown -R "${GO_CD_USER_NAME}:${GO_CD_GROUP_NAME}" "${GO_CD_AGENT_INSTALL_FOLDER}"
     rm -f -r "${unzipFolder}"
 
-    # Config Upstart
+    # Config Systemd
 
     if [[ "$(isEmptyString "${serverHostname}")" = 'true' ]]
     then

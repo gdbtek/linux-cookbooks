@@ -38,7 +38,7 @@ function install()
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/redis.sh.profile" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
 
-    # Config Upstart
+    # Config Systemd
 
     local -r upstartConfigData=(
         '__INSTALL_BIN_FOLDER__' "${REDIS_INSTALL_BIN_FOLDER}"

@@ -43,7 +43,7 @@ function install()
 
     checkExistFolder "${userHome}"
 
-    # Config Upstart
+    # Config Systemd
 
     local -r upstartConfigData=(
         '__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}"

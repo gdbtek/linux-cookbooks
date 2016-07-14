@@ -38,7 +38,7 @@ function install()
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/config.js.conf" "${GHOST_INSTALL_FOLDER}/config.js" "${serverConfigData[@]}"
 
-    # Config Upstart
+    # Config Systemd
 
     local -r upstartConfigData=(
         '__ENVIRONMENT__' "${GHOST_ENVIRONMENT}"

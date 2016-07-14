@@ -27,7 +27,7 @@ function installRole()
 
     createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigData[@]}"
 
-    # Config Upstart
+    # Config Systemd
 
     local -r upstartConfigData=(
         '__INSTALL_FILE__' "${jarFile}"

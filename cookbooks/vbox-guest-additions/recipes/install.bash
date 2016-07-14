@@ -21,7 +21,7 @@ function install()
     umount -v "${tempMountFolderPath}"
     rm -f -r -v "${tempISOFilePath}" "${tempMountFolderPath}"
 
-    # Config Upstart
+    # Config Systemd
 
     cp "${APP_FOLDER_PATH}/../files/vbox-guest-additions.conf.upstart" '/etc/init/vbox-guest-additions.conf'
 

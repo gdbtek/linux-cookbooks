@@ -18,7 +18,7 @@ function install()
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/mongodb.sh.profile" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
 
-    # Config Upstart
+    # Config Systemd
 
     local -r upstartConfigData=(
         '__INSTALL_FOLDER__' "${MONGODB_INSTALL_FOLDER}"
