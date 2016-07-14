@@ -47,7 +47,7 @@ function install()
         '__GROUP_NAME__' "${REDIS_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/redis.conf.upstart" "/etc/init/${REDIS_SERVICE_NAME}.conf" "${initConfigData[@]}"
+    createInitFileFromTemplate "${REDIS_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
 
     # Config System
 
@@ -60,7 +60,7 @@ function install()
 
     addUser "${REDIS_USER_NAME}" "${REDIS_GROUP_NAME}" 'false' 'true' 'false'
     chown -R "${REDIS_USER_NAME}:${REDIS_GROUP_NAME}" "${REDIS_INSTALL_BIN_FOLDER}" "${REDIS_INSTALL_CONFIG_FOLDER}" "${REDIS_INSTALL_DATA_FOLDER}"
-    start "${REDIS_SERVICE_NAME}"
+    startService "${REDIS_SERVICE_NAME}"
 
     # Display Open Ports
 
