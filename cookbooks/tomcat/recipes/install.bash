@@ -43,9 +43,9 @@ function install()
 
     checkExistFolder "${userHome}"
 
-    # Config Systemd
+    # Config Init
 
-    local -r systemdConfigData=(
+    local -r initConfigData=(
         '__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}"
         '__HOME_FOLDER__' "${userHome}"
         '__JDK_INSTALL_FOLDER__' "${TOMCAT_JDK_INSTALL_FOLDER}"
@@ -53,7 +53,7 @@ function install()
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.service.systemd" "/etc/systemd/system/${TOMCAT_SERVICE_NAME}.service" "${systemdConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.service.systemd" "/etc/systemd/system/${TOMCAT_SERVICE_NAME}.service" "${initConfigData[@]}"
 
     # Config Cron
 
@@ -69,7 +69,7 @@ function install()
     # Start
 
     chown -R "${TOMCAT_USER_NAME}:${TOMCAT_GROUP_NAME}" "${TOMCAT_INSTALL_FOLDER}"
-    startSystemdService "${TOMCAT_SERVICE_NAME}"
+    startService "${TOMCAT_SERVICE_NAME}"
 
     # Display Open Ports
 

@@ -24,15 +24,15 @@ function install()
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/kibana.sh.profile" '/etc/profile.d/kibana.sh' "${profileConfigData[@]}"
 
-    # Config Systemd
+    # Config Init
 
-    local -r systemdConfigData=(
+    local -r initConfigData=(
         '__INSTALL_FOLDER__' "${KIBANA_INSTALL_FOLDER}"
         '__USER_NAME__' "${KIBANA_USER_NAME}"
         '__GROUP_NAME__' "${KIBANA_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/kibana.conf.upstart" "/etc/init/${KIBANA_SERVICE_NAME}.conf" "${systemdConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/kibana.conf.upstart" "/etc/init/${KIBANA_SERVICE_NAME}.conf" "${initConfigData[@]}"
 
     # Start
 

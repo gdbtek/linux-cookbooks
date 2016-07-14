@@ -1372,11 +1372,11 @@ function resetLogs()
     find '/var/log' -type f -exec cp -f '/dev/null' {} \; -print
 }
 
-function startSystemdService()
+function startService()
 {
     local -r serviceName="${1}"
 
-    header "STARTING SYSTEMD SERVICE ${serviceName}"
+    header "STARTING SERVICE ${serviceName}"
 
     systemctl daemon-reload
     systemctl enable "${serviceName}"
