@@ -53,7 +53,7 @@ function install()
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.service.systemd" "/etc/systemd/system/${TOMCAT_SERVICE_NAME}.service" "${initConfigData[@]}"
+    createInitFileFromTemplate "${TOMCAT_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
 
     # Config Cron
 
