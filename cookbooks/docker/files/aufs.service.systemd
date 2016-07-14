@@ -1,0 +1,24 @@
+[Unit]
+Description=AUFS Module
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+
+LimitNOFILE=524288
+LimitNPROC=524288
+
+Restart=always
+RestartSec=10
+
+TimeoutStartSec=20
+TimeoutStopSec=20
+
+ExecStart=/bin/bash -e -c '\
+    (lsmod | awk '{ print $1 }' | grep -F -o 'aufs' > '/dev/null') ||
+    (modprobe -q 'aufs') ||
+    (apt-get update -m && apt-get install -y "linux-image-extra-$(uname -r)" && modprobe 'aufs' && which 'docker' > '/dev/null' && start 'docker')
+'

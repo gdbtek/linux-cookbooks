@@ -36,7 +36,7 @@ function install()
     # Config AUFS Systemd
 
     header 'UPDATING AUFS UPSTART'
-    cp -f "${APP_FOLDER_PATH}/../files/aufs.conf.upstart" '/etc/init/aufs.conf'
+    createInitFileFromTemplate 'aufs' "${APP_FOLDER_PATH}/../files"
 
     # Display Info and Status
 
