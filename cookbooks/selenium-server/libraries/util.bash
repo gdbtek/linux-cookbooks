@@ -36,11 +36,11 @@ function installRole()
         '__GROUP_NAME__' "${SELENIUM_SERVER_GROUP_NAME}"
     )
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.conf.upstart" "/etc/init/${SELENIUM_SERVER_SERVICE_NAME}.conf" "${initConfigData[@]}"
+    createInitFileFromTemplate "selenium-server-${role}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Start
 
     addUser "${SELENIUM_SERVER_USER_NAME}" "${SELENIUM_SERVER_GROUP_NAME}" 'false' 'true' 'false'
     chown -R "${SELENIUM_SERVER_USER_NAME}:${SELENIUM_SERVER_GROUP_NAME}" "${SELENIUM_SERVER_INSTALL_FOLDER}"
-    start "${SELENIUM_SERVER_SERVICE_NAME}"
+    startService "${SELENIUM_SERVER_SERVICE_NAME}"
 }
