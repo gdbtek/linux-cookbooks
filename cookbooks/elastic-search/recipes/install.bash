@@ -33,13 +33,13 @@ function install()
         '__GROUP_NAME__' "${ELASTIC_SEARCH_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/elastic-search.conf.upstart" "/etc/init/${ELASTIC_SEARCH_SERVICE_NAME}.conf" "${initConfigData[@]}"
+    createInitFileFromTemplate "${ELASTIC_SEARCH_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
 
     # Start
 
     addUser "${ELASTIC_SEARCH_USER_NAME}" "${ELASTIC_SEARCH_GROUP_NAME}" 'false' 'true' 'false'
     chown -R "${ELASTIC_SEARCH_USER_NAME}:${ELASTIC_SEARCH_GROUP_NAME}" "${ELASTIC_SEARCH_INSTALL_FOLDER}"
-    start "${ELASTIC_SEARCH_SERVICE_NAME}"
+    startService "${ELASTIC_SEARCH_SERVICE_NAME}"
 
     # Display Open Ports
 
