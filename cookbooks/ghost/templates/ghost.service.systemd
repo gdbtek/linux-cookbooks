@@ -23,5 +23,5 @@ Group=__GROUP_NAME__
 Environment='NODE_ENV=__ENVIRONMENT__'
 
 ExecStart=/bin/bash -e -c '\
-    node \'__INSTALL_FOLDER__/index\'
+    node \'__INSTALL_FOLDER__/index\' \
 '
