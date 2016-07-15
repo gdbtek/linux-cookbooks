@@ -148,6 +148,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
+                    # shellcheck disable=SC2178
                     local -r users="$(trimString "${1}")"
                 fi
 
