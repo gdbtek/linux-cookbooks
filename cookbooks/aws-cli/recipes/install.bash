@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+function installDependencies()
+{
+    installAptGetPackages 'python'
+}
+
 function install()
 {
     # Clean Up
@@ -37,6 +42,7 @@ function main()
 
     header 'INSTALLING AWS-CLI'
 
+    installDependencies
     install
     installCleanUp
 }
