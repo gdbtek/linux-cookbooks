@@ -6,7 +6,7 @@ After=network.target
 WantedBy=multi-user.target
 
 [Service]
-Type=simple
+Type=forking
 
 LimitNOFILE=524288
 LimitNPROC=524288

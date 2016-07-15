@@ -1,0 +1,53 @@
+[Unit]
+Description=Ghost Server
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+
+LimitNOFILE=524288
+LimitNPROC=524288
+
+Restart=always
+RestartSec=10
+
+TimeoutStartSec=20
+TimeoutStopSec=20
+
+User=__USER_NAME__
+Group=__GROUP_NAME__
+
+
+
+ExecStart='__INSTALL_FOLDER__/index'
+
+
+
+
+
+
+
+
+
+description 'Ghost Server'
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+
+limit nofile 524288 524288
+limit nproc 524288 524288
+
+respawn
+respawn limit 10 5
+
+kill timeout 20
+
+setuid '__USER_NAME__'
+setgid '__GROUP_NAME__'
+
+env NODE_ENV='__ENVIRONMENT__'
+
+exec node '__INSTALL_FOLDER__/index'
