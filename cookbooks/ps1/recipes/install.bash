@@ -165,7 +165,9 @@ function main()
 
     header 'INSTALLING PS1'
 
+    # shellcheck disable=SC2128
     install "${profileFileName}" "${hostName}" "${users}"
+
     installCleanUp
 }
 
