@@ -6,6 +6,7 @@ export ESSENTIAL_PACKAGES=(
     'iptables'
     'libfontconfig'
     'logrotate'
+    'lsof'
     'rsync'
     'screen'
     'software-properties-common'
