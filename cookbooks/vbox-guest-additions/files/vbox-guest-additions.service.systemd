@@ -14,8 +14,7 @@ LimitNPROC=524288
 Restart=always
 RestartSec=10
 
-TimeoutStartSec=20
-TimeoutStopSec=20
+TimeoutSec=30
 
 ExecStart=/bin/bash -e -c '\
     (lsmod | awk \'{ print $1 }\' | grep -F -o \'vboxguest\' > \'/dev/null\') || \

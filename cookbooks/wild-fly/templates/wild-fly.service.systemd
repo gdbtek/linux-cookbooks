@@ -14,8 +14,7 @@ LimitNPROC=524288
 Restart=always
 RestartSec=10
 
-TimeoutStartSec=20
-TimeoutStopSec=20
+TimeoutSec=30
 
 User=__USER_NAME__
 Group=__GROUP_NAME__
