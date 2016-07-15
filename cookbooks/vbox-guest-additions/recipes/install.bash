@@ -23,7 +23,7 @@ function install()
 
     # Config Init
 
-    cp "${APP_FOLDER_PATH}/../files/vbox-guest-additions.conf.upstart" '/etc/init/vbox-guest-additions.conf'
+    createInitFileFromTemplate 'vbox-guest-additions' "${APP_FOLDER_PATH}/../files"
 
     # Check Service Status
 

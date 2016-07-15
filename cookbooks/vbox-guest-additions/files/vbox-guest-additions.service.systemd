@@ -1,0 +1,24 @@
+[Unit]
+Description=VBox Guest Additions Module
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+
+LimitNOFILE=524288
+LimitNPROC=524288
+
+Restart=always
+RestartSec=10
+
+TimeoutStartSec=20
+TimeoutStopSec=20
+
+ExecStart=/bin/bash -e -c '\
+    (lsmod | awk \'{ print $1 }\' | grep -F -o \'vboxguest\' > \'/dev/null\') || \
+    (modprobe -q \'vboxguest\') || \
+    (service \'vboxadd\' setup && service \'vboxadd\' start && service \'vboxadd-service\' start) \
+'
