@@ -32,13 +32,13 @@ function install()
         '__GROUP_NAME__' "${KIBANA_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/kibana.conf.upstart" "/etc/init/${KIBANA_SERVICE_NAME}.conf" "${initConfigData[@]}"
+    createInitFileFromTemplate "${KIBANA_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
 
     # Start
 
     addUser "${KIBANA_USER_NAME}" "${KIBANA_GROUP_NAME}" 'false' 'true' 'false'
     chown -R "${KIBANA_USER_NAME}:${KIBANA_GROUP_NAME}" "${KIBANA_INSTALL_FOLDER}"
-    start "${KIBANA_SERVICE_NAME}"
+    startService "${KIBANA_SERVICE_NAME}"
 
     # Display Open Ports
 
