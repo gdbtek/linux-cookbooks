@@ -47,13 +47,13 @@ function install()
         '__GROUP_NAME__' "${GHOST_GROUP_NAME}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/ghost.conf.upstart" "/etc/init/${GHOST_SERVICE_NAME}.conf" "${initConfigData[@]}"
+    createInitFileFromTemplate "${GHOST_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
 
     # Start
 
     addUser "${GHOST_USER_NAME}" "${GHOST_GROUP_NAME}" 'false' 'true' 'false'
     chown -R "${GHOST_USER_NAME}:${GHOST_GROUP_NAME}" "${GHOST_INSTALL_FOLDER}"
-    start "${GHOST_SERVICE_NAME}"
+    startService "${GHOST_SERVICE_NAME}"
 
     # Display Open Ports
 
