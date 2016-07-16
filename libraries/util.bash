@@ -1348,11 +1348,6 @@ function isPortOpen()
     fi
 }
 
-function isUbuntuDistributor()
-{
-    isDistributor 'Ubuntu'
-}
-
 function isSystemdSupport()
 {
     if [[ "$(existCommand 'systemctl')" = 'true' ]]
@@ -1361,6 +1356,11 @@ function isSystemdSupport()
     else
         echo 'false'
     fi
+}
+
+function isUbuntuDistributor()
+{
+    isDistributor 'Ubuntu'
 }
 
 function isUserLoginInGroupName()
@@ -1422,5 +1422,24 @@ function startService()
         header "STARTING UPSTART SERVICE ${serviceName}"
 
         start "${serviceName}"
+    fi
+}
+
+function stopService()
+{
+    local -r serviceName="${1}"
+
+    checkNonEmptyString "${serviceName}" 'undefined service name'
+
+    if [[ "$(isSystemdSupport)" = 'true' ]]
+    then
+        header "STOPPING SYSTEMD SERVICE ${serviceName}"
+
+        systemctl daemon-reload
+        systemctl stop "${serviceName}"
+    else
+        header "STOPPING UPSTART SERVICE ${serviceName}"
+
+        stop "${serviceName}"
     fi
 }
