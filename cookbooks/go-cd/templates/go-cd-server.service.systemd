@@ -23,4 +23,4 @@ Environment='HOME=__GO_HOME_FOLDER__'
 
 WorkingDirectory=__SERVER_INSTALL_FOLDER__
 
-ExecStart=/bin/bash -e -c 'java -jar 'go.jar''
+ExecStart=/bin/bash -c -e 'java -jar 'go.jar''

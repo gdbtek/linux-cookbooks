@@ -25,7 +25,7 @@ Environment='JAVA_HOME=__JDK_INSTALL_FOLDER__'
 
 ExecStart='__INSTALL_FOLDER__/bin/startup.sh'
 ExecStop='__INSTALL_FOLDER__/bin/shutdown.sh'
-ExecStopPost=/bin/bash -e -c '\
+ExecStopPost=/bin/bash -c -e '\
     cd \'__INSTALL_FOLDER__/logs\' && find \'.\' -not -name \'.\' -delete && \
     cd \'__INSTALL_FOLDER__/temp\' && find \'.\' -not -name \'.\' -delete \
 '

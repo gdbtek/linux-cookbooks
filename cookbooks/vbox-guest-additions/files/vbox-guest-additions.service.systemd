@@ -16,7 +16,7 @@ RestartSec=10
 
 TimeoutSec=30
 
-ExecStart=/bin/bash -e -c '\
+ExecStart=/bin/bash -c -e '\
     (lsmod | awk \'{ print $1 }\' | grep -F -o \'vboxguest\' > \'/dev/null\') || \
     (modprobe -q \'vboxguest\') || \
     (service \'vboxadd\' setup && service \'vboxadd\' start && service \'vboxadd-service\' start) \
