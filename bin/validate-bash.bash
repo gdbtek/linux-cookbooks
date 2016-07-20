@@ -10,7 +10,7 @@ function main()
 
     checkExistCommand "${command}" "command '${command}' not found. Run '${projectPath}/cookbooks/shell-check/recipes/install.bash' to install"
 
-    find "${projectPath}" -type f -name '*.bash' -exec "${command}" -e 'SC1090' -s bash {} \; -print
+    find "${projectPath}" -type f -name '*.bash' -exec "${command}" -e 'SC1090' -s bash '{}' \; -print
 }
 
 main "${@}"
