@@ -920,9 +920,9 @@ function checkRequireRootUser()
 
 function checkRequireSystem()
 {
-    if [[ "$(isUbuntuDistributor)" = 'false' ]]
+    if [[ "$(isRedHatDistributor)" = 'false' && "$(isUbuntuDistributor)" = 'false' ]]
     then
-        fatal '\nFATAL : non Ubuntu OS found'
+        fatal '\nFATAL : only support RedHat or Ubuntu OS'
     fi
 
     if [[ "$(is64BitSystem)" = 'false' ]]
@@ -1276,7 +1276,7 @@ function isDistributor()
 {
     local -r distributor="${1}"
 
-    local -r found="$(uname -v | grep -F -i -o "${distributor}")"
+    local -r found="$(grep -F -i -o "${distributor}" < '/proc/version')"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -1346,6 +1346,11 @@ function isPortOpen()
     else
         echo 'true'
     fi
+}
+
+function isRedHatDistributor()
+{
+    isDistributor 'RedHat'
 }
 
 function isSystemdSupport()
