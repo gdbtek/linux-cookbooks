@@ -16,7 +16,7 @@ function install()
     done
 
     header 'RESTARTING SSH SERVICE'
-    service ssh restart
+    service sshd restart
 
     if [[ "$(isPortOpen '22')" = 'false' ]]
     then
