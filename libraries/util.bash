@@ -599,6 +599,31 @@ function displayVersion()
     info "${message}"
 }
 
+function encodeURL()
+{
+    local -r url="${1}"
+
+    local i=0
+    local walker=''
+
+    for ((i = 0; i < ${#url}; i++))
+    do
+        walker="${url:i:1}"
+
+        case "${walker}" in
+            [a-zA-Z0-9.~_-])
+                printf "${walker}"
+                ;;
+            ' ')
+                printf +
+                ;;
+            *)
+                printf '%%%X' "'${walker}"
+                ;;
+        esac
+    done
+}
+
 function error()
 {
     local -r message="${1}"
