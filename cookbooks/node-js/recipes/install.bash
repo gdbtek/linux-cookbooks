@@ -13,6 +13,8 @@ function resetOwnerAndSymlinkLocalBin()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${NODE_JS_INSTALL_FOLDER}"
@@ -70,6 +72,8 @@ function install()
     # Display Version
 
     displayVersion "Node Version : $(node --version)\nNPM Version  : $(npm --version)"
+
+    umask '0077'
 }
 
 function getLatestVersionNumber()
