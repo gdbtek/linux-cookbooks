@@ -399,7 +399,10 @@ function installCommands()
 {
     local -r data=("${@}")
 
-    runAptGetUpdate ''
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        runAptGetUpdate ''
+    fi
 
     local i=0
 
@@ -413,7 +416,15 @@ function installCommands()
 
         if [[ "$(existCommand "${command}")" = 'false' ]]
         then
-            installAptGetPackages "${package}"
+            if [[ "$(isUbuntuDistributor)" = 'true' ]]
+            then
+                installAptGetPackages "${package}"
+            elif [[ "$(isRedHatDistributor)" = 'true' ]]
+            then
+                yum install -y "${package}"
+            else
+                fatal '\nFATAL : only support RedHat or Ubuntu OS'
+            fi
         fi
     done
 }
