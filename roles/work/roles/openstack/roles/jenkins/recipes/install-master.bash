@@ -20,7 +20,7 @@ function main()
 
     local -r hostName='jenkins-master'
 
-    "${appFolderPath}/../../../../../../essential.bash" "${hostName}"
+    "${appFolderPath}/../../../../../../essential.bash" "${hostName}" 'centos,root,ubuntu'
     "${appFolderPath}/../../../../../../../cookbooks/ant/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/maven/recipes/install.bash"

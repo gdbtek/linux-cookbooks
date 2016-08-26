@@ -15,7 +15,7 @@ function main()
 
     # Install Apps
 
-    "${appFolderPath}/../../../../../../essential.bash" 'selenium'
+    "${appFolderPath}/../../../../../../essential.bash" 'selenium-hub' 'centos,root,ubuntu'
     "${appFolderPath}/../../../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
 
     # Clean Up
