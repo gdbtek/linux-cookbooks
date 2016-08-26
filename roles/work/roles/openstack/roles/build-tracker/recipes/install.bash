@@ -37,7 +37,7 @@ function main()
         '__GROUP_NAME__' "${OPENSTACK_BUILD_TRACKER_GROUP_NAME}"
     )
 
-    createInitFileFromTemplate "${OPENSTACK_BUILD_TRACKER_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
+    createInitFileFromTemplate "${OPENSTACK_BUILD_TRACKER_SERVICE_NAME}" "${appFolderPath}/../templates" "${initConfigData[@]}"
 
     # Start
 
