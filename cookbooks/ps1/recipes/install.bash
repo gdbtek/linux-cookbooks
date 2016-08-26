@@ -102,7 +102,13 @@ function install()
     # Update Default Prompt
 
     local -r defaultPrompt="export PS1=\"${PS1_USER_PROMPT}\""
-    local -r defaultProfileFilePath='/etc/skel/.profile'
+
+    if [[ -f '/etc/skel/.profile' ]]
+    then
+        local -r defaultProfileFilePath='/etc/skel/.profile'
+    else
+        local -r defaultProfileFilePath='/etc/skel/.bash_profile'
+    fi
 
     echo -e "Updating '\033[1;32m${defaultProfileFilePath}\033[0m'"
 
