@@ -15,6 +15,8 @@ function main()
 
     # Install Apps
 
+    apt-get update -m
+
     "${appFolderPath}/../../../../../../essential.bash" 'selenium-hub' 'centos,root,ubuntu'
     "${appFolderPath}/../../../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
 

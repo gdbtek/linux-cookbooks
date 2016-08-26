@@ -19,6 +19,8 @@ function main()
 
     local -r hostName='jenkins-slave'
 
+    apt-get update -m
+
     "${appFolderPath}/../../../../../../essential.bash" "${hostName}" 'centos,root,ubuntu'
     "${appFolderPath}/../../../../../../../cookbooks/ant/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"

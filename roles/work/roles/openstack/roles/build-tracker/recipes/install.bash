@@ -16,6 +16,8 @@ function main()
 
     # Install Apps
 
+    apt-get update -m
+
     "${appFolderPath}/../../../../../../essential.bash" 'build-tracker' 'centos,root,ubuntu'
     "${appFolderPath}/../../../../../../../cookbooks/mongodb/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${OPENSTACK_NODE_JS_VERSION}" "${OPENSTACK_NODE_JS_INSTALL_FOLDER}"
