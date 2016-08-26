@@ -419,11 +419,11 @@ function installCommands()
             if [[ "$(isUbuntuDistributor)" = 'true' ]]
             then
                 installAptGetPackages "${package}"
-            elif [[ "$(isRedHatDistributor)" = 'true' ]]
+            elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
             then
                 yum install -y "${package}"
             else
-                fatal '\nFATAL : only support RedHat or Ubuntu OS'
+                fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
             fi
         fi
     done
@@ -956,9 +956,9 @@ function checkRequireRootUser()
 
 function checkRequireSystem()
 {
-    if [[ "$(isRedHatDistributor)" = 'false' && "$(isUbuntuDistributor)" = 'false' ]]
+    if [[ "$(isCentOSDistributor)" = 'false' && "$(isRedHatDistributor)" = 'false' && "$(isUbuntuDistributor)" = 'false' ]]
     then
-        fatal '\nFATAL : only support RedHat or Ubuntu OS'
+        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
 
     if [[ "$(is64BitSystem)" = 'false' ]]
@@ -1306,6 +1306,11 @@ function initializeFolder()
 function is64BitSystem()
 {
     isMachineHardware 'x86_64'
+}
+
+function isCentOSDistributor()
+{
+    isDistributor 'centos'
 }
 
 function isDistributor()
