@@ -1117,7 +1117,7 @@ function existCommand()
 {
     local -r command="${1}"
 
-    if [[ "$(which "${command}")" = '' ]]
+    if [[ "$(which "${command}" 2> '/dev/null')" = '' ]]
     then
         echo 'false'
     else
