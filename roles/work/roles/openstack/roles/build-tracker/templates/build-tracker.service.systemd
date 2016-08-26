@@ -1,6 +1,7 @@
 [Unit]
 Description=Build-Tracker Server
-After=network.target
+Requires=mongodb.service
+After=mongodb.service
 
 [Install]
 WantedBy=multi-user.target
