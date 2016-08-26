@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installAptGetPackages 'openssh-server'
+    installPackage 'openssh-server' 'openssh-server'
 }
 
 function install()

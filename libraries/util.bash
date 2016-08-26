@@ -439,6 +439,22 @@ function installCURLCommand()
     installCommands "${commandPackage[@]}"
 }
 
+function installPackage()
+{
+    local -r aptPackage="${1}"
+    local -r rpmPackage="${2}"
+
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        installAptGetPackage "${aptPackage}"
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        yum install -y "${rpmPackage}"
+    else
+        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+    fi
+}
+
 function installPIPCommand()
 {
     local -r commandPackage=('pip' 'python-pip')
