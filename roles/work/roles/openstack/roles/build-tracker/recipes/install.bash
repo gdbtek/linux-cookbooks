@@ -2,41 +2,47 @@
 
 function main()
 {
+    local -r buildTrackerDownloadURL="${1}"
+
     # Load Libraries
 
     local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appFolderPath}/../../../../../../../libraries/util.bash"
-    source "${appFolderPath}/../../../../../libraries/util.bash"
     source "${appFolderPath}/../attributes/default.bash"
 
-    # Clean Up
+    # Install App
 
-    resetLogs
-
-    # Install Apps
-
-    apt-get update -m
-
-    "${appFolderPath}/../../../../../../essential.bash" 'build-tracker' 'centos,root,ubuntu'
-    "${appFolderPath}/../../../../../../../cookbooks/mongodb/recipes/install.bash"
-    "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${OPENSTACK_NODE_JS_VERSION}" "${OPENSTACK_NODE_JS_INSTALL_FOLDER}"
-
-    # Config SSH and GIT
-
-    addUserSSHKnownHost "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../files/known_hosts")"
-
-    configUserGIT "$(whoami)" "${OPENSTACK_GIT_USER_NAME}" "${OPENSTACK_GIT_USER_EMAIL}"
-    generateUserSSHKey "$(whoami)"
+    header 'INSTALLING BUILD-TRACKER'
 
     # Clean Up
 
-    cleanUpSystemFolders
-    cleanUpMess
+    initializeFolder "${OPENSTACK_BUILD_TRACKER_INSTALL_FOLDER}"
 
-    # Display Notice
+    # Add User
 
-    displayNotice "$(whoami)"
+    addUser "${OPENSTACK_BUILD_TRACKER_USER_NAME}" "${OPENSTACK_BUILD_TRACKER_GROUP_NAME}" 'false' 'true' 'false'
+
+    # Install
+
+    git clone "${buildTrackerDownloadURL}" "${OPENSTACK_BUILD_TRACKER_INSTALL_FOLDER}"
+    cd "${OPENSTACK_BUILD_TRACKER_INSTALL_FOLDER}"
+    npm install
+
+    # Config Init
+
+    local initConfigData=(
+        '__INSTALL_FOLDER__' "${OPENSTACK_BUILD_TRACKER_INSTALL_FOLDER}"
+        '__USER_NAME__' "${OPENSTACK_BUILD_TRACKER_USER_NAME}"
+        '__GROUP_NAME__' "${OPENSTACK_BUILD_TRACKER_GROUP_NAME}"
+    )
+
+    createInitFileFromTemplate "${OPENSTACK_BUILD_TRACKER_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
+
+    # Start
+
+    chown -R "${OPENSTACK_BUILD_TRACKER_USER_NAME}:${OPENSTACK_BUILD_TRACKER_GROUP_NAME}" "${OPENSTACK_BUILD_TRACKER_INSTALL_FOLDER}"
+    startService "${OPENSTACK_BUILD_TRACKER_SERVICE_NAME}"
 }
 
 main "${@}"

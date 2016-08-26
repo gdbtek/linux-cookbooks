@@ -1,0 +1,19 @@
+[Unit]
+Description=Build-Tracker Server
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+
+Restart=always
+RestartSec=10
+
+TimeoutSec=30
+
+User=__USER_NAME__
+Group=__GROUP_NAME__
+
+ExecStart=__INSTALL_FOLDER__/index.js
