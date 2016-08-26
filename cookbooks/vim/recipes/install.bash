@@ -2,7 +2,7 @@
 
 function install()
 {
-    installAptGetPackages 'vim'
+    installPackage 'vim' 'vim'
     cp -f "${APP_FOLDER_PATH}/../files/vimrc.local.conf" '/etc/vim/vimrc.local'
 }
 
