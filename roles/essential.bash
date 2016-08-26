@@ -7,6 +7,8 @@ function main()
 
     local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+    source "${appFolderPath}/../libraries/util.bash"
+
     "${appFolderPath}/../cookbooks/essential/recipes/install.bash"
     "${appFolderPath}/../cookbooks/jq/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ntp/recipes/install.bash"
