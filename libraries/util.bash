@@ -357,10 +357,13 @@ function unzipRemoteFile()
 
 function getLastAptGetUpdate()
 {
-    local -r aptDate="$(stat -c %Y '/var/cache/apt')"
-    local -r nowDate="$(date +'%s')"
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        local -r aptDate="$(stat -c %Y '/var/cache/apt')"
+        local -r nowDate="$(date +'%s')"
 
-    echo $((nowDate - aptDate))
+        echo $((nowDate - aptDate))
+    fi
 }
 
 function installAptGetPackage()
@@ -380,14 +383,17 @@ function installAptGetPackages()
 {
     local -r packages=("${@}")
 
-    runAptGetUpdate ''
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        runAptGetUpdate ''
 
-    local package=''
+        local package=''
 
-    for package in "${packages[@]}"
-    do
-        installAptGetPackage "${package}"
-    done
+        for package in "${packages[@]}"
+        do
+            installAptGetPackage "${package}"
+        done
+    fi
 }
 
 function installCleanUp()
@@ -525,22 +531,25 @@ function runAptGetUpdate()
 {
     local updateInterval="${1}"
 
-    local -r lastAptGetUpdate="$(getLastAptGetUpdate)"
-
-    if [[ "$(isEmptyString "${updateInterval}")" = 'true' ]]
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
-        # Default To 24 hours
-        updateInterval="$((24 * 60 * 60))"
-    fi
+        local -r lastAptGetUpdate="$(getLastAptGetUpdate)"
 
-    if [[ "${lastAptGetUpdate}" -gt "${updateInterval}" ]]
-    then
-        info 'apt-get update'
-        apt-get update -m
-    else
-        local -r lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
+        if [[ "$(isEmptyString "${updateInterval}")" = 'true' ]]
+        then
+            # Default To 24 hours
+            updateInterval="$((24 * 60 * 60))"
+        fi
 
-        info "\nSkip apt-get update because its last run was '${lastUpdate}' ago"
+        if [[ "${lastAptGetUpdate}" -gt "${updateInterval}" ]]
+        then
+            info 'apt-get update'
+            apt-get update -m
+        else
+            local -r lastUpdate="$(date -u -d @"${lastAptGetUpdate}" +'%-Hh %-Mm %-Ss')"
+
+            info "\nSkip apt-get update because its last run was '${lastUpdate}' ago"
+        fi
     fi
 }
 
