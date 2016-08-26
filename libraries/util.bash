@@ -370,12 +370,15 @@ function installAptGetPackage()
 {
     local -r package="${1}"
 
-    if [[ "$(isAptGetPackageInstall "${package}")" = 'true' ]]
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
-        debug "\nApt-Get Package '${package}' has already been installed"
-    else
-        echo -e "\033[1;35m\nInstalling Apt-Get Package '${package}'\033[0m"
-        DEBIAN_FRONTEND='noninteractive' apt-get install -y "${package}"
+        if [[ "$(isAptGetPackageInstall "${package}")" = 'true' ]]
+        then
+            debug "\nApt-Get Package '${package}' has already been installed"
+        else
+            echo -e "\033[1;35m\nInstalling Apt-Get Package '${package}'\033[0m"
+            DEBIAN_FRONTEND='noninteractive' apt-get install -y "${package}"
+        fi
     fi
 }
 
@@ -386,22 +389,22 @@ function installPackages()
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         runAptGetUpdate ''
-
-        local package=''
-
-        for package in "${packages[@]}"
-        do
-            if [[ "$(isUbuntuDistributor)" = 'true' ]]
-            then
-                installAptGetPackage "${package}"
-            elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
-            then
-                yum install -y "${package}"
-            else
-                fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
-            fi
-        done
     fi
+
+    local package=''
+
+    for package in "${packages[@]}"
+    do
+        if [[ "$(isUbuntuDistributor)" = 'true' ]]
+        then
+            installAptGetPackage "${package}"
+        elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+        then
+            yum install -y "${package}"
+        else
+            fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+        fi
+    done
 }
 
 function installCleanUp()
