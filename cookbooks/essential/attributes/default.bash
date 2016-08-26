@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-export ESSENTIAL_PACKAGES=(
+export APT_ESSENTIAL_PACKAGES=(
     'curl'
     'git'
     'iptables'
@@ -15,5 +15,18 @@ export ESSENTIAL_PACKAGES=(
     'tree'
     'unzip'
     'w3m'
+    'wget'
+)
+
+export RPM_ESSENTIAL_PACKAGES=(
+    'curl'
+    'git'
+    'iptables'
+    'logrotate'
+    'lsof'
+    'rsync'
+    'screen'
+    'tree'
+    'unzip'
     'wget'
 )
