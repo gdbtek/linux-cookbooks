@@ -2,14 +2,14 @@
 
 function install()
 {
+    installPackages 'ntp'
+
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         echo "${NTP_TIME_ZONE}" > '/etc/timezone'
         dpkg-reconfigure -f noninteractive tzdata 2> '/dev/null'
-        installPackages 'ntp'
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        yum install -y 'ntp'
         timedatectl set-timezone "${NTP_TIME_ZONE}"
     else
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
