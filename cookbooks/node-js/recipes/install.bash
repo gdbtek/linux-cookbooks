@@ -2,7 +2,15 @@
 
 function installDependencies()
 {
-    installPackages 'build-essential'
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        installPackages 'build-essential'
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        installPackages 'gcc-c++' 'make'
+    else
+        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+    fi
 }
 
 function resetOwnerAndSymlinkLocalBin()
