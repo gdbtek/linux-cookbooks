@@ -12,8 +12,9 @@ function main()
     "${appFolderPath}/../cookbooks/ntp/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ps1/recipes/install.bash" --host-name "${ps1HostName}" --users "${ps1Users}"
     "${appFolderPath}/../cookbooks/ssh/recipes/install.bash"
-    "${appFolderPath}/../cookbooks/tmp-reaper/recipes/install.bash"
     "${appFolderPath}/../cookbooks/vim/recipes/install.bash"
+
+    "${appFolderPath}/../cookbooks/tmp-reaper/recipes/install.bash"
 }
 
 main "${@}"
