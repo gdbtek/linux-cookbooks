@@ -14,7 +14,10 @@ function main()
     "${appFolderPath}/../cookbooks/ssh/recipes/install.bash"
     "${appFolderPath}/../cookbooks/vim/recipes/install.bash"
 
-    "${appFolderPath}/../cookbooks/tmp-reaper/recipes/install.bash"
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        "${appFolderPath}/../cookbooks/tmp-reaper/recipes/install.bash"
+    fi
 }
 
 main "${@}"
