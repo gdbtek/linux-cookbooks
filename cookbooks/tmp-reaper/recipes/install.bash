@@ -2,22 +2,27 @@
 
 function install()
 {
-    # Install
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        # Install
 
-    installPackages 'tmpreaper'
+        installPackages 'tmpreaper'
 
-    # Config Cron
+        # Config Cron
 
-    local content=''
-    local i=0
+        local content=''
+        local i=0
 
-    for ((i = 0; i < ${#TMP_REAPER_FOLDERS[@]}; i = i + 3))
-    do
-        content="${content}\ntmpreaper -a -f -s -v --protect '${TMP_REAPER_FOLDERS[${i} + 1]}' '${TMP_REAPER_FOLDERS[${i} + 2]}' '${TMP_REAPER_FOLDERS[${i}]}'"
-    done
+        for ((i = 0; i < ${#TMP_REAPER_FOLDERS[@]}; i = i + 3))
+        do
+            content="${content}\ntmpreaper -a -f -s -v --protect '${TMP_REAPER_FOLDERS[${i} + 1]}' '${TMP_REAPER_FOLDERS[${i} + 2]}' '${TMP_REAPER_FOLDERS[${i}]}'"
+        done
 
-    echo -e "$(removeEmptyLines "${content}")" > "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
-    chmod 755 "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
+        echo -e "$(removeEmptyLines "${content}")" > "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
+        chmod 755 "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
+    else
+        fatal '\nFATAL : only support Ubuntu OS'
+    fi
 }
 
 function main()
