@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installAptGetPackages 'build-essential' 'libssl-dev'
+    installPackages 'build-essential' 'libssl-dev'
 }
 
 function install()

@@ -379,7 +379,7 @@ function installAptGetPackage()
     fi
 }
 
-function installAptGetPackages()
+function installPackages()
 {
     local -r packages=("${@}")
 
@@ -391,7 +391,15 @@ function installAptGetPackages()
 
         for package in "${packages[@]}"
         do
-            installAptGetPackage "${package}"
+            if [[ "$(isUbuntuDistributor)" = 'true' ]]
+            then
+                installAptGetPackage "${package}"
+            elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+            then
+                yum install -y "${package}"
+            else
+                fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+            fi
         done
     fi
 }
@@ -425,15 +433,7 @@ function installCommands()
 
         if [[ "$(existCommand "${command}")" = 'false' ]]
         then
-            if [[ "$(isUbuntuDistributor)" = 'true' ]]
-            then
-                installAptGetPackages "${package}"
-            elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
-            then
-                yum install -y "${package}"
-            else
-                fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
-            fi
+            installPackages "${package}"
         fi
     done
 }

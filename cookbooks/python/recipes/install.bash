@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installAptGetPackages 'build-essential'
+    installPackages 'build-essential'
 }
 
 function install()

@@ -2,7 +2,7 @@
 
 function install()
 {
-    installAptGetPackages 'ufw'
+    installPackages 'ufw'
 
     # Set Up Policies
 

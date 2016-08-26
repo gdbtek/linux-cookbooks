@@ -18,7 +18,7 @@ function install()
 
     # Install
 
-    installAptGetPackages 'nginx'
+    installPackages 'nginx'
 
     # Display Open Ports
 

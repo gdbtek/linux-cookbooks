@@ -6,7 +6,7 @@ function install()
     then
         echo "${NTP_TIME_ZONE}" > '/etc/timezone'
         dpkg-reconfigure -f noninteractive tzdata 2> '/dev/null'
-        installAptGetPackages 'ntp'
+        installPackages 'ntp'
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
         yum install -y 'ntp'

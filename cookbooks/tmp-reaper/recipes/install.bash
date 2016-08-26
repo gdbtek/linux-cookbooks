@@ -4,7 +4,7 @@ function install()
 {
     # Install
 
-    installAptGetPackages 'tmpreaper'
+    installPackages 'tmpreaper'
 
     # Config Cron
 

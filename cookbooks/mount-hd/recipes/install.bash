@@ -62,7 +62,7 @@ function createPartition()
 {
     local -r disk="${1}"
 
-    installAptGetPackages 'expect'
+    installPackages 'expect'
 
     expect << DONE
         spawn fdisk "${disk}"

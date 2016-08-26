@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installAptGetPackages 'libaio1' 'sysv-rc-conf'
+    installPackages 'libaio1' 'sysv-rc-conf'
 }
 
 function install()
@@ -76,7 +76,7 @@ function secureInstallation()
 
     # Install Expect
 
-    installAptGetPackages 'expect'
+    installPackages 'expect'
 
     # Config Option
 

@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installAptGetPackages 'cabal-install'
+    installPackages 'cabal-install'
 }
 
 function install()

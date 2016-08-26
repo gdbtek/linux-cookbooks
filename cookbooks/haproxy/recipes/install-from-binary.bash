@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "${HAPROXY_VERSION}" != '1.4' ]]
     then
-        installAptGetPackages 'software-properties-common'
+        installPackages 'software-properties-common'
     fi
 }
 
@@ -19,7 +19,7 @@ function install()
         apt-get update -m
     fi
 
-    installAptGetPackages 'haproxy'
+    installPackages 'haproxy'
 
     # Enable Haproxy
 

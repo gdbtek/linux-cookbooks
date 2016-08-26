@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installAptGetPackages 'python'
+    installPackages 'python'
 }
 
 function install()
