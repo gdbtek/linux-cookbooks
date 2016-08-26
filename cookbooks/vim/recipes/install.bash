@@ -3,7 +3,19 @@
 function install()
 {
     installPackage 'vim' 'vim'
+
+    mkdir -p '/etc/vim'
     cp -f "${APP_FOLDER_PATH}/../files/vimrc.local.conf" '/etc/vim/vimrc.local'
+
+    if [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        local -r aliasCommand='alias vi=vim'
+
+        appendToFileIfNotFound '/etc/profile' "${aliasCommand}" "${aliasCommand}" 'false' 'false' 'true'
+    elif [[ "$(isUbuntuDistributor)" = 'false' ]]
+    then
+        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+    fi
 }
 
 function main()
