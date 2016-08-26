@@ -392,7 +392,10 @@ function installAptGetPackages()
 
 function installCleanUp()
 {
-    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
+    fi
 }
 
 function installCommands()
