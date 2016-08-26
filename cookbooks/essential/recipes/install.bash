@@ -18,7 +18,17 @@ function main()
     header 'INSTALLING ESSENTIAL PACKAGES'
 
     installDependencies
-    installPackages "${APT_ESSENTIAL_PACKAGES[@]}"
+
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        installPackages "${APT_ESSENTIAL_PACKAGES[@]}"
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        installPackages "${RPM_ESSENTIAL_PACKAGES[@]}"
+    else
+        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+    fi
+
     installCleanUp
 }
 
