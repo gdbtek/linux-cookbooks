@@ -54,8 +54,7 @@ function main()
 
     createFileFromTemplate "${appFolderPath}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${nginxConfigData[@]}"
 
-    stop "${NGINX_SERVICE_NAME}"
-    start "${NGINX_SERVICE_NAME}"
+    restartService "${NGINX_SERVICE_NAME}"
 
     # Clean Up
 
