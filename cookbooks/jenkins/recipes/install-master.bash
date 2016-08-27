@@ -63,8 +63,11 @@ function install()
     # Install
 
     jenkinsMasterDownloadWARApp
+    sleep 72
     jenkinsMasterDisplayVersion
     jenkinsMasterRefreshUpdateCenter
+    jenkinsMasterUnlock
+    restartService "${TOMCAT_SERVICE_NAME}"
     jenkinsMasterInstallPlugins
     jenkinsMasterUpdatePlugins
     jenkinsMasterSafeRestart

@@ -25,7 +25,6 @@ function jenkinsMasterDownloadWARApp()
     downloadFile "${JENKINS_DOWNLOAD_URL}" "${temporaryFile}" 'true'
     chown "${JENKINS_USER_NAME}:${JENKINS_GROUP_NAME}" "${temporaryFile}"
     mv "${temporaryFile}" "${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps/${appName}.war"
-    sleep 75
 }
 
 function jenkinsMasterDisplayVersion()
@@ -36,9 +35,12 @@ function jenkinsMasterDisplayVersion()
     checkNonEmptyString "${appName}"
     checkExistFile "${jenkinsCLIPath}"
 
-    info "\nVersion : $('java' -jar "${jenkinsCLIPath}" \
-                               -s "http://127.0.0.1:${JENKINS_TOMCAT_HTTP_PORT}/${appName}" \
-                               -version)"
+    info "\nVersion : $(
+        java \
+            -jar "${jenkinsCLIPath}" \
+            -s "http://127.0.0.1:${JENKINS_TOMCAT_HTTP_PORT}/${appName}" \
+            -version
+    )"
 }
 
 function jenkinsMasterRefreshUpdateCenter()
@@ -70,4 +72,12 @@ function jenkinsMasterSafeRestart()
     then
         "$(dirname "${BASH_SOURCE[0]}")/../recipes/safe-restart-master.bash"
     fi
+}
+
+function jenkinsMasterUnlock()
+{
+    local -r configData=('<useSecurity>true</useSecurity>' '<useSecurity>false</useSecurity>')
+
+    createFileFromTemplate "${JENKINS_INSTALL_FOLDER}/config.xml" "${JENKINS_INSTALL_FOLDER}/config.xml" "${configData[@]}"
+    echo '2.0' > "${JENKINS_INSTALL_FOLDER}/jenkins.install.InstallUtil.lastExecVersion"
 }

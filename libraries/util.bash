@@ -1484,6 +1484,16 @@ function resetLogs()
     find '/var/log' -type f -exec cp -f '/dev/null' '{}' \; -print
 }
 
+function restartService()
+{
+    local -r serviceName="${1}"
+
+    checkNonEmptyString "${serviceName}" 'undefined service name'
+
+    stopService "${serviceName}"
+    startService "${serviceName}"
+}
+
 function startService()
 {
     local -r serviceName="${1}"
