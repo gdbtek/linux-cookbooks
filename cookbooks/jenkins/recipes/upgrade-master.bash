@@ -9,6 +9,7 @@ function install()
     # Install
 
     jenkinsMasterDownloadWARApp
+    sleep 75
     jenkinsMasterDisplayVersion
     jenkinsMasterRefreshUpdateCenter
     jenkinsMasterUpdatePlugins
