@@ -55,6 +55,7 @@ export JENKINS_INSTALL_PLUGINS=(
     'rebuild'
     'run-condition'
     'slack'
+    'ssh-slaves'
     'template-workflows'
     'testng-plugin'
     'thinBackup'
