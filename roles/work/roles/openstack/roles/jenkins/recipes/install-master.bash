@@ -25,6 +25,7 @@ function main()
     "${appFolderPath}/../../../../../../essential.bash" "${hostName}" 'centos, root, ubuntu'
     "${appFolderPath}/../../../../../../../cookbooks/ant/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${OPENSTACK_JENKINS_NODE_JS_VERSION}" "${OPENSTACK_JENKINS_NODE_JS_INSTALL_FOLDER}"
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-master.bash"
