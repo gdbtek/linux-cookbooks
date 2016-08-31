@@ -718,6 +718,14 @@ function header()
     echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${title}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
 }
 
+function indentString()
+{
+    local -r indentString="$(escapeSearchPattern "${1}")"
+    local -r string="$(escapeSearchPattern "${2}")"
+
+    sed "s@^@${indentString}@g" <<< "${string}"
+}
+
 function info()
 {
     local -r message="${1}"
