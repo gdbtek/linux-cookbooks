@@ -1,2 +1,2 @@
-ubuntu-cookbooks
-================
+linux-cookbooks
+===============
