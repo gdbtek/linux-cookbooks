@@ -23,13 +23,13 @@ function main()
     "${appFolderPath}/../../../../../../essential.bash" 'build-tracker' 'centos, root, ubuntu'
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/mongodb/recipes/install.bash"
-    "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${OPENSTACK_NODE_JS_VERSION}" "${OPENSTACK_NODE_JS_INSTALL_FOLDER}"
+    "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_NODE_JS_VERSION}" "${CLOUD_NODE_JS_INSTALL_FOLDER}"
 
     # Config SSH and GIT
 
     addUserSSHKnownHost "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../files/known_hosts")"
 
-    configUserGIT "$(whoami)" "${OPENSTACK_GIT_USER_NAME}" "${OPENSTACK_GIT_USER_EMAIL}"
+    configUserGIT "$(whoami)" "${CLOUD_GIT_USER_NAME}" "${CLOUD_GIT_USER_EMAIL}"
     generateUserSSHKey "$(whoami)"
 
     # Clean Up
