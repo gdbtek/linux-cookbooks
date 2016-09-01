@@ -22,13 +22,13 @@ function setupRepository()
 
     mkdir -p "${repositoryPath}"
 
-    if [[ -d "${repositoryPath}/ubuntu-cookbooks" ]]
+    if [[ -d "${repositoryPath}/linux-cookbooks" ]]
     then
-        cd "${repositoryPath}/ubuntu-cookbooks"
+        cd "${repositoryPath}/linux-cookbooks"
         git pull
     else
         cd "${repositoryPath}"
-        git clone 'https://github.com/gdbtek/ubuntu-cookbooks.git'
+        git clone 'https://github.com/gdbtek/linux-cookbooks.git'
     fi
 }
 
@@ -38,7 +38,7 @@ function updateRepositoryOnLogin()
 
     header 'UPDATING REPOSITORY ON LOGIN'
 
-    local -r command='cd /opt/git/github.com/gdbtek/ubuntu-cookbooks/cookbooks && git pull'
+    local -r command='cd /opt/git/github.com/gdbtek/linux-cookbooks/cookbooks && git pull'
 
     appendToFileIfNotFound "$(getProfileFilePath "${userLogin}")" "${command}" "${command}" 'false' 'false' 'true'
 }
