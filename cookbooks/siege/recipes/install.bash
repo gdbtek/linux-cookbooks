@@ -32,7 +32,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${SIEGE_INSTALL_FOLDER}/bin/siege" --version)"
+    displayVersion "$("${SIEGE_INSTALL_FOLDER}/bin/siege" --version 2>&1)"
 }
 
 function main()
