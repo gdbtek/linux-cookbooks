@@ -22,6 +22,7 @@ function install()
     make
     make install
     rm -f -r "${tempFolder}"
+    ln -f -s "${SIEGE_INSTALL_FOLDER}/bin/siege" '/usr/local/bin/siege'
 
     # Config Profile
 
