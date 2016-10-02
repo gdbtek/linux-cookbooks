@@ -389,7 +389,7 @@ function installBuildEssential()
         installPackages 'build-essential'
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        yum install -y gcc-c++ make
+        yum install -y gcc-c++ kernel-devel make
     else
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
