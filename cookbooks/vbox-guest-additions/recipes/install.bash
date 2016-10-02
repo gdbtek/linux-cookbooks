@@ -15,13 +15,13 @@ function install()
 
     downloadFile "${VBOX_GUEST_ADDITIONS_DOWNLOAD_URL}" "${tempISOFilePath}" true
     mount -o loop "${tempISOFilePath}" "${tempMountFolderPath}"
-    cp -pr "${tempMountFolderPath}" "${tempInstallerFolderPath}"
+    copyFolderContent "${tempMountFolderPath}" "${tempInstallerFolderPath}"
     umount -v "${tempMountFolderPath}"
     rm -f -r -v "${tempISOFilePath}" "${tempMountFolderPath}"
 
     # Install
 
-    yes | "${tempInstallerFolderPath}/${tempMountFolderPath}/VBoxLinuxAdditions.run" || true
+    yes | "${tempInstallerFolderPath}/VBoxLinuxAdditions.run" || true
 
     # Clean Up
 

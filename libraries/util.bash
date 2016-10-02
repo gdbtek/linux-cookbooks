@@ -108,6 +108,21 @@ function checkValidJSONFile()
     fi
 }
 
+function copyFolderContent()
+{
+    local -r sourceFolder="${1}"
+    local -r destinationFolder="${2}"
+
+    checkExistFolder "${sourceFolder}"
+    checkExistFolder "${destinationFolder}"
+
+    local -r currentPath="$(pwd)"
+
+    cd "${sourceFolder}"
+    find '.' -maxdepth 1 -not -name '.' -exec cp -p -r '{}' "${destinationFolder}" \;
+    cd "${currentPath}"
+}
+
 function createFileFromTemplate()
 {
     local -r sourceFile="${1}"
