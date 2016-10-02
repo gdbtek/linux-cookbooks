@@ -14,7 +14,7 @@ function install()
 
     downloadFile "${VBOX_GUEST_ADDITIONS_DOWNLOAD_URL}" "${tempISOFilePath}" true
     mount -o loop "${tempISOFilePath}" "${tempMountFolderPath}"
-    yes | "${tempMountFolderPath}/VBoxLinuxAdditions.run" || true
+    yes | sh "${tempMountFolderPath}/VBoxLinuxAdditions.run" || true
 
     # Clean Up
 
