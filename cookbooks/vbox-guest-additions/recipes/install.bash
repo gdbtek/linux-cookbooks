@@ -17,7 +17,7 @@ function install()
     mount -o loop "${tempISOFilePath}" "${tempMountFolderPath}"
     copyFolderContent "${tempMountFolderPath}" "${tempInstallerFolderPath}"
     umount -v "${tempMountFolderPath}"
-    rm -f -r -v "${tempISOFilePath}" "${tempMountFolderPath}"
+    rm -f -r "${tempISOFilePath}" "${tempMountFolderPath}"
 
     # Install
 
@@ -25,7 +25,7 @@ function install()
 
     # Clean Up
 
-    rm -f -r -v "${tempInstallerFolderPath}"
+    rm -f -r "${tempInstallerFolderPath}"
 
     # Config Init
 
