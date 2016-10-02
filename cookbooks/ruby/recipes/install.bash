@@ -2,7 +2,8 @@
 
 function installDependencies()
 {
-    installPackages 'build-essential' 'libffi-dev' 'libgdbm-dev' 'libreadline-dev' 'libssl-dev' 'zlib1g-dev'
+    installBuildEssential
+    installPackages 'libffi-dev' 'libgdbm-dev' 'libreadline-dev' 'libssl-dev' 'zlib1g-dev'
 }
 
 function install()

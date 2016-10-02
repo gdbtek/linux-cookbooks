@@ -2,7 +2,8 @@
 
 function installDependencies()
 {
-    installPackages 'build-essential' 'libbz2-dev' 'pkg-config' 'valgrind' 'zlib1g-dev'
+    installBuildEssential
+    installPackages 'libbz2-dev' 'pkg-config' 'valgrind' 'zlib1g-dev'
 }
 
 function install()

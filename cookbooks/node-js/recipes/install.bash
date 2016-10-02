@@ -4,7 +4,8 @@ function installDependencies()
 {
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
-        installPackages 'build-essential' 'python'
+        installBuildEssential
+        installPackages 'python'
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
         installPackages 'gcc-c++' 'make' 'python'

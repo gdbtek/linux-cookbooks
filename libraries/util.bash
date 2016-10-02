@@ -382,6 +382,19 @@ function installAptGetPackage()
     fi
 }
 
+function installBuildEssential()
+{
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        installPackages 'build-essential'
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        yum install -y gcc-c++ make
+    else
+        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+    fi
+}
+
 function installPackages()
 {
     local -r packages=("${@}")

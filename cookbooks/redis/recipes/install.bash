@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installPackages 'build-essential'
+    installBuildEssential
 }
 
 function install()

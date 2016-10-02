@@ -10,7 +10,7 @@ export CLOUD_GIT_USER_NAME='Nam Nguyen'
 export CLOUD_GIT_USER_EMAIL='namnguye@adobe.com'
 
 export CLOUD_NODE_JS_INSTALL_FOLDER="${NODE_JS_INSTALL_FOLDER}"
-export CLOUD_NODE_JS_VERSION='v0.10.46'
+export CLOUD_NODE_JS_VERSION='v0.10.47'
 
 ###########
 # INSTALL #
