@@ -7,19 +7,25 @@ function installDependencies()
 
 function install()
 {
-    # Install
+    # Download
 
     local -r tempISOFilePath="$(getTemporaryFile)"
     local -r tempMountFolderPath="$(getTemporaryFolder)"
+    local -r tempInstallerFolderPath="$(getTemporaryFolder)"
 
     downloadFile "${VBOX_GUEST_ADDITIONS_DOWNLOAD_URL}" "${tempISOFilePath}" true
     mount -o loop "${tempISOFilePath}" "${tempMountFolderPath}"
-    yes | sh "${tempMountFolderPath}/VBoxLinuxAdditions.run" || true
+    cp -pr "${tempMountFolderPath}" "${tempInstallerFolderPath}"
+    umount -v "${tempMountFolderPath}"
+    rm -f -r -v "${tempISOFilePath}" "${tempMountFolderPath}"
+
+    # Install
+
+    yes | "${tempInstallerFolderPath}/VBoxLinuxAdditions.run" || true
 
     # Clean Up
 
-    umount -v "${tempMountFolderPath}"
-    rm -f -r -v "${tempISOFilePath}" "${tempMountFolderPath}"
+    rm -f -r -v "${tempInstallerFolderPath}"
 
     # Config Init
 
