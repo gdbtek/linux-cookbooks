@@ -21,10 +21,7 @@ function install()
 
     # Install
 
-    yes | "${tempInstallerFolderPath}/VBoxLinuxAdditions.run" || true
-
-    # Clean Up
-
+    "${tempInstallerFolderPath}/VBoxLinuxAdditions.run" || true
     rm -f -r "${tempInstallerFolderPath}"
 
     # Config Init
