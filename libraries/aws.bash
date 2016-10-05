@@ -25,6 +25,18 @@ function getInstanceRegion()
     echo "${availabilityZone:0:${#availabilityZone} - 1}"
 }
 
+function getKeyPairFingerPrintByName()
+{
+    local -r keyPairName="${1}"
+
+    aws ec2 describe-key-pairs \
+        --key-name "${keyPairName}" 2> '/dev/null' |
+    jq \
+        --compact-output \
+        --raw-output \
+        '.["KeyPairs"] | .[0] | .["KeyFingerprint"] // empty'
+}
+
 function getSecurityGroupIDByName()
 {
     local -r securityGroupName="${1}"
@@ -35,6 +47,28 @@ function getSecurityGroupIDByName()
         --compact-output \
         --raw-output \
         '.["SecurityGroups"] | .[0] | .["GroupId"] // empty'
+}
+
+function revokeSecurityGroupIngress()
+{
+    local -r securityGroupID="${1}"
+    local -r securityGroupName="${2}"
+
+    local -r ipPermissions="$(
+        aws ec2 describe-security-groups \
+            --filters "Name=group-name,Values=${securityGroupName}" |
+        jq \
+            --compact-output \
+            --raw-output \
+            '.["SecurityGroups"] | .[0] | .["IpPermissions"] // empty'
+    )"
+
+    if [[ "$(isEmptyString "${ipPermissions}")" = 'false' && "${ipPermissions}" != '[]' ]]
+    then
+        aws ec2 revoke-security-group-ingress \
+            --group-id "${securityGroupID}" \
+            --ip-permissions "${ipPermissions}"
+    fi
 }
 
 function updateInstanceName()
@@ -147,4 +181,20 @@ function getUserDataValue()
         tail -1 |
         awk -F '=' '{ print $2 }'
     )"
+}
+
+#################
+# VPC UTILITIES #
+#################
+
+function getVPCIDByName()
+{
+    local -r vpcName="${1}"
+
+    aws ec2 describe-vpcs \
+        --filter "Name=tag:Name,Values=${vpcName}" |
+    jq \
+        --compact-output \
+        --raw-output \
+        '.["Vpcs"] | .[0] | .["VpcId"] // empty'
 }
