@@ -167,6 +167,58 @@ function getHostedZoneIDByDomainName()
     awk -F '/' '{ print $3 }'
 }
 
+################
+# S3 UTILITIES #
+################
+
+function getAWSELBAccountID()
+{
+    local -r region="${1}"
+
+    if [[ "${region}" = 'ap-northeast-1' ]]
+    then
+        echo '582318560864'
+    elif [[ "${region}" = 'ap-northeast-2' ]]
+    then
+        echo '600734575887'
+    elif [[ "${region}" = 'ap-south-1' ]]
+    then
+        echo '718504428378'
+    elif [[ "${region}" = 'ap-southeast-1' ]]
+    then
+        echo '114774131450'
+    elif [[ "${region}" = 'ap-southeast-2' ]]
+    then
+        echo '783225319266'
+    elif [[ "${region}" = 'cn-north-1' ]]
+    then
+        echo '638102146993'
+    elif [[ "${region}" = 'eu-central-1' ]]
+    then
+        echo '054676820928'
+    elif [[ "${region}" = 'eu-west-1' ]]
+    then
+        echo '156460612806'
+    elif [[ "${region}" = 'sa-east-1' ]]
+    then
+        echo '507241528517'
+    elif [[ "${region}" = 'us-east-1' ]]
+    then
+        echo '127311923021'
+    elif [[ "${region}" = 'us-gov-west-1' ]]
+    then
+        echo '048591011584'
+    elif [[ "${region}" = 'us-west-1' ]]
+    then
+        echo '027434742980'
+    elif [[ "${region}" = 'us-west-2' ]]
+    then
+        echo '797873946194'
+    else
+        echo ''
+    fi
+}
+
 #######################
 # USER-DATA UTILITIES #
 #######################
