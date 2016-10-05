@@ -171,6 +171,13 @@ function getHostedZoneIDByDomainName()
 # S3 UTILITIES #
 ################
 
+function existS3Bucket()
+{
+    local -r bucketName="${1}"
+
+    echo "$(isEmptyString "$(aws s3api head-bucket --bucket "${bucketName}" 2>&1)")"
+}
+
 function getAWSELBAccountID()
 {
     local -r region="${1}"
