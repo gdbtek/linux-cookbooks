@@ -3,7 +3,14 @@
 function installDependencies()
 {
     installBuildEssential
-    installPackages 'libffi-dev' 'libgdbm-dev' 'libreadline-dev' 'libssl-dev' 'zlib1g-dev'
+
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        installPackages 'libffi-dev' 'libgdbm-dev' 'libreadline-dev' 'libssl-dev' 'zlib1g-dev'
+    elif [[ "$(isCentOSDistributor)" = 'false' && "$(isRedHatDistributor)" = 'false' ]]
+    then
+        fatal 'FATAL : only support CentOS, RedHat or Ubuntu OS'
+    fi
 }
 
 function install()
