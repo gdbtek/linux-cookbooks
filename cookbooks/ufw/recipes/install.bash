@@ -2,27 +2,32 @@
 
 function install()
 {
-    installPackages 'ufw'
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        installPackages 'ufw'
 
-    # Set Up Policies
+        # Set Up Policies
 
-    ufw --force reset
-    ufw default deny incoming
-    ufw default allow outgoing
+        ufw --force reset
+        ufw default deny incoming
+        ufw default allow outgoing
 
-    local policy=''
+        local policy=''
 
-    for policy in "${UFW_POLICIES[@]}"
-    do
-        local rule=(${policy})
+        for policy in "${UFW_POLICIES[@]}"
+        do
+            local rule=(${policy})
 
-        ufw "${rule[@]}"
-    done
+            ufw "${rule[@]}"
+        done
 
-    # Enable Service
+        # Enable Service
 
-    ufw --force enable
-    ufw status verbose
+        ufw --force enable
+        ufw status verbose
+    else
+        fatal '\nFATAL : only support Ubuntu OS'
+    fi
 }
 
 function main()
