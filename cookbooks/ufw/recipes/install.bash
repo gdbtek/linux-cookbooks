@@ -26,7 +26,7 @@ function install()
         ufw --force enable
         ufw status verbose
     else
-        fatal '\nFATAL : only support Ubuntu OS'
+        fatal 'FATAL : only support Ubuntu OS'
     fi
 }
 

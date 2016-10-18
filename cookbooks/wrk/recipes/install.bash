@@ -9,7 +9,7 @@ function installDependencies()
         installPackages 'libssl-dev'
     elif [[ "$(isCentOSDistributor)" = 'false' && "$(isRedHatDistributor)" = 'false' ]]
     then
-        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+        fatal 'FATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
 }
 
