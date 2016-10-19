@@ -17,6 +17,7 @@ function main()
 
     # Clean Up
 
+    remountTMP
     initializeFolder "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER}"
 
     # Add User

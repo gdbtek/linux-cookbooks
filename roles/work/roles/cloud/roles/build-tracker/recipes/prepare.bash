@@ -12,6 +12,7 @@ function main()
 
     # Clean Up
 
+    remountTMP
     resetLogs
 
     # Install Apps
