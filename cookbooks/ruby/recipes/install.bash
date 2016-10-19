@@ -15,6 +15,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${RUBY_INSTALL_FOLDER}"
@@ -40,6 +42,8 @@ function install()
     # Display Version
 
     displayVersion "$(ruby --version)"
+
+    umask '0077'
 }
 
 function main()

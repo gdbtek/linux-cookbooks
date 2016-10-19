@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${EC2_API_TOOLS_INSTALL_FOLDER}"
@@ -40,6 +42,8 @@ function install()
     local -r profileConfigData=('__INSTALL_FOLDER__' "${EC2_API_TOOLS_INSTALL_FOLDER}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/ec2-api-tools.sh.profile" '/etc/profile.d/ec2-api-tools.sh' "${profileConfigData[@]}"
+
+    umask '0077'
 }
 
 function main()

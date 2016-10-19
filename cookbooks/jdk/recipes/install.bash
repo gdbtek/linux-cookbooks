@@ -2,6 +2,8 @@
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${JDK_INSTALL_FOLDER}"
@@ -27,6 +29,8 @@ function install()
     # Display Version
 
     displayVersion "$(java -version 2>&1)"
+
+    umask '0077'
 }
 
 function main()

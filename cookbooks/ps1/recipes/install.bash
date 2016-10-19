@@ -43,6 +43,8 @@ function install()
     local -r hostName="${2}"
     local users=(${3//,/ })
 
+    umask '0022'
+
     # Reformat PS1
 
     if [[ "$(isEmptyString "${hostName}")" = 'false' ]]
@@ -113,6 +115,8 @@ function install()
     echo -e "Updating '\033[1;32m${defaultProfileFilePath}\033[0m'"
 
     appendToFileIfNotFound "${defaultProfileFilePath}" "${defaultPrompt}" "${defaultPrompt}" 'false' 'false' 'true'
+
+    umask '0077'
 }
 
 function main()

@@ -7,6 +7,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     local -r installFolderName="$(getFileName "${MYSQL_INSTALL_FOLDER}")"
@@ -66,6 +68,8 @@ function install()
     # Display Version
 
     displayVersion "$("${MYSQL_INSTALL_FOLDER}/bin/mysql" --version)"
+
+    umask '0077'
 }
 
 function secureInstallation()

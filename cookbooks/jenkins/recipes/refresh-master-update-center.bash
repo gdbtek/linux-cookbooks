@@ -2,6 +2,8 @@
 
 function refreshUpdateCenter()
 {
+    umask '0022'
+
     # Validate Jenkins Config Folder
 
     if [[ "$(isEmptyString "${JENKINS_INSTALL_FOLDER}")" = 'true' ]]
@@ -28,6 +30,8 @@ function refreshUpdateCenter()
     echo "${updateInfo}" > "${jsonFilePath}"
     chown -R "${JENKINS_USER_NAME}:${JENKINS_GROUP_NAME}" "${updateFolderPath}"
     info "Updated '${jsonFilePath}'"
+
+    umask '0077'
 }
 
 function main()

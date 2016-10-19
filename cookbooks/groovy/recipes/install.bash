@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${GROOVY_INSTALL_FOLDER}"
@@ -49,6 +51,8 @@ function install()
     # Display Version
 
     displayVersion "$("${GROOVY_INSTALL_FOLDER}/bin/groovy" --version)"
+
+    umask '0077'
 }
 
 function main()

@@ -2,6 +2,8 @@
 
 function install()
 {
+    umask '0022'
+
     installPackages 'ntp'
 
     if [[ "$(isUbuntuDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
@@ -10,6 +12,8 @@ function install()
     else
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
+
+    umask '0077'
 }
 
 function main()

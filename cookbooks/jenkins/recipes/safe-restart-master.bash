@@ -2,6 +2,8 @@
 
 function safeRestart()
 {
+    umask '0022'
+
     local -r appName="$(getFileName "${JENKINS_DOWNLOAD_URL}")"
     local -r jenkinsCLIPath="${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
     local -r jenkinsAppURL="http://127.0.0.1:${JENKINS_TOMCAT_HTTP_PORT}/${appName}"
@@ -11,6 +13,8 @@ function safeRestart()
     checkExistURL "${jenkinsAppURL}"
 
     java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" safe-restart
+
+    umask '0077'
 }
 
 function main()

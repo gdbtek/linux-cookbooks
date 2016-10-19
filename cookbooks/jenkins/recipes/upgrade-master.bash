@@ -2,6 +2,8 @@
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     jenkinsMasterWARAppCleanUp
@@ -14,6 +16,8 @@ function install()
     jenkinsMasterRefreshUpdateCenter
     jenkinsMasterUpdatePlugins
     jenkinsMasterSafeRestart
+
+    umask '0077'
 }
 
 function main()

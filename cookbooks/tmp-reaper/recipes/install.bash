@@ -2,6 +2,8 @@
 
 function install()
 {
+    umask '0022'
+
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         # Install
@@ -23,6 +25,8 @@ function install()
     else
         fatal 'FATAL : only support Ubuntu OS'
     fi
+
+    umask '0077'
 }
 
 function main()

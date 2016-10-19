@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}"
@@ -24,6 +26,8 @@ function install()
     # Display Version
 
     displayVersion "$(java -jar "${consoleJARFilePath}" -version)"
+
+    umask '0077'
 }
 
 function main()

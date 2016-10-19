@@ -10,8 +10,12 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     initializeFolder "${JENKINS_WORKSPACE_FOLDER}"
     chown -R "${JENKINS_USER_NAME}:${JENKINS_GROUP_NAME}" "${JENKINS_WORKSPACE_FOLDER}"
+
+    umask '0077'
 }
 
 function main()

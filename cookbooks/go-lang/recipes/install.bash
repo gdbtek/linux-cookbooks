@@ -7,6 +7,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${GO_LANG_INSTALL_FOLDER}"
@@ -28,6 +30,8 @@ function install()
 
     export GOROOT="${GO_LANG_INSTALL_FOLDER}"
     displayVersion "$(go version)"
+
+    umask '0077'
 }
 
 function main()

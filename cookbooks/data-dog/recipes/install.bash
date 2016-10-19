@@ -2,6 +2,8 @@
 
 function install()
 {
+    umask '0022'
+
     # Install
 
     export DD_API_KEY="${DATA_DOG_API_KEY}"
@@ -10,6 +12,8 @@ function install()
     # Display Status
 
     service 'datadog-agent' info
+
+    umask '0077'
 }
 
 function main()

@@ -5,6 +5,8 @@ function extend()
     local -r disk="${1}"
     local -r mountOn="${2}"
 
+    umask '0022'
+
     if [[ "$(existDisk "${disk}")" = 'true' ]]
     then
         if [[ "$(existDiskMount "${disk}${MOUNT_HD_PARTITION_NUMBER}" "${mountOn}")" = 'false' ]]
@@ -18,6 +20,8 @@ function extend()
     else
         info "Extended volume '${disk}' not found"
     fi
+
+    umask '0077'
 }
 
 function main()

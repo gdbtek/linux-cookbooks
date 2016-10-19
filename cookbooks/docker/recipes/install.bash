@@ -13,6 +13,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Download and Install
 
     checkExistURL "${DOCKER_DOWNLOAD_URL}"
@@ -54,6 +56,8 @@ function install()
     # Display Version
 
     displayVersion "$(docker version)"
+
+    umask '0077'
 }
 
 function main()

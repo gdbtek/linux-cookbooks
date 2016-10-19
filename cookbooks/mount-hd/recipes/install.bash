@@ -5,6 +5,8 @@ function install()
     local -r disk="$(formatPath "${1}")"
     local -r mountOn="$(formatPath "${2}")"
 
+    umask '0022'
+
     # Create Partition
 
     checkNonEmptyString "${disk}" 'undefined disk'
@@ -44,6 +46,8 @@ function install()
 
         df -h -T
     fi
+
+    umask '0077'
 }
 
 function resetPartition()

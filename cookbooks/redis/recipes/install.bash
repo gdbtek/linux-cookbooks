@@ -7,6 +7,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${REDIS_INSTALL_BIN_FOLDER}"
@@ -69,6 +71,8 @@ function install()
     # Display Version
 
     displayVersion "$("${REDIS_INSTALL_BIN_FOLDER}/redis-server" --version)"
+
+    umask '0077'
 }
 
 function main()

@@ -2,6 +2,8 @@
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${JQ_INSTALL_FOLDER}"
@@ -22,6 +24,8 @@ function install()
     # Display Version
 
     displayVersion "$("${JQ_INSTALL_FOLDER}/jq" --version)"
+
+    umask '0077'
 }
 
 function main()

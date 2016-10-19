@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Install
 
     local -r serverConfigData=(
@@ -21,6 +23,8 @@ function install()
     # Display Open Ports
 
     displayOpenPorts '5'
+
+    umask '0077'
 }
 
 function main()

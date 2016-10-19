@@ -12,6 +12,8 @@ function install()
 {
     local -r hubHost="${1}"
 
+    umask '0022'
+
     # Override Default
 
     if [[ "$(isEmptyString "${hubHost}")" = 'false' ]]
@@ -34,6 +36,8 @@ function install()
     # Display Open Ports
 
     displayOpenPorts '5'
+
+    umask '0077'
 }
 
 function main()

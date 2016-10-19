@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     if [[ "${HAPROXY_VERSION}" != '1.4' ]]
     then
         info '\nadd-apt-repository'
@@ -35,6 +37,8 @@ function install()
     # Display Version
 
     displayVersion "$(haproxy -vv 2>&1)"
+
+    umask '0077'
 }
 
 function main()

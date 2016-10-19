@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${MAVEN_INSTALL_FOLDER}"
@@ -32,6 +34,8 @@ function install()
     # Display Version
 
     displayVersion "$("${MAVEN_INSTALL_FOLDER}/bin/mvn" -v)"
+
+    umask '0077'
 }
 
 function main()

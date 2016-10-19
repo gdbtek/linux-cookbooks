@@ -2,6 +2,8 @@
 
 function install()
 {
+    umask '0022'
+
     # Install
 
     local -r sourceListFile="${APP_FOLDER_PATH}/../files/$(getMachineRelease).list.conf"
@@ -14,6 +16,8 @@ function install()
     else
         warn "WARN : '$(getMachineDescription)' not supported"
     fi
+
+    umask '0077'
 }
 
 function main()

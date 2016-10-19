@@ -2,6 +2,8 @@
 
 function install()
 {
+    umask '0022'
+
     installPackage 'vim' 'vim'
 
     mkdir -p '/etc/vim'
@@ -16,6 +18,8 @@ function install()
     then
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
+
+    umask '0077'
 }
 
 function main()

@@ -7,6 +7,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Download
 
     local -r tempISOFilePath="$(getTemporaryFile)"
@@ -32,6 +34,8 @@ function install()
 
     service vboxadd status
     service vboxadd-service status
+
+    umask '0077'
 }
 
 function main()

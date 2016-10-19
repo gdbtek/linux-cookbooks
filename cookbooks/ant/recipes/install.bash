@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${ANT_INSTALL_FOLDER}"
@@ -30,6 +32,8 @@ function install()
     # Display Version
 
     displayVersion "$(ant -version)"
+
+    umask '0077'
 }
 
 function main()

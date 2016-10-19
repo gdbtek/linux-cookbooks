@@ -7,6 +7,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${SIEGE_INSTALL_FOLDER}"
@@ -33,6 +35,8 @@ function install()
     # Display Version
 
     displayVersion "$("${SIEGE_INSTALL_FOLDER}/bin/siege" --version 2>&1)"
+
+    umask '0077'
 }
 
 function main()

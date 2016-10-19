@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${GHOST_INSTALL_FOLDER}"
@@ -58,6 +60,8 @@ function install()
     # Display Open Ports
 
     displayOpenPorts '5'
+
+    umask '0077'
 }
 
 function main()

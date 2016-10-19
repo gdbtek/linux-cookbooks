@@ -19,6 +19,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Set Install Folder Path
 
     local -r jenkinsDefaultInstallFolder="$(getUserHomeFolder "${JENKINS_USER_NAME}")/.jenkins"
@@ -71,6 +73,8 @@ function install()
     jenkinsMasterInstallPlugins
     jenkinsMasterUpdatePlugins
     jenkinsMasterSafeRestart
+
+    umask '0077'
 }
 
 function main()

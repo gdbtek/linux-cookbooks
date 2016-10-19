@@ -7,6 +7,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     local config=''
 
     for config in "${SSH_CONFIGS[@]}"
@@ -22,6 +24,8 @@ function install()
     then
         fatal '\nFATAL : ssh service start failed'
     fi
+
+    umask '0077'
 }
 
 function main()

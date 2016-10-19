@@ -2,8 +2,12 @@
 
 function install()
 {
+    umask '0022'
+
     "${APP_FOLDER_PATH}/install-server.bash"
     "${APP_FOLDER_PATH}/install-agent.bash"
+
+    umask '0077'
 }
 
 function main()

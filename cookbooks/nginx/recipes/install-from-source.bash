@@ -8,6 +8,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${NGINX_INSTALL_FOLDER}"
@@ -70,6 +72,8 @@ function install()
     # Display Version
 
     displayVersion "$("${NGINX_INSTALL_FOLDER}/sbin/nginx" -V 2>&1)"
+
+    umask '0077'
 }
 
 function main()

@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Install
 
     gem install foodcritic
@@ -22,6 +24,8 @@ function install()
     # Display Version
 
     displayVersion "$(foodcritic --version)"
+
+    umask '0077'
 }
 
 function main()

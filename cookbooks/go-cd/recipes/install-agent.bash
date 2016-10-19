@@ -12,6 +12,8 @@ function install()
 {
     local serverHostname="${1}"
 
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${GO_CD_AGENT_INSTALL_FOLDER}"
@@ -62,6 +64,8 @@ function install()
     # Start
 
     startService "${GO_CD_AGENT_SERVICE_NAME}"
+
+    umask '0077'
 }
 
 function main()

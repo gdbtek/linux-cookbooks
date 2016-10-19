@@ -7,6 +7,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Install
 
     local -r tempFolder="$(getTemporaryFolder)"
@@ -15,6 +17,8 @@ function install()
     cd "${tempFolder}"
     "${tempFolder}/vmware-install.pl"
     rm -f -r "${tempFolder}"
+
+    umask '0077'
 }
 
 function main()

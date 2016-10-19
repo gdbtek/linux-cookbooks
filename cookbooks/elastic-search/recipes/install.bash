@@ -10,6 +10,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${ELASTIC_SEARCH_INSTALL_FOLDER}"
@@ -48,6 +50,8 @@ function install()
     # Display Version
 
     displayVersion "$("${ELASTIC_SEARCH_INSTALL_FOLDER}/bin/elasticsearch" --version)"
+
+    umask '0077'
 }
 
 function main()

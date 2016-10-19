@@ -8,6 +8,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${WRK_INSTALL_FOLDER}"
@@ -32,6 +34,8 @@ function install()
     # Display Version
 
     displayVersion "$("${WRK_INSTALL_FOLDER}/bin/wrk" --version)"
+
+    umask '0077'
 }
 
 function main()

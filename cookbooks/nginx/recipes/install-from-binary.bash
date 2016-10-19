@@ -2,6 +2,8 @@
 
 function install()
 {
+    umask '0022'
+
     # Update Apt Source List
 
     local -r releaseFilePath='/etc/lsb-release'
@@ -27,6 +29,8 @@ function install()
     # Display Version
 
     displayVersion "$(nginx -V 2>&1)"
+
+    umask '0077'
 }
 
 function main()

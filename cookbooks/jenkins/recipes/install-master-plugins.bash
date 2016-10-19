@@ -4,6 +4,8 @@ function install()
 {
     local -r pluginList=($(sed -e 's/\n/ /g' <<< "${@}"))
 
+    umask '0022'
+
     if [[ "${#pluginList[@]}" -gt '0' ]]
     then
         local -r appName="$(getFileName "${JENKINS_DOWNLOAD_URL}")"
@@ -19,6 +21,8 @@ function install()
     else
         info 'No installs/updates available'
     fi
+
+    umask '0077'
 }
 
 function main()

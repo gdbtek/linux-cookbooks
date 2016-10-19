@@ -7,6 +7,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     local -r userHomeFolderPath="$(getCurrentUserHomeFolder)"
 
     # Clean Up
@@ -32,6 +34,8 @@ function install()
     # Display Version
 
     displayVersion "$("${CABAL_INSTALL_FOLDER}/bin/shellcheck" -V)"
+
+    umask '0077'
 }
 
 function main()

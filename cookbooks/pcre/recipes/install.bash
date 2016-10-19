@@ -8,6 +8,8 @@ function installDependencies()
 
 function install()
 {
+    umask '0022'
+
     # Clean Up
 
     initializeFolder "${PCRE_INSTALL_FOLDER}"
@@ -32,6 +34,8 @@ function install()
     # Display Version
 
     displayVersion "$("${PCRE_INSTALL_FOLDER}/bin/pcregrep" --version 2>&1)"
+
+    umask '0077'
 }
 
 function main()

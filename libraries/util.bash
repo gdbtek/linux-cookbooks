@@ -1370,7 +1370,6 @@ function initializeFolder()
         emptyFolder "${folder}"
     else
         mkdir -p "${folder}"
-        chmod 755 "${folder}"
     fi
 }
 

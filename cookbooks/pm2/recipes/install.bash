@@ -16,6 +16,8 @@ function resetOwnerAndSymlinkLocalBin()
 
 function install()
 {
+    umask '0022'
+
     # Install
 
     npm install -g --prefix "${PM2_NODE_JS_INSTALL_FOLDER}" 'pm2@latest'
@@ -64,6 +66,8 @@ function install()
     # Display Version
 
     displayVersion "Node Version : $(node --version)\nNPM Version  : $(npm --version)\nPM2 Version  : $(pm2 --version)"
+
+    umask '0077'
 }
 
 function main()
