@@ -3,7 +3,7 @@
 function installDependencies()
 {
     installBuildEssential
-    installPackages 'libssl-dev'
+    installPackage 'libssl-dev' 'openssl-devel'
 
     if [[ ! -f "${PCRE_INSTALL_FOLDER}/bin/pcregrep" ]]
     then

@@ -3,14 +3,7 @@
 function installDependencies()
 {
     installBuildEssential
-
-    if [[ "$(isUbuntuDistributor)" = 'true' ]]
-    then
-        installPackages 'libssl-dev'
-    elif [[ "$(isCentOSDistributor)" = 'false' && "$(isRedHatDistributor)" = 'false' ]]
-    then
-        fatal 'FATAL : only support CentOS, RedHat or Ubuntu OS'
-    fi
+    installPackage 'libssl-dev' 'openssl-devel'
 }
 
 function install()
