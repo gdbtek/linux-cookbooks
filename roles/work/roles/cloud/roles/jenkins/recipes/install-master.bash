@@ -40,7 +40,8 @@ function main()
 
     # Config SSH and GIT
 
-    addUserSSHKnownHost "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}" "$(cat "${appFolderPath}/../files/known_hosts")"
+    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../../../../../files/authorized_keys")"
+    addUserSSHKnownHost "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}" "$(cat "${appFolderPath}/../../../../../files/known_hosts")"
 
     configUserGIT "${JENKINS_USER_NAME}" "${CLOUD_JENKINS_GIT_USER_NAME}" "${CLOUD_JENKINS_GIT_USER_EMAIL}"
     generateUserSSHKey "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}"
