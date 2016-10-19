@@ -20,7 +20,7 @@ function main()
         apt-get update -m
     fi
 
-    "${appFolderPath}/../../../../../../essential.bash" 'selenium-hub' 'centos, root, ubuntu'
+    "${appFolderPath}/../../../../../../essential.bash" 'selenium-hub' 'centos, ecxops, root, ubuntu'
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
 
