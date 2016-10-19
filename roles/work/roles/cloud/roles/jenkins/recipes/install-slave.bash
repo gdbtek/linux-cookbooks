@@ -24,7 +24,7 @@ function main()
         apt-get update -m
     fi
 
-    "${appFolderPath}/../../../../../../essential.bash" "${hostName}" 'centos, ecxops, root, ubuntu'
+    "${appFolderPath}/../../../../../../essential.bash" "${hostName}" "centos, $(whoami), root, ubuntu"
     "${appFolderPath}/../../../../../../../cookbooks/ant/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
