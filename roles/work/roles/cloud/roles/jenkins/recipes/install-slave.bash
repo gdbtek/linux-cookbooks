@@ -19,7 +19,10 @@ function main()
 
     local -r hostName='jenkins-slave'
 
-    apt-get update -m
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        apt-get update -m
+    fi
 
     "${appFolderPath}/../../../../../../essential.bash" "${hostName}" 'centos, root, ubuntu'
     "${appFolderPath}/../../../../../../../cookbooks/ant/recipes/install.bash"
