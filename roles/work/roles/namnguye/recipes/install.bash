@@ -16,7 +16,10 @@ function main()
 
     # Install Apps
 
-    apt-get update -m
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        apt-get update -m
+    fi
 
     "${appFolderPath}/../../../../essential.bash" 'nam'
     "${appFolderPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"

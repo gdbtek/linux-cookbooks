@@ -15,7 +15,10 @@ function main()
 
     # Install Apps
 
-    apt-get update -m
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        apt-get update -m
+    fi
 
     "${appFolderPath}/../../../../../../essential.bash" 'selenium-hub' 'centos, root, ubuntu'
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"

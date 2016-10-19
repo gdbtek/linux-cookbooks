@@ -16,7 +16,10 @@ function main()
 
     # Install Apps
 
-    apt-get update -m
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        apt-get update -m
+    fi
 
     installPackage 'libkrb5-dev' 'krb5-devel'
 
