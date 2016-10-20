@@ -22,7 +22,7 @@ function main()
         apt-get update -m
     fi
 
-    "${appFolderPath}/../../../../../../essential.bash" 'selenium-hub' "${CLOUD_USERS}"
+    "${appFolderPath}/../../../../../../essential.bash" 'selenium-hub' "$(arrayToString "${CLOUD_USERS[@]}")"
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
 

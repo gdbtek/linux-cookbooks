@@ -25,7 +25,7 @@ function main()
         apt-get update -m
     fi
 
-    "${appFolderPath}/../../../../../../essential.bash" '${hostName}" "${CLOUD_USERS}"
+    "${appFolderPath}/../../../../../../essential.bash" '${hostName}" "$(arrayToString "${CLOUD_USERS[@]}")"
     "${appFolderPath}/../../../../../../../cookbooks/ant/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"

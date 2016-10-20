@@ -22,7 +22,7 @@ function main()
         apt-get update -m
     fi
 
-    "${appFolderPath}/../../../../essential.bash" 'nam'
+    "${appFolderPath}/../../../../essential.bash" 'nam' "$(arrayToString "${CLOUD_USERS[@]}")"
     "${appFolderPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/chef/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/foodcritic/recipes/install.bash"

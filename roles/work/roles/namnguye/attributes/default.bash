@@ -9,5 +9,7 @@ export NAMNGUYE_NODE_JS_INSTALL_FOLDER="${NODE_JS_INSTALL_FOLDER}"
 export NAMNGUYE_NODE_JS_VERSION='v0.10.47'
 
 export CLOUD_USERS=(
+    'nam'
+    'namnguye'
     'root'
 )
