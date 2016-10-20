@@ -1110,6 +1110,8 @@ function configUserSSH()
     chmod 600 "${userHome}/.ssh/${configFileName}"
 
     chown -R "${userLogin}:${groupName}" "${userHome}/.ssh"
+
+    cat "${userHome}/.ssh/${configFileName}"
 }
 
 function deleteUser()
