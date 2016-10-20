@@ -12,4 +12,10 @@ export CLOUD_JENKINS_INSTALL_PLUGINS=(
     'datadog'
 )
 
-export CLOUD_USERS='centos, ecxops, namnguye, root, ubuntu'
+export CLOUD_USERS=(
+    'centos'
+    'ecxops'
+    'namnguye'
+    'root'
+    'ubuntu'
+)

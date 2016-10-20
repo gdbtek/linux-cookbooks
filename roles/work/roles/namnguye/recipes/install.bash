@@ -33,8 +33,7 @@ function main()
 
     # Config SSH and GIT
 
-    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../../../../../files/authorized_keys")"
-    addUserSSHKnownHost "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../../../../../files/known_hosts")"
+    configUsersSSH "${CLOUD_USERS}"
 
     configUserGIT "$(whoami)" "${NAMNGUYE_GIT_USER_NAME}" "${NAMNGUYE_GIT_USER_EMAIL}"
     generateUserSSHKey "$(whoami)"

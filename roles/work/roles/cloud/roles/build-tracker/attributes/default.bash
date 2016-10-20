@@ -6,7 +6,13 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../../../../../../cookbooks/node-js/at
 # GLOBAL #
 ##########
 
-export CLOUD_USERS='centos, ecxops, namnguye, root, ubuntu'
+export CLOUD_USERS=(
+    'centos'
+    'ecxops'
+    'namnguye'
+    'root'
+    'ubuntu'
+)
 
 ###########
 # PREPARE #

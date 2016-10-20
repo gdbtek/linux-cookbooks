@@ -27,9 +27,9 @@ function displayNotice()
 
 function configUsersSSH()
 {
-    local -r userList="${1}"
+    local -r users=("${@}")
 
-    header 'CONFIGURING USER SSH'
+    header 'CONFIGURING USERS SSH'
 
     local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
