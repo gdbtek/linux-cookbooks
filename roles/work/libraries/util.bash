@@ -13,7 +13,7 @@ function displayNotice()
 {
     local -r userLogin="${1}"
 
-    header 'NOTICES'
+    header 'DISPLAYING NOTICES'
 
     local -r userHome="$(getUserHomeFolder "${userLogin}")"
 
@@ -29,6 +29,8 @@ function configUsersSSH()
 {
     local -r userList="${1}"
 
+    header 'CONFIGURING USER SSH'
+
     local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     # Each User
@@ -39,8 +41,13 @@ function configUsersSSH()
     do
         if [[ "$(existUserLogin "${user}")" = 'true' ]]
         then
+            echo -e "adding authorized key to user '\033[1;32m${user}\033[0m'"
             addUserAuthorizedKey "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/authorized_keys")"
+
+            echo -e "adding ssh known host to user '\033[1;32m${user}\033[0m'"
             addUserSSHKnownHost "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/known_hosts")"
+        else
+            warn "WARN : user '${user}' not found"
         fi
     done
 }
