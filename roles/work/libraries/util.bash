@@ -49,7 +49,7 @@ function configUsersSSH()
             addUserAuthorizedKey "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/authorized_keys")"
             addUserSSHKnownHost "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/known_hosts")"
         else
-            warn "WARN : user '${user}' or home not found"
+            warn "WARN : user '${user}' not found or home directory does not exist"
         fi
     done
 }
