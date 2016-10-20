@@ -36,17 +36,20 @@ function configUsersSSH()
     # Each User
 
     local user=''
+    local userHome=''
 
     for user in "${users[@]}"
     do
-        if [[ "$(existUserLogin "${user}")" = 'true' ]]
+        userHome="$(getUserHomeFolder "${user}")"
+
+        if [[ "$(existUserLogin "${user}")" = 'true' && -d "${userHome}" ]]
         then
             rm -f -r "$(getUserHomeFolder "${user}")/.ssh"
 
             addUserAuthorizedKey "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/authorized_keys")"
             addUserSSHKnownHost "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/known_hosts")"
         else
-            warn "WARN : user '${user}' not found"
+            warn "WARN : user '${user}' or home not found"
         fi
     done
 }
