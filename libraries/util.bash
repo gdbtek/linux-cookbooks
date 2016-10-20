@@ -1196,11 +1196,11 @@ function existGroupName()
 {
     local -r group="${1}"
 
-    if ( groups "${group}" > '/dev/null' 2>&1 )
+    if [[ "$(grep -E -o "^${group}:" '/etc/group')" = '' ]]
     then
-        echo 'true'
-    else
         echo 'false'
+    else
+        echo 'true'
     fi
 }
 
