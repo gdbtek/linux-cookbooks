@@ -41,7 +41,7 @@ function configUsersSSH()
     do
         if [[ "$(existUserLogin "${user}")" = 'true' ]]
         then
-            rm -f "$(getUserHomeFolder "${user}")/.ssh"
+            rm -f -r "$(getUserHomeFolder "${user}")/.ssh"
 
             addUserAuthorizedKey "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/authorized_keys")"
             addUserSSHKnownHost "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/known_hosts")"
