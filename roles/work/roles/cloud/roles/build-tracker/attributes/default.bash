@@ -2,6 +2,12 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../../../../../../cookbooks/node-js/attributes/default.bash"
 
+##########
+# GLOBAL #
+##########
+
+export CLOUD_USERS='centos, ecxops, namnguye, root, ubuntu'
+
 ###########
 # PREPARE #
 ###########

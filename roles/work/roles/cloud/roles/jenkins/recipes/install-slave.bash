@@ -25,7 +25,7 @@ function main()
         apt-get update -m
     fi
 
-    "${appFolderPath}/../../../../../../essential.bash" '${hostName}" "centos, ecxops, root, ubuntu'
+    "${appFolderPath}/../../../../../../essential.bash" '${hostName}" "${CLOUD_USERS}"
     "${appFolderPath}/../../../../../../../cookbooks/ant/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
@@ -38,8 +38,7 @@ function main()
 
     # Config SSH and GIT
 
-    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../../../../../files/authorized_keys")"
-    addUserSSHKnownHost "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}" "$(cat "${appFolderPath}/../../../../../files/known_hosts")"
+    configUsersSSH "${CLOUD_USERS}"
 
     configUserGIT "${JENKINS_USER_NAME}" "${CLOUD_JENKINS_GIT_USER_NAME}" "${CLOUD_JENKINS_GIT_USER_EMAIL}"
     generateUserSSHKey "${JENKINS_USER_NAME}"

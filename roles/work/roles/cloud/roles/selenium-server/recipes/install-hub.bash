@@ -8,6 +8,7 @@ function main()
 
     source "${appFolderPath}/../../../../../../../libraries/util.bash"
     source "${appFolderPath}/../../../../../libraries/util.bash"
+    source "${appFolderPath}/../attributes/default.bash"
 
     # Clean Up
 
@@ -21,9 +22,13 @@ function main()
         apt-get update -m
     fi
 
-    "${appFolderPath}/../../../../../../essential.bash" 'selenium-hub' 'centos, ecxops, root, ubuntu'
+    "${appFolderPath}/../../../../../../essential.bash" 'selenium-hub' "${CLOUD_USERS}"
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
+
+    # Config SSH
+
+    configUsersSSH "${CLOUD_USERS}"
 
     # Clean Up
 

@@ -11,3 +11,5 @@ export CLOUD_JENKINS_NODE_JS_VERSION='v0.10.47'
 export CLOUD_JENKINS_INSTALL_PLUGINS=(
     'datadog'
 )
+
+export CLOUD_USERS='centos, ecxops, namnguye, root, ubuntu'

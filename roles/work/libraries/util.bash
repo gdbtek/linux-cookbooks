@@ -24,3 +24,23 @@ function displayNotice()
     cat "${userHome}/.ssh/id_rsa.pub"
     echo
 }
+
+function configUsersSSH()
+{
+    local -r userList="${1}"
+
+    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+    # Each User
+
+    local user=''
+
+    for user in "${users[@]}"
+    do
+        if [[ "$(existUserLogin "${user}")" = 'true' ]]
+        then
+            addUserAuthorizedKey "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/authorized_keys")"
+            addUserSSHKnownHost "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/known_hosts")"
+        fi
+    done
+}

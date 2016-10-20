@@ -7,3 +7,5 @@ export CLOUD_JENKINS_GIT_USER_EMAIL='namnguye@adobe.com'
 
 export CLOUD_JENKINS_NODE_JS_INSTALL_FOLDER="${NODE_JS_INSTALL_FOLDER}"
 export CLOUD_JENKINS_NODE_JS_VERSION='v0.10.47'
+
+export CLOUD_USERS='centos, ecxops, namnguye, root, ubuntu'

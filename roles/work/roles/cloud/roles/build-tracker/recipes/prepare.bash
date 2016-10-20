@@ -24,16 +24,14 @@ function main()
 
     installPackage 'libkrb5-dev' 'krb5-devel'
 
-    "${appFolderPath}/../../../../../../essential.bash" 'build-tracker' 'centos, ecxops, root, ubuntu'
+    "${appFolderPath}/../../../../../../essential.bash" 'build-tracker' "${CLOUD_USERS}"
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/mongodb/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_NODE_JS_VERSION}" "${CLOUD_NODE_JS_INSTALL_FOLDER}"
 
     # Config SSH and GIT
 
-    addUserAuthorizedKey "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../../../../../files/authorized_keys")"
-    addUserSSHKnownHost "$(whoami)" "$(whoami)" "$(cat "${appFolderPath}/../../../../../files/known_hosts")"
-
+    configUsersSSH "${CLOUD_USERS}"
     configUserGIT "$(whoami)" "${CLOUD_GIT_USER_NAME}" "${CLOUD_GIT_USER_EMAIL}"
     generateUserSSHKey "$(whoami)"
 
