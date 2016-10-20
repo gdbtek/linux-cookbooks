@@ -12,8 +12,10 @@ function install()
     if [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
         local -r aliasCommand='alias vi=vim'
+        local -r sourceCommand='source /etc/vim/vimrc.local'
 
         appendToFileIfNotFound '/etc/profile' "${aliasCommand}" "${aliasCommand}" 'false' 'false' 'true'
+        appendToFileIfNotFound '/etc/vimrc' "${sourceCommand}" "${sourceCommand}" 'false' 'false' 'true'
     elif [[ "$(isUbuntuDistributor)" = 'false' ]]
     then
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
