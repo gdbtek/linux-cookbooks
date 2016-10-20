@@ -41,7 +41,7 @@ function main()
 
     # Config SSH and GIT
 
-    configUsersSSH "${CLOUD_USERS}"
+    configUsersSSH "${CLOUD_USERS[@]}"
 
     configUserGIT "${JENKINS_USER_NAME}" "${CLOUD_JENKINS_GIT_USER_NAME}" "${CLOUD_JENKINS_GIT_USER_EMAIL}"
     generateUserSSHKey "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}"

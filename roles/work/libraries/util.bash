@@ -41,10 +41,9 @@ function configUsersSSH()
     do
         if [[ "$(existUserLogin "${user}")" = 'true' ]]
         then
-            echo -e "adding authorized key to user '\033[1;32m${user}\033[0m'"
-            addUserAuthorizedKey "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/authorized_keys")"
+            echo -e "configurig ssh for user '\033[1;32m${user}\033[0m'"
 
-            echo -e "adding ssh known host to user '\033[1;32m${user}\033[0m'"
+            addUserAuthorizedKey "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/authorized_keys")"
             addUserSSHKnownHost "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/known_hosts")"
         else
             warn "WARN : user '${user}' not found"

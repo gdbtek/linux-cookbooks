@@ -33,7 +33,7 @@ function main()
 
     # Config SSH and GIT
 
-    configUsersSSH "${CLOUD_USERS}"
+    configUsersSSH "${CLOUD_USERS[@]}"
 
     configUserGIT "$(whoami)" "${NAMNGUYE_GIT_USER_NAME}" "${NAMNGUYE_GIT_USER_EMAIL}"
     generateUserSSHKey "$(whoami)"

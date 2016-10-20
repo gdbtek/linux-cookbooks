@@ -28,7 +28,7 @@ function main()
 
     # Config SSH
 
-    configUsersSSH "${CLOUD_USERS}"
+    configUsersSSH "${CLOUD_USERS[@]}"
 
     # Clean Up
 
