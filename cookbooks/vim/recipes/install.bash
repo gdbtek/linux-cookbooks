@@ -7,6 +7,7 @@ function install()
     installPackage 'vim' 'vim'
 
     mkdir -p '/etc/vim'
+    chmod 755 '/etc/vim'
     cp -f "${APP_FOLDER_PATH}/../files/vimrc.local.conf" '/etc/vim/vimrc.local'
     chmod 644 '/etc/vim/vimrc.local'
 
