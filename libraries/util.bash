@@ -1037,6 +1037,19 @@ function checkRequireLinuxSystem()
     fi
 }
 
+function checkRequireMacSystem()
+{
+    if [[ "$(isMacOperatingSystem)" = 'false' ]]
+    then
+        fatal '\nFATAL : only support Mac OS'
+    fi
+
+    if [[ "$(is64BitSystem)" = 'false' ]]
+    then
+        fatal '\nFATAL : non x86_64 OS found'
+    fi
+}
+
 function checkRequireUserLogin()
 {
     local -r userLogin="${1}"
