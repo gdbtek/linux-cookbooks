@@ -993,6 +993,8 @@ function checkRequirePort()
 {
     local -r ports=("${@}")
 
+    installPackage 'lsof' 'lsof'
+
     local -r headerRegex='^COMMAND\s\+PID\s\+USER\s\+FD\s\+TYPE\s\+DEVICE\s\+SIZE\/OFF\s\+NODE\s\+NAME$'
     local -r status="$(lsof -i -n -P | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
     local open=''
@@ -1140,6 +1142,8 @@ function deleteUser()
 function displayOpenPorts()
 {
     local -r sleepTimeInSecond="${1}"
+
+    installPackage 'lsof' 'lsof'
 
     header 'DISPLAYING OPEN PORTS'
 

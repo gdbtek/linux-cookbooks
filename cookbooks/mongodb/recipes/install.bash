@@ -12,7 +12,7 @@ function install()
     # Install
 
     unzipRemoteFile "${MONGODB_DOWNLOAD_URL}" "${MONGODB_INSTALL_FOLDER}"
-    find "${MONGODB_INSTALL_FOLDER}" -maxdepth 1 -type f -delete
+    find "${MONGODB_INSTALL_FOLDER}" -maxdepth 1 -xtype f -delete
 
     # Config Profile
 

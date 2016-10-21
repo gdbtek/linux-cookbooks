@@ -22,7 +22,7 @@ function install()
     git clone "${WRK_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}" -maxdepth 1 -type f -perm -u+x -exec cp -f '{}' "${WRK_INSTALL_FOLDER}/bin" \;
+    find "${tempFolder}" -maxdepth 1 -xtype f -perm -u+x -exec cp -f '{}' "${WRK_INSTALL_FOLDER}/bin" \;
     rm -f -r "${tempFolder}"
 
     # Config Profile
