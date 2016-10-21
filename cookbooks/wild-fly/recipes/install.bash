@@ -61,7 +61,7 @@ function main()
 
     header 'INSTALLING WILD-FLY'
 
-    checkRequirePort '8080' '9990'
+    checkRequirePorts '8080' '9990'
 
     installDependencies
     install

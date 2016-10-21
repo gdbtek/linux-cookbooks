@@ -77,7 +77,7 @@ function main()
 
     header 'INSTALLING HAPROXY FROM SOURCE'
 
-    checkRequirePort "${HAPROXY_PORT}"
+    checkRequirePorts "${HAPROXY_PORT}"
 
     installDependencies
     install

@@ -40,7 +40,7 @@ function main()
 
     header 'INSTALLING HUB SELENIUM-SERVER'
 
-    checkRequirePort "${SELENIUM_SERVER_PORT}"
+    checkRequirePorts "${SELENIUM_SERVER_PORT}"
 
     installDependencies
     install

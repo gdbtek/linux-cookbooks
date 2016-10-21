@@ -45,7 +45,7 @@ function main()
 
     header 'INSTALLING NGINX FROM BINARY'
 
-    checkRequirePort "${NGINX_PORT}"
+    checkRequirePorts "${NGINX_PORT}"
 
     install
     installCleanUp

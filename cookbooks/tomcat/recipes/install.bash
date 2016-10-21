@@ -107,7 +107,7 @@ function main()
 
     # Install
 
-    checkRequirePort "${TOMCAT_AJP_PORT}" "${TOMCAT_COMMAND_PORT}" "${TOMCAT_HTTP_PORT}" "${TOMCAT_HTTPS_PORT}"
+    checkRequirePorts "${TOMCAT_AJP_PORT}" "${TOMCAT_COMMAND_PORT}" "${TOMCAT_HTTP_PORT}" "${TOMCAT_HTTPS_PORT}"
 
     installDependencies
     install

@@ -53,7 +53,7 @@ function main()
 
     header 'INSTALLING NODE SELENIUM-SERVER'
 
-    checkRequirePort "${SELENIUM_SERVER_PORT}"
+    checkRequirePorts "${SELENIUM_SERVER_PORT}"
 
     installDependencies
     install "${@}"

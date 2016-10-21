@@ -76,7 +76,7 @@ function main()
 
     header 'INSTALLING GO-CD SERVER'
 
-    checkRequirePort '8153' '8154'
+    checkRequirePorts '8153' '8154'
 
     installDependencies
     install

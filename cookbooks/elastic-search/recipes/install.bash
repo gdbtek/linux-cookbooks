@@ -66,7 +66,7 @@ function main()
 
     header 'INSTALLING ELASTIC SEARCH'
 
-    checkRequirePort '9200' '9300'
+    checkRequirePorts '9200' '9300'
 
     installDependencies
     install

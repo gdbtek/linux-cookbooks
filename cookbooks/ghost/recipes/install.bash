@@ -78,10 +78,10 @@ function main()
 
     if [[ "${GHOST_ENVIRONMENT}" = 'production' ]]
     then
-        checkRequirePort "${GHOST_PRODUCTION_PORT}"
+        checkRequirePorts "${GHOST_PRODUCTION_PORT}"
     elif [[ "${GHOST_ENVIRONMENT}" = 'development' ]]
     then
-        checkRequirePort "${GHOST_DEVELOPMENT_PORT}"
+        checkRequirePorts "${GHOST_DEVELOPMENT_PORT}"
     else
         fatal "\nFATAL : environment '${GHOST_ENVIRONMENT}' not supported"
     fi

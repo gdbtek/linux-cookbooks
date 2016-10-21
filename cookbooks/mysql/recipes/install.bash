@@ -169,7 +169,7 @@ function main()
 
     header 'INSTALLING MYSQL'
 
-    checkRequirePort "${MYSQL_PORT}"
+    checkRequirePorts "${MYSQL_PORT}"
 
     installDependencies
     install

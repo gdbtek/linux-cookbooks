@@ -989,7 +989,7 @@ function checkExistUserLogin()
     fi
 }
 
-function checkRequirePort()
+function checkRequirePorts()
 {
     local -r ports=("${@}")
 

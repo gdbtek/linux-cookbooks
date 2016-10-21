@@ -88,7 +88,7 @@ function main()
 
     header 'INSTALLING NGINX FROM SOURCE'
 
-    checkRequirePort "${NGINX_PORT}"
+    checkRequirePorts "${NGINX_PORT}"
 
     installDependencies
     install

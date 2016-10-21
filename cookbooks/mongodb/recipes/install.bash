@@ -62,7 +62,7 @@ function main()
 
     header 'INSTALLING MONGODB'
 
-    checkRequirePort "${MONGODB_PORT}"
+    checkRequirePorts "${MONGODB_PORT}"
 
     install
     installCleanUp

@@ -87,7 +87,7 @@ function main()
 
     header 'INSTALLING REDIS'
 
-    checkRequirePort "${REDIS_PORT}"
+    checkRequirePorts "${REDIS_PORT}"
 
     installDependencies
     install
