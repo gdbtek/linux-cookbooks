@@ -57,7 +57,7 @@ function main()
     source "${APP_FOLDER_PATH}/../attributes/default.bash"
     source "${APP_FOLDER_PATH}/../../nginx/attributes/default.bash"
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     header 'INSTALLING KIBANA'

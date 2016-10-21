@@ -24,7 +24,7 @@ function main()
     source "${appFolderPath}/../../../libraries/util.bash"
     source "${appFolderPath}/../attributes/master.bash"
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     header 'SAFE-RESTARTING MASTER JENKINS'

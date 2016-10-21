@@ -25,7 +25,7 @@ function main()
     source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
     source "${APP_FOLDER_PATH}/../attributes/slave.bash"
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     header 'INSTALLING SLAVE JENKINS'

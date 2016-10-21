@@ -27,7 +27,7 @@ function main()
     source "${appFolderPath}/../../../libraries/util.bash"
     source "${appFolderPath}/../libraries/util.bash"
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     header 'UPGRADING MASTER JENKINS'

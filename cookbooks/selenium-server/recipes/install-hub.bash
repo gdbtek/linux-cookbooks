@@ -35,7 +35,7 @@ function main()
     source "${APP_FOLDER_PATH}/../attributes/hub.bash"
     source "${APP_FOLDER_PATH}/../libraries/util.bash"
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     header 'INSTALLING HUB SELENIUM-SERVER'

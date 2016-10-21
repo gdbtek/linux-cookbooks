@@ -36,7 +36,7 @@ function main()
     source "${appFolderPath}/../../../libraries/util.bash"
     source "${appFolderPath}/../attributes/default.bash"
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     header 'INSTALLING TMP-REAPER'

@@ -170,7 +170,7 @@ function main()
         esac
     done
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     header 'INSTALLING PS1'

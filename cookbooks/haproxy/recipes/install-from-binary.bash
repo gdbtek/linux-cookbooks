@@ -48,7 +48,7 @@ function main()
     source "${appFolderPath}/../../../libraries/util.bash"
     source "${appFolderPath}/../attributes/binary.bash"
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     header 'INSTALLING HAPROXY FROM BINARY'

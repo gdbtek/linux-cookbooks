@@ -26,7 +26,7 @@ function main()
     source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
     source "${APP_FOLDER_PATH}/../attributes/master.bash"
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     updatePlugins

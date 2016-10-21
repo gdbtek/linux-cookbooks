@@ -72,7 +72,7 @@ function main()
     source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
     source "${APP_FOLDER_PATH}/../attributes/source.bash"
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     header 'INSTALLING HAPROXY FROM SOURCE'

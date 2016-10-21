@@ -32,7 +32,7 @@ function main()
 
     source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
 
-    checkRequireSystem
+    checkRequireLinuxSystem
     checkRequireRootUser
 
     header 'INSTALLING VIM'

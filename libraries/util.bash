@@ -1024,7 +1024,7 @@ function checkRequireRootUser()
     checkRequireUserLogin 'root'
 }
 
-function checkRequireSystem()
+function checkRequireLinuxSystem()
 {
     if [[ "$(isCentOSDistributor)" = 'false' && "$(isRedHatDistributor)" = 'false' && "$(isUbuntuDistributor)" = 'false' ]]
     then
