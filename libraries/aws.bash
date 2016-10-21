@@ -175,7 +175,7 @@ function existS3Bucket()
 {
     local -r bucketName="${1}"
 
-    echo "$(isEmptyString "$(aws s3api head-bucket --bucket "${bucketName}" 2>&1)")"
+    isEmptyString "$(aws s3api head-bucket --bucket "${bucketName}" 2>&1)"
 }
 
 function getAWSELBAccountID()
@@ -212,6 +212,9 @@ function getAWSELBAccountID()
     elif [[ "${region}" = 'us-east-1' ]]
     then
         echo '127311923021'
+    elif [[ "${region}" = 'us-east-2' ]]
+    then
+        echo '033677994240'
     elif [[ "${region}" = 'us-gov-west-1' ]]
     then
         echo '048591011584'

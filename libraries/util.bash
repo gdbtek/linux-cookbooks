@@ -685,7 +685,7 @@ function encodeURL()
 
         case "${walker}" in
             [a-zA-Z0-9.~_-])
-                printf "${walker}"
+                printf '%s' "${walker}"
                 ;;
             ' ')
                 printf +
