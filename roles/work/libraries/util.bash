@@ -46,8 +46,8 @@ function configUsersSSH()
         then
             rm -f -r "$(getUserHomeFolder "${user}")/.ssh"
 
-            addUserAuthorizedKey "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/authorized_keys")"
-            addUserSSHKnownHost "${user}" "$(id -g -n "${user}")" "$(cat "${appFolderPath}/../files/known_hosts")"
+            addUserAuthorizedKey "${user}" "$(getUserGroupName "${user}")" "$(cat "${appFolderPath}/../files/authorized_keys")"
+            addUserSSHKnownHost "${user}" "$(getUserGroupName "${user}")" "$(cat "${appFolderPath}/../files/known_hosts")"
         else
             warn "WARN : user '${user}' not found or home directory does not exist"
         fi

@@ -1361,6 +1361,15 @@ function getTemporaryFolderRoot()
     echo "${temporaryFolder}"
 }
 
+function getUserGroupName()
+{
+    local -r userLogin="${1}"
+
+    checkExistUserLogin "${userLogin}"
+
+    id -g -n "${userLogin}"
+}
+
 function getUserHomeFolder()
 {
     local -r user="${1}"
