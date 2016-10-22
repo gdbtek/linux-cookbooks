@@ -225,7 +225,17 @@ function symlinkLocalBin()
 {
     local -r sourceBinFolder="${1}"
 
-    find "${sourceBinFolder}" -maxdepth 1 -xtype f -perm -u+x -exec bash -c -e '
+    if [[ "$(isMacOperatingSystem)" = 'true' ]]
+    then
+        local -r type='-type'
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        local -r type='-xtype'
+    else
+        fatal '\nFATAL : only support CentOS, Mac, RedHat, Ubuntu OS'
+    fi
+
+    find "${sourceBinFolder}" -maxdepth 1 "${type}" f -perm -u+x -exec bash -c -e '
         for file
         do
             ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
