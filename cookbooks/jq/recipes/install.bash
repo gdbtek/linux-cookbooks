@@ -7,13 +7,14 @@ function install()
     # Clean Up
 
     initializeFolder "${JQ_INSTALL_FOLDER}"
+    mkdir -p "${JQ_INSTALL_FOLDER}/bin"
 
     # Install
 
-    downloadFile "${JQ_DOWNLOAD_URL}" "${JQ_INSTALL_FOLDER}/jq" 'true'
+    downloadFile "${JQ_DOWNLOAD_URL}" "${JQ_INSTALL_FOLDER}/bin/jq" 'true'
     chown -R "$(whoami):$(whoami)" "${JQ_INSTALL_FOLDER}"
-    chmod 755 "${JQ_INSTALL_FOLDER}/jq"
-    symlinkLocalBin "${JQ_INSTALL_FOLDER}"
+    chmod 755 "${JQ_INSTALL_FOLDER}/bin/jq"
+    symlinkLocalBin "${JQ_INSTALL_FOLDER}/bin"
 
     # Config Profile
 
@@ -23,7 +24,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${JQ_INSTALL_FOLDER}/jq" --version)"
+    displayVersion "$("${JQ_INSTALL_FOLDER}/bin/jq" --version)"
 
     umask '0077'
 }
