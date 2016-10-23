@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-export CABAL_INSTALL_FOLDER='/opt/cabal'
+export SHELL_CHECK_CABAL_INSTALL_FOLDER='/opt/cabal'

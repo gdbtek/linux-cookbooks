@@ -14,26 +14,26 @@ function install()
     # Clean Up
 
     rm -f -r "${userHomeFolderPath}/.cabal" "${userHomeFolderPath}/.ghc"
-    initializeFolder "${CABAL_INSTALL_FOLDER}"
+    initializeFolder "${SHELL_CHECK_CABAL_INSTALL_FOLDER}"
 
     # Install
 
     cabal update
     cabal install 'shellcheck'
 
-    moveFolderContent "${userHomeFolderPath}/.cabal" "${CABAL_INSTALL_FOLDER}"
+    moveFolderContent "${userHomeFolderPath}/.cabal" "${SHELL_CHECK_CABAL_INSTALL_FOLDER}"
     rm -f -r "${userHomeFolderPath}/.cabal" "${userHomeFolderPath}/.ghc"
-    ln -f -s "${CABAL_INSTALL_FOLDER}/bin/shellcheck" '/usr/local/bin/shellcheck'
+    ln -f -s "${SHELL_CHECK_CABAL_INSTALL_FOLDER}/bin/shellcheck" '/usr/local/bin/shellcheck'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${CABAL_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER__' "${SHELL_CHECK_CABAL_INSTALL_FOLDER}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/cabal.sh.profile" '/etc/profile.d/cabal.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${CABAL_INSTALL_FOLDER}/bin/shellcheck" -V)"
+    displayVersion "$("${SHELL_CHECK_CABAL_INSTALL_FOLDER}/bin/shellcheck" -V)"
 
     umask '0077'
 }
