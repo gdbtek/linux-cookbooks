@@ -3,6 +3,8 @@
 function installDependencies()
 {
     installBuildEssential
+
+    installPackage 'zlib1g-dev' 'zlib-devel'
 }
 
 function install()
@@ -23,6 +25,7 @@ function install()
     "${tempFolder}/configure" --prefix="${SIEGE_INSTALL_FOLDER}"
     make
     make install
+    cd
     rm -f -r "${tempFolder}"
     ln -f -s "${SIEGE_INSTALL_FOLDER}/bin/siege" '/usr/local/bin/siege'
 
