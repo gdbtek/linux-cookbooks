@@ -123,6 +123,17 @@ function copyFolderContent()
     cd "${currentPath}"
 }
 
+function createAbsoluteLocalBin()
+{
+    local -r localBinFileName="${1}"
+    local -r sourceFilePath="${2}"
+
+    checkExistFile "${sourceFilePath}"
+
+    printf "#!/bin/bash -e\n\n'%s' \"\${@}\"" "${sourceFilePath}" > "/usr/local/bin/${localBinFileName}"
+    chmod 755 "/usr/local/bin/${localBinFileName}"
+}
+
 function createFileFromTemplate()
 {
     local -r sourceFile="${1}"
