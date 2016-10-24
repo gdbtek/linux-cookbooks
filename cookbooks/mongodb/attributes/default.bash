@@ -3,7 +3,7 @@
 export MONGODB_DOWNLOAD_URL='https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.2.10.tgz'
 
 export MONGODB_INSTALL_FOLDER='/opt/mongodb'
-export MONGODB_INSTALL_DATA_FOLDER='/opt/mongodb/data'
+export MONGODB_INSTALL_DATA_FOLDER="${MONGODB_INSTALL_FOLDER}/data"
 
 export MONGODB_SERVICE_NAME='mongodb'
 
