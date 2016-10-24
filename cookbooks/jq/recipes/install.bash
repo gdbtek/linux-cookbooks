@@ -7,7 +7,7 @@ function install()
     # Clean Up
 
     initializeFolder "${JQ_INSTALL_FOLDER}"
-    mkdir -p "${JQ_INSTALL_FOLDER}/bin"
+    initializeFolder "${JQ_INSTALL_FOLDER}/bin"
 
     # Install
 

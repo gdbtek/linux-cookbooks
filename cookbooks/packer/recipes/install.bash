@@ -7,7 +7,7 @@ function install()
     # Clean Up
 
     initializeFolder "${PACKER_INSTALL_FOLDER}"
-    mkdir -p "${PACKER_INSTALL_FOLDER}/bin"
+    initializeFolder "${PACKER_INSTALL_FOLDER}/bin"
 
     # Install
 

@@ -13,7 +13,7 @@ function install()
     # Clean Up
 
     initializeFolder "${WRK_INSTALL_FOLDER}"
-    mkdir -p "${WRK_INSTALL_FOLDER}/bin"
+    initializeFolder "${WRK_INSTALL_FOLDER}/bin"
 
     # Install
 

@@ -14,7 +14,7 @@ function install()
     # Clean Up
 
     initializeFolder "${SIEGE_INSTALL_FOLDER}"
-    mkdir -p "${SIEGE_INSTALL_FOLDER}/bin"
+    initializeFolder "${SIEGE_INSTALL_FOLDER}/bin"
 
     # Install
 
