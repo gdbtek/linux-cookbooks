@@ -1308,6 +1308,9 @@ function generateUserSSHKey()
     header "GENERATING SSH KEY FOR USER '${userLogin}'"
 
     rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
+    mkdir -p "${userHome}/.ssh"
+    chmod 700 "${userHome}/.ssh"
+
     ssh-keygen -q -t rsa -N '' -f "${userHome}/.ssh/id_rsa"
     chmod 600 "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
     chown "${userLogin}:${groupName}" "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
