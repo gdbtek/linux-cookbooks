@@ -1493,10 +1493,10 @@ function isPortOpen()
 
     checkNonEmptyString "${port}" 'undefined port'
 
-    if [[ "$(isLinuxOperatingSystem)" = 'true' ]]
+    if [[ "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
     then
         local -r process="$(netstat -l -n -t -u | grep -E ":${port}\s+" | head -1)"
-    elif [[ "$(isMacOperatingSystem)" = 'true' ]]
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isMacOperatingSystem)" = 'true' ]]
     then
         local -r process="$(lsof -i -n -P | grep -E -i ":${port}\s+\(LISTEN\)$" | head -1)"
     else
