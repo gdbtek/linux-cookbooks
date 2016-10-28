@@ -6,6 +6,25 @@ source "$(dirname "${BASH_SOURCE[0]}")/util.bash"
 # EC2 UTILITIES #
 #################
 
+function getLatestAMIIDByAMINamePattern()
+{
+    local -r amiNamePattern="${1}"
+
+    checkNonEmptyString "${amiNamePattern}" 'undefined ami name pattern'
+
+    aws ec2 describe-images \
+        --filters "Name=architecture,Values=x86_64" \
+                  "Name=image-type,Values=machine" \
+                  "Name=is-public,Values=false" \
+                  "Name=state,Values=available" \
+                  "Name=name,Values=${amiNamePattern}" \
+        --query 'sort_by(Images, &CreationDate)[-1].ImageId' |
+    jq \
+        --compact-output \
+        --raw-output \
+        '. // empty'
+}
+
 function getInstanceAvailabilityZone()
 {
     curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/placement/availability-zone'
@@ -29,6 +48,8 @@ function getKeyPairFingerPrintByName()
 {
     local -r keyPairName="${1}"
 
+    checkNonEmptyString "${keyPairName}" 'undefined key pair name'
+
     aws ec2 describe-key-pairs \
         --key-name "${keyPairName}" 2> '/dev/null' |
     jq \
@@ -41,6 +62,8 @@ function getSecurityGroupIDByName()
 {
     local -r securityGroupName="${1}"
 
+    checkNonEmptyString "${securityGroupName}" 'undefined security group name'
+
     aws ec2 describe-security-groups \
         --filters "Name=group-name,Values=${securityGroupName}" |
     jq \
@@ -49,10 +72,28 @@ function getSecurityGroupIDByName()
         '.["SecurityGroups"] | .[0] | .["GroupId"] // empty'
 }
 
+function getSecurityGroupIDsByNames()
+{
+    local -r securityGroupNames=("${@}")
+
+    local securityGroupIDs=''
+    local securityGroupName=''
+
+    for securityGroupName in "${securityGroupNames[@]}"
+    do
+        securityGroupIDs="$(printf '%s\n%s' "${securityGroupIDs}" "$(getSecurityGroupIDByName "${securityGroupName}")")"
+    done
+
+    echo "${securityGroupIDs}"
+}
+
 function revokeSecurityGroupIngress()
 {
     local -r securityGroupID="${1}"
     local -r securityGroupName="${2}"
+
+    checkNonEmptyString "${securityGroupID}" 'undefined security group ID'
+    checkNonEmptyString "${securityGroupName}" 'undefined security group name'
 
     local -r ipPermissions="$(
         aws ec2 describe-security-groups \
@@ -76,6 +117,8 @@ function updateInstanceName()
     local -r instanceName="${1}"
 
     header 'UPDATING INSTANCE NAME'
+
+    checkNonEmptyString "${instanceName}" 'undefined instance name'
 
     info "${instanceName}"
 
@@ -157,6 +200,8 @@ function unzipAWSS3RemoteFile()
 function getHostedZoneIDByDomainName()
 {
     local -r hostedZoneDomainName="${1}"
+
+    checkNonEmptyString "${hostedZoneDomainName}" 'undefined hosted zone domain name'
 
     aws route53 list-hosted-zones-by-name \
         --dns-name "${hostedZoneDomainName}" |
@@ -248,6 +293,49 @@ function getUserDataValue()
 #################
 # VPC UTILITIES #
 #################
+
+function getAvailabilityZonesByVPCName()
+{
+    local -r vpcName="${1}"
+
+    checkNonEmptyString "${vpcName}" 'undefined VPC name'
+
+    local -r vpcID="$(getVPCIDByName "${vpcName}")"
+
+    checkNonEmptyString "${vpcID}" 'undefined VPC ID'
+
+    aws ec2 describe-subnets \
+        --filters "Name=state,Values=available" \
+                  "Name=vpc-id,Values=${vpcID}" \
+        --query 'Subnets[*].AvailabilityZone' |
+    jq \
+        --compact-output \
+        --raw-output \
+        'unique | .[] // empty'
+}
+
+function getSubnetIDsByVPCName()
+{
+    local -r vpcName="${1}"
+    local -r mapPublicIPOnLaunch="${2}"
+
+    checkNonEmptyString "${vpcName}" 'undefined VPC name'
+    checkTrueFalseString "${mapPublicIPOnLaunch}"
+
+    local -r vpcID="$(getVPCIDByName "${vpcName}")"
+
+    checkNonEmptyString "${vpcID}" 'undefined VPC ID'
+
+    aws ec2 describe-subnets \
+        --filters "Name=map-public-ip-on-launch,Values=${mapPublicIPOnLaunch}" \
+                  "Name=state,Values=available" \
+                  "Name=vpc-id,Values=${vpcID}" \
+        --query 'Subnets[*].SubnetId' |
+    jq \
+        --compact-output \
+        --raw-output \
+        'unique | .[] // empty'
+}
 
 function getVPCIDByName()
 {
