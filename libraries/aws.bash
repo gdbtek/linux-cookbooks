@@ -76,12 +76,17 @@ function getSecurityGroupIDsByNames()
 {
     local -r securityGroupNames=("${@}")
 
+    local securityGroupID=''
     local securityGroupIDs=''
     local securityGroupName=''
 
     for securityGroupName in "${securityGroupNames[@]}"
     do
-        securityGroupIDs="$(printf '%s\n%s' "${securityGroupIDs}" "$(getSecurityGroupIDByName "${securityGroupName}")")"
+        securityGroupID="$(getSecurityGroupIDByName "${securityGroupName}")"
+
+        checkNonEmptyString "${securityGroupID}" "security group name '${securityGroupName}' not found"
+
+        securityGroupIDs="$(printf '%s\n%s' "${securityGroupIDs}" "${securityGroupID}")"
     done
 
     echo "${securityGroupIDs}"
