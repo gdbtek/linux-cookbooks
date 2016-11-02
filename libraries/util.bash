@@ -436,29 +436,11 @@ function installBuildEssential()
     fi
 }
 
-function installPackages()
+function installBZip2Command()
 {
-    local -r packages=("${@}")
+    local -r commandPackage=('bzip2' 'bzip2')
 
-    if [[ "$(isUbuntuDistributor)" = 'true' ]]
-    then
-        runAptGetUpdate ''
-    fi
-
-    local package=''
-
-    for package in "${packages[@]}"
-    do
-        if [[ "$(isUbuntuDistributor)" = 'true' ]]
-        then
-            installAptGetPackage "${package}"
-        elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
-        then
-            yum install -y "${package}"
-        else
-            fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
-        fi
-    done
+    installCommands "${commandPackage[@]}"
 }
 
 function installCleanUp()
@@ -516,6 +498,31 @@ function installPackage()
     else
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
+}
+
+function installPackages()
+{
+    local -r packages=("${@}")
+
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        runAptGetUpdate ''
+    fi
+
+    local package=''
+
+    for package in "${packages[@]}"
+    do
+        if [[ "$(isUbuntuDistributor)" = 'true' ]]
+        then
+            installAptGetPackage "${package}"
+        elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+        then
+            yum install -y "${package}"
+        else
+            fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+        fi
+    done
 }
 
 function installPIPCommand()
