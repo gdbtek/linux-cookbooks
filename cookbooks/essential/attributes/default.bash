@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 export APT_ESSENTIAL_PACKAGES=(
+    'bzip2'
     'curl'
     'git'
     'iptables'
@@ -19,6 +20,7 @@ export APT_ESSENTIAL_PACKAGES=(
 )
 
 export RPM_ESSENTIAL_PACKAGES=(
+    'bzip2'
     'curl'
     'git'
     'iptables'
