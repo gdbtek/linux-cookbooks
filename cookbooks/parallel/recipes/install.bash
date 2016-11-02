@@ -21,7 +21,7 @@ function install()
     cd "${tempFolder}"
     "${tempFolder}/configure" --prefix="${PARALLEL_INSTALL_FOLDER}"
     make
-    ln -f -s "${PARALLEL_INSTALL_FOLDER}" '/usr/local/bin/parallel'
+    make install
     rm -f -r "${tempFolder}"
 
     # Config Profile
