@@ -358,10 +358,15 @@ function unzipRemoteFile()
 
     # Unzip
 
-    if [[ "$(grep -i '^tgz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${exExtension}")" != '' || "$(grep -i '^tar\.bz2$' <<< "${exExtension}")" != '' ]]
+    if [[ "$(grep -i '^tgz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${extension}")" != '' || "$(grep -i '^tar\.gz$' <<< "${exExtension}")" != '' ]]
     then
         debug "\nDownloading '${downloadURL}'\n"
         curl -L "${downloadURL}" --retry 12 --retry-delay 5 | tar -C "${installFolder}" -x -z --strip 1
+        echo
+    elif [[ "$(grep -i '^tar\.bz2$' <<< "${exExtension}")" != '' ]]
+    then
+        debug "\nDownloading '${downloadURL}'\n"
+        curl -L "${downloadURL}" --retry 12 --retry-delay 5 | tar -C "${installFolder}" -j -x --strip 1
         echo
     elif [[ "$(grep -i '^zip$' <<< "${extension}")" != '' ]]
     then
