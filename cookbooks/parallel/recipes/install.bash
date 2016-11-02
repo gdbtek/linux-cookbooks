@@ -19,10 +19,9 @@ function install()
 
     unzipRemoteFile "${PARALLEL_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
-    "${tempFolder}/configure"
+    "${tempFolder}/configure" --prefix="${PARALLEL_INSTALL_FOLDER}"
     make
-    make install
-    symlinkLocalBin "${PARALLEL_INSTALL_FOLDER}/bin"
+    ln -f -s "${PARALLEL_INSTALL_FOLDER}" '/usr/local/bin/parallel'
     rm -f -r "${tempFolder}"
 
     # Config Profile
