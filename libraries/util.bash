@@ -365,6 +365,12 @@ function unzipRemoteFile()
         echo
     elif [[ "$(grep -i '^tar\.bz2$' <<< "${exExtension}")" != '' ]]
     then
+        # Install BZip2
+
+        installBZip2Command
+
+        # Unzip
+
         debug "\nDownloading '${downloadURL}'\n"
         curl -L "${downloadURL}" --retry 12 --retry-delay 5 | tar -C "${installFolder}" -j -x --strip 1
         echo
