@@ -319,6 +319,18 @@ function getAvailabilityZonesByVPCName()
         'unique | .[] // empty'
 }
 
+function getSubnetIDByName()
+{
+    local -r subnetName="${1}"
+
+    aws ec2 describe-subnets \
+        --filter "Name=tag:Name,Values=${subnetName}" |
+    jq \
+        --compact-output \
+        --raw-output \
+        '.["Subnets"] | .[0] | .["SubnetId"] // empty'
+}
+
 function getSubnetIDsByVPCName()
 {
     local -r vpcName="${1}"
