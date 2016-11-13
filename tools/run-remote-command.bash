@@ -14,7 +14,7 @@ function displayUsage()
     echo    "        --machine-type      <MACHINE-TYPE>"
     echo -e "\033[1;35m"
     echo    "DESCRIPTION :"
-    echo    "    --help              Help page"
+    echo    "    --help              Help page (optional)"
     echo    "    --async             Run command asynchronously. Default is 'false'"
     echo    "    --attribute-file    Path to attribute file (require). Sample file :"
     echo -e "\033[1;32m"

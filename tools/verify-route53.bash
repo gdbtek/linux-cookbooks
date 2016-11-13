@@ -13,7 +13,7 @@ function displayUsage()
     echo    "        --aws-profile           <AWS_PROFILE>"
     echo -e "\033[1;35m"
     echo    "DESCRIPTION :"
-    echo    "    --help                  Help page"
+    echo    "    --help                  Help page (optional)"
     echo    "    --domain-name           Domain name"
     echo    "    --target-name-server    Target name server"
     echo    "    --aws-profile           AWS profile"

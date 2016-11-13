@@ -13,7 +13,7 @@ function displayUsage()
     echo    "        --users                <USERS>"
     echo -e "\033[1;35m"
     echo    "DESCRIPTION :"
-    echo    "    --help                 Help page"
+    echo    "    --help                 Help page (optional)"
     echo    "    --profile-file-name    Profile file name such as '.profile', '.bash_profile', '.bashrc' (optional)"
     echo    "    --host-name            Custom host name (optional). Default to current host name"
     echo    "    --users                List of users separated by commas or spaces (optional). Default to current user"
