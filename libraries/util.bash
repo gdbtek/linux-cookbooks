@@ -35,6 +35,13 @@ function isElementInArray()
     echo 'false' && return 1
 }
 
+function sortUniqArray()
+{
+    local -r array=("${@}")
+
+    trimString "$(tr ' ' '\n' <<< "${array[@]}" | sort -u | tr '\n' ' ')"
+}
+
 ########################
 # FILE LOCAL UTILITIES #
 ########################
