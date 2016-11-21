@@ -2,6 +2,23 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/util.bash"
 
+#############################
+# CLOUD-FORMATION UTILITIES #
+#############################
+
+function getStackIDByName()
+{
+    local -r stackName="${1}"
+
+    checkNonEmptyString "${stackName}" 'undefined stack name'
+
+    aws cloudformation describe-stacks \
+        --output 'text' \
+        --query 'Stacks[*].[StackId]' \
+        --stack-name "${stackName}" \
+    2> '/dev/null' || true
+}
+
 #################
 # EC2 UTILITIES #
 #################
