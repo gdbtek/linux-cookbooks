@@ -22,7 +22,7 @@ function main()
     checkRequireLinuxSystem
     checkRequireRootUser
 
-    header 'INSTALLING CHEF'
+    header 'INSTALLING CHEF-CLIENT'
 
     install
     installCleanUp
