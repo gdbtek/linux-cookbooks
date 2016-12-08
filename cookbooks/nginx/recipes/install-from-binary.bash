@@ -40,6 +40,7 @@ function install()
     # Install
 
     installPackages 'nginx'
+    startService 'nginx'
 
     # Display Open Ports
 
