@@ -245,10 +245,15 @@ function symlinkLocalBin()
 
     if [[ "$(isMacOperatingSystem)" = 'true' ]]
     then
-        find "${sourceBinFolder}" -maxdepth 1 -type f -or -type l -perm -u+x -exec bash -c -e '
+        find "${sourceBinFolder}" -maxdepth 1 \( -type f -o -type l \) -perm -u+x -exec bash -c -e '
             for file
             do
-                ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
+                fileType="$(stat -f "%HT" "${file}")"
+
+                if [[ "${fileType}" = "Regular File" || ( "${fileType}" = "Symbolic Link" && -f "$(readlink "${file}")" ) ]]
+                then
+                    ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
+                fi
             done' bash '{}' \;
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
     then
