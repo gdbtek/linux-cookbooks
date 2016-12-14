@@ -250,9 +250,17 @@ function symlinkLocalBin()
             do
                 fileType="$(stat -f "%HT" "${file}")"
 
-                if [[ "${fileType}" = "Regular File" || ( "${fileType}" = "Symbolic Link" && -f "$(readlink "${file}")" ) ]]
+                if [[ "${fileType}" = "Regular File" ]]
                 then
                     ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
+                elif [[ "${fileType}" = "Symbolic Link" ]]
+                then
+                    cd "$(dirname "${file}")"
+
+                    if [[ -f "$(readlink "${file}")" ]]
+                    then
+                        ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
+                    fi
                 fi
             done' bash '{}' \;
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
