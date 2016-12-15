@@ -473,11 +473,18 @@ function installBZip2Command()
 
 function installCleanUp()
 {
+    header 'CLEANING UP INSTALLATION'
+
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoremove
         DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
         DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoclean
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        yum clean all
+    else
+        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
 }
 
