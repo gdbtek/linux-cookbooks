@@ -7,7 +7,7 @@ function main()
     local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appFolderPath}/../../../../../libraries/util.bash"
-    source "${appFolderPath}/../../../libraries/util.bash"
+    source "${appFolderPath}/../../../libraries/app.bash"
     source "${appFolderPath}/../attributes/default.bash"
 
     # Clean Up

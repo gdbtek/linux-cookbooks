@@ -6,7 +6,7 @@ function main()
     local -r firstLoginUser='nam'
 
     source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../libraries/util.bash"
+    source "${appFolderPath}/../libraries/app.bash"
 
     "${appFolderPath}/../../../cookbooks/ps1/recipes/install.bash" --users "${firstLoginUser}, $(whoami)"
     "${appFolderPath}/../../../cookbooks/ssh/recipes/install.bash"

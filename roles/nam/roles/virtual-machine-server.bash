@@ -6,7 +6,7 @@ function main()
     local -r firstLoginUser='nam'
 
     source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../libraries/util.bash"
+    source "${appFolderPath}/../libraries/app.bash"
 
     "${appFolderPath}/../../../cookbooks/jdk/recipes/install.bash"
     "${appFolderPath}/../../../cookbooks/jq/recipes/install.bash"

@@ -8,7 +8,7 @@ function main()
 
     source "${appFolderPath}/../../../../../../../cookbooks/jenkins/attributes/slave.bash"
     source "${appFolderPath}/../../../../../../../libraries/util.bash"
-    source "${appFolderPath}/../../../../../libraries/util.bash"
+    source "${appFolderPath}/../../../../../libraries/app.bash"
     source "${appFolderPath}/../attributes/slave.bash"
 
     # Clean Up

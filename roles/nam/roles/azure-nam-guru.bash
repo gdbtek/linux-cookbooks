@@ -7,7 +7,7 @@ function main()
     local -r hostName='nam.guru'
 
     source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../libraries/util.bash"
+    source "${appFolderPath}/../libraries/app.bash"
 
     "${appFolderPath}/../../essential.bash" "${hostName}" "${firstLoginUser}, $(whoami)"
     "${appFolderPath}/../../../cookbooks/docker/recipes/install.bash"
