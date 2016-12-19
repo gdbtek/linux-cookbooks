@@ -33,7 +33,7 @@ function main()
 
     source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
     source "${APP_FOLDER_PATH}/../attributes/hub.bash"
-    source "${APP_FOLDER_PATH}/../libraries/util.bash"
+    source "${APP_FOLDER_PATH}/../libraries/app.bash"
 
     checkRequireLinuxSystem
     checkRequireRootUser
