@@ -358,27 +358,24 @@ function getSubnetIDByName()
         '.["Subnets"] | .[0] | .["SubnetId"] // empty'
 }
 
-function getSubnetIDsByVPCName()
+function getSubnetIDsByNames()
 {
-    local -r vpcName="${1}"
-    local -r mapPublicIPOnLaunch="${2}"
+    local -r subnetNames=("${@}")
 
-    checkNonEmptyString "${vpcName}" 'undefined VPC name'
-    checkTrueFalseString "${mapPublicIPOnLaunch}"
+    local subnetID=''
+    local subnetIDs=''
+    local subnetName=''
 
-    local -r vpcID="$(getVPCIDByName "${vpcName}")"
+    for subnetName in "${subnetNames[@]}"
+    do
+        subnetID="$(getSubnetIDByName "${subnetName}")"
 
-    checkNonEmptyString "${vpcID}" 'undefined VPC ID'
+        checkNonEmptyString "${subnetID}" "subnet name '${subnetName}' not found"
 
-    aws ec2 describe-subnets \
-        --filters "Name=map-public-ip-on-launch,Values=${mapPublicIPOnLaunch}" \
-                  "Name=state,Values=available" \
-                  "Name=vpc-id,Values=${vpcID}" \
-        --query 'Subnets[*].SubnetId' |
-    jq \
-        --compact-output \
-        --raw-output \
-        'unique | .[] // empty'
+        subnetIDs="$(printf '%s\n%s' "${subnetIDs}" "${subnetID}")"
+    done
+
+    echo "${subnetIDs}"
 }
 
 function getVPCIDByName()
