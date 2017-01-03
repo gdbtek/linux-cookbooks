@@ -274,6 +274,9 @@ function getAWSELBAccountID()
     elif [[ "${region}" = 'ap-southeast-2' ]]
     then
         echo '783225319266'
+    elif [[ "${region}" = 'ca-central-1' ]]
+    then
+        echo '985666609251'
     elif [[ "${region}" = 'cn-north-1' ]]
     then
         echo '638102146993'
@@ -283,6 +286,9 @@ function getAWSELBAccountID()
     elif [[ "${region}" = 'eu-west-1' ]]
     then
         echo '156460612806'
+    elif [[ "${region}" = 'eu-west-2' ]]
+    then
+        echo '652711504416'
     elif [[ "${region}" = 'sa-east-1' ]]
     then
         echo '507241528517'
