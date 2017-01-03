@@ -446,7 +446,7 @@ function installAptGetPackage()
             debug "\nApt-Get Package '${package}' has already been installed"
         else
             echo -e "\033[1;35m\nInstalling Apt-Get Package '${package}'\033[0m"
-            DEBIAN_FRONTEND='noninteractive' apt-get install -y "${package}"
+            DEBIAN_FRONTEND='noninteractive' apt-get install "${package}" --fix-missing --force-yes -y
         fi
     fi
 }
@@ -477,9 +477,9 @@ function installCleanUp()
 
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
-        DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoremove
-        DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
-        DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoclean
+        DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing --force-yes -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoremove
+        DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing --force-yes -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
+        DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing --force-yes -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoclean
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
         yum clean all
@@ -661,19 +661,19 @@ function runAptGetUpgrade()
         runAptGetUpdate ''
 
         info '\napt-get upgrade'
-        DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
+        DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing --force-yes -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
 
         info '\napt-get dist-upgrade'
-        DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
+        DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing --force-yes -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
 
         info '\napt-get autoremove'
-        DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoremove
+        DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing --force-yes -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoremove
 
         info '\napt-get clean'
-        DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
+        DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing --force-yes -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
 
         info '\napt-get autoclean'
-        DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoclean
+        DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing --force-yes -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoclean
     fi
 }
 
