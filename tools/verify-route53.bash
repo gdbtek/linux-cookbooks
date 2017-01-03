@@ -51,7 +51,7 @@ function getAWSNameServer()
                 --raw-output \
                 --arg jqRecordSetIndex "${i}" \
                 '.["ResourceRecordSets"] | .[$jqRecordSetIndex | tonumber] // empty' \
-                <<< "${recordSetsJSON}"
+            <<< "${recordSetsJSON}"
         )"
 
         # shellcheck disable=SC2155
@@ -60,7 +60,7 @@ function getAWSNameServer()
                 --compact-output \
                 --raw-output \
                 '.["Name"] // empty' \
-                <<< "${recordSet}"
+            <<< "${recordSet}"
         )"
 
         # shellcheck disable=SC2155
@@ -69,7 +69,7 @@ function getAWSNameServer()
                 --compact-output \
                 --raw-output \
                 '.["Type"] // empty' \
-                <<< "${recordSet}"
+            <<< "${recordSet}"
         )"
 
         if [[ "${recordSetName}" = "${domainName}." && "${recordSetType}" = 'NS' ]]
@@ -78,7 +78,7 @@ function getAWSNameServer()
                 --compact-output \
                 --raw-output \
                 '.["ResourceRecords"] | .[0][] // empty' \
-                <<< "${recordSet}"
+            <<< "${recordSet}"
         fi
     done
 }
@@ -113,7 +113,7 @@ function verify()
             --compact-output \
             --raw-output \
             '.["ResourceRecordSets"] | length // empty' \
-            <<< "${recordSetsJSON}"
+        <<< "${recordSetsJSON}"
     )"
 
     # Find One AWS Name Server
@@ -138,7 +138,7 @@ function verify()
                 --raw-output \
                 --arg jqRecordSetIndex "${i}" \
                 '.["ResourceRecordSets"] | .[$jqRecordSetIndex | tonumber] // empty' \
-                <<< "${recordSetsJSON}"
+            <<< "${recordSetsJSON}"
         )"
 
         # shellcheck disable=SC2155
@@ -147,7 +147,7 @@ function verify()
                 --compact-output \
                 --raw-output \
                 '.["Name"] // empty' \
-                <<< "${recordSet}"
+            <<< "${recordSet}"
         )"
 
         # shellcheck disable=SC2155
@@ -156,7 +156,7 @@ function verify()
                 --compact-output \
                 --raw-output \
                 '.["Type"] // empty' \
-                <<< "${recordSet}"
+            <<< "${recordSet}"
         )"
 
         echo -e "    name : \033[1;35m${recordSetName}\033[0m"
