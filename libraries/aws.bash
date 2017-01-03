@@ -35,11 +35,8 @@ function getLatestAMIIDByAMINamePattern()
                   "Name=is-public,Values=false" \
                   "Name=state,Values=available" \
                   "Name=name,Values=${amiNamePattern}" \
-        --query 'sort_by(Images, &CreationDate)[-1].ImageId' |
-    jq \
-        --compact-output \
-        --raw-output \
-        '. // empty'
+        --output 'text' \
+        --query 'sort_by(Images, &CreationDate)[-1].ImageId'
 }
 
 function getInstanceAvailabilityZone()
@@ -68,11 +65,10 @@ function getKeyPairFingerPrintByName()
     checkNonEmptyString "${keyPairName}" 'undefined key pair name'
 
     aws ec2 describe-key-pairs \
-        --key-name "${keyPairName}" 2> '/dev/null' |
-    jq \
-        --compact-output \
-        --raw-output \
-        '.["KeyPairs"] | .[0] | .["KeyFingerprint"] // empty'
+        --key-name "${keyPairName}" \
+        --output 'text' \
+        --query 'KeyPairs[0].[KeyFingerprint]' \
+    2> '/dev/null'
 }
 
 function getSecurityGroupIDByName()
@@ -82,11 +78,9 @@ function getSecurityGroupIDByName()
     checkNonEmptyString "${securityGroupName}" 'undefined security group name'
 
     aws ec2 describe-security-groups \
-        --filters "Name=group-name,Values=${securityGroupName}" |
-    jq \
-        --compact-output \
-        --raw-output \
-        '.["SecurityGroups"] | .[0] | .["GroupId"] // empty'
+        --filters "Name=group-name,Values=${securityGroupName}" \
+        --output 'text' \
+        --query 'SecurityGroups[0].[GroupId]'
 }
 
 function getSecurityGroupIDsByNames()
@@ -119,11 +113,9 @@ function revokeSecurityGroupIngress()
 
     local -r ipPermissions="$(
         aws ec2 describe-security-groups \
-            --filters "Name=group-name,Values=${securityGroupName}" |
-        jq \
-            --compact-output \
-            --raw-output \
-            '.["SecurityGroups"] | .[0] | .["IpPermissions"] // empty'
+            --filters "Name=group-name,Values=${securityGroupName}" \
+            --output 'text' \
+            --query 'SecurityGroups[0].[IpPermissions]'
     )"
 
     if [[ "$(isEmptyString "${ipPermissions}")" = 'false' && "${ipPermissions}" != '[]' ]]
@@ -236,11 +228,9 @@ function getHostedZoneIDByDomainName()
     checkNonEmptyString "${hostedZoneDomainName}" 'undefined hosted zone domain name'
 
     aws route53 list-hosted-zones-by-name \
-        --dns-name "${hostedZoneDomainName}" |
-    jq \
-        --compact-output \
-        --raw-output \
-        '.["HostedZones"] | .[0] | .["Id"] // empty' |
+        --dns-name "${hostedZoneDomainName}"
+        --output 'text' \
+        --query 'HostedZones[0].[Id]' |
     awk -F '/' '{ print $3 }'
 }
 
@@ -357,11 +347,9 @@ function getSubnetIDByName()
     local -r subnetName="${1}"
 
     aws ec2 describe-subnets \
-        --filter "Name=tag:Name,Values=${subnetName}" |
-    jq \
-        --compact-output \
-        --raw-output \
-        '.["Subnets"] | .[0] | .["SubnetId"] // empty'
+        --filter "Name=tag:Name,Values=${subnetName}" \
+        --output 'text' \
+        --query 'Subnets[0].[SubnetId]'
 }
 
 function getSubnetIDsByNames()
@@ -389,9 +377,7 @@ function getVPCIDByName()
     local -r vpcName="${1}"
 
     aws ec2 describe-vpcs \
-        --filter "Name=tag:Name,Values=${vpcName}" |
-    jq \
-        --compact-output \
-        --raw-output \
-        '.["Vpcs"] | .[0] | .["VpcId"] // empty'
+        --filter "Name=tag:Name,Values=${vpcName}" \
+        --output 'text' \
+        --query 'Vpcs[0].[VpcId]'
 }
