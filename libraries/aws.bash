@@ -117,9 +117,8 @@ function revokeSecurityGroupIngress()
     local -r ipPermissions="$(
         aws ec2 describe-security-groups \
             --filters "Name=group-name,Values=${securityGroupName}" \
-            --output 'text' \
-            --query 'SecurityGroups[0].[IpPermissions]' |
-        grep -E -v '^None$'
+            --output 'json' \
+            --query 'SecurityGroups[0].[IpPermissions][0]'
     )"
 
     if [[ "$(isEmptyString "${ipPermissions}")" = 'false' && "${ipPermissions}" != '[]' ]]
