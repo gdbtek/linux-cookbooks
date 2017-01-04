@@ -36,7 +36,8 @@ function getLatestAMIIDByAMINamePattern()
                   "Name=state,Values=available" \
                   "Name=name,Values=${amiNamePattern}" \
         --output 'text' \
-        --query 'sort_by(Images, &CreationDate)[-1].ImageId'
+        --query 'sort_by(Images, &CreationDate)[-1].ImageId' |
+    grep -E -v '^None$'
 }
 
 function getInstanceAvailabilityZone()
@@ -68,7 +69,8 @@ function getKeyPairFingerPrintByName()
         --key-name "${keyPairName}" \
         --output 'text' \
         --query 'KeyPairs[0].[KeyFingerprint]' \
-    2> '/dev/null'
+    2> '/dev/null' |
+    grep -E -v '^None$'
 }
 
 function getSecurityGroupIDByName()
@@ -80,7 +82,8 @@ function getSecurityGroupIDByName()
     aws ec2 describe-security-groups \
         --filters "Name=group-name,Values=${securityGroupName}" \
         --output 'text' \
-        --query 'SecurityGroups[0].[GroupId]'
+        --query 'SecurityGroups[0].[GroupId]' |
+    grep -E -v '^None$'
 }
 
 function getSecurityGroupIDsByNames()
@@ -115,7 +118,8 @@ function revokeSecurityGroupIngress()
         aws ec2 describe-security-groups \
             --filters "Name=group-name,Values=${securityGroupName}" \
             --output 'text' \
-            --query 'SecurityGroups[0].[IpPermissions]'
+            --query 'SecurityGroups[0].[IpPermissions]' |
+        grep -E -v '^None$'
     )"
 
     if [[ "$(isEmptyString "${ipPermissions}")" = 'false' && "${ipPermissions}" != '[]' ]]
@@ -231,6 +235,7 @@ function getHostedZoneIDByDomainName()
         --dns-name "${hostedZoneDomainName}"
         --output 'text' \
         --query 'HostedZones[0].[Id]' |
+    grep -E -v '^None$' |
     awk -F '/' '{ print $3 }'
 }
 
@@ -349,7 +354,8 @@ function getSubnetIDByName()
     aws ec2 describe-subnets \
         --filter "Name=tag:Name,Values=${subnetName}" \
         --output 'text' \
-        --query 'Subnets[0].[SubnetId]'
+        --query 'Subnets[0].[SubnetId]' |
+    grep -E -v '^None$'
 }
 
 function getSubnetIDsByNames()
@@ -379,5 +385,6 @@ function getVPCIDByName()
     aws ec2 describe-vpcs \
         --filter "Name=tag:Name,Values=${vpcName}" \
         --output 'text' \
-        --query 'Vpcs[0].[VpcId]'
+        --query 'Vpcs[0].[VpcId]' |
+    grep -E -v '^None$'
 }
