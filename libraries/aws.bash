@@ -106,6 +106,29 @@ function getSecurityGroupIDsByNames()
     echo "${securityGroupIDs}"
 }
 
+function revokeSecurityGroupEgress()
+{
+    local -r securityGroupID="${1}"
+    local -r securityGroupName="${2}"
+
+    checkNonEmptyString "${securityGroupID}" 'undefined security group ID'
+    checkNonEmptyString "${securityGroupName}" 'undefined security group name'
+
+    local -r ipPermissionsEgress="$(
+        aws ec2 describe-security-groups \
+            --filters "Name=group-name,Values=${securityGroupName}" \
+            --output 'json' \
+            --query 'SecurityGroups[0].[IpPermissionsEgress][0]'
+    )"
+
+    if [[ "$(isEmptyString "${ipPermissionsEgress}")" = 'false' && "${ipPermissionsEgress}" != '[]' ]]
+    then
+        aws ec2 revoke-security-group-egress \
+            --group-id "${securityGroupID}" \
+            --ip-permissions "${ipPermissionsEgress}"
+    fi
+}
+
 function revokeSecurityGroupIngress()
 {
     local -r securityGroupID="${1}"
