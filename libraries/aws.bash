@@ -231,7 +231,7 @@ function getHostedZoneIDByDomainName()
     checkNonEmptyString "${hostedZoneDomainName}" 'undefined hosted zone domain name'
 
     aws route53 list-hosted-zones-by-name \
-        --dns-name "${hostedZoneDomainName}"
+        --dns-name "${hostedZoneDomainName}" \
         --output 'text' \
         --query 'HostedZones[0].[Id]' |
     grep -E -v '^None$' |
