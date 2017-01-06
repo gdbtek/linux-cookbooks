@@ -4,13 +4,31 @@ function install()
 {
     umask '0022'
 
-    installPackages 'ntp'
+    # Set Time Zone
 
     if [[ "$(isUbuntuDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        timedatectl set-timezone "${NTP_TIME_ZONE}"
+        timedatectl set-timezone "${CHRONY_TIME_ZONE}"
     else
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+    fi
+
+    # Install Package
+
+    installPackages 'chrony'
+
+    # Enable Log and Start Service
+
+    mkdir -p '/var/log/chrony'
+    chmod 755 '/var/log/chrony'
+
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        chown -R '_chrony:_chrony' '/var/log/chrony'
+        startService 'chrony'
+    else
+        chown -R 'chrony:chrony' '/var/log/chrony'
+        startService 'chronyd'
     fi
 
     umask '0077'
@@ -26,7 +44,7 @@ function main()
     checkRequireLinuxSystem
     checkRequireRootUser
 
-    header 'INSTALLING NTP'
+    header 'INSTALLING CHRONY'
 
     install
     installCleanUp
