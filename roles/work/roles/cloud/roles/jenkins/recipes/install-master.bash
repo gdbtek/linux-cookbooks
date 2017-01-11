@@ -38,6 +38,7 @@ function main()
     "${appFolderPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami)"
     "${appFolderPath}/../../../../../../../cookbooks/secret-server-console/recipes/install.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/terraform/recipes/install.bash"
 
     # Config SSH and GIT
 
