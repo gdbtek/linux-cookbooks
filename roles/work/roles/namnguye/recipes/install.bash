@@ -30,6 +30,7 @@ function main()
     "${appFolderPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${NAMNGUYE_NODE_JS_VERSION}" "${NAMNGUYE_NODE_JS_INSTALL_FOLDER}"
     "${appFolderPath}/../../../../../cookbooks/packer/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/shell-check/recipes/install.bash"
+    "${appFolderPath}/../../../../../cookbooks/terraform/recipes/install.bash"
 
     # Config SSH and GIT
 
