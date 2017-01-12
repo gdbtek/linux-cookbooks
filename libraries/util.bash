@@ -929,6 +929,7 @@ function addSwapSpace()
 
     dd if=/dev/zero of="${swapFile}" bs=1024 count="${swapSize}"
     mkswap "${swapFile}"
+    chmod 600 "${swapFile}"
     swapon "${swapFile}"
 
     # Config Swap File System
