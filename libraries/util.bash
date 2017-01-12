@@ -917,7 +917,7 @@ function addSwapSpace()
         swapSize='500000'
     fi
 
-    if [[ "$(isEmptyString "${swapSize}")" = 'true' ]]
+    if [[ "$(isEmptyString "${swapFile}")" = 'true' ]]
     then
         swapFile='/var/tmp/swap'
     fi
