@@ -938,7 +938,7 @@ function addSwapSpace()
 
     appendToFileIfNotFound '/etc/fstab' "$(stringToSearchPattern "${fstabConfig}")" "${fstabConfig}" 'true' 'false' 'true'
 
-    # Display Swap status
+    # Display Swap Status
 
     free -m
 }
