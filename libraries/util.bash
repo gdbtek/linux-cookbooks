@@ -936,6 +936,10 @@ function addSwapSpace()
     local -r fstabConfig="${swapFile} swap swap defaults 0 0"
 
     appendToFileIfNotFound '/etc/fstab' "$(stringToSearchPattern "${fstabConfig}")" "${fstabConfig}" 'true' 'false' 'true'
+
+    # Display Swap status
+
+    free -m
 }
 
 function addUser()
