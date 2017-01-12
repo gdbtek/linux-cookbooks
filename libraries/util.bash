@@ -903,6 +903,41 @@ function warn()
 # SYSTEM UTILITIES #
 ####################
 
+function addSwapSpace()
+{
+    local swapSize="${1}"
+    local swapFile="${2}"
+
+    header 'ADDING SWAP SPACE'
+
+    # Set Default Values
+
+    if [[ "$(isEmptyString "${swapSize}")" = 'true' ]]
+    then
+        swapSize='500000'
+    fi
+
+    if [[ "$(isEmptyString "${swapSize}")" = 'true' ]]
+    then
+        swapFile='/var/tmp/swap'
+    fi
+
+    rm -f "${swapFile}"
+    touch "${swapFile}"
+
+    # Create Swap File
+
+    dd if=/dev/zero of="${swapFile}" bs=1024 count="${swapSize}"
+    mkswap "${swapFile}"
+    swapon "${swapFile}"
+
+    # Config Swap File System
+
+    local -r fstabConfig="${swapFile} swap swap defaults 0 0"
+
+    appendToFileIfNotFound '/etc/fstab' "$(stringToSearchPattern "${fstabConfig}")" "${fstabConfig}" 'true' 'false' 'true'
+}
+
 function addUser()
 {
     local -r userLogin="${1}"
