@@ -1704,7 +1704,6 @@ function stopService()
 
         systemctl daemon-reload
         systemctl stop "${serviceName}"
-        systemctl status "${serviceName}"
     else
         header "STOPPING UPSTART SERVICE ${serviceName}"
 
