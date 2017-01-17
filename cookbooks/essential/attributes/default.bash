@@ -22,6 +22,7 @@ export APT_ESSENTIAL_PACKAGES=(
 export RPM_ESSENTIAL_PACKAGES=(
     'bzip2'
     'curl'
+    'fontconfig'
     'git'
     'iptables'
     'logrotate'
