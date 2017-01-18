@@ -14,7 +14,6 @@ function install()
     # Clean Up
 
     initializeFolder "${SIEGE_INSTALL_FOLDER}"
-    initializeFolder "${SIEGE_INSTALL_FOLDER}/bin"
 
     # Install
 
