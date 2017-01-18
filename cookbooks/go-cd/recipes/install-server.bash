@@ -22,7 +22,7 @@ function install()
 
     local -r unzipFolder="$(find "${GO_CD_SERVER_INSTALL_FOLDER}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
-    if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
+    if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(trimString "$(wc -l <<< "${unzipFolder}")")" != '1' ]]
     then
         fatal 'FATAL : multiple unzip folder names found'
     fi
