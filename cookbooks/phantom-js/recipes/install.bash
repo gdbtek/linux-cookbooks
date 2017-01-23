@@ -35,7 +35,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${PHANTOM_JS_INSTALL_FOLDER}/bin/phantomjs" version)"
+    displayVersion "$("${PHANTOM_JS_INSTALL_FOLDER}/bin/phantomjs" --version)"
 
     umask '0077'
 }
