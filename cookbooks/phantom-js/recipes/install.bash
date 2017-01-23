@@ -1,5 +1,18 @@
 #!/bin/bash -e
 
+function installDependencies()
+{
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        installPackages 'libfontconfig'
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        installPackages 'fontconfig'
+    else
+        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+    fi
+}
+
 function install()
 {
     umask '0022'
@@ -39,6 +52,7 @@ function main()
 
     header 'INSTALLING PHANTOM-JS'
 
+    installDependencies
     install
     installCleanUp
 }
