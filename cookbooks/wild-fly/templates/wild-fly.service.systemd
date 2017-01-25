@@ -19,4 +19,4 @@ TimeoutSec=30
 User=__USER_NAME__
 Group=__GROUP_NAME__
 
-ExecStart='__INSTALL_FOLDER__/bin/standalone.sh' -b=__APPLICATION_BIND_ADDRESS__ -bmanagement=__MANAGEMENT_BIND_ADDRESS__
+ExecStart='__INSTALL_FOLDER_PATH__/bin/standalone.sh' -b=__APPLICATION_BIND_ADDRESS__ -bmanagement=__MANAGEMENT_BIND_ADDRESS__

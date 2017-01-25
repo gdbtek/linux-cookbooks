@@ -6,23 +6,23 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${MONGODB_INSTALL_FOLDER}"
+    initializeFolder "${MONGODB_INSTALL_FOLDER_PATH}"
     initializeFolder "${MONGODB_INSTALL_DATA_FOLDER}"
 
     # Install
 
-    unzipRemoteFile "${MONGODB_DOWNLOAD_URL}" "${MONGODB_INSTALL_FOLDER}"
+    unzipRemoteFile "${MONGODB_DOWNLOAD_URL}" "${MONGODB_INSTALL_FOLDER_PATH}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${MONGODB_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${MONGODB_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/mongodb.sh.profile" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
 
     # Config Init
 
     local -r initConfigData=(
-        '__INSTALL_FOLDER__' "${MONGODB_INSTALL_FOLDER}"
+        '__INSTALL_FOLDER_PATH__' "${MONGODB_INSTALL_FOLDER_PATH}"
         '__INSTALL_DATA_FOLDER__' "${MONGODB_INSTALL_DATA_FOLDER}"
         '__USER_NAME__' "${MONGODB_USER_NAME}"
         '__GROUP_NAME__' "${MONGODB_GROUP_NAME}"
@@ -30,12 +30,12 @@ function install()
     )
 
     createInitFileFromTemplate "${MONGODB_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
-    chown -R "$(whoami):$(whoami)" "${MONGODB_INSTALL_FOLDER}"
+    chown -R "$(whoami):$(whoami)" "${MONGODB_INSTALL_FOLDER_PATH}"
 
     # Start
 
     addUser "${MONGODB_USER_NAME}" "${MONGODB_GROUP_NAME}" 'false' 'true' 'false'
-    chown -R "${MONGODB_USER_NAME}:${MONGODB_GROUP_NAME}" "${MONGODB_INSTALL_FOLDER}"
+    chown -R "${MONGODB_USER_NAME}:${MONGODB_GROUP_NAME}" "${MONGODB_INSTALL_FOLDER_PATH}"
     startService "${MONGODB_SERVICE_NAME}"
 
     # Display Open Ports
@@ -44,7 +44,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${MONGODB_INSTALL_FOLDER}/bin/mongo" --version)"
+    displayVersion "$("${MONGODB_INSTALL_FOLDER_PATH}/bin/mongo" --version)"
 
     umask '0077'
 }

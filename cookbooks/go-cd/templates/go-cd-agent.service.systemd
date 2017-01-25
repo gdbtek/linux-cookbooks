@@ -21,6 +21,6 @@ Group=__GROUP_NAME__
 
 Environment='HOME=__GO_HOME_FOLDER__'
 
-WorkingDirectory=__AGENT_INSTALL_FOLDER__
+WorkingDirectory=__AGENT_INSTALL_FOLDER_PATH__
 
 ExecStart=/bin/bash -c -e 'java -jar 'agent-bootstrapper.jar' '__SERVER_HOSTNAME__''

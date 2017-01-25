@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${WILD_FLY_JDK_INSTALL_FOLDER}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${WILD_FLY_JDK_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${WILD_FLY_JDK_INSTALL_FOLDER}"
+        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${WILD_FLY_JDK_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -14,18 +14,18 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${WILD_FLY_INSTALL_FOLDER}"
+    initializeFolder "${WILD_FLY_INSTALL_FOLDER_PATH}"
 
     # Install
 
-    unzipRemoteFile "${WILD_FLY_DOWNLOAD_URL}" "${WILD_FLY_INSTALL_FOLDER}"
+    unzipRemoteFile "${WILD_FLY_DOWNLOAD_URL}" "${WILD_FLY_INSTALL_FOLDER_PATH}"
 
     # Config Init
 
     local -r initConfigData=(
         '__APPLICATION_BIND_ADDRESS__' "${WILD_FLY_APPLICATION_BIND_ADDRESS}"
         '__GROUP_NAME__' "${WILD_FLY_GROUP_NAME}"
-        '__INSTALL_FOLDER__' "${WILD_FLY_INSTALL_FOLDER}"
+        '__INSTALL_FOLDER_PATH__' "${WILD_FLY_INSTALL_FOLDER_PATH}"
         '__MANAGEMENT_BIND_ADDRESS__' "${WILD_FLY_MANAGEMENT_BIND_ADDRESS}"
         '__USER_NAME__' "${WILD_FLY_USER_NAME}"
     )
@@ -34,12 +34,12 @@ function install()
 
     # Add Management User
 
-    "${WILD_FLY_INSTALL_FOLDER}/bin/add-user.sh" --user "${WILD_FLY_MANAGEMENT_USER}" --password "${WILD_FLY_MANAGEMENT_PASSWORD}"
+    "${WILD_FLY_INSTALL_FOLDER_PATH}/bin/add-user.sh" --user "${WILD_FLY_MANAGEMENT_USER}" --password "${WILD_FLY_MANAGEMENT_PASSWORD}"
 
     # Start
 
     addUser "${WILD_FLY_USER_NAME}" "${WILD_FLY_GROUP_NAME}" 'false' 'true' 'false'
-    chown -R "${WILD_FLY_USER_NAME}:${WILD_FLY_GROUP_NAME}" "${WILD_FLY_INSTALL_FOLDER}"
+    chown -R "${WILD_FLY_USER_NAME}:${WILD_FLY_GROUP_NAME}" "${WILD_FLY_INSTALL_FOLDER_PATH}"
     startService "${WILD_FLY_SERVICE_NAME}"
 
     # Display Open Ports

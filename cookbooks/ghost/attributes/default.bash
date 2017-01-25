@@ -4,8 +4,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../node-js/attributes/default.bash"
 
 export GHOST_DOWNLOAD_URL='https://ghost.org/zip/ghost-latest.zip'
 
-export GHOST_INSTALL_FOLDER='/opt/ghost'
-export GHOST_NODE_JS_INSTALL_FOLDER="${NODE_JS_INSTALL_FOLDER}"
+export GHOST_INSTALL_FOLDER_PATH='/opt/ghost'
+export GHOST_NODE_JS_INSTALL_FOLDER_PATH="${NODE_JS_INSTALL_FOLDER_PATH}"
 export GHOST_NODE_JS_VERSION='0.10.46'
 
 export GHOST_SERVICE_NAME='ghost'

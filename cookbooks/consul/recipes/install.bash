@@ -6,24 +6,24 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${CONSUL_INSTALL_FOLDER}"
-    initializeFolder "${CONSUL_INSTALL_FOLDER}/bin"
+    initializeFolder "${CONSUL_INSTALL_FOLDER_PATH}"
+    initializeFolder "${CONSUL_INSTALL_FOLDER_PATH}/bin"
 
     # Install
 
-    unzipRemoteFile "${CONSUL_DOWNLOAD_URL}" "${CONSUL_INSTALL_FOLDER}/bin"
-    chown -R "$(whoami):$(whoami)" "${CONSUL_INSTALL_FOLDER}"
-    ln -f -s "${CONSUL_INSTALL_FOLDER}/bin/consul" '/usr/local/bin/consul'
+    unzipRemoteFile "${CONSUL_DOWNLOAD_URL}" "${CONSUL_INSTALL_FOLDER_PATH}/bin"
+    chown -R "$(whoami):$(whoami)" "${CONSUL_INSTALL_FOLDER_PATH}"
+    ln -f -s "${CONSUL_INSTALL_FOLDER_PATH}/bin/consul" '/usr/local/bin/consul'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${CONSUL_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${CONSUL_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/consul.sh.profile" '/etc/profile.d/consul.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${CONSUL_INSTALL_FOLDER}/bin/consul" version)"
+    displayVersion "$("${CONSUL_INSTALL_FOLDER_PATH}/bin/consul" version)"
 
     umask '0077'
 }

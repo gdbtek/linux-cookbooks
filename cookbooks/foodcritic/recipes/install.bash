@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${FOODCRITIC_RUBY_INSTALL_FOLDER}" ]]
+    if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../ruby/recipes/install.bash" "${FOODCRITIC_RUBY_INSTALL_FOLDER}"
+        "${APP_FOLDER_PATH}/../../ruby/recipes/install.bash" "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -16,9 +16,9 @@ function install()
 
     gem install foodcritic
 
-    if [[ -f "${FOODCRITIC_RUBY_INSTALL_FOLDER}/bin/foodcritic" ]]
+    if [[ -f "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}/bin/foodcritic" ]]
     then
-        ln -f -s "${FOODCRITIC_RUBY_INSTALL_FOLDER}/bin/foodcritic" '/usr/local/bin/foodcritic'
+        ln -f -s "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}/bin/foodcritic" '/usr/local/bin/foodcritic'
     fi
 
     # Display Version

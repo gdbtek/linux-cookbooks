@@ -30,7 +30,7 @@ function main()
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
-    "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_JENKINS_NODE_JS_VERSION}" "${CLOUD_JENKINS_NODE_JS_INSTALL_FOLDER}"
+    "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_JENKINS_NODE_JS_VERSION}" "${CLOUD_JENKINS_NODE_JS_INSTALL_FOLDER_PATH}"
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-slave.bash"
     "${appFolderPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami)"

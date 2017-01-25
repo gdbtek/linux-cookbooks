@@ -6,12 +6,12 @@ function refreshUpdateCenter()
 
     # Validate Jenkins Config Folder
 
-    if [[ "$(isEmptyString "${JENKINS_INSTALL_FOLDER}")" = 'true' ]]
+    if [[ "$(isEmptyString "${JENKINS_INSTALL_FOLDER_PATH}")" = 'true' ]]
     then
-        JENKINS_INSTALL_FOLDER="$(getUserHomeFolder "${JENKINS_USER_NAME}")/.jenkins"
+        JENKINS_INSTALL_FOLDER_PATH="$(getUserHomeFolder "${JENKINS_USER_NAME}")/.jenkins"
     fi
 
-    checkExistFolder "${JENKINS_INSTALL_FOLDER}"
+    checkExistFolder "${JENKINS_INSTALL_FOLDER_PATH}"
 
     # Validate JSON Content
 
@@ -23,7 +23,7 @@ function refreshUpdateCenter()
 
     # Update JSON File
 
-    local -r jsonFilePath="${JENKINS_INSTALL_FOLDER}/updates/default.json"
+    local -r jsonFilePath="${JENKINS_INSTALL_FOLDER_PATH}/updates/default.json"
     local -r updateFolderPath="$(dirname "${jsonFilePath}")"
 
     mkdir -p "${updateFolderPath}"

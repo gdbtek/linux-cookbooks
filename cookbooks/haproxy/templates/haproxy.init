@@ -14,7 +14,7 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 PIDFILE=/var/run/haproxy.pid
 CONFIG=/etc/haproxy/haproxy.cfg
-HAPROXY=__INSTALL_FOLDER__
+HAPROXY=__INSTALL_FOLDER_PATH__
 RUNDIR=/run/haproxy
 EXTRAOPTS=
 

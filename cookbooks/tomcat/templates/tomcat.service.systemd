@@ -19,13 +19,13 @@ TimeoutSec=30
 User=__USER_NAME__
 Group=__GROUP_NAME__
 
-Environment='CATALINA_HOME=__INSTALL_FOLDER__'
+Environment='CATALINA_HOME=__INSTALL_FOLDER_PATH__'
 Environment='HOME=__HOME_FOLDER__'
-Environment='JAVA_HOME=__JDK_INSTALL_FOLDER__'
+Environment='JAVA_HOME=__JDK_INSTALL_FOLDER_PATH__'
 
-ExecStart='__INSTALL_FOLDER__/bin/startup.sh'
-ExecStop='__INSTALL_FOLDER__/bin/shutdown.sh'
+ExecStart='__INSTALL_FOLDER_PATH__/bin/startup.sh'
+ExecStop='__INSTALL_FOLDER_PATH__/bin/shutdown.sh'
 ExecStopPost=/bin/bash -c -e '\
-    cd \'__INSTALL_FOLDER__/logs\' && find \'.\' -not -name \'.\' -delete && \
-    cd \'__INSTALL_FOLDER__/temp\' && find \'.\' -not -name \'.\' -delete \
+    cd \'__INSTALL_FOLDER_PATH__/logs\' && find \'.\' -not -name \'.\' -delete && \
+    cd \'__INSTALL_FOLDER_PATH__/temp\' && find \'.\' -not -name \'.\' -delete \
 '

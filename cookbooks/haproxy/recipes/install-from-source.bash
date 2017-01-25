@@ -5,7 +5,7 @@ function installDependencies()
     installBuildEssential
     installPackage 'libssl-dev' 'openssl-devel'
 
-    if [[ ! -f "${PCRE_INSTALL_FOLDER}/bin/pcregrep" ]]
+    if [[ ! -f "${PCRE_INSTALL_FOLDER_PATH}/bin/pcregrep" ]]
     then
         "${APP_FOLDER_PATH}/../../pcre/recipes/install.bash"
     fi
@@ -15,7 +15,7 @@ function install()
 {
     # Clean Up
 
-    initializeFolder "${HAPROXY_INSTALL_FOLDER}"
+    initializeFolder "${HAPROXY_INSTALL_FOLDER_PATH}"
     initializeFolder '/etc/haproxy'
 
     # Install
@@ -26,21 +26,21 @@ function install()
     unzipRemoteFile "${HAPROXY_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
     make "${HAPROXY_CONFIG[@]}"
-    make install PREFIX='' DESTDIR="${HAPROXY_INSTALL_FOLDER}"
+    make install PREFIX='' DESTDIR="${HAPROXY_INSTALL_FOLDER_PATH}"
     rm -f -r "${tempFolder}"
-    ln -f -s "${HAPROXY_INSTALL_FOLDER}/sbin/haproxy" '/usr/local/bin/haproxy'
+    ln -f -s "${HAPROXY_INSTALL_FOLDER_PATH}/sbin/haproxy" '/usr/local/bin/haproxy'
     cd "${currentPath}"
 
     # Config Init
 
-    local -r initConfigData=('__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}/sbin/haproxy")
+    local -r initConfigData=('__INSTALL_FOLDER_PATH__' "${HAPROXY_INSTALL_FOLDER_PATH}/sbin/haproxy")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/haproxy.init" '/etc/init.d/haproxy' "${initConfigData[@]}"
     chmod 755 '/etc/init.d/haproxy'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${HAPROXY_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${HAPROXY_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
 
@@ -53,7 +53,7 @@ function install()
     # Start
 
     addUser "${HAPROXY_USER_NAME}" "${HAPROXY_GROUP_NAME}" 'false' 'true' 'false'
-    chown -R "${HAPROXY_USER_NAME}:${HAPROXY_GROUP_NAME}" "${HAPROXY_INSTALL_FOLDER}"
+    chown -R "${HAPROXY_USER_NAME}:${HAPROXY_GROUP_NAME}" "${HAPROXY_INSTALL_FOLDER_PATH}"
     service "${HAPROXY_SERVICE_NAME}" start
 
     # Display Open Ports
@@ -62,7 +62,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${HAPROXY_INSTALL_FOLDER}/sbin/haproxy" -vv 2>&1)"
+    displayVersion "$("${HAPROXY_INSTALL_FOLDER_PATH}/sbin/haproxy" -vv 2>&1)"
 }
 
 function main()

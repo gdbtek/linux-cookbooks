@@ -19,7 +19,7 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${RUBY_INSTALL_FOLDER}"
+    initializeFolder "${RUBY_INSTALL_FOLDER_PATH}"
 
     # Install
 
@@ -27,15 +27,15 @@ function install()
 
     unzipRemoteFile "${RUBY_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${RUBY_INSTALL_FOLDER}"
+    "${tempFolder}/configure" --prefix="${RUBY_INSTALL_FOLDER_PATH}"
     make
     make install
-    symlinkLocalBin "${RUBY_INSTALL_FOLDER}/bin"
+    symlinkLocalBin "${RUBY_INSTALL_FOLDER_PATH}/bin"
     rm -f -r "${tempFolder}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${RUBY_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${RUBY_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/ruby.sh.profile" '/etc/profile.d/ruby.sh' "${profileConfigData[@]}"
 
@@ -64,7 +64,7 @@ function main()
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        RUBY_INSTALL_FOLDER="${installFolder}"
+        RUBY_INSTALL_FOLDER_PATH="${installFolder}"
     fi
 
     # Install

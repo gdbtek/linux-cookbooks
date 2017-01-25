@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${GROOVY_JDK_INSTALL_FOLDER}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${GROOVY_JDK_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${GROOVY_JDK_INSTALL_FOLDER}"
+        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${GROOVY_JDK_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -14,13 +14,13 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${GROOVY_INSTALL_FOLDER}"
+    initializeFolder "${GROOVY_INSTALL_FOLDER_PATH}"
 
     # Install
 
-    unzipRemoteFile "${GROOVY_DOWNLOAD_URL}" "${GROOVY_INSTALL_FOLDER}"
+    unzipRemoteFile "${GROOVY_DOWNLOAD_URL}" "${GROOVY_INSTALL_FOLDER_PATH}"
 
-    local -r unzipFolder="$(find "${GROOVY_INSTALL_FOLDER}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(find "${GROOVY_INSTALL_FOLDER_PATH}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
@@ -34,23 +34,23 @@ function install()
 
     # Move Folder
 
-    moveFolderContent "${unzipFolder}" "${GROOVY_INSTALL_FOLDER}"
+    moveFolderContent "${unzipFolder}" "${GROOVY_INSTALL_FOLDER_PATH}"
     rm -f -r "${unzipFolder}"
 
     # Config Lib
 
-    chown -R "$(whoami):$(whoami)" "${GROOVY_INSTALL_FOLDER}"
-    ln -f -s "${GROOVY_INSTALL_FOLDER}/bin/groovy" '/usr/local/bin/groovy'
+    chown -R "$(whoami):$(whoami)" "${GROOVY_INSTALL_FOLDER_PATH}"
+    ln -f -s "${GROOVY_INSTALL_FOLDER_PATH}/bin/groovy" '/usr/local/bin/groovy'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${GROOVY_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${GROOVY_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/groovy.sh.profile" '/etc/profile.d/groovy.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${GROOVY_INSTALL_FOLDER}/bin/groovy" --version)"
+    displayVersion "$("${GROOVY_INSTALL_FOLDER_PATH}/bin/groovy" --version)"
 
     umask '0077'
 }
@@ -73,7 +73,7 @@ function main()
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        GROOVY_INSTALL_FOLDER="${installFolder}"
+        GROOVY_INSTALL_FOLDER_PATH="${installFolder}"
     fi
 
     # Install

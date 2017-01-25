@@ -17,4 +17,4 @@ TimeoutSec=30
 User=__USER_NAME__
 Group=__GROUP_NAME__
 
-ExecStart=__INSTALL_FOLDER__/index.js
+ExecStart=__INSTALL_FOLDER_PATH__/index.js

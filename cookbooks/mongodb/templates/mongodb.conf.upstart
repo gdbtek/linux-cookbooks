@@ -11,4 +11,4 @@ kill timeout 20
 setuid '__USER_NAME__'
 setgid '__GROUP_NAME__'
 
-exec '__INSTALL_FOLDER__/bin/mongod' --port __PORT__ --dbpath '__INSTALL_DATA_FOLDER__'
+exec '__INSTALL_FOLDER_PATH__/bin/mongod' --port __PORT__ --dbpath '__INSTALL_DATA_FOLDER__'

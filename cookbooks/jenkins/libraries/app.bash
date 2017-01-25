@@ -9,8 +9,8 @@ function jenkinsMasterWARAppCleanUp()
 
     checkNonEmptyString "${appName}"
 
-    rm -f -r "${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps/${appName}.war" \
-             "${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps/${appName}"
+    rm -f -r "${JENKINS_TOMCAT_INSTALL_FOLDER_PATH}/webapps/${appName}.war" \
+             "${JENKINS_TOMCAT_INSTALL_FOLDER_PATH}/webapps/${appName}"
 }
 
 function jenkinsMasterDownloadWARApp()
@@ -20,17 +20,17 @@ function jenkinsMasterDownloadWARApp()
 
     checkNonEmptyString "${appName}"
     checkExistFile "${temporaryFile}"
-    checkExistFolder "${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps"
+    checkExistFolder "${JENKINS_TOMCAT_INSTALL_FOLDER_PATH}/webapps"
 
     downloadFile "${JENKINS_DOWNLOAD_URL}" "${temporaryFile}" 'true'
     chown "${JENKINS_USER_NAME}:${JENKINS_GROUP_NAME}" "${temporaryFile}"
-    mv "${temporaryFile}" "${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps/${appName}.war"
+    mv "${temporaryFile}" "${JENKINS_TOMCAT_INSTALL_FOLDER_PATH}/webapps/${appName}.war"
 }
 
 function jenkinsMasterDisplayVersion()
 {
     local -r appName="$(getFileName "${JENKINS_DOWNLOAD_URL}")"
-    local -r jenkinsCLIPath="${JENKINS_TOMCAT_INSTALL_FOLDER}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
+    local -r jenkinsCLIPath="${JENKINS_TOMCAT_INSTALL_FOLDER_PATH}/webapps/${appName}/WEB-INF/jenkins-cli.jar"
 
     checkNonEmptyString "${appName}"
     checkExistFile "${jenkinsCLIPath}"
@@ -78,6 +78,6 @@ function jenkinsMasterUnlock()
 {
     local -r configData=('<useSecurity>true</useSecurity>' '<useSecurity>false</useSecurity>')
 
-    createFileFromTemplate "${JENKINS_INSTALL_FOLDER}/config.xml" "${JENKINS_INSTALL_FOLDER}/config.xml" "${configData[@]}"
-    echo '2.0' > "${JENKINS_INSTALL_FOLDER}/jenkins.install.InstallUtil.lastExecVersion"
+    createFileFromTemplate "${JENKINS_INSTALL_FOLDER_PATH}/config.xml" "${JENKINS_INSTALL_FOLDER_PATH}/config.xml" "${configData[@]}"
+    echo '2.0' > "${JENKINS_INSTALL_FOLDER_PATH}/jenkins.install.InstallUtil.lastExecVersion"
 }

@@ -6,24 +6,24 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${PACKER_INSTALL_FOLDER}"
-    initializeFolder "${PACKER_INSTALL_FOLDER}/bin"
+    initializeFolder "${PACKER_INSTALL_FOLDER_PATH}"
+    initializeFolder "${PACKER_INSTALL_FOLDER_PATH}/bin"
 
     # Install
 
-    unzipRemoteFile "${PACKER_DOWNLOAD_URL}" "${PACKER_INSTALL_FOLDER}/bin"
-    chown -R "$(whoami):$(whoami)" "${PACKER_INSTALL_FOLDER}"
-    ln -f -s "${PACKER_INSTALL_FOLDER}/bin/packer" '/usr/local/bin/packer'
+    unzipRemoteFile "${PACKER_DOWNLOAD_URL}" "${PACKER_INSTALL_FOLDER_PATH}/bin"
+    chown -R "$(whoami):$(whoami)" "${PACKER_INSTALL_FOLDER_PATH}"
+    ln -f -s "${PACKER_INSTALL_FOLDER_PATH}/bin/packer" '/usr/local/bin/packer'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${PACKER_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${PACKER_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/packer.sh.profile" '/etc/profile.d/packer.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${PACKER_INSTALL_FOLDER}/bin/packer" version)"
+    displayVersion "$("${PACKER_INSTALL_FOLDER_PATH}/bin/packer" version)"
 
     umask '0077'
 }

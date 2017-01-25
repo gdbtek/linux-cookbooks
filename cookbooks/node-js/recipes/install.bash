@@ -16,8 +16,8 @@ function installDependencies()
 
 function resetOwnerAndSymlinkLocalBin()
 {
-    chown -R "$(whoami):$(whoami)" "${NODE_JS_INSTALL_FOLDER}"
-    symlinkLocalBin "${NODE_JS_INSTALL_FOLDER}/bin"
+    chown -R "$(whoami):$(whoami)" "${NODE_JS_INSTALL_FOLDER_PATH}"
+    symlinkLocalBin "${NODE_JS_INSTALL_FOLDER_PATH}/bin"
 }
 
 function install()
@@ -26,7 +26,7 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${NODE_JS_INSTALL_FOLDER}"
+    initializeFolder "${NODE_JS_INSTALL_FOLDER_PATH}"
 
     # Install
 
@@ -43,7 +43,7 @@ function install()
         local -r url="http://nodejs.org/dist/${NODE_JS_VERSION}/node-${NODE_JS_VERSION}-linux-x64.tar.gz"
     fi
 
-    unzipRemoteFile "${url}" "${NODE_JS_INSTALL_FOLDER}"
+    unzipRemoteFile "${url}" "${NODE_JS_INSTALL_FOLDER_PATH}"
 
     # Reset Owner And Symlink Local Bin
 
@@ -56,7 +56,7 @@ function install()
     for package in "${NODE_JS_INSTALL_NPM_PACKAGES[@]}"
     do
         header "INSTALLING NODE-JS PACKAGE ${package}"
-        "${NODE_JS_INSTALL_FOLDER}/bin/npm" install -g --prefix "${NODE_JS_INSTALL_FOLDER}" "${package}@latest"
+        "${NODE_JS_INSTALL_FOLDER_PATH}/bin/npm" install -g --prefix "${NODE_JS_INSTALL_FOLDER_PATH}" "${package}@latest"
     done
 
     # Reset Owner And Symlink Local Bin
@@ -65,7 +65,7 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${NODE_JS_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${NODE_JS_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
@@ -117,7 +117,7 @@ function main()
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        NODE_JS_INSTALL_FOLDER="${installFolder}"
+        NODE_JS_INSTALL_FOLDER_PATH="${installFolder}"
     fi
 
     # Install

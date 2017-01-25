@@ -16,8 +16,8 @@ RestartSec=10
 
 TimeoutSec=30
 
-ExecStart='__INSTALL_FOLDER__/sbin/nginx'
+ExecStart='__INSTALL_FOLDER_PATH__/sbin/nginx'
 ExecStopPost=/bin/bash -c -e '\
-    rm -f -r __INSTALL_FOLDER__/*_temp && \
-    cd \'__INSTALL_FOLDER__/logs\' && find \'.\' -not -name \'.\' -delete \
+    rm -f -r __INSTALL_FOLDER_PATH__/*_temp && \
+    cd \'__INSTALL_FOLDER_PATH__/logs\' && find \'.\' -not -name \'.\' -delete \
 '

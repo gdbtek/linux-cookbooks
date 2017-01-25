@@ -11,42 +11,42 @@ function install()
 
     # Clean Up
 
-    local -r installFolderName="$(getFileName "${MYSQL_INSTALL_FOLDER}")"
+    local -r installFolderName="$(getFileName "${MYSQL_INSTALL_FOLDER_PATH}")"
 
-    initializeFolder "${MYSQL_INSTALL_FOLDER}"
+    initializeFolder "${MYSQL_INSTALL_FOLDER_PATH}"
     rm -f -r "/usr/local/${installFolderName:?}"
 
     # Install
 
-    unzipRemoteFile "${MYSQL_DOWNLOAD_URL}" "${MYSQL_INSTALL_FOLDER}"
+    unzipRemoteFile "${MYSQL_DOWNLOAD_URL}" "${MYSQL_INSTALL_FOLDER_PATH}"
     addUser "${MYSQL_USER_NAME}" "${MYSQL_GROUP_NAME}" 'false' 'true' 'false'
-    ln -f -s "${MYSQL_INSTALL_FOLDER}" "/usr/local/$(getFileName "${MYSQL_INSTALL_FOLDER}")"
+    ln -f -s "${MYSQL_INSTALL_FOLDER_PATH}" "/usr/local/$(getFileName "${MYSQL_INSTALL_FOLDER_PATH}")"
 
-    cd "${MYSQL_INSTALL_FOLDER}"
+    cd "${MYSQL_INSTALL_FOLDER_PATH}"
 
     mkdir -m 770 -p 'mysql-files'
-    chown -R "${MYSQL_USER_NAME}:${MYSQL_GROUP_NAME}" "${MYSQL_INSTALL_FOLDER}"
-    "${MYSQL_INSTALL_FOLDER}/bin/mysqld" --initialize --user="${MYSQL_USER_NAME}"
-    "${MYSQL_INSTALL_FOLDER}/bin/mysql_ssl_rsa_setup"
-    chown -R "$(whoami)" "${MYSQL_INSTALL_FOLDER}"
+    chown -R "${MYSQL_USER_NAME}:${MYSQL_GROUP_NAME}" "${MYSQL_INSTALL_FOLDER_PATH}"
+    "${MYSQL_INSTALL_FOLDER_PATH}/bin/mysqld" --initialize --user="${MYSQL_USER_NAME}"
+    "${MYSQL_INSTALL_FOLDER_PATH}/bin/mysql_ssl_rsa_setup"
+    chown -R "$(whoami)" "${MYSQL_INSTALL_FOLDER_PATH}"
     chown -R "${MYSQL_USER_NAME}" 'data' 'mysql-files'
 
-    ln -f -s "${MYSQL_INSTALL_FOLDER}/bin/mysql" '/usr/local/bin/mysql'
+    ln -f -s "${MYSQL_INSTALL_FOLDER_PATH}/bin/mysql" '/usr/local/bin/mysql'
 
     # Config Server
 
     local -r serverConfigData=('__PORT__' "${MYSQL_PORT}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/my.cnf.conf" "${MYSQL_INSTALL_FOLDER}/my.cnf" "${serverConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/my.cnf.conf" "${MYSQL_INSTALL_FOLDER_PATH}/my.cnf" "${serverConfigData[@]}"
 
     # Config Service
 
-    cp -f "${MYSQL_INSTALL_FOLDER}/support-files/mysql.server" "/etc/init.d/${MYSQL_SERVICE_NAME}"
+    cp -f "${MYSQL_INSTALL_FOLDER_PATH}/support-files/mysql.server" "/etc/init.d/${MYSQL_SERVICE_NAME}"
     sysv-rc-conf --level 2345 "${MYSQL_SERVICE_NAME}" on
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${MYSQL_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${MYSQL_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/mysql.sh.profile" '/etc/profile.d/mysql.sh' "${profileConfigData[@]}"
 
@@ -67,14 +67,14 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${MYSQL_INSTALL_FOLDER}/bin/mysql" --version)"
+    displayVersion "$("${MYSQL_INSTALL_FOLDER_PATH}/bin/mysql" --version)"
 
     umask '0077'
 }
 
 function secureInstallation()
 {
-    local -r secureInstaller="${MYSQL_INSTALL_FOLDER}/bin/mysql_secure_installation"
+    local -r secureInstaller="${MYSQL_INSTALL_FOLDER_PATH}/bin/mysql_secure_installation"
 
     checkExistFile "${secureInstaller}"
 
@@ -121,7 +121,7 @@ function secureInstallation()
 
     # Run Config
 
-    cd "${MYSQL_INSTALL_FOLDER}"
+    cd "${MYSQL_INSTALL_FOLDER_PATH}"
 
     expect << DONE
         set timeout 3

@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${JENKINS_JDK_INSTALL_FOLDER}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${JENKINS_JDK_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${JENKINS_JDK_INSTALL_FOLDER}"
+        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${JENKINS_JDK_INSTALL_FOLDER_PATH}"
     fi
 }
 

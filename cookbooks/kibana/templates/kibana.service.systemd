@@ -19,6 +19,6 @@ TimeoutSec=30
 User=__USER_NAME__
 Group=__GROUP_NAME__
 
-WorkingDirectory=__INSTALL_FOLDER__
+WorkingDirectory=__INSTALL_FOLDER_PATH__
 
-ExecStart='__INSTALL_FOLDER__/bin/kibana'
+ExecStart='__INSTALL_FOLDER_PATH__/bin/kibana'

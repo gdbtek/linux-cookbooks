@@ -4,7 +4,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../pcre/attributes/default.bash"
 
 export HAPROXY_DOWNLOAD_URL='http://www.haproxy.org/download/1.7/src/haproxy-1.7.2.tar.gz'
 
-export HAPROXY_INSTALL_FOLDER='/opt/haproxy'
+export HAPROXY_INSTALL_FOLDER_PATH='/opt/haproxy'
 
 export HAPROXY_SERVICE_NAME='haproxy'
 
@@ -16,9 +16,9 @@ export HAPROXY_PORT='80'
 export HAPROXY_CONFIG=(
     'CPU=native'
     'TARGET=custom'
-    "PCREDIR='${PCRE_INSTALL_FOLDER}'"
-    "PCRE_LIB='${PCRE_INSTALL_FOLDER}/lib'"
-    "PCRE_INC='${PCRE_INSTALL_FOLDER}/include'"
+    "PCREDIR='${PCRE_INSTALL_FOLDER_PATH}'"
+    "PCRE_LIB='${PCRE_INSTALL_FOLDER_PATH}/lib'"
+    "PCRE_INC='${PCRE_INSTALL_FOLDER_PATH}/include'"
     'USE_CPU_AFFINITY=1'
     'USE_CRYPT_H=1'
     'USE_CTTPROXY=1'

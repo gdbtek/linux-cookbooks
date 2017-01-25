@@ -19,4 +19,4 @@ TimeoutSec=30
 User=__USER_NAME__
 Group=__GROUP_NAME__
 
-ExecStart='__INSTALL_FOLDER__/bin/mongod' --port __PORT__ --dbpath '__INSTALL_DATA_FOLDER__'
+ExecStart='__INSTALL_FOLDER_PATH__/bin/mongod' --port __PORT__ --dbpath '__INSTALL_DATA_FOLDER__'

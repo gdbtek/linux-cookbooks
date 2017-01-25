@@ -11,5 +11,5 @@ kill timeout 20
 setuid '__USER_NAME__'
 setgid '__GROUP_NAME__'
 
-chdir '__INSTALL_FOLDER__'
-exec '__INSTALL_FOLDER__/bin/kibana'
+chdir '__INSTALL_FOLDER_PATH__'
+exec '__INSTALL_FOLDER_PATH__/bin/kibana'

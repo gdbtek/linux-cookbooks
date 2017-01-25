@@ -11,13 +11,13 @@ kill timeout 20
 setuid '__USER_NAME__'
 setgid '__GROUP_NAME__'
 
-env CATALINA_HOME='__INSTALL_FOLDER__'
+env CATALINA_HOME='__INSTALL_FOLDER_PATH__'
 env HOME='__HOME_FOLDER__'
-env JAVA_HOME='__JDK_INSTALL_FOLDER__'
+env JAVA_HOME='__JDK_INSTALL_FOLDER_PATH__'
 
-exec '__INSTALL_FOLDER__/bin/catalina.sh' run
+exec '__INSTALL_FOLDER_PATH__/bin/catalina.sh' run
 
 post-stop script
-    cd '__INSTALL_FOLDER__/logs' && find '.' -not -name '.' -delete
-    cd '__INSTALL_FOLDER__/temp' && find '.' -not -name '.' -delete
+    cd '__INSTALL_FOLDER_PATH__/logs' && find '.' -not -name '.' -delete
+    cd '__INSTALL_FOLDER_PATH__/temp' && find '.' -not -name '.' -delete
 end script

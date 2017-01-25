@@ -13,7 +13,7 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${SIEGE_INSTALL_FOLDER}"
+    initializeFolder "${SIEGE_INSTALL_FOLDER_PATH}"
 
     # Install
 
@@ -21,22 +21,22 @@ function install()
 
     unzipRemoteFile "${SIEGE_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${SIEGE_INSTALL_FOLDER}"
+    "${tempFolder}/configure" --prefix="${SIEGE_INSTALL_FOLDER_PATH}"
     make
     make install
     cd
     rm -f -r "${tempFolder}"
-    ln -f -s "${SIEGE_INSTALL_FOLDER}/bin/siege" '/usr/local/bin/siege'
+    ln -f -s "${SIEGE_INSTALL_FOLDER_PATH}/bin/siege" '/usr/local/bin/siege'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${SIEGE_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${SIEGE_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/siege.sh.profile" '/etc/profile.d/siege.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${SIEGE_INSTALL_FOLDER}/bin/siege" --version 2>&1)"
+    displayVersion "$("${SIEGE_INSTALL_FOLDER_PATH}/bin/siege" --version 2>&1)"
 
     umask '0077'
 }

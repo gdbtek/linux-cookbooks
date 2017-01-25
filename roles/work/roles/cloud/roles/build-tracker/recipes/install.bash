@@ -18,7 +18,7 @@ function main()
     # Clean Up
 
     remountTMP
-    initializeFolder "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER}"
+    initializeFolder "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER_PATH}"
 
     # Add User
 
@@ -26,14 +26,14 @@ function main()
 
     # Install
 
-    git clone "${buildTrackerDownloadURL}" "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER}"
-    cd "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER}"
+    git clone "${buildTrackerDownloadURL}" "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER_PATH}"
+    cd "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER_PATH}"
     npm install
 
     # Config Init
 
     local initConfigData=(
-        '__INSTALL_FOLDER__' "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER}"
+        '__INSTALL_FOLDER_PATH__' "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER_PATH}"
         '__USER_NAME__' "${CLOUD_BUILD_TRACKER_USER_NAME}"
         '__GROUP_NAME__' "${CLOUD_BUILD_TRACKER_GROUP_NAME}"
     )
@@ -42,7 +42,7 @@ function main()
 
     # Start
 
-    chown -R "${CLOUD_BUILD_TRACKER_USER_NAME}:${CLOUD_BUILD_TRACKER_GROUP_NAME}" "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER}"
+    chown -R "${CLOUD_BUILD_TRACKER_USER_NAME}:${CLOUD_BUILD_TRACKER_GROUP_NAME}" "${CLOUD_BUILD_TRACKER_INSTALL_FOLDER_PATH}"
     startService "${CLOUD_BUILD_TRACKER_SERVICE_NAME}"
 }
 

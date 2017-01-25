@@ -2,7 +2,7 @@
 
 export PCRE_DOWNLOAD_URL='http://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz'
 
-export PCRE_INSTALL_FOLDER='/opt/pcre'
+export PCRE_INSTALL_FOLDER_PATH='/opt/pcre'
 
 export PCRE_CONFIG=(
     '--enable-bsr-anycrlf'
@@ -24,7 +24,7 @@ export PCRE_CONFIG=(
     '--enable-static'
     '--enable-utf'
     '--enable-valgrind'
-    "--prefix=${PCRE_INSTALL_FOLDER}"
+    "--prefix=${PCRE_INSTALL_FOLDER_PATH}"
     '--with-aix-soname=both'
     '--with-gnu-ld=no'
     '--with-link-size=2'

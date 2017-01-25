@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${EC2_AMI_TOOLS_RUBY_INSTALL_FOLDER}" ]]
+    if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${EC2_AMI_TOOLS_RUBY_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../ruby/recipes/install.bash" "${EC2_AMI_TOOLS_RUBY_INSTALL_FOLDER}"
+        "${APP_FOLDER_PATH}/../../ruby/recipes/install.bash" "${EC2_AMI_TOOLS_RUBY_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -14,13 +14,13 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${EC2_AMI_TOOLS_INSTALL_FOLDER}"
+    initializeFolder "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}"
 
     # Install
 
-    unzipRemoteFile "${EC2_AMI_TOOLS_DOWNLOAD_URL}" "${EC2_AMI_TOOLS_INSTALL_FOLDER}"
+    unzipRemoteFile "${EC2_AMI_TOOLS_DOWNLOAD_URL}" "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}"
 
-    local -r unzipFolder="$(find "${EC2_AMI_TOOLS_INSTALL_FOLDER}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(find "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(trimString "$(wc -l <<< "${unzipFolder}")")" != '1' ]]
     then
@@ -34,19 +34,19 @@ function install()
 
     # Move Folder
 
-    moveFolderContent "${unzipFolder}" "${EC2_AMI_TOOLS_INSTALL_FOLDER}"
-    symlinkLocalBin "${EC2_AMI_TOOLS_INSTALL_FOLDER}/bin"
+    moveFolderContent "${unzipFolder}" "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}"
+    symlinkLocalBin "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}/bin"
     rm -f -r "${unzipFolder}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${EC2_AMI_TOOLS_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/ec2-ami-tools.sh.profile" '/etc/profile.d/ec2-ami-tools.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${EC2_AMI_TOOLS_INSTALL_FOLDER}/bin/ec2-ami-tools-version")"
+    displayVersion "$("${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}/bin/ec2-ami-tools-version")"
 
     umask '0077'
 }

@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${SECRET_SERVER_CONSOLE_JDK_INSTALL_FOLDER}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${SECRET_SERVER_CONSOLE_JDK_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${SECRET_SERVER_CONSOLE_JDK_INSTALL_FOLDER}"
+        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${SECRET_SERVER_CONSOLE_JDK_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -14,14 +14,14 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}"
+    initializeFolder "${SECRET_SERVER_CONSOLE_INSTALL_FOLDER_PATH}"
 
     # Install
 
-    local -r consoleJARFilePath="${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}/$(basename "${SECRET_SERVER_CONSOLE_DOWNLOAD_URL}")"
+    local -r consoleJARFilePath="${SECRET_SERVER_CONSOLE_INSTALL_FOLDER_PATH}/$(basename "${SECRET_SERVER_CONSOLE_DOWNLOAD_URL}")"
 
     downloadFile "${SECRET_SERVER_CONSOLE_DOWNLOAD_URL}" "${consoleJARFilePath}" 'true'
-    chown -R "$(whoami):$(whoami)" "${SECRET_SERVER_CONSOLE_INSTALL_FOLDER}"
+    chown -R "$(whoami):$(whoami)" "${SECRET_SERVER_CONSOLE_INSTALL_FOLDER_PATH}"
 
     # Display Version
 

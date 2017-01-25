@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${GHOST_NODE_JS_INSTALL_FOLDER}" ]]
+    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${GHOST_NODE_JS_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../node-js/recipes/install.bash" "${GHOST_NODE_JS_VERSION}" "${GHOST_NODE_JS_INSTALL_FOLDER}"
+        "${APP_FOLDER_PATH}/../../node-js/recipes/install.bash" "${GHOST_NODE_JS_VERSION}" "${GHOST_NODE_JS_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -14,12 +14,12 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${GHOST_INSTALL_FOLDER}"
+    initializeFolder "${GHOST_INSTALL_FOLDER_PATH}"
 
     # Install
 
-    unzipRemoteFile "${GHOST_DOWNLOAD_URL}" "${GHOST_INSTALL_FOLDER}"
-    cd "${GHOST_INSTALL_FOLDER}"
+    unzipRemoteFile "${GHOST_DOWNLOAD_URL}" "${GHOST_INSTALL_FOLDER_PATH}"
+    cd "${GHOST_INSTALL_FOLDER_PATH}"
     npm install "--${GHOST_ENVIRONMENT}" --silent
 
     # Config Server
@@ -38,13 +38,13 @@ function install()
         '__TESTING_PORT__' "${GHOST_TESTING_PORT}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/config.js.conf" "${GHOST_INSTALL_FOLDER}/config.js" "${serverConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/config.js.conf" "${GHOST_INSTALL_FOLDER_PATH}/config.js" "${serverConfigData[@]}"
 
     # Config Init
 
     local -r initConfigData=(
         '__ENVIRONMENT__' "${GHOST_ENVIRONMENT}"
-        '__INSTALL_FOLDER__' "${GHOST_INSTALL_FOLDER}"
+        '__INSTALL_FOLDER_PATH__' "${GHOST_INSTALL_FOLDER_PATH}"
         '__USER_NAME__' "${GHOST_USER_NAME}"
         '__GROUP_NAME__' "${GHOST_GROUP_NAME}"
     )
@@ -54,7 +54,7 @@ function install()
     # Start
 
     addUser "${GHOST_USER_NAME}" "${GHOST_GROUP_NAME}" 'false' 'true' 'false'
-    chown -R "${GHOST_USER_NAME}:${GHOST_GROUP_NAME}" "${GHOST_INSTALL_FOLDER}"
+    chown -R "${GHOST_USER_NAME}:${GHOST_GROUP_NAME}" "${GHOST_INSTALL_FOLDER_PATH}"
     startService "${GHOST_SERVICE_NAME}"
 
     # Display Open Ports

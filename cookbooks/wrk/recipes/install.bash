@@ -12,8 +12,8 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${WRK_INSTALL_FOLDER}"
-    initializeFolder "${WRK_INSTALL_FOLDER}/bin"
+    initializeFolder "${WRK_INSTALL_FOLDER_PATH}"
+    initializeFolder "${WRK_INSTALL_FOLDER_PATH}/bin"
 
     # Install
 
@@ -22,18 +22,18 @@ function install()
     git clone "${WRK_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}" -maxdepth 1 -xtype f -perm -u+x -exec cp -f '{}' "${WRK_INSTALL_FOLDER}/bin" \;
+    find "${tempFolder}" -maxdepth 1 -xtype f -perm -u+x -exec cp -f '{}' "${WRK_INSTALL_FOLDER_PATH}/bin" \;
     rm -f -r "${tempFolder}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${WRK_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${WRK_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/wrk.sh.profile" '/etc/profile.d/wrk.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${WRK_INSTALL_FOLDER}/bin/wrk" --version)"
+    displayVersion "$("${WRK_INSTALL_FOLDER_PATH}/bin/wrk" --version)"
 
     umask '0077'
 }

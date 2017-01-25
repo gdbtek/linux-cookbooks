@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${TOMCAT_JDK_INSTALL_FOLDER}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${TOMCAT_JDK_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${TOMCAT_JDK_INSTALL_FOLDER}"
+        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${TOMCAT_JDK_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -14,11 +14,11 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${TOMCAT_INSTALL_FOLDER}"
+    initializeFolder "${TOMCAT_INSTALL_FOLDER_PATH}"
 
     # Install
 
-    unzipRemoteFile "${TOMCAT_DOWNLOAD_URL}" "${TOMCAT_INSTALL_FOLDER}"
+    unzipRemoteFile "${TOMCAT_DOWNLOAD_URL}" "${TOMCAT_INSTALL_FOLDER_PATH}"
 
     # Config Server
 
@@ -29,11 +29,11 @@ function install()
         8443 "${TOMCAT_HTTPS_PORT}"
     )
 
-    createFileFromTemplate "${TOMCAT_INSTALL_FOLDER}/conf/server.xml" "${TOMCAT_INSTALL_FOLDER}/conf/server.xml" "${serverConfigData[@]}"
+    createFileFromTemplate "${TOMCAT_INSTALL_FOLDER_PATH}/conf/server.xml" "${TOMCAT_INSTALL_FOLDER_PATH}/conf/server.xml" "${serverConfigData[@]}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.sh.profile" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 
@@ -48,9 +48,9 @@ function install()
     # Config Init
 
     local -r initConfigData=(
-        '__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}"
+        '__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}"
         '__HOME_FOLDER__' "${userHome}"
-        '__JDK_INSTALL_FOLDER__' "${TOMCAT_JDK_INSTALL_FOLDER}"
+        '__JDK_INSTALL_FOLDER_PATH__' "${TOMCAT_JDK_INSTALL_FOLDER_PATH}"
         '__USER_NAME__' "${TOMCAT_USER_NAME}"
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
     )
@@ -62,7 +62,7 @@ function install()
     local -r cronConfigData=(
         '__USER_NAME__' "${TOMCAT_USER_NAME}"
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
-        '__INSTALL_FOLDER__' "${TOMCAT_INSTALL_FOLDER}"
+        '__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}"
     )
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.cron" '/etc/cron.daily/tomcat' "${cronConfigData[@]}"
@@ -70,7 +70,7 @@ function install()
 
     # Start
 
-    chown -R "${TOMCAT_USER_NAME}:${TOMCAT_GROUP_NAME}" "${TOMCAT_INSTALL_FOLDER}"
+    chown -R "${TOMCAT_USER_NAME}:${TOMCAT_GROUP_NAME}" "${TOMCAT_INSTALL_FOLDER_PATH}"
     startService "${TOMCAT_SERVICE_NAME}"
 
     # Display Open Ports
@@ -79,7 +79,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${TOMCAT_INSTALL_FOLDER}/bin/version.sh")"
+    displayVersion "$("${TOMCAT_INSTALL_FOLDER_PATH}/bin/version.sh")"
 
     umask '0077'
 }
@@ -102,7 +102,7 @@ function main()
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        TOMCAT_INSTALL_FOLDER="${installFolder}"
+        TOMCAT_INSTALL_FOLDER_PATH="${installFolder}"
     fi
 
     # Install

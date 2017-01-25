@@ -19,23 +19,23 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${PHANTOM_JS_INSTALL_FOLDER}"
+    initializeFolder "${PHANTOM_JS_INSTALL_FOLDER_PATH}"
 
     # Install
 
-    unzipRemoteFile "${PHANTOM_JS_DOWNLOAD_URL}" "${PHANTOM_JS_INSTALL_FOLDER}"
-    chown -R "$(whoami):$(whoami)" "${PHANTOM_JS_INSTALL_FOLDER}"
-    ln -f -s "${PHANTOM_JS_INSTALL_FOLDER}/bin/phantomjs" '/usr/local/bin/phantomjs'
+    unzipRemoteFile "${PHANTOM_JS_DOWNLOAD_URL}" "${PHANTOM_JS_INSTALL_FOLDER_PATH}"
+    chown -R "$(whoami):$(whoami)" "${PHANTOM_JS_INSTALL_FOLDER_PATH}"
+    ln -f -s "${PHANTOM_JS_INSTALL_FOLDER_PATH}/bin/phantomjs" '/usr/local/bin/phantomjs'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${PHANTOM_JS_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${PHANTOM_JS_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/phantom-js.sh.profile" '/etc/profile.d/phantom-js.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${PHANTOM_JS_INSTALL_FOLDER}/bin/phantomjs" --version)"
+    displayVersion "$("${PHANTOM_JS_INSTALL_FOLDER_PATH}/bin/phantomjs" --version)"
 
     umask '0077'
 }

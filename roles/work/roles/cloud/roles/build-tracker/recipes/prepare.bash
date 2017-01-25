@@ -27,7 +27,7 @@ function main()
     "${appFolderPath}/../../../../../../essential.bash" 'build-tracker' "$(arrayToString "${CLOUD_USERS[@]}")"
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/mongodb/recipes/install.bash"
-    "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_NODE_JS_VERSION}" "${CLOUD_NODE_JS_INSTALL_FOLDER}"
+    "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_NODE_JS_VERSION}" "${CLOUD_NODE_JS_INSTALL_FOLDER_PATH}"
 
     # Config SSH and GIT
 

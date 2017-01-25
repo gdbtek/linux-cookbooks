@@ -31,7 +31,7 @@ function main()
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
-    "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_JENKINS_NODE_JS_VERSION}" "${CLOUD_JENKINS_NODE_JS_INSTALL_FOLDER}"
+    "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_JENKINS_NODE_JS_VERSION}" "${CLOUD_JENKINS_NODE_JS_INSTALL_FOLDER_PATH}"
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-master.bash"
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${CLOUD_JENKINS_INSTALL_PLUGINS[@]}"
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
@@ -58,7 +58,7 @@ function main()
         '__JENKINS_TOMCAT_HTTP_PORT__' "${JENKINS_TOMCAT_HTTP_PORT}"
     )
 
-    createFileFromTemplate "${appFolderPath}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${nginxConfigData[@]}"
+    createFileFromTemplate "${appFolderPath}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER_PATH}/conf/nginx.conf" "${nginxConfigData[@]}"
 
     restartService "${NGINX_SERVICE_NAME}"
 

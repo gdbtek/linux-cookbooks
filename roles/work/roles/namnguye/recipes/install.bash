@@ -27,7 +27,7 @@ function main()
     "${appFolderPath}/../../../../../cookbooks/chef-client/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/foodcritic/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/go-lang/recipes/install.bash"
-    "${appFolderPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${NAMNGUYE_NODE_JS_VERSION}" "${NAMNGUYE_NODE_JS_INSTALL_FOLDER}"
+    "${appFolderPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${NAMNGUYE_NODE_JS_VERSION}" "${NAMNGUYE_NODE_JS_INSTALL_FOLDER_PATH}"
     "${appFolderPath}/../../../../../cookbooks/packer/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/shell-check/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/terraform/recipes/install.bash"

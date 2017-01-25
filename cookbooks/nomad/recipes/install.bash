@@ -6,24 +6,24 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${NOMAD_INSTALL_FOLDER}"
-    initializeFolder "${NOMAD_INSTALL_FOLDER}/bin"
+    initializeFolder "${NOMAD_INSTALL_FOLDER_PATH}"
+    initializeFolder "${NOMAD_INSTALL_FOLDER_PATH}/bin"
 
     # Install
 
-    unzipRemoteFile "${NOMAD_DOWNLOAD_URL}" "${NOMAD_INSTALL_FOLDER}/bin"
-    chown -R "$(whoami):$(whoami)" "${NOMAD_INSTALL_FOLDER}"
-    ln -f -s "${NOMAD_INSTALL_FOLDER}/bin/nomad" '/usr/local/bin/nomad'
+    unzipRemoteFile "${NOMAD_DOWNLOAD_URL}" "${NOMAD_INSTALL_FOLDER_PATH}/bin"
+    chown -R "$(whoami):$(whoami)" "${NOMAD_INSTALL_FOLDER_PATH}"
+    ln -f -s "${NOMAD_INSTALL_FOLDER_PATH}/bin/nomad" '/usr/local/bin/nomad'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${NOMAD_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${NOMAD_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nomad.sh.profile" '/etc/profile.d/nomad.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${NOMAD_INSTALL_FOLDER}/bin/nomad" version)"
+    displayVersion "$("${NOMAD_INSTALL_FOLDER_PATH}/bin/nomad" version)"
 
     umask '0077'
 }

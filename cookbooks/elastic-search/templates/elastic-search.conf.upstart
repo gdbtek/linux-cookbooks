@@ -11,10 +11,10 @@ kill timeout 20
 setuid '__USER_NAME__'
 setgid '__GROUP_NAME__'
 
-env JAVA_HOME='__JDK_INSTALL_FOLDER__'
+env JAVA_HOME='__JDK_INSTALL_FOLDER_PATH__'
 
-exec '__INSTALL_FOLDER__/bin/elasticsearch'
+exec '__INSTALL_FOLDER_PATH__/bin/elasticsearch'
 
 post-stop script
-    cd '__INSTALL_FOLDER__/logs' && find '.' -not -name '.' -delete
+    cd '__INSTALL_FOLDER_PATH__/logs' && find '.' -not -name '.' -delete
 end script

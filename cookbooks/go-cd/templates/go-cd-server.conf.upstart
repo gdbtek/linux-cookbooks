@@ -13,5 +13,5 @@ setgid '__GROUP_NAME__'
 
 env HOME='__GO_HOME_FOLDER__'
 
-chdir '__SERVER_INSTALL_FOLDER__'
+chdir '__SERVER_INSTALL_FOLDER_PATH__'
 exec java -jar 'go.jar'

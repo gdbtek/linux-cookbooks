@@ -13,17 +13,17 @@ function installRole()
 
     # Clean Up
 
-    initializeFolder "${SELENIUM_SERVER_INSTALL_FOLDER}"
+    initializeFolder "${SELENIUM_SERVER_INSTALL_FOLDER_PATH}"
 
     # Install
 
-    local -r jarFile="${SELENIUM_SERVER_INSTALL_FOLDER}/selenium-server.jar"
+    local -r jarFile="${SELENIUM_SERVER_INSTALL_FOLDER_PATH}/selenium-server.jar"
 
     downloadFile "${SELENIUM_SERVER_DOWNLOAD_URL}" "${jarFile}" 'true'
 
     # Config Server
 
-    local -r configFile="${SELENIUM_SERVER_INSTALL_FOLDER}/selenium-server-${role}.json"
+    local -r configFile="${SELENIUM_SERVER_INSTALL_FOLDER_PATH}/selenium-server-${role}.json"
 
     createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigData[@]}"
 
@@ -41,6 +41,6 @@ function installRole()
     # Start
 
     addUser "${SELENIUM_SERVER_USER_NAME}" "${SELENIUM_SERVER_GROUP_NAME}" 'false' 'true' 'false'
-    chown -R "${SELENIUM_SERVER_USER_NAME}:${SELENIUM_SERVER_GROUP_NAME}" "${SELENIUM_SERVER_INSTALL_FOLDER}"
+    chown -R "${SELENIUM_SERVER_USER_NAME}:${SELENIUM_SERVER_GROUP_NAME}" "${SELENIUM_SERVER_INSTALL_FOLDER_PATH}"
     startService "${SELENIUM_SERVER_SERVICE_NAME}"
 }

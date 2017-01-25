@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-export JENKINS_HOME='__INSTALL_FOLDER__'
+export JENKINS_HOME='__INSTALL_FOLDER_PATH__'

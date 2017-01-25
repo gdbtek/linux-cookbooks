@@ -12,7 +12,7 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${PCRE_INSTALL_FOLDER}"
+    initializeFolder "${PCRE_INSTALL_FOLDER_PATH}"
 
     # Install
 
@@ -27,13 +27,13 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${PCRE_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${PCRE_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/pcre.sh.profile" '/etc/profile.d/pcre.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${PCRE_INSTALL_FOLDER}/bin/pcregrep" --version 2>&1)"
+    displayVersion "$("${PCRE_INSTALL_FOLDER_PATH}/bin/pcregrep" --version 2>&1)"
 
     umask '0077'
 }

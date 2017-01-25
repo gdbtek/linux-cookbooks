@@ -11,7 +11,7 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${PARALLEL_INSTALL_FOLDER}"
+    initializeFolder "${PARALLEL_INSTALL_FOLDER_PATH}"
 
     # Install
 
@@ -19,15 +19,15 @@ function install()
 
     unzipRemoteFile "${PARALLEL_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${PARALLEL_INSTALL_FOLDER}"
+    "${tempFolder}/configure" --prefix="${PARALLEL_INSTALL_FOLDER_PATH}"
     make
     make install
-    ln -f -s "${PARALLEL_INSTALL_FOLDER}/bin/parallel" '/usr/local/bin/parallel'
+    ln -f -s "${PARALLEL_INSTALL_FOLDER_PATH}/bin/parallel" '/usr/local/bin/parallel'
     rm -f -r "${tempFolder}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${PARALLEL_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${PARALLEL_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/parallel.sh.profile" '/etc/profile.d/parallel.sh' "${profileConfigData[@]}"
 
@@ -56,7 +56,7 @@ function main()
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        PARALLEL_INSTALL_FOLDER="${installFolder}"
+        PARALLEL_INSTALL_FOLDER_PATH="${installFolder}"
     fi
 
     # Install

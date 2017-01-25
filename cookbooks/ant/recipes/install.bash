@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${ANT_JDK_INSTALL_FOLDER}" ]]
+    if [[ "$(existCommand 'java')" = 'false' || ! -d "${ANT_JDK_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${ANT_JDK_INSTALL_FOLDER}"
+        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${ANT_JDK_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -14,18 +14,18 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${ANT_INSTALL_FOLDER}"
+    initializeFolder "${ANT_INSTALL_FOLDER_PATH}"
 
     # Install
 
-    unzipRemoteFile "${ANT_DOWNLOAD_URL}" "${ANT_INSTALL_FOLDER}"
+    unzipRemoteFile "${ANT_DOWNLOAD_URL}" "${ANT_INSTALL_FOLDER_PATH}"
 
-    chown "$(whoami):$(whoami)" "${ANT_INSTALL_FOLDER}"
-    ln -f -s "${ANT_INSTALL_FOLDER}/bin/ant" '/usr/local/bin/ant'
+    chown "$(whoami):$(whoami)" "${ANT_INSTALL_FOLDER_PATH}"
+    ln -f -s "${ANT_INSTALL_FOLDER_PATH}/bin/ant" '/usr/local/bin/ant'
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${ANT_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${ANT_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/ant.sh.profile" '/etc/profile.d/ant.sh' "${profileConfigData[@]}"
 
@@ -54,7 +54,7 @@ function main()
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        ANT_INSTALL_FOLDER="${installFolder}"
+        ANT_INSTALL_FOLDER_PATH="${installFolder}"
     fi
 
     # Install

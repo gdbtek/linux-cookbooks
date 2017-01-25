@@ -11,7 +11,7 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${PYTHON_INSTALL_FOLDER}"
+    initializeFolder "${PYTHON_INSTALL_FOLDER_PATH}"
 
     # Install
 
@@ -19,15 +19,15 @@ function install()
 
     unzipRemoteFile "${PYTHON_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${PYTHON_INSTALL_FOLDER}"
+    "${tempFolder}/configure" --prefix="${PYTHON_INSTALL_FOLDER_PATH}"
     make
     make install
-    ln -f -s "${PYTHON_INSTALL_FOLDER}/bin/python3" '/usr/local/bin/python'
+    ln -f -s "${PYTHON_INSTALL_FOLDER_PATH}/bin/python3" '/usr/local/bin/python'
     rm -f -r "${tempFolder}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${PYTHON_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${PYTHON_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/python.sh.profile" '/etc/profile.d/python.sh' "${profileConfigData[@]}"
 
@@ -56,7 +56,7 @@ function main()
 
     if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
     then
-        PYTHON_INSTALL_FOLDER="${installFolder}"
+        PYTHON_INSTALL_FOLDER_PATH="${installFolder}"
     fi
 
     # Install

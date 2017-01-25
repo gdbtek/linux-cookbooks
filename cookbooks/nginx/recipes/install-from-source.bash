@@ -12,7 +12,7 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${NGINX_INSTALL_FOLDER}"
+    initializeFolder "${NGINX_INSTALL_FOLDER_PATH}"
 
     # Download Dependencies
 
@@ -41,28 +41,28 @@ function install()
 
     local -r serverConfigData=('__PORT__' "${NGINX_PORT}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER}/conf/nginx.conf" "${serverConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER_PATH}/conf/nginx.conf" "${serverConfigData[@]}"
 
     # Config Log
 
-    touch "${NGINX_INSTALL_FOLDER}/logs/access.log"
-    touch "${NGINX_INSTALL_FOLDER}/logs/error.log"
+    touch "${NGINX_INSTALL_FOLDER_PATH}/logs/access.log"
+    touch "${NGINX_INSTALL_FOLDER_PATH}/logs/error.log"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${NGINX_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.sh.profile" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
 
     # Config Init
 
-    local -r initConfigData=('__INSTALL_FOLDER__' "${NGINX_INSTALL_FOLDER}")
+    local -r initConfigData=('__INSTALL_FOLDER_PATH__' "${NGINX_INSTALL_FOLDER_PATH}")
 
     createInitFileFromTemplate "${NGINX_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
 
     # Start
 
-    chown -R "${NGINX_USER_NAME}:${NGINX_GROUP_NAME}" "${NGINX_INSTALL_FOLDER}"
+    chown -R "${NGINX_USER_NAME}:${NGINX_GROUP_NAME}" "${NGINX_INSTALL_FOLDER_PATH}"
     startService "${NGINX_SERVICE_NAME}"
 
     # Display Open Ports
@@ -71,7 +71,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${NGINX_INSTALL_FOLDER}/sbin/nginx" -V 2>&1)"
+    displayVersion "$("${NGINX_INSTALL_FOLDER_PATH}/sbin/nginx" -V 2>&1)"
 
     umask '0077'
 }

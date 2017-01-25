@@ -6,25 +6,25 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${JQ_INSTALL_FOLDER}"
-    initializeFolder "${JQ_INSTALL_FOLDER}/bin"
+    initializeFolder "${JQ_INSTALL_FOLDER_PATH}"
+    initializeFolder "${JQ_INSTALL_FOLDER_PATH}/bin"
 
     # Install
 
-    downloadFile "${JQ_DOWNLOAD_URL}" "${JQ_INSTALL_FOLDER}/bin/jq" 'true'
-    chown -R "$(whoami):$(whoami)" "${JQ_INSTALL_FOLDER}"
-    chmod 755 "${JQ_INSTALL_FOLDER}/bin/jq"
-    symlinkLocalBin "${JQ_INSTALL_FOLDER}/bin"
+    downloadFile "${JQ_DOWNLOAD_URL}" "${JQ_INSTALL_FOLDER_PATH}/bin/jq" 'true'
+    chown -R "$(whoami):$(whoami)" "${JQ_INSTALL_FOLDER_PATH}"
+    chmod 755 "${JQ_INSTALL_FOLDER_PATH}/bin/jq"
+    symlinkLocalBin "${JQ_INSTALL_FOLDER_PATH}/bin"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER__' "${JQ_INSTALL_FOLDER}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${JQ_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/jq.sh.profile" '/etc/profile.d/jq.sh' "${profileConfigData[@]}"
 
     # Display Version
 
-    displayVersion "$("${JQ_INSTALL_FOLDER}/bin/jq" --version)"
+    displayVersion "$("${JQ_INSTALL_FOLDER_PATH}/bin/jq" --version)"
 
     umask '0077'
 }

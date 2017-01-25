@@ -13,4 +13,4 @@ setgid '__GROUP_NAME__'
 
 env NODE_ENV='__ENVIRONMENT__'
 
-exec node '__INSTALL_FOLDER__/index'
+exec node '__INSTALL_FOLDER_PATH__/index'
