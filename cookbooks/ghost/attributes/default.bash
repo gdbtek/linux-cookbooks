@@ -6,7 +6,7 @@ export GHOST_DOWNLOAD_URL='https://ghost.org/zip/ghost-latest.zip'
 
 export GHOST_INSTALL_FOLDER_PATH='/opt/ghost'
 export GHOST_NODE_JS_INSTALL_FOLDER_PATH="${NODE_JS_INSTALL_FOLDER_PATH}"
-export GHOST_NODE_JS_VERSION='0.10.48'
+export GHOST_NODE_JS_VERSION='6.9.4'
 
 export GHOST_SERVICE_NAME='ghost'
 
