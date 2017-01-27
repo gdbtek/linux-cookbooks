@@ -14,8 +14,7 @@ function removeNewlineAtEndOfFile()
             -name 'known_hosts' -o \
             -name 'LICENSE' -o \
             -name '*.md' -o \
-            -name '*.profile' -o \
-            -name '*.upstart' \
+            -name '*.profile' \
         \) \
         \( \
             -not -path "${repositoryFolderPath}/.git/*" \

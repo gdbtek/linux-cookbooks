@@ -169,12 +169,7 @@ function createInitFileFromTemplate()
     local -r templateFolderPath="${2}"
     local -r initConfigData=("${@:3}")
 
-    if [[ "$(isSystemdSupport)" = 'true' ]]
-    then
-        createFileFromTemplate "${templateFolderPath}/${serviceName}.service.systemd" "/etc/systemd/system/${serviceName}.service" "${initConfigData[@]}"
-    else
-        createFileFromTemplate "${templateFolderPath}/${serviceName}.conf.upstart" "/etc/init/${serviceName}.conf" "${initConfigData[@]}"
-    fi
+    createFileFromTemplate "${templateFolderPath}/${serviceName}.service.systemd" "/etc/systemd/system/${serviceName}.service" "${initConfigData[@]}"
 }
 
 function getFileExtension()
@@ -1605,16 +1600,6 @@ function isRedHatDistributor()
     isDistributor 'RedHat'
 }
 
-function isSystemdSupport()
-{
-    if [[ "$(existCommand 'systemctl')" = 'true' ]]
-    then
-        echo 'true'
-    else
-        echo 'false'
-    fi
-}
-
 function isUbuntuDistributor()
 {
     isDistributor 'Ubuntu'
@@ -1677,19 +1662,12 @@ function startService()
 
     checkNonEmptyString "${serviceName}" 'undefined service name'
 
-    if [[ "$(isSystemdSupport)" = 'true' ]]
-    then
-        header "STARTING SYSTEMD SERVICE ${serviceName}"
+    header "STARTING SYSTEMD SERVICE ${serviceName}"
 
-        systemctl daemon-reload
-        systemctl start "${serviceName}"
-        systemctl status "${serviceName}" --full --no-pager
-        systemctl enable "${serviceName}"
-    else
-        header "STARTING UPSTART SERVICE ${serviceName}"
-
-        start "${serviceName}"
-    fi
+    systemctl daemon-reload
+    systemctl start "${serviceName}"
+    systemctl status "${serviceName}" --full --no-pager
+    systemctl enable "${serviceName}"
 }
 
 function stopService()
@@ -1698,15 +1676,8 @@ function stopService()
 
     checkNonEmptyString "${serviceName}" 'undefined service name'
 
-    if [[ "$(isSystemdSupport)" = 'true' ]]
-    then
-        header "STOPPING SYSTEMD SERVICE ${serviceName}"
+    header "STOPPING SYSTEMD SERVICE ${serviceName}"
 
-        systemctl daemon-reload
-        systemctl stop "${serviceName}"
-    else
-        header "STOPPING UPSTART SERVICE ${serviceName}"
-
-        stop "${serviceName}"
-    fi
+    systemctl daemon-reload
+    systemctl stop "${serviceName}"
 }
