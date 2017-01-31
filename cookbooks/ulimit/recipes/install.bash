@@ -4,8 +4,8 @@ function install()
 {
     umask '0022'
 
-    cp -f "${APP_FOLDER_PATH}/../files/limits.conf" "${ULIMIT_CONFIG_FILE_PATH}"
-    displayVersion "$(cat "${ULIMIT_CONFIG_FILE_PATH}")"
+    cp -f "${APP_FOLDER_PATH}/../files/limits.conf" "${ULIMIT_INSTALL_FILE_PATH}"
+    displayVersion "$(cat "${ULIMIT_INSTALL_FILE_PATH}")"
 
     umask '0077'
 }

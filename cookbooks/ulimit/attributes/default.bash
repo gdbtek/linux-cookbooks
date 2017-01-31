@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-export ULIMIT_CONFIG_FILE_PATH='/etc/security/limits.conf'
+export ULIMIT_INSTALL_FILE_PATH='/etc/security/limits.conf'
