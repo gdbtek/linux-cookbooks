@@ -3,6 +3,7 @@
 export APT_ESSENTIAL_PACKAGES=(
     'bzip2'
     'curl'
+    'dialog'
     'git'
     'iptables'
     'libfontconfig'
@@ -23,6 +24,7 @@ export APT_ESSENTIAL_PACKAGES=(
 export RPM_ESSENTIAL_PACKAGES=(
     'bzip2'
     'curl'
+    'dialog'
     'fontconfig'
     'git'
     'iptables'
