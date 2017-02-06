@@ -313,7 +313,7 @@ function downloadFile()
         rm -f "${destinationFile}"
     elif [[ -e "${destinationFile}" ]]
     then
-        fatal "\nFATAL : file '${destinationFile}' exists"
+        fatal "\nFATAL : file '${destinationFile}' already exists"
     fi
 
     # Download
