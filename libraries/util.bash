@@ -868,6 +868,23 @@ function replaceString()
     sed "s@${oldValue}@${newValue}@g" <<< "${content}"
 }
 
+function stringToNumber()
+{
+    local -r string="${1}"
+
+    checkNonEmptyString "${string}" 'undefined string'
+
+    if [[ "$(existCommand 'md5')" = 'true' ]]
+    then
+        md5 <<< "${string}" | tr -cd '0-9'
+    elif [[ "$(existCommand 'md5sum')" = 'true' ]]
+    then
+        md5sum <<< "${string}" | tr -cd '0-9'
+    else
+        fatal '\nFATAL : md5 or md5sum command not found'
+    fi
+}
+
 function stringToSearchPattern()
 {
     local -r string="$(trimString "${1}")"

@@ -244,6 +244,17 @@ function unzipAWSS3RemoteFile()
     fi
 }
 
+#################
+# IAM UTILITIES #
+#################
+
+function existRole()
+{
+    local -r roleName="${1}"
+
+    invertTrueFalseString "$(isEmptyString "$(aws iam get-role --role-name "${roleName}" 2> '/dev/null')")"
+}
+
 ######################
 # ROUTE-53 UTILITIES #
 ######################
@@ -328,6 +339,17 @@ function getAWSELBAccountID()
     else
         echo ''
     fi
+}
+
+#################
+# STS UTILITIES #
+#################
+
+function getAWSAccountID()
+{
+    aws sts get-caller-identity \
+        --output 'text' \
+        --query 'Account'
 }
 
 #######################
