@@ -31,11 +31,11 @@ function getLatestAMIIDByAMINamePattern()
 
     aws ec2 describe-images \
         --filters \
-            "Name=architecture,Values=x86_64" \
-            "Name=image-type,Values=machine" \
-            "Name=is-public,Values=false" \
+            'Name=architecture,Values=x86_64' \
+            'Name=image-type,Values=machine' \
+            'Name=is-public,Values=false' \
             "Name=name,Values=${amiNamePattern}" \
-            "Name=state,Values=available" \
+            'Name=state,Values=available' \
         --output 'text' \
         --query 'sort_by(Images, &CreationDate)[-1].ImageId' |
     grep -E -v '^None$'
@@ -384,7 +384,7 @@ function getAvailabilityZonesByVPCName()
 
     aws ec2 describe-subnets \
         --filters \
-            "Name=state,Values=available" \
+            'Name=state,Values=available' \
             "Name=vpc-id,Values=${vpcID}" \
         --query 'Subnets[*].AvailabilityZone' |
     jq \
