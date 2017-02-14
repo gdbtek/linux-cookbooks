@@ -32,5 +32,5 @@ User=__USER_NAME__
 Group=__GROUP_NAME__
 
 ExecStart=/bin/bash -c -e '\
-    java -jar \'__INSTALL_FILE__\' -role \'node\' -trustAllSSLCertificates -nodeConfig \'__CONFIG_FILE__\' \
+    java -jar \'__INSTALL_FILE__\' -role \'node\' -nodeConfig \'__CONFIG_FILE__\' \
 '
