@@ -279,6 +279,11 @@ function getInstanceRegion()
     echo "${availabilityZone:0:${#availabilityZone} - 1}"
 }
 
+function getInstanceSubnetID()
+{
+    curl -s --retry 12 --retry-delay 5 "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/subnet-id"
+}
+
 function getInstanceUserDataValue()
 {
     local -r key="$(escapeGrepSearchPattern "${1}")"
@@ -293,7 +298,7 @@ function getInstanceUserDataValue()
 
 function getInstanceVPCID()
 {
-    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/iam/info'
+    curl -s --retry 12 --retry-delay 5 "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-id"
 }
 
 ######################
