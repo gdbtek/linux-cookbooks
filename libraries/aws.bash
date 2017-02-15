@@ -23,6 +23,20 @@ function getStackIDByName()
 # EC2 UTILITIES #
 #################
 
+function getKeyPairFingerPrintByName()
+{
+    local -r keyPairName="${1}"
+
+    checkNonEmptyString "${keyPairName}" 'undefined key pair name'
+
+    aws ec2 describe-key-pairs \
+        --key-name "${keyPairName}" \
+        --output 'text' \
+        --query 'KeyPairs[0].[KeyFingerprint]' \
+    2> '/dev/null' |
+    grep -E -v '^None$'
+}
+
 function getLatestAMIIDByAMINamePattern()
 {
     local -r amiNamePattern="${1}"
@@ -38,39 +52,6 @@ function getLatestAMIIDByAMINamePattern()
             'Name=state,Values=available' \
         --output 'text' \
         --query 'sort_by(Images, &CreationDate)[-1].ImageId' |
-    grep -E -v '^None$'
-}
-
-function getInstanceAvailabilityZone()
-{
-    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/placement/availability-zone'
-}
-
-function getInstanceID()
-{
-    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id'
-}
-
-function getInstanceRegion()
-{
-    local -r availabilityZone="$(getInstanceAvailabilityZone)"
-
-    checkNonEmptyString "${availabilityZone}" 'undefined availabilityZone'
-
-    echo "${availabilityZone:0:${#availabilityZone} - 1}"
-}
-
-function getKeyPairFingerPrintByName()
-{
-    local -r keyPairName="${1}"
-
-    checkNonEmptyString "${keyPairName}" 'undefined key pair name'
-
-    aws ec2 describe-key-pairs \
-        --key-name "${keyPairName}" \
-        --output 'text' \
-        --query 'KeyPairs[0].[KeyFingerprint]' \
-    2> '/dev/null' |
     grep -E -v '^None$'
 }
 
@@ -255,6 +236,66 @@ function existRole()
     invertTrueFalseString "$(isEmptyString "$(aws iam get-role --role-name "${roleName}" 2> '/dev/null')")"
 }
 
+###########################
+# INSTANCE DATA UTILITIES #
+###########################
+
+function getInstanceAvailabilityZone()
+{
+    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/placement/availability-zone'
+}
+
+function getInstanceIAMRole()
+{
+    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/iam/info' |
+    jq \
+        --compact-output \
+        --raw-output \
+        '.["InstanceProfileArn"] // empty' |
+    cut -d '/' -f 2
+}
+
+function getInstanceID()
+{
+    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id'
+}
+
+function getInstanceMACAddress()
+{
+    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/mac'
+}
+
+function getInstancePublicIPV4()
+{
+    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/public-ipv4'
+}
+
+function getInstanceRegion()
+{
+    local -r availabilityZone="$(getInstanceAvailabilityZone)"
+
+    checkNonEmptyString "${availabilityZone}" 'undefined availabilityZone'
+
+    echo "${availabilityZone:0:${#availabilityZone} - 1}"
+}
+
+function getInstanceUserDataValue()
+{
+    local -r key="$(escapeGrepSearchPattern "${1}")"
+
+    trimString "$(
+        curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/user-data' |
+        grep -E -o "^\s*${key}\s*=\s*.*$" |
+        tail -1 |
+        awk -F '=' '{ print $2 }'
+    )"
+}
+
+function getInstanceVPCID()
+{
+    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/iam/info'
+}
+
 ######################
 # ROUTE-53 UTILITIES #
 ######################
@@ -350,22 +391,6 @@ function getAWSAccountID()
     aws sts get-caller-identity \
         --output 'text' \
         --query 'Account'
-}
-
-#######################
-# USER-DATA UTILITIES #
-#######################
-
-function getUserDataValue()
-{
-    local -r key="$(escapeGrepSearchPattern "${1}")"
-
-    trimString "$(
-        curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/user-data' |
-        grep -E -o "^\s*${key}\s*=\s*.*$" |
-        tail -1 |
-        awk -F '=' '{ print $2 }'
-    )"
 }
 
 #################
