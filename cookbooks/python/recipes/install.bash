@@ -9,21 +9,10 @@ function install()
 {
     umask '0022'
 
-    # Clean Up
-
-    initializeFolder "${PYTHON_INSTALL_FOLDER_PATH}"
-
     # Install
 
-    local -r tempFolder="$(getTemporaryFolder)"
-
-    unzipRemoteFile "${PYTHON_DOWNLOAD_URL}" "${tempFolder}"
-    cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${PYTHON_INSTALL_FOLDER_PATH}"
-    make
-    make install
+    compileAndInstallFromSource "${PYTHON_DOWNLOAD_URL}" "${PYTHON_INSTALL_FOLDER_PATH}" "${PYTHON_INSTALL_FOLDER_PATH}/bin/python3" "$(whoami)"
     ln -f -s "${PYTHON_INSTALL_FOLDER_PATH}/bin/python3" '/usr/local/bin/python'
-    rm -f -r "${tempFolder}"
 
     # Config Profile
 
@@ -33,7 +22,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$(python --version)"
+    displayVersion "$(python3 --version)"
 
     umask '0077'
 }
