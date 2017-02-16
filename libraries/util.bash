@@ -42,6 +42,31 @@ function sortUniqArray()
     trimString "$(tr ' ' '\n' <<< "${array[@]}" | sort -u | tr '\n' ' ')"
 }
 
+#####################
+# COMPILE UTILITIES #
+#####################
+
+function compileAndInstallFromSource()
+{
+    local -r downloadURL="${1}"
+    local -r installFolderPath="${2}"
+    local -r installFileOrFolderBinPath="${3}"
+    local -r user="${4}"
+
+    initializeFolder "${installFolderPath}"
+
+    local -r tempFolder="$(getTemporaryFolder)"
+
+    unzipRemoteFile "${downloadURL}" "${tempFolder}"
+    cd "${tempFolder}"
+    "${tempFolder}/configure" --prefix="${installFolderPath}"
+    make
+    make install
+    chown -R "${user}:$(getUserGroupName "${user}")" "${installFolderPath}"
+    symlinkLocalBin "${installFileOrFolderBinPath}"
+    rm -f -r "${tempFolder}"
+}
+
 ########################
 # FILE LOCAL UTILITIES #
 ########################
@@ -236,35 +261,55 @@ function redirectOutputToLogFile()
 
 function symlinkLocalBin()
 {
-    local -r sourceBinFolder="${1}"
+    local -r sourceBinFileOrFolder="${1}"
 
     if [[ "$(isMacOperatingSystem)" = 'true' ]]
     then
-        find "${sourceBinFolder}" -maxdepth 1 \( -type f -o -type l \) -perm -u+x -exec bash -c -e '
-            for file
-            do
-                fileType="$(stat -f "%HT" "${file}")"
+        mkdir -p '/usr/local/bin'
 
-                if [[ "${fileType}" = "Regular File" ]]
-                then
-                    ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
-                elif [[ "${fileType}" = "Symbolic Link" ]]
-                then
-                    cd "$(dirname "${file}")"
+        if [[ -d "${sourceBinFileOrFolder}" ]]
+        then
+            find "${sourceBinFileOrFolder}" -maxdepth 1 \( -type f -o -type l \) -perm -u+x -exec bash -c -e '
+                for file
+                do
+                    fileType="$(stat -f "%HT" "${file}")"
 
-                    if [[ -f "$(readlink "${file}")" ]]
+                    if [[ "${fileType}" = "Regular File" ]]
                     then
                         ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
+                    elif [[ "${fileType}" = "Symbolic Link" ]]
+                    then
+                        cd "$(dirname "${file}")"
+
+                        if [[ -f "$(readlink "${file}")" ]]
+                        then
+                            ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
+                        fi
                     fi
-                fi
-            done' bash '{}' \;
+                done' bash '{}' \;
+        elif [[ -f "${sourceBinFileOrFolder}" ]]
+        then
+            ln -f -s "${sourceBinFileOrFolder}" "/usr/local/bin/$(basename "${sourceBinFileOrFolder}")"
+        else
+            fatal "\nFATAL : '${sourceBinFileOrFolder}' is not directory or file"
+        fi
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
     then
-        find "${sourceBinFolder}" -maxdepth 1 -xtype f -perm -u+x -exec bash -c -e '
-            for file
-            do
-                ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
-            done' bash '{}' \;
+        mkdir -p '/usr/local/bin'
+
+        if [[ -d "${sourceBinFileOrFolder}" ]]
+        then
+            find "${sourceBinFileOrFolder}" -maxdepth 1 -xtype f -perm -u+x -exec bash -c -e '
+                for file
+                do
+                    ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
+                done' bash '{}' \;
+        elif [[ -f "${sourceBinFileOrFolder}" ]]
+        then
+            ln -f -s "${sourceBinFileOrFolder}" "/usr/local/bin/$(basename "${sourceBinFileOrFolder}")"
+        else
+            fatal "\nFATAL : '${sourceBinFileOrFolder}' is not directory or file"
+        fi
     else
         fatal '\nFATAL : only support CentOS, Mac, RedHat, Ubuntu OS'
     fi
