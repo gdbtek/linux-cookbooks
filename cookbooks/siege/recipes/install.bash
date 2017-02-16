@@ -11,22 +11,9 @@ function install()
 {
     umask '0022'
 
-    # Clean Up
-
-    initializeFolder "${SIEGE_INSTALL_FOLDER_PATH}"
-
     # Install
 
-    local -r tempFolder="$(getTemporaryFolder)"
-
-    unzipRemoteFile "${SIEGE_DOWNLOAD_URL}" "${tempFolder}"
-    cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${SIEGE_INSTALL_FOLDER_PATH}"
-    make
-    make install
-    cd
-    rm -f -r "${tempFolder}"
-    ln -f -s "${SIEGE_INSTALL_FOLDER_PATH}/bin/siege" '/usr/local/bin/siege'
+    compileAndInstallFromSource "${SIEGE_DOWNLOAD_URL}" "${SIEGE_INSTALL_FOLDER_PATH}" "${SIEGE_INSTALL_FOLDER_PATH}/bin/siege" "${SUDO_USER}"
 
     # Config Profile
 
