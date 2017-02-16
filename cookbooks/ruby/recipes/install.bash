@@ -17,21 +17,9 @@ function install()
 {
     umask '0022'
 
-    # Clean Up
-
-    initializeFolder "${RUBY_INSTALL_FOLDER_PATH}"
-
     # Install
 
-    local -r tempFolder="$(getTemporaryFolder)"
-
-    unzipRemoteFile "${RUBY_DOWNLOAD_URL}" "${tempFolder}"
-    cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${RUBY_INSTALL_FOLDER_PATH}"
-    make
-    make install
-    symlinkLocalBin "${RUBY_INSTALL_FOLDER_PATH}/bin"
-    rm -f -r "${tempFolder}"
+    compileAndInstallFromSource "${RUBY_DOWNLOAD_URL}" "${RUBY_INSTALL_FOLDER_PATH}" "${RUBY_INSTALL_FOLDER_PATH}/bin" "$(whoami)"
 
     # Config Profile
 
