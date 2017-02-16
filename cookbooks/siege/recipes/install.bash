@@ -13,7 +13,7 @@ function install()
 
     # Install
 
-    compileAndInstallFromSource "${SIEGE_DOWNLOAD_URL}" "${SIEGE_INSTALL_FOLDER_PATH}" "${SIEGE_INSTALL_FOLDER_PATH}/bin/siege" "${SUDO_USER}"
+    compileAndInstallFromSource "${SIEGE_DOWNLOAD_URL}" "${SIEGE_INSTALL_FOLDER_PATH}" "${SIEGE_INSTALL_FOLDER_PATH}/bin/siege" "$(whoami)"
 
     # Config Profile
 
