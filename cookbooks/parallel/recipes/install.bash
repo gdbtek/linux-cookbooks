@@ -9,21 +9,9 @@ function install()
 {
     umask '0022'
 
-    # Clean Up
-
-    initializeFolder "${PARALLEL_INSTALL_FOLDER_PATH}"
-
     # Install
 
-    local -r tempFolder="$(getTemporaryFolder)"
-
-    unzipRemoteFile "${PARALLEL_DOWNLOAD_URL}" "${tempFolder}"
-    cd "${tempFolder}"
-    "${tempFolder}/configure" --prefix="${PARALLEL_INSTALL_FOLDER_PATH}"
-    make
-    make install
-    ln -f -s "${PARALLEL_INSTALL_FOLDER_PATH}/bin/parallel" '/usr/local/bin/parallel'
-    rm -f -r "${tempFolder}"
+    compileAndInstallFromSource "${PARALLEL_DOWNLOAD_URL}" "${PARALLEL_INSTALL_FOLDER_PATH}" "${PARALLEL_INSTALL_FOLDER_PATH}/bin/parallel" "$(whoami)"
 
     # Config Profile
 
