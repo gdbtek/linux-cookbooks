@@ -1645,6 +1645,8 @@ function isPortOpen()
         local -r process="$(netstat -l -n -t -u | grep -E ":${port}\s+" | head -1)"
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isMacOperatingSystem)" = 'true' ]]
     then
+        installPackage 'lsof' 'lsof'
+
         local -r process="$(lsof -i -n -P | grep -E -i ":${port}\s+\(LISTEN\)$" | head -1)"
     else
         fatal '\nFATAL : operating system not supported'
