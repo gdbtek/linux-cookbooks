@@ -16,7 +16,11 @@ function main()
     runAptGetUpgrade
 
     addUserToSudoWithoutPassword "${firstLoginUser}"
-    autoSudo "${firstLoginUser}" '.profile'
+
+    if [[ "$(existUserLogin "${firstLoginUser}")" = 'true' ]]
+    then
+        autoSudo "${firstLoginUser}" '.profile'
+    fi
 
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
