@@ -14,18 +14,15 @@ function main()
     "${appFolderPath}/../../../cookbooks/ssh/recipes/install.bash"
 
     runAptGetUpgrade
-
-    addUserToSudoWithoutPassword "${firstLoginUser}"
-
-    if [[ "$(existUserLogin "${firstLoginUser}")" = 'true' ]]
-    then
-        autoSudo "${firstLoginUser}" '.profile'
-    fi
-
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
 
-    addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../files/authorized_keys")"
+    if [[ "$(existUserLogin "${firstLoginUser}")" = 'true' ]]
+    then
+        addUserToSudoWithoutPassword "${firstLoginUser}"
+        autoSudo "${firstLoginUser}" '.profile'
+        addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../files/authorized_keys")"
+    fi
 
     cleanUpSystemFolders
     resetLogs

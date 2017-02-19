@@ -11,13 +11,15 @@ function main()
     "${appFolderPath}/../../../cookbooks/ps1/recipes/install.bash" --users "${firstLoginUser}, $(whoami)"
     "${appFolderPath}/../../../cookbooks/ssh/recipes/install.bash"
 
-    addUserToSudoWithoutPassword "${firstLoginUser}"
-    autoSudo "${firstLoginUser}" '.profile'
-
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
 
-    addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../files/authorized_keys")"
+    if [[ "$(existUserLogin "${firstLoginUser}")" = 'true' ]]
+    then
+        addUserToSudoWithoutPassword "${firstLoginUser}"
+        autoSudo "${firstLoginUser}" '.profile'
+        addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../files/authorized_keys")"
+    fi
 
     cleanUpSystemFolders
     resetLogs
