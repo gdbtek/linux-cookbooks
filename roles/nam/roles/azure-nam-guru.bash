@@ -15,13 +15,15 @@ function main()
     "${appFolderPath}/../../../cookbooks/nginx/recipes/install-from-source.bash"
     "${appFolderPath}/../../../cookbooks/node-js/recipes/install.bash"
 
-    addUserToSudoWithoutPassword "${firstLoginUser}"
-    autoSudo "${firstLoginUser}" '.bashrc'
-
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
 
-    addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../files/authorized_keys")"
+    if [[ "$(existUserLogin "${firstLoginUser}")" = 'true' ]]
+    then
+        addUserToSudoWithoutPassword "${firstLoginUser}"
+        autoSudo "${firstLoginUser}" '.bashrc'
+        addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../files/authorized_keys")"
+    fi
 
     cleanUpSystemFolders
     resetLogs
