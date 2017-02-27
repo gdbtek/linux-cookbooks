@@ -423,6 +423,13 @@ function getAvailabilityZonesByVPCName()
         'unique | .[] // empty'
 }
 
+function getPublicElasticIPs()
+{
+    aws ec2 describe-addresses \
+        --output 'text' \
+        --query 'sort_by(Addresses, &PublicIp)[*].[PublicIp]'
+}
+
 function getSubnetIDByName()
 {
     local -r subnetName="${1}"
