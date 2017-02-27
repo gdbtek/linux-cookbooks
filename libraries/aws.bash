@@ -423,6 +423,19 @@ function getAvailabilityZonesByVPCName()
         'unique | .[] // empty'
 }
 
+function getIPV4CIDRByVPCName()
+{
+    local -r vpcName="${1}"
+
+    checkNonEmptyString "${vpcName}" 'undefined VPC name'
+
+    aws ec2 describe-vpcs \
+        --filter "Name=tag:Name,Values=${vpcName}" \
+        --output 'text' \
+        --query 'Vpcs[0].CidrBlock' |
+    grep -E -v '^None$'
+}
+
 function getPublicElasticIPs()
 {
     aws ec2 describe-addresses \
@@ -464,6 +477,8 @@ function getSubnetIDsByNames()
 function getVPCIDByName()
 {
     local -r vpcName="${1}"
+
+    checkNonEmptyString "${vpcName}" 'undefined VPC name'
 
     aws ec2 describe-vpcs \
         --filter "Name=tag:Name,Values=${vpcName}" \
