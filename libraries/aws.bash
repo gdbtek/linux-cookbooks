@@ -257,7 +257,16 @@ function getInstanceIAMRole()
 
 function getInstanceID()
 {
-    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id'
+    local -r idOnly="${1}"
+
+    local -r fullInstanceID="$(curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id')"
+
+    if [[ "${idOnly}" = 'true' ]]
+    then
+        cut -d '-' -f 2 <<< "${fullInstanceID}"
+    else
+        echo "${fullInstanceID}"
+    fi
 }
 
 function getInstanceMACAddress()
@@ -272,11 +281,64 @@ function getInstancePublicIPV4()
 
 function getInstanceRegion()
 {
+    local -r shortVersion="${1}"
+
     local -r availabilityZone="$(getInstanceAvailabilityZone)"
 
     checkNonEmptyString "${availabilityZone}" 'undefined availabilityZone'
 
-    echo "${availabilityZone:0:${#availabilityZone} - 1}"
+    local -r fullRegionName="${availabilityZone:0:${#availabilityZone} - 1}"
+
+    if [[ "${shortVersion}" = 'true' ]]
+    then
+        if [[ "${fullRegionName}" = 'ap-northeast-1' ]]
+        then
+            echo 'apne1'
+        elif [[ "${fullRegionName}" = 'ap-northeast-2' ]]
+        then
+            echo 'apne2'
+        elif [[ "${fullRegionName}" = 'ap-south-1' ]]
+        then
+            echo 'aps1'
+        elif [[ "${fullRegionName}" = 'ap-southeast-1' ]]
+        then
+            echo 'apse1'
+        elif [[ "${fullRegionName}" = 'ap-southeast-2' ]]
+        then
+            echo 'apse2'
+        elif [[ "${fullRegionName}" = 'ca-central-1' ]]
+        then
+            echo 'cac1'
+        elif [[ "${fullRegionName}" = 'eu-central-1' ]]
+        then
+            echo 'euc1'
+        elif [[ "${fullRegionName}" = 'eu-west-1' ]]
+        then
+            echo 'euw1'
+        elif [[ "${fullRegionName}" = 'eu-west-2' ]]
+        then
+            echo 'euw2'
+        elif [[ "${fullRegionName}" = 'sa-east-1' ]]
+        then
+            echo 'sae1'
+        elif [[ "${fullRegionName}" = 'us-east-1' ]]
+        then
+            echo 'use1'
+        elif [[ "${fullRegionName}" = 'us-east-2' ]]
+        then
+            echo 'use2'
+        elif [[ "${fullRegionName}" = 'us-west-1' ]]
+        then
+            echo 'usw1'
+        elif [[ "${fullRegionName}" = 'us-west-2' ]]
+        then
+            echo 'usw2'
+        else
+            echo ''
+        fi
+    else
+        echo "${fullRegionName}"
+    fi
 }
 
 function getInstanceSubnetID()
