@@ -13,6 +13,7 @@ function main()
 
     # Clean Up
 
+    addSwapSpace
     remountTMP
     resetLogs
 

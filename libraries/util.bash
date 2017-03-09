@@ -972,7 +972,7 @@ function addSwapSpace()
 
     if [[ "$(isEmptyString "${swapSize}")" = 'true' ]]
     then
-        swapSize='500000'
+        swapSize='1024000'
     fi
 
     if [[ "$(isEmptyString "${swapFile}")" = 'true' ]]
