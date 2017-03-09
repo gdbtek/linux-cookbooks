@@ -980,6 +980,11 @@ function addSwapSpace()
         swapFile='/var/tmp/swap'
     fi
 
+    if [[ -f "${swapFile}" ]]
+    then
+        swapoff "${swapFile}"
+    fi
+
     rm -f "${swapFile}"
     touch "${swapFile}"
 
