@@ -20,7 +20,7 @@ function displayNotice()
     checkExistFolder "${userHome}"
     checkExistFile "${userHome}/.ssh/id_rsa.pub"
 
-    info '-> Next is to copy this RSA to your git account :'
+    info '-> Next is to copy this RSA to your GIT account and Jenkins Slaves :'
     cat "${userHome}/.ssh/id_rsa.pub"
     echo
 }

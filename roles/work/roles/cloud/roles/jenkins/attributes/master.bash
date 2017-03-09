@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../../../../../../cookbooks/node-js/attributes/default.bash"
+source "$(dirname "${BASH_SOURCE[0]}")/../../../../../../../cookbooks/tomcat/attributes/default.bash"
 
 export CLOUD_JENKINS_GIT_USER_NAME='Nam Nguyen'
 export CLOUD_JENKINS_GIT_USER_EMAIL='namnguye@adobe.com'
@@ -14,8 +15,9 @@ export CLOUD_JENKINS_INSTALL_PLUGINS=(
 
 export CLOUD_USERS=(
     'centos'
-    'ecxops'
     'namnguye'
+    'pxtops'
     'root'
     'ubuntu'
+    "${TOMCAT_USER_NAME}"
 )
