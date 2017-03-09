@@ -13,6 +13,7 @@ function install()
     umask '0022'
 
     initializeFolder "${JENKINS_WORKSPACE_FOLDER}"
+    addUser "${JENKINS_USER_NAME}" "${JENKINS_GROUP_NAME}" 'true' 'true' 'true'
     chown -R "${JENKINS_USER_NAME}:${JENKINS_GROUP_NAME}" "${JENKINS_WORKSPACE_FOLDER}"
 
     umask '0077'
