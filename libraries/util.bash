@@ -1457,11 +1457,11 @@ function generateUserSSHKey()
     rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
     mkdir -p "${userHome}/.ssh"
     chmod 700 "${userHome}/.ssh"
+    chown "${userLogin}:${groupName}" "${userHome}/.ssh"
 
     su -l "${userLogin}" -c "ssh-keygen -q -t rsa -N '' -f '${userHome}/.ssh/id_rsa'"
     chmod 600 "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
-
-    chown "${userLogin}:${groupName}" "${userHome}/.ssh"
+    chown "${userLogin}:${groupName}" "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
 
     cat "${userHome}/.ssh/id_rsa.pub"
 }
