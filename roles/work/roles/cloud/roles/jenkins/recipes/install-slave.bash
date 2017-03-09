@@ -50,7 +50,7 @@ function main()
 
     # Display Notice
 
-    displayNotice "${JENKINS_USER_NAME}"
+    displayNotice "${JENKINS_USER_NAME}" 'false'
 }
 
 main "${@}"

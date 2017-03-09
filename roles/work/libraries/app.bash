@@ -12,6 +12,7 @@ function cleanUpMess
 function displayNotice()
 {
     local -r userLogin="${1}"
+    local -r isMasterMachine="${2}"
 
     header 'DISPLAYING NOTICES'
 
@@ -20,8 +21,15 @@ function displayNotice()
     checkExistFolder "${userHome}"
     checkExistFile "${userHome}/.ssh/id_rsa.pub"
 
-    info '-> Next is to copy this RSA to your GIT account and Jenkins Slaves :'
+    if [[ "${isMasterMachine}" = 'true' ]]
+    then
+        info '-> Next is to copy this RSA to your GIT SSH and JENKINS SLAVES authorized_keys file :'
+    else
+        info '-> Next is to copy this RSA to your GIT SSH :'
+    fi
+
     cat "${userHome}/.ssh/id_rsa.pub"
+
     echo
 }
 

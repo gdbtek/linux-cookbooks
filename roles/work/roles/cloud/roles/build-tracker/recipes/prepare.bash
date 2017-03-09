@@ -42,7 +42,7 @@ function main()
 
     # Display Notice
 
-    displayNotice "$(whoami)"
+    displayNotice "$(whoami)" 'false'
 }
 
 main "${@}"
