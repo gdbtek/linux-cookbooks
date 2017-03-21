@@ -36,6 +36,7 @@ function main()
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${CLOUD_JENKINS_INSTALL_PLUGINS[@]}"
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
     "${appFolderPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/phantom-js/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami)"
     "${appFolderPath}/../../../../../../../cookbooks/secret-server-console/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/terraform/recipes/install.bash"

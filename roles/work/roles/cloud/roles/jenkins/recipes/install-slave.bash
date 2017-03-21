@@ -33,6 +33,7 @@ function main()
     "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_JENKINS_NODE_JS_VERSION}" "${CLOUD_JENKINS_NODE_JS_INSTALL_FOLDER_PATH}"
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-slave.bash"
     "${appFolderPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/phantom-js/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami)"
     "${appFolderPath}/../../../../../../../cookbooks/secret-server-console/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/terraform/recipes/install.bash"
