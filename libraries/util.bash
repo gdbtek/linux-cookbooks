@@ -977,7 +977,7 @@ function addSwapSpace()
 
     if [[ "$(isEmptyString "${swapFile}")" = 'true' ]]
     then
-        swapFile='/var/tmp/swap'
+        swapFile='/mnt/swapfile'
     fi
 
     if [[ -f "${swapFile}" ]]
