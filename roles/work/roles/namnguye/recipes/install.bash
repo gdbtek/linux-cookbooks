@@ -26,10 +26,12 @@ function main()
     "${appFolderPath}/../../../../essential.bash" 'nam' "$(arrayToString "${CLOUD_USERS[@]}")"
     "${appFolderPath}/../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/chef-client/recipes/install.bash"
+    "${appFolderPath}/../../../../../cookbooks/docker/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/foodcritic/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/go-lang/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/node-js/recipes/install.bash" "${NAMNGUYE_NODE_JS_VERSION}" "${NAMNGUYE_NODE_JS_INSTALL_FOLDER_PATH}"
     "${appFolderPath}/../../../../../cookbooks/packer/recipes/install.bash"
+    "${appFolderPath}/../../../../../cookbooks/porter/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/shell-check/recipes/install.bash"
     "${appFolderPath}/../../../../../cookbooks/terraform/recipes/install.bash"
 
