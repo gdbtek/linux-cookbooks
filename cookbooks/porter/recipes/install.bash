@@ -24,7 +24,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${PORTER_INSTALL_FOLDER_PATH}/bin/porter" --version)"
+    displayVersion "$("${PORTER_INSTALL_FOLDER_PATH}/bin/porter" version)"
 
     umask '0077'
 }
