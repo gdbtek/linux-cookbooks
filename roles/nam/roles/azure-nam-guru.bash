@@ -10,7 +10,7 @@ function main()
     source "${appFolderPath}/../libraries/app.bash"
 
     "${appFolderPath}/../../essential.bash" "${hostName}" "${firstLoginUser}, $(whoami)"
-    "${appFolderPath}/../../../cookbooks/docker/recipes/install.bash"
+    "${appFolderPath}/../../../cookbooks/docker/recipes/install.bash" || true
     "${appFolderPath}/../../../cookbooks/go-lang/recipes/install.bash"
     "${appFolderPath}/../../../cookbooks/nginx/recipes/install-from-source.bash"
     "${appFolderPath}/../../../cookbooks/node-js/recipes/install.bash"
