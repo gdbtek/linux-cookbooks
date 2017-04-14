@@ -27,8 +27,10 @@ function install()
 
         echo -e "$(removeEmptyLines "${content}")" > "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
         chmod 755 "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
-        cat "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
         rm -f "${TMP_REAPER_CRON_FOLDER}/.placeholder"
+
+        echo
+        cat "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"
     else
         fatal 'FATAL : only support Ubuntu OS'
     fi

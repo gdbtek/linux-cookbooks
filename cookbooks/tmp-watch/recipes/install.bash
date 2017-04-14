@@ -27,8 +27,10 @@ function install()
 
         echo -e "$(removeEmptyLines "${content}")" > "${TMP_WATCH_CRON_FOLDER}/tmp-watch"
         chmod 755 "${TMP_WATCH_CRON_FOLDER}/tmp-watch"
-        cat "${TMP_WATCH_CRON_FOLDER}/tmp-watch"
         rm -f "${TMP_WATCH_CRON_FOLDER}/.placeholder"
+
+        echo
+        cat "${TMP_WATCH_CRON_FOLDER}/tmp-watch"
     else
         fatal 'FATAL : only support CentOS or RedHat OS'
     fi
