@@ -29,7 +29,6 @@ export JENKINS_INSTALL_PLUGINS=(
     'copyartifact'
     'dashboard-view'
     'description-setter'
-    'dynamicparameter'
     'email-ext'
     'embeddable-build-status'
     'envinject'
