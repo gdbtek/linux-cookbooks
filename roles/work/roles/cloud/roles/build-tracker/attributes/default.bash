@@ -8,7 +8,6 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../../../../../../cookbooks/node-js/at
 
 export CLOUD_USERS=(
     'centos'
-    'ecxops'
     'namnguye'
     'root'
     'ubuntu'
