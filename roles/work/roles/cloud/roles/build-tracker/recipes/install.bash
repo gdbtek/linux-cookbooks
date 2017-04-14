@@ -4,14 +4,16 @@ function main()
 {
     local -r buildTrackerDownloadURL="${1}"
 
-    checkNonEmptyString "${buildTrackerDownloadURL}" 'undefined build tracker download URL such as git@github.com:ops/build-tracker.git'
-
     # Load Libraries
 
     local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appFolderPath}/../../../../../../../libraries/util.bash"
     source "${appFolderPath}/../attributes/default.bash"
+
+    # Validate Input
+
+    checkNonEmptyString "${buildTrackerDownloadURL}" 'undefined build tracker download URL such as git@github.com:ops/build-tracker.git'
 
     # Install App
 
