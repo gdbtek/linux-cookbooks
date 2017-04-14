@@ -20,7 +20,6 @@ export JENKINS_UPDATE_ALL_PLUGINS='true'
 
 export JENKINS_INSTALL_PLUGINS=(
     'ansicolor'
-    'build-flow-plugin'
     'build-pipeline-plugin'
     'build-timeout'
     'build-token-root'
@@ -35,10 +34,10 @@ export JENKINS_INSTALL_PLUGINS=(
     'embeddable-build-status'
     'envinject'
     'extended-choice-parameter'
-    'git'
     'git-changelog'
-    'github'
+    'git'
     'github-oauth'
+    'github'
     'gravatar'
     'greenballs'
     'htmlpublisher'
@@ -62,5 +61,6 @@ export JENKINS_INSTALL_PLUGINS=(
     'throttle-concurrents'
     'timestamper'
     'urltrigger'
+    'workflow-aggregator'
     'ws-cleanup'
 )
