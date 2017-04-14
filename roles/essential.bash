@@ -10,15 +10,20 @@ function main()
     source "${appFolderPath}/../libraries/util.bash"
 
     "${appFolderPath}/../cookbooks/essential/recipes/install.bash"
-
     "${appFolderPath}/../cookbooks/chrony/recipes/install.bash"
     "${appFolderPath}/../cookbooks/jq/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ps1/recipes/install.bash" --host-name "${ps1HostName}" --users "${ps1Users}"
     "${appFolderPath}/../cookbooks/ssh/recipes/install.bash"
-    "${appFolderPath}/../cookbooks/tmp-reaper/recipes/install.bash" || true
-    "${appFolderPath}/../cookbooks/tmp-watch/recipes/install.bash" || true
     "${appFolderPath}/../cookbooks/ulimit/recipes/install.bash"
     "${appFolderPath}/../cookbooks/vim/recipes/install.bash"
+
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        "${appFolderPath}/../cookbooks/tmp-reaper/recipes/install.bash"
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        "${appFolderPath}/../cookbooks/tmp-watch/recipes/install.bash"
+    fi
 }
 
 main "${@}"
