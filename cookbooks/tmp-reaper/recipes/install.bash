@@ -17,7 +17,12 @@ function install()
 
         for ((i = 0; i < ${#TMP_REAPER_FOLDERS[@]}; i = i + 3))
         do
-            content="${content}\ntmpreaper -a -f -s -v --protect '${TMP_REAPER_FOLDERS[${i} + 1]}' '${TMP_REAPER_FOLDERS[${i} + 2]}' '${TMP_REAPER_FOLDERS[${i}]}'"
+            if [[ "$(isEmptyString "${TMP_REAPER_FOLDERS[${i} + 1]}")" = 'true' ]]
+            then
+                content="${content}\ntmpreaper -a -f -s -v '${TMP_REAPER_FOLDERS[${i} + 2]}' '${TMP_REAPER_FOLDERS[${i}]}'"
+            else
+                content="${content}\ntmpreaper -a -f -s -v --protect '${TMP_REAPER_FOLDERS[${i} + 1]}' '${TMP_REAPER_FOLDERS[${i} + 2]}' '${TMP_REAPER_FOLDERS[${i}]}'"
+            fi
         done
 
         echo -e "$(removeEmptyLines "${content}")" > "${TMP_REAPER_CRON_FOLDER}/tmp-reaper"

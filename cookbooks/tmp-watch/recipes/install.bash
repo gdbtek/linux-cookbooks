@@ -17,7 +17,12 @@ function install()
 
         for ((i = 0; i < ${#TMP_WATCH_FOLDERS[@]}; i = i + 3))
         do
-            content="${content}\ntmpwatch -a -f -u -v -x '${TMP_WATCH_FOLDERS[${i} + 1]}' '${TMP_WATCH_FOLDERS[${i} + 2]}' '${TMP_WATCH_FOLDERS[${i}]}'"
+            if [[ "$(isEmptyString "${TMP_WATCH_FOLDERS[${i} + 1]}")" = 'true' ]]
+            then
+                content="${content}\ntmpwatch -a -f -u -v '${TMP_WATCH_FOLDERS[${i} + 2]}' '${TMP_WATCH_FOLDERS[${i}]}'"
+            else
+                content="${content}\ntmpwatch -a -f -u -v -x '${TMP_WATCH_FOLDERS[${i} + 1]}' '${TMP_WATCH_FOLDERS[${i} + 2]}' '${TMP_WATCH_FOLDERS[${i}]}'"
+            fi
         done
 
         echo -e "$(removeEmptyLines "${content}")" > "${TMP_WATCH_CRON_FOLDER}/tmp-watch"
