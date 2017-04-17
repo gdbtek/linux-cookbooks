@@ -39,15 +39,17 @@ function getKeyPairFingerPrintByName()
 
 function getLatestAMIIDByAMINamePattern()
 {
-    local -r amiNamePattern="${1}"
+    local -r amiIsPublic="${1}"
+    local -r amiNamePattern="${2}"
 
+    checkNonEmptyString "${amiIsPublic}" 'undefined ami is public'
     checkNonEmptyString "${amiNamePattern}" 'undefined ami name pattern'
 
     aws ec2 describe-images \
         --filters \
             'Name=architecture,Values=x86_64' \
             'Name=image-type,Values=machine' \
-            'Name=is-public,Values=false' \
+            "Name=is-public,Values=${amiIsPublic}" \
             "Name=name,Values=${amiNamePattern}" \
             'Name=state,Values=available' \
         --output 'text' \
