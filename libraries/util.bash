@@ -67,6 +67,25 @@ function compileAndInstallFromSource()
     rm -f -r "${tempFolder}"
 }
 
+#######################
+# DATE TIME UTILITIES #
+#######################
+
+function convertISO8601ToSeconds()
+{
+    local -r time="${1}"
+
+    if [[ "$(isMacOperatingSystem)" = 'true' ]]
+    then
+        date -j -u -f '%FT%TZ' "$(awk -F '.' '{ print $1 }' <<< "${time}")Z" +'%s'
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        date -d "${time}" +'%s'
+    else
+        fatal '\nFATAL : only support CentOS, Mac, RedHat, Ubuntu OS'
+    fi
+}
+
 ########################
 # FILE LOCAL UTILITIES #
 ########################
