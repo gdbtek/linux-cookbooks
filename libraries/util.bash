@@ -504,6 +504,22 @@ function unzipRemoteFile()
 # NUMBER UTILITIES #
 ####################
 
+function checkNaturalNumber()
+{
+    local -r string="${1}"
+    local -r errorMessage="${2}"
+
+    if [[ "$(isNaturalNumber "${string}")" = 'false' ]]
+    then
+        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
+        then
+            fatal '\nFATAL : not natural number detected'
+        fi
+
+        fatal "\nFATAL : ${errorMessage}"
+    fi
+}
+
 function isNaturalNumber()
 {
     local -r string="${1}"
