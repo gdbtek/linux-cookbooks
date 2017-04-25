@@ -77,12 +77,32 @@ function convertISO8601ToSeconds()
 
     if [[ "$(isMacOperatingSystem)" = 'true' ]]
     then
-        date -j -u -f '%FT%TZ' "$(awk -F '.' '{ print $1 }' <<< "${time}")Z" +'%s'
+        date -j -u -f '%FT%T' "$(awk -F '.' '{ print $1 }' <<< "${time}" | tr -d 'Z')" +'%s'
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
     then
         date -d "${time}" +'%s'
     else
         fatal '\nFATAL : only support CentOS, Mac, RedHat, Ubuntu OS'
+    fi
+}
+
+function secondsToReadableTime()
+{
+    local -r time="${1}"
+
+    local -r day="$((time / 60 / 60 / 24))"
+    local -r hour="$((time / 60 / 60 % 24))"
+    local -r minute="$((time / 60 % 60))"
+    local -r second="$((time % 60))"
+
+    if [[ "${day}" = '0' ]]
+    then
+        printf '%02d:%02d:%02d' "${hour}" "${minute}" "${second}"
+    elif [[ "${day}" = '1' ]]
+    then
+        printf '%d day and %02d:%02d:%02d' "${day}" "${hour}" "${minute}" "${second}"
+    else
+        printf '%d days and %02d:%02d:%02d' "${day}" "${hour}" "${minute}" "${second}"
     fi
 }
 
