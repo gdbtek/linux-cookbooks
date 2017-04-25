@@ -500,6 +500,22 @@ function unzipRemoteFile()
     fi
 }
 
+####################
+# NUMBER UTILITIES #
+####################
+
+function isNaturalNumber()
+{
+    local -r string="${1}"
+
+    if [[ "${string}" =~ ^[0-9]+$ ]]
+    then
+        echo 'true'
+    else
+        echo 'false'
+    fi
+}
+
 #####################
 # PACKAGE UTILITIES #
 #####################
