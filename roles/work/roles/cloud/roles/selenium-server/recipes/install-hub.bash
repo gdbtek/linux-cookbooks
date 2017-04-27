@@ -24,7 +24,6 @@ function main()
     fi
 
     "${appFolderPath}/../../../../../../essential.bash" 'selenium-hub' "$(arrayToString "${CLOUD_USERS[@]}")"
-    "${appFolderPath}/../../../../../../../cookbooks/data-dog/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/selenium-server/recipes/install-hub.bash"
 
     # Config SSH
