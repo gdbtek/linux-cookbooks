@@ -23,7 +23,7 @@ function displayNotice()
 
     if [[ "${isMasterMachine}" = 'true' ]]
     then
-        info '-> Next is to copy this RSA to your GIT SSH and JENKINS SLAVES authorized_keys file :'
+        info '-> Next is to copy this RSA to your GIT SSH and JENKINS SLAVES Tomcat user authorized_keys file :'
     else
         info '-> Next is to copy this RSA to your GIT SSH :'
     fi
