@@ -890,7 +890,6 @@ function escapeGrepSearchPattern()
 {
     local -r searchPattern="${1}"
 
-    # shellcheck disable=SC2016
     sed 's/[]\.|$(){}?+*^]/\\&/g' <<< "${searchPattern}"
 }
 
@@ -1246,7 +1245,6 @@ function checkRequirePorts()
 
     for port in "${ports[@]}"
     do
-        # shellcheck disable=SC2155
         local found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]

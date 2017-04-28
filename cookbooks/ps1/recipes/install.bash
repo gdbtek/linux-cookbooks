@@ -158,7 +158,6 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    # shellcheck disable=SC2178
                     local -r users="$(trimString "${1}")"
                 fi
 
@@ -175,7 +174,6 @@ function main()
 
     header 'INSTALLING PS1'
 
-    # shellcheck disable=SC2128
     install "${profileFileName}" "${hostName}" "${users}"
 
     installCleanUp
