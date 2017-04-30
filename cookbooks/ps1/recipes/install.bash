@@ -138,7 +138,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local -r profileFileName="$(trimString "${1}")"
+                    local profileFileName="$(trimString "${1}")"
                 fi
 
                 ;;
@@ -148,7 +148,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local -r hostName="$(trimString "${1}")"
+                    local hostName="$(trimString "${1}")"
                 fi
 
                 ;;
@@ -158,7 +158,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local -r users="$(trimString "${1}")"
+                    local users="$(trimString "${1}")"
                 fi
 
                 ;;
