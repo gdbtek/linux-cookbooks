@@ -34,7 +34,6 @@ function main()
     "${appFolderPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_JENKINS_NODE_JS_VERSION}" "${CLOUD_JENKINS_NODE_JS_INSTALL_FOLDER_PATH}"
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-master.bash"
-    "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-master-plugins.bash" "${CLOUD_JENKINS_INSTALL_PLUGINS[@]}"
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
     "${appFolderPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/phantom-js/recipes/install.bash"
