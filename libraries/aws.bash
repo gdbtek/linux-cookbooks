@@ -2,6 +2,32 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/util.bash"
 
+##############################
+# AUTO SCALE GROUP UTILITIES #
+##############################
+
+function getAutoScaleGroupNameByStackName()
+{
+    local -r stackName="${1}"
+
+    checkNonEmptyString "${stackName}" 'undefined stack name'
+
+    aws autoscaling describe-auto-scaling-groups \
+        --output 'json' |
+    jq \
+        --compact-output \
+        --raw-output \
+        --arg jqStackName "${stackName}" \
+        '.["AutoScalingGroups"] |
+            .[] |
+            .["Tags"] |
+            .[] |
+            select(.["ResourceType"] == "auto-scaling-group") |
+            select(.["Key"] == "aws:cloudformation:stack-name") |
+            select(.["Value"] == $jqStackName) |
+            .["ResourceId"] // empty'
+}
+
 #############################
 # CLOUD-FORMATION UTILITIES #
 #############################
@@ -363,6 +389,51 @@ function getInstanceUserDataValue()
 function getInstanceVPCID()
 {
     curl -s --retry 12 --retry-delay 5 "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-id"
+}
+
+###########################
+# LOAD BALANCER UTILITIES #
+###########################
+
+function getLoadBalancerDNSNameByName()
+{
+    local -r loadBalancerName="${1}"
+
+    aws elb describe-load-balancers \
+        --load-balancer-name "${loadBalancerName}" \
+        --output 'text' \
+        --query 'LoadBalancerDescriptions[*].DNSName'
+}
+
+function isLoadBalancerFromStackName()
+{
+    local -r loadBalancerName="${1}"
+    local -r stackName="${2}"
+
+    checkNonEmptyString "${loadBalancerName}" 'undefined load balancer name'
+    checkNonEmptyString "${stackName}" 'undefined stack name'
+
+    local loadBalancerStackName="$(
+        aws elb describe-tags \
+            --load-balancer-name "${loadBalancerName}" |
+        jq \
+            --compact-output \
+            --raw-output \
+            --arg jqStackName "${stackName}" \
+            '.["TagDescriptions"] |
+            .[] |
+            .["Tags"] |
+            .[] |
+            select(.["Key"] == "aws:cloudformation:stack-name") |
+            select(.["Value"] == $jqStackName) // empty'
+    )"
+
+    if [[ "$(isEmptyString "${loadBalancerStackName}")" = 'false' ]]
+    then
+        echo 'true'
+    else
+        echo 'false'
+    fi
 }
 
 ######################
