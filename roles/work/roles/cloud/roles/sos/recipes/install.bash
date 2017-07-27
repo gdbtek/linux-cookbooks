@@ -27,14 +27,21 @@ function main()
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/chef-client/recipes/install.bash"
 
-    # Config SSH
+    # Config SSH and GIT
 
     configUsersSSH "${CLOUD_USERS[@]}"
+
+    configUserGIT "$(whoami)" "${SOS_GIT_USER_NAME}" "${SOS_GIT_USER_EMAIL}"
+    generateUserSSHKey "$(whoami)"
 
     # Clean Up
 
     cleanUpSystemFolders
     cleanUpMess
+
+    # Display Notice
+
+    displayNotice "$(whoami)" 'false'
 }
 
 main "${@}"
