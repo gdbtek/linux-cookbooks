@@ -19,13 +19,13 @@ function getAutoScaleGroupNameByStackName()
         --raw-output \
         --arg jqStackName "${stackName}" \
         '.["AutoScalingGroups"] |
-            .[] |
-            .["Tags"] |
-            .[] |
-            select(.["ResourceType"] == "auto-scaling-group") |
-            select(.["Key"] == "aws:cloudformation:stack-name") |
-            select(.["Value"] == $jqStackName) |
-            .["ResourceId"] // empty'
+        .[] |
+        .["Tags"] |
+        .[] |
+        select(.["ResourceType"] == "auto-scaling-group") |
+        select(.["Key"] == "aws:cloudformation:stack-name") |
+        select(.["Value"] == $jqStackName) |
+        .["ResourceId"] // empty'
 }
 
 #############################
