@@ -1,12 +1,29 @@
 #!/bin/bash -e
 
+function installDependencies()
+{
+    installBuildEssential
+
+    installPackage 'zlib1g-dev' 'zlib-devel'
+}
+
 function install()
 {
     umask '0022'
 
     # Install
 
-    compileAndInstallFromSource "${MTR_DOWNLOAD_URL}" "${MTR_INSTALL_FOLDER_PATH}" "${MTR_INSTALL_FOLDER_PATH}/bin/mtr" "$(whoami)"
+    local -r tempFolder="$(getTemporaryFolder)"
+
+    unzipRemoteFile "${MTR_DOWNLOAD_URL}" "${tempFolder}"
+    cd "${tempFolder}"
+    "${tempFolder}/bootstrap.sh"
+    "${tempFolder}/configure" --prefix="${MTR_INSTALL_FOLDER_PATH}"
+    make
+    make install
+    chown -R "$(whoami):$(getUserGroupName "$(whoami)")" "${MTR_INSTALL_FOLDER_PATH}"
+    symlinkLocalBin "${MTR_INSTALL_FOLDER_PATH}/bin/mtr"
+    rm -f -r "${tempFolder}"
 
     # Config Profile
 
@@ -33,6 +50,7 @@ function main()
 
     header 'INSTALLING MTR'
 
+    installDependencies
     install
     installCleanUp
 }
