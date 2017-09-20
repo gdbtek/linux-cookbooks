@@ -1,12 +1,5 @@
 #!/bin/bash -e
 
-function installDependencies()
-{
-    installBuildEssential
-
-    installPackage 'zlib1g-dev' 'zlib-devel'
-}
-
 function install()
 {
     umask '0022'
@@ -40,7 +33,6 @@ function main()
 
     header 'INSTALLING MTR'
 
-    installDependencies
     install
     installCleanUp
 }
