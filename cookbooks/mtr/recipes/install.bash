@@ -4,7 +4,7 @@ function installDependencies()
 {
     installBuildEssential
 
-    installPackage 'zlib1g-dev' 'zlib-devel'
+    installPackage 'autoconf'
 }
 
 function install()
@@ -22,7 +22,7 @@ function install()
     make
     make install
     chown -R "$(whoami):$(getUserGroupName "$(whoami)")" "${MTR_INSTALL_FOLDER_PATH}"
-    symlinkLocalBin "${MTR_INSTALL_FOLDER_PATH}/bin/mtr"
+    symlinkLocalBin "${MTR_INSTALL_FOLDER_PATH}/sbin/mtr"
     rm -f -r "${tempFolder}"
 
     # Config Profile
