@@ -1740,7 +1740,7 @@ function isPortOpen()
 
 function isRedHatDistributor()
 {
-    isDistributor 'RedHat'
+    isDistributor 'Red Hat'
 }
 
 function isUbuntuDistributor()
