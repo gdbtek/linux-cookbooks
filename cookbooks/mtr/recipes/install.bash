@@ -35,7 +35,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${MTR_INSTALL_FOLDER_PATH}/sbin/mtr" --version 2>&1)"
+    displayVersion "$("${MTR_INSTALL_FOLDER_PATH}/sbin/mtr")"
 
     umask '0077'
 }
