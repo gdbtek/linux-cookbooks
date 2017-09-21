@@ -4,7 +4,7 @@ function installDependencies()
 {
     installBuildEssential
 
-    installPackage 'automake'
+    installPackage 'automake' 'automake'
 }
 
 function install()
