@@ -5,6 +5,7 @@ function installDependencies()
     installBuildEssential
 
     installPackage 'automake' 'automake'
+    installPackage 'libncurses-dev' 'ncurses-devel'
 }
 
 function install()
