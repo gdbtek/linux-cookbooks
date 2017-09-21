@@ -23,6 +23,7 @@ function install()
     make install
     chown -R "$(whoami):$(getUserGroupName "$(whoami)")" "${MTR_INSTALL_FOLDER_PATH}"
     symlinkLocalBin "${MTR_INSTALL_FOLDER_PATH}/sbin/mtr"
+    symlinkLocalBin "${MTR_INSTALL_FOLDER_PATH}/sbin/mtr-packet"
     rm -f -r "${tempFolder}"
 
     # Config Profile
@@ -33,7 +34,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${MTR_INSTALL_FOLDER_PATH}/bin/mtr" --version 2>&1)"
+    displayVersion "$("${MTR_INSTALL_FOLDER_PATH}/sbin/mtr" --version 2>&1)"
 
     umask '0077'
 }
