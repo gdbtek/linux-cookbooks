@@ -22,7 +22,7 @@ function install()
     unzipRemoteFile "${REDIS_DOWNLOAD_URL}" "${tempFolder}"
     cd "${tempFolder}"
     make
-    find "${tempFolder}/src" -xtype f -not -name '*.sh' -perm -u+x -exec cp -f '{}' "${REDIS_INSTALL_BIN_FOLDER}" \;
+    find "${tempFolder}/src" -xtype f \( -not -name '*.rb' -a -not -name '*.sh' \) -perm -u+x -exec cp -f '{}' "${REDIS_INSTALL_BIN_FOLDER}" \;
     rm -f -r "${tempFolder}"
 
     # Config Server
