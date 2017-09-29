@@ -580,10 +580,17 @@ function getPublicElasticIPs()
 
 function getSubnetIDByName()
 {
-    local -r subnetName="${1}"
+    local -r vpcName="${1}"
+    local -r subnetName="${2}"
+
+    local -r vpcID="$(getVPCIDByName "${vpcName}")"
+
+    checkNonEmptyString "${vpcID}" 'undefined VPC ID'
 
     aws ec2 describe-subnets \
-        --filter "Name=tag:Name,Values=${subnetName}" \
+        --filter \
+            "Name=tag:Name,Values=${subnetName}" \
+            "Name=vpc-id,Values=${vpcID}" \
         --output 'text' \
         --query 'Subnets[0].[SubnetId]' |
     grep -E -v '^None$'
@@ -591,7 +598,8 @@ function getSubnetIDByName()
 
 function getSubnetIDsByNames()
 {
-    local -r subnetNames=("${@}")
+    local -r vpcName="${1}"
+    local -r subnetNames=("${@:2}")
 
     local subnetID=''
     local subnetIDs=''
@@ -599,7 +607,7 @@ function getSubnetIDsByNames()
 
     for subnetName in "${subnetNames[@]}"
     do
-        subnetID="$(getSubnetIDByName "${subnetName}")"
+        subnetID="$(getSubnetIDByName "${vpcName}" "${subnetName}")"
 
         checkNonEmptyString "${subnetID}" "subnet name '${subnetName}' not found"
 
