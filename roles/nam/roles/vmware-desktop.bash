@@ -9,7 +9,6 @@ function main()
     source "${appFolderPath}/../libraries/app.bash"
 
     "${appFolderPath}/../../../cookbooks/essential/recipes/install.bash"
-    "${appFolderPath}/../../../cookbooks/jdk/recipes/install.bash"
     "${appFolderPath}/../../../cookbooks/jq/recipes/install.bash"
     "${appFolderPath}/../../../cookbooks/ps1/recipes/install.bash"
     "${appFolderPath}/../../../cookbooks/ps1/recipes/install.bash" --profile-file-name '.bashrc' --users "${firstLoginUser}"
