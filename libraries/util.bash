@@ -559,7 +559,7 @@ function installAptGetPackage()
         else
             echo -e "\033[1;35m\nInstalling Apt-Get Package '${package}'\033[0m"
             DEBIAN_FRONTEND='noninteractive' apt-get install "${package}" --fix-missing -y ||
-            (DEBIAN_FRONTEND='noninteractive' apt-get install --fix-missing -y && DEBIAN_FRONTEND='noninteractive' apt-get install "${package}" --fix-missing -y)
+            (DEBIAN_FRONTEND='noninteractive' apt-get install --fix-missing --yes -f -y && DEBIAN_FRONTEND='noninteractive' apt-get install "${package}" --fix-missing -y)
         fi
     fi
 }
