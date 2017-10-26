@@ -15,6 +15,10 @@ function install()
     curl -sSL https://stackstorm.com/packages/install.sh |
     bash -s -- --user="${STACKSTORM_ADMIN_LOGIN}" --password="${STACKSTORM_ADMIN_PASSWORD}"
 
+    # Display Version
+
+    displayVersion "$(st2 --version 2>&1)"
+
     umask '0077'
 }
 
