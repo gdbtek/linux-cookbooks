@@ -641,10 +641,16 @@ function installPackage()
 
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
-        installAptGetPackage "${aptPackage}"
+        if [[ "$(isEmptyString "${aptPackage}")" = 'false' ]]
+        then
+            installAptGetPackage "${aptPackage}"
+        fi
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        yum install -y "${rpmPackage}"
+        if [[ "$(isEmptyString "${rpmPackage}")" = 'false' ]]
+        then
+            yum install -y "${rpmPackage}"
+        fi
     else
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi

@@ -3,7 +3,7 @@
 function installDependencies()
 {
     installPackage 'curl' 'curl'
-    installPackage 'nss' 'nss'
+    installPackage '' 'nss'
 }
 
 function install()
