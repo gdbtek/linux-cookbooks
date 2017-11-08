@@ -22,7 +22,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${TEST_SSL_INSTALL_FOLDER_PATH}/testssl.sh" version)"
+    displayVersion "$("${TEST_SSL_INSTALL_FOLDER_PATH}/testssl.sh" -v)"
 
     umask '0077'
 }
