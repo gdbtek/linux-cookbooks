@@ -61,3 +61,11 @@ function configUsersSSH()
         fi
     done
 }
+
+function redirectJDKTMPDir()
+{
+    local -r option='_JAVA_OPTIONS="-Djava.io.tmpdir=/var/tmp"'
+
+    appendToFileIfNotFound '/etc/environment' "${option}" "${option}" 'false' 'false' 'true'
+    appendToFileIfNotFound '/etc/profile' "${option}" "${option}" 'false' 'false' 'true'
+}

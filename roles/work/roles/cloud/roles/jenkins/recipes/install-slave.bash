@@ -15,6 +15,7 @@ function main()
 
     addSwapSpace
     remountTMP
+    redirectJDKTMPDir
     resetLogs
 
     # Install Apps
