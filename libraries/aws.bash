@@ -49,6 +49,46 @@ function getStackIDByName()
 # EC2 UTILITIES #
 #################
 
+function associateElasticPublicIPWithInstanceID()
+{
+    local -r elasticPublicIP="${1}"
+    local -r instanceID="${2}"
+
+    checkNonEmptyString "${elasticPublicIP}" 'undefined elastic public ip'
+    checkNonEmptyString "${instanceID}" 'undefined instance id'
+
+    local -r allocationID="$(getEC2ElasticAllocationIDByElasticPublicIP "${elasticPublicIP}")"
+
+    checkNonEmptyString "${allocationID}" 'undefined allocation id'
+
+    aws ec2 associate-address \
+        --allocation-id "${allocationID}" \
+        --allow-reassociation \
+        --instance-id "${instanceID}" \
+        --region "$(getInstanceRegion)"
+}
+
+function associateElasticPublicIPWithThisInstanceID()
+{
+    local -r elasticPublicIP="${1}"
+
+    associateElasticPublicIPWithInstanceID "${elasticPublicIP}" "$(getInstanceID)"
+}
+
+function getEC2ElasticAllocationIDByElasticPublicIP()
+{
+    local -r elasticPublicIP="${1}"
+
+    checkNonEmptyString "${elasticPublicIP}" 'undefined elastic public ip'
+
+    aws ec2 describe-addresses \
+        --output 'text' \
+        --public-ips "${elasticPublicIP}" \
+        --query 'Addresses[0].[AllocationId]' \
+        --region "$(getInstanceRegion)" \
+    2> '/dev/null'
+}
+
 function getKeyPairFingerPrintByName()
 {
     local -r keyPairName="${1}"
