@@ -2,7 +2,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
-export SELENIUM_SERVER_DOWNLOAD_URL='http://selenium-release.storage.googleapis.com/3.7/selenium-server-standalone-3.7.0.jar'
+export SELENIUM_SERVER_DOWNLOAD_URL='http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar'
 
 export SELENIUM_SERVER_INSTALL_FOLDER_PATH='/opt/selenium-server/node'
 export SELENIUM_SERVER_JDK_INSTALL_FOLDER_PATH="${JDK_INSTALL_FOLDER_PATH}"
