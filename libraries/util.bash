@@ -773,7 +773,7 @@ function runAptGetUpdate()
     fi
 }
 
-function runAptGetUpgrade()
+function runUpgrade()
 {
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
@@ -793,6 +793,10 @@ function runAptGetUpgrade()
 
         info '\napt-get autoclean'
         DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoclean
+    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        yum -y --security update
+        yum -y update --nogpgcheck
     fi
 }
 

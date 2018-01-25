@@ -12,7 +12,7 @@ function main()
     "${appFolderPath}/../../../cookbooks/ps1/recipes/install.bash" --users "${firstLoginUser}, $(whoami)"
     "${appFolderPath}/../../../cookbooks/ssh/recipes/install.bash"
 
-    runAptGetUpgrade
+    runUpgrade
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
 

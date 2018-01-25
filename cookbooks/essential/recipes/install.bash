@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    runAptGetUpgrade
+    runUpgrade
 }
 
 function install()
