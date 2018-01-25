@@ -30,6 +30,7 @@ function main()
     "${appFolderPath}/../../../../../../essential.bash" "${hostName}" "$(arrayToString "${CLOUD_USERS[@]}")"
     "${appFolderPath}/../../../../../../../cookbooks/ant/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
+    "${appFolderPath}/../../../../../../../cookbooks/chef-client/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/docker/recipes/install.bash" || true
     "${appFolderPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_JENKINS_NODE_JS_VERSION}" "${CLOUD_JENKINS_NODE_JS_INSTALL_FOLDER_PATH}"
