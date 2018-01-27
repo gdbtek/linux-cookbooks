@@ -6,7 +6,7 @@ function installDependencies()
 
     if [[ "$(existModule "${requireModule}")" = 'false' ]]
     then
-        installAptGetPackage "linux-image-extra-$(uname -r)"
+        installPackage "linux-image-extra-$(uname -r)"
         modprobe "${requireModule}"
     fi
 }

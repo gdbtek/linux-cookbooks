@@ -86,6 +86,11 @@ function convertISO8601ToSeconds()
     fi
 }
 
+function getISO8601DateTimeNow()
+{
+    date -u +'%Y-%m-%dT%H:%M:%SZ'
+}
+
 function secondsToReadableTime()
 {
     local -r time="${1}"
@@ -547,23 +552,6 @@ function getLastAptGetUpdate()
     fi
 }
 
-function installAptGetPackage()
-{
-    local -r package="${1}"
-
-    if [[ "$(isUbuntuDistributor)" = 'true' ]]
-    then
-        if [[ "$(isAptGetPackageInstall "${package}")" = 'true' ]]
-        then
-            debug "\nApt-Get Package '${package}' has already been installed"
-        else
-            echo -e "\033[1;35m\nInstalling Apt-Get Package '${package}'\033[0m"
-            DEBIAN_FRONTEND='noninteractive' apt-get install "${package}" --fix-missing -y ||
-            (DEBIAN_FRONTEND='noninteractive' apt-get install --fix-missing --yes -f -y && DEBIAN_FRONTEND='noninteractive' apt-get install "${package}" --fix-missing -y)
-        fi
-    fi
-}
-
 function installBuildEssential()
 {
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
@@ -571,7 +559,7 @@ function installBuildEssential()
         installPackages 'build-essential'
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        yum install -y gcc-c++ kernel-devel make
+        installPackages 'gcc-c++' 'kernel-devel make'
     else
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
@@ -643,7 +631,14 @@ function installPackage()
     then
         if [[ "$(isEmptyString "${aptPackage}")" = 'false' ]]
         then
-            installAptGetPackage "${aptPackage}"
+            if [[ "$(isAptGetPackageInstall "${aptPackage}")" = 'true' ]]
+            then
+                debug "\nApt-Get Package '${aptPackage}' has already been installed"
+            else
+                echo -e "\033[1;35m\nInstalling Apt-Get Package '${aptPackage}'\033[0m"
+                DEBIAN_FRONTEND='noninteractive' apt-get install "${aptPackage}" --fix-missing -y ||
+                (DEBIAN_FRONTEND='noninteractive' apt-get install --fix-missing --yes -f -y && DEBIAN_FRONTEND='noninteractive' apt-get install "${aptPackage}" --fix-missing -y)
+            fi
         fi
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
@@ -671,10 +666,10 @@ function installPackages()
     do
         if [[ "$(isUbuntuDistributor)" = 'true' ]]
         then
-            installAptGetPackage "${package}"
+            installPackage "${package}"
         elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
         then
-            yum install -y "${package}"
+            installPackage '' "${package}"
         else
             fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
         fi
