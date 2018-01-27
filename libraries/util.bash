@@ -559,7 +559,7 @@ function installBuildEssential()
         installPackages 'build-essential'
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        installPackages 'gcc-c++' 'kernel-devel make'
+        installPackages 'gcc-c++' 'kernel-devel' 'make'
     else
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
