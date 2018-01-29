@@ -478,6 +478,19 @@ function isLoadBalancerFromStackName()
     fi
 }
 
+function getLoadBalancerTag()
+{
+    local -r tags="${1}"
+    local -r key="${2}"
+
+    jq \
+        --compact-output \
+        --raw-output \
+        --arg jqKey "${key}" \
+        '.["TagDescriptions"][] | .["Tags"] | map(select(.["Key"] == $jqKey))[] | .["Value"] // empty' \
+    <<< "${tags}"
+}
+
 function getLoadBalancerTags()
 {
     local -r loadBalancerName="${1}"
