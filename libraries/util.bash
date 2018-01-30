@@ -91,6 +91,11 @@ function getISO8601DateTimeNow()
     date -u +'%Y-%m-%dT%H:%M:%SZ'
 }
 
+function getUTCNowInSeconds()
+{
+    date -u +'%s'
+}
+
 function secondsToReadableTime()
 {
     local -r time="${1}"
