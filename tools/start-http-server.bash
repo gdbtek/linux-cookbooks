@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-#######################
-# MAIN IMPLEMENTATION #
-#######################
+##################
+# IMPLEMENTATION #
+##################
 
 function displayUsage()
 {
