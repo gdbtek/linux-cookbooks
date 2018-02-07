@@ -455,7 +455,7 @@ function isLoadBalancerFromStackName()
     checkNonEmptyString "${loadBalancerName}" 'undefined load balancer name'
     checkNonEmptyString "${stackName}" 'undefined stack name'
 
-    local loadBalancerStackName="$(
+    local -r loadBalancerStackName="$(
         aws elb describe-tags \
             --load-balancer-name "${loadBalancerName}" |
         jq \
@@ -472,10 +472,10 @@ function isLoadBalancerFromStackName()
 
     if [[ "$(isEmptyString "${loadBalancerStackName}")" = 'false' ]]
     then
-        echo 'true'
-    else
-        echo 'false'
+        echo 'true' && return 0
     fi
+
+    echo 'false' && return 1
 }
 
 function getLoadBalancerTag()

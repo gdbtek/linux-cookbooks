@@ -271,10 +271,10 @@ function isValidJSONContent()
 
     if ( python -m 'json.tool' <<< "${content}" &> '/dev/null' )
     then
-        echo 'true'
-    else
-        echo 'false'
+        echo 'true' && return 0
     fi
+
+    echo 'false' && return 1
 }
 
 function isValidJSONFile()
@@ -430,10 +430,10 @@ function existURL()
     if ( curl -f --head -L "${url}" -o '/dev/null' -s --retry 12 --retry-delay 5 ||
          curl -f -L "${url}" -o '/dev/null' -r 0-0 -s --retry 12 --retry-delay 5 )
     then
-        echo 'true'
-    else
-        echo 'false'
+        echo 'true' && return 0
     fi
+
+    echo 'false' && return 1
 }
 
 function getRemoteFileContent()
@@ -536,10 +536,10 @@ function isNaturalNumber()
 
     if [[ "${string}" =~ ^[0-9]+$ ]]
     then
-        echo 'true'
-    else
-        echo 'false'
+        echo 'true' && return 0
     fi
+
+    echo 'false' && return 1
 }
 
 #####################
@@ -716,10 +716,10 @@ function isAptGetPackageInstall()
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function isPIPPackageInstall()
@@ -741,10 +741,10 @@ function isPIPPackageInstall()
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function runAptGetUpdate()
@@ -961,10 +961,10 @@ function invertTrueFalseString()
 
     if [[ "${string}" = 'true' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function isEmptyString()
@@ -973,10 +973,10 @@ function isEmptyString()
 
     if [[ "$(trimString "${string}")" = '' ]]
     then
-        echo 'true'
-    else
-        echo 'false'
+        echo 'true' && return 0
     fi
+
+    echo 'false' && return 1
 }
 
 function removeEmptyLines()
@@ -1427,10 +1427,10 @@ function existCommand()
 
     if [[ "$(which "${command}" 2> '/dev/null')" = '' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function existDisk()
@@ -1441,10 +1441,10 @@ function existDisk()
 
     if [[ "$(isEmptyString "${disk}")" = 'false' && "$(isEmptyString "${foundDisk}")" = 'false' ]]
     then
-        echo 'true'
-    else
-        echo 'false'
+        echo 'true' && return 0
     fi
+
+    echo 'false' && return 1
 }
 
 function existDiskMount()
@@ -1456,10 +1456,10 @@ function existDiskMount()
 
     if [[ "$(isEmptyString "${foundMount}")" = 'true' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function existGroupName()
@@ -1468,10 +1468,10 @@ function existGroupName()
 
     if [[ "$(grep -E -o "^${group}:" '/etc/group')" = '' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function existModule()
@@ -1482,10 +1482,10 @@ function existModule()
 
     if [[ "$(lsmod | awk '{ print $1 }' | grep -F -o "${module}")" = '' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function existMount()
@@ -1496,10 +1496,10 @@ function existMount()
 
     if [[ "$(isEmptyString "${foundMount}")" = 'true' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function existUserLogin()
@@ -1508,10 +1508,10 @@ function existUserLogin()
 
     if ( id -u "${user}" > '/dev/null' 2>&1 )
     then
-        echo 'true'
-    else
-        echo 'false'
+        echo 'true' && return 0
     fi
+
+    echo 'false' && return 1
 }
 
 function generateUserSSHKey()
@@ -1676,10 +1676,10 @@ function isDistributor()
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function isLinuxOperatingSystem()
@@ -1695,10 +1695,10 @@ function isMachineHardware()
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function isMacOperatingSystem()
@@ -1714,10 +1714,10 @@ function isOperatingSystem()
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function isPortOpen()
@@ -1743,10 +1743,10 @@ function isPortOpen()
 
     if [[ "$(isEmptyString "${process}")" = 'true' ]]
     then
-        echo 'false'
-    else
-        echo 'true'
+        echo 'false' && return 1
     fi
+
+    echo 'true' && return 0
 }
 
 function isRedHatDistributor()
@@ -1767,17 +1767,12 @@ function isUserLoginInGroupName()
     checkNonEmptyString "${userLogin}" 'undefined user login'
     checkNonEmptyString "${groupName}" 'undefined group name'
 
-    if [[ "$(existUserLogin "${userLogin}")" = 'true' ]]
+    if [[ "$(existUserLogin "${userLogin}")" = 'true' ]] && [[ "$(groups "${userLogin}" | grep "\b${groupName}\b")" != '' ]]
     then
-        if [[ "$(groups "${userLogin}" | grep "\b${groupName}\b")" = '' ]]
-        then
-            echo 'false'
-        else
-            echo 'true'
-        fi
-    else
-        echo 'false'
+        echo 'true' && return 0
     fi
+
+    echo 'false' && return 1
 }
 
 function remountTMP()
