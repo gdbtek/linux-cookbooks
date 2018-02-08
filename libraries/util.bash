@@ -144,14 +144,12 @@ function appendToFileIfNotFound()
 
     # Append String
 
-    local grepOptions=('-F' '-o')
-
     if [[ "${patternAsRegex}" = 'true' ]]
     then
-        grepOptions=('-E' '-o')
+        local -r found="$(grep -E -o "${pattern}" "${file}")"
+    else
+        local -r found="$(grep -F -o "${pattern}" "${file}")"
     fi
-
-    local -r found="$(grep "${grepOptions[@]}" "${pattern}" "${file}")"
 
     if [[ "$(isEmptyString "${found}")" = 'true' ]]
     then
@@ -225,7 +223,7 @@ function createFileFromTemplate()
     checkExistFile "${sourceFile}"
     checkExistFolder "$(dirname "${destinationFile}")"
 
-    local content
+    local content=''
     content="$(cat "${sourceFile}")"
 
     local i=0
@@ -1256,7 +1254,8 @@ function checkRequirePorts()
 
     for port in "${ports[@]}"
     do
-        local found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
+        local found=''
+        found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]
         then
