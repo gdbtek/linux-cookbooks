@@ -1576,16 +1576,13 @@ function getProfileFilePath()
     then
         local -r bashProfileFilePath="${userHome}/.bash_profile"
         local -r profileFilePath="${userHome}/.profile"
-        local defaultStartUpFilePath="${bashProfileFilePath}"
 
         if [[ ! -f "${bashProfileFilePath}" && -f "${profileFilePath}" ]]
         then
-            defaultStartUpFilePath="${profileFilePath}"
+            echo "${profileFilePath}"
+        else
+            echo "${bashProfileFilePath}"
         fi
-
-        echo "${defaultStartUpFilePath}"
-    else
-        echo
     fi
 }
 
