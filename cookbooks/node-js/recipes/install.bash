@@ -18,6 +18,7 @@ function resetOwnerAndSymlinkLocalBin()
 {
     chown -R "$(whoami):$(whoami)" "${NODE_JS_INSTALL_FOLDER_PATH}"
     symlinkLocalBin "${NODE_JS_INSTALL_FOLDER_PATH}/bin"
+    ln -f -s "${NODE_JS_INSTALL_FOLDER_PATH}/bin/node" '/usr/bin/node'
 }
 
 function install()
