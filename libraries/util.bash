@@ -1747,12 +1747,12 @@ function isPortOpen()
 
 function isRedHatDistributor()
 {
-    isDistributor 'Red Hat'
+    isDistributor 'redhat'
 }
 
 function isUbuntuDistributor()
 {
-    isDistributor 'Ubuntu'
+    isDistributor 'ubuntu'
 }
 
 function isUserLoginInGroupName()
