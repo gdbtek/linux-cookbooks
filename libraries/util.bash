@@ -1255,7 +1255,7 @@ function checkRequirePorts()
     for port in "${ports[@]}"
     do
         local found=''
-        found="$(grep -i ":${port} (LISTEN)$" <<< "${status}")"
+        found="$(grep -i ":${port} (LISTEN)$" <<< "${status}" || echo)"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]
         then
