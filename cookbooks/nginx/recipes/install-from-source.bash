@@ -81,7 +81,7 @@ function main()
     APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
+    source "${APP_FOLDER_PATH}/../attributes/source.bash"
 
     checkRequireLinuxSystem
     checkRequireRootUser
