@@ -24,10 +24,11 @@ function arrayToStringWithDelimiter()
 function isElementInArray()
 {
     local -r element="${1}"
+    local -r array=("${@:2}")
 
     local walker=''
 
-    for walker in "${@:2}"
+    for walker in "${array[@]}"
     do
         [[ "${walker}" = "${element}" ]] && echo 'true' && return 0
     done
