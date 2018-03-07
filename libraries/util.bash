@@ -541,6 +541,18 @@ function isNaturalNumber()
     echo 'false' && return 1
 }
 
+function isPositiveInteger()
+{
+    local -r string="${1}"
+
+    if [[ "${string}" =~ ^[1-9]+$ ]]
+    then
+        echo 'true' && return 0
+    fi
+
+    echo 'false' && return 1
+}
+
 #####################
 # PACKAGE UTILITIES #
 #####################
@@ -1048,7 +1060,7 @@ function repeatString()
     local -r string="${1}"
     local -r numberToRepeat="${2}"
 
-    if [[ "$(isEmptyString "${string}")" = 'false' && "$(isNaturalNumber "${numberToRepeat}")" = 'true' && "${numberToRepeat}" -gt '0' ]]
+    if [[ "${string}" != '' && "$(isPositiveInteger "${numberToRepeat}")" = 'true' ]]
     then
         local -r result="$(printf "%${numberToRepeat}s")"
         echo -e "${result// /${string}}"
