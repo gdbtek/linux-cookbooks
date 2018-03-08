@@ -545,7 +545,7 @@ function isPositiveInteger()
 {
     local -r string="${1}"
 
-    if [[ "${string}" =~ ^[1-9]+$ ]]
+    if [[ "${string}" =~ ^[1-9][0-9]*$ ]]
     then
         echo 'true' && return 0
     fi
