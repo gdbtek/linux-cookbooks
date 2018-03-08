@@ -2,7 +2,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../pcre/attributes/default.bash"
 
-export HAPROXY_DOWNLOAD_URL='http://www.haproxy.org/download/1.7/src/haproxy-1.7.10.tar.gz'
+export HAPROXY_DOWNLOAD_URL='http://www.haproxy.org/download/1.8/src/haproxy-1.8.4.tar.gz'
 
 export HAPROXY_INSTALL_FOLDER_PATH='/opt/haproxy'
 

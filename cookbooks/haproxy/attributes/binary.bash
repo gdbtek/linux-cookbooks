@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-export HAPROXY_VERSION='1.7'
+export HAPROXY_VERSION='1.8'
