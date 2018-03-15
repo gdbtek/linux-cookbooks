@@ -21,6 +21,24 @@ function arrayToStringWithDelimiter()
     echo "${string:0:${#string} - ${#delimiter}}"
 }
 
+function excludeElementFromArray()
+{
+    local -r element="${1}"
+    local array=("${@:2}")
+
+    local i=0
+
+    for ((i = 0; i < ${#array[@]}; i = i + 1))
+    do
+        if [[ "${array[i]}" = "${element}" ]]
+        then
+            unset array['${i}']
+        fi
+    done
+
+    echo "${array[@]}"
+}
+
 function isElementInArray()
 {
     local -r element="${1}"

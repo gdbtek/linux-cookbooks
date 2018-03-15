@@ -53,11 +53,23 @@ function associateElasticPublicIPWithInstanceID()
 {
     local -r elasticPublicIP="${1}"
     local -r instanceID="${2}"
+    local region="${3}"
+
+    # Set Default Value
+
+    if [[ "$(isEmptyString "${region}")" = 'true' ]]
+    then
+        region="$(getInstanceRegion)"
+    fi
+
+    # Validate Values
 
     checkNonEmptyString "${elasticPublicIP}" 'undefined elastic public ip'
     checkNonEmptyString "${instanceID}" 'undefined instance id'
 
-    local -r allocationID="$(getEC2ElasticAllocationIDByElasticPublicIP "${elasticPublicIP}")"
+    # Associate Elastic Public IP
+
+    local -r allocationID="$(getEC2ElasticAllocationIDByElasticPublicIP "${elasticPublicIP}" "${region}")"
 
     checkNonEmptyString "${allocationID}" 'undefined allocation id'
 
@@ -65,7 +77,7 @@ function associateElasticPublicIPWithInstanceID()
         --allocation-id "${allocationID}" \
         --allow-reassociation \
         --instance-id "${instanceID}" \
-        --region "$(getInstanceRegion)"
+        --region "${region}"
 }
 
 function associateElasticPublicIPWithThisInstanceID()
@@ -78,15 +90,94 @@ function associateElasticPublicIPWithThisInstanceID()
 function getEC2ElasticAllocationIDByElasticPublicIP()
 {
     local -r elasticPublicIP="${1}"
+    local region="${3}"
+
+    # Set Default Value
+
+    if [[ "$(isEmptyString "${region}")" = 'true' ]]
+    then
+        region="$(getInstanceRegion)"
+    fi
 
     checkNonEmptyString "${elasticPublicIP}" 'undefined elastic public ip'
+
+    # Get EC2 Elastic Allocation ID
 
     aws ec2 describe-addresses \
         --output 'text' \
         --public-ips "${elasticPublicIP}" \
         --query 'Addresses[0].[AllocationId]' \
-        --region "$(getInstanceRegion)" \
+        --region "${region}" \
     2> '/dev/null'
+}
+
+function getEC2PrivateIpAddressByInstanceID()
+{
+    local -r instanceID="${1}"
+    local region="${2}"
+
+    # Set Default Value
+
+    if [[ "$(isEmptyString "${region}")" = 'true' ]]
+    then
+        region="$(getInstanceRegion)"
+    fi
+
+    # Get Private IP
+
+    if [[ "$(isEmptyString "${instanceID}")" = 'true' ]]
+    then
+        curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/local-ipv4'
+    else
+        aws ec2 describe-instances \
+            --instance-id "${instanceID}" \
+            --output 'text' \
+            --query 'Reservations[*].Instances[*].PrivateIpAddress' \
+            --region "${region}"
+    fi
+}
+
+function getEC2PrivateIpAddresses()
+{
+    local excludeCurrentInstance="${1}"
+    local vpcID="${2}"
+    local region="${3}"
+
+    # Set Default Values
+
+    if [[ "${excludeCurrentInstance}" != 'true' ]]
+    then
+        excludeCurrentInstance='false'
+    fi
+
+    if [[ "$(isEmptyString "${vpcID}")" = 'true' ]]
+    then
+        vpcID="$(getInstanceVPCID)"
+    fi
+
+    if [[ "$(isEmptyString "${region}")" = 'true' ]]
+    then
+        region="$(getInstanceRegion)"
+    fi
+
+    # Get Instances
+
+    local -r instances=($(
+        aws ec2 describe-instances \
+            --filters \
+                'Name=instance-state-name,Values=pending,running' \
+                "Name=vpc-id,Values=${vpcID}" \
+            --output 'text' \
+            --query 'Reservations[*].Instances[*].PrivateIpAddress' \
+            --region "${region}"
+    ))
+
+    if [[ "${excludeCurrentInstance}" = 'true' ]]
+    then
+        excludeElementFromArray "$(getEC2PrivateIpAddressByInstanceID)" "${instances[@]}"
+    else
+        echo "${instances[@]}"
+    fi
 }
 
 function getKeyPairFingerPrintByName()

@@ -67,21 +67,24 @@ function runCommands()
 
     for address in "${addresses[@]}"
     do
-        header "${address}"
-
-        if [[ "$(isEmptyString "${loginName}")" = 'true' ]]
+        if [[ "$(isEmptyString "${address}")" = 'false' ]]
         then
-            ssh "${identityOption[@]}" \
-                -o 'IdentitiesOnly yes' \
-                -o "ConnectionAttempts ${SSH_CONNECTION_ATTEMPTS}" \
-                -o "ConnectTimeout ${SSH_CONNECTION_TIMEOUT_IN_SECONDS}" \
-                -n "${address}" "${prompt} && ${commands}" || true
-        else
-            ssh "${identityOption[@]}" \
-                -o 'IdentitiesOnly yes' \
-                -o "ConnectionAttempts ${SSH_CONNECTION_ATTEMPTS}" \
-                -o "ConnectTimeout ${SSH_CONNECTION_TIMEOUT_IN_SECONDS}" \
-                -n "${loginName}@${address}" "${prompt} && ${commands}" || true
+            header "${address}"
+
+            if [[ "$(isEmptyString "${loginName}")" = 'true' ]]
+            then
+                ssh "${identityOption[@]}" \
+                    -o 'IdentitiesOnly yes' \
+                    -o "ConnectionAttempts ${SSH_CONNECTION_ATTEMPTS}" \
+                    -o "ConnectTimeout ${SSH_CONNECTION_TIMEOUT_IN_SECONDS}" \
+                    -n "${address}" "${prompt} && ${commands}" || true
+            else
+                ssh "${identityOption[@]}" \
+                    -o 'IdentitiesOnly yes' \
+                    -o "ConnectionAttempts ${SSH_CONNECTION_ATTEMPTS}" \
+                    -o "ConnectTimeout ${SSH_CONNECTION_TIMEOUT_IN_SECONDS}" \
+                    -n "${loginName}@${address}" "${prompt} && ${commands}" || true
+            fi
         fi
     done
 }
