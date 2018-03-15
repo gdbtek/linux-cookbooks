@@ -4,8 +4,8 @@
 # CONSTANTS #
 #############
 
-SSH_CONNECTION_ATTEMPTS='5'
-SSH_CONNECTION_TIMEOUT_IN_SECONDS='10'
+SSH_CONNECTION_ATTEMPTS='3'
+SSH_CONNECTION_TIMEOUT_IN_SECONDS='5'
 
 ##################
 # IMPLEMENTATION #
@@ -46,7 +46,7 @@ function runCommands()
     local -r identityFile="${1}"
     local -r loginName="${2}"
     local -r commands="${3}"
-    local -r addresses=("${@:4}")
+    local -r addresses=($(sortUniqArray "${@:4}"))
 
     # Built Prompt
 
@@ -75,13 +75,13 @@ function runCommands()
                 -o 'IdentitiesOnly yes' \
                 -o "ConnectionAttempts ${SSH_CONNECTION_ATTEMPTS}" \
                 -o "ConnectTimeout ${SSH_CONNECTION_TIMEOUT_IN_SECONDS}" \
-                -n "${address}" "${prompt} && ${commands}"
+                -n "${address}" "${prompt} && ${commands}" || true
         else
             ssh "${identityOption[@]}" \
                 -o 'IdentitiesOnly yes' \
                 -o "ConnectionAttempts ${SSH_CONNECTION_ATTEMPTS}" \
                 -o "ConnectTimeout ${SSH_CONNECTION_TIMEOUT_IN_SECONDS}" \
-                -n "${loginName}@${address}" "${prompt} && ${commands}"
+                -n "${loginName}@${address}" "${prompt} && ${commands}" || true
         fi
     done
 }
