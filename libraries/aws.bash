@@ -146,7 +146,7 @@ function getEC2PrivateIpAddresses()
 
     # Set Default Values
 
-    if [[ "${namePattern}" = 'true' ]]
+    if [[ "$(isEmptyString "${namePattern}")" = 'true' ]]
     then
         namePattern='*'
     fi
