@@ -61,7 +61,7 @@ function runCommands()
         identityOption=('-i' "${identityFile}")
     fi
 
-    # Machine Walker
+    # Address Walker
 
     local address=''
 
