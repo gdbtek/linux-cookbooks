@@ -139,11 +139,17 @@ function getEC2PrivateIpAddressByInstanceID()
 
 function getEC2PrivateIpAddresses()
 {
-    local excludeCurrentInstance="${1}"
-    local vpcID="${2}"
-    local region="${3}"
+    local namePattern="${1}"
+    local excludeCurrentInstance="${2}"
+    local vpcID="${3}"
+    local region="${4}"
 
     # Set Default Values
+
+    if [[ "${namePattern}" = 'true' ]]
+    then
+        namePattern='*'
+    fi
 
     if [[ "${excludeCurrentInstance}" != 'true' ]]
     then
@@ -166,6 +172,7 @@ function getEC2PrivateIpAddresses()
         aws ec2 describe-instances \
             --filters \
                 'Name=instance-state-name,Values=pending,running' \
+                "Name=tag:Name,Values=${namePattern}" \
                 "Name=vpc-id,Values=${vpcID}" \
             --output 'text' \
             --query 'Reservations[*].Instances[*].PrivateIpAddress' \
