@@ -21,31 +21,31 @@ function displayUsage()
     echo    '    --help'
     echo    '    --identity-file    <IDENTITY_FILE>'
     echo    '    --login-name       <LOGIN_NAME>'
-    echo    '    --commands         <COMMANDS>'
-    echo    '    --addresses        <ADDRESSES>'
+    echo    '    --command          <COMMAND>'
+    echo    '    --address          <ADDRESS>'
     echo -e '\033[1;35m'
     echo    'DESCRIPTION :'
     echo    '  --help             Help page (optional)'
     echo    '  --identity-file    Path to identity file (optional)'
     echo    '  --login-name       Login name (optional)'
-    echo    '  --commands         Commands that will be run in remote servers (require)'
-    echo    '  --addresses        Server addresses seperated by spaces or commas (require)'
+    echo    '  --command          Command that will be run in remote servers (require)'
+    echo    '  --address          List of server address seperated by spaces or commas (require)'
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
-    echo    "  ./${scriptName} --commands 'date' --addresses '1.2.3.4, 5.6.7.7'"
-    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --commands 'ntpstat' --addresses '1.2.3.4, 5.6.7.7'"
-    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --commands 'chronyc tracking' --addresses '1.2.3.4, 5.6.7.7'"
+    echo    "  ./${scriptName} --command 'date' --address '1.2.3.4, 5.6.7.7'"
+    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --command 'ntpstat' --address '1.2.3.4, 5.6.7.7'"
+    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --command 'chronyc tracking' --address '1.2.3.4, 5.6.7.7'"
     echo -e '\033[0m'
 
     exit "${1}"
 }
 
-function runCommands()
+function runCommand()
 {
     local -r identityFile="${1}"
     local -r loginName="${2}"
-    local -r commands="${3}"
+    local -r command="${3}"
     local -r addresses=($(sortUniqArray "${@:4}"))
 
     # Built Prompt
@@ -77,13 +77,13 @@ function runCommands()
                     -o 'IdentitiesOnly yes' \
                     -o "ConnectionAttempts ${SSH_CONNECTION_ATTEMPTS}" \
                     -o "ConnectTimeout ${SSH_CONNECTION_TIMEOUT_IN_SECONDS}" \
-                    -n "${address}" "${prompt} && ${commands}" || true
+                    -n "${address}" "${prompt} && ${command}" || true
             else
                 ssh "${identityOption[@]}" \
                     -o 'IdentitiesOnly yes' \
                     -o "ConnectionAttempts ${SSH_CONNECTION_ATTEMPTS}" \
                     -o "ConnectTimeout ${SSH_CONNECTION_TIMEOUT_IN_SECONDS}" \
-                    -n "${loginName}@${address}" "${prompt} && ${commands}" || true
+                    -n "${loginName}@${address}" "${prompt} && ${command}" || true
             fi
         fi
     done
@@ -128,22 +128,22 @@ function main()
 
                 ;;
 
-            --commands)
+            --command)
                 shift
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local commands="$(trimString "${1}")"
+                    local command="$(trimString "${1}")"
                 fi
 
                 ;;
 
-            --addresses)
+            --address)
                 shift
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local addresses="$(replaceString "${1}" ',' ' ')"
+                    local address="$(replaceString "${1}" ',' ' ')"
                 fi
 
                 ;;
@@ -161,9 +161,14 @@ function main()
         displayUsage 0
     fi
 
-    # Start Run Remote Commands
+    # Validate Arguments
 
-    runCommands "${identityFile}" "${loginName}" "${commands}" "${addresses}"
+    checkNonEmptyString "${command}" 'undefined command'
+    checkNonEmptyString "${address}" 'undefined address'
+
+    # Start Run Remote Command
+
+    runCommand "${identityFile}" "${loginName}" "${command}" "${address}"
 }
 
 main "${@}"
