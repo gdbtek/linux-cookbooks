@@ -33,9 +33,9 @@ function displayUsage()
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
-    echo    "  ./${scriptName} --command 'date' --address '1.2.3.4, 5.6.7.7'"
-    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --command 'ntpstat' --address '1.2.3.4, 5.6.7.7'"
-    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --command 'chronyc tracking' --address '1.2.3.4, 5.6.7.7'"
+    echo    "  ./${scriptName} --command 'date' --address '1.2.3.4, 5.6.7.8'"
+    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --command 'ntpstat' --address '1.2.3.4, 5.6.7.8'"
+    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --command 'chronyc tracking' --address '1.2.3.4, 5.6.7.8'"
     echo -e '\033[0m'
 
     exit "${1}"
