@@ -722,6 +722,11 @@ function getAvailabilityZonesByVPCName()
         'unique | .[] // empty'
 }
 
+function getCurrentVPCCIDRBlock()
+{
+    curl -s --retry 12 --retry-delay 5 "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-ipv4-cidr-block"
+}
+
 function getIPV4CIDRByVPCName()
 {
     local -r vpcName="${1}"
