@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-export MYSQL_DOWNLOAD_URL='http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz'
+export MYSQL_DOWNLOAD_URL='http://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.11-linux-glibc2.12-x86_64.tar.gz'
 
 export MYSQL_INSTALL_FOLDER_PATH='/opt/mysql'
 
