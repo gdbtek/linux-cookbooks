@@ -15,7 +15,6 @@ export APT_ESSENTIAL_PACKAGES=(
     'rsync'
     'screen'
     'software-properties-common'
-    'sysv-rc-conf'
     'tree'
     'unzip'
     'w3m'
