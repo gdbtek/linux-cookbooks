@@ -38,7 +38,6 @@ function main()
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/install-master.bash"
     "${appFolderPath}/../../../../../../../cookbooks/jenkins/recipes/safe-restart-master.bash"
     "${appFolderPath}/../../../../../../../cookbooks/packer/recipes/install.bash"
-    "${appFolderPath}/../../../../../../../cookbooks/phantom-js/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/porter/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/ps1/recipes/install.bash" --host-name "${hostName}" --users "${JENKINS_USER_NAME}, $(whoami)"
     "${appFolderPath}/../../../../../../../cookbooks/secret-server-console/recipes/install.bash"
