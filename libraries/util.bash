@@ -221,6 +221,18 @@ function copyFolderContent()
     cd "${currentPath}"
 }
 
+function createAbsoluteBin()
+{
+    local -r binFileName="${1}"
+    local -r sourceFilePath="${2}"
+
+    checkExistFile "${sourceFilePath}"
+
+    mkdir -p '/usr/bin'
+    printf "#!/bin/bash -e\n\n'%s' \"\${@}\"" "${sourceFilePath}" > "/usr/bin/${binFileName}"
+    chmod 755 "/usr/bin/${binFileName}"
+}
+
 function createAbsoluteLocalBin()
 {
     local -r localBinFileName="${1}"
