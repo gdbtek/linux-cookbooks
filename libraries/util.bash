@@ -1937,6 +1937,7 @@ function startService()
         header "STARTING SERVICE ${serviceName}"
 
         service "${serviceName}" start
+        service "${serviceName}" status
     fi
 }
 
@@ -1955,6 +1956,6 @@ function stopService()
     else
         header "STOPPING SERVICE ${serviceName}"
 
-        service "${serviceName}" stop
+        service "${serviceName}" stop || true
     fi
 }
