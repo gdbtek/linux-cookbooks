@@ -1925,12 +1925,19 @@ function startService()
 
     checkNonEmptyString "${serviceName}" 'undefined service name'
 
-    header "STARTING SYSTEMD SERVICE ${serviceName}"
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        header "STARTING SYSTEMD SERVICE ${serviceName}"
 
-    systemctl daemon-reload
-    systemctl start "${serviceName}"
-    systemctl status "${serviceName}" --full --no-pager
-    systemctl enable "${serviceName}"
+        systemctl daemon-reload
+        systemctl start "${serviceName}"
+        systemctl status "${serviceName}" --full --no-pager
+        systemctl enable "${serviceName}"
+    else
+        header "STARTING SERVICE ${serviceName}"
+
+        service "${serviceName}" start
+    fi
 }
 
 function stopService()
@@ -1939,8 +1946,15 @@ function stopService()
 
     checkNonEmptyString "${serviceName}" 'undefined service name'
 
-    header "STOPPING SYSTEMD SERVICE ${serviceName}"
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        header "STOPPING SYSTEMD SERVICE ${serviceName}"
 
-    systemctl daemon-reload
-    systemctl stop "${serviceName}"
+        systemctl daemon-reload
+        systemctl stop "${serviceName}"
+    else
+        header "STOPPING SERVICE ${serviceName}"
+
+        service "${serviceName}" stop
+    fi
 }
