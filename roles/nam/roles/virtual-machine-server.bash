@@ -19,7 +19,7 @@ function main()
     if [[ "$(existUserLogin "${firstLoginUser}")" = 'true' ]]
     then
         addUserToSudoWithoutPassword "${firstLoginUser}"
-        autoSudo "${firstLoginUser}" '.profile'
+        autoSudo "${firstLoginUser}" "$(getProfileFilePath "${firstLoginUser}")"
         addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../files/authorized_keys")"
     fi
 
