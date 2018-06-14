@@ -16,7 +16,7 @@ function autoSudo()
 
 function setupRepository()
 {
-    local -r repositoryPath='/opt/git/github.com/gdbtek'
+    local -r repositoryPath='/opt'
 
     header 'SETTING UP REPOSITORY'
 
