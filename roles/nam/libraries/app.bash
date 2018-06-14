@@ -38,7 +38,7 @@ function updateRepositoryOnLogin()
 
     header 'UPDATING REPOSITORY ON LOGIN'
 
-    local -r command='cd /opt/git/github.com/gdbtek/linux-cookbooks/cookbooks && git pull'
+    local -r command='cd /opt/linux-cookbooks/cookbooks && git pull'
 
     appendToFileIfNotFound "$(getProfileFilePath "${userLogin}")" "${command}" "${command}" 'false' 'false' 'true'
 }
