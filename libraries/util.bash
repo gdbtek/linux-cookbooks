@@ -1433,7 +1433,6 @@ function cleanUpSystemFolders()
 
     local -r folders=(
         '/tmp'
-        '/var/cache'
         '/var/tmp'
     )
 
