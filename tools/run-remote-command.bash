@@ -21,21 +21,21 @@ function displayUsage()
     echo    '    --help'
     echo    '    --identity-file    <IDENTITY_FILE>'
     echo    '    --login-name       <LOGIN_NAME>'
-    echo    '    --command          <COMMAND>'
     echo    '    --address          <ADDRESS>'
+    echo    '    --command          <COMMAND>'
     echo -e '\033[1;35m'
     echo    'DESCRIPTION :'
     echo    '  --help             Help page (optional)'
     echo    '  --identity-file    Path to identity file (optional)'
     echo    '  --login-name       Login name (optional)'
-    echo    '  --command          Command that will be run in remote servers (require)'
     echo    '  --address          List of server address seperated by spaces or commas (require)'
+    echo    '  --command          Command that will be run in remote servers (require)'
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
-    echo    "  ./${scriptName} --command 'date' --address '1.2.3.4, 5.6.7.8'"
-    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --command 'ntpstat' --address '1.2.3.4, 5.6.7.8'"
-    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --command 'chronyc tracking' --address '1.2.3.4, 5.6.7.8'"
+    echo    "  ./${scriptName} --address '1.2.3.4, 5.6.7.8' --command 'date'"
+    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --address '1.2.3.4, 5.6.7.8' --command 'ntpstat'"
+    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --address '1.2.3.4, 5.6.7.8' --command 'chronyc tracking'"
     echo -e '\033[0m'
 
     exit "${1}"
@@ -128,22 +128,22 @@ function main()
 
                 ;;
 
-            --command)
-                shift
-
-                if [[ "${#}" -gt '0' ]]
-                then
-                    local command="$(trimString "${1}")"
-                fi
-
-                ;;
-
             --address)
                 shift
 
                 if [[ "${#}" -gt '0' ]]
                 then
                     local address="$(replaceString "${1}" ',' ' ')"
+                fi
+
+                ;;
+
+            --command)
+                shift
+
+                if [[ "${#}" -gt '0' ]]
+                then
+                    local command="$(trimString "${1}")"
                 fi
 
                 ;;
@@ -163,8 +163,8 @@ function main()
 
     # Validate Arguments
 
-    checkNonEmptyString "${command}" 'undefined command'
     checkNonEmptyString "${address}" 'undefined address'
+    checkNonEmptyString "${command}" 'undefined command'
 
     # Start Run Remote Command
 
