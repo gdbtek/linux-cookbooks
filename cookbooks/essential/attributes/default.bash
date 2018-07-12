@@ -11,6 +11,7 @@ export APT_ESSENTIAL_PACKAGES=(
     'lsb-release'
     'lsof'
     'mtr-tiny'
+    'ncdu'
     'net-tools'
     'netcat'
     'rsync'
