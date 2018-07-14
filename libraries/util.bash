@@ -1907,13 +1907,13 @@ function resetLogs()
 
     find '/var/log' \
         -type f \
-            \( \
-                -regex '.*-[0-9]+' -o \
-                -regex '.*\.[0-9]+' -o \
-                -regex '.*\.[0-9]+\.gz' -o \
-                -regex '.*\.xz' -o \
-                -regex '.*\.old' \
-            \) \
+        \( \
+            -regex '.*-[0-9]+' -o \
+            -regex '.*\.[0-9]+' -o \
+            -regex '.*\.[0-9]+\.gz' -o \
+            -regex '.*\.xz' -o \
+            -regex '.*\.old' \
+        \) \
         -delete \
         -print
 
