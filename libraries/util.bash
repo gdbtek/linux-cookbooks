@@ -14,9 +14,9 @@ function arrayToString()
 function arrayToStringWithDelimiter()
 {
     local -r delimiter="${1}"
-    local -r array=("${@:2}")
+    local -r list=("${@:2}")
 
-    local -r string="$(printf "%s${delimiter}" "${array[@]}")"
+    local -r string="$(printf "%s${delimiter}" "${list[@]}")"
 
     echo "${string:0:${#string} - ${#delimiter}}"
 }
