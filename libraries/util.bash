@@ -249,7 +249,7 @@ function createFileFromTemplate()
 {
     local -r sourceFile="${1}"
     local -r destinationFile="${2}"
-    local -r data=("${@:3}")
+    local -r oldNewData=("${@:3}")
 
     checkExistFile "${sourceFile}"
     checkExistFolder "$(dirname "${destinationFile}")"
@@ -259,9 +259,9 @@ function createFileFromTemplate()
 
     local i=0
 
-    for ((i = 0; i < ${#data[@]}; i = i + 2))
+    for ((i = 0; i < ${#oldNewData[@]}; i = i + 2))
     do
-        content="$(replaceString "${content}" "${data[${i}]}" "${data[${i} + 1]}")"
+        content="$(replaceString "${content}" "${oldNewData[${i}]}" "${oldNewData[${i} + 1]}")"
     done
 
     echo "${content}" > "${destinationFile}"
@@ -637,7 +637,7 @@ function installCleanUp()
 
 function installCommands()
 {
-    local -r data=("${@}")
+    local -r commandPackageData=("${@}")
 
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
@@ -646,10 +646,10 @@ function installCommands()
 
     local i=0
 
-    for ((i = 0; i < ${#data[@]}; i = i + 2))
+    for ((i = 0; i < ${#commandPackageData[@]}; i = i + 2))
     do
-        local command="${data[${i}]}"
-        local package="${data[${i} + 1]}"
+        local command="${commandPackageData[${i}]}"
+        local package="${commandPackageData[${i} + 1]}"
 
         checkNonEmptyString "${command}" 'undefined command'
         checkNonEmptyString "${package}" 'undefined package'
@@ -1023,11 +1023,11 @@ function isEmptyString()
 function printTable()
 {
     local -r delimiter="${1}"
-    local -r data="$(removeEmptyLines "${2}")"
+    local -r tableData="$(removeEmptyLines "${2}")"
 
-    if [[ "${delimiter}" != '' && "$(isEmptyString "${data}")" = 'false' ]]
+    if [[ "${delimiter}" != '' && "$(isEmptyString "${tableData}")" = 'false' ]]
     then
-        local -r numberOfLines="$(wc -l <<< "${data}")"
+        local -r numberOfLines="$(wc -l <<< "${tableData}")"
 
         if [[ "${numberOfLines}" -gt '0' ]]
         then
@@ -1037,7 +1037,7 @@ function printTable()
             for ((i = 1; i <= "${numberOfLines}"; i = i + 1))
             do
                 local line=''
-                line="$(sed "${i}q;d" <<< "${data}")"
+                line="$(sed "${i}q;d" <<< "${tableData}")"
 
                 local numberOfColumns='0'
                 numberOfColumns="$(awk -F "${delimiter}" '{print NF}' <<< "${line}")"
