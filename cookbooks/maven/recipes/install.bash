@@ -23,7 +23,7 @@ function install()
     # Config Lib
 
     chown -R "$(whoami):$(whoami)" "${MAVEN_INSTALL_FOLDER_PATH}"
-    ln -f -s "${MAVEN_INSTALL_FOLDER_PATH}/bin/mvn" '/usr/local/bin/mvn'
+    ln -f -s "${MAVEN_INSTALL_FOLDER_PATH}/bin/mvn" '/usr/bin/mvn'
 
     # Config Profile
 
