@@ -1630,6 +1630,7 @@ function generateSSHPublicKeyFromPrivateKey()
 {
     local -r userLogin="${1}"
     local groupName="${2}"
+    local validateGroupName="${3}"
 
     # Set Default
 
@@ -1638,10 +1639,19 @@ function generateSSHPublicKeyFromPrivateKey()
         groupName="${userLogin}"
     fi
 
+    if [[ "$(isEmptyString "${validateGroupName}")" = 'true' ]]
+    then
+        validateGroupName='true'
+    fi
+
     # Validate Input
 
     checkExistUserLogin "${userLogin}"
-    checkExistGroupName "${groupName}"
+
+    if [[ "${validateGroupName}" != 'false' ]]
+    then
+        checkExistGroupName "${groupName}"
+    fi
 
     local -r userHome="$(getUserHomeFolder "${userLogin}")"
 
