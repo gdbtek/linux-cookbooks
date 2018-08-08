@@ -8,7 +8,17 @@ function install()
 
     if [[ "$(isUbuntuDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
+        if [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+        then
+            setenforce 0
+        fi
+
         timedatectl set-timezone "${CHRONY_TIME_ZONE}"
+
+        if [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+        then
+            setenforce 1
+        fi
     else
         fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
