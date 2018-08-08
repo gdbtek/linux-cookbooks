@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+JENKINS_USER_NAME='jnknsprd'
+
 function main()
 {
     # Load Libraries
@@ -30,6 +32,10 @@ function main()
     "${appFolderPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_JENKINS_NODE_JS_VERSION}" "${CLOUD_JENKINS_NODE_JS_INSTALL_FOLDER_PATH}"
 
+    # Config SSH and GIT
+
+    generateSSHPublicKeyFromPrivateKey "${JENKINS_USER_NAME}" "$(getUserGroupName "${JENKINS_USER_NAME}")"
+
     # Clean Up
 
     cleanUpSystemFolders
@@ -37,7 +43,7 @@ function main()
 
     # Display Notice
 
-    displayNotice 'jnknsprd' 'true'
+    displayNotice "${JENKINS_USER_NAME}" 'true'
 }
 
 main "${@}"
