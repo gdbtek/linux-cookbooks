@@ -85,7 +85,13 @@ function install()
             if [[ ! -f "${profileFilePath}" ]]
             then
                 touch "${profileFilePath}"
-                chown "${user}:${user}" "${profileFilePath}"
+
+                if [[ "$(existGroupName "${user}")" = 'true' ]]
+                then
+                    chown "${user}:${user}" "${profileFilePath}"
+                else
+                    chown "${user}:$(getUserGroupName "${user}")" "${profileFilePath}"
+                fi
             fi
 
             appendToFileIfNotFound "${profileFilePath}" "${prompt}" "${prompt}" 'false' 'false' 'true'
