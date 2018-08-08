@@ -1662,7 +1662,7 @@ function generateSSHPublicKeyFromPrivateKey()
     header "GENERATING SSH PUBLIC KEY FOR USER '${userLogin}' FROM PRIVATE KEY"
 
     rm -f "${userHome}/.ssh/id_rsa.pub"
-    su -l "${userLogin}" -c "ssh-keygen -f '${userHome}/.ssh/id_rsa' -y '${userHome}/.ssh/id_rsa.pub'"
+    su -l "${userLogin}" -c "ssh-keygen -f '${userHome}/.ssh/id_rsa' -y > '${userHome}/.ssh/id_rsa.pub'"
     chmod 600 "${userHome}/.ssh/id_rsa.pub"
     chown "${userLogin}:${groupName}" "${userHome}/.ssh/id_rsa.pub"
 
