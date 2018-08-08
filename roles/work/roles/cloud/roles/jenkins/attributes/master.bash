@@ -11,6 +11,8 @@ export CLOUD_JENKINS_NODE_JS_VERSION='v8.11.3'
 
 export CLOUD_USERS=(
     'centos'
+    'jnknsprd'
+    'jnks4all'
     'namnguye'
     'pxtops'
     'root'
