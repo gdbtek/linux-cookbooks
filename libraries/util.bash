@@ -1433,6 +1433,7 @@ function cleanUpSystemFolders()
 
     local -r folders=(
         '/tmp'
+        '/var/cache/yum'
         '/var/tmp'
     )
 
@@ -1887,6 +1888,14 @@ function isUserLoginInGroupName()
     fi
 
     echo 'false' && return 1
+}
+
+function redirectJDKTMPDir()
+{
+    local -r option="_JAVA_OPTIONS='-Djava.io.tmpdir=/var/tmp'"
+
+    appendToFileIfNotFound '/etc/environment' "${option}" "${option}" 'false' 'false' 'true'
+    appendToFileIfNotFound '/etc/profile' "${option}" "${option}" 'false' 'false' 'true'
 }
 
 function remountTMP()
