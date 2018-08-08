@@ -34,7 +34,7 @@ function main()
 
     # Config SSH and GIT
 
-    generateSSHPublicKeyFromPrivateKey "${JENKINS_USER_NAME}" "$(getUserGroupName "${JENKINS_USER_NAME}")" 'false'
+    generateSSHPublicKeyFromPrivateKey "${JENKINS_USER_NAME}" 'users'
 
     # Clean Up
 
