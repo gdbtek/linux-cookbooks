@@ -34,7 +34,7 @@ function install()
 {
     local -r profileFileName="${1}"
     local -r hostName="${2}"
-    local users=(${3//,/ })
+    local userList=(${3//,/ })
 
     umask '0022'
 
@@ -48,16 +48,16 @@ function install()
 
     # Add Current User To List When Array Is Empty
 
-    if [[ "${#users[@]}" -lt '1' ]]
+    if [[ "${#userList[@]}" -lt '1' ]]
     then
-        users=("$(whoami)")
+        userList=("$(whoami)")
     fi
 
     # Update Prompt
 
     local user=''
 
-    for user in "${users[@]}"
+    for user in "${userList[@]}"
     do
         # Use Auto Detect Profile File Path Or Use Specified Profile File Name
 
@@ -137,7 +137,8 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local profileFileName="$(trimString "${1}")"
+                    local profileFileName=''
+                    profileFileName="$(trimString "${1}")"
                 fi
 
                 ;;
@@ -147,7 +148,8 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local hostName="$(trimString "${1}")"
+                    local hostName=''
+                    hostName="$(trimString "${1}")"
                 fi
 
                 ;;
@@ -157,7 +159,8 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local users="$(trimString "${1}")"
+                    local users=''
+                    users="$(trimString "${1}")"
                 fi
 
                 ;;

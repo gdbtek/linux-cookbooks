@@ -181,7 +181,7 @@ function getEC2PrivateIpAddresses()
 
     if [[ "${excludeCurrentInstance}" = 'true' ]]
     then
-        excludeElementFromArray "$(getEC2PrivateIpAddressByInstanceID)" "${instances[@]}"
+        excludeElementFromArray "$(getEC2PrivateIpAddressByInstanceID '' '')" "${instances[@]}"
     else
         echo "${instances[@]}"
     fi

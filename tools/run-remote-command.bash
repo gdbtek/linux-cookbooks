@@ -113,7 +113,8 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local identityFile="$(formatPath ${1})"
+                    local identityFile=''
+                    identityFile="$(formatPath ${1})"
                 fi
 
                 ;;
@@ -133,7 +134,8 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local address="$(replaceString "${1}" ',' ' ')"
+                    local address=''
+                    address="$(replaceString "${1}" ',' ' ')"
                 fi
 
                 ;;
@@ -143,7 +145,8 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local command="$(trimString "${1}")"
+                    local command=''
+                    command="$(trimString "${1}")"
                 fi
 
                 ;;
