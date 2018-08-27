@@ -7,7 +7,7 @@ function main()
     local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     source "${appFolderPath}/../../../../../../../cookbooks/jenkins/attributes/master.bash"
-    source "${appFolderPath}/../../../../../../../cookbooks/nginx/attributes/default.bash"
+    source "${appFolderPath}/../../../../../../../cookbooks/nginx/attributes/source.bash"
     source "${appFolderPath}/../../../../../../../libraries/util.bash"
     source "${appFolderPath}/../../../../../libraries/app.bash"
     source "${appFolderPath}/../attributes/master.bash"
