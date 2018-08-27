@@ -271,9 +271,9 @@ function createInitFileFromTemplate()
 {
     local -r serviceName="${1}"
     local -r templateFolderPath="${2}"
-    local -r initConfigData=("${@:3}")
+    local -r initConfigDataFromTemplate=("${@:3}")
 
-    createFileFromTemplate "${templateFolderPath}/${serviceName}.service.systemd" "/etc/systemd/system/${serviceName}.service" "${initConfigData[@]}"
+    createFileFromTemplate "${templateFolderPath}/${serviceName}.service.systemd" "/etc/systemd/system/${serviceName}.service" "${initConfigDataFromTemplate[@]}"
 }
 
 function getFileExtension()
