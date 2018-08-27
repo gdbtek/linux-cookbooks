@@ -5,7 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 function installRole()
 {
     local -r role="${1}"
-    local -r serverConfigData=("${@:2}")
+    local -r serverConfigDataRole=("${@:2}")
 
     checkNonEmptyString "${role}" 'undefined role'
 
@@ -25,7 +25,7 @@ function installRole()
 
     local -r configFile="${SELENIUM_SERVER_INSTALL_FOLDER_PATH}/selenium-server-${role}.json"
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigDataRole[@]}"
 
     # Config Init
 
