@@ -4,7 +4,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
 
 export WILD_FLY_JDK_INSTALL_FOLDER_PATH="${JDK_INSTALL_FOLDER_PATH}"
 
-export WILD_FLY_DOWNLOAD_URL='http://download.jboss.org/wildfly/13.0.0.Final/wildfly-13.0.0.Final.tar.gz'
+export WILD_FLY_DOWNLOAD_URL='http://download.jboss.org/wildfly/14.0.0.Final/wildfly-14.0.0.Final.tar.gz'
 export WILD_FLY_INSTALL_FOLDER_PATH='/opt/wild-fly'
 
 export WILD_FLY_USER_NAME='wild-fly'
