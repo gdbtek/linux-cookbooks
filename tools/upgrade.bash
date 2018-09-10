@@ -4,7 +4,9 @@ function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../libraries/util.bash"
 
-    header 'UPGRADING INSTALLATION'
+    checkRequireLinuxSystem
+    checkRequireRootUser
+
     runUpgrade
 
     "$(dirname "${BASH_SOURCE[0]}")/clean-up.bash"

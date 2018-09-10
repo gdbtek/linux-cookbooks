@@ -816,6 +816,8 @@ function runAptGetUpdate()
 
 function runUpgrade()
 {
+    header 'UPGRADING SYSTEM'
+
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         runAptGetUpdate ''
@@ -1624,6 +1626,22 @@ function existUserLogin()
     fi
 
     echo 'false' && return 1
+}
+
+function flushFirewall()
+{
+    header 'FLUSHING FIREWALL'
+
+    iptables -P INPUT ACCEPT
+    iptables -P FORWARD ACCEPT
+    iptables -P OUTPUT ACCEPT
+
+    iptables -t nat -F
+    iptables -t mangle -F
+    iptables -F
+    iptables -X
+
+    iptables --list
 }
 
 function generateSSHPublicKeyFromPrivateKey()
