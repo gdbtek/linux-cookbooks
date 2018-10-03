@@ -22,6 +22,7 @@ export APT_ESSENTIAL_PACKAGES=(
     'unzip'
     'w3m'
     'wget'
+    'whois'
 )
 
 export RPM_ESSENTIAL_PACKAGES=(
@@ -42,4 +43,5 @@ export RPM_ESSENTIAL_PACKAGES=(
     'tree'
     'unzip'
     'wget'
+    'whois'
 )
