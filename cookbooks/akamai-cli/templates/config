@@ -1,0 +1,7 @@
+[cli]
+cache-path            = __USER_HOME__/.akamai-cli/cache
+client-id             =
+config-version        = 1
+enable-cli-statistics = false
+install-in-path       = no
+last-upgrade-check    = ignore
