@@ -29,6 +29,7 @@ function main()
     fi
 
     "${appFolderPath}/../../../../../../essential.bash" "${hostName}" "$(arrayToString "${CLOUD_USERS[@]}")"
+    "${appFolderPath}/../../../../../../../cookbooks/akamai-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/ant/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/chef-client/recipes/install.bash"

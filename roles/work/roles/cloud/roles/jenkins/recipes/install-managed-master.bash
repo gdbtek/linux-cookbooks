@@ -29,6 +29,7 @@ function main()
     fi
 
     "${appFolderPath}/../../../../../../essential.bash" "${hostName}" "$(arrayToString "${CLOUD_USERS[@]}")"
+    "${appFolderPath}/../../../../../../../cookbooks/akamai-cli/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/maven/recipes/install.bash"
     "${appFolderPath}/../../../../../../../cookbooks/node-js/recipes/install.bash" "${CLOUD_JENKINS_NODE_JS_VERSION}" "${CLOUD_JENKINS_NODE_JS_INSTALL_FOLDER_PATH}"
 
