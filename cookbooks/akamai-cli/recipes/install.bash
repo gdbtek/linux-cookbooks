@@ -16,16 +16,18 @@ function install()
     chmod 755 "${AKAMAI_INSTALL_FOLDER_PATH}/bin/akamai"
     symlinkLocalBin "${AKAMAI_INSTALL_FOLDER_PATH}/bin"
 
-    # Config Akamai
-
-    akamai config set 'cli.enable-cli-statistics' 'false'
-    akamai config set 'cli.last-upgrade-check' 'ignore'
-
     # Config Profile
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${AKAMAI_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/akamai.sh.profile" '/etc/profile.d/akamai.sh' "${profileConfigData[@]}"
+
+    # Config Akamai
+
+    source '/etc/profile.d/akamai.sh'
+
+    akamai config set 'cli.enable-cli-statistics' 'false'
+    akamai config set 'cli.last-upgrade-check' 'ignore'
 
     # Display Version
 
