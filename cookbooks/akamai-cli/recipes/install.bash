@@ -22,6 +22,7 @@ function install()
         '__USER_HOME__' "$(getCurrentUserHomeFolder)"
     )
 
+    mkdir -p "$(getCurrentUserHomeFolder)/.akamai-cli"
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/config" "$(getCurrentUserHomeFolder)/.akamai-cli/config" "${akamaiCLIConfigData[@]}"
 
     # Config Profile
