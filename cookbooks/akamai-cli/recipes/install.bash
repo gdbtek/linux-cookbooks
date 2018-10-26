@@ -20,7 +20,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${AKAMAI_INSTALL_FOLDER_PATH}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/akamail.sh.profile" '/etc/profile.d/akamai.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/akamai.sh.profile" '/etc/profile.d/akamai.sh' "${profileConfigData[@]}"
 
     # Display Version
 
