@@ -1,10 +1,5 @@
 #!/bin/bash -e
 
-function installDependencies()
-{
-    installPackages 'mercurial'
-}
-
 function install()
 {
     umask '0022'
@@ -57,7 +52,6 @@ function main()
 
     # Install
 
-    installDependencies
     install
     installCleanUp
 }
