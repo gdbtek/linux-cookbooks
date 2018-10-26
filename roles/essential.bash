@@ -9,6 +9,7 @@ function main()
 
     source "${appFolderPath}/../libraries/util.bash"
 
+    "${appFolderPath}/../cookbooks/akamai-cli/recipes/install.bash"
     "${appFolderPath}/../cookbooks/essential/recipes/install.bash"
     "${appFolderPath}/../cookbooks/chrony/recipes/install.bash"
     "${appFolderPath}/../cookbooks/jq/recipes/install.bash"
