@@ -39,7 +39,7 @@ function main()
     checkRequireLinuxSystem
     checkRequireRootUser
 
-    header 'INSTALLING AKAMAIL-CLI'
+    header 'INSTALLING AKAMAI-CLI'
 
     install
     installCleanUp
