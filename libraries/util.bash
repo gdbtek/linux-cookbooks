@@ -1962,21 +1962,45 @@ function remountTMP()
 
 function resetLogs()
 {
+    local logFolderPaths=("${@}")
+
     header 'RESETTING LOGS'
 
-    find '/var/log' \
-        -type f \
-        \( \
-            -regex '.*-[0-9]+' -o \
-            -regex '.*\.[0-9]+' -o \
-            -regex '.*\.[0-9]+\.gz' -o \
-            -regex '.*\.xz' -o \
-            -regex '.*\.old' \
-        \) \
-        -delete \
-        -print
+    # Default Log Folder Path
 
-    find '/var/log' -type f -exec cp -f '/dev/null' '{}' \; -print
+    if [[ "${#logFolderPaths[@]}" -lt '1' ]]
+    then
+        logFolderPaths+=('/var/log')
+    fi
+
+    # Walk Each Log Folder Path
+
+    local i=0
+
+    for ((i = 0; i < ${#logFolderPaths[@]}; i = i + 1))
+    do
+        checkExistFolder "${logFolderPaths[i]}"
+
+        find "${logFolderPaths[i]}" \
+            -type f \
+            \( \
+                -regex '.*-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\.gz' -o \
+                -regex '.*-[0-9]+' -o \
+                -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.log' -o \
+                -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.txt' -o \
+                -regex '.*\.[0-9]+' -o \
+                -regex '.*\.[0-9]+\.gz' -o \
+                -regex '.*\.old' -o \
+                -regex '.*\.xz' \
+            \) \
+            -delete \
+            -print
+
+        find "${logFolderPaths[i]}" \
+            -type f \
+            -exec cp -f '/dev/null' '{}' \; \
+            -print
+    done
 }
 
 function restartService()
