@@ -839,7 +839,7 @@ function runUpgrade()
     elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
         yum -y --security update
-        yum -y update --nogpgcheck
+        yum -y update --nogpgcheck --skip-broken
     fi
 }
 
