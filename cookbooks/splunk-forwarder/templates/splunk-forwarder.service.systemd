@@ -1,0 +1,41 @@
+[Unit]
+Description=Splunk-Forwarder Server
+Wants=network.target syslog.service
+After=network.target syslog.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=forking
+RemainAfterExit=True
+
+LimitAS=infinity
+LimitCORE=infinity
+LimitCPU=infinity
+LimitDATA=infinity
+LimitFSIZE=infinity
+LimitLOCKS=infinity
+LimitMEMLOCK=64000
+LimitMSGQUEUE=819200
+LimitNOFILE=64000
+LimitNPROC=16000
+LimitRSS=infinity
+LimitRTPRIO=0
+LimitSIGPENDING=16000
+LimitSTACK=8192000
+
+Restart=always
+RestartSec=10
+
+TimeoutSec=30
+
+User=__USER_NAME__
+Group=__GROUP_NAME__
+
+Environment='SPLUNK_HOME=__INSTALL_FOLDER_PATH__'
+Environment='SPLUNK_MODULE_PATH=__INSTALL_FOLDER_PATH__/etc/modules'
+
+ExecStart='__INSTALL_FOLDER_PATH__/bin/splunk start --accept-license --answer-yes --no-prompt'
+ExecStop='__INSTALL_FOLDER_PATH__/bin/splunk stop'
+ExecReload='__INSTALL_FOLDER_PATH__/bin/splunk restart'

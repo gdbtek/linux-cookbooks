@@ -1535,6 +1535,26 @@ function emptyFolder()
     cd "${currentPath}"
 }
 
+function enableStatusService()
+{
+    local -r serviceName="${1}"
+
+    checkNonEmptyString "${serviceName}" 'undefined service name'
+
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        header "ENABLE-STATUS SYSTEMD SERVICE ${serviceName}"
+
+        systemctl daemon-reload
+        systemctl status "${serviceName}" --full --no-pager
+        systemctl enable "${serviceName}"
+    else
+        header "STATUS SERVICE ${serviceName}"
+
+        service "${serviceName}" status
+    fi
+}
+
 function existCommand()
 {
     local -r command="${1}"
