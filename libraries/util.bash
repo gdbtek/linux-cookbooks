@@ -1546,12 +1546,12 @@ function enableStatusService()
         header "ENABLE-STATUS SYSTEMD SERVICE ${serviceName}"
 
         systemctl daemon-reload
-        systemctl status "${serviceName}" --full --no-pager
+        systemctl status "${serviceName}" --full --no-pager || true
         systemctl enable "${serviceName}"
     else
         header "STATUS SERVICE ${serviceName}"
 
-        service "${serviceName}" status
+        service "${serviceName}" status || true
     fi
 }
 
