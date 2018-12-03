@@ -24,7 +24,7 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${PORTER_INSTALL_FOLDER_PATH}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${SPLUNK_FORWARDER_INSTALL_FOLDER_PATH}")
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/splunk-forwarder.sh.profile" '/etc/profile.d/splunk-forwarder.sh' "${profileConfigData[@]}"
 

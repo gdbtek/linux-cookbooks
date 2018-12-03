@@ -36,6 +36,6 @@ Group=__GROUP_NAME__
 Environment='SPLUNK_HOME=__INSTALL_FOLDER_PATH__'
 Environment='SPLUNK_MODULE_PATH=__INSTALL_FOLDER_PATH__/etc/modules'
 
-ExecStart='__INSTALL_FOLDER_PATH__/bin/splunk start --accept-license --answer-yes --no-prompt'
-ExecStop='__INSTALL_FOLDER_PATH__/bin/splunk stop'
-ExecReload='__INSTALL_FOLDER_PATH__/bin/splunk restart'
+ExecStart='__INSTALL_FOLDER_PATH__/bin/splunk' start --accept-license --answer-yes --no-prompt
+ExecStop='__INSTALL_FOLDER_PATH__/bin/splunk' stop
+ExecReload='__INSTALL_FOLDER_PATH__/bin/splunk' restart
