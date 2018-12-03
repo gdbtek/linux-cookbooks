@@ -33,10 +33,6 @@ function install()
     chown -R "${SPLUNK_FORWARDER_USER_NAME}:${SPLUNK_FORWARDER_GROUP_NAME}" "${SPLUNK_FORWARDER_INSTALL_FOLDER_PATH}"
     enableStatusService "${SPLUNK_FORWARDER_SERVICE_NAME}"
 
-    # Display Open Ports
-
-    displayOpenPorts '5'
-
     umask '0077'
 }
 
