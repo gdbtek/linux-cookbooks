@@ -2045,13 +2045,13 @@ function startService()
 
         systemctl daemon-reload
         systemctl start "${serviceName}"
-        systemctl status "${serviceName}" --full --no-pager
+        systemctl status "${serviceName}" --full --no-pager || true
         systemctl enable "${serviceName}"
     else
         header "STARTING SERVICE ${serviceName}"
 
         service "${serviceName}" start
-        service "${serviceName}" status
+        service "${serviceName}" status || true
     fi
 }
 
