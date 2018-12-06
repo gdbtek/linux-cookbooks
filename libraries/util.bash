@@ -1496,6 +1496,44 @@ function configUserSSH()
     cat "${userHome}/.ssh/${configFileName}"
 }
 
+function deleteOldLogs()
+{
+    local logFolderPaths=("${@}")
+
+    header 'DELETING OLD LOGS'
+
+    # Default Log Folder Path
+
+    if [[ "${#logFolderPaths[@]}" -lt '1' ]]
+    then
+        logFolderPaths+=('/var/log')
+    fi
+
+    # Walk Each Log Folder Path
+
+    local i=0
+
+    for ((i = 0; i < ${#logFolderPaths[@]}; i = i + 1))
+    do
+        checkExistFolder "${logFolderPaths[i]}"
+
+        find "${logFolderPaths[i]}" \
+            -type f \
+            \( \
+                -regex '.*-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\.gz' -o \
+                -regex '.*-[0-9]+' -o \
+                -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.log' -o \
+                -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.txt' -o \
+                -regex '.*\.[0-9]+' -o \
+                -regex '.*\.[0-9]+\.gz' -o \
+                -regex '.*\.old' -o \
+                -regex '.*\.xz' \
+            \) \
+            -delete \
+            -print
+    done
+}
+
 function deleteUser()
 {
     local -r userLogin="${1}"
@@ -1993,28 +2031,17 @@ function resetLogs()
         logFolderPaths+=('/var/log')
     fi
 
-    # Walk Each Log Folder Path
+    # Delete Old Logs
+
+    deleteOldLogs "${logFolderPaths[@]}"
+
+    # Reset Logs
 
     local i=0
 
     for ((i = 0; i < ${#logFolderPaths[@]}; i = i + 1))
     do
         checkExistFolder "${logFolderPaths[i]}"
-
-        find "${logFolderPaths[i]}" \
-            -type f \
-            \( \
-                -regex '.*-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\.gz' -o \
-                -regex '.*-[0-9]+' -o \
-                -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.log' -o \
-                -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.txt' -o \
-                -regex '.*\.[0-9]+' -o \
-                -regex '.*\.[0-9]+\.gz' -o \
-                -regex '.*\.old' -o \
-                -regex '.*\.xz' \
-            \) \
-            -delete \
-            -print
 
         find "${logFolderPaths[i]}" \
             -type f \
