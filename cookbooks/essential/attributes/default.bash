@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 export APT_ESSENTIAL_PACKAGES=(
+    'auditd'
     'bzip2'
     'curl'
     'dialog'
@@ -26,6 +27,7 @@ export APT_ESSENTIAL_PACKAGES=(
 )
 
 export RPM_ESSENTIAL_PACKAGES=(
+    'audit'
     'bzip2'
     'curl'
     'dialog'
