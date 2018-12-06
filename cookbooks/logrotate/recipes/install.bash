@@ -23,14 +23,14 @@ function install()
     fi
 
     info '/etc/logrotate.conf'
-    cat '/etc/logrotate.conf'
+    indentString '  ' "$(cat '/etc/logrotate.conf')"
 
     # Configure Cron
 
     cp -f -p '/etc/cron.daily/logrotate' '/etc/cron.hourly/logrotate'
 
-    info '/etc/cron.hourly/logrotate'
-    cat '/etc/cron.hourly/logrotate'
+    info '\n/etc/cron.hourly/logrotate'
+    indentString '  ' "$(cat '/etc/cron.hourly/logrotate')"
 
     umask '0077'
 }
