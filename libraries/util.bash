@@ -2022,8 +2022,6 @@ function resetLogs()
 {
     local logFolderPaths=("${@}")
 
-    header 'RESETTING LOGS'
-
     # Default Log Folder Path
 
     if [[ "${#logFolderPaths[@]}" -lt '1' ]]
@@ -2036,6 +2034,8 @@ function resetLogs()
     deleteOldLogs "${logFolderPaths[@]}"
 
     # Reset Logs
+
+    header 'RESETTING LOGS'
 
     local i=0
 
