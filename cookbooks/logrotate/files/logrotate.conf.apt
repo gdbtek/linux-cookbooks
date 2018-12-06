@@ -1,0 +1,20 @@
+create
+daily
+rotate 0
+su root syslog
+
+include /etc/logrotate.d
+
+/var/log/wtmp {
+    create 0664 root utmp
+    daily
+    missingok
+    rotate 0
+}
+
+/var/log/btmp {
+    create 0660 root utmp
+    daily
+    missingok
+    rotate 0
+}
