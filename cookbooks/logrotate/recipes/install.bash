@@ -8,7 +8,9 @@ function install()
 
     installPackages 'logrotate'
 
-    # Configure
+    # Configure Logrotate
+
+    header 'INSTALLING LOGROTATE'
 
     if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
@@ -20,7 +22,12 @@ function install()
         fatal '\nFATAL : only support Amazon-Linux, CentOS, RedHat, or Ubuntu OS'
     fi
 
+    cat '/etc/logrotate.conf'
+
+    # Configure Cron
+
     cp -f -p '/etc/cron.daily/logrotate' '/etc/cron.hourly/logrotate'
+    cat '/etc/cron.hourly/logrotate'
 
     umask '0077'
 }
