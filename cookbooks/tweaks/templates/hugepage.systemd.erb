@@ -1,0 +1,32 @@
+[Unit]
+Description=Hugepage
+After=sshd.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=oneshot
+
+LimitAS=infinity
+LimitCORE=infinity
+LimitCPU=infinity
+LimitDATA=infinity
+LimitFSIZE=infinity
+LimitLOCKS=infinity
+LimitMEMLOCK=64000
+LimitMSGQUEUE=819200
+LimitNOFILE=64000
+LimitNPROC=16000
+LimitRSS=infinity
+LimitRTPRIO=0
+LimitSIGPENDING=16000
+LimitSTACK=8192000
+
+User=root
+Group=root
+
+ExecStart=/bin/bash -c -e '\
+    echo \'never\' | tee \'/sys/kernel/mm/transparent_hugepage/defrag\' ; \
+    echo \'never\' | tee \'/sys/kernel/mm/transparent_hugepage/enabled\' ; \
+'

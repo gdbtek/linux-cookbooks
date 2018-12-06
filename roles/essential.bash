@@ -14,6 +14,7 @@ function main()
     "${appFolderPath}/../cookbooks/jq/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ps1/recipes/install.bash" --host-name "${ps1HostName}" --users "${ps1Users}"
     "${appFolderPath}/../cookbooks/ssh/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/tweaks/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ulimit/recipes/install.bash"
     "${appFolderPath}/../cookbooks/vim/recipes/install.bash"
 
