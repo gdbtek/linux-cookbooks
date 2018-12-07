@@ -10,7 +10,9 @@ function main()
     source "${appFolderPath}/../libraries/util.bash"
 
     "${appFolderPath}/../cookbooks/essential/recipes/install.bash"
+
     "${appFolderPath}/../cookbooks/chrony/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/clean-up/recipes/install.bash"
     "${appFolderPath}/../cookbooks/jq/recipes/install.bash"
     "${appFolderPath}/../cookbooks/logrotate/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ps1/recipes/install.bash" --host-name "${ps1HostName}" --users "${ps1Users}"

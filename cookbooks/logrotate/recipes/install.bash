@@ -10,8 +10,6 @@ function install()
 
     # Configure Logrotate
 
-    header 'INSTALLING LOGROTATE'
-
     if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
         cp -f "${APP_FOLDER_PATH}/../files/logrotate.conf.rpm" '/etc/logrotate.conf'
