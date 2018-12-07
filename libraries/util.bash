@@ -1520,12 +1520,12 @@ function deleteOldLogs()
         find "${logFolderPaths[i]}" \
             -type f \
             \( \
-                -regex '.*-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\.gz' -o \
                 -regex '.*-[0-9]+' -o \
                 -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.log' -o \
                 -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.txt' -o \
                 -regex '.*\.[0-9]+' -o \
-                -regex '.*\.[0-9]+\.gz' -o \
+                -regex '.*\.[0-9]+\.log' -o \
+                -regex '.*\.gz' -o \
                 -regex '.*\.old' -o \
                 -regex '.*\.xz' \
             \) \
