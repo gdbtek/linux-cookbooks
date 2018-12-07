@@ -6,9 +6,9 @@ rotate 0
 include /etc/logrotate.d
 
 /var/log/wtmp {
-    minsize 1M
     create 0664 root utmp
     daily
+    minsize 1M
     rotate 0
 }
 
