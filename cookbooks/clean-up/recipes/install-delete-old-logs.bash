@@ -6,6 +6,7 @@ function install()
 
     cp -f "${APP_FOLDER_PATH}/../files/delete-old-logs" '/etc/cron.hourly'
     chmod 755 '/etc/cron.hourly/delete-old-logs'
+    cat '/etc/cron.hourly/delete-old-logs'
 
     umask '0077'
 }
