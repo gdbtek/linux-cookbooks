@@ -860,7 +860,7 @@ function upgradePIPPackage()
 # SERVICE UTILITIES #
 #####################
 
-function enableStatusService()
+function enableService()
 {
     local -r serviceName="${1}"
 
@@ -868,20 +868,20 @@ function enableStatusService()
 
     if [[ "$(existCommand 'systemctl')" = 'true' ]]
     then
-        header "ENABLE-STATUS SYSTEMD ${serviceName}"
+        header "ENABLE SYSTEMD ${serviceName}"
 
         systemctl daemon-reload
         systemctl enable "${serviceName}"
         systemctl status "${serviceName}" --full --no-pager || true
     else
-        header "ENABLE-STATUS SERVICE ${serviceName}"
+        header "ENABLE SERVICE ${serviceName}"
 
         chkconfig "${serviceName}" on
         service "${serviceName}" status || true
     fi
 }
 
-function disableStatusService()
+function disableService()
 {
     local -r serviceName="${1}"
 
@@ -889,14 +889,14 @@ function disableStatusService()
 
     if [[ "$(existCommand 'systemctl')" = 'true' ]]
     then
-        header "DISABLE-STATUS SYSTEMD ${serviceName}"
+        header "DISABLE SYSTEMD ${serviceName}"
 
         systemctl daemon-reload
         systemctl disable "${serviceName}"
         systemctl stop "${serviceName}"
         systemctl status "${serviceName}" --full --no-pager || true
     else
-        header "DISABLE-STATUS SERVICE ${serviceName}"
+        header "DISABLE SERVICE ${serviceName}"
 
         chkconfig "${serviceName}" off
         service "${serviceName}" stop || true

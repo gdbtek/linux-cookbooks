@@ -31,7 +31,7 @@ function install()
     # Enable (Not Start Yet) and Status
 
     chown -R "${SPLUNK_FORWARDER_USER_NAME}:${SPLUNK_FORWARDER_GROUP_NAME}" "${SPLUNK_FORWARDER_INSTALL_FOLDER_PATH}"
-    enableStatusService "${SPLUNK_FORWARDER_SERVICE_NAME}"
+    enableService "${SPLUNK_FORWARDER_SERVICE_NAME}"
 
     umask '0077'
 }
