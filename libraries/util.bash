@@ -856,6 +856,108 @@ function upgradePIPPackage()
     fi
 }
 
+#####################
+# SERVICE UTILITIES #
+#####################
+
+function enableStatusService()
+{
+    local -r serviceName="${1}"
+
+    checkNonEmptyString "${serviceName}" 'undefined service name'
+
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        header "ENABLE-STATUS SYSTEMD ${serviceName}"
+
+        systemctl daemon-reload
+        systemctl enable "${serviceName}"
+        systemctl status "${serviceName}" --full --no-pager || true
+    else
+        header "ENABLE-STATUS SERVICE ${serviceName}"
+
+        chkconfig "${serviceName}" on
+        service "${serviceName}" status || true
+    fi
+}
+
+function disableStatusService()
+{
+    local -r serviceName="${1}"
+
+    checkNonEmptyString "${serviceName}" 'undefined service name'
+
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        header "DISABLE-STATUS SYSTEMD ${serviceName}"
+
+        systemctl daemon-reload
+        systemctl disable "${serviceName}"
+        systemctl stop "${serviceName}"
+        systemctl status "${serviceName}" --full --no-pager || true
+    else
+        header "DISABLE-STATUS SERVICE ${serviceName}"
+
+        chkconfig "${serviceName}" off
+        service "${serviceName}" stop || true
+        service "${serviceName}" status || true
+    fi
+}
+
+function restartService()
+{
+    local -r serviceName="${1}"
+
+    checkNonEmptyString "${serviceName}" 'undefined service name'
+
+    stopService "${serviceName}"
+    startService "${serviceName}"
+}
+
+function startService()
+{
+    local -r serviceName="${1}"
+
+    checkNonEmptyString "${serviceName}" 'undefined service name'
+
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        header "STARTING SYSTEMD ${serviceName}"
+
+        systemctl daemon-reload
+        systemctl enable "${serviceName}"
+        systemctl start "${serviceName}"
+        systemctl status "${serviceName}" --full --no-pager || true
+    else
+        header "STARTING SERVICE ${serviceName}"
+
+        chkconfig "${serviceName}" on
+        service "${serviceName}" start
+        service "${serviceName}" status || true
+    fi
+}
+
+function stopService()
+{
+    local -r serviceName="${1}"
+
+    checkNonEmptyString "${serviceName}" 'undefined service name'
+
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        header "STOPPING SYSTEMD ${serviceName}"
+
+        systemctl daemon-reload
+        systemctl stop "${serviceName}"
+        systemctl status "${serviceName}" --full --no-pager || true
+    else
+        header "STOPPING SERVICE ${serviceName}"
+
+        service "${serviceName}" stop
+        service "${serviceName}" status || true
+    fi
+}
+
 ####################
 # STRING UTILITIES #
 ####################
@@ -1573,26 +1675,6 @@ function emptyFolder()
     cd "${currentPath}"
 }
 
-function enableStatusService()
-{
-    local -r serviceName="${1}"
-
-    checkNonEmptyString "${serviceName}" 'undefined service name'
-
-    if [[ "$(existCommand 'systemctl')" = 'true' ]]
-    then
-        header "ENABLE-STATUS SYSTEMD SERVICE ${serviceName}"
-
-        systemctl daemon-reload
-        systemctl status "${serviceName}" --full --no-pager || true
-        systemctl enable "${serviceName}"
-    else
-        header "STATUS SERVICE ${serviceName}"
-
-        service "${serviceName}" status || true
-    fi
-}
-
 function existCommand()
 {
     local -r command="${1}"
@@ -2048,55 +2130,4 @@ function resetLogs()
             -exec cp -f '/dev/null' '{}' \; \
             -print
     done
-}
-
-function restartService()
-{
-    local -r serviceName="${1}"
-
-    checkNonEmptyString "${serviceName}" 'undefined service name'
-
-    stopService "${serviceName}"
-    startService "${serviceName}"
-}
-
-function startService()
-{
-    local -r serviceName="${1}"
-
-    checkNonEmptyString "${serviceName}" 'undefined service name'
-
-    if [[ "$(existCommand 'systemctl')" = 'true' ]]
-    then
-        header "STARTING SYSTEMD SERVICE ${serviceName}"
-
-        systemctl daemon-reload
-        systemctl start "${serviceName}"
-        systemctl status "${serviceName}" --full --no-pager || true
-        systemctl enable "${serviceName}"
-    else
-        header "STARTING SERVICE ${serviceName}"
-
-        service "${serviceName}" start
-        service "${serviceName}" status || true
-    fi
-}
-
-function stopService()
-{
-    local -r serviceName="${1}"
-
-    checkNonEmptyString "${serviceName}" 'undefined service name'
-
-    if [[ "$(existCommand 'systemctl')" = 'true' ]]
-    then
-        header "STOPPING SYSTEMD SERVICE ${serviceName}"
-
-        systemctl daemon-reload
-        systemctl stop "${serviceName}"
-    else
-        header "STOPPING SERVICE ${serviceName}"
-
-        service "${serviceName}" stop || true
-    fi
 }
