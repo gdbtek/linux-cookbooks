@@ -953,7 +953,7 @@ function stopService()
     else
         header "STOPPING SERVICE ${serviceName}"
 
-        service "${serviceName}" stop
+        service "${serviceName}" stop || true
         service "${serviceName}" status || true
     fi
 }
