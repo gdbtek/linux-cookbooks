@@ -8,14 +8,14 @@ function install()
 
     if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        setenforce 0
+        setenforce 0 || true
     fi
 
     timedatectl set-timezone "${CHRONY_TIME_ZONE}"
 
     if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        setenforce 1
+        setenforce 1 || true
     fi
 
     # Install Package
