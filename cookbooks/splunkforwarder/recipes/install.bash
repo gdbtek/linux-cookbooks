@@ -33,7 +33,7 @@ function install()
 
     createFileFromTemplate "${APP_FOLDER_PATH}/../templates/splunk.sh.profile" '/etc/profile.d/splunk.sh' "${profileConfigData[@]}"
 
-    # Enable (Not Start Yet) and Status
+    # Enable (Not Start Yet)
 
     addUser "${SPLUNKFORWARDER_USER_NAME}" "${SPLUNKFORWARDER_GROUP_NAME}" 'false' 'true' 'false'
     chown -R "${SPLUNKFORWARDER_USER_NAME}:${SPLUNKFORWARDER_GROUP_NAME}" "${SPLUNKFORWARDER_INSTALL_FOLDER_PATH}"
