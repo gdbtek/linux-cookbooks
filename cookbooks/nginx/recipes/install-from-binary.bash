@@ -26,6 +26,16 @@ function install()
 
         source "${releaseFilePath}"
 
+        # Set ID For Amazon Linux
+
+        if [[ "${ID}" = 'amzn' ]]
+        then
+            ID="${AMAZON_LINUX_DEFAULT_ID}"
+            VERSION_ID="${AMAZON_LINUX_DEFAULT_VERSION_ID}"
+        fi
+
+        # Generate Repo File
+
         local -r configData=(
             '__PLATFORM_FAMILY__' "${ID}"
             '__PLATFORM_VERSION__' "$(awk -F '.' '{ print $1 }' <<< "${VERSION_ID}")"
