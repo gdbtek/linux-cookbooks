@@ -12,11 +12,8 @@ function install()
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         installPackages "${APT_ESSENTIAL_PACKAGES[@]}"
-    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
-    then
-        installPackages "${RPM_ESSENTIAL_PACKAGES[@]}"
     else
-        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+        installPackages "${RPM_ESSENTIAL_PACKAGES[@]}"
     fi
 
     umask '0077'

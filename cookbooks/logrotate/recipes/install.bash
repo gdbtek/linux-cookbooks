@@ -10,14 +10,11 @@ function install()
 
     # Configure Logrotate
 
-    if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
-    then
-        cp -f "${APP_FOLDER_PATH}/../files/logrotate.conf.rpm" '/etc/logrotate.conf'
-    elif [[ "$(isUbuntuDistributor)" = 'true' ]]
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         cp -f "${APP_FOLDER_PATH}/../files/logrotate.conf.apt" '/etc/logrotate.conf'
     else
-        fatal '\nFATAL : only support Amazon-Linux, CentOS, RedHat, or Ubuntu OS'
+        cp -f "${APP_FOLDER_PATH}/../files/logrotate.conf.rpm" '/etc/logrotate.conf'
     fi
 
     info '/etc/logrotate.conf'

@@ -19,8 +19,7 @@ function install()
         createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.list.apt" '/etc/apt/sources.list.d/nginx.list' "${configData[@]}"
         curl -s -L 'http://nginx.org/keys/nginx_signing.key' --retry 12 --retry-delay 5 | apt-key add -
         apt-get update -m
-    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
-    then
+    else
         local -r releaseFilePath='/etc/os-release'
 
         checkExistFile "${releaseFilePath}"
@@ -33,8 +32,6 @@ function install()
         )
 
         createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.repo" '/etc/yum.repos.d/nginx.repo' "${configData[@]}"
-    else
-        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
     fi
 
     # Install

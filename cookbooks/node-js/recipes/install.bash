@@ -6,11 +6,8 @@ function installDependencies()
     then
         installBuildEssential
         installPackages 'python'
-    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
-    then
-        installPackages 'gcc-c++' 'make' 'python'
     else
-        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+        installPackages 'gcc-c++' 'make' 'python'
     fi
 }
 
