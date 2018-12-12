@@ -6,21 +6,16 @@ function install()
 
     # Set Time Zone
 
-    if [[ "$(isUbuntuDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        if [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
-        then
-            setenforce 0
-        fi
+        setenforce 0
+    fi
 
-        timedatectl set-timezone "${CHRONY_TIME_ZONE}"
+    timedatectl set-timezone "${CHRONY_TIME_ZONE}"
 
-        if [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
-        then
-            setenforce 1
-        fi
-    else
-        fatal '\nFATAL : only support CentOS, RedHat or Ubuntu OS'
+    if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        setenforce 1
     fi
 
     # Install Package
