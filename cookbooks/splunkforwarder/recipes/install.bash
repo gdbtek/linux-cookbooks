@@ -24,7 +24,7 @@ function install()
 
         createInitFileFromTemplate "${SPLUNKFORWARDER_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
     else
-        "${SPLUNKFORWARDER_INSTALL_FOLDER_PATH}/bin/splunk" enable boot-start --accept-license --answer-yes --no-prompt --gen-and-print-passwd
+        "${SPLUNKFORWARDER_INSTALL_FOLDER_PATH}/bin/splunk" enable boot-start --accept-license --answer-yes --no-prompt
     fi
 
     # Config Profile
