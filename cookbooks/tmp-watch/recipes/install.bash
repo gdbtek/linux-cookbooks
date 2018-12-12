@@ -4,7 +4,7 @@ function install()
 {
     umask '0022'
 
-    if [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
         # Install
 
@@ -32,7 +32,7 @@ function install()
         echo
         cat "${TMP_WATCH_CRON_FOLDER}/tmp-watch"
     else
-        fatal 'FATAL : only support CentOS or RedHat OS'
+        fatal 'FATAL : only support Amazon-Linux, CentOS or RedHat OS'
     fi
 
     umask '0077'
