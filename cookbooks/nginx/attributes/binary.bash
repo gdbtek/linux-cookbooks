@@ -2,5 +2,5 @@
 
 export NGINX_PORT='80'
 
-export AMAZON_LINUX_DEFAULT_ID='centos'
-export AMAZON_LINUX_DEFAULT_VERSION_ID='7'
+export AMAZON_LINUX_ID='centos'
+export AMAZON_LINUX_VERSION_ID='7'

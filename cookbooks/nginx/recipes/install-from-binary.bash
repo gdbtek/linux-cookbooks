@@ -30,8 +30,8 @@ function install()
 
         if [[ "${ID}" = 'amzn' ]]
         then
-            ID="${AMAZON_LINUX_DEFAULT_ID}"
-            VERSION_ID="${AMAZON_LINUX_DEFAULT_VERSION_ID}"
+            ID="${AMAZON_LINUX_ID}"
+            VERSION_ID="${AMAZON_LINUX_VERSION_ID}"
         fi
 
         # Generate Repo File
