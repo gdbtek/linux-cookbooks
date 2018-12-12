@@ -33,7 +33,6 @@ export RPM_ESSENTIAL_PACKAGES=(
     'dialog'
     'fontconfig'
     'git'
-    'hping3'
     'iptables'
     'libxml2'
     'logrotate'
