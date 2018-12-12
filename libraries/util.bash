@@ -583,6 +583,123 @@ function isPositiveInteger()
     echo 'false' && return 1
 }
 
+################
+# OS UTILITIES #
+################
+
+function checkRequireLinuxSystem()
+{
+    if [[ "$(isAmazonLinuxDistributor)" = 'false' && "$(isCentOSDistributor)" = 'false' && "$(isRedHatDistributor)" = 'false' && "$(isUbuntuDistributor)" = 'false' ]]
+    then
+        fatal '\nFATAL : only support Amazon-Linux, CentOS, RedHat, or Ubuntu OS'
+    fi
+
+    if [[ "$(is64BitSystem)" = 'false' ]]
+    then
+        fatal '\nFATAL : non x86_64 OS found'
+    fi
+}
+
+function checkRequireMacSystem()
+{
+    if [[ "$(isMacOperatingSystem)" = 'false' ]]
+    then
+        fatal '\nFATAL : only support Mac OS'
+    fi
+
+    if [[ "$(is64BitSystem)" = 'false' ]]
+    then
+        fatal '\nFATAL : non x86_64 OS found'
+    fi
+}
+
+function getMachineDescription()
+{
+    lsb_release -d -s
+}
+
+function getMachineRelease()
+{
+    lsb_release -r -s
+}
+
+function is64BitSystem()
+{
+    isMachineHardware 'x86_64'
+}
+
+function isAmazonLinuxDistributor()
+{
+    isDistributor 'amzn'
+}
+
+function isCentOSDistributor()
+{
+    isDistributor 'centos'
+}
+
+function isDistributor()
+{
+    local -r distributor="${1}"
+
+    local -r found="$(grep -F -i -o -s "${distributor}" '/proc/version')"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false' && return 1
+    fi
+
+    echo 'true' && return 0
+}
+
+function isLinuxOperatingSystem()
+{
+    isOperatingSystem 'Linux'
+}
+
+function isMachineHardware()
+{
+    local -r machineHardware="$(escapeGrepSearchPattern "${1}")"
+
+    local -r found="$(uname -m | grep -E -i -o "^${machineHardware}$")"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false' && return 1
+    fi
+
+    echo 'true' && return 0
+}
+
+function isMacOperatingSystem()
+{
+    isOperatingSystem 'Darwin'
+}
+
+function isOperatingSystem()
+{
+    local -r operatingSystem="$(escapeGrepSearchPattern "${1}")"
+
+    local -r found="$(uname -s | grep -E -i -o "^${operatingSystem}$")"
+
+    if [[ "$(isEmptyString "${found}")" = 'true' ]]
+    then
+        echo 'false' && return 1
+    fi
+
+    echo 'true' && return 0
+}
+
+function isRedHatDistributor()
+{
+    isDistributor 'redhat'
+}
+
+function isUbuntuDistributor()
+{
+    isDistributor 'ubuntu'
+}
+
 #####################
 # PACKAGE UTILITIES #
 #####################
@@ -860,27 +977,6 @@ function upgradePIPPackage()
 # SERVICE UTILITIES #
 #####################
 
-function enableService()
-{
-    local -r serviceName="${1}"
-
-    checkNonEmptyString "${serviceName}" 'undefined service name'
-
-    if [[ "$(existCommand 'systemctl')" = 'true' ]]
-    then
-        header "ENABLE SYSTEMD ${serviceName}"
-
-        systemctl daemon-reload
-        systemctl enable "${serviceName}"
-        systemctl status "${serviceName}" --full --no-pager || true
-    else
-        header "ENABLE SERVICE ${serviceName}"
-
-        chkconfig "${serviceName}" on
-        service "${serviceName}" status || true
-    fi
-}
-
 function disableService()
 {
     local -r serviceName="${1}"
@@ -900,6 +996,27 @@ function disableService()
 
         chkconfig "${serviceName}" off
         service "${serviceName}" stop || true
+        service "${serviceName}" status || true
+    fi
+}
+
+function enableService()
+{
+    local -r serviceName="${1}"
+
+    checkNonEmptyString "${serviceName}" 'undefined service name'
+
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        header "ENABLE SYSTEMD ${serviceName}"
+
+        systemctl daemon-reload
+        systemctl enable "${serviceName}"
+        systemctl status "${serviceName}" --full --no-pager || true
+    else
+        header "ENABLE SERVICE ${serviceName}"
+
+        chkconfig "${serviceName}" on
         service "${serviceName}" status || true
     fi
 }
@@ -1495,32 +1612,6 @@ function checkRequireRootUser()
     checkRequireUserLogin 'root'
 }
 
-function checkRequireLinuxSystem()
-{
-    if [[ "$(isAmazonLinuxDistributor)" = 'false' && "$(isCentOSDistributor)" = 'false' && "$(isRedHatDistributor)" = 'false' && "$(isUbuntuDistributor)" = 'false' ]]
-    then
-        fatal '\nFATAL : only support Amazon-Linux, CentOS, RedHat, or Ubuntu OS'
-    fi
-
-    if [[ "$(is64BitSystem)" = 'false' ]]
-    then
-        fatal '\nFATAL : non x86_64 OS found'
-    fi
-}
-
-function checkRequireMacSystem()
-{
-    if [[ "$(isMacOperatingSystem)" = 'false' ]]
-    then
-        fatal '\nFATAL : only support Mac OS'
-    fi
-
-    if [[ "$(is64BitSystem)" = 'false' ]]
-    then
-        fatal '\nFATAL : non x86_64 OS found'
-    fi
-}
-
 function checkRequireUserLogin()
 {
     local -r userLogin="${1}"
@@ -1859,16 +1950,6 @@ function getCurrentUserHomeFolder()
     getUserHomeFolder "$(whoami)"
 }
 
-function getMachineDescription()
-{
-    lsb_release -d -s
-}
-
-function getMachineRelease()
-{
-    lsb_release -r -s
-}
-
 function getProfileFilePath()
 {
     local -r user="${1}"
@@ -1958,73 +2039,6 @@ function initializeFolder()
     fi
 }
 
-function is64BitSystem()
-{
-    isMachineHardware 'x86_64'
-}
-
-function isAmazonLinuxDistributor()
-{
-    isDistributor 'amzn'
-}
-
-function isCentOSDistributor()
-{
-    isDistributor 'centos'
-}
-
-function isDistributor()
-{
-    local -r distributor="${1}"
-
-    local -r found="$(grep -F -i -o -s "${distributor}" '/proc/version')"
-
-    if [[ "$(isEmptyString "${found}")" = 'true' ]]
-    then
-        echo 'false' && return 1
-    fi
-
-    echo 'true' && return 0
-}
-
-function isLinuxOperatingSystem()
-{
-    isOperatingSystem 'Linux'
-}
-
-function isMachineHardware()
-{
-    local -r machineHardware="$(escapeGrepSearchPattern "${1}")"
-
-    local -r found="$(uname -m | grep -E -i -o "^${machineHardware}$")"
-
-    if [[ "$(isEmptyString "${found}")" = 'true' ]]
-    then
-        echo 'false' && return 1
-    fi
-
-    echo 'true' && return 0
-}
-
-function isMacOperatingSystem()
-{
-    isOperatingSystem 'Darwin'
-}
-
-function isOperatingSystem()
-{
-    local -r operatingSystem="$(escapeGrepSearchPattern "${1}")"
-
-    local -r found="$(uname -s | grep -E -i -o "^${operatingSystem}$")"
-
-    if [[ "$(isEmptyString "${found}")" = 'true' ]]
-    then
-        echo 'false' && return 1
-    fi
-
-    echo 'true' && return 0
-}
-
 function isPortOpen()
 {
     local -r port="$(escapeGrepSearchPattern "${1}")"
@@ -2052,16 +2066,6 @@ function isPortOpen()
     fi
 
     echo 'true' && return 0
-}
-
-function isRedHatDistributor()
-{
-    isDistributor 'redhat'
-}
-
-function isUbuntuDistributor()
-{
-    isDistributor 'ubuntu'
 }
 
 function isUserLoginInGroupName()
