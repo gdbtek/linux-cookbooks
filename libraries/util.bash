@@ -893,7 +893,7 @@ function disableService()
 
         systemctl daemon-reload
         systemctl disable "${serviceName}"
-        systemctl stop "${serviceName}"
+        systemctl stop "${serviceName}" || true
         systemctl status "${serviceName}" --full --no-pager || true
     else
         header "DISABLE SERVICE ${serviceName}"
@@ -948,7 +948,7 @@ function stopService()
         header "STOPPING SYSTEMD ${serviceName}"
 
         systemctl daemon-reload
-        systemctl stop "${serviceName}"
+        systemctl stop "${serviceName}" || true
         systemctl status "${serviceName}" --full --no-pager || true
     else
         header "STOPPING SERVICE ${serviceName}"
