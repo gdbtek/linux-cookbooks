@@ -24,8 +24,7 @@ function main()
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         "${appFolderPath}/../cookbooks/tmp-reaper/recipes/install.bash"
-    elif [[ "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
-    then
+    else
         "${appFolderPath}/../cookbooks/tmp-watch/recipes/install.bash"
     fi
 }
