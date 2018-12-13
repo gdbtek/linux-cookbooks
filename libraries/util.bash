@@ -1185,7 +1185,7 @@ function enableService()
         header "ENABLE SYSTEMD ${serviceName}"
 
         systemctl daemon-reload
-        systemctl enable "${serviceName}"
+        systemctl enable "${serviceName}" || true
         systemctl status "${serviceName}" --full --no-pager || true
     else
         header "ENABLE SERVICE ${serviceName}"
@@ -1216,7 +1216,7 @@ function startService()
         header "STARTING SYSTEMD ${serviceName}"
 
         systemctl daemon-reload
-        systemctl enable "${serviceName}"
+        systemctl enable "${serviceName}" || true
         systemctl start "${serviceName}"
         systemctl status "${serviceName}" --full --no-pager || true
     else
