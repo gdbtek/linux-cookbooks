@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installPackage 'openssh-server' 'openssh-server'
+    installPackages 'openssh-server'
 }
 
 function install()
