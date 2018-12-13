@@ -9,6 +9,8 @@ function install()
 {
     umask '0022'
 
+    # Configure
+
     local config=''
 
     for config in "${SSH_CONFIGS[@]}"
@@ -17,8 +19,11 @@ function install()
         appendToFileIfNotFound '/etc/ssh/sshd_config' "$(stringToSearchPattern "${config}")" "${config}" 'true' 'false' 'true'
     done
 
-    header 'RESTARTING SSH SERVICE'
-    service sshd restart
+    # Restart Service
+
+    restartService 'sshd'
+
+    # Verification
 
     if [[ "$(isPortOpen '22')" = 'false' ]]
     then
