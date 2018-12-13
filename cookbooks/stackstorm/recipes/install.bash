@@ -2,7 +2,7 @@
 
 function installDependencies()
 {
-    installPackage 'curl' 'curl'
+    installPackages 'curl'
     installPackage '' 'nss'
 }
 

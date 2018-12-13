@@ -4,7 +4,7 @@ function install()
 {
     umask '0022'
 
-    installPackage 'vim' 'vim'
+    installPackages 'vim'
 
     mkdir -p '/etc/vim'
     chmod 755 '/etc/vim'
