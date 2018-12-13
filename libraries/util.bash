@@ -186,6 +186,38 @@ function appendToFileIfNotFound()
     fi
 }
 
+function checkExistFile()
+{
+    local -r file="${1}"
+    local -r errorMessage="${2}"
+
+    if [[ "${file}" = '' || ! -f "${file}" ]]
+    then
+        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
+        then
+            fatal "\nFATAL : file '${file}' not found"
+        fi
+
+        fatal "\nFATAL : ${errorMessage}"
+    fi
+}
+
+function checkExistFolder()
+{
+    local -r folder="${1}"
+    local -r errorMessage="${2}"
+
+    if [[ "${folder}" = '' || ! -d "${folder}" ]]
+    then
+        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
+        then
+            fatal "\nFATAL : folder '${folder}' not found"
+        fi
+
+        fatal "\nFATAL : ${errorMessage}"
+    fi
+}
+
 function checkValidJSONContent()
 {
     local -r content="${1}"
@@ -204,6 +236,24 @@ function checkValidJSONFile()
     then
         fatal "\nFATAL : invalid JSON file '${file}'"
     fi
+}
+
+function cleanUpSystemFolders()
+{
+    header 'CLEANING UP SYSTEM FOLDERS'
+
+    local -r folders=(
+        '/tmp'
+        '/var/tmp'
+    )
+
+    local folder=''
+
+    for folder in "${folders[@]}"
+    do
+        echo "Cleaning up folder '${folder}'"
+        emptyFolder "${folder}"
+    done
 }
 
 function copyFolderContent()
@@ -276,6 +326,57 @@ function createInitFileFromTemplate()
     createFileFromTemplate "${templateFolderPath}/${serviceName}.service.systemd" "/etc/systemd/system/${serviceName}.service" "${initConfigDataFromTemplate[@]}"
 }
 
+function deleteOldLogs()
+{
+    local logFolderPaths=("${@}")
+
+    header 'DELETING OLD LOGS'
+
+    # Default Log Folder Path
+
+    if [[ "${#logFolderPaths[@]}" -lt '1' ]]
+    then
+        logFolderPaths+=('/var/log')
+    fi
+
+    # Walk Each Log Folder Path
+
+    local i=0
+
+    for ((i = 0; i < ${#logFolderPaths[@]}; i = i + 1))
+    do
+        checkExistFolder "${logFolderPaths[i]}"
+
+        find "${logFolderPaths[i]}" \
+            -type f \
+            \( \
+                -regex '.*-[0-9]+' -o \
+                -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.log' -o \
+                -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.txt' -o \
+                -regex '.*\.[0-9]+' -o \
+                -regex '.*\.[0-9]+\.log' -o \
+                -regex '.*\.gz' -o \
+                -regex '.*\.old' -o \
+                -regex '.*\.xz' \
+            \) \
+            -delete \
+            -print
+    done
+}
+
+function emptyFolder()
+{
+    local -r folder="${1}"
+
+    checkExistFolder "${folder}"
+
+    local -r currentPath="$(pwd)"
+
+    cd "${folder}"
+    find '.' -not -name '.' -delete
+    cd "${currentPath}"
+}
+
 function getFileExtension()
 {
     local -r string="${1}"
@@ -292,6 +393,47 @@ function getFileName()
     local -r fullFileName="$(basename "${string}")"
 
     echo "${fullFileName%.*}"
+}
+
+function getTemporaryFile()
+{
+    local extension="${1}"
+
+    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(grep -i -o "^." <<< "${extension}")" != '.' ]]
+    then
+        extension=".${extension}"
+    fi
+
+    mktemp "$(getTemporaryFolderRoot)/$(date +'%Y%m%d-%H%M%S')-XXXXXXXXXX${extension}"
+}
+
+function getTemporaryFolder()
+{
+    mktemp -d "$(getTemporaryFolderRoot)/$(date +'%Y%m%d-%H%M%S')-XXXXXXXXXX"
+}
+
+function getTemporaryFolderRoot()
+{
+    local temporaryFolder='/tmp'
+
+    if [[ "$(isEmptyString "${TMPDIR}")" = 'false' ]]
+    then
+        temporaryFolder="$(formatPath "${TMPDIR}")"
+    fi
+
+    echo "${temporaryFolder}"
+}
+
+function initializeFolder()
+{
+    local -r folder="${1}"
+
+    if [[ -d "${folder}" ]]
+    then
+        emptyFolder "${folder}"
+    else
+        mkdir -p "${folder}"
+    fi
 }
 
 function isValidJSONContent()
@@ -336,6 +478,38 @@ function redirectOutputToLogFile()
 
     mkdir -p "$(dirname "${logFile}")"
     exec > >(tee -a "${logFile}") 2>&1
+}
+
+function resetLogs()
+{
+    local logFolderPaths=("${@}")
+
+    # Default Log Folder Path
+
+    if [[ "${#logFolderPaths[@]}" -lt '1' ]]
+    then
+        logFolderPaths+=('/var/log')
+    fi
+
+    # Delete Old Logs
+
+    deleteOldLogs "${logFolderPaths[@]}"
+
+    # Reset Logs
+
+    header 'RESETTING LOGS'
+
+    local i=0
+
+    for ((i = 0; i < ${#logFolderPaths[@]}; i = i + 1))
+    do
+        checkExistFolder "${logFolderPaths[i]}"
+
+        find "${logFolderPaths[i]}" \
+            -type f \
+            -exec cp -f '/dev/null' '{}' \; \
+            -print
+    done
 }
 
 function symlinkLocalBin()
@@ -1435,38 +1609,6 @@ function checkExistCommand()
     fi
 }
 
-function checkExistFile()
-{
-    local -r file="${1}"
-    local -r errorMessage="${2}"
-
-    if [[ "${file}" = '' || ! -f "${file}" ]]
-    then
-        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
-        then
-            fatal "\nFATAL : file '${file}' not found"
-        fi
-
-        fatal "\nFATAL : ${errorMessage}"
-    fi
-}
-
-function checkExistFolder()
-{
-    local -r folder="${1}"
-    local -r errorMessage="${2}"
-
-    if [[ "${folder}" = '' || ! -d "${folder}" ]]
-    then
-        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
-        then
-            fatal "\nFATAL : folder '${folder}' not found"
-        fi
-
-        fatal "\nFATAL : ${errorMessage}"
-    fi
-}
-
 function checkRequirePorts()
 {
     local -r ports=("${@}")
@@ -1499,62 +1641,6 @@ function checkRequirePorts()
     fi
 }
 
-function cleanUpSystemFolders()
-{
-    header 'CLEANING UP SYSTEM FOLDERS'
-
-    local -r folders=(
-        '/tmp'
-        '/var/tmp'
-    )
-
-    local folder=''
-
-    for folder in "${folders[@]}"
-    do
-        echo "Cleaning up folder '${folder}'"
-        emptyFolder "${folder}"
-    done
-}
-
-function deleteOldLogs()
-{
-    local logFolderPaths=("${@}")
-
-    header 'DELETING OLD LOGS'
-
-    # Default Log Folder Path
-
-    if [[ "${#logFolderPaths[@]}" -lt '1' ]]
-    then
-        logFolderPaths+=('/var/log')
-    fi
-
-    # Walk Each Log Folder Path
-
-    local i=0
-
-    for ((i = 0; i < ${#logFolderPaths[@]}; i = i + 1))
-    do
-        checkExistFolder "${logFolderPaths[i]}"
-
-        find "${logFolderPaths[i]}" \
-            -type f \
-            \( \
-                -regex '.*-[0-9]+' -o \
-                -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.log' -o \
-                -regex '.*\.[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.txt' -o \
-                -regex '.*\.[0-9]+' -o \
-                -regex '.*\.[0-9]+\.log' -o \
-                -regex '.*\.gz' -o \
-                -regex '.*\.old' -o \
-                -regex '.*\.xz' \
-            \) \
-            -delete \
-            -print
-    done
-}
-
 function displayOpenPorts()
 {
     local -r sleepTimeInSecond="${1}"
@@ -1569,19 +1655,6 @@ function displayOpenPorts()
     fi
 
     lsof -i -n -P | grep -i ' (LISTEN)$' | sort -f
-}
-
-function emptyFolder()
-{
-    local -r folder="${1}"
-
-    checkExistFolder "${folder}"
-
-    local -r currentPath="$(pwd)"
-
-    cd "${folder}"
-    find '.' -not -name '.' -delete
-    cd "${currentPath}"
 }
 
 function existCommand()
@@ -1669,47 +1742,6 @@ function flushFirewall()
     iptables --list
 }
 
-function getTemporaryFile()
-{
-    local extension="${1}"
-
-    if [[ "$(isEmptyString "${extension}")" = 'false' && "$(grep -i -o "^." <<< "${extension}")" != '.' ]]
-    then
-        extension=".${extension}"
-    fi
-
-    mktemp "$(getTemporaryFolderRoot)/$(date +'%Y%m%d-%H%M%S')-XXXXXXXXXX${extension}"
-}
-
-function getTemporaryFolder()
-{
-    mktemp -d "$(getTemporaryFolderRoot)/$(date +'%Y%m%d-%H%M%S')-XXXXXXXXXX"
-}
-
-function getTemporaryFolderRoot()
-{
-    local temporaryFolder='/tmp'
-
-    if [[ "$(isEmptyString "${TMPDIR}")" = 'false' ]]
-    then
-        temporaryFolder="$(formatPath "${TMPDIR}")"
-    fi
-
-    echo "${temporaryFolder}"
-}
-
-function initializeFolder()
-{
-    local -r folder="${1}"
-
-    if [[ -d "${folder}" ]]
-    then
-        emptyFolder "${folder}"
-    else
-        mkdir -p "${folder}"
-    fi
-}
-
 function isPortOpen()
 {
     local -r port="$(escapeGrepSearchPattern "${1}")"
@@ -1757,38 +1789,6 @@ function remountTMP()
     else
         warn 'WARN : mount /tmp not found'
     fi
-}
-
-function resetLogs()
-{
-    local logFolderPaths=("${@}")
-
-    # Default Log Folder Path
-
-    if [[ "${#logFolderPaths[@]}" -lt '1' ]]
-    then
-        logFolderPaths+=('/var/log')
-    fi
-
-    # Delete Old Logs
-
-    deleteOldLogs "${logFolderPaths[@]}"
-
-    # Reset Logs
-
-    header 'RESETTING LOGS'
-
-    local i=0
-
-    for ((i = 0; i < ${#logFolderPaths[@]}; i = i + 1))
-    do
-        checkExistFolder "${logFolderPaths[i]}"
-
-        find "${logFolderPaths[i]}" \
-            -type f \
-            -exec cp -f '/dev/null' '{}' \; \
-            -print
-    done
 }
 
 ############################
