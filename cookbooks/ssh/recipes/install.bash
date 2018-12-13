@@ -17,6 +17,7 @@ function install()
     do
         header "ADDING SSH CONFIG '${config}'"
         appendToFileIfNotFound '/etc/ssh/sshd_config' "$(stringToSearchPattern "${config}")" "${config}" 'true' 'false' 'true'
+        grep -F "${config}" '/etc/ssh/sshd_config'
     done
 
     # Restart Service
