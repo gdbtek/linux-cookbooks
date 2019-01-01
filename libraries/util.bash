@@ -713,6 +713,24 @@ function unzipRemoteFile()
     fi
 }
 
+#################
+# GIT UTILITIES #
+#################
+
+function getGitRepositoryNameFromCloneURL()
+{
+    local -r cloneURL="${1}"
+
+    checkNonEmptyString "${cloneURL}" 'undefined clone url'
+
+    if [[ "$(grep -F -o '@' <<< "${cloneURL}")" != '' ]]
+    then
+        awk -F '/' '{ print $2 }' <<< "${cloneURL}" | cut -d '.' -f 1
+    else
+        awk -F '/' '{ print $5 }' <<< "${cloneURL}" | cut -d '.' -f 1
+    fi
+}
+
 ####################
 # NUMBER UTILITIES #
 ####################
