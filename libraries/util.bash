@@ -1301,7 +1301,10 @@ function debug()
 {
     local -r message="${1}"
 
-    echo -e "\033[1;34m${message}\033[0m" 2>&1
+    if [[ "$(isEmptyString "${message}")" = 'false' ]]
+    then
+        echo -e "\033[1;34m${message}\033[0m" 2>&1
+    fi
 }
 
 function deleteSpaces()
@@ -1348,7 +1351,10 @@ function error()
 {
     local -r message="${1}"
 
-    echo -e "\033[1;31m${message}\033[0m" 1>&2
+    if [[ "$(isEmptyString "${message}")" = 'false' ]]
+    then
+        echo -e "\033[1;31m${message}\033[0m" 1>&2
+    fi
 }
 
 function escapeGrepSearchPattern()
@@ -1404,7 +1410,10 @@ function info()
 {
     local -r message="${1}"
 
-    echo -e "\033[1;36m${message}\033[0m" 2>&1
+    if [[ "$(isEmptyString "${message}")" = 'false' ]]
+    then
+        echo -e "\033[1;36m${message}\033[0m" 2>&1
+    fi
 }
 
 function invertTrueFalseString()
@@ -1559,7 +1568,10 @@ function warn()
 {
     local -r message="${1}"
 
-    echo -e "\033[1;33m${message}\033[0m" 1>&2
+    if [[ "$(isEmptyString "${message}")" = 'false' ]]
+    then
+        echo -e "\033[1;33m${message}\033[0m" 1>&2
+    fi
 }
 
 ####################
