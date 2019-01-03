@@ -568,6 +568,15 @@ function symlinkLocalBin()
     fi
 }
 
+function trimFile()
+{
+    local -r filePath="${1}"
+
+    checkExistFile "${filePath}"
+
+    printf '%s' "$(< "${filePath}")" > "${filePath}"
+}
+
 #########################
 # FILE REMOTE UTILITIES #
 #########################
