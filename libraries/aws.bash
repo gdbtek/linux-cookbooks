@@ -332,7 +332,7 @@ function checkValidRegion()
 
 function getAllowedRegions()
 {
-    echo 'ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-west-1 eu-west-2 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2'
+    echo 'ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2'
 }
 
 function getRegionFromRecordSetAliasTargetDNSName()
@@ -351,6 +351,63 @@ function getRegionFromRecordSetAliasTargetDNSName()
             echo "${region}" && return 0
         fi
     done
+}
+
+function getShortRegionName()
+{
+    local -r region="${1}"
+
+    checkValidRegion "${region}"
+
+    if [[ "${region}" = 'ap-northeast-1' ]]
+    then
+        echo 'apne1'
+    elif [[ "${region}" = 'ap-northeast-2' ]]
+    then
+        echo 'apne2'
+    elif [[ "${region}" = 'ap-south-1' ]]
+    then
+        echo 'aps1'
+    elif [[ "${region}" = 'ap-southeast-1' ]]
+    then
+        echo 'apse1'
+    elif [[ "${region}" = 'ap-southeast-2' ]]
+    then
+        echo 'apse2'
+    elif [[ "${region}" = 'ca-central-1' ]]
+    then
+        echo 'cac1'
+    elif [[ "${region}" = 'eu-central-1' ]]
+    then
+        echo 'euc1'
+    elif [[ "${region}" = 'eu-north-1' ]]
+    then
+        echo 'eun1'
+    elif [[ "${region}" = 'eu-west-1' ]]
+    then
+        echo 'euw1'
+    elif [[ "${region}" = 'eu-west-2' ]]
+    then
+        echo 'euw2'
+    elif [[ "${region}" = 'eu-west-3' ]]
+    then
+        echo 'euw3'
+    elif [[ "${region}" = 'sa-east-1' ]]
+    then
+        echo 'sae1'
+    elif [[ "${region}" = 'us-east-1' ]]
+    then
+        echo 'use1'
+    elif [[ "${region}" = 'us-east-2' ]]
+    then
+        echo 'use2'
+    elif [[ "${region}" = 'us-west-1' ]]
+    then
+        echo 'usw1'
+    elif [[ "${region}" = 'us-west-2' ]]
+    then
+        echo 'usw2'
+    fi
 }
 
 function isValidRegion()
@@ -457,51 +514,7 @@ function getInstanceRegion()
 
     if [[ "${shortVersion}" = 'true' ]]
     then
-        if [[ "${fullRegionName}" = 'ap-northeast-1' ]]
-        then
-            echo 'apne1'
-        elif [[ "${fullRegionName}" = 'ap-northeast-2' ]]
-        then
-            echo 'apne2'
-        elif [[ "${fullRegionName}" = 'ap-south-1' ]]
-        then
-            echo 'aps1'
-        elif [[ "${fullRegionName}" = 'ap-southeast-1' ]]
-        then
-            echo 'apse1'
-        elif [[ "${fullRegionName}" = 'ap-southeast-2' ]]
-        then
-            echo 'apse2'
-        elif [[ "${fullRegionName}" = 'ca-central-1' ]]
-        then
-            echo 'cac1'
-        elif [[ "${fullRegionName}" = 'eu-central-1' ]]
-        then
-            echo 'euc1'
-        elif [[ "${fullRegionName}" = 'eu-west-1' ]]
-        then
-            echo 'euw1'
-        elif [[ "${fullRegionName}" = 'eu-west-2' ]]
-        then
-            echo 'euw2'
-        elif [[ "${fullRegionName}" = 'sa-east-1' ]]
-        then
-            echo 'sae1'
-        elif [[ "${fullRegionName}" = 'us-east-1' ]]
-        then
-            echo 'use1'
-        elif [[ "${fullRegionName}" = 'us-east-2' ]]
-        then
-            echo 'use2'
-        elif [[ "${fullRegionName}" = 'us-west-1' ]]
-        then
-            echo 'usw1'
-        elif [[ "${fullRegionName}" = 'us-west-2' ]]
-        then
-            echo 'usw2'
-        else
-            echo ''
-        fi
+        getShortRegionName "${fullRegionName}"
     else
         echo "${fullRegionName}"
     fi
@@ -532,6 +545,78 @@ function getInstanceVPCID()
 ###########################
 # LOAD BALANCER UTILITIES #
 ###########################
+
+function getAWSELBAccountID()
+{
+    local -r region="${1}"
+
+    checkValidRegion "${region}"
+
+    if [[ "${region}" = 'ap-northeast-1' ]]
+    then
+        echo '582318560864'
+    elif [[ "${region}" = 'ap-northeast-2' ]]
+    then
+        echo '600734575887'
+    elif [[ "${region}" = 'ap-northeast-3' ]]
+    then
+        echo '383597477331'
+    elif [[ "${region}" = 'ap-south-1' ]]
+    then
+        echo '718504428378'
+    elif [[ "${region}" = 'ap-southeast-1' ]]
+    then
+        echo '114774131450'
+    elif [[ "${region}" = 'ap-southeast-2' ]]
+    then
+        echo '783225319266'
+    elif [[ "${region}" = 'ca-central-1' ]]
+    then
+        echo '985666609251'
+    elif [[ "${region}" = 'cn-north-1' ]]
+    then
+        echo '638102146993'
+    elif [[ "${region}" = 'cn-northwest-1' ]]
+    then
+        echo '037604701340'
+    elif [[ "${region}" = 'eu-central-1' ]]
+    then
+        echo '054676820928'
+    elif [[ "${region}" = 'eu-north-1' ]]
+    then
+        echo '897822967062'
+    elif [[ "${region}" = 'eu-west-1' ]]
+    then
+        echo '156460612806'
+    elif [[ "${region}" = 'eu-west-2' ]]
+    then
+        echo '652711504416'
+    elif [[ "${region}" = 'eu-west-3' ]]
+    then
+        echo '009996457667'
+    elif [[ "${region}" = 'sa-east-1' ]]
+    then
+        echo '507241528517'
+    elif [[ "${region}" = 'us-east-1' ]]
+    then
+        echo '127311923021'
+    elif [[ "${region}" = 'us-east-2' ]]
+    then
+        echo '033677994240'
+    elif [[ "${region}" = 'us-gov-east-1' ]]
+    then
+        echo '190560391635'
+    elif [[ "${region}" = 'us-gov-west-1' ]]
+    then
+        echo '048591011584'
+    elif [[ "${region}" = 'us-west-1' ]]
+    then
+        echo '027434742980'
+    elif [[ "${region}" = 'us-west-2' ]]
+    then
+        echo '797873946194'
+    fi
+}
 
 function getLoadBalancerDNSNameByName()
 {
@@ -627,63 +712,6 @@ function existS3Bucket()
     local -r bucketName="${1}"
 
     isEmptyString "$(aws s3api head-bucket --bucket "${bucketName}" 2>&1)"
-}
-
-function getAWSELBAccountID()
-{
-    local -r region="${1}"
-
-    if [[ "${region}" = 'ap-northeast-1' ]]
-    then
-        echo '582318560864'
-    elif [[ "${region}" = 'ap-northeast-2' ]]
-    then
-        echo '600734575887'
-    elif [[ "${region}" = 'ap-south-1' ]]
-    then
-        echo '718504428378'
-    elif [[ "${region}" = 'ap-southeast-1' ]]
-    then
-        echo '114774131450'
-    elif [[ "${region}" = 'ap-southeast-2' ]]
-    then
-        echo '783225319266'
-    elif [[ "${region}" = 'ca-central-1' ]]
-    then
-        echo '985666609251'
-    elif [[ "${region}" = 'cn-north-1' ]]
-    then
-        echo '638102146993'
-    elif [[ "${region}" = 'eu-central-1' ]]
-    then
-        echo '054676820928'
-    elif [[ "${region}" = 'eu-west-1' ]]
-    then
-        echo '156460612806'
-    elif [[ "${region}" = 'eu-west-2' ]]
-    then
-        echo '652711504416'
-    elif [[ "${region}" = 'sa-east-1' ]]
-    then
-        echo '507241528517'
-    elif [[ "${region}" = 'us-east-1' ]]
-    then
-        echo '127311923021'
-    elif [[ "${region}" = 'us-east-2' ]]
-    then
-        echo '033677994240'
-    elif [[ "${region}" = 'us-gov-west-1' ]]
-    then
-        echo '048591011584'
-    elif [[ "${region}" = 'us-west-1' ]]
-    then
-        echo '027434742980'
-    elif [[ "${region}" = 'us-west-2' ]]
-    then
-        echo '797873946194'
-    else
-        echo ''
-    fi
 }
 
 #################
