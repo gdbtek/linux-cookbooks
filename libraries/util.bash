@@ -731,6 +731,55 @@ function getGitRepositoryNameFromCloneURL()
     fi
 }
 
+#################
+# MAC UTILITIES #
+#################
+
+function closeMacApplications()
+{
+    local -r headerMessage="${1}"
+    local -r applications=("${@:2}")
+
+    checkRequireMacSystem
+
+    header "${headerMessage}"
+
+    local application=''
+
+    for application in "${applications[@]}"
+    do
+        if [[ "${application}" != 'Terminal' ]]
+        then
+            local errorMessage="$(osascript -e "tell application \"${application}\" to quit" 2>&1)"
+
+            if [[ "$(isEmptyString "${errorMessage}")" = 'true' || "$(grep -E -o '\(-128)$' <<< "${errorMessage}")" != '' ]]
+            then
+                info "closing '${application}'"
+            else
+                error "${errorMessage}"
+            fi
+        fi
+    done
+}
+
+function openMacApplications()
+{
+    local -r headerMessage="${1}"
+    local -r applications=("${@:2}")
+
+    checkRequireMacSystem
+
+    header "${headerMessage}"
+
+    local application=''
+
+    for application in "${applications[@]}"
+    do
+        info "openning '${application}'"
+        osascript -e "tell application \"${application}\" to activate"
+    done
+}
+
 ####################
 # NUMBER UTILITIES #
 ####################
@@ -1395,7 +1444,10 @@ function header()
 {
     local -r title="${1}"
 
-    echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${title}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
+    if [[ "$(isEmptyString "${title}")" = 'false' ]]
+    then
+        echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;35m${title}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
+    fi
 }
 
 function indentString()
