@@ -1505,7 +1505,7 @@ function isEmptyString()
 
 function postUpMessage()
 {
-    echo -e "\n\033[1;4;32m¯\_(ツ)_/¯\033[0m"
+    echo -e "\n\033[1;32m¯\_(ツ)_/¯\033[0m"
 }
 
 function printTable()
@@ -1996,6 +1996,14 @@ function checkExistUserLogin()
     if [[ "$(existUserLogin "${userLogin}")" = 'false' ]]
     then
         fatal "\nFATAL : user login '${userLogin}' not found"
+    fi
+}
+
+function checkRequireNonRootUser()
+{
+    if [[ "$(whoami)" = 'root' ]]
+    then
+        fatal '\nFATAL : non root login required'
     fi
 }
 
