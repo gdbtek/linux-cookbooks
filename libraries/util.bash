@@ -1505,7 +1505,7 @@ function isEmptyString()
 
 function postUpMessage()
 {
-    echo -e "\033[1;32m¯\_(ツ)_/¯\033[0m"
+    echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;32m¯\_(ツ)_/¯\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
 }
 
 function printTable()
