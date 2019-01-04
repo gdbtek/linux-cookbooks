@@ -1503,6 +1503,11 @@ function isEmptyString()
     echo 'false' && return 1
 }
 
+function postUpMessage()
+{
+    echo -e "\033[1;32m¯\_(ツ)_/¯\033[0m"
+}
+
 function printTable()
 {
     local -r delimiter="${1}"

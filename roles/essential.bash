@@ -27,6 +27,8 @@ function main()
     else
         "${appFolderPath}/../cookbooks/tmp-watch/recipes/install.bash"
     fi
+
+    postUpMessage
 }
 
 main "${@}"

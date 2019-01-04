@@ -57,6 +57,10 @@ function main()
     # Display Notice
 
     displayNotice "${JENKINS_USER_NAME}" 'false'
+
+    # Finish
+
+    postUpMessage
 }
 
 main "${@}"

@@ -28,6 +28,7 @@ function main()
 
     cleanUpSystemFolders
     resetLogs
+    postUpMessage
 }
 
 main "${@}"

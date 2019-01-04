@@ -35,6 +35,10 @@ function main()
 
     cleanUpSystemFolders
     cleanUpMess
+
+    # Finish
+
+    postUpMessage
 }
 
 main "${@}"

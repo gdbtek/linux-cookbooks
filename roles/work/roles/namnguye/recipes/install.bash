@@ -51,6 +51,10 @@ function main()
     # Display Notice
 
     displayNotice "$(whoami)" 'false'
+
+    # Finish
+
+    postUpMessage
 }
 
 main "${@}"
