@@ -15,9 +15,10 @@ function getAutoScaleGroupNameByStackName()
     aws autoscaling describe-auto-scaling-groups \
         --output 'json' |
     jq \
+        --arg jqStackName "${stackName}" \
         --compact-output \
         --raw-output \
-        --arg jqStackName "${stackName}" \
+        --sort-keys \
         '.["AutoScalingGroups"] |
         .[] |
         .["Tags"] |
@@ -474,6 +475,7 @@ function getInstanceIAMRole()
     jq \
         --compact-output \
         --raw-output \
+        --sort-keys \
         '.["InstanceProfileArn"] // empty' |
     cut -d '/' -f 2
 }
@@ -642,9 +644,10 @@ function isLoadBalancerFromStackName()
         aws elb describe-tags \
             --load-balancer-name "${loadBalancerName}" |
         jq \
+            --arg jqStackName "${stackName}" \
             --compact-output \
             --raw-output \
-            --arg jqStackName "${stackName}" \
+            --sort-keys \
             '.["TagDescriptions"] |
             .[] |
             .["Tags"] |
@@ -667,10 +670,14 @@ function getLoadBalancerTag()
     local -r key="${2}"
 
     jq \
+        --arg jqKey "${key}" \
         --compact-output \
         --raw-output \
-        --arg jqKey "${key}" \
-        '.["TagDescriptions"][] | .["Tags"] | map(select(.["Key"] == $jqKey))[] | .["Value"] // empty' \
+        --sort-keys \
+        '.["TagDescriptions"][] |
+        .["Tags"] |
+        map(select(.["Key"] == $jqKey))[] |
+        .["Value"] // empty' \
     <<< "${tags}"
 }
 
@@ -747,7 +754,8 @@ function getAvailabilityZonesByVPCName()
     jq \
         --compact-output \
         --raw-output \
-        'unique | .[] // empty'
+        'unique |
+        .[] // empty'
 }
 
 function getCurrentVPCCIDRBlock()
