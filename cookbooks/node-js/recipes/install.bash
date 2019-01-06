@@ -72,9 +72,7 @@ function install()
     local -r userHomeFolderPath="$(getCurrentUserHomeFolder)"
 
     rm -f -r "${userHomeFolderPath}/.cache" \
-             "${userHomeFolderPath}/.node-gyp" \
-             "${userHomeFolderPath}/.npm" \
-             "${userHomeFolderPath}/.qws"
+             "${userHomeFolderPath}/.npm"
 
     # Display Version
 
