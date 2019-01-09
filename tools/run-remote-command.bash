@@ -34,8 +34,8 @@ function displayUsage()
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
     echo    "  ./${scriptName} --address '1.2.3.4, 5.6.7.8' --command 'date'"
-    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --address '1.2.3.4, 5.6.7.8' --command 'ntpstat'"
-    echo    "  ./${scriptName} --identity-file '/path/to/key.pem' --login-name 'ec2-user' --address '1.2.3.4, 5.6.7.8' --command 'chronyc tracking'"
+    echo    "  ./${scriptName} --identity-file '/path/key.pem' --login-name 'ec2-user' --address '1.2.3.4, 5.6.7.8' --command 'ntpstat'"
+    echo    "  ./${scriptName} --identity-file '/path/key.pem' --login-name 'ec2-user' --address '1.2.3.4, 5.6.7.8' --command 'chronyc tracking'"
     echo -e '\033[0m'
 
     exit "${1}"
