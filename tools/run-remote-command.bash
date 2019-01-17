@@ -28,7 +28,7 @@ function displayUsage()
     echo    '  --help             Help page (optional)'
     echo    '  --identity-file    Path to identity file (optional)'
     echo    '  --login-name       Login name (optional)'
-    echo    '  --address          List of server address seperated by spaces or commas (require)'
+    echo    '  --address          List of server addresses seperated by spaces or commas (require)'
     echo    '  --command          Command that will be run in remote servers (require)'
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
