@@ -480,6 +480,21 @@ function redirectOutputToLogFile()
     exec > >(tee -a "${logFile}") 2>&1
 }
 
+function resetFolderPermission()
+{
+    local -r folderPath="${1}"
+    local -r userLogin="${2}"
+    local -r groupName="${3}"
+
+    checkExistFolder "${folderPath}"
+    checkExistUserLogin "${userLogin}"
+    checkExistGroupName "${groupName}"
+
+    chown -R "${userLogin}:${groupName}" "${folderPath}"
+    find "${folderPath}" -type d -exec chmod 700 {} \; -print
+    find "${folderPath}" -type f -exec chmod 600 {} \; -print
+}
+
 function resetLogs()
 {
     local logFolderPaths=("${@}")
