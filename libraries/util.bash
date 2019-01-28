@@ -798,7 +798,10 @@ function openMacApplications()
 
     checkRequireMacSystem
 
-    header "${headerMessage}"
+    if [[ "${#applications[@]}" -gt '0' ]]
+    then
+        header "${headerMessage}"
+    fi
 
     local application=''
 
@@ -806,6 +809,38 @@ function openMacApplications()
     do
         info "openning '${application}'"
         osascript -e "tell application \"${application}\" to activate"
+    done
+}
+
+function resetMacApplicationPermissions()
+{
+    local -r headerMessage="${1}"
+    local -r applications=("${@:2}")
+
+    checkRequireMacSystem
+
+    if [[ "${#applications[@]}" -gt '0' ]]
+    then
+        header "${headerMessage}"
+    fi
+
+    local application=''
+
+    for application in "${applications[@]}"
+    do
+        application="$(getFileName "${application}")"
+
+        if [[ "${application}" != 'Terminal' ]]
+        then
+            local errorMessage="$(osascript -e "tell application \"${application}\" to quit" 2>&1)"
+
+            if [[ "$(isEmptyString "${errorMessage}")" = 'true' || "$(grep -E -o '\(-128)$' <<< "${errorMessage}")" != '' ]]
+            then
+                info "closing '${application}'"
+            else
+                error "${errorMessage}"
+            fi
+        fi
     done
 }
 
