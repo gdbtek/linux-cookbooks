@@ -812,7 +812,7 @@ function openMacApplications()
     done
 }
 
-function resetMacApplicationPermissions()
+function clearAppExtendedAttributes()
 {
     local -r headerMessage="${1}"
     local -r applicationPaths=("${@:2}")
@@ -832,7 +832,7 @@ function resetMacApplicationPermissions()
 
         if [[ "$(ls -d -l -O "${applicationPath}" | grep -E '\s+restricted\s+')" = '' ]]
         then
-            info "resetting permission '${applicationPath}'"
+            info "clearing extended attributes of '${applicationPath}'"
             xattr -c -r "${applicationPath}"
         fi
     done
