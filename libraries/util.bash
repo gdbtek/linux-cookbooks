@@ -762,28 +762,28 @@ function getGitRepositoryNameFromCloneURL()
 function closeMacApplications()
 {
     local -r headerMessage="${1}"
-    local -r applications=("${@:2}")
+    local -r applicationNames=("${@:2}")
 
     checkRequireMacSystem
 
-    if [[ "${#applications[@]}" -gt '0' ]]
+    if [[ "${#applicationNames[@]}" -gt '0' ]]
     then
         header "${headerMessage}"
     fi
 
-    local application=''
+    local applicationName=''
 
-    for application in "${applications[@]}"
+    for applicationName in "${applicationNames[@]}"
     do
-        application="$(getFileName "${application}")"
+        applicationName="$(getFileName "${applicationName}")"
 
-        if [[ "${application}" != 'Terminal' ]]
+        if [[ "${applicationName}" != 'Terminal' ]]
         then
-            local errorMessage="$(osascript -e "tell application \"${application}\" to quit" 2>&1)"
+            local errorMessage="$(osascript -e "tell application \"${applicationName}\" to quit" 2>&1)"
 
             if [[ "$(isEmptyString "${errorMessage}")" = 'true' || "$(grep -E -o '\(-128)$' <<< "${errorMessage}")" != '' ]]
             then
-                info "closing '${application}'"
+                info "closing '${applicationName}'"
             else
                 error "${errorMessage}"
             fi
@@ -794,52 +794,45 @@ function closeMacApplications()
 function openMacApplications()
 {
     local -r headerMessage="${1}"
-    local -r applications=("${@:2}")
+    local -r applicationNames=("${@:2}")
 
     checkRequireMacSystem
 
-    if [[ "${#applications[@]}" -gt '0' ]]
+    if [[ "${#applicationNames[@]}" -gt '0' ]]
     then
         header "${headerMessage}"
     fi
 
-    local application=''
+    local applicationName=''
 
-    for application in "${applications[@]}"
+    for applicationName in "${applicationNames[@]}"
     do
-        info "openning '${application}'"
-        osascript -e "tell application \"${application}\" to activate"
+        info "openning '${applicationName}'"
+        osascript -e "tell application \"${applicationName}\" to activate"
     done
 }
 
 function resetMacApplicationPermissions()
 {
     local -r headerMessage="${1}"
-    local -r applications=("${@:2}")
+    local -r applicationPaths=("${@:2}")
 
     checkRequireMacSystem
 
-    if [[ "${#applications[@]}" -gt '0' ]]
+    if [[ "${#applicationPaths[@]}" -gt '0' ]]
     then
         header "${headerMessage}"
     fi
 
-    local application=''
+    local applicationPath=''
 
-    for application in "${applications[@]}"
+    for applicationPath in "${applicationPaths[@]}"
     do
-        application="$(getFileName "${application}")"
+        # Find Non-Default Apple App
 
-        if [[ "${application}" != 'Terminal' ]]
+        if [[ "$(ls -d -l -O "${applicationPath}" | grep -E '\s+restricted\s+')" = '' ]]
         then
-            local errorMessage="$(osascript -e "tell application \"${application}\" to quit" 2>&1)"
-
-            if [[ "$(isEmptyString "${errorMessage}")" = 'true' || "$(grep -E -o '\(-128)$' <<< "${errorMessage}")" != '' ]]
-            then
-                info "closing '${application}'"
-            else
-                error "${errorMessage}"
-            fi
+            echo ">>>$applicationPath"
         fi
     done
 }
