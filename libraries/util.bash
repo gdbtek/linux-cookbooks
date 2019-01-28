@@ -812,7 +812,7 @@ function openMacApplications()
     done
 }
 
-function clearAppExtendedAttributes()
+function clearMacAppExtendedAttributes()
 {
     local -r headerMessage="${1}"
     local -r applicationPaths=("${@:2}")
@@ -833,7 +833,7 @@ function clearAppExtendedAttributes()
         if [[ "$(ls -d -l -O "${applicationPath}" | grep -E '\s+restricted\s+')" = '' ]]
         then
             info "clearing extended attributes of '${applicationPath}'"
-            xattr -c -r "${applicationPath}"
+            xattr -c -r -s "${applicationPath}"
         fi
     done
 }
