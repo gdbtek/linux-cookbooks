@@ -766,7 +766,10 @@ function closeMacApplications()
 
     checkRequireMacSystem
 
-    header "${headerMessage}"
+    if [[ "${#applications[@]}" -gt '0' ]]
+    then
+        header "${headerMessage}"
+    fi
 
     local application=''
 
