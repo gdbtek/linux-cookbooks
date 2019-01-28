@@ -832,8 +832,8 @@ function resetMacApplicationPermissions()
 
         if [[ "$(ls -d -l -O "${applicationPath}" | grep -E '\s+restricted\s+')" = '' ]]
         then
-            xattr -c "${applicationPath}"
-            xattr "${applicationPath}"
+            info "resetting permission '${applicationPath}'"
+            xattr -c -r "${applicationPath}"
         fi
     done
 }
