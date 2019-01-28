@@ -772,6 +772,8 @@ function closeMacApplications()
 
     for application in "${applications[@]}"
     do
+        application="$(getFileName "${application}")"
+
         if [[ "${application}" != 'Terminal' ]]
         then
             local errorMessage="$(osascript -e "tell application \"${application}\" to quit" 2>&1)"
