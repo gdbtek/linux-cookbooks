@@ -741,23 +741,23 @@ function unzipRemoteFile()
 # GIT UTILITIES #
 #################
 
-function getGitHubUserPrivateRepositorySSHURL()
+function getGitUserPrivateRepositorySSHURL()
 {
     local -r user="${1}"
     local -r token="${2}"
 
-    getGitHubUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private'
+    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private'
 }
 
-function getGitHubUserPublicRepositorySSHURL()
+function getGitUserPublicRepositorySSHURL()
 {
     local -r user="${1}"
     local -r token="${2}"
 
-    getGitHubUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public'
+    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public'
 }
 
-function getGitHubUserRepositoryObjectKey()
+function getGitUserRepositoryObjectKey()
 {
     local -r user="${1}"
     local -r token="${2}"
