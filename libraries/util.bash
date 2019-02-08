@@ -741,6 +741,49 @@ function unzipRemoteFile()
 # GIT UTILITIES #
 #################
 
+function getGitHubUserPrivateRepositorySSHURL()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+
+    getGitHubUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private'
+}
+
+function getGitHubUserPublicRepositorySSHURL()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+
+    getGitHubUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public'
+}
+
+function getGitHubUserRepositoryObjectKey()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r objectKey="${3}"
+    local -r visibility="${4}"
+
+    checkNonEmptyString "${user}" 'undefined user'
+    checkNonEmptyString "${token}" 'undefined token'
+    checkNonEmptyString "${objectKey}" 'undefined object key'
+
+    curl \
+        -s \
+        -X 'GET' \
+        -u "${user}:${token}" \
+        -L "https://api.github.com/user/repos?affiliation=owner&visibility=${visibility}" \
+        --retry 12 \
+        --retry-delay 5 |
+    jq \
+        --arg jqObjectKey "${objectKey}" \
+        --compact-output \
+        --raw-output \
+        --sort-keys \
+        '.[] |
+         .[$jqObjectKey] // empty'
+}
+
 function getGitRepositoryNameFromCloneURL()
 {
     local -r cloneURL="${1}"
