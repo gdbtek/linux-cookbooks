@@ -36,10 +36,35 @@ function cloneAllUserRepositories()
     local -r user="${1}"
     local -r token="${2}"
     local -r cloneFolder="${3}"
+    local -r visibility="${4}"
+    local -r repositorySSHURLs=(${5})
 
     checkNonEmptyString "${user}" 'undefined user'
     checkNonEmptyString "${token}" 'undefined token'
     checkExistFolder "${cloneFolder}"
+
+    # Create User Folder
+
+    local -r rootRepository="${cloneFolder}/${user}/sources/${visibility}"
+
+    mkdir -p "${rootRepository}"
+
+    # Each Repository
+
+    local repositorySSHURL=''
+
+    for repositorySSHURL in "${repositorySSHURLs[@]}"
+    do
+        header "CLONING '${repositorySSHURL}' IN '${rootRepository}'"
+
+        cd "${rootRepository}"
+        git clone "${repositorySSHURL}"
+
+        cd "$(getGitRepositoryNameFromCloneURL "${repositorySSHURL}")"
+
+        #git config user.name "${GIT_USER_NAME}"
+        #git config user.email "${GIT_USER_GITHUB_EMAIL}"
+    done
 }
 
 ########
@@ -106,7 +131,8 @@ function main()
 
     # Clone Repositories
 
-    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}"
+    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'private' "$(getGitUserPrivateRepositorySSHURL "${user}" "${token}")"
+    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'public' "$(getGitUserPublicRepositorySSHURL "${user}" "${token}")"
 }
 
 main "${@}"

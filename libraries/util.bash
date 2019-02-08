@@ -792,9 +792,9 @@ function getGitRepositoryNameFromCloneURL()
 
     if [[ "$(grep -F -o '@' <<< "${cloneURL}")" != '' ]]
     then
-        awk -F '/' '{ print $2 }' <<< "${cloneURL}" | cut -d '.' -f 1
+        awk -F '/' '{ print $2 }' <<< "${cloneURL}" | rev | cut -d '.' -f 2- | rev
     else
-        awk -F '/' '{ print $5 }' <<< "${cloneURL}" | cut -d '.' -f 1
+        awk -F '/' '{ print $5 }' <<< "${cloneURL}" | rev | cut -d '.' -f 2- | rev
     fi
 }
 
