@@ -45,7 +45,7 @@ function cloneAllUserRepositories()
 
     # Create User Folder
 
-    local -r rootRepository="${cloneFolder}/${user}/sources/${visibility}"
+    local -r rootRepository="${cloneFolder}/${user}/${visibility}"
 
     mkdir -p "${rootRepository}"
 
