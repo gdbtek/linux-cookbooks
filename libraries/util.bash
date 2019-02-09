@@ -832,7 +832,7 @@ function getGitUserRepositoryObjectKey()
         -s \
         -X 'GET' \
         -u "${user}:${token}" \
-        -L "https://api.github.com/user/repos?affiliation=owner&visibility=${visibility}" \
+        -L "https://api.github.com/user/repos?affiliation=owner&per_page=100&visibility=${visibility}" \
         --retry 12 \
         --retry-delay 5 |
     jq \
