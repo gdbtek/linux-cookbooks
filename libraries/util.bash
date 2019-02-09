@@ -824,24 +824,52 @@ function getGitUserRepositoryObjectKey()
     local -r objectKey="${3}"
     local -r visibility="${4}"
 
+    # Validation
+
     checkNonEmptyString "${user}" 'undefined user'
     checkNonEmptyString "${token}" 'undefined token'
     checkNonEmptyString "${objectKey}" 'undefined object key'
 
-    curl \
-        -s \
-        -X 'GET' \
-        -u "${user}:${token}" \
-        -L "https://api.github.com/user/repos?affiliation=owner&per_page=100&visibility=${visibility}" \
-        --retry 12 \
-        --retry-delay 5 |
-    jq \
-        --arg jqObjectKey "${objectKey}" \
-        --compact-output \
-        --raw-output \
-        --sort-keys \
-        '.[] |
-         .[$jqObjectKey] // empty'
+    # Pagination
+
+    local results=''
+
+    local page=1
+    local exitCount=0
+
+    for ((page = 1; page > exitCount; page = page + 1))
+    do
+        local currentObjectValue="$(
+            curl \
+                -s \
+                -X 'GET' \
+                -u "${user}:${token}" \
+                -L "https://api.github.com/user/repos?affiliation=owner&per_page=100&page=${page}&visibility=${visibility}" \
+                --retry 12 \
+                --retry-delay 5 |
+            jq \
+                --arg jqObjectKey "${objectKey}" \
+                --compact-output \
+                --raw-output \
+                --sort-keys \
+                '.[] |
+                .[$jqObjectKey] // empty'
+        )"
+
+        if [[ "$(isEmptyString "${currentObjectValue}")" = 'true' ]]
+        then
+            exitCount="$((page + 1))"
+        elif [[ "${page}" = '1' ]]
+        then
+            results="$(printf '%s' "${currentObjectValue}")"
+        else
+            results="$(printf '%s\n%s' "${results}" "${currentObjectValue}")"
+        fi
+    done
+
+    # Return Results
+
+    echo "${results}"
 }
 
 #################
