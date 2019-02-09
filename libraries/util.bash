@@ -741,6 +741,66 @@ function unzipRemoteFile()
 # GIT UTILITIES #
 #################
 
+function getGitRepositoryNameFromCloneURL()
+{
+    local -r cloneURL="${1}"
+
+    checkNonEmptyString "${cloneURL}" 'undefined clone url'
+
+    if [[ "$(grep -F -o '@' <<< "${cloneURL}")" != '' ]]
+    then
+        awk -F '/' '{ print $2 }' <<< "${cloneURL}" | rev | cut -d '.' -f 2- | rev
+    else
+        awk -F '/' '{ print $5 }' <<< "${cloneURL}" | rev | cut -d '.' -f 2- | rev
+    fi
+}
+
+function getGitUserName()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+
+    checkNonEmptyString "${user}" 'undefined user'
+    checkNonEmptyString "${token}" 'undefined token'
+
+    curl \
+        -s \
+        -X 'GET' \
+        -u "${user}:${token}" \
+        -L "https://api.github.com/user" \
+        --retry 12 \
+        --retry-delay 5 |
+    jq \
+        --compact-output \
+        --raw-output \
+        --sort-keys \
+        '.["name"] // empty'
+}
+
+function getGitUserPrimaryEmail()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+
+    checkNonEmptyString "${user}" 'undefined user'
+    checkNonEmptyString "${token}" 'undefined token'
+
+    curl \
+        -s \
+        -X 'GET' \
+        -u "${user}:${token}" \
+        -L "https://api.github.com/user/emails" \
+        --retry 12 \
+        --retry-delay 5 |
+    jq \
+        --compact-output \
+        --raw-output \
+        --sort-keys \
+        '.[] |
+         select(.["primary"] == true) |
+         .["email"] // empty'
+}
+
 function getGitUserPrivateRepositorySSHURL()
 {
     local -r user="${1}"
@@ -782,20 +842,6 @@ function getGitUserRepositoryObjectKey()
         --sort-keys \
         '.[] |
          .[$jqObjectKey] // empty'
-}
-
-function getGitRepositoryNameFromCloneURL()
-{
-    local -r cloneURL="${1}"
-
-    checkNonEmptyString "${cloneURL}" 'undefined clone url'
-
-    if [[ "$(grep -F -o '@' <<< "${cloneURL}")" != '' ]]
-    then
-        awk -F '/' '{ print $2 }' <<< "${cloneURL}" | rev | cut -d '.' -f 2- | rev
-    else
-        awk -F '/' '{ print $5 }' <<< "${cloneURL}" | rev | cut -d '.' -f 2- | rev
-    fi
 }
 
 #################

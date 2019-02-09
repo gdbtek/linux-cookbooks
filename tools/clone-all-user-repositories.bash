@@ -43,6 +43,14 @@ function cloneAllUserRepositories()
     checkNonEmptyString "${token}" 'undefined token'
     checkExistFolder "${cloneFolder}"
 
+    # Get User Details
+
+    local -r gitUserPrimaryEmail="$(getGitUserPrimaryEmail "${user}" "${token}")"
+    local -r gitUserName="$(getGitUserName "${user}" "${token}")"
+
+    checkNonEmptyString "${gitUserPrimaryEmail}" 'undefined git user primary email'
+    checkNonEmptyString "${gitUserName}" 'undefined git user name'
+
     # Create User Folder
 
     local -r rootRepository="${cloneFolder}/${user}/${visibility}"
@@ -57,13 +65,19 @@ function cloneAllUserRepositories()
     do
         header "CLONING '${repositorySSHURL}' IN '${rootRepository}'"
 
+        # Clone Repository
+
         cd "${rootRepository}"
         git clone "${repositorySSHURL}"
 
+        # Config Git
+
         cd "$(getGitRepositoryNameFromCloneURL "${repositorySSHURL}")"
 
-        #git config user.name "${GIT_USER_NAME}"
-        #git config user.email "${GIT_USER_GITHUB_EMAIL}"
+        git config user.email "${gitUserPrimaryEmail}"
+        git config user.name "${gitUserName}"
+
+        info "\n$(git config --list)"
     done
 }
 
