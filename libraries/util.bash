@@ -782,23 +782,77 @@ function getGitUserPrimaryEmail()
     local -r user="${1}"
     local -r token="${2}"
 
+    # Validation
+
     checkNonEmptyString "${user}" 'undefined user'
     checkNonEmptyString "${token}" 'undefined token'
 
-    curl \
-        -s \
-        -X 'GET' \
-        -u "${user}:${token}" \
-        -L "https://api.github.com/user/emails" \
-        --retry 12 \
-        --retry-delay 5 |
-    jq \
-        --compact-output \
-        --raw-output \
-        --sort-keys \
-        '.[] |
-         select(.["primary"] == true) |
-         .["email"] // empty'
+    # Pagination
+
+    local results='[]'
+
+    local page=1
+    local exitCount=0
+
+    for ((page = 1; page > exitCount; page = page + 1))
+    do
+            curl \
+                -s \
+                -X 'GET' \
+                -u "${user}:${token}" \
+                -L "https://api.github.com/user/emails?page=${page}&per_page=1" \
+                --retry 12 \
+                --retry-delay 5 |
+            jq \
+                --compact-output \
+                --raw-output \
+                --sort-keys \
+                '.[] // empty'
+
+        local currentObjectValue="$(
+            curl \
+                -s \
+                -X 'GET' \
+                -u "${user}:${token}" \
+                -L "https://api.github.com/user/emails?page=${page}&per_page=1" \
+                --retry 12 \
+                --retry-delay 5 |
+            jq \
+                --compact-output \
+                --raw-output \
+                --sort-keys \
+                '.[] // empty'
+        )"
+echo ${currentObjectValue}
+echo
+        if [[ "$(isEmptyString "${currentObjectValue}")" = 'true' ]]
+        then
+            exitCount="$((page + 1))"
+        else
+            results="$(
+                jq \
+                    --arg jqCurrentObjectValue "${currentObjectValue}" \
+                    --compact-output \
+                    --raw-output \
+                    --sort-keys \
+                    '. += [$jqCurrentObjectValue] // empty' \
+                <<< "${results}"
+            )"
+        fi
+    done
+
+    # Return Results
+
+echo "${results}"
+
+    # jq \
+    #     --compact-output \
+    #     --raw-output \
+    #     --sort-keys \
+    #     '.[] |
+    #      select(.["primary"] == true) |
+    #      .["email"] // empty' \
+    # <<< "${results}"
 }
 
 function getGitUserPrivateRepositorySSHURL()
@@ -844,7 +898,7 @@ function getGitUserRepositoryObjectKey()
                 -s \
                 -X 'GET' \
                 -u "${user}:${token}" \
-                -L "https://api.github.com/user/repos?affiliation=owner&per_page=100&page=${page}&visibility=${visibility}" \
+                -L "https://api.github.com/user/repos?affiliation=owner&page=${page}&per_page=100&visibility=${visibility}" \
                 --retry 12 \
                 --retry-delay 5 |
             jq \
