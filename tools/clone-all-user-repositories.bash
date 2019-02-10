@@ -14,17 +14,22 @@ function displayUsage()
     echo    '    --help'
     echo    '    --user            <USER>'
     echo    '    --token           <TOKEN>'
+    echo    '    --org-name        <ORGANIZATION_NAME>'
+    echo    '    --git-url         <GIT_URL>'
     echo    '    --clone-folder    <CLONE_FOLDER>'
     echo -e '\033[1;35m'
     echo    'DESCRIPTION :'
     echo    '  --help            Help page (optional)'
     echo    '  --user            User name (require)'
     echo    '  --token           Personal access token (require)'
+    echo    '  --org-name        Organization name (optional)'
+    echo    '  --git-url         Git URL (optional)'
     echo    '  --clone-folder    Folder path to clone all repositories to (require)'
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
     echo    "  ./${scriptName} --user 'gdbtek' --token 'a5hb5ds1cfq0d1p8brgmspnogdib9hfn7kcy2xaf' --clone-folder='/path/to/folder'"
+    echo    "  ./${scriptName} --user 'gdbtek' --token 'a5hb5ds1cfq0d1p8brgmspnogdib9hfn7kcy2xaf' --org-name 'my-org' --git-url 'https://my.git.com/api/v3' --clone-folder='/path/to/folder'"
 
     echo -e '\033[0m'
 
@@ -127,6 +132,26 @@ function main()
 
                 ;;
 
+            --org-name)
+                shift
+
+                if [[ "${#}" -gt '0' ]]
+                then
+                    local orgName="${1}"
+                fi
+
+                ;;
+
+            --git-url)
+                shift
+
+                if [[ "${#}" -gt '0' ]]
+                then
+                    local gitURL="${1}"
+                fi
+
+                ;;
+
             --clone-folder)
                 shift
 
@@ -152,8 +177,8 @@ function main()
 
     # Clone Repositories
 
-    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'private' "$(getGitPrivateRepositorySSHURL "${user}" "${token}")"
-    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'public' "$(getGitPublicRepositorySSHURL "${user}" "${token}")"
+    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'private' "$(getGitPrivateRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
+    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'public' "$(getGitPublicRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
 }
 
 main "${@}"
