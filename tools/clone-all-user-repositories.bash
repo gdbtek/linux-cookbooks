@@ -152,8 +152,8 @@ function main()
 
     # Clone Repositories
 
-    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'private' "$(getGitUserPrivateRepositorySSHURL "${user}" "${token}")"
-    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'public' "$(getGitUserPublicRepositorySSHURL "${user}" "${token}")"
+    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'private' "$(getGitPrivateRepositorySSHURL "${user}" "${token}")"
+    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'public' "$(getGitPublicRepositorySSHURL "${user}" "${token}")"
 }
 
 main "${@}"

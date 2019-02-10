@@ -829,7 +829,7 @@ function getGitUserPrimaryEmail()
     done
 }
 
-function getGitUserPrivateRepositorySSHURL()
+function getGitPrivateRepositorySSHURL()
 {
     local -r user="${1}"
     local -r token="${2}"
@@ -838,7 +838,7 @@ function getGitUserPrivateRepositorySSHURL()
     getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private' "${gitURL}"
 }
 
-function getGitUserPublicRepositorySSHURL()
+function getGitPublicRepositorySSHURL()
 {
     local -r user="${1}"
     local -r token="${2}"
@@ -852,7 +852,7 @@ function getGitUserRepositoryObjectKey()
     local -r user="${1}"
     local -r token="${2}"
     local -r objectKey="${3}"
-    local -r visibility="${4}"
+    local -r kind="${4}"
     local -r gitURL="${5:-https://api.github.com}"
 
     # Validation
@@ -875,7 +875,7 @@ function getGitUserRepositoryObjectKey()
                 -s \
                 -X 'GET' \
                 -u "${user}:${token}" \
-                -L "${gitURL}/user/repos?affiliation=owner&page=${page}&per_page=100&visibility=${visibility}" \
+                -L "${gitURL}/user/repos?affiliation=owner&page=${page}&per_page=100&visibility=${kind}" \
                 --retry 12 \
                 --retry-delay 5 |
             jq \
@@ -900,7 +900,7 @@ function getGitUserRepositoryObjectKey()
 
     # Return Results
 
-    echo "${results}"
+    echo "${results}" | sort -f
 }
 
 #################
