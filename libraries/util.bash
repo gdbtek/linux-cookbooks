@@ -759,6 +759,7 @@ function getGitUserName()
 {
     local -r user="${1}"
     local -r token="${2}"
+    local -r gitURL="${3:-https://api.github.com}"
 
     checkNonEmptyString "${user}" 'undefined user'
     checkNonEmptyString "${token}" 'undefined token'
@@ -767,7 +768,7 @@ function getGitUserName()
         -s \
         -X 'GET' \
         -u "${user}:${token}" \
-        -L "https://api.github.com/user" \
+        -L "${gitURL}/user" \
         --retry 12 \
         --retry-delay 5 |
     jq \
@@ -781,6 +782,7 @@ function getGitUserPrimaryEmail()
 {
     local -r user="${1}"
     local -r token="${2}"
+    local -r gitURL="${3:-https://api.github.com}"
 
     # Validation
 
@@ -799,7 +801,7 @@ function getGitUserPrimaryEmail()
                 -s \
                 -X 'GET' \
                 -u "${user}:${token}" \
-                -L "https://api.github.com/user/emails?page=${page}&per_page=100" \
+                -L "${gitURL}/user/emails?page=${page}&per_page=100" \
                 --retry 12 \
                 --retry-delay 5 |
             jq \
@@ -831,16 +833,18 @@ function getGitUserPrivateRepositorySSHURL()
 {
     local -r user="${1}"
     local -r token="${2}"
+    local -r gitURL="${3:-https://api.github.com}"
 
-    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private'
+    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private' "${gitURL}"
 }
 
 function getGitUserPublicRepositorySSHURL()
 {
     local -r user="${1}"
     local -r token="${2}"
+    local -r gitURL="${3:-https://api.github.com}"
 
-    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public'
+    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public' "${gitURL}"
 }
 
 function getGitUserRepositoryObjectKey()
@@ -849,6 +853,7 @@ function getGitUserRepositoryObjectKey()
     local -r token="${2}"
     local -r objectKey="${3}"
     local -r visibility="${4}"
+    local -r gitURL="${5:-https://api.github.com}"
 
     # Validation
 
@@ -870,7 +875,7 @@ function getGitUserRepositoryObjectKey()
                 -s \
                 -X 'GET' \
                 -u "${user}:${token}" \
-                -L "https://api.github.com/user/repos?affiliation=owner&page=${page}&per_page=100&visibility=${visibility}" \
+                -L "${gitURL}/user/repos?affiliation=owner&page=${page}&per_page=100&visibility=${visibility}" \
                 --retry 12 \
                 --retry-delay 5 |
             jq \
