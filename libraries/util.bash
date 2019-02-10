@@ -833,18 +833,20 @@ function getGitPrivateRepositorySSHURL()
 {
     local -r user="${1}"
     local -r token="${2}"
-    local -r gitURL="${3:-https://api.github.com}"
+    local -r orgName="${3}"
+    local -r gitURL="${4:-https://api.github.com}"
 
-    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private' "${gitURL}"
+    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private' "${orgName}" "${gitURL}"
 }
 
 function getGitPublicRepositorySSHURL()
 {
     local -r user="${1}"
     local -r token="${2}"
-    local -r gitURL="${3:-https://api.github.com}"
+    local -r orgName="${3}"
+    local -r gitURL="${4:-https://api.github.com}"
 
-    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public' "${gitURL}"
+    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public' "${orgName}" "${gitURL}"
 }
 
 function getGitUserRepositoryObjectKey()
@@ -853,13 +855,15 @@ function getGitUserRepositoryObjectKey()
     local -r token="${2}"
     local -r objectKey="${3}"
     local -r kind="${4}"
-    local -r gitURL="${5:-https://api.github.com}"
+    local -r orgName="${5}"
+    local -r gitURL="${6:-https://api.github.com}"
 
     # Validation
 
     checkNonEmptyString "${user}" 'undefined user'
     checkNonEmptyString "${token}" 'undefined token'
     checkNonEmptyString "${objectKey}" 'undefined object key'
+    checkNonEmptyString "${gitURL}" 'undefined git url'
 
     # Pagination
 
@@ -870,12 +874,23 @@ function getGitUserRepositoryObjectKey()
 
     for ((page = 1; page > exitCount; page = page + 1))
     do
+        # User or Organization
+
+        if [[ "$(isEmptyString "${orgName}")" = 'true' ]]
+        then
+            local targetURL="${gitURL}/user/repos?affiliation=owner&page=${page}&per_page=100&visibility=${kind}"
+        else
+            local targetURL="${gitURL}/orgs/${orgName}/repos?page=${page}&per_page=100&type=${kind}"
+        fi
+
+        # Retrieve Objects
+
         local currentObjectValue="$(
             curl \
                 -s \
                 -X 'GET' \
                 -u "${user}:${token}" \
-                -L "${gitURL}/user/repos?affiliation=owner&page=${page}&per_page=100&visibility=${kind}" \
+                -L "${targetURL}" \
                 --retry 12 \
                 --retry-delay 5 |
             jq \
