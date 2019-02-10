@@ -741,6 +741,26 @@ function unzipRemoteFile()
 # GIT UTILITIES #
 #################
 
+function getGitPrivateRepositorySSHURL()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r orgName="${3}"
+    local -r gitURL="${4:-https://api.github.com}"
+
+    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private' "${orgName}" "${gitURL}"
+}
+
+function getGitPublicRepositorySSHURL()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r orgName="${3}"
+    local -r gitURL="${4:-https://api.github.com}"
+
+    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public' "${orgName}" "${gitURL}"
+}
+
 function getGitRepositoryNameFromCloneURL()
 {
     local -r cloneURL="${1}"
@@ -827,26 +847,6 @@ function getGitUserPrimaryEmail()
             exitCount="$((page + 1))"
         fi
     done
-}
-
-function getGitPrivateRepositorySSHURL()
-{
-    local -r user="${1}"
-    local -r token="${2}"
-    local -r orgName="${3}"
-    local -r gitURL="${4:-https://api.github.com}"
-
-    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private' "${orgName}" "${gitURL}"
-}
-
-function getGitPublicRepositorySSHURL()
-{
-    local -r user="${1}"
-    local -r token="${2}"
-    local -r orgName="${3}"
-    local -r gitURL="${4:-https://api.github.com}"
-
-    getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public' "${orgName}" "${gitURL}"
 }
 
 function getGitUserRepositoryObjectKey()
