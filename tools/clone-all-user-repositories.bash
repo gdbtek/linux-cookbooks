@@ -74,8 +74,15 @@ function cloneAllUserRepositories()
 
         cd "$(getGitRepositoryNameFromCloneURL "${repositorySSHURL}")"
 
-        git config user.email "${gitUserPrimaryEmail}"
-        git config user.name "${gitUserName}"
+        if [[ "$(isEmptyString "${gitUserPrimaryEmail}")" = 'false' ]]
+        then
+            git config user.email "${gitUserPrimaryEmail}"
+        fi
+
+        if [[ "$(isEmptyString "${gitUserName}")" = 'false' ]]
+        then
+            git config user.name "${gitUserName}"
+        fi
 
         info "\n$(git config --list)"
     done
