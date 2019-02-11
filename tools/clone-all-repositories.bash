@@ -46,7 +46,8 @@ function cloneAllRepositories()
     local -r token="${2}"
     local -r cloneFolder="${3}"
     local -r visibility="${4}"
-    local -r repositorySSHURLs=(${5})
+    local -r gitURL="${5}"
+    local -r repositorySSHURLs=(${6})
 
     checkNonEmptyString "${user}" 'undefined user'
     checkNonEmptyString "${token}" 'undefined token'
@@ -54,8 +55,8 @@ function cloneAllRepositories()
 
     # Get User Details
 
-    local -r gitUserPrimaryEmail="$(getGitUserPrimaryEmail "${user}" "${token}")"
-    local -r gitUserName="$(getGitUserName "${user}" "${token}")"
+    local -r gitUserPrimaryEmail="$(getGitUserPrimaryEmail "${user}" "${token}" "${gitURL}")"
+    local -r gitUserName="$(getGitUserName "${user}" "${token}" "${gitURL}")"
 
     checkNonEmptyString "${gitUserPrimaryEmail}" 'undefined git user primary email'
     checkNonEmptyString "${gitUserName}" 'undefined git user name'
@@ -188,8 +189,8 @@ function main()
 
     # Clone Repositories
 
-    cloneAllRepositories "${user}" "${token}" "${cloneFolder}" 'private' "$(getGitPrivateRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
-    cloneAllRepositories "${user}" "${token}" "${cloneFolder}" 'public' "$(getGitPublicRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
+    cloneAllRepositories "${user}" "${token}" "${cloneFolder}" 'private' "${gitURL}" "$(getGitPrivateRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
+    cloneAllRepositories "${user}" "${token}" "${cloneFolder}" 'public' "${gitURL}" "$(getGitPublicRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
 }
 
 main "${@}"
