@@ -40,7 +40,7 @@ function displayUsage()
     exit "${1}"
 }
 
-function cloneAllUserRepositories()
+function cloneAllRepositories()
 {
     local -r user="${1}"
     local -r token="${2}"
@@ -60,7 +60,7 @@ function cloneAllUserRepositories()
     checkNonEmptyString "${gitUserPrimaryEmail}" 'undefined git user primary email'
     checkNonEmptyString "${gitUserName}" 'undefined git user name'
 
-    # Create User Folder
+    # Create Root Folder
 
     local -r rootRepository="${cloneFolder}/${user}/${visibility}"
 
@@ -188,8 +188,8 @@ function main()
 
     # Clone Repositories
 
-    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'private' "$(getGitPrivateRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
-    cloneAllUserRepositories "${user}" "${token}" "${cloneFolder}" 'public' "$(getGitPublicRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
+    cloneAllRepositories "${user}" "${token}" "${cloneFolder}" 'private' "$(getGitPrivateRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
+    cloneAllRepositories "${user}" "${token}" "${cloneFolder}" 'public' "$(getGitPublicRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
 }
 
 main "${@}"
