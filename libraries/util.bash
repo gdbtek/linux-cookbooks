@@ -746,7 +746,7 @@ function getGitPrivateRepositorySSHURL()
     local -r user="${1}"
     local -r token="${2}"
     local -r orgName="${3}"
-    local -r gitURL="${4:-https://api.github.com}"
+    local -r gitURL="${4}"
 
     getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'private' "${orgName}" "${gitURL}"
 }
@@ -756,7 +756,7 @@ function getGitPublicRepositorySSHURL()
     local -r user="${1}"
     local -r token="${2}"
     local -r orgName="${3}"
-    local -r gitURL="${4:-https://api.github.com}"
+    local -r gitURL="${4}"
 
     getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public' "${orgName}" "${gitURL}"
 }
@@ -779,10 +779,21 @@ function getGitUserName()
 {
     local -r user="${1}"
     local -r token="${2}"
-    local -r gitURL="${3:-https://api.github.com}"
+    local gitURL="${3}"
+
+    # Default Value
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
+
+    # Validation
 
     checkNonEmptyString "${user}" 'undefined user'
     checkNonEmptyString "${token}" 'undefined token'
+
+    # Get User Name
 
     curl \
         -s \
@@ -802,7 +813,14 @@ function getGitUserPrimaryEmail()
 {
     local -r user="${1}"
     local -r token="${2}"
-    local -r gitURL="${3:-https://api.github.com}"
+    local gitURL="${3}"
+
+    # Default Values
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
 
     # Validation
 
@@ -856,7 +874,14 @@ function getGitUserRepositoryObjectKey()
     local -r objectKey="${3}"
     local -r kind="${4}"
     local -r orgName="${5}"
-    local -r gitURL="${6:-https://api.github.com}"
+    local gitURL="${6}"
+
+    # Default Value
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
 
     # Validation
 
