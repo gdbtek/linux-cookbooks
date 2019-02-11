@@ -25,10 +25,12 @@ function displayUsage()
     echo    '  --org-name        Organization name (optional)'
     echo    '  --git-url         Git URL (optional)'
     echo    "                    Default to 'https://api.github.com'"
-    echo    '  --clone-folder    Folder path to clone all repositories to (require)'
+    echo    '  --clone-folder    Folder path to clone all repositories to (optional)'
+    echo    '                    Default to current working directory path'
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
+    echo    "  ./${scriptName} --user 'gdbtek' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9'"
     echo    "  ./${scriptName} --user 'gdbtek' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder'"
     echo    "  ./${scriptName} --user 'gdbtek' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder' --org-name 'my-org'"
     echo    "  ./${scriptName} --user 'gdbtek' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder' --org-name 'my-org' --git-url 'https://my.git.com/api/v3'"
@@ -175,6 +177,13 @@ function main()
     if [[ "${optCount}" -lt '1' ]]
     then
         displayUsage 0
+    fi
+
+    # Default Values
+
+    if [[ "$(isEmptyString "${cloneFolder}")" = 'true' ]]
+    then
+        cloneFolder="$(pwd)"
     fi
 
     # Clone Repositories
