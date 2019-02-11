@@ -44,10 +44,12 @@ function cloneAllRepositories()
 {
     local -r user="${1}"
     local -r token="${2}"
-    local -r cloneFolder="${3}"
-    local -r visibility="${4}"
-    local -r gitURL="${5}"
-    local -r repositorySSHURLs=(${6})
+    local -r orgName="${3}"
+    local -r gitURL="${4}"
+    local -r cloneFolder="${5}"
+    local -r kind="${6}"
+
+    # Validation
 
     checkNonEmptyString "${user}" 'undefined user'
     checkNonEmptyString "${token}" 'undefined token'
@@ -63,11 +65,26 @@ function cloneAllRepositories()
 
     # Create Root Folder
 
-    local -r rootRepository="${cloneFolder}/${user}/${visibility}"
+    if [[ "$(isEmptyString "${orgName}")" = 'true' ]]
+    then
+        local -r rootRepository="${cloneFolder}/$(tr '[:upper:]' '[:lower:]' <<< "${user}")/${kind}"
+    else
+        local -r rootRepository="${cloneFolder}/$(tr '[:upper:]' '[:lower:]' <<< "${orgName}")/${kind}"
+    fi
 
     mkdir -p "${rootRepository}"
 
     # Each Repository
+
+    if [[ "${kind}" = 'public' ]]
+    then
+        local -r repositorySSHURLs=($(getGitPublicRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}"))
+    elif [[ "${kind}" = 'private' ]]
+    then
+        local -r repositorySSHURLs=($(getGitPrivateRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}"))
+    else
+        local -r repositorySSHURLs=()
+    fi
 
     local repositorySSHURL=''
 
@@ -189,8 +206,8 @@ function main()
 
     # Clone Repositories
 
-    cloneAllRepositories "${user}" "${token}" "${cloneFolder}" 'private' "${gitURL}" "$(getGitPrivateRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
-    cloneAllRepositories "${user}" "${token}" "${cloneFolder}" 'public' "${gitURL}" "$(getGitPublicRepositorySSHURL "${user}" "${token}" "${orgName}" "${gitURL}")"
+    cloneAllRepositories "${user}" "${token}" "${orgName}" "${gitURL}" "${cloneFolder}" 'private'
+    cloneAllRepositories "${user}" "${token}" "${orgName}" "${gitURL}" "${cloneFolder}" 'public'
 }
 
 main "${@}"
