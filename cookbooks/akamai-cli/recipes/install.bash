@@ -14,16 +14,7 @@ function install()
     downloadFile "${AKAMAI_DOWNLOAD_URL}" "${AKAMAI_INSTALL_FOLDER_PATH}/bin/akamai" 'true'
     chown -R "$(whoami):$(whoami)" "${AKAMAI_INSTALL_FOLDER_PATH}"
     chmod 755 "${AKAMAI_INSTALL_FOLDER_PATH}/bin/akamai"
-    symlinkLocalBin "${AKAMAI_INSTALL_FOLDER_PATH}/bin"
-
-    # Config
-
-    local -r akamaiCLIConfigData=(
-        '__USER_HOME__' "$(getCurrentUserHomeFolder)"
-    )
-
-    mkdir -p "$(getCurrentUserHomeFolder)/.akamai-cli"
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/config" "$(getCurrentUserHomeFolder)/.akamai-cli/config" "${akamaiCLIConfigData[@]}"
+    ln -s -f "${AKAMAI_INSTALL_FOLDER_PATH}/bin/akamai" '/usr/bin/akamai'
 
     # Config Profile
 
