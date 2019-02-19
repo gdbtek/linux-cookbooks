@@ -14,25 +14,27 @@ function displayUsage()
     echo    '    --help'
     echo    '    --user            <USER>'
     echo    '    --token           <TOKEN>'
-    echo    '    --org-name        <ORGANIZATION_NAME>'
-    echo    '    --git-url         <GIT_URL>'
+    echo    '    --clone-depth     <CLONE_DEPTH>'
     echo    '    --clone-folder    <CLONE_FOLDER>'
+    echo    '    --git-url         <GIT_URL>'
+    echo    '    --org-name        <ORGANIZATION_NAME>'
     echo -e '\033[1;35m'
     echo    'DESCRIPTION :'
     echo    '  --help            Help page (optional)'
     echo    '  --user            User name (require)'
     echo    '  --token           Personal access token (require)'
-    echo    '  --org-name        Organization name (optional)'
-    echo    '  --git-url         Git URL (optional)'
-    echo    "                    Default to 'https://api.github.com'"
+    echo    '  --clone-depth     How deep your clone should go (optional)'
     echo    '  --clone-folder    Folder path to clone all repositories to (optional)'
     echo    '                    Default to current working directory path'
+    echo    '  --git-url         Git URL (optional)'
+    echo    "                    Default to 'https://api.github.com'"
+    echo    '  --org-name        Organization name (optional)'
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
     echo    "  ./${scriptName} --user 'user-name' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9'"
     echo    "  ./${scriptName} --user 'user-name' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder'"
-    echo    "  ./${scriptName} --user 'user-name' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder' --org-name 'my-org'"
+    echo    "  ./${scriptName} --user 'user-name' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder' --clone-depth '1' --org-name 'my-org'"
     echo    "  ./${scriptName} --user 'user-name' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder' --org-name 'my-org' --git-url 'https://my.git.com/api/v3'"
 
     echo -e '\033[0m'
@@ -44,10 +46,11 @@ function cloneAllRepositories()
 {
     local -r user="${1}"
     local -r token="${2}"
-    local -r orgName="${3}"
-    local -r gitURL="${4}"
-    local -r cloneFolder="${5}"
-    local -r kind="${6}"
+    local -r cloneDepth="${3}"
+    local -r cloneFolder="${4}"
+    local -r gitURL="${5}"
+    local -r orgName="${6}"
+    local -r kind="${7}"
 
     # Validation
 
@@ -95,7 +98,14 @@ function cloneAllRepositories()
         # Clone Repository
 
         cd "${rootRepository}"
-        git clone "${repositorySSHURL}"
+
+        if [[ "$(isEmptyString "${cloneDepth}")" = 'true' ]]
+        then
+            git clone "${repositorySSHURL}"
+        else
+            checkPositiveInteger "${cloneDepth}"
+            git clone --depth "${cloneDepth}" "${repositorySSHURL}"
+        fi
 
         # Config Git
 
@@ -154,12 +164,22 @@ function main()
 
                 ;;
 
-            --org-name)
+            --clone-depth)
                 shift
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local orgName="${1}"
+                    local cloneDepth="${1}"
+                fi
+
+                ;;
+
+            --clone-folder)
+                shift
+
+                if [[ "${#}" -gt '0' ]]
+                then
+                    local cloneFolder="${1}"
                 fi
 
                 ;;
@@ -174,12 +194,12 @@ function main()
 
                 ;;
 
-            --clone-folder)
+            --org-name)
                 shift
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local cloneFolder="${1}"
+                    local orgName="${1}"
                 fi
 
                 ;;
@@ -206,8 +226,8 @@ function main()
 
     # Clone Repositories
 
-    cloneAllRepositories "${user}" "${token}" "${orgName}" "${gitURL}" "${cloneFolder}" 'private'
-    cloneAllRepositories "${user}" "${token}" "${orgName}" "${gitURL}" "${cloneFolder}" 'public'
+    cloneAllRepositories "${user}" "${token}" "${cloneDepth}" "${cloneFolder}" "${gitURL}" "${orgName}" 'private'
+    cloneAllRepositories "${user}" "${token}" "${cloneDepth}" "${cloneFolder}" "${gitURL}" "${orgName}" 'public'
 }
 
 main "${@}"

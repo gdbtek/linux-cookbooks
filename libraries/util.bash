@@ -1058,6 +1058,22 @@ function checkNaturalNumber()
     fi
 }
 
+function checkPositiveInteger()
+{
+    local -r string="${1}"
+    local -r errorMessage="${2}"
+
+    if [[ "$(isPositiveInteger "${string}")" = 'false' ]]
+    then
+        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
+        then
+            fatal '\nFATAL : not positive number detected'
+        fi
+
+        fatal "\nFATAL : ${errorMessage}"
+    fi
+}
+
 function isNaturalNumber()
 {
     local -r string="${1}"
