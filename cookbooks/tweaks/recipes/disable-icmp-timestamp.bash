@@ -4,9 +4,8 @@ function install()
 {
     umask '0022'
 
-    iptables -A INPUT -p ICMP --icmp-type timestamp-request -j DROP
-    iptables -A INPUT -p ICMP --icmp-type timestamp-reply -j DROP
-    iptables-save
+    appendToFileIfNotFound '/etc/sysctl.conf' 'net.ipv4.icmp_echo_ignore_all = 1' 'net.ipv4.icmp_echo_ignore_all = 1' 'false' 'false' 'true'
+    cat '/etc/sysctl.conf'
 
     umask '0077'
 }
