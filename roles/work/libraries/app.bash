@@ -52,7 +52,8 @@ function configUsersSSH()
 
         if [[ "$(existUserLogin "${user}")" = 'true' && -d "${userHome}" ]]
         then
-            rm -f -r "$(getUserHomeFolder "${user}")/.ssh"
+            mkdir -p "$(getUserHomeFolder "${user}")/.ssh"
+            chmod 700 "$(getUserHomeFolder "${user}")/.ssh"
 
             addUserAuthorizedKey "${user}" "$(getUserGroupName "${user}")" "$(cat "${appFolderPath}/../files/authorized_keys")"
             addUserSSHKnownHost "${user}" "$(getUserGroupName "${user}")" "$(cat "${appFolderPath}/../files/known_hosts")"
