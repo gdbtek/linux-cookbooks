@@ -52,6 +52,7 @@ export JENKINS_INSTALL_PLUGINS=(
     'publish-over-ssh'
     'rebuild'
     'run-condition'
+    'simple-theme-plugin'
     'slack'
     'ssh-slaves'
     'template-workflows'
