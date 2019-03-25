@@ -7,16 +7,16 @@ function main()
     checkRequireLinuxSystem
     checkExistCommand 'chronyc'
 
-    info 'chronyc activity'
+    info '\nchronyc activity'
     chronyc activity
 
-    info 'chronyc sources -v'
+    info '\nchronyc sources -v'
     chronyc sources -v
 
-    info 'chronyc sourcestats -v'
+    info '\nchronyc sourcestats -v'
     chronyc sourcestats -v
 
-    info 'chronyc tracking'
+    info '\nchronyc tracking'
     chronyc tracking
 }
 
