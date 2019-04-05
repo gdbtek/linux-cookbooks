@@ -1810,7 +1810,7 @@ function printTable()
 
                 for ((j = 1; j <= "${numberOfColumns}"; j = j + 1))
                 do
-                    table="${table}$(printf '#| %s' "$(cut -d "${delimiter}" -f "${j}" <<< "${line}")")"
+                    table="${table}$(printf '#|  %s' "$(cut -d "${delimiter}" -f "${j}" <<< "${line}")")"
                 done
 
                 table="${table}#|\n"
