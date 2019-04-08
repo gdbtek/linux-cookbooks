@@ -1777,10 +1777,12 @@ function printTable()
 {
     local -r delimiter="${1}"
     local -r tableData="$(removeEmptyLines "${2}")"
+    local -r colorHeader="${3}"
+    local -r displayTotalCount="${4}"
 
     if [[ "${delimiter}" != '' && "$(isEmptyString "${tableData}")" = 'false' ]]
     then
-        local -r numberOfLines="$(wc -l <<< "${tableData}")"
+        local -r numberOfLines="$(trimString "$(wc -l <<< "${tableData}")")"
 
         if [[ "${numberOfLines}" -gt '0' ]]
         then
@@ -1825,8 +1827,21 @@ function printTable()
 
             if [[ "$(isEmptyString "${table}")" = 'false' ]]
             then
-                echo -e "${table}" | column -s '#' -t | awk '/^\+/{gsub(" ", "-", $0)}1'
+                local output="$(echo -e "${table}" | column -s '#' -t | awk '/^\+/{gsub(" ", "-", $0)}1')"
+
+                if [[ "${colorHeader}" = 'true' ]]
+                then
+                    echo -e "\033[1;32m$(head -n 3 <<< "${output}")\033[0m"
+                    tail -n +4 <<< "${output}"
+                else
+                    echo "${output}"
+                fi
             fi
+        fi
+
+        if [[ "${displayTotalCount}" = 'true' && "${numberOfLines}" -ge '0' ]]
+        then
+            echo -e "\n\033[1;36mTOTAL ROWS : $((numberOfLines - 1))\033[0m"
         fi
     fi
 }
