@@ -18,7 +18,7 @@ function install()
     local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${AWS_CLI_DOWNLOAD_URL}" "${tempFolder}"
-    python "${tempFolder}/awscli-bundle/install" -b '/usr/local/bin/aws' -i "${AWS_CLI_INSTALL_FOLDER_PATH}"
+    python "${tempFolder}/awscli-bundle/install" -b '/usr/bin/aws' -i "${AWS_CLI_INSTALL_FOLDER_PATH}"
     chmod 755 "${AWS_CLI_INSTALL_FOLDER_PATH}/bin/aws"
     rm -f -r "${tempFolder}"
 
