@@ -12,29 +12,32 @@ function displayUsage()
     echo    'SYNOPSIS :'
     echo    "  ${scriptName}"
     echo    '    --help'
-    echo    '    --user            <USER>'
-    echo    '    --token           <TOKEN>'
-    echo    '    --clone-depth     <CLONE_DEPTH>'
-    echo    '    --clone-folder    <CLONE_FOLDER>'
-    echo    '    --git-url         <GIT_URL>'
-    echo    '    --org-name        <ORGANIZATION_NAME>'
+    echo    '    --user               <USER>'
+    echo    '    --token              <TOKEN>'
+    echo    '    --clone-depth        <CLONE_DEPTH>'
+    echo    '    --clone-folder       <CLONE_FOLDER>'
+    echo    '    --git-url            <GIT_URL>'
+    echo    '    --org-name           <ORGANIZATION_NAME>'
+    echo    '    --delete-if-exist    <DELETE_IF_EXIST>'
     echo -e '\033[1;35m'
     echo    'DESCRIPTION :'
-    echo    '  --help            Help page (optional)'
-    echo    '  --user            User name (require)'
-    echo    '  --token           Personal access token (require)'
-    echo    '  --clone-depth     How deep your clone should go (optional)'
-    echo    '  --clone-folder    Folder path to clone all repositories to (optional)'
-    echo    '                    Default to current working directory path'
-    echo    '  --git-url         Git URL (optional)'
-    echo    "                    Default to 'https://api.github.com'"
-    echo    '  --org-name        Organization name (optional)'
+    echo    '  --help               Help page (optional)'
+    echo    '  --user               User name (require)'
+    echo    '  --token              Personal access token (require)'
+    echo    '  --clone-depth        How deep your clone should go (optional)'
+    echo    '  --clone-folder       Folder path to clone all repositories to (optional)'
+    echo    '                       Default to current working directory path'
+    echo    '  --git-url            Git URL (optional)'
+    echo    "                       Default to 'https://api.github.com'"
+    echo    '  --org-name           Organization name (optional)'
+    echo    '  --delete-if-exist    Delete git repository if exist'
+    echo    "                       Default to 'false'"
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
     echo    "  ./${scriptName} --user 'user-name' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9'"
     echo    "  ./${scriptName} --user 'user-name' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder'"
-    echo    "  ./${scriptName} --user 'user-name' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder' --clone-depth '1' --org-name 'my-org'"
+    echo    "  ./${scriptName} --user 'user-name' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder' --clone-depth '1' --org-name 'my-org' --delete-if-exist 'true'"
     echo    "  ./${scriptName} --user 'user-name' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --clone-folder '/path/to/folder' --org-name 'my-org' --git-url 'https://my.git.com/api/v3'"
 
     echo -e '\033[0m'
@@ -51,6 +54,7 @@ function cloneAllRepositories()
     local -r gitURL="${5}"
     local -r orgName="${6}"
     local -r kind="${7}"
+    local -r deleteIfExist="${8}"
 
     # Validation
 
@@ -95,9 +99,16 @@ function cloneAllRepositories()
     do
         header "CLONING '${repositorySSHURL}' IN '${rootRepository}'"
 
+        local gitRepositoryName="$(getGitRepositoryNameFromCloneURL "${repositorySSHURL}")"
+
         # Clone Repository
 
         cd "${rootRepository}"
+
+        if [[ "${deleteIfExist}" = 'true' ]]
+        then
+            rm -f -r "${gitRepositoryName}"
+        fi
 
         if [[ "$(isEmptyString "${cloneDepth}")" = 'true' ]]
         then
@@ -109,7 +120,7 @@ function cloneAllRepositories()
 
         # Config Git
 
-        cd "$(getGitRepositoryNameFromCloneURL "${repositorySSHURL}")"
+        cd "${gitRepositoryName}"
 
         if [[ "$(isEmptyString "${gitUserPrimaryEmail}")" = 'false' ]]
         then
@@ -204,6 +215,16 @@ function main()
 
                 ;;
 
+            --delete-if-exist)
+                shift
+
+                if [[ "${#}" -gt '0' ]]
+                then
+                    local deleteIfExist="${1}"
+                fi
+
+                ;;
+
             *)
                 shift
                 ;;
@@ -224,10 +245,15 @@ function main()
         cloneFolder="$(pwd)"
     fi
 
+    if [[ "$(isEmptyString "${deleteIfExist}")" = 'true' ]]
+    then
+        deleteIfExist='false'
+    fi
+
     # Clone Repositories
 
-    cloneAllRepositories "${user}" "${token}" "${cloneDepth}" "${cloneFolder}" "${gitURL}" "${orgName}" 'private'
-    cloneAllRepositories "${user}" "${token}" "${cloneDepth}" "${cloneFolder}" "${gitURL}" "${orgName}" 'public'
+    cloneAllRepositories "${user}" "${token}" "${cloneDepth}" "${cloneFolder}" "${gitURL}" "${orgName}" 'private' "${deleteIfExist}"
+    cloneAllRepositories "${user}" "${token}" "${cloneDepth}" "${cloneFolder}" "${gitURL}" "${orgName}" 'public' "${deleteIfExist}"
 }
 
 main "${@}"
