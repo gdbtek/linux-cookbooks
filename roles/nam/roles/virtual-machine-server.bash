@@ -20,7 +20,7 @@ function main()
     then
         addUserToSudoWithoutPassword "${firstLoginUser}"
         autoSudo "${firstLoginUser}" "$(basename "$(getProfileFilePath "${firstLoginUser}")")"
-        addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../files/authorized_keys")"
+        addUserAuthorizedKey "${firstLoginUser}" "${firstLoginUser}" "$(cat "${appFolderPath}/../../../../../private/keys/ssh/personal/vmware/key.pub")"
     fi
 
     cleanUpSystemFolders
