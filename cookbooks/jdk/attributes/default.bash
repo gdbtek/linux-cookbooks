@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
-export JDK_DOWNLOAD_URL='https://download.oracle.com/otn-pub/java/jdk/12+33/312335d836a34c7c8bba9d963e26dc23/jdk-12_linux-x64_bin.tar.gz'
-# export JDK_DOWNLOAD_URL='http://download.oracle.com/otn-pub/java/jdk/11.0.2+9/f51449fcd52f4d52b93a989c5c56ed3c/jdk-11.0.2_linux-x64_bin.tar.gz'
-# export JDK_DOWNLOAD_URL='https://download.oracle.com/otn-pub/java/jdk/8u202-b08/1961070e4c9b4e26a04e7f5a083f551e/jdk-8u202-linux-x64.tar.gz'
+export JDK_DOWNLOAD_URL='https://download.oracle.com/otn-pub/java/jdk/12.0.1+12/69cfe15208a647278a19ef0990eea691/jdk-12.0.1_linux-x64_bin.tar.gz'
+# export JDK_DOWNLOAD_URL='https://download.oracle.com/otn/java/jdk/11.0.3+12/37f5e150db5247ab9333b11c1dddcd30/jdk-11.0.3_linux-x64_bin.tar.gz'
+# export JDK_DOWNLOAD_URL='https://download.oracle.com/otn/java/jdk/8u211-b12/478a62b7d4e34b78b671c754eaaf38ab/jdk-8u211-linux-x64.tar.gz'
 
 export JDK_INSTALL_FOLDER_PATH='/opt/jdk'
