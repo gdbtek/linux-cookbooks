@@ -1640,8 +1640,15 @@ function deleteSpaces()
 function displayVersion()
 {
     local -r message="${1}"
+    local -r applicationName="${2}"
 
-    header 'DISPLAYING VERSION'
+    if [[ "$(isEmptyString "${applicationName}")" = 'true' ]]
+    then
+        header 'DISPLAYING VERSION'
+    else
+        header "DISPLAYING ${applicationName} VERSION"
+    fi
+
     info "${message}"
 }
 
