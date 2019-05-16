@@ -30,6 +30,7 @@ function install()
     # Display Version
 
     displayVersion "$(python3 --version)"
+    displayVersion "$(pip3 --version)"
 
     umask '0077'
 }
