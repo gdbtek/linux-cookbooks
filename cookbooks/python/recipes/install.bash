@@ -3,6 +3,8 @@
 function installDependencies()
 {
     installBuildEssential
+
+    installPackage 'zlib1g-dev' 'zlib-devel'
 }
 
 function install()
