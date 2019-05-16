@@ -5,6 +5,7 @@ function installDependencies()
     installBuildEssential
 
     installPackage 'libffi-dev' 'libffi-devel'
+    installPackage 'libssl-dev' 'openssl-devel'
     installPackage 'zlib1g-dev' 'zlib-devel'
 }
 
