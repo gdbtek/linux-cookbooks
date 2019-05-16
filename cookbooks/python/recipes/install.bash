@@ -5,6 +5,7 @@ function installDependencies()
     installBuildEssential
 
     installPackage 'zlib1g-dev' 'zlib-devel'
+    installPackage 'libffi-dev' 'libffi-devel'
 }
 
 function install()
