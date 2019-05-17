@@ -18,9 +18,6 @@ function install()
     compileAndInstallFromSource "${PYTHON_DOWNLOAD_URL}" "${PYTHON_INSTALL_FOLDER_PATH}" "${PYTHON_INSTALL_FOLDER_PATH}/bin/python3" "$(whoami)"
     ln -f -s "${PYTHON_INSTALL_FOLDER_PATH}/bin/python3" '/usr/local/bin/python'
 
-    "${PYTHON_INSTALL_FOLDER_PATH}/bin/pip3" install --upgrade pip
-    ln -f -s "${PYTHON_INSTALL_FOLDER_PATH}/bin/pip3" '/usr/local/bin/pip3'
-
     # Config Profile
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${PYTHON_INSTALL_FOLDER_PATH}")
@@ -30,7 +27,6 @@ function install()
     # Display Version
 
     displayVersion "$(python3 --version)"
-    displayVersion "$(pip3 --version)"
 
     umask '0077'
 }
