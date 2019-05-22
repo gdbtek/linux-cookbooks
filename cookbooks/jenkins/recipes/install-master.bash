@@ -72,7 +72,6 @@ function install()
     restartService "${TOMCAT_SERVICE_NAME}"
     jenkinsMasterInstallPlugins
     jenkinsMasterUpdatePlugins
-    jenkinsMasterUnlock
     jenkinsMasterSafeRestart
 
     umask '0077'
