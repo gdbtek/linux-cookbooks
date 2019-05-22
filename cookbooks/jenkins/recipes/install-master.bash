@@ -69,9 +69,9 @@ function install()
     jenkinsMasterDisplayVersion
     jenkinsMasterRefreshUpdateCenter
     restartService "${TOMCAT_SERVICE_NAME}"
-    jenkinsMasterUnlock
     jenkinsMasterInstallPlugins
     jenkinsMasterUpdatePlugins
+    jenkinsMasterUnlock
     jenkinsMasterSafeRestart
 
     umask '0077'
