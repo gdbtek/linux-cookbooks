@@ -69,6 +69,7 @@ function install()
     jenkinsMasterDisplayVersion
     jenkinsMasterRefreshUpdateCenter
     restartService "${TOMCAT_SERVICE_NAME}"
+    sleep 72
     jenkinsMasterInstallPlugins
     jenkinsMasterUpdatePlugins
     jenkinsMasterUnlock
