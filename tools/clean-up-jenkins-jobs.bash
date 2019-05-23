@@ -194,6 +194,7 @@ function main()
     # Start Cleaning
 
     cleanJenkinsJobs "${jobsFolderPath}" "${numberBuildsToKeep}" "${commandMode}"
+    postUpMessage
 }
 
 main "${@}"
