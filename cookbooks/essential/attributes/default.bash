@@ -34,7 +34,7 @@ export APT_ESSENTIAL_PACKAGES=(
 export RPM_ESSENTIAL_PACKAGES=(
     # Requirement
     'epel-release'
-    # Essential
+    # Packages
     'ack'
     'audit'
     'bzip2'
