@@ -4,7 +4,8 @@
 # CONSTANTS #
 #############
 
-NUMBER_BUILDS_TO_KEEP='15'
+DEFAULT_COMMAND_MODE='status'
+DEFAULT_NUMBER_BUILDS_TO_KEEP='15'
 
 ##################
 # IMPLEMENTATION #
@@ -20,18 +21,22 @@ function displayUsage()
     echo    '    --help'
     echo    '    --jobs-folder-path         <JOBS_FOLDER_PATH>'
     echo    '    --number-builds-to-keep    <NUMBER_BUILD_TO_KEEP>'
+    echo    '    --command-mode             <COMMAND_MODE>'
     echo -e '\033[1;35m'
     echo    'DESCRIPTION :'
     echo    '  --help                     Help page (optional)'
     echo    '  --jobs-folder-path         Path to Jenkins jobs folder path (require)'
     echo    '                             Examples: /opt/jenkins/jobs, /apps/jenkins/latest/jobs'
     echo    '  --number-builds-to-keep    Max # of builds to keep with artifacts (optional)'
-    echo    "                             Default to ${NUMBER_BUILDS_TO_KEEP}"
+    echo    "                             Default to ${DEFAULT_NUMBER_BUILDS_TO_KEEP}"
+    echo    "  --command-mode             Valid command mode : 'clean-up', or '${DEFAULT_COMMAND_MODE}' (optional)"
+    echo    "                             Default value is '${DEFAULT_COMMAND_MODE}'"
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
     echo    "  ./${scriptName} --jobs-folder-path '/opt/jenkins/jobs'"
-    echo    "  ./${scriptName} --jobs-folder-path '/apps/jenkins/latest/jobs' --number-builds-to-keep '10'"
+    echo    "  ./${scriptName} --jobs-folder-path '/apps/jenkins/latest/jobs' --number-builds-to-keep '15'"
+    echo    "  ./${scriptName} --jobs-folder-path '/apps/jenkins/latest/jobs' --number-builds-to-keep '15' --command-mode 'clean-up'"
     echo -e '\033[0m'
 
     exit "${1}"
@@ -41,8 +46,64 @@ function cleanJenkinsJobs()
 {
     local -r jobsFolderPath="${1}"
     local -r numberBuildsToKeep="${2}"
+    local -r commandMode="${3}"
 
-    find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds'
+    local -r oldIFS="${IFS}"
+    IFS=$'\n'
+
+    local buildsFolderPath=''
+
+    for buildsFolderPath in $(find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds')
+    do
+        local builds="$(find "${buildsFolderPath}" -mindepth 1 -maxdepth 1 -type d -regex "^${buildsFolderPath}/[1-9][0-9]*$" -exec basename '{}' \; | sort -n -r)"
+        local toDeleteBuilds="$(tail -n "+$((numberBuildsToKeep + 1))" <<< "${builds}")"
+        local toKeepBuilds="$(head "-${numberBuildsToKeep}" <<< "${builds}")"
+
+        if [[ "$(isEmptyString "${toKeepBuilds}")" = 'false' || "$(isEmptyString "${toDeleteBuilds}")" = 'false' ]]
+        then
+            info "\n${buildsFolderPath}"
+
+            if [[ "$(isEmptyString "${toKeepBuilds}")" = 'false' ]]
+            then
+                echo -e "  \033[1;32mto keep builds :\033[0m"
+
+                local toKeepBuild=''
+
+                for toKeepBuild in ${toKeepBuilds}
+                do
+                    echo "    '${buildsFolderPath}/${toKeepBuild}'"
+                done
+            fi
+
+            if [[ "$(isEmptyString "${toDeleteBuilds}")" = 'false' ]]
+            then
+                # Title
+
+                if [[ "${commandMode}" = 'clean-up' ]]
+                then
+                    echo -e "  \033[1;35mdeleting builds :\033[0m"
+                else
+                    echo -e "  \033[1;35mto delete builds :\033[0m"
+                fi
+
+                # Delete
+
+                local toDeleteBuild=''
+
+                for toDeleteBuild in ${toDeleteBuilds}
+                do
+                    echo "    '${buildsFolderPath}/${toDeleteBuild}'"
+
+                    if [[ "${commandMode}" = 'clean-up' ]]
+                    then
+                        rm -f -r "${buildsFolderPath}/${toDeleteBuild}"
+                    fi
+                done
+            fi
+        fi
+    done
+
+    IFS="${oldIFS}"
 }
 
 ########
@@ -84,6 +145,16 @@ function main()
 
                 ;;
 
+            --command-mode)
+                shift
+
+                if [[ "${#}" -gt '0' ]]
+                then
+                    local commandMode="$(trimString "${1}")"
+                fi
+
+                ;;
+
             *)
                 shift
                 ;;
@@ -101,7 +172,12 @@ function main()
 
     if [[ "$(isEmptyString "${numberBuildsToKeep}")" = 'true' ]]
     then
-        numberBuildsToKeep="${NUMBER_BUILDS_TO_KEEP}"
+        numberBuildsToKeep="${DEFAULT_NUMBER_BUILDS_TO_KEEP}"
+    fi
+
+    if [[ "$(isEmptyString "${commandMode}")" = 'true' ]]
+    then
+        commandMode="${DEFAULT_COMMAND_MODE}"
     fi
 
     # Validation
@@ -109,9 +185,15 @@ function main()
     checkExistFolder "${jobsFolderPath}"
     checkNaturalNumber "${numberBuildsToKeep}"
 
+    if [[ "${commandMode}" != 'clean-up' && "${commandMode}" != 'status' ]]
+    then
+        error '\nERROR : command mode must be clean-up, or status'
+        displayUsage 1
+    fi
+
     # Start Cleaning
 
-    cleanJenkinsJobs "${jobsFolderPath}" "${numberBuildsToKeep}"
+    cleanJenkinsJobs "${jobsFolderPath}" "${numberBuildsToKeep}" "${commandMode}"
 }
 
 main "${@}"
