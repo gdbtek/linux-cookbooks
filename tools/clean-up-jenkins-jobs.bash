@@ -200,7 +200,7 @@ function main()
 
     if [[ ! -f "${jobsFolderPath}/../config.xml" || ! -d "${jobsFolderPath}/../plugins" ]]
     then
-        fatal "'${jobsFolderPath}' is not jenkins jobs folder"
+        fatal "\n'${jobsFolderPath}' is not jenkins jobs folder"
     fi
 
     if [[ "${commandMode}" != 'clean-up' && "${commandMode}" != 'status' ]]
