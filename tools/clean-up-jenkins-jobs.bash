@@ -111,9 +111,11 @@ function cleanJenkinsJobs()
 
     IFS="${oldIFS}"
 
-    if [[ "${needToCleanUp}" = 'false' ]]
+    if [[ "${needToCleanUp}" = 'true' ]]
     then
-        info 'nothing to clean up'
+        postUpMessage
+    else
+        info '\nnothing to clean up'
     fi
 }
 
@@ -205,7 +207,6 @@ function main()
     # Start Cleaning
 
     cleanJenkinsJobs "${jobsFolderPath}" "${numberBuildsToKeep}" "${commandMode}"
-    postUpMessage
 }
 
 main "${@}"
