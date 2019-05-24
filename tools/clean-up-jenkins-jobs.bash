@@ -59,7 +59,7 @@ function cleanJenkinsJobs()
         local toDeleteBuilds="$(tail -n "+$((numberBuildsToKeep + 1))" <<< "${builds}")"
         local toKeepBuilds="$(head "-${numberBuildsToKeep}" <<< "${builds}")"
 
-        if [[ "$(isEmptyString "${toKeepBuilds}")" = 'false' || "$(isEmptyString "${toDeleteBuilds}")" = 'false' ]]
+        if [[ "$(isEmptyString "${toDeleteBuilds}")" = 'false' ]]
         then
             info "\n${buildsFolderPath}"
 
@@ -71,6 +71,8 @@ function cleanJenkinsJobs()
 
                 for toKeepBuild in ${toKeepBuilds}
                 do
+                    checkPositiveInteger "${toKeepBuild}"
+
                     echo "    '${buildsFolderPath}/${toKeepBuild}'"
                 done
             fi
@@ -92,6 +94,8 @@ function cleanJenkinsJobs()
 
                 for toDeleteBuild in ${toDeleteBuilds}
                 do
+                    checkPositiveInteger "${toDeleteBuild}"
+
                     echo "    '${buildsFolderPath}/${toDeleteBuild}'"
 
                     if [[ "${commandMode}" = 'clean-up' ]]
