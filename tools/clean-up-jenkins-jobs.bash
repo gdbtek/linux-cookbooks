@@ -63,6 +63,8 @@ function cleanJenkinsJobs()
         then
             info "\n${buildsFolderPath}"
 
+            # Print To Keep If Available
+
             if [[ "$(isEmptyString "${toKeepBuilds}")" = 'false' ]]
             then
                 echo -e "  \033[1;32mto keep builds :\033[0m"
@@ -77,33 +79,30 @@ function cleanJenkinsJobs()
                 done
             fi
 
-            if [[ "$(isEmptyString "${toDeleteBuilds}")" = 'false' ]]
+            # Print To Delete As Always
+
+            if [[ "${commandMode}" = 'clean-up' ]]
             then
-                # Title
+                echo -e "  \033[1;35mdeleting builds :\033[0m"
+            else
+                echo -e "  \033[1;35mto delete builds :\033[0m"
+            fi
+
+            # Delete
+
+            local toDeleteBuild=''
+
+            for toDeleteBuild in ${toDeleteBuilds}
+            do
+                checkPositiveInteger "${toDeleteBuild}"
+
+                echo "    '${buildsFolderPath}/${toDeleteBuild}'"
 
                 if [[ "${commandMode}" = 'clean-up' ]]
                 then
-                    echo -e "  \033[1;35mdeleting builds :\033[0m"
-                else
-                    echo -e "  \033[1;35mto delete builds :\033[0m"
+                    rm -f -r "${buildsFolderPath}/${toDeleteBuild}"
                 fi
-
-                # Delete
-
-                local toDeleteBuild=''
-
-                for toDeleteBuild in ${toDeleteBuilds}
-                do
-                    checkPositiveInteger "${toDeleteBuild}"
-
-                    echo "    '${buildsFolderPath}/${toDeleteBuild}'"
-
-                    if [[ "${commandMode}" = 'clean-up' ]]
-                    then
-                        rm -f -r "${buildsFolderPath}/${toDeleteBuild}"
-                    fi
-                done
-            fi
+            done
         fi
     done
 
