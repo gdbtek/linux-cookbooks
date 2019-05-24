@@ -196,7 +196,7 @@ function main()
     # Validation
 
     checkExistFolder "${jobsFolderPath}"
-    checkExistFolder "${jobsFolderPath}/../config.xml" "'${jobsFolderPath}' is not jenkins jobs folder"
+    checkExistFile "${jobsFolderPath}/../config.xml" "'${jobsFolderPath}' is not jenkins jobs folder"
 
     checkNaturalNumber "${numberBuildsToKeep}"
 
