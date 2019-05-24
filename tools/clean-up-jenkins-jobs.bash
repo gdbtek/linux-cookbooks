@@ -115,7 +115,7 @@ function cleanJenkinsJobs()
     then
         postUpMessage
     else
-        info '\nnothing to clean up'
+        info '\nnothing to clean up!'
     fi
 }
 
