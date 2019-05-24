@@ -51,6 +51,7 @@ function cleanJenkinsJobs()
     local -r oldIFS="${IFS}"
     IFS=$'\n'
 
+    local needToCleanUp='false'
     local buildsFolderPath=''
 
     for buildsFolderPath in $(find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds')
@@ -61,6 +62,8 @@ function cleanJenkinsJobs()
 
         if [[ "$(isEmptyString "${toDeleteBuilds}")" = 'false' ]]
         then
+            needToCleanUp='true'
+
             info "\n${buildsFolderPath}"
 
             # Print To Keep If Available
@@ -108,7 +111,7 @@ function cleanJenkinsJobs()
 
     IFS="${oldIFS}"
 
-    if [[ "$(isEmptyString "${buildsFolderPath}")" = 'true' ]]
+    if [[ "${needToCleanUp}" = 'false' ]]
     then
         info 'nothing to clean up'
     fi
