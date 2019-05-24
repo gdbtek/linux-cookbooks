@@ -107,6 +107,11 @@ function cleanJenkinsJobs()
     done
 
     IFS="${oldIFS}"
+
+    if [[ "$(isEmptyString "${buildsFolderPath}")" = 'true' ]]
+    then
+        info 'nothing to clean up'
+    fi
 }
 
 ########
