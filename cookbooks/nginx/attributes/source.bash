@@ -2,7 +2,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../pcre/attributes/default.bash"
 
-export NGINX_DOWNLOAD_URL='http://nginx.org/download/nginx-1.15.12.tar.gz'
+export NGINX_DOWNLOAD_URL='http://nginx.org/download/nginx-1.17.0.tar.gz'
 export NGINX_PCRE_DOWNLOAD_URL="${PCRE_DOWNLOAD_URL}"
 export NGINX_ZLIB_DOWNLOAD_URL='http://zlib.net/zlib-1.2.11.tar.gz'
 
