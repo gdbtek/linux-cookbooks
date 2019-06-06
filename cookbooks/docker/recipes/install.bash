@@ -19,7 +19,6 @@ function install()
     local -r grubConfigAttribute='GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"'
     local -r grubConfigData=(
         'GRUB_CMDLINE_LINUX=""' "${grubConfigAttribute}"
-        'GRUB_HIDDEN_TIMEOUT=0' ''
     )
 
     createFileFromTemplate "${grubConfigFile}" "${grubConfigFile}" "${grubConfigData[@]}"
@@ -27,13 +26,13 @@ function install()
 
     update-grub
 
-    # Start
+    # Restart
 
-    startService 'docker'
+    restartService 'docker'
 
     # Display Info
 
-    header 'DISPLAYING DOCKER INFO AND STATUS'
+    header 'DISPLAYING DOCKER INFO'
     info "\n$(docker info)"
 
     # Display Version
