@@ -11,7 +11,7 @@ function installDependencies()
 function resetOwnerAndSymlinkLocalBin()
 {
     chown -R "$(whoami):$(whoami)" "${PM2_NODE_JS_INSTALL_FOLDER_PATH}"
-    symlinkLocalBin "${PM2_NODE_JS_INSTALL_FOLDER_PATH}/bin"
+    symlinkUsrBin "${PM2_NODE_JS_INSTALL_FOLDER_PATH}/bin"
 }
 
 function install()

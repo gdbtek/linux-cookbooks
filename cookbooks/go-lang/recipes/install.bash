@@ -12,7 +12,7 @@ function install()
 
     unzipRemoteFile "${GO_LANG_DOWNLOAD_URL}" "${GO_LANG_INSTALL_FOLDER_PATH}"
     chown -R "$(whoami):$(whoami)" "${GO_LANG_INSTALL_FOLDER_PATH}"
-    symlinkLocalBin "${GO_LANG_INSTALL_FOLDER_PATH}/bin"
+    symlinkUsrBin "${GO_LANG_INSTALL_FOLDER_PATH}/bin"
     ln -f -s "${GO_LANG_INSTALL_FOLDER_PATH}" '/usr/local/go'
 
     # Config Profile

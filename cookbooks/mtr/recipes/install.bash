@@ -23,8 +23,8 @@ function install()
     make
     make install
     chown -R "$(whoami):$(getUserGroupName "$(whoami)")" "${MTR_INSTALL_FOLDER_PATH}"
-    symlinkLocalBin "${MTR_INSTALL_FOLDER_PATH}/sbin/mtr"
-    symlinkLocalBin "${MTR_INSTALL_FOLDER_PATH}/sbin/mtr-packet"
+    symlinkUsrBin "${MTR_INSTALL_FOLDER_PATH}/sbin/mtr"
+    symlinkUsrBin "${MTR_INSTALL_FOLDER_PATH}/sbin/mtr-packet"
     rm -f -r "${tempFolder}"
 
     # Config Profile

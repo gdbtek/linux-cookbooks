@@ -14,7 +14,7 @@ function install()
     downloadFile "${PORTER_DOWNLOAD_URL}" "${PORTER_INSTALL_FOLDER_PATH}/bin/porter" 'true'
     chown -R "$(whoami):$(whoami)" "${PORTER_INSTALL_FOLDER_PATH}"
     chmod 755 "${PORTER_INSTALL_FOLDER_PATH}/bin/porter"
-    symlinkLocalBin "${PORTER_INSTALL_FOLDER_PATH}/bin"
+    symlinkUsrBin "${PORTER_INSTALL_FOLDER_PATH}/bin"
 
     # Config Profile
 

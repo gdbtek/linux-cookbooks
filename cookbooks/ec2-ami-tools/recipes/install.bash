@@ -35,7 +35,7 @@ function install()
     # Move Folder
 
     moveFolderContent "${unzipFolder}" "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}"
-    symlinkLocalBin "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}/bin"
+    symlinkUsrBin "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}/bin"
     rm -f -r "${unzipFolder}"
 
     # Config Profile

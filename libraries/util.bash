@@ -82,7 +82,7 @@ function compileAndInstallFromSource()
     make
     make install
     chown -R "${user}:$(getUserGroupName "${user}")" "${installFolderPath}"
-    symlinkLocalBin "${installFileOrFolderBinPath}"
+    symlinkUsrBin "${installFileOrFolderBinPath}"
     rm -f -r "${tempFolder}"
 }
 
@@ -281,18 +281,6 @@ function createAbsoluteBin()
     mkdir -p '/usr/bin'
     printf "#!/bin/bash -e\n\n'%s' \"\${@}\"" "${sourceFilePath}" > "/usr/bin/${binFileName}"
     chmod 755 "/usr/bin/${binFileName}"
-}
-
-function createAbsoluteLocalBin()
-{
-    local -r localBinFileName="${1}"
-    local -r sourceFilePath="${2}"
-
-    checkExistFile "${sourceFilePath}"
-
-    mkdir -p '/usr/local/bin'
-    printf "#!/bin/bash -e\n\n'%s' \"\${@}\"" "${sourceFilePath}" > "/usr/local/bin/${localBinFileName}"
-    chmod 755 "/usr/local/bin/${localBinFileName}"
 }
 
 function createFileFromTemplate()
@@ -527,13 +515,13 @@ function resetLogs()
     done
 }
 
-function symlinkLocalBin()
+function symlinkUsrBin()
 {
     local -r sourceBinFileOrFolder="${1}"
 
     if [[ "$(isMacOperatingSystem)" = 'true' ]]
     then
-        mkdir -p '/usr/local/bin'
+        mkdir -p '/usr/bin'
 
         if [[ -d "${sourceBinFileOrFolder}" ]]
         then
@@ -544,37 +532,37 @@ function symlinkLocalBin()
 
                     if [[ "${fileType}" = "Regular File" ]]
                     then
-                        ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
+                        ln -f -s "${file}" "/usr/bin/$(basename "${file}")"
                     elif [[ "${fileType}" = "Symbolic Link" ]]
                     then
                         cd "$(dirname "${file}")"
 
                         if [[ -f "$(readlink "${file}")" ]]
                         then
-                            ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
+                            ln -f -s "${file}" "/usr/bin/$(basename "${file}")"
                         fi
                     fi
                 done' bash '{}' \;
         elif [[ -f "${sourceBinFileOrFolder}" ]]
         then
-            ln -f -s "${sourceBinFileOrFolder}" "/usr/local/bin/$(basename "${sourceBinFileOrFolder}")"
+            ln -f -s "${sourceBinFileOrFolder}" "/usr/bin/$(basename "${sourceBinFileOrFolder}")"
         else
             fatal "\nFATAL : '${sourceBinFileOrFolder}' is not directory or file"
         fi
     elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
     then
-        mkdir -p '/usr/local/bin'
+        mkdir -p '/usr/bin'
 
         if [[ -d "${sourceBinFileOrFolder}" ]]
         then
             find "${sourceBinFileOrFolder}" -maxdepth 1 -xtype f -perm -u+x -exec bash -c -e '
                 for file
                 do
-                    ln -f -s "${file}" "/usr/local/bin/$(basename "${file}")"
+                    ln -f -s "${file}" "/usr/bin/$(basename "${file}")"
                 done' bash '{}' \;
         elif [[ -f "${sourceBinFileOrFolder}" ]]
         then
-            ln -f -s "${sourceBinFileOrFolder}" "/usr/local/bin/$(basename "${sourceBinFileOrFolder}")"
+            ln -f -s "${sourceBinFileOrFolder}" "/usr/bin/$(basename "${sourceBinFileOrFolder}")"
         else
             fatal "\nFATAL : '${sourceBinFileOrFolder}' is not directory or file"
         fi

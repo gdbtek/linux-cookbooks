@@ -14,7 +14,7 @@ function install()
     downloadFile "${JQ_DOWNLOAD_URL}" "${JQ_INSTALL_FOLDER_PATH}/bin/jq" 'true'
     chown -R "$(whoami):$(whoami)" "${JQ_INSTALL_FOLDER_PATH}"
     chmod 755 "${JQ_INSTALL_FOLDER_PATH}/bin/jq"
-    symlinkLocalBin "${JQ_INSTALL_FOLDER_PATH}/bin"
+    symlinkUsrBin "${JQ_INSTALL_FOLDER_PATH}/bin"
 
     # Config Profile
 
