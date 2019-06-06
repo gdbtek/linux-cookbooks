@@ -1,16 +1,5 @@
 #!/bin/bash -e
 
-function installDependencies()
-{
-    local -r requireModule='aufs'
-
-    if [[ "$(existModule "${requireModule}")" = 'false' ]]
-    then
-        installPackage "linux-image-extra-$(uname -r)"
-        modprobe "${requireModule}"
-    fi
-}
-
 function install()
 {
     umask '0022'
@@ -38,20 +27,14 @@ function install()
 
     update-grub
 
-    # Config AUFS Init
-
-    createInitFileFromTemplate 'aufs' "${APP_FOLDER_PATH}/../files"
-
     # Start
 
-    startService 'aufs'
     startService 'docker'
 
-    # Display Info and Status
+    # Display Info
 
     header 'DISPLAYING DOCKER INFO AND STATUS'
     info "\n$(docker info)"
-    info "\n$(status 'docker')"
 
     # Display Version
 
@@ -72,7 +55,6 @@ function main()
 
     header 'INSTALLING DOCKER'
 
-    installDependencies
     install
     installCleanUp
 }
