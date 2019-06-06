@@ -33,7 +33,6 @@
 | node-js               |                    |                    |                    |                    |
 | nomad                 |                    |                    |                    |                    |
 | packer                |                    |                    |                    |                    |
-| parallel              |                    |                    |                    |                    |
 | pcre                  |                    |                    |                    |                    |
 | pm2                   |                    |                    |                    |                    |
 | porter                |                    |                    |                    |                    |
