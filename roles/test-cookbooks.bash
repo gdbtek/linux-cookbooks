@@ -6,6 +6,8 @@ function main()
 
     source "${appFolderPath}/../libraries/util.bash"
 
+    "${appFolderPath}/../cookbooks/essential/recipes/install.bash"
+
     "${appFolderPath}/../cookbooks/akamai-cli/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ant/recipes/install.bash"
     "${appFolderPath}/../cookbooks/aws-cli/recipes/install.bash"
@@ -18,7 +20,6 @@ function main()
     "${appFolderPath}/../cookbooks/ec2-ami-tools/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ec2-api-tools/recipes/install.bash"
     "${appFolderPath}/../cookbooks/elastic-search/recipes/install.bash"
-    "${appFolderPath}/../cookbooks/essential/recipes/install.bash"
     "${appFolderPath}/../cookbooks/foodcritic/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ghost/recipes/install.bash"
     "${appFolderPath}/../cookbooks/go-cd/recipes/install.bash"
