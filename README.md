@@ -28,7 +28,6 @@
 | maven                 |                    |                    |                    |                    |
 | mongodb               |                    |                    |                    |                    |
 | mount-hd              |                    |                    |                    |                    |
-| mtr                   |                    |                    |                    |                    |
 | mysql                 |                    |                    |                    |                    |
 | nginx                 |                    |                    |                    |                    |
 | node-js               |                    |                    |                    |                    |
@@ -42,13 +41,11 @@
 | python                |                    |                    |                    |                    |
 | redis                 |                    |                    |                    |                    |
 | ruby                  |                    |                    |                    |                    |
-| secret-server-console |                    |                    |                    |                    |
 | selenium-server       |                    |                    |                    |                    |
 | shell-check           |                    |                    |                    |                    |
 | siege                 |                    |                    |                    |                    |
 | splunk-forwarder      |                    |                    |                    |                    |
 | ssh                   |                    |                    |                    |                    |
-| stackstorm            |                    |                    |                    |                    |
 | terraform             |                    |                    |                    |                    |
 | test-ssl              |                    |                    |                    |                    |
 | tmp-reaper            |                    |                    |                    |                    |
@@ -62,4 +59,3 @@
 | vim                   |                    |                    |                    |                    |
 | vmware-tools          |                    |                    |                    |                    |
 | wild-fly              |                    |                    |                    |                    |
-| wrk                   |                    |                    |                    |                    |
