@@ -26,7 +26,7 @@ function install()
 
     update-grub
 
-    # Status
+    # Display Status
 
     statusService 'docker'
 
