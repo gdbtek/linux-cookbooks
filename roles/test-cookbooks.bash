@@ -24,7 +24,7 @@ function main()
     "${appFolderPath}/../cookbooks/go-cd/recipes/install-server-and-agent.bash"
     "${appFolderPath}/../cookbooks/go-lang/recipes/install.bash"
     "${appFolderPath}/../cookbooks/groovy/recipes/install.bash"
-    "${appFolderPath}/../cookbooks/haproxy/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/haproxy/recipes/install-from-binary.bash"
     "${appFolderPath}/../cookbooks/jdk/recipes/install.bash"
     "${appFolderPath}/../cookbooks/jenkins/recipes/install.bash"
     "${appFolderPath}/../cookbooks/jq/recipes/install.bash"
