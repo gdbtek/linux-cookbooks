@@ -1557,6 +1557,24 @@ function startService()
     fi
 }
 
+function statusService()
+{
+    local -r serviceName="${1}"
+
+    checkNonEmptyString "${serviceName}" 'undefined service name'
+
+    if [[ "$(existCommand 'systemctl')" = 'true' ]]
+    then
+        header "STATUS SYSTEMD ${serviceName}"
+
+        systemctl status "${serviceName}" --full --no-pager || true
+    else
+        header "STATUS SERVICE ${serviceName}"
+
+        service "${serviceName}" status || true
+    fi
+}
+
 function stopService()
 {
     local -r serviceName="${1}"

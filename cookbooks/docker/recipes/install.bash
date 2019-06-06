@@ -26,9 +26,9 @@ function install()
 
     update-grub
 
-    # Restart
+    # Status
 
-    restartService 'docker'
+    statusService 'docker'
 
     # Display Info
 
