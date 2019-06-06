@@ -24,7 +24,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${JQ_INSTALL_FOLDER_PATH}/bin/jq" --version)"
+    displayVersion "$(jq --version)"
 
     umask '0077'
 }

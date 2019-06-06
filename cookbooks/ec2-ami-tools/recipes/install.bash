@@ -46,7 +46,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}/bin/ec2-ami-tools-version")"
+    displayVersion "$(ec2-ami-tools-version)"
 
     umask '0077'
 }

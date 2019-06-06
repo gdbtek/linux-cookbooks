@@ -49,7 +49,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${ELASTIC_SEARCH_INSTALL_FOLDER_PATH}/bin/elasticsearch" --version)"
+    displayVersion "$(elasticsearch --version)"
 
     umask '0077'
 }

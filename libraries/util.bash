@@ -271,7 +271,7 @@ function copyFolderContent()
     cd "${currentPath}"
 }
 
-function createAbsoluteBin()
+function createAbsoluteUsrBin()
 {
     local -r binFileName="${1}"
     local -r sourceFilePath="${2}"

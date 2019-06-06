@@ -23,7 +23,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${PACKER_INSTALL_FOLDER_PATH}/bin/packer" version)"
+    displayVersion "$(packer version)"
 
     umask '0077'
 }

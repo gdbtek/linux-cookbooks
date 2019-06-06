@@ -30,7 +30,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${AWS_CLI_INSTALL_FOLDER_PATH}/bin/aws" --version 2>&1)"
+    displayVersion "$(aws --version 2>&1)"
 
     umask '0077'
 }

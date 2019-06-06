@@ -33,7 +33,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${MAVEN_INSTALL_FOLDER_PATH}/bin/mvn" -v)"
+    displayVersion "$(mvn -v)"
 
     umask '0077'
 }

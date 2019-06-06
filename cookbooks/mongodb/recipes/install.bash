@@ -44,7 +44,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${MONGODB_INSTALL_FOLDER_PATH}/bin/mongo" --version)"
+    displayVersion "$(mongo --version)"
 
     umask '0077'
 }

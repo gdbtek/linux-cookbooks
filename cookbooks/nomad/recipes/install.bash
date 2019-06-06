@@ -23,7 +23,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${NOMAD_INSTALL_FOLDER_PATH}/bin/nomad" version)"
+    displayVersion "$(nomad version)"
 
     umask '0077'
 }

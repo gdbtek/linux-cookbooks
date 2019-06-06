@@ -23,7 +23,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${SIEGE_INSTALL_FOLDER_PATH}/bin/siege" --version 2>&1)"
+    displayVersion "$(siege --version 2>&1)"
 
     umask '0077'
 }

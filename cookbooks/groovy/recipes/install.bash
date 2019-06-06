@@ -50,7 +50,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${GROOVY_INSTALL_FOLDER_PATH}/bin/groovy" --version)"
+    displayVersion "$(groovy --version)"
 
     umask '0077'
 }

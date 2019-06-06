@@ -24,7 +24,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${AKAMAI_INSTALL_FOLDER_PATH}/bin/akamai" --version)"
+    displayVersion "$(akamai --version)"
 
     umask '0077'
 }

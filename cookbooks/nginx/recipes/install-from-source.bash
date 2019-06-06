@@ -71,7 +71,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${NGINX_INSTALL_FOLDER_PATH}/sbin/nginx" -V 2>&1)"
+    displayVersion "$(nginx -V 2>&1)"
 
     umask '0077'
 }

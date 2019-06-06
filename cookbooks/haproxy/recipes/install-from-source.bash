@@ -62,7 +62,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${HAPROXY_INSTALL_FOLDER_PATH}/sbin/haproxy" -vv 2>&1)"
+    displayVersion "$(haproxy -vv 2>&1)"
 }
 
 function main()

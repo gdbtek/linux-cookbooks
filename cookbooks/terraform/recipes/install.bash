@@ -23,7 +23,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${TERRAFORM_INSTALL_FOLDER_PATH}/bin/terraform" version)"
+    displayVersion "$(terraform version)"
 
     umask '0077'
 }

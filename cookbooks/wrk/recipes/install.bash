@@ -33,7 +33,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${WRK_INSTALL_FOLDER_PATH}/bin/wrk" --version)"
+    displayVersion "$(wrk --version)"
 
     umask '0077'
 }

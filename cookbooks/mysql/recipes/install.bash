@@ -67,7 +67,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${MYSQL_INSTALL_FOLDER_PATH}/bin/mysql" --version)"
+    displayVersion "$(mysql --version)"
 
     umask '0077'
 }

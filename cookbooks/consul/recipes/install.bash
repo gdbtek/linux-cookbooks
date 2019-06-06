@@ -23,7 +23,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${CONSUL_INSTALL_FOLDER_PATH}/bin/consul" version)"
+    displayVersion "$(consul version)"
 
     umask '0077'
 }

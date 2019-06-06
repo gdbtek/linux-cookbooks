@@ -33,7 +33,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${SHELL_CHECK_CABAL_INSTALL_FOLDER_PATH}/bin/shellcheck" -V)"
+    displayVersion "$(shellcheck -V)"
 
     umask '0077'
 }

@@ -70,7 +70,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${REDIS_INSTALL_BIN_FOLDER}/redis-server" --version)"
+    displayVersion "$(redis-server --version)"
 
     umask '0077'
 }

@@ -33,7 +33,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${PCRE_INSTALL_FOLDER_PATH}/bin/pcregrep" --version 2>&1)"
+    displayVersion "$(pcregrep --version 2>&1)"
 
     umask '0077'
 }

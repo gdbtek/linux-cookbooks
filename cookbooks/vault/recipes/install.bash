@@ -23,7 +23,7 @@ function install()
 
     # Display Version
 
-    displayVersion "$("${VAULT_INSTALL_FOLDER_PATH}/bin/vault" version)"
+    displayVersion "$(vault version)"
 
     umask '0077'
 }
