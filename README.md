@@ -16,7 +16,6 @@
 | elastic-search        |                    |                    |                    |                    |
 | essential             |                    |                    |                    |                    |
 | foodcritic            |                    |                    |                    |                    |
-| ghost                 |                    |                    |                    |                    |
 | go-cd                 |                    |                    |                    |                    |
 | go-lang               |                    |                    |                    |                    |
 | groovy                |                    |                    |                    |                    |

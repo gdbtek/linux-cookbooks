@@ -21,7 +21,6 @@ function main()
     "${appFolderPath}/../cookbooks/ec2-api-tools/recipes/install.bash"
     "${appFolderPath}/../cookbooks/elastic-search/recipes/install.bash"
     "${appFolderPath}/../cookbooks/foodcritic/recipes/install.bash"
-    "${appFolderPath}/../cookbooks/ghost/recipes/install.bash"
     "${appFolderPath}/../cookbooks/go-cd/recipes/install.bash"
     "${appFolderPath}/../cookbooks/go-lang/recipes/install.bash"
     "${appFolderPath}/../cookbooks/groovy/recipes/install.bash"
