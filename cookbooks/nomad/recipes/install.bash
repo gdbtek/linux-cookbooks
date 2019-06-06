@@ -13,7 +13,7 @@ function install()
 
     unzipRemoteFile "${NOMAD_DOWNLOAD_URL}" "${NOMAD_INSTALL_FOLDER_PATH}/bin"
     chown -R "$(whoami):$(whoami)" "${NOMAD_INSTALL_FOLDER_PATH}"
-    ln -f -s "${NOMAD_INSTALL_FOLDER_PATH}/bin/nomad" '/usr/local/bin/nomad'
+    ln -f -s "${NOMAD_INSTALL_FOLDER_PATH}/bin/nomad" '/usr/bin/nomad'
 
     # Config Profile
 

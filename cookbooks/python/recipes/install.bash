@@ -16,7 +16,7 @@ function install()
     # Install
 
     compileAndInstallFromSource "${PYTHON_DOWNLOAD_URL}" "${PYTHON_INSTALL_FOLDER_PATH}" "${PYTHON_INSTALL_FOLDER_PATH}/bin/python3" "$(whoami)"
-    ln -f -s "${PYTHON_INSTALL_FOLDER_PATH}/bin/python3" '/usr/local/bin/python'
+    ln -f -s "${PYTHON_INSTALL_FOLDER_PATH}/bin/python3" '/usr/bin/python'
 
     # Config Profile
 

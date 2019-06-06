@@ -16,9 +16,9 @@ function install()
     # Config Lib
 
     chown -R "$(whoami):$(whoami)" "${JDK_INSTALL_FOLDER_PATH}"
-    ln -f -s "${JDK_INSTALL_FOLDER_PATH}/bin/jar" '/usr/local/bin/jar'
-    ln -f -s "${JDK_INSTALL_FOLDER_PATH}/bin/java" '/usr/local/bin/java'
-    ln -f -s "${JDK_INSTALL_FOLDER_PATH}/bin/javac" '/usr/local/bin/javac'
+    ln -f -s "${JDK_INSTALL_FOLDER_PATH}/bin/jar" '/usr/bin/jar'
+    ln -f -s "${JDK_INSTALL_FOLDER_PATH}/bin/java" '/usr/bin/java'
+    ln -f -s "${JDK_INSTALL_FOLDER_PATH}/bin/javac" '/usr/bin/javac'
 
     # Config Profile
 

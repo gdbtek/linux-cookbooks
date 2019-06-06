@@ -28,7 +28,7 @@ function install()
     make "${HAPROXY_CONFIG[@]}"
     make install PREFIX='' DESTDIR="${HAPROXY_INSTALL_FOLDER_PATH}"
     rm -f -r "${tempFolder}"
-    ln -f -s "${HAPROXY_INSTALL_FOLDER_PATH}/sbin/haproxy" '/usr/local/bin/haproxy'
+    ln -f -s "${HAPROXY_INSTALL_FOLDER_PATH}/sbin/haproxy" '/usr/bin/haproxy'
     cd "${currentPath}"
 
     # Config Init

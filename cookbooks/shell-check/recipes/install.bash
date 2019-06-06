@@ -23,7 +23,7 @@ function install()
 
     moveFolderContent "${userHomeFolderPath}/.cabal" "${SHELL_CHECK_CABAL_INSTALL_FOLDER_PATH}"
     rm -f -r "${userHomeFolderPath}/.cabal" "${userHomeFolderPath}/.ghc"
-    ln -f -s "${SHELL_CHECK_CABAL_INSTALL_FOLDER_PATH}/bin/shellcheck" '/usr/local/bin/shellcheck'
+    ln -f -s "${SHELL_CHECK_CABAL_INSTALL_FOLDER_PATH}/bin/shellcheck" '/usr/bin/shellcheck'
 
     # Config Profile
 

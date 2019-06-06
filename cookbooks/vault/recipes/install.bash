@@ -13,7 +13,7 @@ function install()
 
     unzipRemoteFile "${VAULT_DOWNLOAD_URL}" "${VAULT_INSTALL_FOLDER_PATH}/bin"
     chown -R "$(whoami):$(whoami)" "${VAULT_INSTALL_FOLDER_PATH}"
-    ln -f -s "${VAULT_INSTALL_FOLDER_PATH}/bin/vault" '/usr/local/bin/vault'
+    ln -f -s "${VAULT_INSTALL_FOLDER_PATH}/bin/vault" '/usr/bin/vault'
 
     # Config Profile
 

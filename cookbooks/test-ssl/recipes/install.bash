@@ -12,7 +12,7 @@ function install()
 
     unzipRemoteFile "${TEST_SSL_DOWNLOAD_URL}" "${TEST_SSL_INSTALL_FOLDER_PATH}"
     chown -R "$(whoami):$(whoami)" "${TEST_SSL_INSTALL_FOLDER_PATH}"
-    ln -f -s "${TEST_SSL_INSTALL_FOLDER_PATH}/testssl.sh" '/usr/local/bin/testssl'
+    ln -f -s "${TEST_SSL_INSTALL_FOLDER_PATH}/testssl.sh" '/usr/bin/testssl'
 
     # Config Profile
 

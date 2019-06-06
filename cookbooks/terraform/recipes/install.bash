@@ -13,7 +13,7 @@ function install()
 
     unzipRemoteFile "${TERRAFORM_DOWNLOAD_URL}" "${TERRAFORM_INSTALL_FOLDER_PATH}/bin"
     chown -R "$(whoami):$(whoami)" "${TERRAFORM_INSTALL_FOLDER_PATH}"
-    ln -f -s "${TERRAFORM_INSTALL_FOLDER_PATH}/bin/terraform" '/usr/local/bin/terraform'
+    ln -f -s "${TERRAFORM_INSTALL_FOLDER_PATH}/bin/terraform" '/usr/bin/terraform'
 
     # Config Profile
 

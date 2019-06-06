@@ -21,7 +21,7 @@ function install()
     unzipRemoteFile "${ANT_DOWNLOAD_URL}" "${ANT_INSTALL_FOLDER_PATH}"
 
     chown "$(whoami):$(whoami)" "${ANT_INSTALL_FOLDER_PATH}"
-    ln -f -s "${ANT_INSTALL_FOLDER_PATH}/bin/ant" '/usr/local/bin/ant'
+    ln -f -s "${ANT_INSTALL_FOLDER_PATH}/bin/ant" '/usr/bin/ant'
 
     # Config Profile
 

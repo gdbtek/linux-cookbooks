@@ -40,7 +40,7 @@ function install()
     # Config Lib
 
     chown -R "$(whoami):$(whoami)" "${GROOVY_INSTALL_FOLDER_PATH}"
-    ln -f -s "${GROOVY_INSTALL_FOLDER_PATH}/bin/groovy" '/usr/local/bin/groovy'
+    ln -f -s "${GROOVY_INSTALL_FOLDER_PATH}/bin/groovy" '/usr/bin/groovy'
 
     # Config Profile
 

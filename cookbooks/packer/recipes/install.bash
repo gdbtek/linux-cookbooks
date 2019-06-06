@@ -13,7 +13,7 @@ function install()
 
     unzipRemoteFile "${PACKER_DOWNLOAD_URL}" "${PACKER_INSTALL_FOLDER_PATH}/bin"
     chown -R "$(whoami):$(whoami)" "${PACKER_INSTALL_FOLDER_PATH}"
-    ln -f -s "${PACKER_INSTALL_FOLDER_PATH}/bin/packer" '/usr/local/bin/packer'
+    ln -f -s "${PACKER_INSTALL_FOLDER_PATH}/bin/packer" '/usr/bin/packer'
 
     # Config Profile
 

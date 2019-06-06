@@ -13,7 +13,7 @@ function install()
 
     unzipRemoteFile "${CONSUL_DOWNLOAD_URL}" "${CONSUL_INSTALL_FOLDER_PATH}/bin"
     chown -R "$(whoami):$(whoami)" "${CONSUL_INSTALL_FOLDER_PATH}"
-    ln -f -s "${CONSUL_INSTALL_FOLDER_PATH}/bin/consul" '/usr/local/bin/consul'
+    ln -f -s "${CONSUL_INSTALL_FOLDER_PATH}/bin/consul" '/usr/bin/consul'
 
     # Config Profile
 
