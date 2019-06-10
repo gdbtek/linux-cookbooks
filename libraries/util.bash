@@ -941,7 +941,7 @@ function installPortableBinary()
     local -r downloadURL="${2}"
     local -r installFolderPath="${3}"
     local -r binaryName="${4}"
-    local -r version="${5}"
+    local -r versionOption="${5}"
 
     checkRequireLinuxSystem
     checkRequireRootUser
@@ -963,7 +963,7 @@ function installPortableBinary()
 
     # Display Version
 
-    displayVersion "${version}"
+    displayVersion "$("${binaryName}" "${versionOption}")"
 
     umask '0077'
 
