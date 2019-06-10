@@ -931,6 +931,45 @@ function getGitUserRepositoryObjectKey()
     echo "${results}" | sort -f
 }
 
+#####################
+# INSTALL UTILITIES #
+#####################
+
+function installPortableBinary()
+{
+    local -r appTitleName="${1}"
+    local -r downloadURL="${2}"
+    local -r installFolderPath="${3}"
+    local -r binaryName="${4}"
+    local -r version="${5}"
+
+    checkRequireLinuxSystem
+    checkRequireRootUser
+
+    header "INSTALLING ${appTitleName}"
+
+    umask '0022'
+
+    # Clean Up
+
+    initializeFolder "${installFolderPath}"
+    initializeFolder "${installFolderPath}/bin"
+
+    # Install
+
+    unzipRemoteFile "${downloadURL}" "${installFolderPath}/bin"
+    chown -R "$(whoami):$(whoami)" "${installFolderPath}"
+    ln -f -s "${installFolderPath}/bin/${binaryName}" "/usr/bin/${binaryName}"
+
+    # Display Version
+
+    displayVersion "${version}"
+
+    umask '0077'
+
+    installCleanUp
+}
+
 #################
 # MAC UTILITIES #
 #################

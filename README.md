@@ -14,7 +14,7 @@
 | ec2-ami-tools         |                    |                    |                    |                    |
 | ec2-api-tools         |                    |                    |                    |                    |
 | elastic-search        |                    |                    |                    |                    |
-| essential             |                    |                    |                    |                    |
+| essential             |                    | :white_check_mark: |                    | :white_check_mark: |
 | foodcritic            |                    |                    |                    |                    |
 | go-cd                 |                    |                    |                    |                    |
 | go-lang               |                    |                    |                    |                    |
@@ -35,7 +35,6 @@
 | packer                |                    |                    |                    |                    |
 | pcre                  |                    |                    |                    |                    |
 | pm2                   |                    |                    |                    |                    |
-| porter                |                    |                    |                    |                    |
 | ps1                   |                    |                    |                    |                    |
 | python                |                    |                    |                    |                    |
 | redis                 |                    |                    |                    |                    |

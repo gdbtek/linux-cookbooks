@@ -40,7 +40,6 @@ function main()
     "${appFolderPath}/../cookbooks/packer/recipes/install.bash"
 "${appFolderPath}/../cookbooks/pcre/recipes/install.bash"
 "${appFolderPath}/../cookbooks/pm2/recipes/install.bash"
-    "${appFolderPath}/../cookbooks/porter/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ps1/recipes/install.bash"
     "${appFolderPath}/../cookbooks/python/recipes/install.bash"
     "${appFolderPath}/../cookbooks/redis/recipes/install.bash"
