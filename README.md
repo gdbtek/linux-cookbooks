@@ -41,7 +41,6 @@
 | ruby                  |                    |                    |                    |                    |
 | selenium-server       |                    |                    |                    |                    |
 | shell-check           |                    |                    |                    |                    |
-| siege                 |                    |                    |                    |                    |
 | splunk-forwarder      |                    |                    |                    |                    |
 | ssh                   |                    |                    |                    |                    |
 | terraform             |                    |                    |                    |                    |

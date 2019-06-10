@@ -46,7 +46,6 @@ function main()
     "${appFolderPath}/../cookbooks/ruby/recipes/install.bash"
     "${appFolderPath}/../cookbooks/selenium-server/recipes/install.bash"
     "${appFolderPath}/../cookbooks/shell-check/recipes/install.bash"
-    "${appFolderPath}/../cookbooks/siege/recipes/install.bash"
     "${appFolderPath}/../cookbooks/splunk-forwarder/recipes/install.bash"
     "${appFolderPath}/../cookbooks/ssh/recipes/install.bash"
     "${appFolderPath}/../cookbooks/terraform/recipes/install.bash"
