@@ -942,6 +942,7 @@ function installPortableBinary()
     local -r installFolderPath="${3}"
     local -r binaryName="${4}"
     local -r versionOption="${5}"
+    local -r remoteUnzip="${6}"
 
     checkRequireLinuxSystem
     checkRequireRootUser
@@ -957,7 +958,13 @@ function installPortableBinary()
 
     # Install
 
-    unzipRemoteFile "${downloadURL}" "${installFolderPath}/bin"
+    if [[ "$(isEmptyString "${remoteUnzip}")" = 'true' || "${remoteUnzip}" = 'true' ]]
+    then
+        unzipRemoteFile "${downloadURL}" "${installFolderPath}/bin"
+    else
+        downloadFile "${downloadURL}" "${installFolderPath}/bin/${binaryName}" 'true'
+    fi
+
     chown -R "$(whoami):$(whoami)" "${installFolderPath}"
     chmod 755 "${installFolderPath}/bin/${binaryName}"
     ln -f -s "${installFolderPath}/bin/${binaryName}" "/usr/bin/${binaryName}"
