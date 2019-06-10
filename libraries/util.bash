@@ -959,6 +959,7 @@ function installPortableBinary()
 
     unzipRemoteFile "${downloadURL}" "${installFolderPath}/bin"
     chown -R "$(whoami):$(whoami)" "${installFolderPath}"
+    chmod 755 "${installFolderPath}/bin/${binaryName}"
     ln -f -s "${installFolderPath}/bin/${binaryName}" "/usr/bin/${binaryName}"
 
     # Display Version
