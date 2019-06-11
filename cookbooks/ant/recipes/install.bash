@@ -16,7 +16,7 @@ function main()
     source "${APP_FOLDER_PATH}/../attributes/default.bash"
 
     installDependencies
-    installPortableBinary 'ANT' "${ANT_DOWNLOAD_URL}" "${ANT_INSTALL_FOLDER_PATH}" 'ant' '-version'
+    installPortableBinary 'ANT' "${ANT_DOWNLOAD_URL}" "${ANT_INSTALL_FOLDER_PATH}" 'ant' '-version' 'true'
 }
 
 main "${@}"
