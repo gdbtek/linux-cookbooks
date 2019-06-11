@@ -940,12 +940,12 @@ function installPortableBinary()
     local -r appTitleName="${1}"
     local -r downloadURL="${2}"
     local -r installFolderPath="${3}"
-    local -r binaryName="${4}"
+    local -r binarySubPath="${4}"
     local -r versionOption="${5}"
     local -r remoteUnzip="${6}"
 
     checkNonEmptyString "${appTitleName}" 'undefined app title name'
-    checkNonEmptyString "${binaryName}" 'undefined binary name'
+    checkNonEmptyString "${binarySubPath}" 'undefined binary sub path'
     checkNonEmptyString "${versionOption}" 'undefined version option'
     checkTrueFalseString "${remoteUnzip}"
 
@@ -959,23 +959,24 @@ function installPortableBinary()
     # Clean Up
 
     initializeFolder "${installFolderPath}"
+    initializeFolder "${installFolderPath}/$(dirname "${binarySubPath}")"
 
     # Install
 
     if [[ "${remoteUnzip}" = 'true' ]]
     then
-        unzipRemoteFile "${downloadURL}" "${installFolderPath}"
+        unzipRemoteFile "${downloadURL}" "${installFolderPath}/$(dirname "${binarySubPath}")"
     else
-        downloadFile "${downloadURL}" "${installFolderPath}/${binaryName}" 'true'
+        downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPath}" 'true'
     fi
 
-    chown -R "$(whoami):$(whoami)" "${installFolderPath}"
-    chmod 755 "${installFolderPath}/${binaryName}"
-    ln -f -s "${installFolderPath}/${binaryName}" "/usr/bin/${binaryName}"
+    chown -R "$(whoami):$(whoami)" "${installFolderPath}/${binarySubPath}"
+    chmod 755 "${installFolderPath}/${binarySubPath}"
+    ln -f -s "${installFolderPath}/${binarySubPath}" "/usr/bin/$(basename "${binarySubPath}")"
 
     # Display Version
 
-    displayVersion "$("${binaryName}" "${versionOption}")"
+    displayVersion "$("$(basename "${binarySubPath}")" "${versionOption}")"
 
     umask '0077'
 
