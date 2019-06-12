@@ -959,18 +959,17 @@ function installPortableBinary()
     # Clean Up
 
     initializeFolder "${installFolderPath}"
-    initializeFolder "${installFolderPath}/$(dirname "${binarySubPath}")"
 
     # Install
 
     if [[ "${remoteUnzip}" = 'true' ]]
     then
-        unzipRemoteFile "${downloadURL}" "${installFolderPath}/$(dirname "${binarySubPath}")"
+        unzipRemoteFile "${downloadURL}" "${installFolderPath}"
     else
-        downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPath}" 'true'
+        downloadFile "${downloadURL}" "${installFolderPath}" 'true'
     fi
 
-    chown -R "$(whoami):$(whoami)" "${installFolderPath}/${binarySubPath}"
+    chown -R "$(whoami):$(whoami)" "${installFolderPath}"
     chmod 755 "${installFolderPath}/${binarySubPath}"
     ln -f -s "${installFolderPath}/${binarySubPath}" "/usr/bin/$(basename "${binarySubPath}")"
 
