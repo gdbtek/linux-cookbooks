@@ -32,7 +32,7 @@
 | nginx                 |                    |                    |                    |                    |
 | node-js               |                    |                    |                    |                    |
 | nomad                 |                    |                    |                    |                    |
-| packer                |                    |                    |                    |                    |
+| packer                |                    | :white_check_mark: |                    | :white_check_mark: |
 | pcre                  |                    |                    |                    |                    |
 | pm2                   |                    |                    |                    |                    |
 | ps1                   |                    |                    |                    |                    |
@@ -51,7 +51,7 @@
 | tweaks                |                    |                    |                    |                    |
 | ufw                   |                    |                    |                    |                    |
 | ulimit                |                    |                    |                    |                    |
-| vault                 |                    |                    |                    |                    |
+| vault                 |                    | :white_check_mark: |                    | :white_check_mark: |
 | vbox-guest-additions  |                    |                    |                    |                    |
 | vim                   |                    |                    |                    |                    |
 | vmware-tools          |                    |                    |                    |                    |
