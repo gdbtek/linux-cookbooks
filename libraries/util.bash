@@ -975,7 +975,7 @@ function installPortableBinary()
 
     # Display Version
 
-    displayVersion "$("$(basename "${binarySubPath}")" "${versionOption}")"
+    displayVersion "$("/usr/bin/$(basename "${binarySubPath}")" "${versionOption}")"
 
     umask '0077'
 
