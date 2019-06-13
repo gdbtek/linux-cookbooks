@@ -43,7 +43,7 @@
 | shell-check           |                    |                    |                    |                    |
 | splunk-forwarder      |                    |                    |                    |                    |
 | ssh                   |                    |                    |                    |                    |
-| terraform             |                    |                    |                    |                    |
+| terraform             |                    | :white_check_mark: |                    | :white_check_mark: |
 | test-ssl              |                    |                    |                    |                    |
 | tmp-reaper            |                    |                    |                    |                    |
 | tmp-watch             |                    |                    |                    |                    |
