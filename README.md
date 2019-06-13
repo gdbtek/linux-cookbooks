@@ -22,7 +22,7 @@
 | haproxy               |                    |                    |                    |                    |
 | jdk                   |                    |                    |                    |                    |
 | jenkins               |                    |                    |                    |                    |
-| jq                    |                    |                    |                    |                    |
+| jq                    |                    | :white_check_mark: |                    | :white_check_mark: |
 | kibana                |                    |                    |                    |                    |
 | logrotate             |                    |                    |                    |                    |
 | maven                 |                    |                    |                    |                    |
@@ -31,7 +31,7 @@
 | mysql                 |                    |                    |                    |                    |
 | nginx                 |                    |                    |                    |                    |
 | node-js               |                    |                    |                    |                    |
-| nomad                 |                    |                    |                    |                    |
+| nomad                 |                    | :white_check_mark: |                    | :white_check_mark: |
 | packer                |                    | :white_check_mark: |                    | :white_check_mark: |
 | pcre                  |                    |                    |                    |                    |
 | pm2                   |                    |                    |                    |                    |
