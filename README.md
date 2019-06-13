@@ -8,7 +8,7 @@
 | chef-client           |                    |                    |                    |                    |
 | chrony                |                    |                    |                    |                    |
 | clean-up              |                    |                    |                    |                    |
-| consul                |                    |                    |                    |                    |
+| consul                |                    | :white_check_mark: |                    | :white_check_mark: |
 | data-dog              |                    |                    |                    |                    |
 | docker                |                    |                    |                    |                    |
 | ec2-ami-tools         |                    |                    |                    |                    |
