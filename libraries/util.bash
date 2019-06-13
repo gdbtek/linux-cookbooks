@@ -966,7 +966,7 @@ function installPortableBinary()
     then
         unzipRemoteFile "${downloadURL}" "${installFolderPath}"
     else
-        downloadFile "${downloadURL}" "${installFolderPath}" 'true'
+        downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPath}" 'true'
     fi
 
     chown -R "$(whoami):$(whoami)" "${installFolderPath}"
