@@ -2,8 +2,8 @@
 
 | COOKBOOK              | AMAZON-LINUX 2     | CENTOS 7           | REDHAT 7           | UBUNTU 18          |
 | --------------------- | ------------------ | ------------------ | ------------------ | ------------------ |
-| akamai-cli            |                    |                    |                    |                    |
-| ant                   |                    |                    |                    |                    |
+| akamai-cli            |                    | :white_check_mark: |                    | :white_check_mark: |
+| ant                   |                    | :white_check_mark: |                    | :white_check_mark: |
 | aws-cli               |                    |                    |                    |                    |
 | chef-client           |                    |                    |                    |                    |
 | chrony                |                    |                    |                    |                    |
