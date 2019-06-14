@@ -968,7 +968,7 @@ function installPortableBinary()
 
         # Profile
 
-        printf '%s\nexport PATH="%s/bin:${PATH}"' \
+        printf '%s\n\nexport PATH="%s/bin:${PATH}"' \
             '#!/bin/sh -e' \
             "${installFolderPath}" \
         > "/etc/profile.d/$(basename "${installFolderPath}").sh"
