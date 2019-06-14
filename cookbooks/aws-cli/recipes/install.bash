@@ -22,12 +22,6 @@ function install()
     chmod 755 "${AWS_CLI_INSTALL_FOLDER_PATH}/bin/aws"
     rm -f -r "${tempFolder}"
 
-    # Config Profile
-
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${AWS_CLI_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/aws-cli.sh.profile" '/etc/profile.d/aws-cli.sh' "${profileConfigData[@]}"
-
     # Display Version
 
     displayVersion "$(aws --version 2>&1)"
