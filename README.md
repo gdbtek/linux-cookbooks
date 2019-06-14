@@ -4,7 +4,7 @@
 | --------------------- | ------------------ | ------------------ | ------------------ | ------------------ |
 | akamai-cli            |                    | :white_check_mark: |                    | :white_check_mark: |
 | ant                   |                    | :white_check_mark: |                    | :white_check_mark: |
-| aws-cli               |                    |                    |                    |                    |
+| aws-cli               |                    | :white_check_mark: |                    | :white_check_mark: |
 | chef-client           |                    |                    |                    |                    |
 | chrony                |                    |                    |                    |                    |
 | clean-up              |                    |                    |                    |                    |

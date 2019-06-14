@@ -19,6 +19,7 @@ function install()
 
     unzipRemoteFile "${AWS_CLI_DOWNLOAD_URL}" "${tempFolder}"
     python "${tempFolder}/awscli-bundle/install" -b '/usr/bin/aws' -i "${AWS_CLI_INSTALL_FOLDER_PATH}"
+    chown -R "$(whoami):$(whoami)" "${AWS_CLI_INSTALL_FOLDER_PATH}"
     chmod 755 "${AWS_CLI_INSTALL_FOLDER_PATH}/bin/aws"
     rm -f -r "${tempFolder}"
 
@@ -31,10 +32,8 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     checkRequireLinuxSystem
     checkRequireRootUser
