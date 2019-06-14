@@ -968,9 +968,10 @@ function installPortableBinary()
 
         # Profile
 
-        printf '%s\n\nexport PATH="%s/bin:${PATH}"' \
+        printf '%s\n\nexport PATH="%s/%s:${PATH}"' \
             '#!/bin/sh -e' \
             "${installFolderPath}" \
+            "$(dirname "${binarySubPath}")" \
         > "/etc/profile.d/$(basename "${installFolderPath}").sh"
 
         chmod 755 "/etc/profile.d/$(basename "${installFolderPath}").sh"
