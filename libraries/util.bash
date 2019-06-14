@@ -975,6 +975,9 @@ function installPortableBinary()
         > "/etc/profile.d/$(basename "${installFolderPath}").sh"
 
         chmod 644 "/etc/profile.d/$(basename "${installFolderPath}").sh"
+    elif [[ "$(getFileExtension "${downloadURL}")" = 'sh' ]]
+    then
+        curl -L "${downloadURL}" --retry 12 --retry-delay 5 | bash -e
     else
         downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPath}" 'true'
     fi
