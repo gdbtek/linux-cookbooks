@@ -965,6 +965,14 @@ function installPortableBinary()
     if [[ "${remoteUnzip}" = 'true' ]]
     then
         unzipRemoteFile "${downloadURL}" "${installFolderPath}"
+
+        # Profile
+
+        local -r profileFilePath="$(basename "${installFolderPath}").sh"
+
+        echo '#!/bin/sh -e' > "/etc/profile.d/${profileFilePath}"
+        echo "export PATH=\"${installFolderPath}/bin:${PATH}\"" >> "/etc/profile.d/${profileFilePath}"
+        chmod 755 "/etc/profile.d/${profileFilePath}"
     else
         downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPath}" 'true'
     fi
