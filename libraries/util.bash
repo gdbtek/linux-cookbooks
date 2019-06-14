@@ -974,7 +974,7 @@ function installPortableBinary()
             "$(dirname "${binarySubPath}")" \
         > "/etc/profile.d/$(basename "${installFolderPath}").sh"
 
-        chmod 755 "/etc/profile.d/$(basename "${installFolderPath}").sh"
+        chmod 644 "/etc/profile.d/$(basename "${installFolderPath}").sh"
     else
         downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPath}" 'true'
     fi
