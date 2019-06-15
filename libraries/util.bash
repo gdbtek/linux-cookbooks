@@ -964,9 +964,12 @@ function installPortableBinary()
 
     if [[ "${remoteUnzip}" = 'true' ]]
     then
-        unzipRemoteFile "${downloadURL}" "${installFolderPath}"
-
-        # Profile
+        if [[ "$(getFileExtension "${downloadURL}")" = 'sh' ]]
+        then
+            curl -L "${downloadURL}" --retry 12 --retry-delay 5 | bash -e
+        else
+            unzipRemoteFile "${downloadURL}" "${installFolderPath}"
+        fi
 
         printf '%s\n\nexport PATH="%s/%s:${PATH}"' \
             '#!/bin/sh -e' \
@@ -975,9 +978,6 @@ function installPortableBinary()
         > "/etc/profile.d/$(basename "${installFolderPath}").sh"
 
         chmod 644 "/etc/profile.d/$(basename "${installFolderPath}").sh"
-    elif [[ "$(getFileExtension "${downloadURL}")" = 'sh' ]]
-    then
-        curl -L "${downloadURL}" --retry 12 --retry-delay 5 | bash -e
     else
         downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPath}" 'true'
     fi
