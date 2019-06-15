@@ -940,14 +940,18 @@ function installPortableBinary()
     local -r appTitleName="${1}"
     local -r downloadURL="${2}"
     local -r installFolderPath="${3}"
-    local -r binarySubPath="${4}"
+    local -r binarySubPaths=($(sortUniqArray "$(replaceString "${4}" ',' ' ')"))
     local -r versionOption="${5}"
     local -r remoteUnzip="${6}"
 
     checkNonEmptyString "${appTitleName}" 'undefined app title name'
-    checkNonEmptyString "${binarySubPath}" 'undefined binary sub path'
     checkNonEmptyString "${versionOption}" 'undefined version option'
     checkTrueFalseString "${remoteUnzip}"
+
+    if [[ "${#binarySubPaths[@]}" -lt '1' ]]
+    then
+        fatal '\nFATAL : undefined binary sub paths'
+    fi
 
     checkRequireLinuxSystem
     checkRequireRootUser
@@ -974,21 +978,27 @@ function installPortableBinary()
         printf '%s\n\nexport PATH="%s/%s:${PATH}"' \
             '#!/bin/sh -e' \
             "${installFolderPath}" \
-            "$(dirname "${binarySubPath}")" \
+            "$(dirname "${binarySubPaths[0]}")" \
         > "/etc/profile.d/$(basename "${installFolderPath}").sh"
 
         chmod 644 "/etc/profile.d/$(basename "${installFolderPath}").sh"
     else
-        downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPath}" 'true'
+        downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPaths[0]}" 'true'
     fi
 
     chown -R "$(whoami):$(whoami)" "${installFolderPath}"
-    chmod 755 "${installFolderPath}/${binarySubPath}"
-    ln -f -s "${installFolderPath}/${binarySubPath}" "/usr/bin/$(basename "${binarySubPath}")"
+
+    local binarySubPath=''
+
+    for binarySubPath in "${binarySubPaths[@]}"
+    do
+        chmod 755 "${installFolderPath}/${binarySubPath}"
+        ln -f -s "${installFolderPath}/${binarySubPath}" "/usr/bin/$(basename "${binarySubPath}")"
+    done
 
     # Display Version
 
-    displayVersion "$("/usr/bin/$(basename "${binarySubPath}")" "${versionOption}")"
+    displayVersion "$("/usr/bin/$(basename "${binarySubPaths[0]}")" "${versionOption}")"
 
     umask '0077'
 
