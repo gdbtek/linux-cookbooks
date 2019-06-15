@@ -944,6 +944,8 @@ function installPortableBinary()
     local -r versionOption="${5}"
     local -r remoteUnzip="${6}"
 
+    # Validation
+
     checkNonEmptyString "${appTitleName}" 'undefined app title name'
     checkNonEmptyString "${versionOption}" 'undefined version option'
     checkTrueFalseString "${remoteUnzip}"
@@ -955,6 +957,8 @@ function installPortableBinary()
 
     checkRequireLinuxSystem
     checkRequireRootUser
+
+    # Header
 
     header "INSTALLING ${appTitleName}"
 
@@ -975,6 +979,8 @@ function installPortableBinary()
             unzipRemoteFile "${downloadURL}" "${installFolderPath}"
         fi
 
+        # Profile
+
         printf '%s\n\nexport PATH="%s/%s:${PATH}"' \
             '#!/bin/sh -e' \
             "${installFolderPath}" \
@@ -986,7 +992,11 @@ function installPortableBinary()
         downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPaths[0]}" 'true'
     fi
 
+    # Reset Owner
+
     chown -R "$(whoami):$(whoami)" "${installFolderPath}"
+
+    # Change Permission and Soft Link
 
     local binarySubPath=''
 
