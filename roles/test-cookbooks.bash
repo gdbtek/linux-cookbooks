@@ -12,7 +12,7 @@ function main()
     "${appFolderPath}/../cookbooks/ant/recipes/install.bash"
     "${appFolderPath}/../cookbooks/aws-cli/recipes/install.bash"
     "${appFolderPath}/../cookbooks/chef-infra-client/recipes/install.bash"
-    # "${appFolderPath}/../cookbooks/chrony/recipes/install.bash"
+    "${appFolderPath}/../cookbooks/chrony/recipes/install.bash"
     # "${appFolderPath}/../cookbooks/clean-up/recipes/install.bash"
     "${appFolderPath}/../cookbooks/consul/recipes/install.bash"
     # "${appFolderPath}/../cookbooks/data-dog/recipes/install.bash"
