@@ -38,7 +38,7 @@ function install()
 
     # Display Date
 
-    header 'DISPLAY CURRENT DATE TIME'
+    header 'DISPLAYING CURRENT DATE TIME'
 
     info "$(date)"
 
