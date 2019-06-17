@@ -30,10 +30,10 @@ function install()
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         chown -R '_chrony:_chrony' '/var/log/chrony'
-        startService 'chrony'
+        restartService 'chrony'
     else
         chown -R 'chrony:chrony' '/var/log/chrony'
-        startService 'chronyd'
+        restartService 'chronyd'
     fi
 
     # Display Date
