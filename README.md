@@ -6,8 +6,8 @@
 | ant                   |                    | :white_check_mark: |                    | :white_check_mark: |
 | aws-cli               |                    | :white_check_mark: |                    | :white_check_mark: |
 | chef-infra-client     |                    | :white_check_mark: |                    | :white_check_mark: |
-| chrony                |                    |                    |                    |                    |
-| clean-up              |                    |                    |                    |                    |
+| chrony                |                    | :white_check_mark: |                    | :white_check_mark: |
+| clean-up              |                    | :white_check_mark: |                    | :white_check_mark: |
 | consul                |                    | :white_check_mark: |                    | :white_check_mark: |
 | data-dog              |                    |                    |                    |                    |
 | docker                |                    |                    |                    |                    |
