@@ -36,6 +36,10 @@ function install()
         startService 'chronyd'
     fi
 
+    # Display Date
+
+    header 'DISPLAY CURRENT DATE TIME'
+
     info "$(date)"
 
     umask '0077'
