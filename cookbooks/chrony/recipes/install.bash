@@ -36,6 +36,8 @@ function install()
         startService 'chronyd'
     fi
 
+    info "$(date)"
+
     umask '0077'
 }
 
