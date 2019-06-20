@@ -21,7 +21,7 @@ function install()
 
         sed -E "s/${searchRegex}/\1${config}/g" \
             <<< "$(cat '/etc/ssh/sshd_config')" \
-            > '/etc/ssh/sshd_config'
+        > '/etc/ssh/sshd_config'
 
         grep -F "${config}" '/etc/ssh/sshd_config' | grep -v '^\s*#'
     done
