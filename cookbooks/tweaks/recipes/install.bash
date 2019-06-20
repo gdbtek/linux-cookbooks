@@ -2,11 +2,9 @@
 
 function main()
 {
-    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    "${appFolderPath}/disable-hugepage.bash"
-    "${appFolderPath}/disable-icmp-timestamp.bash"
-    "${appFolderPath}/disable-tcp-timestamp.bash"
+    "$(dirname "${BASH_SOURCE[0]}")/disable-hugepage.bash"
+    "$(dirname "${BASH_SOURCE[0]}")/disable-icmp-timestamp.bash"
+    "$(dirname "${BASH_SOURCE[0]}")/disable-tcp-timestamp.bash"
 }
 
 main "${@}"

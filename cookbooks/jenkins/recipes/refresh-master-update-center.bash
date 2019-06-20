@@ -36,10 +36,8 @@ function refreshUpdateCenter()
 
 function main()
 {
-    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/master.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     checkRequireLinuxSystem
     checkRequireRootUser

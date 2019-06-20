@@ -40,10 +40,8 @@ function install()
 
 function main()
 {
-    local -r appFolderPath="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${appFolderPath}/../../../libraries/util.bash"
-    source "${appFolderPath}/../attributes/default.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     checkRequireLinuxSystem
     checkRequireRootUser
