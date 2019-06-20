@@ -16,7 +16,13 @@ function install()
     for config in "${SSH_CONFIGS[@]}"
     do
         header "ADDING SSH CONFIG '${config}'"
-        appendToFileIfNotFound '/etc/ssh/sshd_config' "$(stringToSearchPattern "${config}")" "${config}" 'true' 'false' 'true'
+
+        local searchRegex="(^[[:space:]]*)($(awk '{ print $1 }' <<< "${config}")[[:space:]]+.*$)"
+
+        sed -E "s/${searchRegex}/\1${config}/g" \
+            <<< "$(cat '/etc/ssh/sshd_config')" \
+            > '/etc/ssh/sshd_config'
+
         grep -F "${config}" '/etc/ssh/sshd_config' | grep -v '^\s*#'
     done
 
