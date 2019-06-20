@@ -23,6 +23,8 @@ function install()
             <<< "$(cat '/etc/ssh/sshd_config')" \
         > '/etc/ssh/sshd_config'
 
+        appendToFileIfNotFound '/etc/ssh/sshd_config' "$(stringToSearchPattern "${config}")" "${config}" 'true' 'false' 'true'
+
         grep -F "${config}" '/etc/ssh/sshd_config' | grep -v '^\s*#'
     done
 
