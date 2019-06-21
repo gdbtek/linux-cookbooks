@@ -2300,7 +2300,7 @@ function addUser()
 
             if [[ "$(isEmptyString "${userHome}")" = 'true' || ! -d "${userHome}" ]]
             then
-                mkdir -p "/home/${userLogin}"
+                mkdir -m 700 -p "/home/${userLogin}"
                 chown -R "${userLogin}:${groupName}" "/home/${userLogin}"
             fi
         fi
@@ -2420,9 +2420,7 @@ function configUserSSH()
 
     checkExistFolder "${userHome}"
 
-    mkdir -p "${userHome}/.ssh"
-    chmod 700 "${userHome}/.ssh"
-
+    mkdir -m 700 -p "${userHome}/.ssh"
     touch "${userHome}/.ssh/${configFileName}"
     appendToFileIfNotFound "${userHome}/.ssh/${configFileName}" "${sshRSA}" "${sshRSA}" 'false' 'false' 'false'
     chmod 600 "${userHome}/.ssh/${configFileName}"
@@ -2525,8 +2523,7 @@ function generateUserSSHKey()
     header "GENERATING SSH KEY FOR USER '${userLogin}'"
 
     rm -f "${userHome}/.ssh/id_rsa" "${userHome}/.ssh/id_rsa.pub"
-    mkdir -p "${userHome}/.ssh"
-    chmod 700 "${userHome}/.ssh"
+    mkdir -m 700 -p "${userHome}/.ssh"
     chown "${userLogin}:${groupName}" "${userHome}/.ssh"
 
     su -l "${userLogin}" -c "ssh-keygen -q -t rsa -N '' -f '${userHome}/.ssh/id_rsa'"
