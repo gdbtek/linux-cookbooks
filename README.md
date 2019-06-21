@@ -53,6 +53,6 @@
 | ulimit                |                    |                    |                    |                    |
 | vault                 |                    | :white_check_mark: |                    | :white_check_mark: |
 | vbox-guest-additions  |                    |                    |                    |                    |
-| vim                   |                    |                    |                    |                    |
+| vim                   |                    | :white_check_mark: |                    | :white_check_mark: |
 | vmware-tools          |                    |                    |                    |                    |
 | wild-fly              |                    |                    |                    |                    |

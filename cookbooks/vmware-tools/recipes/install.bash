@@ -6,6 +6,13 @@ function install()
 
     installPackages 'open-vm-tools'
 
+    if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    then
+        restartService 'vmtoolsd'
+    else
+        restartService 'open-vm-tools'
+    fi
+
     umask '0077'
 }
 
