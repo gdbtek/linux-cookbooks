@@ -42,7 +42,7 @@
 | selenium-server       |                    |                    |                    |                    |
 | shell-check           |                    |                    |                    |                    |
 | splunk-forwarder      |                    |                    |                    |                    |
-| ssh                   |                    |                    |                    |                    |
+| ssh                   |                    | :white_check_mark: |                    | :white_check_mark: |
 | terraform             |                    | :white_check_mark: |                    | :white_check_mark: |
 | test-ssl              |                    |                    |                    |                    |
 | tmp-reaper            |                    |                    |                    |                    |

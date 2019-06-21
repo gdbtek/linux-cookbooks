@@ -9,8 +9,6 @@ function install()
 {
     umask '0022'
 
-    # Configure
-
     local config=''
 
     for config in "${SSH_CONFIGS[@]}"
@@ -28,11 +26,7 @@ function install()
         grep -F "${config}" '/etc/ssh/sshd_config' | grep -v '^\s*#'
     done
 
-    # Restart Service
-
     restartService 'sshd'
-
-    # Verification
 
     if [[ "$(isPortOpen '22')" = 'false' ]]
     then
