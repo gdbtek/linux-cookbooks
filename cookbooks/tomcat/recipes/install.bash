@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'java')" = 'false' || ! -d "${TOMCAT_JDK_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${TOMCAT_JDK_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../jdk/recipes/install.bash" "${TOMCAT_JDK_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -35,7 +35,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.sh.profile" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/tomcat.sh.profile" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
 
     # Add User
 
@@ -55,7 +55,7 @@ function install()
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
     )
 
-    createInitFileFromTemplate "${TOMCAT_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
+    createInitFileFromTemplate "${TOMCAT_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Config Cron
 
@@ -65,7 +65,7 @@ function install()
         '__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/tomcat.cron" '/etc/cron.daily/tomcat' "${cronConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/tomcat.cron" '/etc/cron.daily/tomcat' "${cronConfigData[@]}"
     chmod 755 '/etc/cron.daily/tomcat'
 
     # Start
@@ -86,27 +86,13 @@ function install()
 
 function main()
 {
-    local -r installFolder="${1}"
-
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     header 'INSTALLING TOMCAT'
 
-    # Override Default Config
-
-    if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
-    then
-        TOMCAT_INSTALL_FOLDER_PATH="${installFolder}"
-    fi
-
-    # Install
-
+    checkRequireLinuxSystem
+    checkRequireRootUser
     checkRequirePorts "${TOMCAT_AJP_PORT}" "${TOMCAT_COMMAND_PORT}" "${TOMCAT_HTTP_PORT}" "${TOMCAT_HTTPS_PORT}"
 
     installDependencies

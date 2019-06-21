@@ -41,7 +41,7 @@ function install()
 
     local -r serverConfigData=('__PORT__' "${NGINX_PORT}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER_PATH}/conf/nginx.conf" "${serverConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/nginx.conf.conf" "${NGINX_INSTALL_FOLDER_PATH}/conf/nginx.conf" "${serverConfigData[@]}"
 
     # Config Log
 
@@ -52,13 +52,13 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${NGINX_INSTALL_FOLDER_PATH}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.sh.profile" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/nginx.sh.profile" '/etc/profile.d/nginx.sh' "${profileConfigData[@]}"
 
     # Config Init
 
     local -r initConfigData=('__INSTALL_FOLDER_PATH__' "${NGINX_INSTALL_FOLDER_PATH}")
 
-    createInitFileFromTemplate "${NGINX_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
+    createInitFileFromTemplate "${NGINX_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Start
 
@@ -78,16 +78,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/source.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/source.bash"
 
     header 'INSTALLING NGINX FROM SOURCE'
 
+    checkRequireLinuxSystem
+    checkRequireRootUser
     checkRequirePorts "${NGINX_PORT}"
 
     installDependencies

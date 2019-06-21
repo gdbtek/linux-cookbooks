@@ -14,10 +14,10 @@ function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
+    header 'DISABLING TCP-TIMESTAMP'
+
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'DISABLING TCP-TIMESTAMP'
 
     install
     installCleanUp

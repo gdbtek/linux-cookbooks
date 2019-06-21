@@ -4,7 +4,7 @@ function install()
 {
     umask '0022'
 
-    cp -f "${APP_FOLDER_PATH}/../files/limits.conf" "${ULIMIT_INSTALL_FILE_PATH}"
+    cp -f "$(dirname "${BASH_SOURCE[0]}")/../files/limits.conf" "${ULIMIT_INSTALL_FILE_PATH}"
     displayVersion "$(cat "${ULIMIT_INSTALL_FILE_PATH}")"
 
     umask '0077'
@@ -12,15 +12,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
+    header 'INSTALLING ULIMIT'
 
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING ULIMIT'
 
     install
     installCleanUp

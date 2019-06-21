@@ -13,10 +13,10 @@ function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
+    header 'INSTALLING VMWARE-TOOLS'
+
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING VMWARE-TOOLS'
 
     install
     installCleanUp

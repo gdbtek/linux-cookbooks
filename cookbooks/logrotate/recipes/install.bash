@@ -12,9 +12,9 @@ function install()
 
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
-        cp -f "${APP_FOLDER_PATH}/../files/logrotate.conf.apt" '/etc/logrotate.conf'
+        cp -f "$(dirname "${BASH_SOURCE[0]}")/../files/logrotate.conf.apt" '/etc/logrotate.conf'
     else
-        cp -f "${APP_FOLDER_PATH}/../files/logrotate.conf.rpm" '/etc/logrotate.conf'
+        cp -f "$(dirname "${BASH_SOURCE[0]}")/../files/logrotate.conf.rpm" '/etc/logrotate.conf'
     fi
 
     info '/etc/logrotate.conf'
@@ -32,14 +32,12 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
+    header 'INSTALLING LOGROTATE'
 
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING LOGROTATE'
 
     install
     installCleanUp

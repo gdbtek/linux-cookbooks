@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'java')" = 'false' || ! -d "${SELENIUM_SERVER_JDK_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../jdk/recipes/install.bash" "${SELENIUM_SERVER_JDK_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../jdk/recipes/install.bash" "${SELENIUM_SERVER_JDK_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -42,17 +42,14 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/node.bash"
-    source "${APP_FOLDER_PATH}/../libraries/app.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/node.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../libraries/app.bash"
 
     header 'INSTALLING NODE SELENIUM-SERVER'
 
+    checkRequireLinuxSystem
+    checkRequireRootUser
     checkRequirePorts "${SELENIUM_SERVER_PORT}"
 
     installDependencies

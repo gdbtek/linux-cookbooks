@@ -47,10 +47,10 @@ function main()
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
     source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
+    header 'INSTALLING SSH'
+
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING SSH'
 
     installDependencies
     install

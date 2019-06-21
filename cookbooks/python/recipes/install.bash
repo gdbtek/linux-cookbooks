@@ -22,7 +22,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${PYTHON_INSTALL_FOLDER_PATH}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/python.sh.profile" '/etc/profile.d/python.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/python.sh.profile" '/etc/profile.d/python.sh' "${profileConfigData[@]}"
 
     # Display Version
 
@@ -33,26 +33,13 @@ function install()
 
 function main()
 {
-    local -r installFolder="${1}"
-
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     header 'INSTALLING PYTHON'
 
-    # Override Default Config
-
-    if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
-    then
-        PYTHON_INSTALL_FOLDER_PATH="${installFolder}"
-    fi
-
-    # Install
+    checkRequireLinuxSystem
+    checkRequireRootUser
 
     installDependencies
     install

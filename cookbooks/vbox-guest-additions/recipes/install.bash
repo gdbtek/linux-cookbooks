@@ -28,7 +28,7 @@ function install()
 
     # Config Init
 
-    createInitFileFromTemplate 'vbox-guest-additions' "${APP_FOLDER_PATH}/../files"
+    createInitFileFromTemplate 'vbox-guest-additions' "$(dirname "${BASH_SOURCE[0]}")/../files"
 
     # Check Service Status
 
@@ -40,17 +40,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     header 'INSTALLING VBOX-GUEST-ADDITIONS'
 
-    # Install
+    checkRequireLinuxSystem
+    checkRequireRootUser
 
     installDependencies
     install

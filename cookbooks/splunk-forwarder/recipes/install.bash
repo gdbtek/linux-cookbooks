@@ -22,7 +22,7 @@ function install()
             '__USER_NAME__' "${SPLUNK_FORWARDER_USER_NAME}"
         )
 
-        createInitFileFromTemplate "${SPLUNK_FORWARDER_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
+        createInitFileFromTemplate "${SPLUNK_FORWARDER_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
     else
         "${SPLUNK_FORWARDER_INSTALL_FOLDER_PATH}/bin/splunk" enable boot-start --accept-license --answer-yes --no-prompt
     fi
@@ -31,7 +31,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${SPLUNK_FORWARDER_INSTALL_FOLDER_PATH}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/splunk.sh.profile" '/etc/profile.d/splunk.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/splunk.sh.profile" '/etc/profile.d/splunk.sh' "${profileConfigData[@]}"
 
     # Enable (Not Start Yet)
 
@@ -44,16 +44,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     header 'INSTALLING SPLUNK-FORWARDER'
 
+    checkRequireLinuxSystem
+    checkRequireRootUser
     checkRequirePorts '8089'
 
     install

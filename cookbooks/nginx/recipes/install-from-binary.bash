@@ -16,7 +16,7 @@ function install()
 
         local -r configData=('__DISTRIBUTION_CODE_NAME__' "${DISTRIB_CODENAME}")
 
-        createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.list.apt" '/etc/apt/sources.list.d/nginx.list' "${configData[@]}"
+        createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/nginx.list.apt" '/etc/apt/sources.list.d/nginx.list' "${configData[@]}"
         curl -s -L 'http://nginx.org/keys/nginx_signing.key' --retry 12 --retry-delay 5 | apt-key add -
         apt-get update -m
     else
@@ -41,7 +41,7 @@ function install()
             '__PLATFORM_VERSION__' "$(awk -F '.' '{ print $1 }' <<< "${VERSION_ID}")"
         )
 
-        createFileFromTemplate "${APP_FOLDER_PATH}/../templates/nginx.repo" '/etc/yum.repos.d/nginx.repo' "${configData[@]}"
+        createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/nginx.repo" '/etc/yum.repos.d/nginx.repo' "${configData[@]}"
     fi
 
     # Install
@@ -62,16 +62,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/binary.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/binary.bash"
 
     header 'INSTALLING NGINX FROM BINARY'
 
+    checkRequireLinuxSystem
+    checkRequireRootUser
     checkRequirePorts "${NGINX_PORT}"
 
     install

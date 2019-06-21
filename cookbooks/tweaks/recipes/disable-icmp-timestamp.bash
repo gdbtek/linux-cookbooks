@@ -14,10 +14,10 @@ function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
+    header 'DISABLING ICMP-TIMESTAMP'
+
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'DISABLING ICMP-TIMESTAMP'
 
     install
     installCleanUp

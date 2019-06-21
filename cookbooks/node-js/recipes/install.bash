@@ -65,7 +65,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${NODE_JS_INSTALL_FOLDER_PATH}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
 
     # Clean Up
 
@@ -92,15 +92,9 @@ function getLatestVersionNumber()
 function main()
 {
     local -r version="${1}"
-    local -r installFolder="${2}"
 
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     header 'INSTALLING NODE-JS'
 
@@ -111,10 +105,10 @@ function main()
         NODE_JS_VERSION="${version}"
     fi
 
-    if [[ "$(isEmptyString "${installFolder}")" = 'false' ]]
-    then
-        NODE_JS_INSTALL_FOLDER_PATH="${installFolder}"
-    fi
+    # Validation
+
+    checkRequireLinuxSystem
+    checkRequireRootUser
 
     # Install
 

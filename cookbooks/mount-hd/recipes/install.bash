@@ -98,10 +98,10 @@ function main()
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
     source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
+    header 'INSTALLING MOUNT-HD'
+
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING MOUNT-HD'
 
     install "${@}"
     installCleanUp

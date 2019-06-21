@@ -8,7 +8,7 @@ function install()
 
     mkdir -p '/etc/vim'
     chmod 755 '/etc/vim'
-    cp -f "${APP_FOLDER_PATH}/../files/vimrc.local.conf" '/etc/vim/vimrc.local'
+    cp -f "$(dirname "${BASH_SOURCE[0]}")/../files/vimrc.local.conf" '/etc/vim/vimrc.local'
     chmod 644 '/etc/vim/vimrc.local'
 
     if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
@@ -25,14 +25,12 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
+    header 'INSTALLING VIM'
 
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING VIM'
 
     install
     installCleanUp

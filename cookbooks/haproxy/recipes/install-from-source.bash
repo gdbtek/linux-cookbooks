@@ -7,7 +7,7 @@ function installDependencies()
 
     if [[ ! -f "${PCRE_INSTALL_FOLDER_PATH}/bin/pcregrep" ]]
     then
-        "${APP_FOLDER_PATH}/../../pcre/recipes/install.bash"
+        "$(dirname "${BASH_SOURCE[0]}")/../../pcre/recipes/install.bash"
     fi
 }
 
@@ -35,20 +35,20 @@ function install()
 
     local -r initConfigData=('__INSTALL_FOLDER_PATH__' "${HAPROXY_INSTALL_FOLDER_PATH}/sbin/haproxy")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/haproxy.init" '/etc/init.d/haproxy' "${initConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/haproxy.init" '/etc/init.d/haproxy' "${initConfigData[@]}"
     chmod 755 '/etc/init.d/haproxy'
 
     # Config Profile
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${HAPROXY_INSTALL_FOLDER_PATH}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/haproxy.sh.profile" '/etc/profile.d/haproxy.sh' "${profileConfigData[@]}"
 
     # Config Default Config
 
     local -r configData=('__PORT__' "${HAPROXY_PORT}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/haproxy.conf.conf" '/etc/haproxy/haproxy.cfg' "${configData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/haproxy.conf.conf" '/etc/haproxy/haproxy.cfg' "${configData[@]}"
 
     # Start
 
@@ -67,16 +67,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/source.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/source.bash"
 
     header 'INSTALLING HAPROXY FROM SOURCE'
 
+    checkRequireLinuxSystem
+    checkRequireRootUser
     checkRequirePorts "${HAPROXY_PORT}"
 
     installDependencies

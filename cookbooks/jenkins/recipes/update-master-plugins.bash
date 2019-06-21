@@ -14,17 +14,15 @@ function updatePlugins()
 
     local -r updateList=("$(java -jar "${jenkinsCLIPath}" -s "${jenkinsAppURL}" list-plugins | grep ')$' | awk '{ print $1 }' | sort -f)")
 
-    "${APP_FOLDER_PATH}/install-master-plugins.bash" "${updateList[@]}"
+    "$(dirname "${BASH_SOURCE[0]}")/install-master-plugins.bash" "${updateList[@]}"
 
     umask '0077'
 }
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/master.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/master.bash"
 
     checkRequireLinuxSystem
     checkRequireRootUser

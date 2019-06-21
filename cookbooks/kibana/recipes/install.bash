@@ -24,7 +24,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${KIBANA_INSTALL_FOLDER_PATH}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/kibana.sh.profile" '/etc/profile.d/kibana.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/kibana.sh.profile" '/etc/profile.d/kibana.sh' "${profileConfigData[@]}"
 
     # Config Init
 
@@ -34,7 +34,7 @@ function install()
         '__GROUP_NAME__' "${KIBANA_GROUP_NAME}"
     )
 
-    createInitFileFromTemplate "${KIBANA_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
+    createInitFileFromTemplate "${KIBANA_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Start
 
@@ -51,15 +51,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
+    header 'INSTALLING KIBANA'
 
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING KIBANA'
 
     install
     installCleanUp

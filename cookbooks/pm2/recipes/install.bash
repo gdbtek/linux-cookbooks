@@ -4,7 +4,7 @@ function installDependencies()
 {
     if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${PM2_NODE_JS_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../node-js/recipes/install.bash" "${PM2_NODE_JS_VERSION}" "${PM2_NODE_JS_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../node-js/recipes/install.bash" "${PM2_NODE_JS_VERSION}" "${PM2_NODE_JS_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -38,13 +38,13 @@ function install()
 
     local -r profileConfigData=('__HOME_FOLDER__' "${userHome}/.pm2")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/pm2.sh.profile" '/etc/profile.d/pm2.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/pm2.sh.profile" '/etc/profile.d/pm2.sh' "${profileConfigData[@]}"
 
     # Config Log Rotate
 
     local -r logrotateConfigData=('__HOME_FOLDER__' "${userHome}/.pm2")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/pm2.logrotate" '/etc/logrotate.d/pm2' "${logrotateConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/pm2.logrotate" '/etc/logrotate.d/pm2' "${logrotateConfigData[@]}"
 
     # Clean Up
 
@@ -70,15 +70,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
+    header 'INSTALLING PM2'
 
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING PM2'
 
     installDependencies
     install

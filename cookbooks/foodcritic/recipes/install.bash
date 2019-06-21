@@ -4,15 +4,13 @@ function installDependencies()
 {
     if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../ruby/recipes/install.bash" "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../ruby/recipes/install.bash" "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}"
     fi
 }
 
 function install()
 {
     umask '0022'
-
-    # Install
 
     gem install foodcritic
 
@@ -21,8 +19,6 @@ function install()
         ln -f -s "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}/bin/foodcritic" '/usr/bin/foodcritic'
     fi
 
-    # Display Version
-
     displayVersion "$(foodcritic --version)"
 
     umask '0077'
@@ -30,17 +26,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     header 'INSTALLING FOODCRITIC'
 
-    # Install
+    checkRequireLinuxSystem
+    checkRequireRootUser
 
     installDependencies
     install

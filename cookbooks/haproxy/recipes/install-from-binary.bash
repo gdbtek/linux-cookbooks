@@ -46,10 +46,10 @@ function main()
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
     source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
+    header 'INSTALLING HAPROXY FROM BINARY'
+
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING HAPROXY FROM BINARY'
 
     installDependencies
     install

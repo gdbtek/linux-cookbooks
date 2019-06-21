@@ -12,7 +12,7 @@ function extend()
         if [[ "$(existDiskMount "${disk}${MOUNT_HD_PARTITION_NUMBER}" "${mountOn}")" = 'false' ]]
         then
             rm -f -r -v "${mountOn}"
-            "${APP_FOLDER_PATH}/install.bash" "${disk}" "${mountOn}"
+            "$(dirname "${BASH_SOURCE[0]}")/install.bash" "${disk}" "${mountOn}"
         else
             info "Already mounted '${disk}${MOUNT_HD_PARTITION_NUMBER}' to '${mountOn}'\n"
             df -h -T
@@ -26,15 +26,13 @@ function extend()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
+    header 'EXTENDING MOUNT-HD'
 
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'EXTENDING MOUNT-HD'
 
     extend "${@}"
     installCleanUp

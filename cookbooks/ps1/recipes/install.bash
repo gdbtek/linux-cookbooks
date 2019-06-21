@@ -123,6 +123,8 @@ function main()
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
     source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
+    header 'INSTALLING PS1'
+
     while [[ "${#}" -gt '0' ]]
     do
         case "${1}" in
@@ -172,10 +174,7 @@ function main()
     checkRequireLinuxSystem
     checkRequireRootUser
 
-    header 'INSTALLING PS1'
-
     install "${profileFileName}" "${hostName}" "${users}"
-
     installCleanUp
 }
 

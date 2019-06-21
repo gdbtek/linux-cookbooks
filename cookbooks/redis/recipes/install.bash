@@ -32,13 +32,13 @@ function install()
         6379 "${REDIS_PORT}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/redis.conf.conf" "${REDIS_INSTALL_CONFIG_FOLDER}/redis.conf" "${serverConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/redis.conf.conf" "${REDIS_INSTALL_CONFIG_FOLDER}/redis.conf" "${serverConfigData[@]}"
 
     # Config Profile
 
     local -r profileConfigData=('__INSTALL_BIN_FOLDER__' "${REDIS_INSTALL_BIN_FOLDER}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/redis.sh.profile" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/redis.sh.profile" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
 
     # Config Init
 
@@ -49,7 +49,7 @@ function install()
         '__GROUP_NAME__' "${REDIS_GROUP_NAME}"
     )
 
-    createInitFileFromTemplate "${REDIS_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates" "${initConfigData[@]}"
+    createInitFileFromTemplate "${REDIS_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Config System
 
@@ -77,16 +77,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
-
-    checkRequireLinuxSystem
-    checkRequireRootUser
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     header 'INSTALLING REDIS'
 
+    checkRequireLinuxSystem
+    checkRequireRootUser
     checkRequirePorts "${REDIS_PORT}"
 
     installDependencies

@@ -4,7 +4,7 @@ function install()
 {
     umask '0022'
 
-    createInitFileFromTemplate "${HUGEPAGE_SERVICE_NAME}" "${APP_FOLDER_PATH}/../templates"
+    createInitFileFromTemplate "${HUGEPAGE_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates"
     startService "${HUGEPAGE_SERVICE_NAME}"
 
     umask '0077'
@@ -12,15 +12,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/hugepage.bash"
 
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/hugepage.bash"
+    header 'DISABLING HUGEPAGE'
 
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'DISABLING HUGEPAGE'
 
     install
     installCleanUp

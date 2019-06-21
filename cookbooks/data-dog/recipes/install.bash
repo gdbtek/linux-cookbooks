@@ -4,13 +4,8 @@ function install()
 {
     umask '0022'
 
-    # Install
-
     export DD_API_KEY="${DATA_DOG_API_KEY}"
     bash -c -e "$(curl -s -L "${DATA_DOG_DOWNLOAD_URL}" --retry 12 --retry-delay 5)"
-
-    # Display Status
-
     statusService 'datadog-agent'
 
     umask '0077'
@@ -18,15 +13,13 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/default.bash"
+    header 'INSTALLING DATA-DOG'
 
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING DATA-DOG'
 
     install
     installCleanUp

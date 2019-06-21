@@ -6,14 +6,14 @@ function installDependencies()
 
     if [[ "$(existCommand 'groovy')" = 'false' || ! -d "${JENKINS_GROOVY_INSTALL_FOLDER_PATH}" ]]
     then
-        "${APP_FOLDER_PATH}/../../groovy/recipes/install.bash" "${JENKINS_GROOVY_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../groovy/recipes/install.bash" "${JENKINS_GROOVY_INSTALL_FOLDER_PATH}"
     fi
 
     # Tomcat
 
     if [[ ! -f "${JENKINS_TOMCAT_INSTALL_FOLDER_PATH}/bin/catalina.sh" ]]
     then
-        "${APP_FOLDER_PATH}/../../tomcat/recipes/install.bash" "${JENKINS_TOMCAT_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../tomcat/recipes/install.bash" "${JENKINS_TOMCAT_INSTALL_FOLDER_PATH}"
     fi
 }
 
@@ -49,7 +49,7 @@ function install()
 
     local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${JENKINS_INSTALL_FOLDER_PATH}")
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
 
     # Config Cron
 
@@ -59,7 +59,7 @@ function install()
         '__INSTALL_FOLDER_PATH__' "${JENKINS_INSTALL_FOLDER_PATH}"
     )
 
-    createFileFromTemplate "${APP_FOLDER_PATH}/../templates/jenkins.cron" '/etc/cron.daily/jenkins' "${cronConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/jenkins.cron" '/etc/cron.daily/jenkins' "${cronConfigData[@]}"
     chmod 755 '/etc/cron.daily/jenkins'
 
     # Install
@@ -79,16 +79,14 @@ function install()
 
 function main()
 {
-    APP_FOLDER_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/master.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../libraries/app.bash"
 
-    source "${APP_FOLDER_PATH}/../../../libraries/util.bash"
-    source "${APP_FOLDER_PATH}/../attributes/master.bash"
-    source "${APP_FOLDER_PATH}/../libraries/app.bash"
+    header 'INSTALLING MASTER JENKINS'
 
     checkRequireLinuxSystem
     checkRequireRootUser
-
-    header 'INSTALLING MASTER JENKINS'
 
     installDependencies
     install
