@@ -955,20 +955,14 @@ function installPortableBinary()
         fatal '\nFATAL : undefined binary sub paths'
     fi
 
+    header "INSTALLING ${appTitleName}"
+
     checkRequireLinuxSystem
     checkRequireRootUser
 
-    # Header
-
-    header "INSTALLING ${appTitleName}"
-
     umask '0022'
 
-    # Clean Up
-
     initializeFolder "${installFolderPath}"
-
-    # Install
 
     if [[ "${remoteUnzip}" = 'true' ]]
     then
@@ -978,8 +972,6 @@ function installPortableBinary()
         else
             unzipRemoteFile "${downloadURL}" "${installFolderPath}"
         fi
-
-        # Profile
 
         printf '%s\n\nexport PATH="%s/%s:${PATH}"' \
             '#!/bin/sh -e' \
@@ -992,11 +984,7 @@ function installPortableBinary()
         downloadFile "${downloadURL}" "${installFolderPath}/${binarySubPaths[0]}" 'true'
     fi
 
-    # Reset Owner
-
     chown -R "$(whoami):$(whoami)" "${installFolderPath}"
-
-    # Change Permission and Soft Link
 
     local binarySubPath=''
 
@@ -1005,8 +993,6 @@ function installPortableBinary()
         chmod 755 "${installFolderPath}/${binarySubPath}"
         ln -f -s "${installFolderPath}/${binarySubPath}" "/usr/bin/$(basename "${binarySubPath}")"
     done
-
-    # Display Version
 
     displayVersion "$("/usr/bin/$(basename "${binarySubPaths[0]}")" "${versionOption}")"
 
