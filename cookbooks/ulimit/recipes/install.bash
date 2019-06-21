@@ -4,8 +4,8 @@ function install()
 {
     umask '0022'
 
-    cp -f "$(dirname "${BASH_SOURCE[0]}")/../files/limits.conf" "${ULIMIT_INSTALL_FILE_PATH}"
-    displayVersion "$(cat "${ULIMIT_INSTALL_FILE_PATH}")"
+    cp -f "$(dirname "${BASH_SOURCE[0]}")/../files/limits.conf" '/etc/security/limits.conf'
+    displayVersion "$(cat '/etc/security/limits.conf')"
 
     umask '0077'
 }
@@ -13,7 +13,6 @@ function install()
 function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
-    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     header 'INSTALLING ULIMIT'
 

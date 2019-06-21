@@ -50,9 +50,9 @@
 | tomcat                |                    |                    |                    |                    |
 | tweaks                |                    |                    |                    |                    |
 | ufw                   |                    |                    |                    |                    |
-| ulimit                |                    |                    |                    |                    |
+| ulimit                |                    | :white_check_mark: |                    | :white_check_mark: |
 | vault                 |                    | :white_check_mark: |                    | :white_check_mark: |
 | vbox-guest-additions  |                    |                    |                    |                    |
 | vim                   |                    | :white_check_mark: |                    | :white_check_mark: |
-| vmware-tools          |                    |                    |                    |                    |
+| vmware-tools          |                    | :white_check_mark: |                    | :white_check_mark: |
 | wild-fly              |                    |                    |                    |                    |
