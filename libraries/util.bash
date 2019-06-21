@@ -944,8 +944,6 @@ function installPortableBinary()
     local -r versionOption="${5}"
     local -r remoteUnzip="${6}"
 
-    # Validation
-
     checkNonEmptyString "${appTitleName}" 'undefined app title name'
     checkNonEmptyString "${versionOption}" 'undefined version option'
     checkTrueFalseString "${remoteUnzip}"
