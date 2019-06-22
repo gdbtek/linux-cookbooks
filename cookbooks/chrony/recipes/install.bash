@@ -4,8 +4,6 @@ function install()
 {
     umask '0022'
 
-    # Set Time Zone
-
     if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
         setenforce 0 || true
@@ -18,12 +16,7 @@ function install()
         setenforce 1 || true
     fi
 
-    # Install Package
-
     installPackages 'chrony'
-
-    # Enable Log and Start Service
-
     mkdir -p '/var/log/chrony'
     chmod 755 '/var/log/chrony'
 
@@ -36,10 +29,7 @@ function install()
         restartService 'chronyd'
     fi
 
-    # Display Date
-
     header 'DISPLAYING CURRENT DATE TIME'
-
     info "$(date)"
 
     umask '0077'
