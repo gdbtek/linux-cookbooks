@@ -983,7 +983,7 @@ function installPortableBinary()
     then
         if [[ "$(getFileExtension "${downloadURL}")" = 'sh' ]]
         then
-            curl -L "${downloadURL}" --retry 12 --retry-delay 5 | bash -e
+            curl -s -L "${downloadURL}" --retry 12 --retry-delay 5 | bash -e
         else
             unzipRemoteFile "${downloadURL}" "${installFolderPath}"
         fi
