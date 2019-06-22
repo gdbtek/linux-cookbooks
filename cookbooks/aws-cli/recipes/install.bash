@@ -9,22 +9,16 @@ function install()
 {
     umask '0022'
 
-    # Clean Up
-
-    initializeFolder "${AWS_CLI_INSTALL_FOLDER_PATH}"
-
-    # Install
-
     local -r tempFolder="$(getTemporaryFolder)"
 
+    initializeFolder "${AWS_CLI_INSTALL_FOLDER_PATH}"
     unzipRemoteFile "${AWS_CLI_DOWNLOAD_URL}" "${tempFolder}"
-    python "${tempFolder}/awscli-bundle/install" -b '/usr/bin/aws' -i "${AWS_CLI_INSTALL_FOLDER_PATH}"
+    python "${tempFolder}/awscli-bundle/install" \
+        -b '/usr/bin/aws' \
+        -i "${AWS_CLI_INSTALL_FOLDER_PATH}"
     chown -R "$(whoami):$(whoami)" "${AWS_CLI_INSTALL_FOLDER_PATH}"
-    chmod 755 "${AWS_CLI_INSTALL_FOLDER_PATH}/bin/aws"
+    symlinkListUsrBin "${AWS_CLI_INSTALL_FOLDER_PATH}/bin/aws"
     rm -f -r "${tempFolder}"
-
-    # Display Version
-
     displayVersion "$(aws --version 2>&1)"
 
     umask '0077'
