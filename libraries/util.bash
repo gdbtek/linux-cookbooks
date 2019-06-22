@@ -999,7 +999,14 @@ function installPortableBinary()
     fi
 
     chown -R "$(whoami):$(whoami)" "${installFolderPath}"
-    symlinkListUsrBin "${installFolderPath}/${binarySubPath}"
+
+    local binarySubPath=''
+
+    for binarySubPath in "${binarySubPaths[@]}"
+    do
+        symlinkListUsrBin "${installFolderPath}/${binarySubPath}"
+    done
+
     displayVersion "$("/usr/bin/$(basename "${binarySubPaths[0]}")" "${versionOption}")"
 
     umask '0077'
