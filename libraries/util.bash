@@ -527,6 +527,7 @@ function symlinkListUsrBin()
     for sourceFilePath in "${sourceFilePaths[@]}"
     do
         chmod 755 "${sourceFilePath}"
+        rm -f -r "/usr/bin/$(basename "${sourceFilePath}")"
         ln -f -s "${sourceFilePath}" "/usr/bin/$(basename "${sourceFilePath}")"
     done
 }
