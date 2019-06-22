@@ -14,17 +14,13 @@ function install()
 {
     umask '0022'
 
-    # Install
-
     compileAndInstallFromSource "${RUBY_DOWNLOAD_URL}" "${RUBY_INSTALL_FOLDER_PATH}" "${RUBY_INSTALL_FOLDER_PATH}/bin" "$(whoami)"
 
-    # Config Profile
-
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${RUBY_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/ruby.sh.profile" '/etc/profile.d/ruby.sh' "${profileConfigData[@]}"
-
-    # Display Version
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/ruby.sh.profile" \
+        '/etc/profile.d/ruby.sh' \
+        '__INSTALL_FOLDER_PATH__' \
+        "${RUBY_INSTALL_FOLDER_PATH}"
 
     displayVersion "$(ruby --version)"
 

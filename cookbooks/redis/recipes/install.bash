@@ -25,31 +25,24 @@ function install()
     find "${tempFolder}/src" -xtype f \( -not -name '*.rb' -a -not -name '*.sh' \) -perm -u+x -exec cp -f '{}' "${REDIS_INSTALL_BIN_FOLDER}" \;
     rm -f -r "${tempFolder}"
 
-    # Config Server
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/redis.conf.conf" \
+        "${REDIS_INSTALL_CONFIG_FOLDER}/redis.conf" \
+        '__INSTALL_DATA_FOLDER__' "${REDIS_INSTALL_DATA_FOLDER}" \
+        '6379' "${REDIS_PORT}"
 
-    local -r serverConfigData=(
-        '__INSTALL_DATA_FOLDER__' "${REDIS_INSTALL_DATA_FOLDER}"
-        6379 "${REDIS_PORT}"
-    )
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/redis.conf.conf" "${REDIS_INSTALL_CONFIG_FOLDER}/redis.conf" "${serverConfigData[@]}"
-
-    # Config Profile
-
-    local -r profileConfigData=('__INSTALL_BIN_FOLDER__' "${REDIS_INSTALL_BIN_FOLDER}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/redis.sh.profile" '/etc/profile.d/redis.sh' "${profileConfigData[@]}"
-
-    # Config Init
-
-    local -r initConfigData=(
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/redis.sh.profile" \
+        '/etc/profile.d/redis.sh' \
         '__INSTALL_BIN_FOLDER__' "${REDIS_INSTALL_BIN_FOLDER}"
-        '__INSTALL_CONFIG_FOLDER__' "${REDIS_INSTALL_CONFIG_FOLDER}"
-        '__USER_NAME__' "${REDIS_USER_NAME}"
-        '__GROUP_NAME__' "${REDIS_GROUP_NAME}"
-    )
 
-    createInitFileFromTemplate "${REDIS_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
+    createInitFileFromTemplate \
+        "${REDIS_SERVICE_NAME}" \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates" \
+        '__INSTALL_BIN_FOLDER__' "${REDIS_INSTALL_BIN_FOLDER}" \
+        '__INSTALL_CONFIG_FOLDER__' "${REDIS_INSTALL_CONFIG_FOLDER}" \
+        '__USER_NAME__' "${REDIS_USER_NAME}" \
+        '__GROUP_NAME__' "${REDIS_GROUP_NAME}"
 
     # Config System
 

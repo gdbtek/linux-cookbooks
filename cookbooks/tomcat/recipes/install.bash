@@ -33,9 +33,11 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/tomcat.sh.profile" '/etc/profile.d/tomcat.sh' "${profileConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/tomcat.sh.profile" \
+        '/etc/profile.d/tomcat.sh' \
+        '__INSTALL_FOLDER_PATH__' \
+        "${TOMCAT_INSTALL_FOLDER_PATH}"
 
     # Add User
 

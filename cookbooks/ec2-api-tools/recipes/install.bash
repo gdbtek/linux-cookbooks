@@ -12,11 +12,7 @@ function install()
 {
     umask '0022'
 
-    # Clean Up
-
     initializeFolder "${EC2_API_TOOLS_INSTALL_FOLDER_PATH}"
-
-    # Install
 
     unzipRemoteFile "${EC2_API_TOOLS_DOWNLOAD_URL}" "${EC2_API_TOOLS_INSTALL_FOLDER_PATH}"
 
@@ -32,16 +28,14 @@ function install()
         fatal "FATAL : folder '${unzipFolder}' empty"
     fi
 
-    # Move Folder
-
     moveFolderContent "${unzipFolder}" "${EC2_API_TOOLS_INSTALL_FOLDER_PATH}"
     rm -f -r "${unzipFolder}"
 
-    # Config Profile
-
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${EC2_API_TOOLS_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/ec2-api-tools.sh.profile" '/etc/profile.d/ec2-api-tools.sh' "${profileConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/ec2-api-tools.sh.profile" \
+        '/etc/profile.d/ec2-api-tools.sh' \
+        '__INSTALL_FOLDER_PATH__' \
+        "${EC2_API_TOOLS_INSTALL_FOLDER_PATH}"
 
     umask '0077'
 }

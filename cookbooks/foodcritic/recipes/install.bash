@@ -16,7 +16,7 @@ function install()
 
     if [[ -f "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}/bin/foodcritic" ]]
     then
-        ln -f -s "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}/bin/foodcritic" '/usr/bin/foodcritic'
+        symlinkListUsrBin "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}/bin/foodcritic"
     fi
 
     displayVersion "$(foodcritic --version)"

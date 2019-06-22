@@ -12,26 +12,15 @@ function install()
 {
     umask '0022'
 
-    # Clean Up
-
     initializeFolder "${MAVEN_INSTALL_FOLDER_PATH}"
-
-    # Install
-
     unzipRemoteFile "${MAVEN_DOWNLOAD_URL}" "${MAVEN_INSTALL_FOLDER_PATH}"
-
-    # Config Lib
-
     chown -R "$(whoami):$(whoami)" "${MAVEN_INSTALL_FOLDER_PATH}"
-    ln -f -s "${MAVEN_INSTALL_FOLDER_PATH}/bin/mvn" '/usr/bin/mvn'
+    symlinkListUsrBin "${MAVEN_INSTALL_FOLDER_PATH}/bin/mvn"
 
-    # Config Profile
-
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${MAVEN_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/maven.sh.profile" '/etc/profile.d/maven.sh' "${profileConfigData[@]}"
-
-    # Display Version
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/maven.sh.profile" \
+        '/etc/profile.d/maven.sh' \
+        '__INSTALL_FOLDER_PATH__' "${MAVEN_INSTALL_FOLDER_PATH}"
 
     displayVersion "$(mvn -v)"
 

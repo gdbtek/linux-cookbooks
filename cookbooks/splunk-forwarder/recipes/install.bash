@@ -29,9 +29,11 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${SPLUNK_FORWARDER_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/splunk.sh.profile" '/etc/profile.d/splunk.sh' "${profileConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/splunk.sh.profile" \
+        '/etc/profile.d/splunk.sh' \
+        '__INSTALL_FOLDER_PATH__' \
+        "${SPLUNK_FORWARDER_INSTALL_FOLDER_PATH}"
 
     # Enable (Not Start Yet)
 

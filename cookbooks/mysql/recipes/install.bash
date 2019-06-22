@@ -30,8 +30,7 @@ function install()
     "${MYSQL_INSTALL_FOLDER_PATH}/bin/mysql_ssl_rsa_setup"
     chown -R "$(whoami)" "${MYSQL_INSTALL_FOLDER_PATH}"
     chown -R "${MYSQL_USER_NAME}" 'data' 'mysql-files'
-
-    ln -f -s "${MYSQL_INSTALL_FOLDER_PATH}/bin/mysql" '/usr/bin/mysql'
+    symlinkListUsrBin "${MYSQL_INSTALL_FOLDER_PATH}/bin/mysql"
 
     # Config Server
 
