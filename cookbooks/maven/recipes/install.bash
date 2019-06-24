@@ -18,7 +18,7 @@ function main()
         'MAVEN' \
         "${MAVEN_DOWNLOAD_URL}" \
         "${MAVEN_INSTALL_FOLDER_PATH}" \
-        'bin/maven' \
+        'bin/mvn' \
         '--version' \
         'true'
 }
