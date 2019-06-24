@@ -27,7 +27,7 @@ function main()
     "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/jq/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/kibana/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/logrotate/recipes/install.bash"
-    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/maven/recipes/install.bash"
+    "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/maven/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/mongodb/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/mount-hd/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/mysql/recipes/install.bash"
