@@ -8,10 +8,7 @@ function install()
     curl -s -L "${DATADOG_AGENT_DOWNLOAD_URL}" --retry 12 --retry-delay 5 | bash -e
     restartService 'datadog-agent'
     rm -f "$(pwd)/ddagent-install.log"
-
-    header 'DISPLAYING DATADOG-AGENT STATUS'
-    sleep 5
-    info "$(datadog-agent status)"
+    displayVersion "$('/usr/bin/datadog-agent' version)"
 
     umask '0077'
 }
