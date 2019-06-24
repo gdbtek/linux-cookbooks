@@ -9,6 +9,9 @@ function install()
     restartService 'datadog-agent'
     rm -f "$(pwd)/ddagent-install.log"
 
+    header 'DISPLAYING DATADOG-AGENT STATUS'
+    info "$(datadog-agent status)"
+
     umask '0077'
 }
 
