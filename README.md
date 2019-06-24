@@ -9,7 +9,7 @@
 | chrony                |                    | :white_check_mark: |                    | :white_check_mark: |
 | clean-up              |                    | :white_check_mark: |                    | :white_check_mark: |
 | consul                |                    | :white_check_mark: |                    | :white_check_mark: |
-| datadog-agent              |                    |                    |                    |                    |
+| datadog-agent         |                    | :white_check_mark: |                    | :white_check_mark: |
 | docker                |                    |                    |                    |                    |
 | ec2-ami-tools         |                    |                    |                    |                    |
 | ec2-api-tools         |                    |                    |                    |                    |
@@ -25,7 +25,7 @@
 | jq                    |                    | :white_check_mark: |                    | :white_check_mark: |
 | kibana                |                    |                    |                    |                    |
 | logrotate             |                    |                    |                    |                    |
-| maven                 |                    |                    |                    |                    |
+| maven                 |                    | :white_check_mark: |                    | :white_check_mark: |
 | mongodb               |                    |                    |                    |                    |
 | mount-hd              |                    |                    |                    |                    |
 | mysql                 |                    |                    |                    |                    |
