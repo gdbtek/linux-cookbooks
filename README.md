@@ -9,7 +9,7 @@
 | chrony                |                    | :white_check_mark: |                    | :white_check_mark: |
 | clean-up              |                    | :white_check_mark: |                    | :white_check_mark: |
 | consul                |                    | :white_check_mark: |                    | :white_check_mark: |
-| data-dog              |                    |                    |                    |                    |
+| datadog-agent              |                    |                    |                    |                    |
 | docker                |                    |                    |                    |                    |
 | ec2-ami-tools         |                    |                    |                    |                    |
 | ec2-api-tools         |                    |                    |                    |                    |

@@ -12,7 +12,7 @@ function main()
     "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/chrony/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/clean-up/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/consul/recipes/install.bash"
-    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/data-dog/recipes/install.bash"
+    "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/datadog-agent/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/docker/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/ec2-ami-tools/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/ec2-api-tools/recipes/install.bash"
