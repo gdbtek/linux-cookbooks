@@ -10,6 +10,7 @@ function install()
     rm -f "$(pwd)/ddagent-install.log"
 
     header 'DISPLAYING DATADOG-AGENT STATUS'
+    sleep 5
     info "$(datadog-agent status)"
 
     umask '0077'
