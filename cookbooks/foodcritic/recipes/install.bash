@@ -14,9 +14,9 @@ function install()
 
     gem install foodcritic
 
-    if [[ -f "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}/bin/foodcritic" ]]
+    if [[ -f "${RUBY_INSTALL_FOLDER_PATH}/bin/foodcritic" ]]
     then
-        symlinkListUsrBin "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}/bin/foodcritic"
+        symlinkListUsrBin "${RUBY_INSTALL_FOLDER_PATH}/bin/foodcritic"
     fi
 
     displayVersion "$(foodcritic --version)"
@@ -27,6 +27,7 @@ function install()
 function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../../ruby/attributes/default.bash"
 
     header 'INSTALLING FOODCRITIC'
 
