@@ -20,7 +20,7 @@
 | go-lang               |                    |                    |                    |                    |
 | groovy                |                    |                    |                    |                    |
 | haproxy               |                    |                    |                    |                    |
-| jdk                   |                    |                    |                    |                    |
+| jdk                   |                    | :white_check_mark: |                    | :white_check_mark: |
 | jenkins               |                    |                    |                    |                    |
 | jq                    |                    | :white_check_mark: |                    | :white_check_mark: |
 | kibana                |                    |                    |                    |                    |
