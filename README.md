@@ -38,7 +38,7 @@
 | ps1                   |                    |                    |                    |                    |
 | python                |                    |                    |                    |                    |
 | redis                 |                    |                    |                    |                    |
-| ruby                  |                    |                    |                    |                    |
+| ruby                  |                    | :white_check_mark: |                    | :white_check_mark: |
 | selenium-server       |                    |                    |                    |                    |
 | shell-check           |                    |                    |                    |                    |
 | splunk-forwarder      |                    |                    |                    |                    |
