@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'ruby')" = 'false' || ! -d "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}" ]]
+    if [[ "$(existCommand 'ruby')" = 'false' ]]
     then
-        "$(dirname "${BASH_SOURCE[0]}")/../../ruby/recipes/install.bash" "${FOODCRITIC_RUBY_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../ruby/recipes/install.bash"
     fi
 }
 
@@ -27,7 +27,6 @@ function install()
 function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
-    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     header 'INSTALLING FOODCRITIC'
 
