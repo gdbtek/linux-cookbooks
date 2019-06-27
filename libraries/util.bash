@@ -74,6 +74,7 @@ function compileAndInstallFromSource()
 
     initializeFolder "${installFolderPath}"
 
+    local -r currentWorkingDirectory="$(pwd)"
     local -r tempFolder="$(getTemporaryFolder)"
 
     unzipRemoteFile "${downloadURL}" "${tempFolder}"
@@ -83,6 +84,7 @@ function compileAndInstallFromSource()
     make install
     chown -R "${user}:$(getUserGroupName "${user}")" "${installFolderPath}"
     symlinkUsrBin "${installFileOrFolderBinPath}"
+    cd "${currentWorkingDirectory}"
     rm -f -r "${tempFolder}"
 }
 
