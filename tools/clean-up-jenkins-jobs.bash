@@ -56,7 +56,7 @@ function cleanJenkinsJobs()
 
     for buildsFolderPath in $(find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds')
     do
-        # Dot Builds
+        # Dot Builds (builds/.12345)
 
         if [[ "${commandMode}" = 'clean-up' ]]
         then
@@ -72,7 +72,7 @@ function cleanJenkinsJobs()
             done
         fi
 
-        # Normal Builds
+        # Normal Builds (builds/12345)
 
         local builds="$(find "${buildsFolderPath}" -mindepth 1 -maxdepth 1 -type d -regex "^${buildsFolderPath}/[1-9][0-9]*$" -exec basename '{}' \; | sort -n -r)"
         local toDeleteBuilds="$(tail -n "+$((numberBuildsToKeep + 1))" <<< "${builds}")"
