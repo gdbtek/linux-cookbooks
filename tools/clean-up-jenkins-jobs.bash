@@ -67,7 +67,7 @@ function cleanJenkinsJobs()
             do
                 if [[ ! -d "${buildsFolderPath}/$(awk -F '.' '{ print $2 }' <<< "${dotBuild}")" ]]
                 then
-                    echo "to delete ${buildsFolderPath}/${dotBuild}"
+                    rm -f -r "${buildsFolderPath}/${dotBuild}"
                 fi
             done
         fi
