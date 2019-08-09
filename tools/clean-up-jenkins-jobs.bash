@@ -56,6 +56,24 @@ function cleanJenkinsJobs()
 
     for buildsFolderPath in $(find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds')
     do
+        # Dot Builds
+
+        if [[ "${commandMode}" = 'clean-up' ]]
+        then
+            local dotBuilds="$(find "${buildsFolderPath}" -mindepth 1 -maxdepth 1 -type d -regex "^${buildsFolderPath}/\.[1-9][0-9]*$" -exec basename '{}' \;)"
+            local dotBuild=''
+
+            for dotBuild in ${dotBuilds}
+            do
+                if [[ ! -d "${buildsFolderPath}/$(awk -F '.' '{ print $2 }' <<< "${dotBuild}")" ]]
+                then
+                    echo "to delete ${buildsFolderPath}/${dotBuild}"
+                fi
+            done
+        fi
+
+        # Normal Builds
+
         local builds="$(find "${buildsFolderPath}" -mindepth 1 -maxdepth 1 -type d -regex "^${buildsFolderPath}/[1-9][0-9]*$" -exec basename '{}' \; | sort -n -r)"
         local toDeleteBuilds="$(tail -n "+$((numberBuildsToKeep + 1))" <<< "${builds}")"
         local toKeepBuilds="$(head "-${numberBuildsToKeep}" <<< "${builds}")"
