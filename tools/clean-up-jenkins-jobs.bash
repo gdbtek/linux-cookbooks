@@ -72,7 +72,7 @@ function cleanJenkinsJobs()
 
         for dotBuild in ${dotBuilds}
         do
-            echo "    '${buildsFolderPath}/${dotBuilds}'"
+            echo "    '${buildsFolderPath}/${dotBuild}'"
 
             if [[ "${commandMode}" = 'clean-up' ]]
             then
