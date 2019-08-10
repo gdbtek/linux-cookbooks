@@ -141,7 +141,7 @@ function cleanJenkinsJobs()
     then
         postUpMessage
     else
-        echo -e "\n\033[1;32mnothing to clean up!\033[0m"
+        echo -e "\n\033[1;32mno build to clean up!\033[0m"
     fi
 }
 
