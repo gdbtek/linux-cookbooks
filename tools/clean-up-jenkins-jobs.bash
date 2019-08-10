@@ -51,7 +51,7 @@ function cleanJenkinsJobs()
     local -r oldIFS="${IFS}"
     IFS=$'\n'
 
-    local needToCleanUp='false'
+    local needToCleanUpBuilds='false'
     local buildsFolderPath=''
 
     for buildsFolderPath in $(find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds')
@@ -92,7 +92,7 @@ function cleanJenkinsJobs()
 
         if [[ "$(isEmptyString "${toDeleteBuilds}")" = 'false' ]]
         then
-            needToCleanUp='true'
+            needToCleanUpBuilds='true'
 
             info "\n${buildsFolderPath}"
 
@@ -141,7 +141,7 @@ function cleanJenkinsJobs()
 
     IFS="${oldIFS}"
 
-    if [[ "${needToCleanUp}" = 'true' ]]
+    if [[ "${needToCleanUpBuilds}" = 'true' ]]
     then
         postUpMessage
     else
