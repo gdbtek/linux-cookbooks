@@ -49,7 +49,7 @@ function cleanUpDotBuildFolder()
 
     # Dot Builds (builds/.12345)
 
-    local dotBuilds="$(find "${buildsFolderPath}" -mindepth 1 -maxdepth 1 -type d -regex "^${buildsFolderPath}/\.[1-9][0-9]*$" -exec basename '{}' \;)"
+    local dotBuilds="$(find "${buildsFolderPath}" -mindepth 1 -maxdepth 1 \( -type d -o -type l \) -regex "^${buildsFolderPath}/\.[1-9][0-9]*$" -exec basename '{}' \;)"
 
     if [[ "$(isEmptyString "${dotBuilds}")" = 'false' ]]
     then
