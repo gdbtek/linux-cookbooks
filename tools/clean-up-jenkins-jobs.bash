@@ -59,26 +59,30 @@ function cleanJenkinsJobs()
         # Dot Builds (builds/.12345)
 
         local dotBuilds="$(find "${buildsFolderPath}" -mindepth 1 -maxdepth 1 -type d -regex "^${buildsFolderPath}/\.[1-9][0-9]*$" -exec basename '{}' \;)"
-        local dotBuild=''
 
-        info "\n${buildsFolderPath}"
-
-        if [[ "${commandMode}" = 'clean-up' ]]
+        if [[ "$(isEmptyString "${dotBuilds}")" = 'false' ]]
         then
-            echo -e "  \033[1;35mdeleting dot-builds :\033[0m"
-        else
-            echo -e "  \033[1;35mto delete dot-builds :\033[0m"
-        fi
-
-        for dotBuild in ${dotBuilds}
-        do
-            echo "    '${buildsFolderPath}/${dotBuild}'"
+            info "\n${buildsFolderPath}"
 
             if [[ "${commandMode}" = 'clean-up' ]]
             then
-                rm -f -r "${buildsFolderPath}/${dotBuild}"
+                echo -e "  \033[1;35mdeleting dot-builds :\033[0m"
+            else
+                echo -e "  \033[1;35mto delete dot-builds :\033[0m"
             fi
-        done
+
+            local dotBuild=''
+
+            for dotBuild in ${dotBuilds}
+            do
+                echo "    '${buildsFolderPath}/${dotBuild}'"
+
+                if [[ "${commandMode}" = 'clean-up' ]]
+                then
+                    rm -f -r "${buildsFolderPath}/${dotBuild}"
+                fi
+            done
+        fi
 
         # Normal Builds (builds/12345)
 
