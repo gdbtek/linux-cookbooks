@@ -51,6 +51,7 @@ function cleanJenkinsJobs()
     local -r oldIFS="${IFS}"
     IFS=$'\n'
 
+    local needToCleanUpDotBuilds='false'
     local needToCleanUpBuilds='false'
     local buildsFolderPath=''
 
@@ -62,6 +63,8 @@ function cleanJenkinsJobs()
 
         if [[ "$(isEmptyString "${dotBuilds}")" = 'false' ]]
         then
+            needToCleanUpDotBuilds='true'
+
             info "\n${buildsFolderPath}"
 
             if [[ "${commandMode}" = 'clean-up' ]]
@@ -141,9 +144,12 @@ function cleanJenkinsJobs()
 
     IFS="${oldIFS}"
 
-    if [[ "${needToCleanUpBuilds}" = 'true' ]]
-    then
-        postUpMessage
+    if [[ "${needToCleanUpDotBuilds}" = 'false' ]]
+    else
+        echo -e "\n\033[1;32mno dot-build to clean up!\033[0m"
+    fi
+
+    if [[ "${needToCleanUpBuilds}" = 'false' ]]
     else
         echo -e "\n\033[1;32mno build to clean up!\033[0m"
     fi
@@ -242,6 +248,7 @@ function main()
     # Start Cleaning
 
     cleanJenkinsJobs "${jobsFolderPath}" "${numberBuildsToKeep}" "${commandMode}"
+    postUpMessage
 }
 
 main "${@}"
