@@ -145,12 +145,12 @@ function cleanJenkinsJobs()
     IFS="${oldIFS}"
 
     if [[ "${needToCleanUpDotBuilds}" = 'false' ]]
-    else
+    then
         echo -e "\n\033[1;32mno dot-build to clean up!\033[0m"
     fi
 
     if [[ "${needToCleanUpBuilds}" = 'false' ]]
-    else
+    then
         echo -e "\n\033[1;32mno build to clean up!\033[0m"
     fi
 }
