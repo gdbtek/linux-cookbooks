@@ -99,7 +99,7 @@ function cleanUpBuildFolder()
             -mindepth 1 -maxdepth 1 \
             -type d \
             -regex "^${buildsFolderPath}/[1-9][0-9]*$" \
-            -exec basename '{}' \; |
+            -exec basename '{}' \; | \
         sort -n -r
     )"
 
