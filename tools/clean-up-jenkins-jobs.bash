@@ -42,7 +42,7 @@ function displayUsage()
     exit "${1}"
 }
 
-function cleanUpDotBuildFolder()
+function cleanUpDotBuilds()
 {
     local -r buildsFolderPath="${1}"
     local -r commandMode="${2}"
@@ -85,7 +85,7 @@ function cleanUpDotBuildFolder()
     fi
 }
 
-function cleanUpBuildFolder()
+function cleanUpBuild()
 {
     local -r buildsFolderPath="${1}"
     local -r commandMode="${2}"
@@ -171,8 +171,8 @@ function cleanJenkinsJobs()
 
     for buildsFolderPath in $(find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds')
     do
-        cleanUpDotBuildFolder "${buildsFolderPath}" "${commandMode}"
-        cleanUpBuildFolder "${buildsFolderPath}" "${commandMode}" "${numberBuildsToKeep}"
+        cleanUpDotBuilds "${buildsFolderPath}" "${commandMode}"
+        cleanUpBuild "${buildsFolderPath}" "${commandMode}" "${numberBuildsToKeep}"
     done
 
     IFS="${oldIFS}"
