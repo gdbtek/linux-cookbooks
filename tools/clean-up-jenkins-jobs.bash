@@ -65,7 +65,7 @@ function cleanUpBrokenSymlinkNormalBuilds()
     local -r buildsFolderPath="${1}"
     local -r commandMode="${2}"
 
-    # Broken Symlink Builds (builds/12345 -> nonexistent)
+    # Broken Symlink Normal Builds (builds/12345 -> nonexistent)
 
     if [[ "${commandMode}" = 'clean-up' ]]
     then
