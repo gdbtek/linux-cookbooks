@@ -94,7 +94,7 @@ function cleanUpBuildFolder()
     # Normal Builds (builds/12345)
 
     local builds="$(
-        find
+        find \
             "${buildsFolderPath}" \
             -mindepth 1 -maxdepth 1 \
             -type d \
