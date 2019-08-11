@@ -166,7 +166,6 @@ function cleanJenkinsJobs()
     for buildsFolderPath in $(find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds')
     do
         cleanUpDotBuilds "${buildsFolderPath}" "${commandMode}"
-        cleanUpBrokenSymlinkNormalBuilds "${buildsFolderPath}" "${commandMode}"
         cleanUpNormalBuilds "${buildsFolderPath}" "${commandMode}" "${numberBuildsToKeep}"
         cleanUpBrokenSymlinkNormalBuilds "${buildsFolderPath}" "${commandMode}"
     done
