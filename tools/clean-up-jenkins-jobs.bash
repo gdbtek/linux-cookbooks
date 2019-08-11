@@ -49,39 +49,32 @@ function cleanUpDotBuilds()
 
     # Dot Builds (builds/.12345)
 
-    local dotBuilds="$(
+    if [[ "${commandMode}" = 'clean-up' ]]
+    then
         find \
             "${buildsFolderPath}" \
             -mindepth 1 -maxdepth 1 \
             \( -type d -o -type l \) \
             -regex "^${buildsFolderPath}/\.[1-9][0-9]*$" \
-            -exec basename '{}' \;
-    )"
+            -delete
+    fi
+}
 
-    if [[ "$(isEmptyString "${dotBuilds}")" = 'false' ]]
+function cleanUpBrokenSymlinkBuilds()
+{
+    local -r buildsFolderPath="${1}"
+    local -r commandMode="${2}"
+
+    if [[ "${commandMode}" = 'clean-up' ]]
     then
-        NEED_TO_CLEAN_UP_DOT_BUILDS='true'
-
-        info "\n${buildsFolderPath}"
-
-        if [[ "${commandMode}" = 'clean-up' ]]
-        then
-            echo -e "  \033[1;35mdeleting dot-builds :\033[0m"
-        else
-            echo -e "  \033[1;35mto delete dot-builds :\033[0m"
-        fi
-
-        local dotBuild=''
-
-        for dotBuild in ${dotBuilds}
-        do
-            echo "    '${buildsFolderPath}/${dotBuild}'"
-
-            if [[ "${commandMode}" = 'clean-up' ]]
-            then
-                rm -f -r "${buildsFolderPath}/${dotBuild}"
-            fi
-        done
+        find \
+            "${buildsFolderPath}" \
+            -mindepth 1 -maxdepth 1 \
+            -type l \
+            -regex "^${buildsFolderPath}/[1-9][0-9]*$" \
+            ! -exec test -e '{}' \; \
+            -print0 |
+        xargs -0 rm -f
     fi
 }
 
@@ -164,7 +157,6 @@ function cleanJenkinsJobs()
     local -r oldIFS="${IFS}"
     IFS=$'\n'
 
-    NEED_TO_CLEAN_UP_DOT_BUILDS='false'
     NEED_TO_CLEAN_UP_BUILDS='false'
 
     local buildsFolderPath=''
@@ -172,15 +164,12 @@ function cleanJenkinsJobs()
     for buildsFolderPath in $(find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds')
     do
         cleanUpDotBuilds "${buildsFolderPath}" "${commandMode}"
+        cleanUpBrokenSymlinkBuilds "${buildsFolderPath}" "${commandMode}"
         cleanUpBuild "${buildsFolderPath}" "${commandMode}" "${numberBuildsToKeep}"
+        cleanUpBrokenSymlinkBuilds "${buildsFolderPath}" "${commandMode}"
     done
 
     IFS="${oldIFS}"
-
-    if [[ "${NEED_TO_CLEAN_UP_DOT_BUILDS}" = 'false' ]]
-    then
-        echo -e "\n\033[1;32mno dot-build to clean up!\033[0m"
-    fi
 
     if [[ "${NEED_TO_CLEAN_UP_BUILDS}" = 'false' ]]
     then
