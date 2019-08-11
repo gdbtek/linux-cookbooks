@@ -60,10 +60,12 @@ function cleanUpDotBuilds()
     fi
 }
 
-function cleanUpBrokenSymlinkBuilds()
+function cleanUpBrokenSymlinkNormalBuilds()
 {
     local -r buildsFolderPath="${1}"
     local -r commandMode="${2}"
+
+    # Broken Symlink Builds (builds/12345 -> nonexistent)
 
     if [[ "${commandMode}" = 'clean-up' ]]
     then
@@ -78,7 +80,7 @@ function cleanUpBrokenSymlinkBuilds()
     fi
 }
 
-function cleanUpBuild()
+function cleanUpNormalBuilds()
 {
     local -r buildsFolderPath="${1}"
     local -r commandMode="${2}"
@@ -164,9 +166,9 @@ function cleanJenkinsJobs()
     for buildsFolderPath in $(find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds')
     do
         cleanUpDotBuilds "${buildsFolderPath}" "${commandMode}"
-        cleanUpBrokenSymlinkBuilds "${buildsFolderPath}" "${commandMode}"
-        cleanUpBuild "${buildsFolderPath}" "${commandMode}" "${numberBuildsToKeep}"
-        cleanUpBrokenSymlinkBuilds "${buildsFolderPath}" "${commandMode}"
+        cleanUpBrokenSymlinkNormalBuilds "${buildsFolderPath}" "${commandMode}"
+        cleanUpNormalBuilds "${buildsFolderPath}" "${commandMode}" "${numberBuildsToKeep}"
+        cleanUpBrokenSymlinkNormalBuilds "${buildsFolderPath}" "${commandMode}"
     done
 
     IFS="${oldIFS}"
