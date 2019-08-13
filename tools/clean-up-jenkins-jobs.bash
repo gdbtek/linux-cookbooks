@@ -5,7 +5,7 @@
 #############
 
 DEFAULT_COMMAND_MODE='status'
-DEFAULT_NUMBER_BUILDS_TO_KEEP='15'
+DEFAULT_NUMBER_BUILDS_TO_KEEP='25'
 
 ##################
 # IMPLEMENTATION #
@@ -35,8 +35,8 @@ function displayUsage()
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
     echo    "  ./${scriptName} --jobs-folder-path '/opt/jenkins/jobs'"
-    echo    "  ./${scriptName} --jobs-folder-path '/apps/jenkins/latest/jobs' --number-builds-to-keep '15'"
-    echo    "  ./${scriptName} --jobs-folder-path '/apps/jenkins/latest/jobs' --number-builds-to-keep '15' --command-mode 'clean-up'"
+    echo    "  ./${scriptName} --jobs-folder-path '/apps/jenkins/latest/jobs' --number-builds-to-keep '50'"
+    echo    "  ./${scriptName} --jobs-folder-path '/apps/jenkins/latest/jobs' --number-builds-to-keep '50' --command-mode 'clean-up'"
     echo -e '\033[0m'
 
     exit "${1}"
