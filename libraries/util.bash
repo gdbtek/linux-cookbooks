@@ -1705,10 +1705,16 @@ function checkNonEmptyString()
 function checkTrueFalseString()
 {
     local -r string="${1}"
+    local -r errorMessage="${2}"
 
     if [[ "${string}" != 'true' && "${string}" != 'false' ]]
     then
-        fatal "\nFATAL : '${string}' is not 'true' or 'false'"
+        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
+        then
+            fatal "\nFATAL : '${string}' is not 'true' or 'false'"
+        fi
+
+        fatal "\nFATAL : ${errorMessage}"
     fi
 }
 
