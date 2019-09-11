@@ -2278,21 +2278,33 @@ function saveFirewall()
 {
     header 'SAVING FIREWALL'
 
-    if [[ "$(isUbuntuDistributor)" = 'true' ]]
-    then
-        if [[ -d '/etc/iptables' ]]
-        then
-            iptables-save > '/etc/iptables/rules.v4'
-            ip6tables-save > '/etc/iptables/rules.v6'
+    # V4 Rules
 
-            info '/etc/iptables/rules.v4'
-            cat '/etc/iptables/rules.v4'
-            info "\n/etc/iptables/rules.v6"
-            cat '/etc/iptables/rules.v6'
-        else
-            warn "WARN : directory '/etc/iptables' not found"
+    local v4RuleFile=''
+
+    for v4RuleFile in '/etc/iptables/rules.v4' '/etc/sysconfig/iptables'
+    do
+        if [[ -f "${v4RuleFile}" ]]
+        then
+            iptables-save > "${v4RuleFile}"
+            info "${v4RuleFile}"
+            cat "${v4RuleFile}"
         fi
-    fi
+    done
+
+    # V6 Rules
+
+    local v6RuleFile=''
+
+    for v6RuleFile in '/etc/iptables/rules.v6' '/etc/sysconfig/ip6tables'
+    do
+        if [[ -f "${v6RuleFile}" ]]
+        then
+            ip6tables-save > "${v6RuleFile}"
+            info "${v6RuleFile}"
+            cat "${v6RuleFile}"
+        fi
+    done
 }
 
 ############################
