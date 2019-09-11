@@ -2222,16 +2222,7 @@ function flushFirewall()
 
     iptables --list
 
-    if [[ "$(isUbuntuDistributor)" = 'true' ]]
-    then
-        if [[ -d '/etc/iptables' ]]
-        then
-            iptables-save > '/etc/iptables/rules.v4'
-            ip6tables-save > '/etc/iptables/rules.v6'
-        else
-            warn "WARN : '/etc/iptables' directory not found"
-        fi
-    fi
+    saveFirewall
 }
 
 function isPortOpen()
@@ -2280,6 +2271,22 @@ function remountTMP()
         mount -o 'remount,rw,exec,nosuid' -v '/tmp'
     else
         warn 'WARN : mount /tmp not found'
+    fi
+}
+
+function saveFirewall()
+{
+    header 'SAVING FIREWALL'
+
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        if [[ -d '/etc/iptables' ]]
+        then
+            iptables-save > '/etc/iptables/rules.v4'
+            ip6tables-save > '/etc/iptables/rules.v6'
+        else
+            warn "\nWARN : directory '/etc/iptables' not found"
+        fi
     fi
 }
 
