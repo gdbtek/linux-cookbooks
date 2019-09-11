@@ -2284,8 +2284,12 @@ function saveFirewall()
         then
             iptables-save > '/etc/iptables/rules.v4'
             ip6tables-save > '/etc/iptables/rules.v6'
+
+            cat '/etc/iptables/rules.v4'
+            echo
+            cat '/etc/iptables/rules.v6'
         else
-            warn "\nWARN : directory '/etc/iptables' not found"
+            warn "WARN : directory '/etc/iptables' not found"
         fi
     fi
 }
