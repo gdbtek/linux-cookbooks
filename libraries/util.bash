@@ -2293,6 +2293,7 @@ function saveFirewall()
 
             info "${ruleFile}"
             cat "${ruleFile}"
+            echo
         fi
     done
 }
