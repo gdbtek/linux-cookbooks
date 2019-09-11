@@ -2278,31 +2278,21 @@ function saveFirewall()
 {
     header 'SAVING FIREWALL'
 
-    # V4 Rules
+    local ruleFile=''
 
-    local v4RuleFile=''
-
-    for v4RuleFile in '/etc/iptables/rules.v4' '/etc/sysconfig/iptables'
+    for ruleFile in '/etc/iptables/rules.v4' '/etc/iptables/rules.v6' '/etc/sysconfig/iptables' '/etc/sysconfig/ip6tables'
     do
-        if [[ -f "${v4RuleFile}" ]]
+        if [[ -f "${ruleFile}" ]]
         then
-            iptables-save > "${v4RuleFile}"
-            info "${v4RuleFile}"
-            cat "${v4RuleFile}"
-        fi
-    done
+            if [[ "$(grep -F '6' <<< "${ruleFile}")" = '' ]]
+            then
+                iptables-save > "${ruleFile}"
+            else
+                ip6tables-save > "${ruleFile}"
+            fi
 
-    # V6 Rules
-
-    local v6RuleFile=''
-
-    for v6RuleFile in '/etc/iptables/rules.v6' '/etc/sysconfig/ip6tables'
-    do
-        if [[ -f "${v6RuleFile}" ]]
-        then
-            ip6tables-save > "${v6RuleFile}"
-            info "${v6RuleFile}"
-            cat "${v6RuleFile}"
+            info "${ruleFile}"
+            cat "${ruleFile}"
         fi
     done
 }
