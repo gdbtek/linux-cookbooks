@@ -2224,8 +2224,13 @@ function flushFirewall()
 
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
-        iptables-save > /etc/iptables/rules.v4
-        ip6tables-save > /etc/iptables/rules.v6
+        if [[ -d '/etc/iptables' ]]
+        then
+            iptables-save > '/etc/iptables/rules.v4'
+            ip6tables-save > '/etc/iptables/rules.v6'
+        else
+            warn "WARN : '/etc/iptables' directory not found"
+        fi
     fi
 }
 
