@@ -2287,7 +2287,7 @@ function saveFirewall()
 
             info '/etc/iptables/rules.v4'
             cat '/etc/iptables/rules.v4'
-            info '/etc/iptables/rules.v6'
+            info "\n/etc/iptables/rules.v6"
             cat '/etc/iptables/rules.v6'
         else
             warn "WARN : directory '/etc/iptables' not found"
