@@ -2221,6 +2221,12 @@ function flushFirewall()
     iptables -X
 
     iptables --list
+
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        iptables-save > /etc/iptables/rules.v4
+        ip6tables-save > /etc/iptables/rules.v6
+    fi
 }
 
 function isPortOpen()
