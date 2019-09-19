@@ -44,7 +44,7 @@ function install()
 function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
-    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/binary.bash"
 
     header 'INSTALLING HAPROXY FROM BINARY'
 
