@@ -1,5 +1,5 @@
 [Unit]
-Description=Splunk-Forwarder Server
+Description=SplunkForwarder Server
 Wants=network.target syslog.service
 After=network.target syslog.target
 

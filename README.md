@@ -41,7 +41,7 @@
 | ruby                  |                    | :white_check_mark: |                    | :white_check_mark: |
 | selenium-server       |                    |                    |                    |                    |
 | shell-check           |                    |                    |                    |                    |
-| splunk-forwarder      |                    |                    |                    |                    |
+| splunkforwarder       |                    |                    |                    |                    |
 | ssh                   |                    | :white_check_mark: |                    | :white_check_mark: |
 | terraform             |                    | :white_check_mark: |                    | :white_check_mark: |
 | test-ssl              |                    |                    |                    |                    |

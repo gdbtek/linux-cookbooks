@@ -43,7 +43,7 @@ function main()
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/ruby/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/selenium-server/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/shell-check/recipes/install.bash"
-    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/splunk-forwarder/recipes/install.bash"
+    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/splunkforwarder/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/ssh/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/terraform/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/test-ssl/recipes/install.bash"
