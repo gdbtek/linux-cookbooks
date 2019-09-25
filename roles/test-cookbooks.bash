@@ -57,7 +57,7 @@ function main()
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/vbox-guest-additions/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/vim/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/vmware-tools/recipes/install.bash"
-    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/wild-fly/recipes/install.bash"
+    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/wildfly/recipes/install.bash"
 
     postUpMessage
 }

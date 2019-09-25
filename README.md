@@ -55,4 +55,4 @@
 | vbox-guest-additions  |                    |                    |                    |                    |
 | vim                   |                    | :white_check_mark: |                    | :white_check_mark: |
 | vmware-tools          |                    | :white_check_mark: |                    | :white_check_mark: |
-| wild-fly              |                    |                    |                    |                    |
+| wildfly               |                    |                    |                    |                    |
