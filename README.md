@@ -17,7 +17,7 @@
 | essential             |                    | :white_check_mark: |                    | :white_check_mark: |
 | foodcritic            |                    |                    |                    |                    |
 | go-cd                 |                    |                    |                    |                    |
-| go-lang               |                    |                    |                    |                    |
+| go                    |                    |                    |                    |                    |
 | groovy                |                    |                    |                    |                    |
 | haproxy               |                    |                    |                    |                    |
 | jdk                   |                    | :white_check_mark: |                    | :white_check_mark: |
