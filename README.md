@@ -30,7 +30,7 @@
 | mount-hd              |                    |                    |                    |                    |
 | mysql                 |                    |                    |                    |                    |
 | nginx                 |                    |                    |                    |                    |
-| node-js               |                    |                    |                    |                    |
+| node                  |                    |                    |                    |                    |
 | nomad                 |                    | :white_check_mark: |                    | :white_check_mark: |
 | packer                |                    | :white_check_mark: |                    | :white_check_mark: |
 | pcre                  |                    |                    |                    |                    |

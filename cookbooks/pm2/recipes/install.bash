@@ -2,16 +2,16 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${PM2_NODE_JS_INSTALL_FOLDER_PATH}" ]]
+    if [[ "$(existCommand 'node')" = 'false' || "$(existCommand 'npm')" = 'false' || ! -d "${PM2_NODE_INSTALL_FOLDER_PATH}" ]]
     then
-        "$(dirname "${BASH_SOURCE[0]}")/../../node-js/recipes/install.bash" "${PM2_NODE_JS_VERSION}" "${PM2_NODE_JS_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../node/recipes/install.bash" "${PM2_NODE_VERSION}" "${PM2_NODE_INSTALL_FOLDER_PATH}"
     fi
 }
 
 function resetOwnerAndSymlinkLocalBin()
 {
-    chown -R "$(whoami):$(whoami)" "${PM2_NODE_JS_INSTALL_FOLDER_PATH}"
-    symlinkUsrBin "${PM2_NODE_JS_INSTALL_FOLDER_PATH}/bin"
+    chown -R "$(whoami):$(whoami)" "${PM2_NODE_INSTALL_FOLDER_PATH}"
+    symlinkUsrBin "${PM2_NODE_INSTALL_FOLDER_PATH}/bin"
 }
 
 function install()
@@ -20,7 +20,7 @@ function install()
 
     # Install
 
-    npm install -g --prefix "${PM2_NODE_JS_INSTALL_FOLDER_PATH}" 'pm2@latest'
+    npm install -g --prefix "${PM2_NODE_INSTALL_FOLDER_PATH}" 'pm2@latest'
 
     # Reset Owner And Symlink Local Bin
 

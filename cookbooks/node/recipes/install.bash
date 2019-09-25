@@ -13,9 +13,9 @@ function installDependencies()
 
 function resetOwnerAndSymlinkLocalBin()
 {
-    chown -R "$(whoami):$(whoami)" "${NODE_JS_INSTALL_FOLDER_PATH}"
-    symlinkUsrBin "${NODE_JS_INSTALL_FOLDER_PATH}/bin"
-    symlinkListUsrBin "${NODE_JS_INSTALL_FOLDER_PATH}/bin/node"
+    chown -R "$(whoami):$(whoami)" "${NODE_INSTALL_FOLDER_PATH}"
+    symlinkUsrBin "${NODE_INSTALL_FOLDER_PATH}/bin"
+    symlinkListUsrBin "${NODE_INSTALL_FOLDER_PATH}/bin/node"
 }
 
 function install()
@@ -24,24 +24,24 @@ function install()
 
     # Clean Up
 
-    initializeFolder "${NODE_JS_INSTALL_FOLDER_PATH}"
+    initializeFolder "${NODE_INSTALL_FOLDER_PATH}"
 
     # Install
 
-    if [[ "${NODE_JS_VERSION}" = 'latest' ]]
+    if [[ "${NODE_VERSION}" = 'latest' ]]
     then
-        NODE_JS_VERSION="$(getLatestVersionNumber)"
-        local -r url="http://nodejs.org/dist/latest/node-${NODE_JS_VERSION}-linux-x64.tar.gz"
+        NODE_VERSION="$(getLatestVersionNumber)"
+        local -r url="http://nodejs.org/dist/latest/node-${NODE_VERSION}-linux-x64.tar.gz"
     else
-        if [[ "$(grep -o '^v' <<< "${NODE_JS_VERSION}")" = '' ]]
+        if [[ "$(grep -o '^v' <<< "${NODE_VERSION}")" = '' ]]
         then
-            NODE_JS_VERSION="v${NODE_JS_VERSION}"
+            NODE_VERSION="v${NODE_VERSION}"
         fi
 
-        local -r url="http://nodejs.org/dist/${NODE_JS_VERSION}/node-${NODE_JS_VERSION}-linux-x64.tar.gz"
+        local -r url="http://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.gz"
     fi
 
-    unzipRemoteFile "${url}" "${NODE_JS_INSTALL_FOLDER_PATH}"
+    unzipRemoteFile "${url}" "${NODE_INSTALL_FOLDER_PATH}"
 
     # Reset Owner And Symlink Local Bin
 
@@ -51,10 +51,10 @@ function install()
 
     local package=''
 
-    for package in "${NODE_JS_INSTALL_NPM_PACKAGES[@]}"
+    for package in "${NODE_INSTALL_NPM_PACKAGES[@]}"
     do
-        header "INSTALLING NODE-JS PACKAGE ${package}"
-        "${NODE_JS_INSTALL_FOLDER_PATH}/bin/npm" install -g --prefix "${NODE_JS_INSTALL_FOLDER_PATH}" "${package}"
+        header "INSTALLING NODE PACKAGE ${package}"
+        "${NODE_INSTALL_FOLDER_PATH}/bin/npm" install -g --prefix "${NODE_INSTALL_FOLDER_PATH}" "${package}"
     done
 
     # Reset Owner And Symlink Local Bin
@@ -63,9 +63,9 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${NODE_JS_INSTALL_FOLDER_PATH}")
+    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${NODE_INSTALL_FOLDER_PATH}")
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/node-js.sh.profile" '/etc/profile.d/node-js.sh' "${profileConfigData[@]}"
+    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/node.sh.profile" '/etc/profile.d/node.sh' "${profileConfigData[@]}"
 
     # Clean Up
 
@@ -96,13 +96,13 @@ function main()
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
     source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
-    header 'INSTALLING NODE-JS'
+    header 'INSTALLING NODE'
 
     # Override Default Config
 
     if [[ "$(isEmptyString "${version}")" = 'false' ]]
     then
-        NODE_JS_VERSION="${version}"
+        NODE_VERSION="${version}"
     fi
 
     # Validation

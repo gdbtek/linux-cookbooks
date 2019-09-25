@@ -32,7 +32,7 @@ function main()
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/mount-hd/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/mysql/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/nginx/recipes/install.bash"
-    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/node-js/recipes/install.bash"
+    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/node/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/nomad/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/packer/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/pcre/recipes/install.bash"
