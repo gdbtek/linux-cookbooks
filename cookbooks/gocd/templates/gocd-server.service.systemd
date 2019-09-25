@@ -1,5 +1,5 @@
 [Unit]
-Description=Go-CD Agent
+Description=GoCD Server
 After=network.target
 
 [Install]
@@ -33,6 +33,6 @@ Group=__GROUP_NAME__
 
 Environment='HOME=__GO_HOME_FOLDER__'
 
-WorkingDirectory=__AGENT_INSTALL_FOLDER_PATH__
+WorkingDirectory=__SERVER_INSTALL_FOLDER_PATH__
 
-ExecStart=/bin/bash -c -e 'java -jar 'agent-bootstrapper.jar' '__SERVER_HOSTNAME__''
+ExecStart=/bin/bash -c -e 'java -jar 'go.jar''

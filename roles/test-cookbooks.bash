@@ -18,7 +18,7 @@ function main()
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/ec2-api-tools/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/elastic-search/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/foodcritic/recipes/install.bash"
-    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/go-cd/recipes/install-server-and-agent.bash"
+    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/gocd/recipes/install-server-and-agent.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/go/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/groovy/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/haproxy/recipes/install-from-binary.bash"

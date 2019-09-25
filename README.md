@@ -16,7 +16,7 @@
 | elastic-search        |                    |                    |                    |                    |
 | essential             |                    | :white_check_mark: |                    | :white_check_mark: |
 | foodcritic            |                    |                    |                    |                    |
-| go-cd                 |                    |                    |                    |                    |
+| gocd                 |                    |                    |                    |                    |
 | go                    |                    |                    |                    |                    |
 | groovy                |                    |                    |                    |                    |
 | haproxy               |                    |                    |                    |                    |
