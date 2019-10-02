@@ -333,7 +333,7 @@ function checkValidRegion()
 
 function getAllowedRegions()
 {
-    echo 'ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2'
+    echo 'ap-east-1 ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 me-south-1 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2'
 }
 
 function getRegionFromRecordSetAliasTargetDNSName()
@@ -360,7 +360,10 @@ function getShortRegionName()
 
     checkValidRegion "${region}"
 
-    if [[ "${region}" = 'ap-northeast-1' ]]
+    if [[ "${region}" = 'ap-east-1' ]]
+    then
+        echo 'ape1'
+    elif [[ "${region}" = 'ap-northeast-1' ]]
     then
         echo 'apne1'
     elif [[ "${region}" = 'ap-northeast-2' ]]
@@ -393,6 +396,9 @@ function getShortRegionName()
     elif [[ "${region}" = 'eu-west-3' ]]
     then
         echo 'euw3'
+    elif [[ "${region}" = 'me-south-1' ]]
+    then
+        echo 'mes1'
     elif [[ "${region}" = 'sa-east-1' ]]
     then
         echo 'sae1'
@@ -554,7 +560,10 @@ function getAWSELBAccountID()
 
     checkValidRegion "${region}"
 
-    if [[ "${region}" = 'ap-northeast-1' ]]
+    if [[ "${region}" = 'ap-east-1' ]]
+    then
+        echo '754344448648'
+    elif [[ "${region}" = 'ap-northeast-1' ]]
     then
         echo '582318560864'
     elif [[ "${region}" = 'ap-northeast-2' ]]
@@ -596,6 +605,9 @@ function getAWSELBAccountID()
     elif [[ "${region}" = 'eu-west-3' ]]
     then
         echo '009996457667'
+    elif [[ "${region}" = 'me-south-1' ]]
+    then
+        echo '076674570225'
     elif [[ "${region}" = 'sa-east-1' ]]
     then
         echo '507241528517'
