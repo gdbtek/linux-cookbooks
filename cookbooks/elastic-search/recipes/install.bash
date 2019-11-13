@@ -24,7 +24,6 @@ function install()
         "${ELASTIC_SEARCH_SERVICE_NAME}" \
         "$(dirname "${BASH_SOURCE[0]}")/../templates" \
         '__INSTALL_FOLDER_PATH__' "${ELASTIC_SEARCH_INSTALL_FOLDER_PATH}" \
-        '__JDK_INSTALL_FOLDER_PATH__' "${ELASTIC_SEARCH_JDK_INSTALL_FOLDER_PATH}" \
         '__USER_NAME__' "${ELASTIC_SEARCH_USER_NAME}" \
         '__GROUP_NAME__' "${ELASTIC_SEARCH_GROUP_NAME}"
 

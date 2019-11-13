@@ -39,7 +39,6 @@ function install()
 
     local -r initConfigData=(
         '__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}"
-        '__JDK_INSTALL_FOLDER_PATH__' "${TOMCAT_JDK_INSTALL_FOLDER_PATH}"
         '__USER_NAME__' "${TOMCAT_USER_NAME}"
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
     )
