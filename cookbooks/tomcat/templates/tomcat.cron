@@ -1,3 +1,0 @@
-#!/bin/bash -e
-
-chown -R '__USER_NAME__:__GROUP_NAME__' '__INSTALL_FOLDER_PATH__'

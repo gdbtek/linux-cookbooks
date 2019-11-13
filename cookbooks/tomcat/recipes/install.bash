@@ -31,44 +31,20 @@ function install()
 
     createFileFromTemplate "${TOMCAT_INSTALL_FOLDER_PATH}/conf/server.xml" "${TOMCAT_INSTALL_FOLDER_PATH}/conf/server.xml" "${serverConfigData[@]}"
 
-    # Config Profile
-
-    createFileFromTemplate \
-        "$(dirname "${BASH_SOURCE[0]}")/../templates/tomcat.sh.profile" \
-        '/etc/profile.d/tomcat.sh' \
-        '__INSTALL_FOLDER_PATH__' \
-        "${TOMCAT_INSTALL_FOLDER_PATH}"
-
     # Add User
 
     addUser "${TOMCAT_USER_NAME}" "${TOMCAT_GROUP_NAME}" 'true' 'true' 'true'
-
-    local -r userHome="$(getUserHomeFolder "${TOMCAT_USER_NAME}")"
-
-    checkExistFolder "${userHome}"
 
     # Config Init
 
     local -r initConfigData=(
         '__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}"
-        '__HOME_FOLDER__' "${userHome}"
         '__JDK_INSTALL_FOLDER_PATH__' "${TOMCAT_JDK_INSTALL_FOLDER_PATH}"
         '__USER_NAME__' "${TOMCAT_USER_NAME}"
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
     )
 
     createInitFileFromTemplate "${TOMCAT_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
-
-    # Config Cron
-
-    local -r cronConfigData=(
-        '__USER_NAME__' "${TOMCAT_USER_NAME}"
-        '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
-        '__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}"
-    )
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/tomcat.cron" '/etc/cron.daily/tomcat' "${cronConfigData[@]}"
-    chmod 755 '/etc/cron.daily/tomcat'
 
     # Start
 
