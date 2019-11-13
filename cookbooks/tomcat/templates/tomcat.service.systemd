@@ -34,8 +34,8 @@ Group=__GROUP_NAME__
 Environment='JAVA_HOME=__JDK_INSTALL_FOLDER_PATH__'
 
 ExecStartPre=/bin/bash -c -e '\
-    find \'__INSTALL_FOLDER_PATH__/logs\' -mindepth 1 -maxdepth 1 -delete && \
-    find \'__INSTALL_FOLDER_PATH__/temp\' -mindepth 1 -maxdepth 1 -delete \
+    find \'__INSTALL_FOLDER_PATH__/logs\' -mindepth 1 -maxdepth 1 -exec rm -f -r '{}' \\; && \
+    find \'__INSTALL_FOLDER_PATH__/temp\' -mindepth 1 -maxdepth 1 -exec rm -f -r '{}' \\; \
 '
 ExecStart='__INSTALL_FOLDER_PATH__/bin/startup.sh'
 ExecStop='__INSTALL_FOLDER_PATH__/bin/shutdown.sh'
