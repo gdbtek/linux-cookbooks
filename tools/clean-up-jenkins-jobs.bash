@@ -53,7 +53,8 @@ function cleanUpDotBuilds()
     then
         find \
             "${buildsFolderPath}" \
-            -mindepth 1 -maxdepth 1 \
+            -mindepth 1 \
+            -maxdepth 1 \
             \( -type d -o -type l \) \
             -regex "^${buildsFolderPath}/\.[1-9][0-9]*$" \
             -delete
@@ -71,7 +72,8 @@ function cleanUpBrokenSymlinkNormalBuilds()
     then
         find \
             "${buildsFolderPath}" \
-            -mindepth 1 -maxdepth 1 \
+            -mindepth 1 \
+            -maxdepth 1 \
             -type l \
             -regex "^${buildsFolderPath}/[1-9][0-9]*$" \
             ! -exec test -e '{}' \; \
@@ -91,7 +93,8 @@ function cleanUpNormalBuilds()
     local builds="$(
         find \
             "${buildsFolderPath}" \
-            -mindepth 1 -maxdepth 1 \
+            -mindepth 1 \
+            -maxdepth 1 \
             -type d \
             -regex "^${buildsFolderPath}/[1-9][0-9]*$" \
             -exec basename '{}' \; |
