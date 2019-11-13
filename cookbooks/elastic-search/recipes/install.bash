@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${ELASTIC_SEARCH_JDK_INSTALL_FOLDER_PATH}" ]]
+    if [[ "$(existCommand 'java')" = 'false' ]]
     then
-        "$(dirname "${BASH_SOURCE[0]}")/../../jdk/recipes/install.bash" "${ELASTIC_SEARCH_JDK_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../jdk/recipes/install.bash"
     fi
 }
 

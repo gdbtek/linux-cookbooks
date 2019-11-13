@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${EC2_API_TOOLS_JDK_INSTALL_FOLDER_PATH}" ]]
+    if [[ "$(existCommand 'java')" = 'false' ]]
     then
-        "$(dirname "${BASH_SOURCE[0]}")/../../jdk/recipes/install.bash" "${EC2_API_TOOLS_JDK_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../jdk/recipes/install.bash"
     fi
 }
 

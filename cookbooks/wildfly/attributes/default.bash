@@ -1,9 +1,5 @@
 #!/bin/bash -e
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../jdk/attributes/default.bash"
-
-export WILDFLY_JDK_INSTALL_FOLDER_PATH="${JDK_INSTALL_FOLDER_PATH}"
-
 export WILDFLY_DOWNLOAD_URL='https://download.jboss.org/wildfly/17.0.1.Final/wildfly-17.0.1.Final.tar.gz'
 export WILDFLY_INSTALL_FOLDER_PATH='/opt/wildfly'
 

@@ -2,9 +2,9 @@
 
 function installDependencies()
 {
-    if [[ "$(existCommand 'java')" = 'false' || ! -d "${GROOVY_JDK_INSTALL_FOLDER_PATH}" ]]
+    if [[ "$(existCommand 'java')" = 'false' ]]
     then
-        "$(dirname "${BASH_SOURCE[0]}")/../../jdk/recipes/install.bash" "${GROOVY_JDK_INSTALL_FOLDER_PATH}"
+        "$(dirname "${BASH_SOURCE[0]}")/../../jdk/recipes/install.bash"
     fi
 }
 
