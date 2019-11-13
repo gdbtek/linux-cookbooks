@@ -31,7 +31,6 @@ TimeoutSec=30
 User=__USER_NAME__
 Group=__GROUP_NAME__
 
-Environment='CATALINA_HOME=__INSTALL_FOLDER_PATH__'
 Environment='JAVA_HOME=__JDK_INSTALL_FOLDER_PATH__'
 
 ExecStart='__INSTALL_FOLDER_PATH__/bin/startup.sh'
