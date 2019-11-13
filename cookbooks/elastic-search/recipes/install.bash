@@ -15,11 +15,6 @@ function install()
     initializeFolder "${ELASTIC_SEARCH_INSTALL_FOLDER_PATH}"
     unzipRemoteFile "${ELASTIC_SEARCH_DOWNLOAD_URL}" "${ELASTIC_SEARCH_INSTALL_FOLDER_PATH}"
 
-    createFileFromTemplate \
-        "$(dirname "${BASH_SOURCE[0]}")/../templates/elastic-search.sh.profile" \
-        '/etc/profile.d/elastic-search.sh' \
-        '__INSTALL_FOLDER_PATH__' "${ELASTIC_SEARCH_INSTALL_FOLDER_PATH}"
-
     createInitFileFromTemplate \
         "${ELASTIC_SEARCH_SERVICE_NAME}" \
         "$(dirname "${BASH_SOURCE[0]}")/../templates" \
