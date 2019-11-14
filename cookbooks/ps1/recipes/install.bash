@@ -55,7 +55,7 @@ function install()
 
     # Update Prompt
 
-    local user=''
+    local user
 
     for user in "${userList[@]}"
     do
@@ -137,7 +137,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local profileFileName=''
+                    local profileFileName
                     profileFileName="$(trimString "${1}")"
                 fi
 
@@ -148,7 +148,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local hostName=''
+                    local hostName
                     hostName="$(trimString "${1}")"
                 fi
 
@@ -159,7 +159,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local users=''
+                    local users
                     users="$(trimString "${1}")"
                 fi
 

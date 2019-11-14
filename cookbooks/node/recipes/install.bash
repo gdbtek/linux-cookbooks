@@ -49,7 +49,7 @@ function install()
 
     # Install NPM Packages
 
-    local package=''
+    local package
 
     for package in "${NODE_INSTALL_NPM_PACKAGES[@]}"
     do

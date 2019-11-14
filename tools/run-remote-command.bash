@@ -63,7 +63,7 @@ function runCommand()
 
     # Address Walker
 
-    local address=''
+    local address
 
     for address in "${addresses[@]}"
     do
@@ -113,7 +113,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local identityFile=''
+                    local identityFile
                     identityFile="$(formatPath ${1})"
                 fi
 
@@ -134,7 +134,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local address=''
+                    local address
                     address="$(replaceString "${1}" ',' ' ')"
                 fi
 
@@ -145,7 +145,7 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local command=''
+                    local command
                     command="$(trimString "${1}")"
                 fi
 

@@ -26,7 +26,7 @@ function excludeElementFromArray()
     local -r element="${1}"
     local array=("${@:2}")
 
-    local i=0
+    local i
 
     for ((i = 0; i < ${#array[@]}; i = i + 1))
     do
@@ -44,7 +44,7 @@ function isElementInArray()
     local -r element="${1}"
     local -r array=("${@:2}")
 
-    local walker=''
+    local walker
 
     for walker in "${array[@]}"
     do
@@ -249,7 +249,7 @@ function cleanUpSystemFolders()
         '/var/tmp'
     )
 
-    local folder=''
+    local folder
 
     for folder in "${folders[@]}"
     do
@@ -293,10 +293,10 @@ function createFileFromTemplate()
     checkExistFile "${sourceFile}"
     checkExistFolder "$(dirname "${destinationFile}")"
 
-    local content=''
-    content="$(cat "${sourceFile}")"
+    local content
+    local i
 
-    local i=0
+    content="$(cat "${sourceFile}")"
 
     for ((i = 0; i < ${#oldNewData[@]}; i = i + 2))
     do
@@ -333,7 +333,7 @@ function deleteOldLogs()
 
     # Walk Each Log Folder Path
 
-    local i=0
+    local i
 
     for ((i = 0; i < ${#logFolderPaths[@]}; i = i + 1))
     do
@@ -512,7 +512,7 @@ function resetLogs()
 
     header 'RESETTING LOGS'
 
-    local i=0
+    local i
 
     for ((i = 0; i < ${#logFolderPaths[@]}; i = i + 1))
     do
@@ -529,7 +529,7 @@ function symlinkListUsrBin()
 {
     local -r sourceFilePaths=("${@}")
 
-    local sourceFilePath=''
+    local sourceFilePath
 
     for sourceFilePath in "${sourceFilePaths[@]}"
     do
@@ -699,7 +699,7 @@ function unzipRemoteFile()
 
     # Find Extension
 
-    local exExtension=''
+    local exExtension
 
     if [[ "$(isEmptyString "${extension}")" = 'true' ]]
     then
@@ -841,7 +841,7 @@ function getGitUserPrimaryEmail()
 
     # Pagination
 
-    local page=1
+    local page
     local exitCount=0
 
     for ((page = 1; page > exitCount; page = page + 1))
@@ -907,9 +907,8 @@ function getGitUserRepositoryObjectKey()
 
     # Pagination
 
-    local results=''
-
-    local page=1
+    local results
+    local page
     local exitCount=0
 
     for ((page = 1; page > exitCount; page = page + 1))
@@ -1013,7 +1012,7 @@ function installPortableBinary()
 
     chown -R "$(whoami):$(whoami)" "${installFolderPath}"
 
-    local binarySubPath=''
+    local binarySubPath
 
     for binarySubPath in "${binarySubPaths[@]}"
     do
@@ -1043,7 +1042,7 @@ function clearMacAppExtendedAttributes()
         header "${headerMessage}"
     fi
 
-    local applicationPath=''
+    local applicationPath
 
     for applicationPath in "${applicationPaths[@]}"
     do
@@ -1069,7 +1068,7 @@ function closeMacApplications()
         header "${headerMessage}"
     fi
 
-    local applicationName=''
+    local applicationName
 
     for applicationName in "${applicationNames[@]}"
     do
@@ -1115,7 +1114,7 @@ function openMacApplications()
         header "${headerMessage}"
     fi
 
-    local applicationName=''
+    local applicationName
 
     for applicationName in "${applicationNames[@]}"
     do
@@ -1362,7 +1361,7 @@ function installCommands()
         runAptGetUpdate ''
     fi
 
-    local i=0
+    local i
 
     for ((i = 0; i < ${#commandPackageData[@]}; i = i + 2))
     do
@@ -1424,7 +1423,7 @@ function installPackages()
         runAptGetUpdate ''
     fi
 
-    local package=''
+    local package
 
     for package in "${packages[@]}"
     do
@@ -1766,8 +1765,8 @@ function encodeURL()
 {
     local -r url="${1}"
 
-    local i=0
-    local walker=''
+    local i
+    local walker
 
     for ((i = 0; i < ${#url}; i++))
     do
@@ -1903,15 +1902,15 @@ function printTable()
 
         if [[ "${numberOfLines}" -gt '0' ]]
         then
-            local table=''
-            local i=1
+            local table
+            local i
 
             for ((i = 1; i <= "${numberOfLines}"; i = i + 1))
             do
-                local line=''
-                line="$(sed "${i}q;d" <<< "${tableData}")"
+                local line
+                local numberOfColumns
 
-                local numberOfColumns='0'
+                line="$(sed "${i}q;d" <<< "${tableData}")"
                 numberOfColumns="$(awk -F "${delimiter}" '{print NF}' <<< "${line}")"
 
                 # Add Line Delimiter
@@ -1925,7 +1924,7 @@ function printTable()
 
                 table="${table}\n"
 
-                local j=1
+                local j
 
                 for ((j = 1; j <= "${numberOfColumns}"; j = j + 1))
                 do
@@ -2112,12 +2111,14 @@ function checkRequirePorts()
 
     local -r headerRegex='^COMMAND\s\+PID\s\+USER\s\+FD\s\+TYPE\s\+DEVICE\s\+SIZE\/OFF\s\+NODE\s\+NAME$'
     local -r status="$(lsof -i -n -P | grep "\( (LISTEN)$\)\|\(${headerRegex}\)")"
-    local open=''
-    local port=''
+
+    local open
+    local port
 
     for port in "${ports[@]}"
     do
-        local found=''
+        local found
+
         found="$(grep -i ":${port} (LISTEN)$" <<< "${status}" || echo)"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]
@@ -2292,7 +2293,7 @@ function saveFirewall()
 {
     header 'SAVING FIREWALL'
 
-    local ruleFile=''
+    local ruleFile
 
     for ruleFile in '/etc/iptables/rules.v4' '/etc/iptables/rules.v6' '/etc/sysconfig/iptables' '/etc/sysconfig/ip6tables'
     do

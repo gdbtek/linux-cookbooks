@@ -12,8 +12,8 @@ function install()
 
         # Config Cron
 
-        local content=''
-        local i=0
+        local content
+        local i
 
         for ((i = 0; i < ${#TMP_WATCH_FOLDERS[@]}; i = i + 3))
         do

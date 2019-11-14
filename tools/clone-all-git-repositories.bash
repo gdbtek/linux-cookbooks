@@ -93,7 +93,7 @@ function cloneAllRepositories()
         local -r repositorySSHURLs=()
     fi
 
-    local repositorySSHURL=''
+    local repositorySSHURL
 
     for repositorySSHURL in "${repositorySSHURLs[@]}"
     do

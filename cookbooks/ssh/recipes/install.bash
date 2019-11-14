@@ -9,7 +9,7 @@ function install()
 {
     umask '0022'
 
-    local config=''
+    local config
 
     for config in "${SSH_CONFIGS[@]}"
     do
