@@ -35,7 +35,6 @@ function main()
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/node/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/nomad/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/packer/recipes/install.bash"
-    # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/pcre/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/pm2/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/ps1/recipes/install.bash"
     # "$(dirname "${BASH_SOURCE[0]}")/../cookbooks/python/recipes/install.bash"
