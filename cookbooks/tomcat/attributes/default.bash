@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 export TOMCAT_DOWNLOAD_URL='http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.27/bin/apache-tomcat-9.0.27.tar.gz'
+
 export TOMCAT_INSTALL_FOLDER_PATH='/opt/tomcat'
 
 export TOMCAT_SERVICE_NAME='tomcat'
