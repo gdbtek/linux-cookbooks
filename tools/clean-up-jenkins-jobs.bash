@@ -54,7 +54,10 @@ function cleanUpDotBuilds()
         find "${buildsFolderPath}" \
             -mindepth 1 \
             -maxdepth 1 \
-            \( -type d -o -type l \) \
+            \( \
+                -type d -o \
+                -type l \
+            \) \
             -regex "^${buildsFolderPath}/\.[1-9][0-9]*$" \
             -delete
     fi

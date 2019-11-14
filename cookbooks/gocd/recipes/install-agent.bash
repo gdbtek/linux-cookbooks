@@ -22,7 +22,13 @@ function install()
 
     unzipRemoteFile "${GOCD_AGENT_DOWNLOAD_URL}" "${GOCD_AGENT_INSTALL_FOLDER_PATH}"
 
-    local -r unzipFolder="$(find "${GOCD_AGENT_INSTALL_FOLDER_PATH}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(
+        find "${GOCD_AGENT_INSTALL_FOLDER_PATH}" \
+            -maxdepth 1 \
+            -xtype d \
+        2> '/dev/null' |
+        tail -1
+    )"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(trimString "$(wc -l <<< "${unzipFolder}")")" != '1' ]]
     then

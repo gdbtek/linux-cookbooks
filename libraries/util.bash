@@ -481,8 +481,16 @@ function resetFolderPermission()
     checkExistGroupName "${groupName}"
 
     chown -R "${userLogin}:${groupName}" "${folderPath}"
-    find "${folderPath}" -type d -exec chmod 700 {} \; -print
-    find "${folderPath}" -type f -exec chmod 600 {} \; -print
+
+    find "${folderPath}" \
+        -type d \
+        -exec chmod 700 '{}' \; \
+        -print
+
+    find "${folderPath}" \
+        -type f \
+        -exec chmod 600 '{}' \; \
+        -print
 }
 
 function resetLogs()

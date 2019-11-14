@@ -20,7 +20,13 @@ function install()
 
     unzipRemoteFile "${EC2_AMI_TOOLS_DOWNLOAD_URL}" "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}"
 
-    local -r unzipFolder="$(find "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(
+        find "${EC2_AMI_TOOLS_INSTALL_FOLDER_PATH}" \
+            -maxdepth 1 \
+            -xtype d \
+        2> '/dev/null' |
+        tail -1
+    )"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(trimString "$(wc -l <<< "${unzipFolder}")")" != '1' ]]
     then

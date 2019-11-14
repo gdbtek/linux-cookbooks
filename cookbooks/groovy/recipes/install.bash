@@ -20,7 +20,13 @@ function install()
 
     unzipRemoteFile "${GROOVY_DOWNLOAD_URL}" "${GROOVY_INSTALL_FOLDER_PATH}"
 
-    local -r unzipFolder="$(find "${GROOVY_INSTALL_FOLDER_PATH}" -maxdepth 1 -xtype d 2> '/dev/null' | tail -1)"
+    local -r unzipFolder="$(
+        find "${GROOVY_INSTALL_FOLDER_PATH}" \
+            -maxdepth 1 \
+            -xtype d \
+        2> '/dev/null' |
+        tail -1
+    )"
 
     if [[ "$(isEmptyString "${unzipFolder}")" = 'true' || "$(wc -l <<< "${unzipFolder}")" != '1' ]]
     then
