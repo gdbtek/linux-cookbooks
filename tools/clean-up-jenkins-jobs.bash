@@ -51,8 +51,7 @@ function cleanUpDotBuilds()
 
     if [[ "${commandMode}" = 'clean-up' ]]
     then
-        find \
-            "${buildsFolderPath}" \
+        find "${buildsFolderPath}" \
             -mindepth 1 \
             -maxdepth 1 \
             \( -type d -o -type l \) \
@@ -70,8 +69,7 @@ function cleanUpBrokenSymlinkNormalBuilds()
 
     if [[ "${commandMode}" = 'clean-up' ]]
     then
-        find \
-            "${buildsFolderPath}" \
+        find "${buildsFolderPath}" \
             -mindepth 1 \
             -maxdepth 1 \
             -type l \
@@ -91,8 +89,7 @@ function cleanUpNormalBuilds()
     # Normal Builds (builds/12345)
 
     local builds="$(
-        find \
-            "${buildsFolderPath}" \
+        find "${buildsFolderPath}" \
             -mindepth 1 \
             -maxdepth 1 \
             -type d \
