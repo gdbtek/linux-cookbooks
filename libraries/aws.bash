@@ -60,7 +60,7 @@ function associateElasticPublicIPWithInstanceID()
 
     if [[ "$(isEmptyString "${region}")" = 'true' ]]
     then
-        region="$(getInstanceRegion)"
+        region="$(getInstanceRegion 'false')"
     fi
 
     # Validate Values
@@ -85,7 +85,7 @@ function associateElasticPublicIPWithThisInstanceID()
 {
     local -r elasticPublicIP="${1}"
 
-    associateElasticPublicIPWithInstanceID "${elasticPublicIP}" "$(getInstanceID)"
+    associateElasticPublicIPWithInstanceID "${elasticPublicIP}" "$(getInstanceID 'false')"
 }
 
 function getEC2ElasticAllocationIDByElasticPublicIP()
@@ -97,7 +97,7 @@ function getEC2ElasticAllocationIDByElasticPublicIP()
 
     if [[ "$(isEmptyString "${region}")" = 'true' ]]
     then
-        region="$(getInstanceRegion)"
+        region="$(getInstanceRegion 'false')"
     fi
 
     checkNonEmptyString "${elasticPublicIP}" 'undefined elastic public ip'
@@ -121,7 +121,7 @@ function getEC2PrivateIpAddressByInstanceID()
 
     if [[ "$(isEmptyString "${region}")" = 'true' ]]
     then
-        region="$(getInstanceRegion)"
+        region="$(getInstanceRegion 'false')"
     fi
 
     # Get Private IP
@@ -164,7 +164,7 @@ function getEC2PrivateIpAddresses()
 
     if [[ "$(isEmptyString "${region}")" = 'true' ]]
     then
-        region="$(getInstanceRegion)"
+        region="$(getInstanceRegion 'false')"
     fi
 
     # Get Instances
@@ -312,8 +312,8 @@ function updateInstanceName()
     info "${instanceName}"
 
     aws ec2 create-tags \
-        --region "$(getInstanceRegion)" \
-        --resources "$(getInstanceID)" \
+        --region "$(getInstanceRegion 'false')" \
+        --resources "$(getInstanceID 'false')" \
         --tags "Key='Name',Value='${instanceName}'"
 }
 

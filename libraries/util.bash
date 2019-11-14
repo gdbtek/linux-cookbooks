@@ -846,7 +846,10 @@ function getGitUserPrimaryEmail()
 
     for ((page = 1; page > exitCount; page = page + 1))
     do
-        local emails="$(
+        local emails
+        local primaryEmail
+
+        emails="$(
             curl \
                 -s \
                 -X 'GET' \
@@ -861,7 +864,7 @@ function getGitUserPrimaryEmail()
                 '.[] // empty' \
         )"
 
-        local primaryEmail="$(
+        primaryEmail="$(
             jq \
                 --compact-output \
                 --raw-output \
@@ -922,7 +925,9 @@ function getGitUserRepositoryObjectKey()
 
         # Retrieve Objects
 
-        local currentObjectValue="$(
+        local currentObjectValue
+
+        currentObjectValue="$(
             curl \
                 -s \
                 -X 'GET' \
@@ -1072,7 +1077,9 @@ function closeMacApplications()
 
         if [[ "${applicationName}" != 'Terminal' ]]
         then
-            local errorMessage="$(osascript -e "tell application \"${applicationName}\" to quit" 2>&1)"
+            local errorMessage
+
+            errorMessage="$(osascript -e "tell application \"${applicationName}\" to quit" 2>&1)"
 
             if [[ "$(isEmptyString "${errorMessage}")" = 'true' || "$(grep -E -o '\(-128)$' <<< "${errorMessage}")" != '' ]]
             then
@@ -1937,7 +1944,9 @@ function printTable()
 
             if [[ "$(isEmptyString "${table}")" = 'false' ]]
             then
-                local output="$(echo -e "${table}" | column -s '#' -t | awk '/^\+/{gsub(" ", "-", $0)}1')"
+                local output
+
+                output="$(echo -e "${table}" | column -s '#' -t | awk '/^\+/{gsub(" ", "-", $0)}1')"
 
                 if [[ "${colorHeader}" = 'true' ]]
                 then
