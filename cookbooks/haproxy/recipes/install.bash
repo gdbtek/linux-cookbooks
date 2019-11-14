@@ -1,13 +1,5 @@
 #!/bin/bash -e
 
-function installDependencies()
-{
-    if [[ "${HAPROXY_VERSION}" != '1.4' ]]
-    then
-        installPackages 'software-properties-common'
-    fi
-}
-
 function install()
 {
     umask '0022'
@@ -44,14 +36,13 @@ function install()
 function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
-    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/binary.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
-    header 'INSTALLING HAPROXY FROM BINARY'
+    header 'INSTALLING HAPROXY'
 
     checkRequireLinuxSystem
     checkRequireRootUser
 
-    installDependencies
     install
     installCleanUp
 }
