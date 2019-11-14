@@ -4,8 +4,7 @@ function removeNewlineAtEndOfFile()
 {
     local -r repositoryFolderPath="${1}"
 
-    find \
-        "${repositoryFolderPath}" \
+    find "${repositoryFolderPath}" \
         -type f \
         \( \
             -name 'authorized_keys' -o \
