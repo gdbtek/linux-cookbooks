@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-export WILDFLY_DOWNLOAD_URL='https://download.jboss.org/wildfly/17.0.1.Final/wildfly-17.0.1.Final.tar.gz'
+export WILDFLY_DOWNLOAD_URL='https://download.jboss.org/wildfly/18.0.0.Final/wildfly-18.0.0.Final.tar.gz'
 
 export WILDFLY_INSTALL_FOLDER_PATH='/opt/wildfly'
 
