@@ -266,7 +266,7 @@ function copyFolderContent()
     checkExistFolder "${sourceFolder}"
     checkExistFolder "${destinationFolder}"
 
-    find '.' \
+    find "${sourceFolder}" \
         -mindepth 1 \
         -maxdepth 1 \
         -exec cp -p -r '{}' "${destinationFolder}" \;
@@ -363,7 +363,7 @@ function emptyFolder()
 
     checkExistFolder "${folder}"
 
-    find '.' \
+    find "${folder}" \
         -mindepth 1 \
         -delete
 }
@@ -456,7 +456,7 @@ function moveFolderContent()
     checkExistFolder "${sourceFolder}"
     checkExistFolder "${destinationFolder}"
 
-    find '.' \
+    find "${sourceFolder}" \
         -mindepth 1 \
         -maxdepth 1 \
         -exec mv '{}' "${destinationFolder}" \;
