@@ -266,11 +266,10 @@ function copyFolderContent()
     checkExistFolder "${sourceFolder}"
     checkExistFolder "${destinationFolder}"
 
-    local -r currentPath="$(pwd)"
-
-    cd "${sourceFolder}"
-    find '.' -maxdepth 1 -not -name '.' -exec cp -p -r '{}' "${destinationFolder}" \;
-    cd "${currentPath}"
+    find '.' \
+        -mindepth 1 \
+        -maxdepth 1 \
+        -exec cp -p -r '{}' "${destinationFolder}" \;
 }
 
 function createAbsoluteUsrBin()
@@ -364,11 +363,9 @@ function emptyFolder()
 
     checkExistFolder "${folder}"
 
-    local -r currentPath="$(pwd)"
-
-    cd "${folder}"
-    find '.' -not -name '.' -delete
-    cd "${currentPath}"
+    find '.' \
+        -mindepth 1 \
+        -delete
 }
 
 function getFileExtension()
@@ -459,11 +456,10 @@ function moveFolderContent()
     checkExistFolder "${sourceFolder}"
     checkExistFolder "${destinationFolder}"
 
-    local -r currentPath="$(pwd)"
-
-    cd "${sourceFolder}"
-    find '.' -maxdepth 1 -not -name '.' -exec mv '{}' "${destinationFolder}" \;
-    cd "${currentPath}"
+    find '.' \
+        -mindepth 1 \
+        -maxdepth 1 \
+        -exec mv '{}' "${destinationFolder}" \;
 }
 
 function redirectOutputToLogFile()
