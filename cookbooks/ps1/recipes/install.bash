@@ -55,13 +55,14 @@ function install()
 
     # Update Prompt
 
-    local user
+    local user=''
 
     for user in "${userList[@]}"
     do
         # Use Auto Detect Profile File Path Or Use Specified Profile File Name
 
-        local profileFilePath
+        local profileFilePath=''
+
         profileFilePath="$(getProfileFilePath "${user}")"
 
         if [[ "$(isEmptyString "${profileFileName}")" = 'false' ]]
