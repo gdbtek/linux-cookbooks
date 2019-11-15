@@ -1907,7 +1907,7 @@ function printTable()
                 local line=''
                 line="$(sed "${i}q;d" <<< "${tableData}")"
 
-                local numberOfColumns=''
+                local numberOfColumns=0
                 numberOfColumns="$(awk -F "${delimiter}" '{print NF}' <<< "${line}")"
 
                 # Add Line Delimiter
