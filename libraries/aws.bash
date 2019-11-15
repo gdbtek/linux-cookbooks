@@ -239,9 +239,9 @@ function getSecurityGroupIDsByNames()
 {
     local -r securityGroupNames=("${@}")
 
-    local securityGroupID
-    local securityGroupIDs
-    local securityGroupName
+    local securityGroupID=''
+    local securityGroupIDs=''
+    local securityGroupName=''
 
     for securityGroupName in "${securityGroupNames[@]}"
     do
@@ -343,7 +343,7 @@ function getRegionFromRecordSetAliasTargetDNSName()
     # Regions
 
     local -r allowedRegions=($(getAllowedRegions))
-    local region
+    local region=''
 
     for region in "${allowedRegions[@]}"
     do
@@ -434,7 +434,7 @@ function unzipAWSS3RemoteFile()
 
     # Find Extension
 
-    local exExtension
+    local exExtension=''
 
     if [[ "$(isEmptyString "${extension}")" = 'true' ]]
     then
@@ -818,9 +818,9 @@ function getSubnetIDsByNames()
     local -r vpcName="${1}"
     local -r subnetNames=("${@:2}")
 
-    local subnetID
-    local subnetIDs
-    local subnetName
+    local subnetID=''
+    local subnetIDs=''
+    local subnetName=''
 
     for subnetName in "${subnetNames[@]}"
     do
