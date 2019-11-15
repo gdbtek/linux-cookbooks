@@ -99,7 +99,8 @@ function cloneAllRepositories()
     do
         header "CLONING '${repositorySSHURL}' IN '${rootRepository}'"
 
-        local gitRepositoryName="$(getGitRepositoryNameFromCloneURL "${repositorySSHURL}")"
+        local gitRepositoryName=''
+        gitRepositoryName="$(getGitRepositoryNameFromCloneURL "${repositorySSHURL}")"
 
         # Clone Repository
 

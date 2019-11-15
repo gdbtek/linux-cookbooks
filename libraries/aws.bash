@@ -239,12 +239,12 @@ function getSecurityGroupIDsByNames()
 {
     local -r securityGroupNames=("${@}")
 
-    local securityGroupID=''
     local securityGroupIDs=''
     local securityGroupName=''
 
     for securityGroupName in "${securityGroupNames[@]}"
     do
+        local securityGroupID=''
         securityGroupID="$(getSecurityGroupIDByName "${securityGroupName}")"
 
         checkNonEmptyString "${securityGroupID}" "security group name '${securityGroupName}' not found"
@@ -818,12 +818,12 @@ function getSubnetIDsByNames()
     local -r vpcName="${1}"
     local -r subnetNames=("${@:2}")
 
-    local subnetID=''
     local subnetIDs=''
     local subnetName=''
 
     for subnetName in "${subnetNames[@]}"
     do
+        local subnetID=''
         subnetID="$(getSubnetIDByName "${vpcName}" "${subnetName}")"
 
         checkNonEmptyString "${subnetID}" "subnet name '${subnetName}' not found"

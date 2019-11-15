@@ -15,7 +15,8 @@ function install()
     do
         header "ADDING SSH CONFIG '${config}'"
 
-        local searchRegex="(^[[:space:]]*)($(awk '{ print $1 }' <<< "${config}")[[:space:]]+.*$)"
+        local searchRegex=''
+        searchRegex="(^[[:space:]]*)($(awk '{ print $1 }' <<< "${config}")[[:space:]]+.*$)"
 
         sed -E "s/${searchRegex}/\1${config}/g" \
             <<< "$(cat '/etc/ssh/sshd_config')" \

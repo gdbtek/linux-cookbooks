@@ -294,9 +294,9 @@ function createFileFromTemplate()
     checkExistFolder "$(dirname "${destinationFile}")"
 
     local content=''
-    local i=0
-
     content="$(cat "${sourceFile}")"
+
+    local i=0
 
     for ((i = 0; i < ${#oldNewData[@]}; i = i + 2))
     do
@@ -847,8 +847,6 @@ function getGitUserPrimaryEmail()
     for ((page = 1; page > exitCount; page = page + 1))
     do
         local emails=''
-        local primaryEmail=''
-
         emails="$(
             curl \
                 -s \
@@ -864,6 +862,7 @@ function getGitUserPrimaryEmail()
                 '.[] // empty' \
         )"
 
+        local primaryEmail=''
         primaryEmail="$(
             jq \
                 --compact-output \
@@ -925,7 +924,6 @@ function getGitUserRepositoryObjectKey()
         # Retrieve Objects
 
         local currentObjectValue=''
-
         currentObjectValue="$(
             curl \
                 -s \
@@ -1077,7 +1075,6 @@ function closeMacApplications()
         if [[ "${applicationName}" != 'Terminal' ]]
         then
             local errorMessage=''
-
             errorMessage="$(osascript -e "tell application \"${applicationName}\" to quit" 2>&1)"
 
             if [[ "$(isEmptyString "${errorMessage}")" = 'true' || "$(grep -E -o '\(-128)$' <<< "${errorMessage}")" != '' ]]
@@ -1766,10 +1763,10 @@ function encodeURL()
     local -r url="${1}"
 
     local i=0
-    local walker=''
 
     for ((i = 0; i < ${#url}; i++))
     do
+        local walker=''
         walker="${url:i:1}"
 
         case "${walker}" in
@@ -1908,9 +1905,9 @@ function printTable()
             for ((i = 1; i <= "${numberOfLines}"; i = i + 1))
             do
                 local line=''
-                local numberOfColumns=''
-
                 line="$(sed "${i}q;d" <<< "${tableData}")"
+
+                local numberOfColumns=''
                 numberOfColumns="$(awk -F "${delimiter}" '{print NF}' <<< "${line}")"
 
                 # Add Line Delimiter
@@ -1944,7 +1941,6 @@ function printTable()
             if [[ "$(isEmptyString "${table}")" = 'false' ]]
             then
                 local output=''
-
                 output="$(echo -e "${table}" | column -s '#' -t | awk '/^\+/{gsub(" ", "-", $0)}1')"
 
                 if [[ "${colorHeader}" = 'true' ]]
@@ -2118,7 +2114,6 @@ function checkRequirePorts()
     for port in "${ports[@]}"
     do
         local found=''
-
         found="$(grep -i ":${port} (LISTEN)$" <<< "${status}" || echo)"
 
         if [[ "$(isEmptyString "${found}")" = 'false' ]]

@@ -91,7 +91,8 @@ function cleanUpNormalBuilds()
 
     # Normal Builds (builds/12345)
 
-    local builds="$(
+    local builds=''
+    builds="$(
         find "${buildsFolderPath}" \
             -mindepth 1 \
             -maxdepth 1 \
@@ -101,8 +102,11 @@ function cleanUpNormalBuilds()
         sort -n -r
     )"
 
-    local toDeleteBuilds="$(tail -n "+$((numberBuildsToKeep + 1))" <<< "${builds}")"
-    local toKeepBuilds="$(head "-${numberBuildsToKeep}" <<< "${builds}")"
+    local toDeleteBuilds=''
+    toDeleteBuilds="$(tail -n "+$((numberBuildsToKeep + 1))" <<< "${builds}")"
+
+    local toKeepBuilds=''
+    toKeepBuilds="$(head "-${numberBuildsToKeep}" <<< "${builds}")"
 
     if [[ "$(isEmptyString "${toDeleteBuilds}")" = 'false' ]]
     then
@@ -225,7 +229,8 @@ function main()
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local commandMode="$(trimString "${1}")"
+                    local commandMode=''
+                    commandMode="$(trimString "${1}")"
                 fi
 
                 ;;
