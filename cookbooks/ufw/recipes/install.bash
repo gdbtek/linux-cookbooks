@@ -14,7 +14,7 @@ function install()
         ufw default deny incoming
         ufw default allow outgoing
 
-        local policy
+        local policy=''
 
         for policy in "${UFW_POLICIES[@]}"
         do

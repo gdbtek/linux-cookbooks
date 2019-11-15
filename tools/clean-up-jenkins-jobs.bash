@@ -116,7 +116,7 @@ function cleanUpNormalBuilds()
         then
             echo -e "  \033[1;32mto keep builds :\033[0m"
 
-            local toKeepBuild
+            local toKeepBuild=''
 
             for toKeepBuild in ${toKeepBuilds}
             do
@@ -137,7 +137,7 @@ function cleanUpNormalBuilds()
 
         # Delete
 
-        local toDeleteBuild
+        local toDeleteBuild=''
 
         for toDeleteBuild in ${toDeleteBuilds}
         do
@@ -164,7 +164,7 @@ function cleanJenkinsJobs()
 
     NEED_TO_CLEAN_UP_BUILDS='false'
 
-    local buildsFolderPath
+    local buildsFolderPath=''
 
     for buildsFolderPath in $(find "${jobsFolderPath}" -mindepth 1 -maxdepth 4 -type d -name 'builds')
     do
