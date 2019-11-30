@@ -9,7 +9,7 @@ function main()
         'CHEF-INFRA-CLIENT' \
         "${CHEF_INFRA_CLIENT_DOWNLOAD_URL}" \
         "${CHEF_INFRA_CLIENT_INSTALL_FOLDER_PATH}" \
-        'bin/chef-client, bin/chef-solo, bin/knife, bin/ohai' \
+        'bin/chef-apply, bin/chef-client, bin/chef-shell, bin/chef-solo, bin/knife, bin/ohai' \
         '-v' \
         'true'
 }
