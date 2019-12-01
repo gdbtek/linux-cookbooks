@@ -8,7 +8,9 @@ function arrayToParameters()
 {
     local -r array=("${@}")
 
-    printf "'%s' " "${array[@]}"
+    local -r string="$(printf "'%s '" "${array[@]}")"
+
+    echo "${string:0:${#string} - 1}"
 }
 
 function arrayToString()
