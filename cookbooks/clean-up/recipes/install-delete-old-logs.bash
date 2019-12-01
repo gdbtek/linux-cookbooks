@@ -4,7 +4,11 @@ function install()
 {
     umask '0022'
 
-    cp -f "$(dirname "${BASH_SOURCE[0]}")/../files/delete-old-logs" '/etc/cron.hourly'
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/delete-old-logs.bash" \
+        '/etc/cron.hourly/delete-old-logs' \
+        '__LOG_FOLDER_PATHS__' "$(arrayToParameters "${CLEAN_UP_OLD_LOG_FOLDER_PATHS[@]}")"
+
     chmod 755 '/etc/cron.hourly/delete-old-logs'
     cat '/etc/cron.hourly/delete-old-logs'
     echo
@@ -15,6 +19,7 @@ function install()
 function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
+    source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     header 'INSTALLING DELETE-OLD-LOGS'
 

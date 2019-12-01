@@ -4,6 +4,13 @@
 # ARRAY UTILITIES #
 ###################
 
+function arrayToParameters()
+{
+    local -r array=("${@}")
+
+    printf "'%s' " "${array[@]}"
+}
+
 function arrayToString()
 {
     local -r array=("${@}")

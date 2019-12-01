@@ -40,4 +40,4 @@ function main()
     done
 }
 
-main "${@}"
+main __LOG_FOLDER_PATHS__
