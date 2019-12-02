@@ -50,9 +50,10 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${GROOVY_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/groovy.sh.profile" '/etc/profile.d/groovy.sh' "${profileConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/groovy.sh.profile" \
+        '/etc/profile.d/groovy.sh' \
+        '__INSTALL_FOLDER_PATH__' "${GROOVY_INSTALL_FOLDER_PATH}"
 
     # Display Version
 

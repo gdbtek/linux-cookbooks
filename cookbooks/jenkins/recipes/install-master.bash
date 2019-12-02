@@ -47,19 +47,20 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${JENKINS_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/jenkins.sh.profile" '/etc/profile.d/jenkins.sh' "${profileConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/jenkins.sh.profile" \
+        '/etc/profile.d/jenkins.sh' \
+        '__INSTALL_FOLDER_PATH__' "${JENKINS_INSTALL_FOLDER_PATH}"
 
     # Config Cron
 
-    local -r cronConfigData=(
-        '__USER_NAME__' "${JENKINS_USER_NAME}"
-        '__GROUP_NAME__' "${JENKINS_GROUP_NAME}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/jenkins.cron" \
+        '/etc/cron.daily/jenkins' \
+        '__USER_NAME__' "${JENKINS_USER_NAME}" \
+        '__GROUP_NAME__' "${JENKINS_GROUP_NAME}" \
         '__INSTALL_FOLDER_PATH__' "${JENKINS_INSTALL_FOLDER_PATH}"
-    )
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/jenkins.cron" '/etc/cron.daily/jenkins' "${cronConfigData[@]}"
     chmod 755 '/etc/cron.daily/jenkins'
 
     # Install

@@ -36,15 +36,17 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__HOME_FOLDER__' "${userHome}/.pm2")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/pm2.sh.profile" '/etc/profile.d/pm2.sh' "${profileConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/pm2.sh.profile" \
+        '/etc/profile.d/pm2.sh' \
+        '__HOME_FOLDER__' "${userHome}/.pm2"
 
     # Config Log Rotate
 
-    local -r logrotateConfigData=('__HOME_FOLDER__' "${userHome}/.pm2")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/pm2.logrotate" '/etc/logrotate.d/pm2' "${logrotateConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/pm2.logrotate" \
+        '/etc/logrotate.d/pm2' \
+        '__HOME_FOLDER__' "${userHome}/.pm2"
 
     # Clean Up
 

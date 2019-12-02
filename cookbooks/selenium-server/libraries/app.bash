@@ -25,18 +25,20 @@ function installRole()
 
     local -r configFile="${SELENIUM_SERVER_INSTALL_FOLDER_PATH}/selenium-server-${role}.json"
 
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.json.conf" "${configFile}" "${serverConfigDataRole[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/selenium-server-${role}.json.conf" \
+        "${configFile}" \
+        "${serverConfigDataRole[@]}"
 
     # Config Init
 
-    local -r initConfigData=(
-        '__INSTALL_FILE__' "${jarFile}"
-        '__CONFIG_FILE__' "${configFile}"
-        '__USER_NAME__' "${SELENIUM_SERVER_USER_NAME}"
+    createInitFileFromTemplate \
+        "selenium-server-${role}" \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates" \
+        '__INSTALL_FILE__' "${jarFile}" \
+        '__CONFIG_FILE__' "${configFile}" \
+        '__USER_NAME__' "${SELENIUM_SERVER_USER_NAME}" \
         '__GROUP_NAME__' "${SELENIUM_SERVER_GROUP_NAME}"
-    )
-
-    createInitFileFromTemplate "selenium-server-${role}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Start
 

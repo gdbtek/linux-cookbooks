@@ -22,15 +22,14 @@ function install()
 
     # Config Init
 
-    local -r initConfigData=(
-        '__APPLICATION_BIND_ADDRESS__' "${WILDFLY_APPLICATION_BIND_ADDRESS}"
-        '__GROUP_NAME__' "${WILDFLY_GROUP_NAME}"
-        '__INSTALL_FOLDER_PATH__' "${WILDFLY_INSTALL_FOLDER_PATH}"
-        '__MANAGEMENT_BIND_ADDRESS__' "${WILDFLY_MANAGEMENT_BIND_ADDRESS}"
+    createInitFileFromTemplate \
+        "${WILDFLY_SERVICE_NAME}" \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates" \
+        '__APPLICATION_BIND_ADDRESS__' "${WILDFLY_APPLICATION_BIND_ADDRESS}" \
+        '__GROUP_NAME__' "${WILDFLY_GROUP_NAME}" \
+        '__INSTALL_FOLDER_PATH__' "${WILDFLY_INSTALL_FOLDER_PATH}" \
+        '__MANAGEMENT_BIND_ADDRESS__' "${WILDFLY_MANAGEMENT_BIND_ADDRESS}" \
         '__USER_NAME__' "${WILDFLY_USER_NAME}"
-    )
-
-    createInitFileFromTemplate "${WILDFLY_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Add Management User
 

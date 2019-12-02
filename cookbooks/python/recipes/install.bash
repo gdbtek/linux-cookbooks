@@ -20,9 +20,10 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${PYTHON_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/python.sh.profile" '/etc/profile.d/python.sh' "${profileConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/python.sh.profile" \
+        '/etc/profile.d/python.sh' \
+        '__INSTALL_FOLDER_PATH__' "${PYTHON_INSTALL_FOLDER_PATH}"
 
     # Display Version
 

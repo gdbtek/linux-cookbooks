@@ -14,27 +14,26 @@ function install()
 
     # Config Server
 
-    local -r serverConfigData=(
+    createFileFromTemplate \
+        "${KIBANA_INSTALL_FOLDER_PATH}/config/kibana.yml" \
+        "${KIBANA_INSTALL_FOLDER_PATH}/config/kibana.yml" \
         'http://localhost:9200' "${KIBANA_ELASTIC_SEARCH_URL}"
-    )
-
-    createFileFromTemplate "${KIBANA_INSTALL_FOLDER_PATH}/config/kibana.yml" "${KIBANA_INSTALL_FOLDER_PATH}/config/kibana.yml" "${serverConfigData[@]}"
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${KIBANA_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/kibana.sh.profile" '/etc/profile.d/kibana.sh' "${profileConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/kibana.sh.profile" \
+        '/etc/profile.d/kibana.sh' \
+        '__INSTALL_FOLDER_PATH__' "${KIBANA_INSTALL_FOLDER_PATH}"
 
     # Config Init
 
-    local -r initConfigData=(
-        '__INSTALL_FOLDER_PATH__' "${KIBANA_INSTALL_FOLDER_PATH}"
-        '__USER_NAME__' "${KIBANA_USER_NAME}"
+    createInitFileFromTemplate \
+        "${KIBANA_SERVICE_NAME}" \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates" \
+        '__INSTALL_FOLDER_PATH__' "${KIBANA_INSTALL_FOLDER_PATH}" \
+        '__USER_NAME__' "${KIBANA_USER_NAME}" \
         '__GROUP_NAME__' "${KIBANA_GROUP_NAME}"
-    )
-
-    createInitFileFromTemplate "${KIBANA_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Start
 

@@ -15,21 +15,22 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${MONGODB_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/mongodb.sh.profile" '/etc/profile.d/mongodb.sh' "${profileConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/mongodb.sh.profile" \
+        '/etc/profile.d/mongodb.sh' \
+        '__INSTALL_FOLDER_PATH__' "${MONGODB_INSTALL_FOLDER_PATH}"
 
     # Config Init
 
-    local -r initConfigData=(
-        '__INSTALL_FOLDER_PATH__' "${MONGODB_INSTALL_FOLDER_PATH}"
-        '__INSTALL_DATA_FOLDER__' "${MONGODB_INSTALL_DATA_FOLDER}"
-        '__USER_NAME__' "${MONGODB_USER_NAME}"
-        '__GROUP_NAME__' "${MONGODB_GROUP_NAME}"
+    createInitFileFromTemplate \
+        "${MONGODB_SERVICE_NAME}" \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates" \
+        '__INSTALL_FOLDER_PATH__' "${MONGODB_INSTALL_FOLDER_PATH}" \
+        '__INSTALL_DATA_FOLDER__' "${MONGODB_INSTALL_DATA_FOLDER}" \
+        '__USER_NAME__' "${MONGODB_USER_NAME}" \
+        '__GROUP_NAME__' "${MONGODB_GROUP_NAME}" \
         '__PORT__' "${MONGODB_PORT}"
-    )
 
-    createInitFileFromTemplate "${MONGODB_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
     chown -R "$(whoami):$(whoami)" "${MONGODB_INSTALL_FOLDER_PATH}"
 
     # Start

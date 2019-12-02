@@ -57,15 +57,14 @@ function install()
         serverHostname='127.0.0.1'
     fi
 
-    local -r initConfigData=(
-        '__AGENT_INSTALL_FOLDER_PATH__' "${GOCD_AGENT_INSTALL_FOLDER_PATH}"
-        '__SERVER_HOSTNAME__' "${serverHostname}"
-        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${GOCD_USER_NAME}")"
-        '__USER_NAME__' "${GOCD_USER_NAME}"
+    createInitFileFromTemplate \
+        "${GOCD_AGENT_SERVICE_NAME}" \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates" \
+        '__AGENT_INSTALL_FOLDER_PATH__' "${GOCD_AGENT_INSTALL_FOLDER_PATH}" \
+        '__SERVER_HOSTNAME__' "${serverHostname}" \
+        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${GOCD_USER_NAME}")" \
+        '__USER_NAME__' "${GOCD_USER_NAME}" \
         '__GROUP_NAME__' "${GOCD_GROUP_NAME}"
-    )
-
-    createInitFileFromTemplate "${GOCD_AGENT_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Start
 

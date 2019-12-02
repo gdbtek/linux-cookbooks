@@ -78,9 +78,11 @@ function jenkinsMasterUnlock()
 {
     header 'UNLOCKING JENKINS'
 
-    local -r configData=('<useSecurity>true</useSecurity>' '<useSecurity>false</useSecurity>')
+    createFileFromTemplate \
+        "${JENKINS_INSTALL_FOLDER_PATH}/config.xml" \
+        "${JENKINS_INSTALL_FOLDER_PATH}/config.xml" \
+        '<useSecurity>true</useSecurity>' '<useSecurity>false</useSecurity>'
 
-    createFileFromTemplate "${JENKINS_INSTALL_FOLDER_PATH}/config.xml" "${JENKINS_INSTALL_FOLDER_PATH}/config.xml" "${configData[@]}"
     cat "${JENKINS_INSTALL_FOLDER_PATH}/config.xml"
 
     echo '2.0' > "${JENKINS_INSTALL_FOLDER_PATH}/jenkins.install.InstallUtil.lastExecVersion"

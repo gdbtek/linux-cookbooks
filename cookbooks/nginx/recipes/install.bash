@@ -14,9 +14,11 @@ function install()
 
         source "${releaseFilePath}"
 
-        local -r configData=('__DISTRIBUTION_CODE_NAME__' "${DISTRIB_CODENAME}")
+        createFileFromTemplate \
+            "$(dirname "${BASH_SOURCE[0]}")/../templates/nginx.list.apt" \
+            '/etc/apt/sources.list.d/nginx.list' \
+            '__DISTRIBUTION_CODE_NAME__' "${DISTRIB_CODENAME}"
 
-        createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/nginx.list.apt" '/etc/apt/sources.list.d/nginx.list' "${configData[@]}"
         curl -s -L 'http://nginx.org/keys/nginx_signing.key' --retry 12 --retry-delay 5 | apt-key add -
         apt-get update -m
     else
@@ -30,18 +32,17 @@ function install()
 
         if [[ "${ID}" = 'amzn' ]]
         then
-            ID="${AMAZON_LINUX_ID}"
-            VERSION_ID="${AMAZON_LINUX_VERSION_ID}"
+            ID="${NGINX_AMAZON_LINUX_ID}"
+            VERSION_ID="${NGINX_AMAZON_LINUX_VERSION_ID}"
         fi
 
         # Generate Repo File
 
-        local -r configData=(
-            '__PLATFORM_FAMILY__' "${ID}"
+        createFileFromTemplate \
+            "$(dirname "${BASH_SOURCE[0]}")/../templates/nginx.repo" \
+            '/etc/yum.repos.d/nginx.repo' \
+            '__PLATFORM_FAMILY__' "${ID}" \
             '__PLATFORM_VERSION__' "$(awk -F '.' '{ print $1 }' <<< "${VERSION_ID}")"
-        )
-
-        createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/nginx.repo" '/etc/yum.repos.d/nginx.repo' "${configData[@]}"
     fi
 
     # Install

@@ -16,13 +16,12 @@ function install()
 
     if [[ "$(existCommand 'systemctl')" = 'true' ]]
     then
-        local -r initConfigData=(
-            '__GROUP_NAME__' "${SPLUNKFORWARDER_GROUP_NAME}"
-            '__INSTALL_FOLDER_PATH__' "${SPLUNKFORWARDER_INSTALL_FOLDER_PATH}"
+        createInitFileFromTemplate \
+            "${SPLUNKFORWARDER_SERVICE_NAME}" \
+            "$(dirname "${BASH_SOURCE[0]}")/../templates" \
+            '__GROUP_NAME__' "${SPLUNKFORWARDER_GROUP_NAME}" \
+            '__INSTALL_FOLDER_PATH__' "${SPLUNKFORWARDER_INSTALL_FOLDER_PATH}" \
             '__USER_NAME__' "${SPLUNKFORWARDER_USER_NAME}"
-        )
-
-        createInitFileFromTemplate "${SPLUNKFORWARDER_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
     else
         "${SPLUNKFORWARDER_INSTALL_FOLDER_PATH}/bin/splunk" enable boot-start --accept-license --answer-yes --no-prompt
     fi

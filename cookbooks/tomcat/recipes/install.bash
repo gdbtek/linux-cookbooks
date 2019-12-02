@@ -22,14 +22,13 @@ function install()
 
     # Config Server
 
-    local -r serverConfigData=(
-        8009 "${TOMCAT_AJP_PORT}"
-        8005 "${TOMCAT_COMMAND_PORT}"
-        8080 "${TOMCAT_HTTP_PORT}"
-        8443 "${TOMCAT_HTTPS_PORT}"
-    )
-
-    createFileFromTemplate "${TOMCAT_INSTALL_FOLDER_PATH}/conf/server.xml" "${TOMCAT_INSTALL_FOLDER_PATH}/conf/server.xml" "${serverConfigData[@]}"
+    createFileFromTemplate \
+        "${TOMCAT_INSTALL_FOLDER_PATH}/conf/server.xml" \
+        "${TOMCAT_INSTALL_FOLDER_PATH}/conf/server.xml" \
+        '8009' "${TOMCAT_AJP_PORT}" \
+        '8005' "${TOMCAT_COMMAND_PORT}" \
+        '8080' "${TOMCAT_HTTP_PORT}" \
+        '8443' "${TOMCAT_HTTPS_PORT}"
 
     # Add User
 
@@ -37,13 +36,12 @@ function install()
 
     # Config Init
 
-    local -r initConfigData=(
-        '__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}"
-        '__USER_NAME__' "${TOMCAT_USER_NAME}"
+    createInitFileFromTemplate \
+        "${TOMCAT_SERVICE_NAME}" \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates" \
+        '__INSTALL_FOLDER_PATH__' "${TOMCAT_INSTALL_FOLDER_PATH}" \
+        '__USER_NAME__' "${TOMCAT_USER_NAME}" \
         '__GROUP_NAME__' "${TOMCAT_GROUP_NAME}"
-    )
-
-    createInitFileFromTemplate "${TOMCAT_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Start
 

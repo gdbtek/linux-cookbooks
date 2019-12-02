@@ -50,14 +50,13 @@ function install()
 
     # Config Init
 
-    local -r initConfigData=(
-        '__SERVER_INSTALL_FOLDER_PATH__' "${GOCD_SERVER_INSTALL_FOLDER_PATH}"
-        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${GOCD_USER_NAME}")"
-        '__USER_NAME__' "${GOCD_USER_NAME}"
+    createInitFileFromTemplate \
+        "${GOCD_SERVER_SERVICE_NAME}" \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates" \
+        '__SERVER_INSTALL_FOLDER_PATH__' "${GOCD_SERVER_INSTALL_FOLDER_PATH}" \
+        '__GO_HOME_FOLDER__' "$(getUserHomeFolder "${GOCD_USER_NAME}")" \
+        '__USER_NAME__' "${GOCD_USER_NAME}" \
         '__GROUP_NAME__' "${GOCD_GROUP_NAME}"
-    )
-
-    createInitFileFromTemplate "${GOCD_SERVER_SERVICE_NAME}" "$(dirname "${BASH_SOURCE[0]}")/../templates" "${initConfigData[@]}"
 
     # Start
 

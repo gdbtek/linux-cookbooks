@@ -63,9 +63,10 @@ function install()
 
     # Config Profile
 
-    local -r profileConfigData=('__INSTALL_FOLDER_PATH__' "${NODE_INSTALL_FOLDER_PATH}")
-
-    createFileFromTemplate "$(dirname "${BASH_SOURCE[0]}")/../templates/node.sh.profile" '/etc/profile.d/node.sh' "${profileConfigData[@]}"
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/node.sh.profile" \
+        '/etc/profile.d/node.sh' \
+        '__INSTALL_FOLDER_PATH__' "${NODE_INSTALL_FOLDER_PATH}"
 
     # Clean Up
 

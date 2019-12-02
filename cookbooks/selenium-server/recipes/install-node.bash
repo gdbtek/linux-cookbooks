@@ -25,13 +25,11 @@ function install()
 
     # Install Role
 
-    local -r serverConfigData=(
-        '__PORT__' "${SELENIUM_SERVER_PORT}"
-        '__HUB_PORT__' "${SELENIUM_SERVER_HUB_PORT}"
+    installRole \
+        'node' \
+        '__PORT__' "${SELENIUM_SERVER_PORT}" \
+        '__HUB_PORT__' "${SELENIUM_SERVER_HUB_PORT}" \
         '__HUB_HOST__' "${SELENIUM_SERVER_HUB_HOST}"
-    )
-
-    installRole 'node' "${serverConfigData[@]}"
 
     # Display Open Ports
 
