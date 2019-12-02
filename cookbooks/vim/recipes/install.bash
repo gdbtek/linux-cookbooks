@@ -12,8 +12,21 @@ function install()
 
     if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        appendToFileIfNotFound '/etc/profile' 'alias vi=vim' 'alias vi=vim' 'false' 'false' 'true'
-        appendToFileIfNotFound '/etc/vimrc' 'source /etc/vim/vimrc.local' 'source /etc/vim/vimrc.local' 'false' 'false' 'true'
+        appendToFileIfNotFound \
+            '/etc/profile' \
+            'alias vi=vim' \
+            'alias vi=vim' \
+            'false' \
+            'false' \
+            'true'
+
+        appendToFileIfNotFound \
+            '/etc/vimrc' \
+            'source /etc/vim/vimrc.local' \
+            'source /etc/vim/vimrc.local' \
+            'false' \
+            'false' \
+            'true'
     fi
 
     umask '0077'

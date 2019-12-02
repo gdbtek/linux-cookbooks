@@ -11,7 +11,13 @@ function autoSudo()
 
     local -r command='sudo su -l'
 
-    appendToFileIfNotFound "$(getUserHomeFolder "${userLogin}")/${profileFileName}" "${command}" "${command}" 'false' 'false' 'true'
+    appendToFileIfNotFound \
+        "$(getUserHomeFolder "${userLogin}")/${profileFileName}" \
+        "${command}" \
+        "${command}" \
+        'false' \
+        'false' \
+        'true'
 }
 
 function setupRepository()
@@ -40,5 +46,11 @@ function updateRepositoryOnLogin()
 
     local -r command='cd /opt/linux-cookbooks/cookbooks && git pull'
 
-    appendToFileIfNotFound "$(getProfileFilePath "${userLogin}")" "${command}" "${command}" 'false' 'false' 'true'
+    appendToFileIfNotFound \
+        "$(getProfileFilePath "${userLogin}")" \
+        "${command}" \
+        "${command}" \
+        'false' \
+        'false' \
+        'true'
 }

@@ -57,7 +57,14 @@ function install()
 
     local -r overCommitMemoryConfig="vm.overcommit_memory = ${REDIS_VM_OVER_COMMIT_MEMORY}"
 
-    appendToFileIfNotFound '/etc/sysctl.conf' "$(stringToSearchPattern "${overCommitMemoryConfig}")" "\n${overCommitMemoryConfig}" 'true' 'true' 'true'
+    appendToFileIfNotFound \
+        '/etc/sysctl.conf' \
+        "$(stringToSearchPattern "${overCommitMemoryConfig}")" \
+        "\n${overCommitMemoryConfig}" \
+        'true' \
+        'true' \
+        'true'
+
     sysctl "$(deleteSpaces "${overCommitMemoryConfig}")"
 
     # Start

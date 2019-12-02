@@ -94,7 +94,13 @@ function install()
                 fi
             fi
 
-            appendToFileIfNotFound "${profileFilePath}" "${prompt}" "${prompt}" 'false' 'false' 'true'
+            appendToFileIfNotFound \
+                "${profileFilePath}" \
+                "${prompt}" \
+                "${prompt}" \
+                'false' \
+                'false' \
+                'true'
         else
             warn "WARN : profile '${user}' not found"
         fi
@@ -113,7 +119,13 @@ function install()
 
     echo -e "Updating '\033[1;32m${defaultProfileFilePath}\033[0m'"
 
-    appendToFileIfNotFound "${defaultProfileFilePath}" "${defaultPrompt}" "${defaultPrompt}" 'false' 'false' 'true'
+    appendToFileIfNotFound \
+        "${defaultProfileFilePath}" \
+        "${defaultPrompt}" \
+        "${defaultPrompt}" \
+        'false' \
+        'false' \
+        'true'
 
     umask '0077'
 }

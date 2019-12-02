@@ -40,7 +40,12 @@ function install()
 
         local -r fstabConfig="${newDisk} ${mountOn} ${MOUNT_HD_FS_TYPE} ${MOUNT_HD_MOUNT_OPTIONS} ${MOUNT_HD_DUMP} ${MOUNT_HD_FSCK_OPTION}"
 
-        appendToFileIfNotFound '/etc/fstab' "$(stringToSearchPattern "${fstabConfig}")" "${fstabConfig}" 'true' 'false' 'true'
+        appendToFileIfNotFound \
+            '/etc/fstab' \
+            "$(stringToSearchPattern "${fstabConfig}")" "${fstabConfig}" \
+            'true' \
+            'false' \
+            'true'
 
         # Display File System
 
