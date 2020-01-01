@@ -489,6 +489,8 @@ function resetFolderPermission()
     checkExistUserLogin "${userLogin}"
     checkExistGroupName "${groupName}"
 
+    header "RESETTING FOLDER PERMISSION ${folderPath}"
+
     chown -R "${userLogin}:${groupName}" "${folderPath}"
 
     find "${folderPath}" \
