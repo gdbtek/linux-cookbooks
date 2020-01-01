@@ -80,7 +80,6 @@ function cloneAllRepositories()
     fi
 
     mkdir -p "${rootRepository}"
-    resetFolderPermission "${rootRepository}/.." "$(whoami)" "$(getUserGroupName "$(whoami)")"
 
     # Each Repository
 
