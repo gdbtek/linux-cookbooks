@@ -495,11 +495,19 @@ function resetFolderPermission()
 
     find "${folderPath}" \
         -type d \
+        \( \
+            -not -path "*/.git" -a \
+            -not -path "*/.git/*" \
+        \) \
         -exec chmod 700 '{}' \; \
         -print
 
     find "${folderPath}" \
         -type f \
+        \( \
+            -not -path "*/.git" -a \
+            -not -path "*/.git/*" \
+        \) \
         -exec chmod 600 '{}' \; \
         -print
 }
