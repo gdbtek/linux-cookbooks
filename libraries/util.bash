@@ -493,7 +493,7 @@ function resetFolderPermission()
 
     chown -R "${userLogin}:${groupName}" "${folderPath}"
 
-    find "${folderPath}/" \
+    find "${folderPath}" \
         -type d \
         -exec chmod 700 '{}' \; \
         -print
