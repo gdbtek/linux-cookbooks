@@ -13,7 +13,6 @@ function main()
     "$(dirname "${BASH_SOURCE[0]}")/../../../cookbooks/ps1/recipes/install.bash" --profile-file-name '.bashrc' --users "${firstLoginUser}"
     "$(dirname "${BASH_SOURCE[0]}")/../../../cookbooks/ssh/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../../../cookbooks/vim/recipes/install.bash"
-    "$(dirname "${BASH_SOURCE[0]}")/../../../cookbooks/vmware-tools/recipes/install.bash"
 
     setupRepository
     updateRepositoryOnLogin "$(whoami)"
