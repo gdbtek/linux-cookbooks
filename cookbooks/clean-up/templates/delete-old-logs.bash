@@ -21,7 +21,9 @@ function main()
         then
             echo -e "\033[1;31mERROR: folder '${logFolderPaths[i]}' not found\033[0m" 1>&2
         else
-            find "${logFolderPaths[i]}" \
+            find \
+                -L \
+                "${logFolderPaths[i]}" \
                 -type f \
                 \( \
                     -regex '.*-[0-9]+' -o \
