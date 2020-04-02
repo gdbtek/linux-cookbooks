@@ -348,7 +348,8 @@ function deleteOldLogs()
     do
         checkExistFolder "${logFolderPaths[i]}"
 
-        find "${logFolderPaths[i]}" \
+        find -L \
+            "${logFolderPaths[i]}" \
             -type f \
             \( \
                 -regex '.*-[0-9]+' -o \
