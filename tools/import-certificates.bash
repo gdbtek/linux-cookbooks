@@ -36,6 +36,7 @@ function displayUsage()
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
     echo    "  ./${scriptName} --import-certificate '/downloads/ssl' --store-password 'abc123'"
+    echo    "  ./${scriptName} --import-certificate '/downloads/ssl' --store-password 'abc123' --java-home '/opt/jre'"
     echo    "  ./${scriptName} --import-certificate '/downloads/ssl' --store-password 'abc123' --ca-trust-anchors '/path/anchors' --java-home '/opt/jre'"
     echo -e '\033[0m'
 
