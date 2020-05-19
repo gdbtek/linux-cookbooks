@@ -112,6 +112,31 @@ function getEC2ElasticAllocationIDByElasticPublicIP()
     2> '/dev/null'
 }
 
+function getEC2ElasticAssociationIDByElasticPublicIP()
+{
+    local -r elasticPublicIP="${1}"
+    local region="${3}"
+
+    # Set Default Value
+
+    if [[ "$(isEmptyString "${region}")" = 'true' ]]
+    then
+        region="$(getInstanceRegion 'false')"
+    fi
+
+    checkNonEmptyString "${elasticPublicIP}" 'undefined elastic public ip'
+
+    # Get EC2 Elastic Association ID
+
+    aws ec2 describe-addresses \
+        --output 'text' \
+        --public-ips "${elasticPublicIP}" \
+        --query 'Addresses[0].[AssociationId]' \
+        --region "${region}" \
+    2> '/dev/null' |
+    grep -i -v '^None$'
+}
+
 function getEC2PrivateIpAddressByInstanceID()
 {
     local -r instanceID="${1}"
