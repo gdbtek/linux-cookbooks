@@ -1096,7 +1096,7 @@ function closeMacApplications()
         if [[ "${applicationName}" != 'Terminal' ]]
         then
             local errorMessage=''
-            errorMessage="$(osascript -e "tell application \"${applicationName}\" to quit" 2>&1)"
+            errorMessage="$(osascript -e "tell application \"${applicationName}\" to quit" 2>&1 || true)"
 
             if [[ "$(isEmptyString "${errorMessage}")" = 'true' || "$(grep -E -o '\(-128)$' <<< "${errorMessage}")" != '' ]]
             then
