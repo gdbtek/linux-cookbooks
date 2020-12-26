@@ -438,6 +438,20 @@ function initializeFolder()
     fi
 }
 
+function isEmptyFolder()
+{
+    local -r folderPath="${1}"
+
+    checkExistFolder "${folderPath}"
+
+    if [[ "$(isEmptyString "$(find "${folderPath}" -maxdepth 1 -mindepth 1)")" = 'true' ]]
+    then
+        echo 'true' && return 0
+    fi
+
+    echo 'false' && return 1
+}
+
 function isValidJSONContent()
 {
     local -r content="${1}"
@@ -544,6 +558,15 @@ function resetLogs()
             -exec cp -f '/dev/null' '{}' \; \
             -print
     done
+}
+
+function sortUniqueTrimFile()
+{
+    local -r filePath="${1}"
+
+    checkExistFile "${filePath}"
+
+    printf '%s' "$(sort -u "${filePath}")" > "${filePath}"
 }
 
 function symlinkListUsrBin()
