@@ -1072,32 +1072,6 @@ function installPortableBinary()
 # MAC UTILITIES #
 #################
 
-function clearMacAppExtendedAttributes()
-{
-    local -r headerMessage="${1}"
-    local -r applicationPaths=("${@:2}")
-
-    checkRequireMacSystem
-
-    if [[ "${#applicationPaths[@]}" -gt '0' ]]
-    then
-        header "${headerMessage}"
-    fi
-
-    local applicationPath=''
-
-    for applicationPath in "${applicationPaths[@]}"
-    do
-        # Find Non-Default Apple App
-
-        if [[ "$(ls -d -l -O "${applicationPath}" | grep -E '\s+restricted\s+')" = '' ]]
-        then
-            info "clearing extended attributes of '${applicationPath}'"
-            xattr -c -r -s "${applicationPath}"
-        fi
-    done
-}
-
 function closeMacApplications()
 {
     local -r headerMessage="${1}"
