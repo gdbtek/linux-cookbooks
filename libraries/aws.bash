@@ -358,7 +358,7 @@ function checkValidRegion()
 
 function getAllowedRegions()
 {
-    echo 'af-south-1 ap-east-1 ap-northeast-1 ap-northeast-2 ap-northeast-3 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-south-1 eu-west-1 eu-west-2 eu-west-3 me-south-1 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2'
+    echo 'af-south-1 ap-east-1 ap-northeast-1 ap-northeast-2 ap-northeast-3 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 cn-north-1 cn-northwest-1 eu-central-1 eu-north-1 eu-south-1 eu-west-1 eu-west-2 eu-west-3 me-south-1 sa-east-1 us-east-1 us-east-2 us-gov-east-1 us-gov-west-1 us-west-1 us-west-2'
 }
 
 function getRegionFromRecordSetAliasTargetDNSName()
@@ -412,6 +412,12 @@ function getShortRegionName()
     elif [[ "${region}" = 'ca-central-1' ]]
     then
         echo 'cac1'
+    elif [[ "${region}" = 'cn-north-1' ]]
+    then
+        echo 'cnn1'
+    elif [[ "${region}" = 'cn-northwest-1' ]]
+    then
+        echo 'cnnw1'
     elif [[ "${region}" = 'eu-central-1' ]]
     then
         echo 'euc1'
@@ -442,6 +448,12 @@ function getShortRegionName()
     elif [[ "${region}" = 'us-east-2' ]]
     then
         echo 'use2'
+    elif [[ "${region}" = 'us-gov-east-1' ]]
+    then
+        echo 'usgove1'
+    elif [[ "${region}" = 'us-gov-west-1' ]]
+    then
+        echo 'usgovw1'
     elif [[ "${region}" = 'us-west-1' ]]
     then
         echo 'usw1'
