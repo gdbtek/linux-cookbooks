@@ -2473,9 +2473,10 @@ function configUserGIT()
     checkNonEmptyString "${gitUserName}" 'undefined git user name'
     checkNonEmptyString "${gitUserEmail}" 'undefined git user email'
 
-    su -l "${userLogin}" -c "git config --global user.name '${gitUserName}'"
-    su -l "${userLogin}" -c "git config --global user.email '${gitUserEmail}'"
+    su -l "${userLogin}" -c 'git config --global pull.rebase false'
     su -l "${userLogin}" -c 'git config --global push.default simple'
+    su -l "${userLogin}" -c "git config --global user.email '${gitUserEmail}'"
+    su -l "${userLogin}" -c "git config --global user.name '${gitUserName}'"
 
     info "$(su -l "${userLogin}" -c 'git config --list')"
 }
