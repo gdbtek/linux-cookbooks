@@ -8,7 +8,10 @@ function install()
 
     initializeFolder "${AWS_CLI_INSTALL_FOLDER_PATH}"
     unzipRemoteFile "${AWS_CLI_DOWNLOAD_URL}" "${tempFolder}"
-    "${tempFolder}/aws/install" --update
+    "${tempFolder}/aws/install" \
+        --update \
+        -b '/usr/bin/aws' \
+        -i "${AWS_CLI_INSTALL_FOLDER_PATH}"
     rm -f -r "${tempFolder}"
     chown -R "$(whoami):$(whoami)" "${AWS_CLI_INSTALL_FOLDER_PATH}"
     symlinkListUsrBin "${AWS_CLI_INSTALL_FOLDER_PATH}/bin/aws"
