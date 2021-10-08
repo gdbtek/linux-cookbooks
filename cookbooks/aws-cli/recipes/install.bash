@@ -1,10 +1,5 @@
 #!/bin/bash -e
 
-function installDependencies()
-{
-    installPackages 'python'
-}
-
 function install()
 {
     umask '0022'
@@ -13,9 +8,7 @@ function install()
 
     initializeFolder "${AWS_CLI_INSTALL_FOLDER_PATH}"
     unzipRemoteFile "${AWS_CLI_DOWNLOAD_URL}" "${tempFolder}"
-    python "${tempFolder}/awscli-bundle/install" \
-        -b '/usr/bin/aws' \
-        -i "${AWS_CLI_INSTALL_FOLDER_PATH}"
+    "${tempFolder}/aws/install"
     rm -f -r "${tempFolder}"
     chown -R "$(whoami):$(whoami)" "${AWS_CLI_INSTALL_FOLDER_PATH}"
     symlinkListUsrBin "${AWS_CLI_INSTALL_FOLDER_PATH}/bin/aws"
@@ -34,7 +27,6 @@ function main()
     checkRequireLinuxSystem
     checkRequireRootUser
 
-    installDependencies
     install
     installCleanUp
 }
