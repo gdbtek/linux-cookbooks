@@ -14,7 +14,6 @@ function install()
         --install-dir "${AWS_CLI_INSTALL_FOLDER_PATH}"
     rm -f -r "${tempFolder}"
     chown -R "$(whoami):$(whoami)" "${AWS_CLI_INSTALL_FOLDER_PATH}"
-    symlinkListUsrBin "${AWS_CLI_INSTALL_FOLDER_PATH}/v2/current/bin/aws"
     displayVersion "$('/usr/bin/aws' --version 2>&1)"
 
     umask '0077'
