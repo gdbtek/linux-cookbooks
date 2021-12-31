@@ -566,7 +566,7 @@ function sortUniqueTrimFile()
 
     checkExistFile "${filePath}"
 
-    printf '%s' "$(sort -u "${filePath}")" > "${filePath}"
+    printf '%s' "$(awk 'NF' "${filePath}" | awk '{$1=$1};1' | sort -u)" > "${filePath}"
 }
 
 function symlinkListUsrBin()
