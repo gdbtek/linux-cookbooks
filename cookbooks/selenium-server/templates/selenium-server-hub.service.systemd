@@ -32,5 +32,5 @@ User=__USER_NAME__
 Group=__GROUP_NAME__
 
 ExecStart=/bin/bash -c -e '\
-    java -jar \'__INSTALL_FILE__\' -role \'hub\' -hubConfig \'__CONFIG_FILE__\' \
+    java -jar \'__INSTALL_FILE__\' \'hub\' --config \'__CONFIG_FILE__\' \
 '
