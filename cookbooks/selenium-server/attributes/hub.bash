@@ -2,7 +2,7 @@
 
 export SELENIUM_SERVER_DOWNLOAD_URL='https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.1.0/selenium-server-4.1.1.jar'
 
-export SELENIUM_SERVER_INSTALL_FOLDER_PATH='/opt/selenium-server'
+export SELENIUM_SERVER_INSTALL_FOLDER_PATH='/opt/selenium-server/hub'
 
 export SELENIUM_SERVER_SERVICE_NAME='selenium-server-hub'
 
