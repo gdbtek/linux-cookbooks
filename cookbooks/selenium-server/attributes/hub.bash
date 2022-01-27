@@ -4,7 +4,7 @@ export SELENIUM_SERVER_DOWNLOAD_URL='https://github.com/SeleniumHQ/selenium/rele
 
 export SELENIUM_SERVER_INSTALL_FOLDER_PATH='/opt/selenium-server'
 
-export SELENIUM_SERVER_SERVICE_NAME='selenium-server'
+export SELENIUM_SERVER_SERVICE_NAME='selenium-server-hub'
 
 export SELENIUM_SERVER_USER_NAME='selenium'
 export SELENIUM_SERVER_GROUP_NAME='selenium'
