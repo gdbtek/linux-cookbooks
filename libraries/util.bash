@@ -797,6 +797,18 @@ function unzipRemoteFile()
 # GIT UTILITIES #
 #################
 
+function checkValidGitToken()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r gitURL="${3}"
+
+    if [[ "$(isValidGitToken "${user}" "${token}" "${gitURL}")" = 'false' ]]
+    then
+        fatal '\nFATAL : invalid token'
+    fi
+}
+
 function getGitPrivateRepositorySSHURL()
 {
     local -r user="${1}"
@@ -999,6 +1011,44 @@ function getGitUserRepositoryObjectKey()
     # Return Results
 
     echo "${results}" | sort -f
+}
+
+function isValidGitToken()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local gitURL="${3}"
+
+    # Default Values
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
+
+    # Validation
+
+    local -r result="$(
+        curl \
+            -s \
+            -X 'GET' \
+            -u "${user}:${token}" \
+            -L "${gitURL}" \
+            --retry 12 \
+            --retry-delay 5 |
+        jq \
+            --compact-output \
+            --raw-output \
+            --sort-keys \
+            '.["message"] // empty'
+    )"
+
+    if [[ "${result}" = 'Bad credentials' ]]
+    then
+        echo 'false' && return 1
+    fi
+
+    echo 'true' && return 0
 }
 
 #####################
