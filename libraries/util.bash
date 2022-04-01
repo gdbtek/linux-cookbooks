@@ -858,8 +858,7 @@ function getGitUserName()
 
     # Validation
 
-    checkNonEmptyString "${user}" 'undefined user'
-    checkNonEmptyString "${token}" 'undefined token'
+    checkValidGitToken "${user}" "${token}" "${gitURL}"
 
     # Get User Name
 
@@ -892,8 +891,7 @@ function getGitUserPrimaryEmail()
 
     # Validation
 
-    checkNonEmptyString "${user}" 'undefined user'
-    checkNonEmptyString "${token}" 'undefined token'
+    checkValidGitToken "${user}" "${token}" "${gitURL}"
 
     # Pagination
 
@@ -955,10 +953,8 @@ function getGitUserRepositoryObjectKey()
 
     # Validation
 
-    checkNonEmptyString "${user}" 'undefined user'
-    checkNonEmptyString "${token}" 'undefined token'
     checkNonEmptyString "${objectKey}" 'undefined object key'
-    checkNonEmptyString "${gitURL}" 'undefined git url'
+    checkValidGitToken "${user}" "${token}" "${gitURL}"
 
     # Pagination
 
