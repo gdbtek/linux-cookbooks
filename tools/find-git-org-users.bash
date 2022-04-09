@@ -109,7 +109,7 @@ function findGitOrgUsers()
 
             if [[ "$(isEmptyString "${foundUser}")" = 'false' ]]
             then
-                echo -e "found user \033[1;36m${findUser} ($(getGitUserName "${user}" "${token}" "${gitURL}"))\033[0m in team \033[1;32m${htmlURL}\033[0m"
+                echo -e "found user \033[1;36m${findUser}\033[0m in team \033[1;32m${htmlURL}\033[0m"
             fi
         done
     done
@@ -172,7 +172,6 @@ function main()
                 then
                     local findUsers=''
                     findUsers="$(replaceString "${1}" ',' ' ')"
-
                 fi
 
                 ;;
