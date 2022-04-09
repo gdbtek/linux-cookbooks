@@ -69,6 +69,15 @@ function findGitOrgUsers()
             <<< "${teams}"
         )"
 
+        local htmlURL=''
+        htmlURL="$(
+            jq \
+                --compact-output \
+                --raw-output \
+                '.["html_url"] // empty' \
+            <<< "${team}"
+        )"
+
         local membersURL=''
         membersURL="$(
             jq \
@@ -79,10 +88,30 @@ function findGitOrgUsers()
             cut -d '{' -f 1
         )"
 
-        local users=''
-        users="$(getGitTeamUsers "${user}" "${token}" "${gitURL}" "${membersURL}")"
+        local teamUsers=''
+        teamUsers="$(getGitTeamUsers "${user}" "${token}" "${gitURL}" "${membersURL}")"
 
-        # Team Walker
+        # Find Users Walker
+
+        local findUser=''
+
+        for findUser in "${findUsers[@]}"
+        do
+            local foundUser=''
+            foundUser="$(
+                jq \
+                    --compact-output \
+                    --raw-output \
+                    --arg jqLogin "${findUser}" \
+                    '.[] | select(.["login"] == $jqLogin) // empty' \
+                <<< "${teamUsers}"
+            )"
+
+            if [[ "$(isEmptyString "${foundUser}")" = 'false' ]]
+            then
+                echo -e "found user \033[1;36m${findUser} ($(getGitUserName "${user}" "${token}" "${gitURL}"))\033[0m in team \033[1;32m${htmlURL}\033[0m"
+            fi
+        done
     done
 }
 
@@ -170,7 +199,9 @@ function main()
         displayUsage 0
     fi
 
-    # Clone Repositories
+    # Find Git Org Users
+
+    header "FINDING USERS IN GIT ORG ${orgName}"
 
     findGitOrgUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${findUsers}"
 }
