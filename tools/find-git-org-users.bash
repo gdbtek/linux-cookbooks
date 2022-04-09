@@ -37,7 +37,7 @@ function displayUsage()
     exit "${1}"
 }
 
-function findGitOrgUsers()
+function findGitOrgTeamUsers()
 {
     local -r user="${1}"
     local -r token="${2}"
@@ -216,8 +216,8 @@ function main()
     do
         orgName="$(tr '[:lower:]' '[:upper:]' <<< "${orgName}")"
 
-        header "FINDING USERS IN GIT ORG ${orgName}"
-        findGitOrgUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${findUsers}"
+        header "FINDING TEAM USERS IN GIT ORG ${orgName}"
+        findGitOrgTeamUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${findUsers}"
     done
 }
 
