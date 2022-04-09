@@ -212,7 +212,7 @@ function main()
 
     local orgName=''
 
-    for orgName in ${orgNames}
+    for orgName in "${orgNames[@]}"
     do
         orgName="$(tr '[:lower:]' '[:upper:]' <<< "${orgName}")"
 
