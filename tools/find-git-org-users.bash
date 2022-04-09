@@ -162,7 +162,7 @@ function main()
                 if [[ "${#}" -gt '0' ]]
                 then
                     local orgNames=''
-                    orgNames="$(replaceString "${1}" ',' ' ')"
+                    orgNames=($(sortUniqArray "$(replaceString "${1}" ',' ' ')"))
                 fi
 
                 ;;
