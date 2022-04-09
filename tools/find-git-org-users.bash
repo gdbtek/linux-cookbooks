@@ -14,7 +14,7 @@ function displayUsage()
     echo    '    --help'
     echo    '    --user               <USER>'
     echo    '    --token              <TOKEN>'
-    echo    '    --org-name           <ORGANIZATION_NAME>'
+    echo    '    --org-names          <ORGANIZATION_NAMES>'
     echo    '    --find-users         <USER_LIST>'
     echo    '    --git-url            <GIT_URL>'
     echo -e '\033[1;35m'
@@ -22,15 +22,15 @@ function displayUsage()
     echo    '  --help               Help page (optional)'
     echo    '  --user               User name (require)'
     echo    '  --token              Personal access token (require)'
-    echo    '  --org-name           Organization name (require)'
-    echo    '  --find-users         List of users to find on an organization seperated by spaces or commas (require)'
+    echo    '  --org-names          List of organization names seperated by spaces or commas (require)'
+    echo    '  --find-users         List of users to find on organizations seperated by spaces or commas (require)'
     echo    '  --git-url            Git URL (optional)'
     echo    "                       Default to 'https://api.github.com'"
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
-    echo    "  ./${scriptName} --user 'nnguyen' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --org-name 'my-org' --find-users 'nnguyen, nam'"
-    echo    "  ./${scriptName} --user 'nnguyen' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --org-name 'my-org' --find-users 'nnguyen, nam' --git-url 'https://my.git.com/api/v3'"
+    echo    "  ./${scriptName} --user 'nnguyen' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --org-names 'my-org-1, my-org-2' --find-users 'nnguyen, nam'"
+    echo    "  ./${scriptName} --user 'nnguyen' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --org-names 'my-org-1, my-org-2' --find-users 'nnguyen, nam' --git-url 'https://my.git.com/api/v3'"
 
     echo -e '\033[0m'
 
@@ -154,12 +154,13 @@ function main()
 
                 ;;
 
-            --org-name)
+            --org-names)
                 shift
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local orgName="${1}"
+                    local orgNames=''
+                    orgNames="$(replaceString "${1}" ',' ' ')"
                 fi
 
                 ;;
@@ -199,11 +200,16 @@ function main()
         displayUsage 0
     fi
 
-    # Find Git Org Users
+    # Organization Walker
 
-    header "FINDING USERS IN GIT ORG ${orgName}"
+    local orgName=''
 
-    findGitOrgUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${findUsers}"
+    for orgName in ${orgNames}
+    do
+        header "FINDING USERS IN GIT ORG ${orgName}"
+
+        findGitOrgUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${findUsers}"
+    done
 }
 
 main "${@}"
