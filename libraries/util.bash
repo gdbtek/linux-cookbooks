@@ -809,6 +809,66 @@ function checkValidGitToken()
     fi
 }
 
+function getGitOrgTeams()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r orgName="${3}"
+    local gitURL="${4}"
+
+    # Default Values
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
+
+    # Validation
+
+    checkNonEmptyString "${orgName}" 'undefined organization name'
+    checkValidGitToken "${user}" "${token}" "${gitURL}"
+
+    # Pagination
+
+    local teams='[]'
+    local page=1
+    local exitCount=0
+
+    for ((page = 1; page > exitCount; page = page + 1))
+    do
+        local currentTeams=''
+        currentTeams="$(
+            curl \
+                -s \
+                -X 'GET' \
+                -u "${user}:${token}" \
+                -L "${gitURL}/orgs/${orgName}/teams?page=${page}&per_page=100" \
+                --retry 12 \
+                --retry-delay 5 |
+            jq \
+                --compact-output \
+                --raw-output \
+                '. // empty'
+        )"
+
+        if [[ "${currentTeams}" = '[]' ]]
+        then
+            echo "${teams}"
+            exitCount="$((page + 1))"
+        else
+            local teams="$(
+                jq \
+                    -S \
+                    --compact-output \
+                    --raw-output \
+                    --argjson jqCurrentTeams "${currentTeams}" \
+                    --argjson jqTeams "${teams}" \
+                    -n '$jqCurrentTeams + $jqTeams | unique_by(.["id"]) // empty'
+            )"
+        fi
+    done
+}
+
 function getGitPrivateRepositorySSHURL()
 {
     local -r user="${1}"
