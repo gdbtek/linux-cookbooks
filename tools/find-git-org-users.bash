@@ -97,6 +97,8 @@ function findGitOrgUsers()
 
         for findUser in "${findUsers[@]}"
         do
+            findUser="$(tr '[:upper:]' '[:lower:]' <<< "${findUser}")"
+
             local foundUser=''
             foundUser="$(
                 jq \
