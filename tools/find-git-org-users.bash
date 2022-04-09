@@ -199,6 +199,13 @@ function main()
         displayUsage 0
     fi
 
+    # Validation
+
+    checkNonEmptyString "${user}" 'undefined user'
+    checkNonEmptyString "${token}" 'undefined token'
+    checkNonEmptyString "${orgNames}" 'undefined organization names'
+    checkNonEmptyString "${findUsers}" 'undefined find users'
+
     # Organization Walker
 
     local orgName=''
@@ -206,7 +213,6 @@ function main()
     for orgName in ${orgNames}
     do
         header "FINDING USERS IN GIT ORG ${orgName}"
-
         findGitOrgUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${findUsers}"
     done
 }
