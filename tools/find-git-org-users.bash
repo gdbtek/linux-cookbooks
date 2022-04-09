@@ -212,6 +212,8 @@ function main()
 
     for orgName in ${orgNames}
     do
+        orgName="$(tr '[:lower:]' '[:upper:]' <<< "${orgName}")"
+
         header "FINDING USERS IN GIT ORG ${orgName}"
         findGitOrgUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${findUsers}"
     done
