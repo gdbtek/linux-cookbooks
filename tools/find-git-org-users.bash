@@ -117,6 +117,56 @@ function findGitOrgTeamUsers()
     done
 }
 
+function findGitRepositoriesCollaborators()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r orgName="${3}"
+    local -r gitURL="${4}"
+    local -r findUsers=($(sortUniqArray "${@:5}"))
+
+    # Validation
+
+    checkNonEmptyString "${user}" 'undefined user'
+    checkNonEmptyString "${token}" 'undefined token'
+    checkNonEmptyString "${orgName}" 'undefined organization name'
+
+    # Repositories Walker
+
+    local -r repositories=($(getGitUserRepositoryObjectKey "${user}" "${token}" 'name' 'all' "${orgName}" "${gitURL}"))
+    local repository=''
+
+    for repository in "${repositories[@]}"
+    do
+        local collaborators=''
+        collaborators="$(getGitRepositoryCollaborators "${user}" "${token}" "${orgName}" "${repository}" "${gitURL}")"
+
+        # Find Users Walker
+
+        local findUser=''
+
+        for findUser in "${findUsers[@]}"
+        do
+            findUser="$(tr '[:upper:]' '[:lower:]' <<< "${findUser}")"
+
+            local foundUser=''
+            foundUser="$(
+                jq \
+                    --compact-output \
+                    --raw-output \
+                    --arg jqLogin "${findUser}" \
+                    '.[] | select(.["login"] == $jqLogin) // empty' \
+                <<< "${collaborators}"
+            )"
+
+            if [[ "$(isEmptyString "${foundUser}")" = 'false' ]]
+            then
+                echo -e "found user \033[1;36m${findUser}\033[0m in collaborators of repository \033[1;32m${repository}\033[0m"
+            fi
+        done
+    done
+}
+
 ########
 # MAIN #
 ########
@@ -218,6 +268,9 @@ function main()
 
         header "FINDING TEAM USERS IN GIT ORG ${orgName}"
         findGitOrgTeamUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${findUsers}"
+
+        header "FINDING REPOSITORIES COLLABORATORS IN GIT ORG ${orgName}"
+        findGitRepositoriesCollaborators "${user}" "${token}" "${orgName}" "${gitURL}" "${findUsers}"
     done
 }
 

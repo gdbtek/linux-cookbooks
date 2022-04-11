@@ -889,6 +889,67 @@ function getGitPublicRepositorySSHURL()
     getGitUserRepositoryObjectKey "${user}" "${token}" 'ssh_url' 'public' "${orgName}" "${gitURL}"
 }
 
+function getGitRepositoryCollaborators()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r orgName="${3}"
+    local -r repository="${4}"
+    local gitURL="${5}"
+
+    # Default Values
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
+
+    # Validation
+
+    checkValidGitToken "${user}" "${token}" "${gitURL}"
+    checkNonEmptyString "${repository}" 'undefined repository'
+
+    # Pagination
+
+    local users='[]'
+    local page=1
+    local exitCount=0
+
+    for ((page = 1; page > exitCount; page = page + 1))
+    do
+        local currentUsers=''
+        currentUsers="$(
+            curl \
+                -s \
+                -X 'GET' \
+                -u "${user}:${token}" \
+                -L "${gitURL}/repos/${orgName}/${repository}/collaborators?affiliation=direct&page=${page}&per_page=100" \
+                --retry 12 \
+                --retry-delay 5 |
+            jq \
+                --compact-output \
+                --raw-output \
+                '. // empty'
+        )"
+
+        if [[ "${currentUsers}" = '[]' ]]
+        then
+            echo "${users}"
+            exitCount="$((page + 1))"
+        else
+            local users="$(
+                jq \
+                    -S \
+                    --compact-output \
+                    --raw-output \
+                    --argjson jqCurrentUsers "${currentUsers}" \
+                    --argjson jqUsers "${users}" \
+                    -n '$jqCurrentUsers + $jqUsers | unique_by(.["id"]) // empty'
+            )"
+        fi
+    done
+}
+
 function getGitRepositoryNameFromCloneURL()
 {
     local -r cloneURL="${1}"
