@@ -161,7 +161,16 @@ function findGitRepositoriesCollaborators()
 
             if [[ "$(isEmptyString "${foundUser}")" = 'false' ]]
             then
-                echo -e "found user \033[1;36m${findUser}\033[0m in collaborators of repository \033[1;32m${gitURL}/${repository}/settings/access\033[0m"
+                local htmlURL=''
+                htmlURL="$(
+                    jq \
+                        --compact-output \
+                        --raw-output \
+                        '.["html_url"] // empty' \
+                    <<< "${foundUser}"
+                )"
+
+                echo -e "found user \033[1;36m${findUser}\033[0m in collaborators of repository \033[1;32m$(dirname "${htmlURL}")/${orgName}/${repository}/settings/access\033[0m"
             fi
         done
     done
