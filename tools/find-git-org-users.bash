@@ -161,7 +161,7 @@ function findGitRepositoriesCollaborators()
 
             if [[ "$(isEmptyString "${foundUser}")" = 'false' ]]
             then
-                echo -e "found user \033[1;36m${findUser}\033[0m in collaborators of repository \033[1;32m${repository}\033[0m"
+                echo -e "found user \033[1;36m${findUser}\033[0m in collaborators of repository \033[1;32m${gitURL}/${repository}/settings/access\033[0m"
             fi
         done
     done
