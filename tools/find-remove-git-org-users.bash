@@ -337,10 +337,10 @@ function main()
     do
         orgName="$(tr '[:lower:]' '[:upper:]' <<< "${orgName}")"
 
-        header "FINDING TEAM USERS IN GIT ORG ${orgName}"
+        header "FINDING & REMOVING TEAM USERS IN GIT ORG ${orgName}"
         findRemoveGitOrgTeamUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
 
-        header "FINDING REPOSITORIES COLLABORATORS IN GIT ORG ${orgName}"
+        header "FINDING & REMOVING REPOSITORIES COLLABORATORS IN GIT ORG ${orgName}"
         findRemoveGitRepositoriesCollaborators "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
     done
 }
