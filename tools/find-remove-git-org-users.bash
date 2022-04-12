@@ -133,14 +133,7 @@ function findGitOrgTeamUsers()
                         <<< "${team}"
                     )"
 
-                    curl \
-                        -s \
-                        -X 'DELETE' \
-                        -u "${user}:${token}" \
-                        -L "${teamURL}/memberships/${findUser}" \
-                        --retry 12 \
-                        --retry-delay 5
-
+                    removeGitUserFromTeam "${user}" "${token}" "${teamURL}" "${findUser}"
                     echo -e "removed user \033[1;36m${findUser}\033[0m in team \033[1;32m${teamHTMLURL}\033[0m"
                 else
                     echo -e "found user \033[1;36m${findUser}\033[0m in team \033[1;32m${teamHTMLURL}\033[0m"
@@ -206,14 +199,7 @@ function findGitRepositoriesCollaborators()
 
                 if [[ "${commandMode}" = 'clean-up' ]]
                 then
-                    curl \
-                        -s \
-                        -X 'DELETE' \
-                        -u "${user}:${token}" \
-                        -L "${gitURL}/repos/${orgName}/${repository}/collaborators/${findUser}" \
-                        --retry 12 \
-                        --retry-delay 5
-
+                    removeGitCollaboratorFromRepository "${user}" "${token}" "${gitURL}" "${orgName}" "${repository}" "${findUser}"
                     echo -e "removed user \033[1;36m${findUser}\033[0m in collaborators of repository \033[1;32m$(dirname "${foundUserHTMLURL}")/${orgName}/${repository}/settings/access\033[0m"
                 else
                     echo -e "found user \033[1;36m${findUser}\033[0m in collaborators of repository \033[1;32m$(dirname "${foundUserHTMLURL}")/${orgName}/${repository}/settings/access\033[0m"

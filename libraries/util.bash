@@ -1227,6 +1227,40 @@ function isValidGitToken()
     echo 'true' && return 0
 }
 
+function removeGitCollaboratorFromRepository()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r gitURL="${3}"
+    local -r orgName="${4}"
+    local -r repository="${5}"
+    local -r collaborator="${6}"
+
+    curl \
+        -s \
+        -X 'DELETE' \
+        -u "${user}:${token}" \
+        -L "${gitURL}/repos/${orgName}/${repository}/collaborators/${collaborator}" \
+        --retry 12 \
+        --retry-delay 5
+}
+
+function removeGitUserFromTeam()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r teamURL="${3}"
+    local -r teamUser="${4}"
+
+    curl \
+        -s \
+        -X 'DELETE' \
+        -u "${user}:${token}" \
+        -L "${teamURL}/memberships/${teamUser}" \
+        --retry 12 \
+        --retry-delay 5
+}
+
 #####################
 # INSTALL UTILITIES #
 #####################
