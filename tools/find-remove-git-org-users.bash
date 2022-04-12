@@ -47,7 +47,7 @@ function displayUsage()
     exit "${1}"
 }
 
-function findGitOrgTeamUsers()
+function findRemoveGitOrgTeamUsers()
 {
     local -r user="${1}"
     local -r token="${2}"
@@ -143,7 +143,7 @@ function findGitOrgTeamUsers()
     done
 }
 
-function findGitRepositoriesCollaborators()
+function findRemoveGitRepositoriesCollaborators()
 {
     local -r user="${1}"
     local -r token="${2}"
@@ -338,10 +338,10 @@ function main()
         orgName="$(tr '[:lower:]' '[:upper:]' <<< "${orgName}")"
 
         header "FINDING TEAM USERS IN GIT ORG ${orgName}"
-        findGitOrgTeamUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
+        findRemoveGitOrgTeamUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
 
         header "FINDING REPOSITORIES COLLABORATORS IN GIT ORG ${orgName}"
-        findGitRepositoriesCollaborators "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
+        findRemoveGitRepositoriesCollaborators "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
     done
 }
 
