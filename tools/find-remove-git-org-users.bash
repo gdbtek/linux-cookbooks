@@ -89,15 +89,6 @@ function findGitOrgTeamUsers()
             <<< "${team}"
         )"
 
-        local teamURL=''
-        teamURL="$(
-            jq \
-                --compact-output \
-                --raw-output \
-                '.["url"] // empty' \
-            <<< "${team}"
-        )"
-
         local teamMembersURL=''
         teamMembersURL="$(
             jq \
@@ -110,35 +101,6 @@ function findGitOrgTeamUsers()
 
         local teamUsers=''
         teamUsers="$(getGitTeamUsers "${user}" "${token}" "${gitURL}" "${teamMembersURL}")"
-
-        # Find Suspended Users Walker
-
-        local teamUsersLength="$(jq '. | length' <<< "${teamUsers}")"
-        local j=0
-
-        for ((j = 0; j < teamUsersLength; j = j + 1))
-        do
-            local teamUserLogin=''
-            teamUserLogin="$(
-                jq \
-                    --compact-output \
-                    --raw-output \
-                    --arg jqIndex "${j}" \
-                    '.[$jqIndex | tonumber] | .["login"] // empty' \
-                <<< "${teamUsers}"
-            )"
-
-            if [[ "$(isGitUserSuspended "${user}" "${token}" "${gitURL}" "${teamUserLogin}")" = 'true' ]]
-            then
-                if [[ "${commandMode}" = 'clean-up' ]]
-                then
-                    removeGitUserFromTeam "${user}" "${token}" "${teamURL}" "${teamUserLogin}"
-                    echo -e "removed suspended user \033[1;36m${teamUserLogin}\033[0m in team \033[1;32m${teamHTMLURL}\033[0m"
-                else
-                    echo -e "found suspended user \033[1;36m${teamUserLogin}\033[0m in team \033[1;32m${teamHTMLURL}\033[0m"
-                fi
-            fi
-        done
 
         # Find Users Walker
 
@@ -162,6 +124,15 @@ function findGitOrgTeamUsers()
             then
                 if [[ "${commandMode}" = 'clean-up' ]]
                 then
+                    local teamURL=''
+                    teamURL="$(
+                        jq \
+                            --compact-output \
+                            --raw-output \
+                            '.["url"] // empty' \
+                        <<< "${team}"
+                    )"
+
                     removeGitUserFromTeam "${user}" "${token}" "${teamURL}" "${findUser}"
                     echo -e "removed user \033[1;36m${findUser}\033[0m in team \033[1;32m${teamHTMLURL}\033[0m"
                 else
@@ -196,35 +167,6 @@ function findGitRepositoriesCollaborators()
     do
         local collaborators=''
         collaborators="$(getGitRepositoryCollaborators "${user}" "${token}" "${orgName}" "${repository}" "${gitURL}")"
-
-        # Find Suspended Users Walker
-
-        local collaboratorsLength="$(jq '. | length' <<< "${collaborators}")"
-        local i=0
-
-        for ((i = 0; i < collaboratorsLength; i = i + 1))
-        do
-            local collaboratorLogin=''
-            collaboratorLogin="$(
-                jq \
-                    --compact-output \
-                    --raw-output \
-                    --arg jqIndex "${i}" \
-                    '.[$jqIndex | tonumber] | .["login"] // empty' \
-                <<< "${collaborators}"
-            )"
-
-            if [[ "$(isGitUserSuspended "${user}" "${token}" "${gitURL}" "${collaboratorLogin}")" = 'true' ]]
-            then
-                if [[ "${commandMode}" = 'clean-up' ]]
-                then
-                    removeGitCollaboratorFromRepository "${user}" "${token}" "${gitURL}" "${orgName}" "${repository}" "${collaboratorLogin}"
-                    echo -e "removed suspended user \033[1;36m${collaboratorLogin}\033[0m in collaborators of repository \033[1;32m${repository}\033[0m"
-                else
-                    echo -e "found suspended user \033[1;36m${collaboratorLogin}\033[0m in collaborators of repository \033[1;32m${repository}\033[0m"
-                fi
-            fi
-        done
 
         # Find Users Walker
 
