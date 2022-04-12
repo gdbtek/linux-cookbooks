@@ -1189,6 +1189,44 @@ function getGitUserRepositoryObjectKey()
     echo "${results}" | sort -f
 }
 
+function isGitUserSuspended()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local gitURL="${3}"
+    local -r login="${4}"
+
+    # Default Values
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
+
+    # Check Status
+
+    local -r suspendedAt="$(
+        curl \
+            -s \
+            -X 'GET' \
+            -u "${user}:${token}" \
+            -L "${gitURL}/users/${login}" \
+            --retry 12 \
+            --retry-delay 5 |
+        jq \
+            --compact-output \
+            --raw-output \
+            '.["suspended_at"] // empty'
+    )"
+
+    if [[ "$(isEmptyString "${suspendedAt}")" = 'false' ]]
+    then
+        echo 'true' && return 0
+    fi
+
+    echo 'false' && return 1
+}
+
 function isValidGitToken()
 {
     local -r user="${1}"
