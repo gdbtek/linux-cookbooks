@@ -64,7 +64,7 @@ function findRemoveGitOrgTeamUsers()
 
     # Team Walker
 
-    local -r teams="$(getGitOrgTeams "${user}" "${token}" "${orgName}" "${gitURL}")"
+    local -r teams="$(getGitOrganizationTeams "${user}" "${token}" "${orgName}" "${gitURL}")"
     local -r teamsLength="$(jq '. | length' <<< "${teams}")"
     local i=0
 
@@ -209,6 +209,17 @@ function findRemoveGitRepositoriesCollaborators()
     done
 }
 
+function findRemoveGitSuspendedUsers()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r orgName="${3}"
+    local -r gitURL="${4}"
+    local -r commandMode="${5}"
+
+    getGitOrganizationMembers "${user}" "${token}" "${orgName}" "${gitURL}"
+}
+
 ########
 # MAIN #
 ########
@@ -338,10 +349,13 @@ function main()
         orgName="$(tr '[:lower:]' '[:upper:]' <<< "${orgName}")"
 
         header "FINDING & REMOVING TEAM USERS IN GIT ORG ${orgName}"
-        findRemoveGitOrgTeamUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
+        #findRemoveGitOrgTeamUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
 
         header "FINDING & REMOVING REPOSITORIES COLLABORATORS IN GIT ORG ${orgName}"
-        findRemoveGitRepositoriesCollaborators "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
+        #findRemoveGitRepositoriesCollaborators "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
+
+        header "FINDING & REMOVING SUSPENDED USERS IN GIT ORG ${orgName}"
+        findRemoveGitSuspendedUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}"
     done
 }
 

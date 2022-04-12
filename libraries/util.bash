@@ -809,7 +809,66 @@ function checkValidGitToken()
     fi
 }
 
-function getGitOrgTeams()
+function getGitOrganizationMembers()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r orgName="${3}"
+    local gitURL="${4}"
+
+    # Default Values
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
+
+    # Validation
+
+    checkValidGitToken "${user}" "${token}" "${gitURL}"
+
+    # Pagination
+
+    local members='[]'
+    local page=1
+    local exitCount=0
+
+    for ((page = 1; page > exitCount; page = page + 1))
+    do
+        local currentMembers=''
+        currentMembers="$(
+            curl \
+                -s \
+                -X 'GET' \
+                -u "${user}:${token}" \
+                -L "${gitURL}/orgs/${orgName}/members?page=${page}&per_page=100" \
+                --retry 12 \
+                --retry-delay 5 |
+            jq \
+                --compact-output \
+                --raw-output \
+                '. // empty'
+        )"
+
+        if [[ "${currentMembers}" = '[]' ]]
+        then
+            echo "${members}"
+            exitCount="$((page + 1))"
+        else
+            local members="$(
+                jq \
+                    -S \
+                    --compact-output \
+                    --raw-output \
+                    --argjson jqCurrentUsers "${currentMembers}" \
+                    --argjson jqUsers "${members}" \
+                    -n '$jqCurrentUsers + $jqUsers | unique_by(.["id"]) // empty'
+            )"
+        fi
+    done
+}
+
+function getGitOrganizationTeams()
 {
     local -r user="${1}"
     local -r token="${2}"
