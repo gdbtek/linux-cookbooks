@@ -217,7 +217,33 @@ function findRemoveGitSuspendedUsers()
     local -r gitURL="${4}"
     local -r commandMode="${5}"
 
-    getGitOrganizationMembers "${user}" "${token}" "${orgName}" "${gitURL}"
+    local -r members="$(getGitOrganizationMembers "${user}" "${token}" "${orgName}" "${gitURL}")"
+    local -r membersLength="$(jq '. | length' <<< "${members}")"
+    local i=0
+
+    for ((i = 0; i < membersLength; i = i + 1))
+    do
+        local memberLogin=''
+        memberLogin="$(
+            jq \
+                --compact-output \
+                --raw-output \
+                --arg jqIndex "${i}" \
+                '.[$jqIndex | tonumber] | .["login"] // empty' \
+            <<< "${members}"
+        )"
+
+        if [[ "$(isGitUserSuspended "${user}" "${token}" "${gitURL}" "${memberLogin}")" = 'true' ]]
+        then
+            if [[ "${commandMode}" = 'clean-up' ]]
+            then
+                removeGitMemberFromOrganization "${user}" "${token}" "${gitURL}" "${orgName}" "${memberLogin}"
+                echo -e "removed suspended user \033[1;36m${memberLogin}\033[0m from organization \033[1;32m${orgName}\033[0m"
+            else
+                echo -e "found suspended user \033[1;36m${memberLogin}\033[0m from organization \033[1;32m${orgName}\033[0m"
+            fi
+        fi
+    done
 }
 
 ########
@@ -348,10 +374,10 @@ function main()
     do
         orgName="$(tr '[:lower:]' '[:upper:]' <<< "${orgName}")"
 
-        header "FINDING & REMOVING TEAM USERS IN GIT ORG ${orgName}"
+        #header "FINDING & REMOVING TEAM USERS IN GIT ORG ${orgName}"
         #findRemoveGitOrgTeamUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
 
-        header "FINDING & REMOVING REPOSITORIES COLLABORATORS IN GIT ORG ${orgName}"
+        #header "FINDING & REMOVING REPOSITORIES COLLABORATORS IN GIT ORG ${orgName}"
         #findRemoveGitRepositoriesCollaborators "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
 
         header "FINDING & REMOVING SUSPENDED USERS IN GIT ORG ${orgName}"

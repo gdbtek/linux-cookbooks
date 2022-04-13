@@ -1342,6 +1342,32 @@ function removeGitCollaboratorFromRepository()
         --retry-delay 5
 }
 
+function removeGitMemberFromOrganization()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local gitURL="${3}"
+    local -r orgName="${4}"
+    local -r member="${5}"
+
+    # Default Values
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
+
+    # Remove Member
+
+    curl \
+        -s \
+        -X 'DELETE' \
+        -u "${user}:${token}" \
+        -L "${gitURL}/orgs/${orgName}/members/${member}" \
+        --retry 12 \
+        --retry-delay 5
+}
+
 function removeGitUserFromTeam()
 {
     local -r user="${1}"
