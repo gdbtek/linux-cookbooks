@@ -456,7 +456,7 @@ function isValidJSONContent()
 {
     local -r content="${1}"
 
-    if ( python -m 'json.tool' <<< "${content}" &> '/dev/null' )
+    if ( python -m 'json.tool' <<< "${content}" &> '/dev/null' || python3 -m 'json.tool' <<< "${content}" &> '/dev/null' )
     then
         echo 'true' && return 0
     fi
