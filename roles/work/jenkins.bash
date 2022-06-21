@@ -1,5 +1,15 @@
 #!/bin/bash -e
 
+function configureJenkinsCI()
+{
+    umask '0022'
+
+    createInitFileFromTemplate 'jenkins-ci' "$(dirname "${BASH_SOURCE[0]}")/../templates"
+    startService 'jenkins-ci'
+
+    umask '0077'
+}
+
 function main()
 {
     local -r ps1HostName="${1}"
@@ -12,6 +22,8 @@ function main()
     "$(dirname "${BASH_SOURCE[0]}")/../../cookbooks/logrotate/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../../cookbooks/ps1/recipes/install.bash" --host-name "${ps1HostName}" --users "${ps1Users}"
     "$(dirname "${BASH_SOURCE[0]}")/../../cookbooks/vim/recipes/install.bash"
+
+    configureJenkinsCI
 
     postUpMessage
 }
