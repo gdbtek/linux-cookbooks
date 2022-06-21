@@ -4,7 +4,7 @@ function configureJenkinsCI()
 {
     umask '0022'
 
-    createInitFileFromTemplate 'jenkins-ci' "$(dirname "${BASH_SOURCE[0]}")/../templates"
+    createInitFileFromTemplate 'jenkins-ci' "$(dirname "${BASH_SOURCE[0]}")/templates"
     startService 'jenkins-ci'
 
     umask '0077'
