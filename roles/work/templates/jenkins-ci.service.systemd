@@ -28,4 +28,5 @@ Group=root
 
 ExecStart=/bin/bash -c -e '\
     mount -o \'remount,rw,exec,nosuid,size=10G\' -v \'/tmp\' ; \
+    iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 8443 ; \
 '
