@@ -4,7 +4,7 @@
 # CONSTANTS #
 #############
 
-DEFAULT_COMMAND_MODE='status'
+DEFAULT_IS_ACTION_MODE='false'
 
 ##################
 # IMPLEMENTATION #
@@ -18,28 +18,31 @@ function displayUsage()
     echo    'SYNOPSIS :'
     echo    "  ${scriptName}"
     echo    '    --help'
-    echo    '    --user            <USER>'
-    echo    '    --token           <TOKEN>'
-    echo    '    --org-names       <ORGANIZATION_NAMES>'
-    echo    '    --find-users      <USER_LIST>'
-    echo    '    --git-url         <GIT_URL>'
-    echo    '    --command-mode    <COMMAND_MODE>'
+    echo    '    --user                      <USER>'
+    echo    '    --token                     <TOKEN>'
+    echo    '    --org-names                 <ORGANIZATION_NAMES>'
+    echo    '    --find-users                <USER_LIST>'
+    echo    '    --git-url                   <GIT_URL>'
+    echo    '    --remove-find-users         <REMOVE_FIND_USERS>'
+    echo    '    --remove-suspended-users    <REMOVE_SUSPENDED_USERS>'
     echo -e '\033[1;35m'
     echo    'DESCRIPTION :'
-    echo    '  --help            Help page (optional)'
-    echo    '  --user            User name (require)'
-    echo    '  --token           Personal access token (require)'
-    echo    '  --org-names       List of organization names seperated by spaces or commas (require)'
-    echo    '  --find-users      List of users to find on organizations seperated by spaces or commas (require)'
-    echo    '  --git-url         Git URL (optional)'
-    echo    "                    Default to 'https://api.github.com'"
-    echo    "  --command-mode    Valid command mode : 'clean-up', or '${DEFAULT_COMMAND_MODE}' (optional)"
-    echo    "                    Default value is '${DEFAULT_COMMAND_MODE}'"
+    echo    '  --help                      Help page (optional)'
+    echo    '  --user                      User name (require)'
+    echo    '  --token                     Personal access token (require)'
+    echo    '  --org-names                 List of organization names seperated by spaces or commas (require)'
+    echo    '  --find-users                List of users to find on organizations seperated by spaces or commas (require)'
+    echo    '  --git-url                   Git URL (optional)'
+    echo    "                              Default to 'https://api.github.com'"
+    echo    "  --remove-find-users         Valid value : 'true', or '${DEFAULT_IS_ACTION_MODE}' (optional)"
+    echo    "                              Default value is '${DEFAULT_IS_ACTION_MODE}'"
+    echo    "  --remove-suspended-users    Valid value : 'true', or '${DEFAULT_IS_ACTION_MODE}' (optional)"
+    echo    "                              Default value is '${DEFAULT_IS_ACTION_MODE}'"
     echo -e '\033[1;36m'
     echo    'EXAMPLES :'
     echo    "  ./${scriptName} --help"
     echo    "  ./${scriptName} --user 'nnguyen' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --org-names 'my-org-1, my-org-2' --find-users 'nnguyen, nam'"
-    echo    "  ./${scriptName} --user 'nnguyen' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --org-names 'my-org-1, my-org-2' --find-users 'nnguyen, nam' --command-mode 'clean-up'"
+    echo    "  ./${scriptName} --user 'nnguyen' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --org-names 'my-org-1, my-org-2' --find-users 'nnguyen, nam' --remove-suspended-users 'true'"
     echo    "  ./${scriptName} --user 'nnguyen' --token 'a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9' --org-names 'my-org-1, my-org-2' --find-users 'nnguyen, nam' --git-url 'https://my.git.com/api/v3'"
 
     echo -e '\033[0m'
@@ -53,8 +56,9 @@ function findRemoveGitOrgTeamUsers()
     local -r token="${2}"
     local -r orgName="${3}"
     local -r gitURL="${4}"
-    local -r commandMode="${5}"
-    local -r findUsers=($(sortUniqArray "${@:6}"))
+    local -r isRemoveFindUsers="${5}"
+    local -r isRemoveSuspendedUsers="${6}"
+    local -r findUsers=($(sortUniqArray "${@:7}"))
 
     # Validation
 
@@ -130,7 +134,7 @@ function findRemoveGitOrgTeamUsers()
 
             if [[ "$(isGitUserSuspended "${user}" "${token}" "${gitURL}" "${teamUserLogin}")" = 'true' ]]
             then
-                if [[ "${commandMode}" = 'clean-up' ]]
+                if [[ "${isRemoveSuspendedUsers}" = 'true' ]]
                 then
                     removeGitUserFromTeam "${user}" "${token}" "${teamURL}" "${teamUserLogin}"
                     echo -e "removed suspended user \033[1;36m${teamUserLogin}\033[0m in team \033[1;32m${teamHTMLURL}\033[0m"
@@ -160,7 +164,7 @@ function findRemoveGitOrgTeamUsers()
 
             if [[ "$(isEmptyString "${foundUser}")" = 'false' ]]
             then
-                if [[ "${commandMode}" = 'clean-up' ]]
+                if [[ "${isRemoveFindUsers}" = 'true' ]]
                 then
                     removeGitUserFromTeam "${user}" "${token}" "${teamURL}" "${findUser}"
                     echo -e "removed user \033[1;36m${findUser}\033[0m in team \033[1;32m${teamHTMLURL}\033[0m"
@@ -178,8 +182,9 @@ function findRemoveGitRepositoriesCollaborators()
     local -r token="${2}"
     local -r orgName="${3}"
     local -r gitURL="${4}"
-    local -r commandMode="${5}"
-    local -r findUsers=($(sortUniqArray "${@:6}"))
+    local -r isRemoveFindUsers="${5}"
+    local -r isRemoveSuspendedUsers="${6}"
+    local -r findUsers=($(sortUniqArray "${@:7}"))
 
     # Validation
 
@@ -216,7 +221,7 @@ function findRemoveGitRepositoriesCollaborators()
 
             if [[ "$(isGitUserSuspended "${user}" "${token}" "${gitURL}" "${collaboratorLogin}")" = 'true' ]]
             then
-                if [[ "${commandMode}" = 'clean-up' ]]
+                if [[ "${isRemoveSuspendedUsers}" = 'true' ]]
                 then
                     removeGitCollaboratorFromRepository "${user}" "${token}" "${gitURL}" "${orgName}" "${repository}" "${collaboratorLogin}"
                     echo -e "removed suspended user \033[1;36m${collaboratorLogin}\033[0m in collaborators of repository \033[1;32m${repository}\033[0m"
@@ -255,7 +260,7 @@ function findRemoveGitRepositoriesCollaborators()
                     <<< "${foundUser}"
                 )"
 
-                if [[ "${commandMode}" = 'clean-up' ]]
+                if [[ "${isRemoveFindUsers}" = 'true' ]]
                 then
                     removeGitCollaboratorFromRepository "${user}" "${token}" "${gitURL}" "${orgName}" "${repository}" "${findUser}"
                     echo -e "removed user \033[1;36m${findUser}\033[0m in collaborators of repository \033[1;32m$(dirname "${foundUserHTMLURL}")/${orgName}/${repository}/settings/access\033[0m"
@@ -273,7 +278,7 @@ function findRemoveGitSuspendedUsers()
     local -r token="${2}"
     local -r orgName="${3}"
     local -r gitURL="${4}"
-    local -r commandMode="${5}"
+    local -r isRemoveSuspendedUsers="${5}"
 
     local -r members="$(getGitOrganizationMembers "${user}" "${token}" "${orgName}" "${gitURL}")"
     local -r membersLength="$(jq '. | length' <<< "${members}")"
@@ -293,7 +298,7 @@ function findRemoveGitSuspendedUsers()
 
         if [[ "$(isGitUserSuspended "${user}" "${token}" "${gitURL}" "${memberLogin}")" = 'true' ]]
         then
-            if [[ "${commandMode}" = 'clean-up' ]]
+            if [[ "${isRemoveSuspendedUsers}" = 'true' ]]
             then
                 removeGitMemberFromOrganization "${user}" "${token}" "${gitURL}" "${orgName}" "${memberLogin}"
                 echo -e "removed suspended user \033[1;36m${memberLogin}\033[0m from organization \033[1;32m${orgName}\033[0m"
@@ -375,12 +380,22 @@ function main()
 
                 ;;
 
-            --command-mode)
+            --remove-find-users)
                 shift
 
                 if [[ "${#}" -gt '0' ]]
                 then
-                    local commandMode="$(trimString "${1}")"
+                    local isRemoveFindUsers="$(trimString "${1}")"
+                fi
+
+                ;;
+
+            --remove-suspended-users)
+                shift
+
+                if [[ "${#}" -gt '0' ]]
+                then
+                    local isRemoveSuspendedUsers="$(trimString "${1}")"
                 fi
 
                 ;;
@@ -411,18 +426,20 @@ function main()
 
     # Set Default Value
 
-    if [[ "$(isEmptyString "${commandMode}")" = 'true' ]]
+    if [[ "$(isEmptyString "${isRemoveFindUsers}")" = 'true' ]]
     then
-        commandMode="${DEFAULT_COMMAND_MODE}"
+        isRemoveFindUsers="${DEFAULT_IS_ACTION_MODE}"
     fi
 
-    # Validate Command Mode
-
-    if [[ "${commandMode}" != 'clean-up' && "${commandMode}" != 'status' ]]
+    if [[ "$(isEmptyString "${isRemoveSuspendedUsers}")" = 'true' ]]
     then
-        error '\nERROR : command-mode must be clean-up, or status'
-        displayUsage 1
+        isRemoveSuspendedUsers="${DEFAULT_IS_ACTION_MODE}"
     fi
+
+    # Validate Action Mode
+
+    checkTrueFalseString "${isRemoveFindUsers}" "remove-find-users must be 'true' or 'false'"
+    checkTrueFalseString "${isRemoveSuspendedUsers}" "remove-suspended-users must be 'true' or 'false'"
 
     # Organization Walker
 
@@ -433,13 +450,13 @@ function main()
         orgName="$(tr '[:lower:]' '[:upper:]' <<< "${orgName}")"
 
         header "FINDING & REMOVING TEAM USERS IN GIT ORG ${orgName}"
-        findRemoveGitOrgTeamUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
+        findRemoveGitOrgTeamUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${isRemoveFindUsers}" "${isRemoveSuspendedUsers}" "${findUsers}"
 
         header "FINDING & REMOVING REPOSITORIES COLLABORATORS IN GIT ORG ${orgName}"
-        findRemoveGitRepositoriesCollaborators "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}" "${findUsers}"
+        findRemoveGitRepositoriesCollaborators "${user}" "${token}" "${orgName}" "${gitURL}" "${isRemoveFindUsers}" "${isRemoveSuspendedUsers}" "${findUsers}"
 
         header "FINDING & REMOVING SUSPENDED USERS IN GIT ORG ${orgName}"
-        findRemoveGitSuspendedUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${commandMode}"
+        findRemoveGitSuspendedUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${isRemoveSuspendedUsers}"
     done
 }
 
