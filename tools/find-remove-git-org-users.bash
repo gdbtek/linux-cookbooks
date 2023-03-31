@@ -278,8 +278,7 @@ function findRemoveGitSuspendedUsers()
     local -r token="${2}"
     local -r orgName="${3}"
     local -r gitURL="${4}"
-    local -r isRemoveFindUsers="${5}"
-    local -r isRemoveSuspendedUsers="${6}"
+    local -r isRemoveSuspendedUsers="${5}"
 
     local -r members="$(getGitOrganizationMembers "${user}" "${token}" "${orgName}" "${gitURL}")"
     local -r membersLength="$(jq '. | length' <<< "${members}")"
@@ -297,11 +296,7 @@ function findRemoveGitSuspendedUsers()
             <<< "${members}"
         )"
 
-        if [[ "${isRemoveFindUsers}" = 'true' ]]
-        then
-            removeGitMemberFromOrganization "${user}" "${token}" "${gitURL}" "${orgName}" "${memberLogin}"
-            echo -e "removed user \033[1;36m${memberLogin}\033[0m from organization \033[1;32m${orgName}\033[0m"
-        elif [[ "$(isGitUserSuspended "${user}" "${token}" "${gitURL}" "${memberLogin}")" = 'true' ]]
+        if [[ "$(isGitUserSuspended "${user}" "${token}" "${gitURL}" "${memberLogin}")" = 'true' ]]
         then
             if [[ "${isRemoveSuspendedUsers}" = 'true' ]]
             then
@@ -310,8 +305,6 @@ function findRemoveGitSuspendedUsers()
             else
                 echo -e "found suspended user \033[1;36m${memberLogin}\033[0m from organization \033[1;32m${orgName}\033[0m"
             fi
-        else
-            echo -e "found user \033[1;36m${memberLogin}\033[0m in organization \033[1;32m${orgName}\033[0m"
         fi
     done
 }
@@ -463,7 +456,7 @@ function main()
         findRemoveGitRepositoriesCollaborators "${user}" "${token}" "${orgName}" "${gitURL}" "${isRemoveFindUsers}" "${isRemoveSuspendedUsers}" "${findUsers}"
 
         header "FINDING & REMOVING SUSPENDED USERS IN GIT ORG ${orgName}"
-        findRemoveGitSuspendedUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${isRemoveFindUsers}" "${isRemoveSuspendedUsers}"
+        findRemoveGitSuspendedUsers "${user}" "${token}" "${orgName}" "${gitURL}" "${isRemoveSuspendedUsers}"
     done
 }
 
