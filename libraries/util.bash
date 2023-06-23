@@ -560,6 +560,15 @@ function resetLogs()
     done
 }
 
+function sortUniqueFile()
+{
+    local -r filePath="${1}"
+
+    checkExistFile "${filePath}"
+
+    printf '%s' "$(awk 'NF' "${filePath}" | sort -u)" > "${filePath}"
+}
+
 function sortUniqueTrimFile()
 {
     local -r filePath="${1}"
