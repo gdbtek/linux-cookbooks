@@ -6,7 +6,7 @@ After=sshd.service
 WantedBy=multi-user.target
 
 [Service]
-Type=simple
+Type=oneshot
 
 LimitAS=infinity
 LimitCORE=infinity
