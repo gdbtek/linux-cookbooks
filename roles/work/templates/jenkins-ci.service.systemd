@@ -26,7 +26,11 @@ LimitSTACK=8192000
 User=root
 Group=root
 
+Environment='SHELL=/bin/bash'
+Environment='PATH=/sbin:/bin:/usr/sbin:/usr/bin'
+
 ExecStart=/bin/bash -c -e '\
     mount -o \'remount,rw,exec,nosuid,size=10G\' -v \'/tmp\' ; \
     iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 8443 ; \
+    /usr/sbin/service jenkins start ; \
 '
