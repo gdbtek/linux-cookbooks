@@ -26,15 +26,7 @@ LimitSTACK=8192000
 User=root
 Group=root
 
-Environment='CATALINA_BASE=/apps/instances/jenkins'
-Environment='CATALINA_HOME=/apps/tomcat/latest'
-Environment='CATALINA_TMPDIR=/apps/instances/jenkins/temp'
-Environment='JRE_HOME=/apps/java/latest'
-Environment='CLASSPATH=/apps/tomcat/latest/bin/bootstrap.jar:/apps/tomcat/latest/bin/tomcat-juli.jar'
-Environment='CATALINA_PID=/apps/run/jenkins.pid'
-
 ExecStart=/bin/bash -c -e '\
     mount -o \'remount,rw,exec,nosuid,size=10G\' -v \'/tmp\' ; \
     iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 8443 ; \
-    service jenkins start ; \
 '
