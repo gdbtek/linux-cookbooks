@@ -313,7 +313,7 @@ function findRemoveGitSuspendedUsers()
                 removeGitMemberFromOrganization "${user}" "${token}" "${gitURL}" "${orgName}" "${memberLogin}"
                 echo -e "removed suspended user \033[1;36m${memberLogin}\033[0m from organization \033[1;32m${orgName}\033[0m"
             else
-                if [[ "$(ldap-validate-user.bash "${teamUserLogin}")" = 'true' ]]
+                if [[ "$(ldap-validate-user.bash "${memberLogin}")" = 'true' ]]
                 then
                     echo -e "found suspended & valid LDAP user \033[1;36m${memberLogin}\033[0m from organization \033[1;32m${orgName}\033[0m"
                 else
