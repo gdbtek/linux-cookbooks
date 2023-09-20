@@ -136,8 +136,13 @@ function findRemoveGitOrgTeamUsers()
             then
                 if [[ "${isRemoveSuspendedUsers}" = 'true' ]]
                 then
-                    removeGitUserFromTeam "${user}" "${token}" "${teamURL}" "${teamUserLogin}"
-                    echo -e "removed suspended user \033[1;36m${teamUserLogin}\033[0m in team \033[1;32m${teamHTMLURL}\033[0m"
+                    if [[ "$(ldap-validate-user.bash "${teamUserLogin}")" = 'true' ]]
+                    then
+                        echo -e "can not remove suspended & valid LDAP user \033[1;36m${teamUserLogin}\033[0m in team \033[1;32m${teamHTMLURL}\033[0m"
+                    else
+                        removeGitUserFromTeam "${user}" "${token}" "${teamURL}" "${teamUserLogin}"
+                        echo -e "removed suspended & \033[1;31minvalid LDAP\033[0m user \033[1;36m${teamUserLogin}\033[0m in team \033[1;32m${teamHTMLURL}\033[0m"
+                    fi
                 else
                     if [[ "$(ldap-validate-user.bash "${teamUserLogin}")" = 'true' ]]
                     then
@@ -228,8 +233,13 @@ function findRemoveGitRepositoriesCollaborators()
             then
                 if [[ "${isRemoveSuspendedUsers}" = 'true' ]]
                 then
-                    removeGitCollaboratorFromRepository "${user}" "${token}" "${gitURL}" "${orgName}" "${repository}" "${collaboratorLogin}"
-                    echo -e "removed suspended user \033[1;36m${collaboratorLogin}\033[0m in collaborators of repository \033[1;32m${repository}\033[0m"
+                    if [[ "$(ldap-validate-user.bash "${collaboratorLogin}")" = 'true' ]]
+                    then
+                        echo -e "can not remove suspended & valid LDAP user \033[1;36m${collaboratorLogin}\033[0m in collaborators of repository \033[1;32m${repository}\033[0m"
+                    else
+                        removeGitCollaboratorFromRepository "${user}" "${token}" "${gitURL}" "${orgName}" "${repository}" "${collaboratorLogin}"
+                        echo -e "removed suspended & \033[1;31minvalid LDAP\033[0m user \033[1;36m${collaboratorLogin}\033[0m in collaborators of repository \033[1;32m${repository}\033[0m"
+                    fi
                 else
                     if [[ "$(ldap-validate-user.bash "${collaboratorLogin}")" = 'true' ]]
                     then
@@ -310,8 +320,13 @@ function findRemoveGitSuspendedUsers()
         then
             if [[ "${isRemoveSuspendedUsers}" = 'true' ]]
             then
-                removeGitMemberFromOrganization "${user}" "${token}" "${gitURL}" "${orgName}" "${memberLogin}"
-                echo -e "removed suspended user \033[1;36m${memberLogin}\033[0m from organization \033[1;32m${orgName}\033[0m"
+                if [[ "$(ldap-validate-user.bash "${memberLogin}")" = 'true' ]]
+                then
+                    echo -e "can not remove suspended & valid LDAP user \033[1;36m${memberLogin}\033[0m from organization \033[1;32m${orgName}\033[0m"
+                else
+                    removeGitMemberFromOrganization "${user}" "${token}" "${gitURL}" "${orgName}" "${memberLogin}"
+                    echo -e "removed suspended & \033[1;31minvalid LDAP\033[0m user \033[1;36m${memberLogin}\033[0m from organization \033[1;32m${orgName}\033[0m"
+                fi
             else
                 if [[ "$(ldap-validate-user.bash "${memberLogin}")" = 'true' ]]
                 then
