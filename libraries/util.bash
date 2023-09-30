@@ -1632,7 +1632,12 @@ function getMachineRelease()
 
 function is64BitSystem()
 {
-    isMachineHardware 'x86_64'
+    if [[ "$(isMachineHardware 'x86_64')" = 'true' || "$(isMachineHardware 'arm64')" = 'true' ]]
+    then
+        echo 'true' && return 0
+    fi
+
+    echo 'false' && return 1
 }
 
 function isAmazonLinuxDistributor()
