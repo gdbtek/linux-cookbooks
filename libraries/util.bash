@@ -2370,7 +2370,12 @@ function printTable()
 
         if [[ "${displayTotalCount}" = 'true' && "${numberOfLines}" -ge '0' ]]
         then
-            echo -e "\n\033[1;36mTOTAL ROWS : $((numberOfLines - 1))\033[0m"
+            if [[ "${colorHeader}" = 'true' ]]
+            then
+                echo -e "\n\033[1;36mTOTAL ROWS : $((numberOfLines - 1))\033[0m"
+            else
+                echo -e "\nTOTAL ROWS : $((numberOfLines - 1))"
+            fi
         fi
     fi
 }
