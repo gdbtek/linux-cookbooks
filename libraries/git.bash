@@ -187,7 +187,7 @@ function getGitRepositoryCollaborators()
                 -s \
                 -X 'GET' \
                 -u "${user}:${token}" \
-                -L "${gitURL}/repos/${orgName}/${repository}/collaborators?affiliation=direct&page=${page}&per_page=100" \
+                -L "${gitURL}/repos/${orgName}/${repository}/collaborators?affiliation=all&page=${page}&per_page=100" \
                 --retry 12 \
                 --retry-delay 5 |
             jq \
