@@ -143,6 +143,7 @@ function cloneAllRepositories()
 
 function main()
 {
+    source "$(dirname "${BASH_SOURCE[0]}")/../libraries/git.bash"
     source "$(dirname "${BASH_SOURCE[0]}")/../libraries/util.bash"
 
     # Parsing Command Arguments
