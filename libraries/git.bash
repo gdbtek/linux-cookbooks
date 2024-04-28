@@ -232,8 +232,9 @@ function getGitTeamUsers()
 {
     local -r user="${1}"
     local -r token="${2}"
-    local gitURL="${3}"
-    local -r membersURL="${4}"
+    local -r orgName="${3}"
+    local -r teamName="${4}"
+    local gitURL="${5}"
 
     # Default Values
 
@@ -260,7 +261,7 @@ function getGitTeamUsers()
                 -s \
                 -X 'GET' \
                 -u "${user}:${token}" \
-                -L "${membersURL}?page=${page}&per_page=100" \
+                -L "${gitURL}/orgs/${orgName}/teams/${teamName}/members?page=${page}&per_page=100" \
                 --retry 12 \
                 --retry-delay 5 |
             jq \
