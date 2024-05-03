@@ -1765,7 +1765,7 @@ function printTable()
             if [[ "$(isEmptyString "${table}")" = 'false' ]]
             then
                 local output=''
-                output="$(echo -e "${table}" | column -s '#' -t | awk '/^\+/{gsub(" ", "-", $0)}1')"
+                output="$(echo -e "${table}" | column -s '#' -t | awk '/^ *\+/{gsub(" ", "-", $0)}1' | sed 's/^--\|^  /  /g')"
 
                 if [[ "${colorHeader}" = 'true' ]]
                 then
