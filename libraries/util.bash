@@ -719,8 +719,8 @@ function existURL()
 
     # Check URL
 
-    if ( curl -f --head -L "${url}" -o '/dev/null' -s --retry 12 --retry-delay 5 ||
-         curl -f -L "${url}" -o '/dev/null' -r 0-0 -s --retry 12 --retry-delay 5 )
+    if ( curl -f --head -k -L "${url}" -o '/dev/null' -s --retry 12 --retry-delay 5 ||
+         curl -f -k -L "${url}" -o '/dev/null' -r 0-0 -s --retry 12 --retry-delay 5 )
     then
         echo 'true' && return 0
     fi
