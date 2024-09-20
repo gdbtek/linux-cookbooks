@@ -505,11 +505,114 @@ function unzipAWSS3RemoteFile()
 # IAM UTILITIES #
 #################
 
-function existRole()
+function cloneIAMRole()
 {
-    local -r roleName="${1}"
+    local -r existIAMRoleName="${1}"
+    local -r newIAMRoleName="${2}"
 
-    invertTrueFalseString "$(isEmptyString "$(aws iam get-role --role-name "${roleName}" 2> '/dev/null')")"
+    if [[ "$(existIAMRole "${existIAMRoleName}")" = 'false' ]]
+    then
+        fatal "\nFATAL : existing iam role '${existIAMRoleName}' not found"
+    fi
+
+    if [[ "$(existIAMRole "${newIAMRoleName}")" = 'true' ]]
+    then
+        fatal "\nFATAL : new iam role '${newIAMRoleName}' found"
+    fi
+
+    # Temp File Path
+
+    local -r policyTempFilePath="$(getTemporaryFile)"
+
+    # Get Exist IAM Role Trust Relationships
+
+    aws iam get-role \
+        --no-paginate \
+        --output 'json' \
+        --role-name "${existIAMRoleName}" |
+    jq \
+        --compact-output \
+        --raw-output \
+        '.["Role"] | .["AssumeRolePolicyDocument"] // empty' > "${policyTempFilePath}"
+
+    # Create New IAM Role Using Exist IAM Role Trust Relationships
+
+    local -r newIAMRole="$(
+        aws iam create-role \
+            --assume-role-policy-document "file://${policyTempFilePath}" \
+            --output 'json' \
+            --role-name "${newIAMRoleName}"
+    )"
+
+    # Get Exist Inline Policies And Put Inline Policies
+
+    local -r existInlinePolicyNames="$(
+        aws iam list-role-policies \
+            --no-paginate \
+            --output 'json' \
+            --role-name "${existIAMRoleName}" |
+        jq \
+            --compact-output \
+            --raw-output \
+            '.["PolicyNames"] | .[] // empty'
+    )"
+
+    local existInlinePolicyName=''
+
+    for existInlinePolicyName in ${existInlinePolicyNames[@]}
+    do
+        local existInlineRolePolicy="$(
+            aws iam get-role-policy \
+                --no-paginate \
+                --output 'json' \
+                --policy-name "${existInlinePolicyName}" \
+                --role-name "${existIAMRoleName}"
+        )"
+
+        jq --compact-output --raw-output '.["PolicyDocument"] // empty' <<< "${existInlineRolePolicy}" > "${policyTempFilePath}"
+
+        aws iam put-role-policy \
+            --no-paginate \
+            --output 'json' \
+            --policy-document "file://${policyTempFilePath}" \
+            --policy-name "$(jq --compact-output --raw-output '.["PolicyName"] // empty' <<< "${existInlineRolePolicy}")" \
+            --role-name "${newIAMRoleName}"
+    done
+
+    rm -f "${policyTempFilePath}"
+
+    # Get Exist Managed Policies And Attach Managed Policies
+
+    local -r managedPolicyArns="$(
+        aws iam list-attached-role-policies \
+            --no-paginate \
+            --output 'json' \
+            --role-name "${existIAMRoleName}" |
+        jq \
+            --compact-output \
+            --raw-output \
+            '.["AttachedPolicies"] | .[] | .["PolicyArn"] // empty' \
+    )"
+
+    local managedPolicyArn=''
+
+    for managedPolicyArn in ${managedPolicyArns[@]}
+    do
+        aws iam attach-role-policy \
+            --policy-arn "${managedPolicyArn}" \
+            --role-name "${newIAMRoleName}"
+    done
+
+    # Display New IAM Role
+
+    jq --compact-output --raw-output --sort-keys '. // empty' <<< "${newIAMRole}"
+}
+
+function existIAMRole()
+{
+    local -r iamRoleName="${1}"
+
+    invertTrueFalseString "$(isEmptyString "$(aws iam get-role --role-name "${iamRoleName}" 2> '/dev/null')")"
 }
 
 ###########################
