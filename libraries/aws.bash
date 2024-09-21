@@ -939,6 +939,7 @@ function getAWSAccountID()
 function acceptVPCPeeringConnection()
 {
     local -r vpcPeeringConnectionID="${1}"
+    local -r vpcPeeringConnectionName="${2}"
 
     checkNonEmptyString "${vpcPeeringConnectionID}" 'undefined vpc peering connection id'
 
@@ -950,6 +951,13 @@ function acceptVPCPeeringConnection()
         --raw-output \
         --sort-keys \
         '. // empty'
+
+    if [[ "$(isEmptyString "${vpcPeeringConnectionName}")" = 'false' ]]
+    then
+        aws ec2 create-tags \
+            --resources "${vpcPeeringConnectionID}" \
+            --tags "Key=Name,Value=${vpcPeeringConnectionName}"
+    fi
 }
 
 function getAvailabilityZonesByVPCName()
