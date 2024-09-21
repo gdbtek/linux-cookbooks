@@ -938,11 +938,18 @@ function getAWSAccountID()
 
 function acceptVPCPeeringConnection()
 {
-    local -r peeringConnectionID="${1}"
+    local -r vpcPeeringConnectionID="${1}"
+
+    checkNonEmptyString "${vpcPeeringConnectionID}" 'undefined vpc peering connection id'
 
     aws ec2 accept-vpc-peering-connection \
         --output 'json' \
-        --vpc-peering-connection-id "${peeringConnectionID}"
+        --vpc-peering-connection-id "${vpcPeeringConnectionID}" |
+    jq \
+        --compact-output \
+        --raw-output \
+        --sort-keys \
+        '. // empty'
 }
 
 function getAvailabilityZonesByVPCName()
