@@ -936,6 +936,15 @@ function getAWSAccountID()
 # VPC UTILITIES #
 #################
 
+function acceptVPCPeeringConnection()
+{
+    local -r peeringConnectionID="${1}"
+
+    aws ec2 accept-vpc-peering-connection \
+        --output 'json' \
+        --vpc-peering-connection-id "${peeringConnectionID}"
+}
+
 function getAvailabilityZonesByVPCName()
 {
     local -r vpcName="${1}"
