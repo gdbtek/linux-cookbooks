@@ -533,7 +533,8 @@ function cloneIAMRole()
     jq \
         --compact-output \
         --raw-output \
-        '.["Role"] | .["AssumeRolePolicyDocument"] // empty' > "${policyTempFilePath}"
+        '.["Role"] | .["AssumeRolePolicyDocument"] // empty' > "${policyTempFilePath}" ||
+    rm -f "${policyTempFilePath}"
 
     # Create New IAM Role Using Exist IAM Role Trust Relationships
 
@@ -569,14 +570,16 @@ function cloneIAMRole()
                 --role-name "${existIAMRoleName}"
         )"
 
-        jq --compact-output --raw-output '.["PolicyDocument"] // empty' <<< "${existInlineRolePolicy}" > "${policyTempFilePath}"
+        jq --compact-output --raw-output '.["PolicyDocument"] // empty' <<< "${existInlineRolePolicy}" > "${policyTempFilePath}" ||
+        rm -f "${policyTempFilePath}"
 
         aws iam put-role-policy \
             --no-paginate \
             --output 'json' \
             --policy-document "file://${policyTempFilePath}" \
             --policy-name "$(jq --compact-output --raw-output '.["PolicyName"] // empty' <<< "${existInlineRolePolicy}")" \
-            --role-name "${newIAMRoleName}"
+            --role-name "${newIAMRoleName}" ||
+        rm -f "${policyTempFilePath}"
     done
 
     rm -f "${policyTempFilePath}"
