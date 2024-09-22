@@ -554,7 +554,7 @@ function cloneIAMRole()
     # Get Exist IAM Role Trust Relationships
 
     aws iam get-role \
-        --no-paginate \
+        --no-cli-pager \
         --output 'json' \
         --role-name "${existIAMRoleName}" |
     jq \
@@ -576,7 +576,7 @@ function cloneIAMRole()
 
     local -r existInlinePolicyNames="$(
         aws iam list-role-policies \
-            --no-paginate \
+            --no-cli-pager \
             --output 'json' \
             --role-name "${existIAMRoleName}" |
         jq \
@@ -591,7 +591,7 @@ function cloneIAMRole()
     do
         local existInlineRolePolicy="$(
             aws iam get-role-policy \
-                --no-paginate \
+                --no-cli-pager \
                 --output 'json' \
                 --policy-name "${existInlinePolicyName}" \
                 --role-name "${existIAMRoleName}"
@@ -601,7 +601,7 @@ function cloneIAMRole()
         rm -f "${policyTempFilePath}"
 
         aws iam put-role-policy \
-            --no-paginate \
+            --no-cli-pager \
             --output 'json' \
             --policy-document "file://${policyTempFilePath}" \
             --policy-name "$(jq --compact-output --raw-output '.["PolicyName"] // empty' <<< "${existInlineRolePolicy}")" \
@@ -615,7 +615,7 @@ function cloneIAMRole()
 
     local -r managedPolicyArns="$(
         aws iam list-attached-role-policies \
-            --no-paginate \
+            --no-cli-pager \
             --output 'json' \
             --role-name "${existIAMRoleName}" |
         jq \
@@ -943,14 +943,20 @@ function acceptVPCPeeringConnection()
 
     checkNonEmptyString "${vpcPeeringConnectionID}" 'undefined vpc peering connection id'
 
-    aws ec2 accept-vpc-peering-connection \
-        --output 'json' \
-        --vpc-peering-connection-id "${vpcPeeringConnectionID}" |
-    jq \
-        --compact-output \
-        --raw-output \
-        --sort-keys \
-        '. // empty'
+    # Accept Connection Request
+
+    local -r vpcPeeringConnection="$(
+        aws ec2 accept-vpc-peering-connection \
+            --output 'json' \
+            --vpc-peering-connection-id "${vpcPeeringConnectionID}" |
+        jq \
+            --compact-output \
+            --raw-output \
+            --sort-keys \
+            '. // empty'
+    )"
+
+    # Update Connection Name
 
     if [[ "$(isEmptyString "${vpcPeeringConnectionName}")" = 'false' ]]
     then
@@ -958,6 +964,45 @@ function acceptVPCPeeringConnection()
             --resources "${vpcPeeringConnectionID}" \
             --tags "Key=Name,Value=${vpcPeeringConnectionName}"
     fi
+
+    # Update Accepter Route Tables
+
+    local -r accepterVPCID="$(jq --compact-output --raw-output '.["VpcPeeringConnection"] | .["AccepterVpcInfo"] | .["VpcId"] // empty' <<< "${vpcPeeringConnection}")"
+
+    local -r requesterVPCCIDRBlock="$(jq --compact-output --raw-output '.["VpcPeeringConnection"] | .["RequesterVpcInfo"] | .["CidrBlock"] // empty' <<< "${vpcPeeringConnection}")"
+
+    local -r routeTableIDs="$(
+        aws ec2 describe-route-tables \
+            --filter "Name=vpc-id,Values=${accepterVPCID}" \
+            --no-cli-pager \
+            --output 'text' \
+            --query 'RouteTables[*].[RouteTableId]'
+    )"
+
+    local routeTableID=''
+
+    for routeTableID in ${routeTableIDs[@]}
+    do
+        echo -e "creating route with requester cidr \033[1;35m${requesterVPCCIDRBlock}\033[0m and connection \033[1;36m${vpcPeeringConnectionID}\033[0m to route table \033[1;34m${routeTableID}\033[0m of \033[1;34m${accepterVPCID}\033[0m"
+
+        local createRouteResult="$(
+            aws ec2 create-route \
+                --destination-cidr-block "${requesterVPCCIDRBlock}" \
+                --output 'text' \
+                --route-table-id "${routeTableID}" \
+                --vpc-peering-connection-id "${vpcPeeringConnectionID}" 2>&1 |
+            tr -d '\n'
+        )"
+
+        if [[ "${createRouteResult}" = 'True' ]]
+        then
+            echo -e "  \033[1;32mcreated route successfully\033[0m"
+        else
+            warn "  ${createRouteResult}"
+        fi
+
+        echo
+    done
 }
 
 function getAvailabilityZonesByVPCName()
