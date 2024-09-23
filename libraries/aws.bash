@@ -943,6 +943,8 @@ function acceptVPCPeeringConnection()
 
     checkNonEmptyString "${vpcPeeringConnectionID}" 'undefined vpc peering connection id'
 
+    header "${vpcPeeringConnectionID}"
+
     # Accept Connection Request
 
     local -r vpcPeeringConnection="$(
@@ -971,13 +973,14 @@ function acceptVPCPeeringConnection()
 
     local -r accepterVPCID="$(jq --compact-output --raw-output '.["VpcPeeringConnection"] | .["AccepterVpcInfo"] | .["VpcId"] // empty' <<< "${vpcPeeringConnection}")"
 
-    local -r accepterRouteTableIDs="$(
+    local -r accepterRouteTables="$(
         aws ec2 describe-route-tables \
             --filter "Name=vpc-id,Values=${accepterVPCID}" \
             --no-cli-pager \
-            --output 'text' \
-            --query 'RouteTables[*].[RouteTableId]'
+            --output 'json'
     )"
+
+    local -r accepterRouteTableIDs="$(jq --compact-output --raw-output '.["RouteTables"] | .[] | .["RouteTableId"] // empty' <<< "${accepterRouteTables}")"
 
     local accepterRouteTableID=''
 
@@ -987,7 +990,7 @@ function acceptVPCPeeringConnection()
 
         for requesterVPCCIDRBlock in ${requesterVPCCIDRBlocks[@]}
         do
-            echo -e "creating route with requester cidr \033[1;35m${requesterVPCCIDRBlock}\033[0m and connection \033[1;36m${vpcPeeringConnectionID}\033[0m to route table \033[1;34m${accepterRouteTableID}\033[0m of \033[1;34m${accepterVPCID}\033[0m"
+            echo -e "creating route with requester cidr \033[1;36m${requesterVPCCIDRBlock}\033[0m to route table \033[1;34m${accepterRouteTableID}\033[0m of \033[1;34m${accepterVPCID}\033[0m"
 
             local createRouteResult="$(
                 aws ec2 create-route \
@@ -1002,7 +1005,28 @@ function acceptVPCPeeringConnection()
             then
                 echo -e "  \033[1;32mcreated route successfully\033[0m"
             else
-                warn "  ${createRouteResult}"
+                local existVPCPeeringConnectionID="$(
+                    jq \
+                        --arg jqAccepterRouteTableID "${accepterRouteTableID}" \
+                        --arg jqRequesterVPCCIDRBlock "${requesterVPCCIDRBlock}" \
+                        --compact-output \
+                        --raw-output \
+                        '.["RouteTables"] |
+                         .[] |
+                         select(.["RouteTableId"] == $jqAccepterRouteTableID) |
+                         .["Routes"] |
+                         .[] |
+                         select(.["DestinationCidrBlock"] == $jqRequesterVPCCIDRBlock) |
+                         .["VpcPeeringConnectionId"] // empty' \
+                    <<< "${accepterRouteTables}"
+                )"
+
+                if [[ "${vpcPeeringConnectionID}" = "${existVPCPeeringConnectionID}" ]]
+                then
+                    warn "  WARN  : ${createRouteResult}"
+                else
+                    error "  ERROR : ${createRouteResult} (${existVPCPeeringConnectionID})"
+                fi
             fi
 
             echo
