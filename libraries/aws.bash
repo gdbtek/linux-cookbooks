@@ -971,7 +971,7 @@ function acceptVPCPeeringConnection()
 
     local -r accepterVPCID="$(jq --compact-output --raw-output '.["VpcPeeringConnection"] | .["AccepterVpcInfo"] | .["VpcId"] // empty' <<< "${vpcPeeringConnection}")"
 
-    local -r routeTableIDs="$(
+    local -r accepterRouteTableIDs="$(
         aws ec2 describe-route-tables \
             --filter "Name=vpc-id,Values=${accepterVPCID}" \
             --no-cli-pager \
@@ -979,21 +979,21 @@ function acceptVPCPeeringConnection()
             --query 'RouteTables[*].[RouteTableId]'
     )"
 
-    local routeTableID=''
+    local accepterRouteTableID=''
 
-    for routeTableID in ${routeTableIDs[@]}
+    for accepterRouteTableID in ${accepterRouteTableIDs[@]}
     do
         local requesterVPCCIDRBlock=''
 
         for requesterVPCCIDRBlock in ${requesterVPCCIDRBlocks[@]}
         do
-            echo -e "creating route with requester cidr \033[1;35m${requesterVPCCIDRBlock}\033[0m and connection \033[1;36m${vpcPeeringConnectionID}\033[0m to route table \033[1;34m${routeTableID}\033[0m of \033[1;34m${accepterVPCID}\033[0m"
+            echo -e "creating route with requester cidr \033[1;35m${requesterVPCCIDRBlock}\033[0m and connection \033[1;36m${vpcPeeringConnectionID}\033[0m to route table \033[1;34m${accepterRouteTableID}\033[0m of \033[1;34m${accepterVPCID}\033[0m"
 
             local createRouteResult="$(
                 aws ec2 create-route \
                     --destination-cidr-block "${requesterVPCCIDRBlock}" \
                     --output 'text' \
-                    --route-table-id "${routeTableID}" \
+                    --route-table-id "${accepterRouteTableID}" \
                     --vpc-peering-connection-id "${vpcPeeringConnectionID}" 2>&1 |
                 tr -d '\n'
             )"
