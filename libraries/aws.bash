@@ -943,7 +943,12 @@ function acceptVPCPeeringConnection()
 
     checkNonEmptyString "${vpcPeeringConnectionID}" 'undefined vpc peering connection id'
 
-    header "${vpcPeeringConnectionID}"
+    if [[ "$(isEmptyString "${vpcPeeringConnectionName}")" = 'true' ]]
+    then
+        header "${vpcPeeringConnectionID}"
+    else
+        header "${vpcPeeringConnectionID} :: ${vpcPeeringConnectionName}"
+    fi
 
     # Accept Connection Request
 
