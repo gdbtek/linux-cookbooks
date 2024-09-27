@@ -13,6 +13,7 @@ function getAutoScaleGroupNameByStackName()
     checkNonEmptyString "${stackName}" 'undefined stack name'
 
     aws autoscaling describe-auto-scaling-groups \
+        --no-cli-pager \
         --output 'json' |
     jq \
         --arg jqStackName "${stackName}" \
@@ -40,6 +41,7 @@ function getStackIDByName()
     checkNonEmptyString "${stackName}" 'undefined stack name'
 
     aws cloudformation describe-stacks \
+        --no-cli-pager \
         --output 'text' \
         --query 'Stacks[*].[StackId]' \
         --stack-name "${stackName}" \
@@ -78,6 +80,7 @@ function associateElasticPublicIPWithInstanceID()
         --allocation-id "${allocationID}" \
         --allow-reassociation \
         --instance-id "${instanceID}" \
+        --no-cli-pager \
         --region "${region}"
 }
 
@@ -105,6 +108,7 @@ function getEC2ElasticAllocationIDByElasticPublicIP()
     # Get EC2 Elastic Allocation ID
 
     aws ec2 describe-addresses \
+        --no-cli-pager \
         --output 'text' \
         --public-ips "${elasticPublicIP}" \
         --query 'Addresses[0].[AllocationId]' \
@@ -129,6 +133,7 @@ function getEC2ElasticAssociationIDByElasticPublicIP()
     # Get EC2 Elastic Association ID
 
     aws ec2 describe-addresses \
+        --no-cli-pager \
         --output 'text' \
         --public-ips "${elasticPublicIP}" \
         --query 'Addresses[0].[AssociationId]' \
@@ -157,6 +162,7 @@ function getEC2PrivateIpAddressByInstanceID()
     else
         aws ec2 describe-instances \
             --instance-id "${instanceID}" \
+            --no-cli-pager \
             --output 'text' \
             --query 'Reservations[*].Instances[*].PrivateIpAddress' \
             --region "${region}"
@@ -200,6 +206,7 @@ function getEC2PrivateIpAddresses()
                 'Name=instance-state-name,Values=pending,running' \
                 "Name=tag:Name,Values=${namePattern}" \
                 "Name=vpc-id,Values=${vpcID}" \
+            --no-cli-pager \
             --output 'text' \
             --query 'Reservations[*].Instances[*].PrivateIpAddress' \
             --region "${region}"
@@ -221,6 +228,7 @@ function getKeyPairFingerPrintByName()
 
     aws ec2 describe-key-pairs \
         --key-name "${keyPairName}" \
+        --no-cli-pager \
         --output 'text' \
         --query 'KeyPairs[0].[KeyFingerprint]' \
     2> '/dev/null' |
@@ -242,6 +250,7 @@ function getLatestAMIIDByAMINamePattern()
             "Name=is-public,Values=${amiIsPublic}" \
             "Name=name,Values=${amiNamePattern}" \
             'Name=state,Values=available' \
+        --no-cli-pager \
         --output 'text' \
         --query 'sort_by(Images, &CreationDate)[-1].ImageId' |
     grep -E -v '^None$'
@@ -255,6 +264,7 @@ function getSecurityGroupIDByName()
 
     aws ec2 describe-security-groups \
         --filters "Name=group-name,Values=${securityGroupName}" \
+        --no-cli-pager \
         --output 'text' \
         --query 'SecurityGroups[0].[GroupId]' |
     grep -E -v '^None$'
@@ -291,6 +301,7 @@ function revokeSecurityGroupEgress()
     local -r ipPermissionsEgress="$(
         aws ec2 describe-security-groups \
             --filters "Name=group-name,Values=${securityGroupName}" \
+            --no-cli-pager \
             --output 'json' \
             --query 'SecurityGroups[0].[IpPermissionsEgress][0]'
     )"
@@ -299,7 +310,8 @@ function revokeSecurityGroupEgress()
     then
         aws ec2 revoke-security-group-egress \
             --group-id "${securityGroupID}" \
-            --ip-permissions "${ipPermissionsEgress}"
+            --ip-permissions "${ipPermissionsEgress}" \
+            --no-cli-pager
     fi
 }
 
@@ -314,6 +326,7 @@ function revokeSecurityGroupIngress()
     local -r ipPermissions="$(
         aws ec2 describe-security-groups \
             --filters "Name=group-name,Values=${securityGroupName}" \
+            --no-cli-pager \
             --output 'json' \
             --query 'SecurityGroups[0].[IpPermissions][0]'
     )"
@@ -322,7 +335,9 @@ function revokeSecurityGroupIngress()
     then
         aws ec2 revoke-security-group-ingress \
             --group-id "${securityGroupID}" \
-            --ip-permissions "${ipPermissions}"
+            --no-cli-pager \
+            --ip-permissions "${ipPermissions}" \
+            --no-cli-pager
     fi
 }
 
@@ -337,6 +352,7 @@ function updateInstanceName()
     info "${instanceName}"
 
     aws ec2 create-tags \
+        --no-cli-pager \
         --region "$(getInstanceRegion 'false')" \
         --resources "$(getInstanceID 'false')" \
         --tags "Key='Name',Value='${instanceName}'"
@@ -568,6 +584,7 @@ function cloneIAMRole()
     local -r newIAMRole="$(
         aws iam create-role \
             --assume-role-policy-document "file://${policyTempFilePath}" \
+            --no-cli-pager \
             --output 'json' \
             --role-name "${newIAMRoleName}"
     )"
@@ -629,6 +646,7 @@ function cloneIAMRole()
     for managedPolicyArn in ${managedPolicyArns[@]}
     do
         aws iam attach-role-policy \
+            --no-cli-pager \
             --policy-arn "${managedPolicyArn}" \
             --role-name "${newIAMRoleName}"
     done
@@ -638,11 +656,97 @@ function cloneIAMRole()
     jq --compact-output --raw-output --sort-keys '. // empty' <<< "${newIAMRole}"
 }
 
+function deleteIAMPolicies()
+{
+    local -r iamRoleName="${1}"
+
+    local -r policies=($(
+        aws iam list-role-policies \
+            --no-cli-pager \
+            --output 'json' \
+            --role-name "${iamRoleName}" |
+        jq \
+            --compact-output \
+            --raw-output \
+            '.["PolicyNames"][] // empty')
+    )
+
+    if [[ "${#policies[@]}" -gt '0' ]]
+    then
+        debug '    deleting inline policies'
+
+        local policy=''
+
+        for policy in "${policies[@]}"
+        do
+            aws iam delete-role-policy \
+                --no-cli-pager \
+                --output 'json' \
+                --role-name "${iamRoleName}" \
+                --policy-name "${policy}"
+
+            echo -e "      deleted inline policy name '\033[1;35m${policy}\033[0m'"
+        done
+    fi
+}
+
+function deleteIAMRole()
+{
+    local -r iamRoleName="${1}"
+
+    if [[ "$(existIAMRole "${iamRoleName}")" = 'true' ]]
+    then
+        # Delete Policies
+
+        deleteIAMPolicies "${iamRoleName}"
+
+        # Remove Role From Instance Profile
+
+        local -r instanceProfiles=($(
+            aws iam list-instance-profiles-for-role \
+                --no-cli-pager \
+                --output 'json' \
+                --role-name "${iamRoleName}" |
+            jq \
+                --compact-output \
+                --raw-output \
+                '.["InstanceProfiles"] | map(.["InstanceProfileName"])[]')
+        )
+
+        if [[ "${#instanceProfiles[@]}" -gt '0' ]]
+        then
+            debug '    removing role from instance profiles'
+
+            local instanceProfile=''
+
+            for instanceProfile in "${instanceProfiles[@]}"
+            do
+                aws iam remove-role-from-instance-profile \
+                    --instance-profile-name "${instanceProfile}" \
+                    --no-cli-pager \
+                    --role-name "${iamRoleName}"
+
+                echo -e "      removed role name '\033[1;35m${iamRoleName}\033[0m' from instance profile name '\033[1;35m${instanceProfile}\033[0m'"
+            done
+        fi
+
+        # Delete Role
+
+        aws iam delete-role \
+            --no-cli-pager \
+            --role-name "${iamRoleName}"
+
+        echo -e "    deleted role name '\033[1;35m${iamRoleName}\033[0m'"
+    else
+        echo -e "    \033[1;35mrole does not exist\033[0m"
+    fi
+}
+
 function existIAMRole()
 {
     local -r iamRoleName="${1}"
 
-    invertTrueFalseString "$(isEmptyString "$(aws iam get-role --role-name "${iamRoleName}" 2> '/dev/null')")"
+    invertTrueFalseString "$(isEmptyString "$(aws iam get-role --no-cli-pager --role-name "${iamRoleName}" 2> '/dev/null')")"
 }
 
 ###########################
@@ -828,6 +932,7 @@ function getLoadBalancerDNSNameByName()
 
     aws elb describe-load-balancers \
         --load-balancer-name "${loadBalancerName}" \
+        --no-cli-pager \
         --output 'text' \
         --query 'LoadBalancerDescriptions[*].DNSName'
 }
@@ -842,7 +947,9 @@ function isLoadBalancerFromStackName()
 
     local -r loadBalancerStackName="$(
         aws elb describe-tags \
-            --load-balancer-name "${loadBalancerName}" |
+            --load-balancer-name "${loadBalancerName}" \
+            --no-cli-pager \
+            --output 'json' |
         jq \
             --arg jqStackName "${stackName}" \
             --compact-output \
@@ -888,6 +995,7 @@ function getLoadBalancerTags()
     checkNonEmptyString "${loadBalancerName}" 'undefined load balancer name'
 
     aws elb describe-tags \
+        --no-cli-pager \
         --output 'json' \
         --load-balancer-name "${loadBalancerName}"
 }
@@ -904,6 +1012,7 @@ function getHostedZoneIDByDomainName()
 
     aws route53 list-hosted-zones-by-name \
         --dns-name "${hostedZoneDomainName}" \
+        --no-cli-pager \
         --output 'text' \
         --query 'HostedZones[0].[Id]' |
     grep -E -v '^None$' |
@@ -928,6 +1037,7 @@ function existS3Bucket()
 function getAWSAccountID()
 {
     aws sts get-caller-identity \
+        --no-cli-pager \
         --output 'text' \
         --query 'Account'
 }
@@ -954,6 +1064,7 @@ function acceptVPCPeeringConnection()
 
     local -r vpcPeeringConnection="$(
         aws ec2 accept-vpc-peering-connection \
+            --no-cli-pager \
             --output 'json' \
             --vpc-peering-connection-id "${vpcPeeringConnectionID}" |
         jq \
@@ -968,6 +1079,7 @@ function acceptVPCPeeringConnection()
     if [[ "$(isEmptyString "${vpcPeeringConnectionName}")" = 'false' ]]
     then
         aws ec2 create-tags \
+            --no-cli-pager \
             --resources "${vpcPeeringConnectionID}" \
             --tags "Key=Name,Value=${vpcPeeringConnectionName}"
     fi
@@ -1000,6 +1112,7 @@ function acceptVPCPeeringConnection()
             local createRouteResult="$(
                 aws ec2 create-route \
                     --destination-cidr-block "${requesterVPCCIDRBlock}" \
+                    --no-cli-pager \
                     --output 'text' \
                     --route-table-id "${accepterRouteTableID}" \
                     --vpc-peering-connection-id "${vpcPeeringConnectionID}" 2>&1 |
@@ -1053,6 +1166,8 @@ function getAvailabilityZonesByVPCName()
         --filters \
             'Name=state,Values=available' \
             "Name=vpc-id,Values=${vpcID}" \
+        --no-cli-pager \
+        --output 'json' \
         --query 'Subnets[*].AvailabilityZone' |
     jq \
         --compact-output \
@@ -1074,6 +1189,7 @@ function getIPV4CIDRByVPCName()
 
     aws ec2 describe-vpcs \
         --filter "Name=tag:Name,Values=${vpcName}" \
+        --no-cli-pager \
         --output 'text' \
         --query 'Vpcs[0].CidrBlock' |
     grep -E -v '^None$'
@@ -1082,6 +1198,7 @@ function getIPV4CIDRByVPCName()
 function getPublicElasticIPs()
 {
     aws ec2 describe-addresses \
+        --no-cli-pager \
         --output 'text' \
         --query 'sort_by(Addresses, &PublicIp)[*].[PublicIp]'
 }
@@ -1115,6 +1232,7 @@ function getSubnetIDByName()
         --filter \
             "Name=tag:Name,Values=${subnetName}" \
             "Name=vpc-id,Values=${vpcID}" \
+        --no-cli-pager \
         --output 'text' \
         --query 'Subnets[0].[SubnetId]' |
     grep -E -v '^None$'
@@ -1149,6 +1267,7 @@ function getVPCIDByName()
 
     aws ec2 describe-vpcs \
         --filter "Name=tag:Name,Values=${vpcName}" \
+        --no-cli-pager \
         --output 'text' \
         --query 'Vpcs[0].[VpcId]' |
     grep -E -v '^None$'
