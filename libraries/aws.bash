@@ -656,7 +656,29 @@ function cloneIAMRole()
     jq --compact-output --raw-output --sort-keys '. // empty' <<< "${newIAMRole}"
 }
 
-function deleteIAMPolicies()
+function deleteIAMRole()
+{
+    local -r iamRoleName="${1}"
+
+    if [[ "$(existIAMRole "${iamRoleName}")" = 'true' ]]
+    then
+        header "DELETING IAM ROLE ${iamRoleName}"
+
+        deleteIAMRoleInlinePolicies "${iamRoleName}"
+        detachIAMRolePolicies "${iamRoleName}"
+        removeIAMRoleFromInstanceProfile "${iamRoleName}"
+
+        aws iam delete-role \
+            --no-cli-pager \
+            --role-name "${iamRoleName}"
+
+        echo -e "\n\033[1;32mdeleted iam role\033[0m '\033[1;34m${iamRoleName}\033[0m'"
+    else
+        fatal "\nFATAL : iam role '${iamRoleName}' not found"
+    fi
+}
+
+function deleteIAMRoleInlinePolicies()
 {
     local -r iamRoleName="${1}"
 
@@ -668,12 +690,12 @@ function deleteIAMPolicies()
         jq \
             --compact-output \
             --raw-output \
-            '.["PolicyNames"][] // empty')
+            '.["PolicyNames"] | .[] // empty')
     )
 
     if [[ "${#policies[@]}" -gt '0' ]]
     then
-        debug '    deleting inline policies'
+        info 'deleting inline policies'
 
         local policy=''
 
@@ -685,60 +707,75 @@ function deleteIAMPolicies()
                 --role-name "${iamRoleName}" \
                 --policy-name "${policy}"
 
-            echo -e "      deleted inline policy name '\033[1;35m${policy}\033[0m'"
+            echo -e "  deleted '\033[1;35m${policy}\033[0m'"
         done
     fi
 }
 
-function deleteIAMRole()
+function detachIAMRolePolicies()
 {
     local -r iamRoleName="${1}"
 
-    if [[ "$(existIAMRole "${iamRoleName}")" = 'true' ]]
+    local -r policyARNs=($(
+        aws iam list-attached-role-policies \
+            --no-cli-pager \
+            --output 'json' \
+            --role-name "${iamRoleName}" |
+        jq \
+            --compact-output \
+            --raw-output \
+            '.["AttachedPolicies"] | .[] | .["PolicyArn"] // empty')
+    )
+
+    if [[ "${#policyARNs[@]}" -gt '0' ]]
     then
-        # Delete Policies
+        info '\ndetaching policies'
 
-        deleteIAMPolicies "${iamRoleName}"
+        local policyARN=''
 
-        # Remove Role From Instance Profile
-
-        local -r instanceProfiles=($(
-            aws iam list-instance-profiles-for-role \
+        for policyARN in "${policyARNs[@]}"
+        do
+            aws iam detach-role-policy \
                 --no-cli-pager \
                 --output 'json' \
-                --role-name "${iamRoleName}" |
-            jq \
-                --compact-output \
-                --raw-output \
-                '.["InstanceProfiles"] | map(.["InstanceProfileName"])[]')
-        )
+                --role-name "${iamRoleName}" \
+                --policy-arn "${policyARN}"
 
-        if [[ "${#instanceProfiles[@]}" -gt '0' ]]
-        then
-            debug '    removing role from instance profiles'
+            echo -e "  detached '\033[1;35m${policyARN}\033[0m'"
+        done
+    fi
+}
 
-            local instanceProfile=''
+function removeIAMRoleFromInstanceProfile()
+{
+    local -r iamRoleName="${1}"
 
-            for instanceProfile in "${instanceProfiles[@]}"
-            do
-                aws iam remove-role-from-instance-profile \
-                    --instance-profile-name "${instanceProfile}" \
-                    --no-cli-pager \
-                    --role-name "${iamRoleName}"
-
-                echo -e "      removed role name '\033[1;35m${iamRoleName}\033[0m' from instance profile name '\033[1;35m${instanceProfile}\033[0m'"
-            done
-        fi
-
-        # Delete Role
-
-        aws iam delete-role \
+    local -r instanceProfiles=($(
+        aws iam list-instance-profiles-for-role \
             --no-cli-pager \
-            --role-name "${iamRoleName}"
+            --output 'json' \
+            --role-name "${iamRoleName}" |
+        jq \
+            --compact-output \
+            --raw-output \
+            '.["InstanceProfiles"] | map(.["InstanceProfileName"])[]')
+    )
 
-        echo -e "    deleted role name '\033[1;35m${iamRoleName}\033[0m'"
-    else
-        echo -e "    \033[1;35mrole does not exist\033[0m"
+    if [[ "${#instanceProfiles[@]}" -gt '0' ]]
+    then
+        info '\nremoving role from instance profiles'
+
+        local instanceProfile=''
+
+        for instanceProfile in "${instanceProfiles[@]}"
+        do
+            aws iam remove-role-from-instance-profile \
+                --instance-profile-name "${instanceProfile}" \
+                --no-cli-pager \
+                --role-name "${iamRoleName}"
+
+            echo -e "  removed role '\033[1;34m${iamRoleName}\033[0m' from instance profile '\033[1;35m${instanceProfile}\033[0m'"
+        done
     fi
 }
 
@@ -981,7 +1018,8 @@ function getLoadBalancerTag()
         --compact-output \
         --raw-output \
         --sort-keys \
-        '.["TagDescriptions"][] |
+        '.["TagDescriptions"] |
+        .[] |
         .["Tags"] |
         map(select(.["Key"] == $jqKey))[] |
         .["Value"] // empty' \
