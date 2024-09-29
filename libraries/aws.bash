@@ -1241,6 +1241,22 @@ function getPublicElasticIPs()
         --query 'sort_by(Addresses, &PublicIp)[*].[PublicIp]'
 }
 
+function getRequesterCIDRByVPCPeeringConnectionID()
+{
+    local -r vpcPeeringConnectionID="${1}"
+
+    checkNonEmptyString "${vpcPeeringConnectionID}" 'undefined vpc peering connection id'
+
+    aws ec2 describe-vpc-peering-connections \
+        --filters "Name=vpc-peering-connection-id,Values=${vpcPeeringConnectionID}" \
+        --no-cli-pager \
+        --output 'json' |
+    jq \
+        --compact-output \
+        --raw-output \
+        '.["VpcPeeringConnections"] | .[] | .["RequesterVpcInfo"] | .["CidrBlock"] // empty'
+}
+
 function getRequesterVPCIDByVPCPeeringConnectionID()
 {
     local -r vpcPeeringConnectionID="${1}"
