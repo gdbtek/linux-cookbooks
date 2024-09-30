@@ -695,6 +695,7 @@ function deleteIAMRole()
 
         aws iam delete-role \
             --no-cli-pager \
+            --output 'json' \
             --role-name "${iamRoleName}"
 
         echo -e "\n\033[1;32mdeleted iam role\033[0m '\033[1;34m${iamRoleName}\033[0m'"
