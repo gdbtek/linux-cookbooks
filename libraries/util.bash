@@ -30,6 +30,22 @@ function arrayToStringWithDelimiter()
     echo "${string:0:${#string} - ${#delimiter}}"
 }
 
+function checkNonEmptyArray()
+{
+    local -r errorMessage="${1}"
+    local -r array=("${@:2}")
+
+    if [[ "${#array[@]}" -lt '1' ]]
+    then
+        if [[ "$(isEmptyString "${errorMessage}")" = 'true' ]]
+        then
+            fatal '\nFATAL : empty array detected'
+        fi
+
+        fatal "\nFATAL : ${errorMessage}"
+    fi
+}
+
 function excludeElementFromArray()
 {
     local -r element="${1}"
