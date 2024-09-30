@@ -656,6 +656,31 @@ function cloneIAMRole()
     jq --compact-output --raw-output --sort-keys '. // empty' <<< "${newIAMRole}"
 }
 
+function createIAMRole()
+{
+    local -r iamRoleName="${1}"
+
+    if [[ "$(existIAMRole "${iamRoleName}")" = 'true' ]]
+    then
+        fatal "\nFATAL : iam role '${iamRoleName}' found"
+    else
+        header "CREATING IAM ROLE ${iamRoleName}"
+
+        local -r policyTempFilePath="$(getTemporaryFile)"
+
+        echo '{"Statement":[{"Action":"sts:AssumeRole","Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"}}],"Version":"2012-10-17"}' > "${policyTempFilePath}"
+
+        aws iam create-role \
+            --assume-role-policy-document "file://${policyTempFilePath}" \
+            --no-cli-pager \
+            --output 'json' \
+            --role-name "${iamRoleName}" |
+        jq --raw-output --sort-keys '. // empty' || rm -f "${policyTempFilePath}"
+
+        rm -f "${policyTempFilePath}"
+    fi
+}
+
 function deleteIAMRole()
 {
     local -r iamRoleName="${1}"
