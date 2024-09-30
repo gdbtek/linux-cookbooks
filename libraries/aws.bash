@@ -698,8 +698,6 @@ function deleteIAMRole()
             --role-name "${iamRoleName}"
 
         echo -e "\n\033[1;32mdeleted iam role\033[0m '\033[1;34m${iamRoleName}\033[0m'"
-    else
-        fatal "\nFATAL : iam role '${iamRoleName}' not found"
     fi
 }
 
