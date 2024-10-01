@@ -1214,6 +1214,22 @@ function acceptVPCPeeringConnection()
     done
 }
 
+function getAccepterVPCIDByVPCPeeringConnectionID()
+{
+    local -r vpcPeeringConnectionID="${1}"
+
+    checkNonEmptyString "${vpcPeeringConnectionID}" 'undefined vpc peering connection id'
+
+    aws ec2 describe-vpc-peering-connections \
+        --filters "Name=vpc-peering-connection-id,Values=${vpcPeeringConnectionID}" \
+        --no-cli-pager \
+        --output 'json' |
+    jq \
+        --compact-output \
+        --raw-output \
+        '.["VpcPeeringConnections"] | .[] | .["AccepterVpcInfo"] | .["VpcId"] // empty'
+}
+
 function getAvailabilityZonesByVPCName()
 {
     local -r vpcName="${1}"
