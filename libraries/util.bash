@@ -283,6 +283,15 @@ function cleanUpSystemFolders()
     done
 }
 
+function clearFolder()
+{
+    local -r folderPath="${1}"
+
+    checkExistFolder "${folderPath}"
+
+    rsync --archive --delete "$(getTemporaryFolder)/" "${folderPath}/"
+}
+
 function copyFolderContent()
 {
     local -r sourceFolder="${1}"
