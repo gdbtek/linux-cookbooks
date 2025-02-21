@@ -5,9 +5,9 @@ function installDependencies()
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         installBuildEssential
-        installPackages 'python'
+        installPackages 'python3'
     else
-        installPackages 'gcc-c++' 'make' 'python'
+        installPackages 'gcc-c++' 'make' 'python3'
     fi
 }
 
