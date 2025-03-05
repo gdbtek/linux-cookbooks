@@ -1165,7 +1165,7 @@ function installBuildEssential()
 {
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
-        installPackages 'build-essential'
+        installPackages 'g++' 'build-essential'
     elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
         installPackages 'gcc-c++'
