@@ -4,7 +4,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../groovy/attributes/default.bash"
 source "$(dirname "${BASH_SOURCE[0]}")/../../tomcat/attributes/default.bash"
 
 export JENKINS_DOWNLOAD_URL='http://mirrors.jenkins-ci.org/war/latest/jenkins.war'
-export JENKINS_UPDATE_CENTER_URL='http://updates.jenkins-ci.org/update-center.json'
+export JENKINS_UPDATE_CENTER_URL='https://archives.jenkins.io/update-center/current/update-center.json'
 
 export JENKINS_INSTALL_FOLDER_PATH='/opt/jenkins'
 
