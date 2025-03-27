@@ -1168,8 +1168,7 @@ function installBuildEssential()
         installPackages 'g++' 'build-essential'
     elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        installPackages 'gcc-c++'
-        yum groupinstall -y 'Development Tools'
+        installPackages 'gcc' 'gcc-c++' 'kernel-devel' 'make'
     else
         fatal '\nFATAL : only support Amazon-Linux, CentOS, RedHat, or Ubuntu OS'
     fi
