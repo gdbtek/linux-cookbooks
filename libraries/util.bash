@@ -1141,7 +1141,7 @@ function isRedHatDistributor()
     isDistributor 'redhat'
 }
 
-function isRockyLinux()
+function isRockyLinuxDistributor()
 {
     isDistributor 'rockylinux'
 }
