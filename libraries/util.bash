@@ -1138,7 +1138,7 @@ function isOperatingSystem()
 
 function isRedHatDistributor()
 {
-    isDistributor 'redhat'
+    isDistributor 'redhat' || isDistributor 'Red Hat'
 }
 
 function isUbuntuDistributor()
@@ -1168,7 +1168,7 @@ function installBuildEssential()
         installPackages 'g++' 'build-essential'
     elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
     then
-        installPackages 'gcc' 'gcc-c++' 'kernel-devel' 'make'
+        installPackages 'gcc' 'gcc-c++' 'kernel-devel' 'make' 'openssl-devel'
     else
         fatal '\nFATAL : only support Amazon-Linux, CentOS, RedHat, or Ubuntu OS'
     fi
