@@ -124,7 +124,7 @@ function convertISO8601ToSeconds()
     if [[ "$(isMacOperatingSystem)" = 'true' ]]
     then
         date -j -u -f '%FT%T' "$(awk -F '.' '{ print $1 }' <<< "${time}" | tr -d 'Z')" +'%s'
-    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
+    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isRockyLinuxDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
     then
         date -d "${time}" +'%s'
     else
@@ -651,7 +651,7 @@ function symlinkUsrBin()
         else
             fatal "\nFATAL : '${sourceBinFileOrFolder}' is not directory or file"
         fi
-    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
+    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isRockyLinuxDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
     then
         mkdir -p '/usr/bin'
 
@@ -1030,7 +1030,7 @@ function isPositiveInteger()
 
 function checkRequireLinuxSystem()
 {
-    if [[ "$(isAmazonLinuxDistributor)" = 'false' && "$(isCentOSDistributor)" = 'false' && "$(isRedHatDistributor)" = 'false' && "$(isUbuntuDistributor)" = 'false' ]]
+    if [[ "$(isAmazonLinuxDistributor)" = 'false' && "$(isCentOSDistributor)" = 'false' && "$(isRedHatDistributor)" = 'false' && "$(isRockyLinuxDistributor)" = 'false' && "$(isUbuntuDistributor)" = 'false' ]]
     then
         fatal '\nFATAL : only support Amazon-Linux, CentOS, RedHat, or Ubuntu OS'
     fi
@@ -1138,7 +1138,12 @@ function isOperatingSystem()
 
 function isRedHatDistributor()
 {
-    isDistributor 'redhat' || isDistributor 'Red Hat'
+    isDistributor 'redhat'
+}
+
+function isRockyLinux()
+{
+    isDistributor 'rockylinux'
 }
 
 function isUbuntuDistributor()
@@ -1166,7 +1171,7 @@ function installBuildEssential()
     if [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         installPackages 'g++' 'build-essential'
-    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isRockyLinuxDistributor)" = 'true' ]]
     then
         installPackages 'gcc' 'gcc-c++' 'kernel-devel' 'make' 'openssl-devel'
     else
@@ -1190,7 +1195,7 @@ function installCleanUp()
         DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoremove
         DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' clean
         DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoclean
-    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isRockyLinuxDistributor)" = 'true' ]]
     then
         yum clean all
     else
@@ -1249,7 +1254,7 @@ function installPackage()
                 (DEBIAN_FRONTEND='noninteractive' apt-get install --fix-missing --yes -f -y && DEBIAN_FRONTEND='noninteractive' apt-get install "${aptPackage}" --fix-missing -y)
             fi
         fi
-    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isRockyLinuxDistributor)" = 'true' ]]
     then
         if [[ "$(isEmptyString "${rpmPackage}")" = 'false' ]]
         then
@@ -1276,7 +1281,7 @@ function installPackages()
         if [[ "$(isUbuntuDistributor)" = 'true' ]]
         then
             installPackage "${package}"
-        elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+        elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isRockyLinuxDistributor)" = 'true' ]]
         then
             installPackage '' "${package}"
         else
@@ -1399,7 +1404,7 @@ function runUpgrade()
 
         info '\napt-get autoclean'
         DEBIAN_FRONTEND='noninteractive' apt-get --fix-missing -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' autoclean
-    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' ]]
+    elif [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isCentOSDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isRockyLinuxDistributor)" = 'true' ]]
     then
         yum -y --security update
         yum -y update --nogpgcheck --skip-broken
@@ -2095,7 +2100,7 @@ function isPortOpen()
 
     checkNonEmptyString "${port}" 'undefined port'
 
-    if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
+    if [[ "$(isAmazonLinuxDistributor)" = 'true' || "$(isRedHatDistributor)" = 'true' || "$(isRockyLinuxDistributor)" = 'true' || "$(isUbuntuDistributor)" = 'true' ]]
     then
         local -r process="$(netstat -l -n -t -u | grep -E ":${port}\s+" | head -1)"
     elif [[ "$(isCentOSDistributor)" = 'true' || "$(isMacOperatingSystem)" = 'true' ]]
