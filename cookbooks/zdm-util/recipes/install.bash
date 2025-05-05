@@ -12,7 +12,7 @@ function main()
 
     umask '0022'
     initializeFolder "${ZDM_UTIL_INSTALL_FOLDER_PATH}"
-    unzipRemoteFile "${ZDM_UTIL_DOWNLOAD_URL}" "${ZDM_UTIL_INSTALL_FOLDER_PATH}" 'tgz'
+    curl -L "${ZDM_UTIL_DOWNLOAD_URL}" --retry 12 --retry-delay 5 | tar -C "${ZDM_UTIL_INSTALL_FOLDER_PATH}" -x -z
 }
 
 main "${@}"
