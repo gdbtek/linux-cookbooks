@@ -6,10 +6,10 @@ function main()
     source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
     installPortableBinary \
-        'CONSUL' \
-        "${ZDM_PROXY_DOWNLOAD_URL}" \
-        "${ZDM_PROXY_INSTALL_FOLDER_PATH}" \
-        'consul' \
+        'ZDM-UTIL' \
+        "${ZDM_UTIL_DOWNLOAD_URL}" \
+        "${ZDM_UTIL_INSTALL_FOLDER_PATH}" \
+        'zdm-util' \
         'version' \
         'true'
 }
