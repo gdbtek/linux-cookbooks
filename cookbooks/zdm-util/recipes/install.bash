@@ -14,7 +14,8 @@ function main()
     initializeFolder "${ZDM_UTIL_INSTALL_FOLDER_PATH}"
     curl -L "${ZDM_UTIL_DOWNLOAD_URL}" --retry 12 --retry-delay 5 | tar -C "${ZDM_UTIL_INSTALL_FOLDER_PATH}" -x -z
     mv ${ZDM_UTIL_INSTALL_FOLDER_PATH}/zdm-util-v* "${ZDM_UTIL_INSTALL_FOLDER_PATH}/zdm-util"
-    symlinkListUsrBin "${ZDM_UTIL_INSTALL_FOLDER_PATH}"
+    rm -f -r '/usr/bin/zdm-util'
+    ln -f -s "${ZDM_UTIL_INSTALL_FOLDER_PATH}/zdm-util" '/usr/bin/zdm-util'
 }
 
 main "${@}"
