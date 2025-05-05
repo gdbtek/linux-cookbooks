@@ -13,6 +13,7 @@ function main()
     umask '0022'
     initializeFolder "${ZDM_UTIL_INSTALL_FOLDER_PATH}"
     curl -L "${ZDM_UTIL_DOWNLOAD_URL}" --retry 12 --retry-delay 5 | tar -C "${ZDM_UTIL_INSTALL_FOLDER_PATH}" -x -z
+    mv ${ZDM_UTIL_INSTALL_FOLDER_PATH}/zdm-util-v* "${ZDM_UTIL_INSTALL_FOLDER_PATH}/zdm-util"
 }
 
 main "${@}"
