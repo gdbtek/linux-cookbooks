@@ -2,16 +2,19 @@
 
 function installPython()
 {
-    umask '0022'
-    add-apt-repository --yes --update 'ppa:deadsnakes/ppa'
-    apt-get update -m
-    installPackages "${CQLSH_PYTHON_VERSION}"
-    createFileFromTemplate \
-        "$(dirname "${BASH_SOURCE[0]}")/../templates/cqlsh.sh.profile" \
-        '/etc/profile.d/cqlsh.sh' \
-        '__PYTHON_INTERPRETER_FILE_PATH__' \
-        "/usr/bin/${CQLSH_PYTHON_VERSION}"
-    umask '0077'
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        umask '0022'
+        add-apt-repository --yes --update 'ppa:deadsnakes/ppa'
+        apt-get update -m
+        installPackages "${CQLSH_PYTHON_VERSION}"
+        createFileFromTemplate \
+            "$(dirname "${BASH_SOURCE[0]}")/../templates/cqlsh.sh.profile" \
+            '/etc/profile.d/cqlsh.sh' \
+            '__PYTHON_INTERPRETER_FILE_PATH__' \
+            "/usr/bin/${CQLSH_PYTHON_VERSION}"
+        umask '0077'
+    fi
 }
 
 function installCQLSH()
