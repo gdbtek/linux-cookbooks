@@ -16,6 +16,7 @@ function main()
     mv ${ZDM_UTIL_INSTALL_FOLDER_PATH}/zdm-util-v* "${ZDM_UTIL_INSTALL_FOLDER_PATH}/zdm-util"
     rm -f '/usr/bin/zdm-util'
     ln -f -s "${ZDM_UTIL_INSTALL_FOLDER_PATH}/zdm-util" '/usr/bin/zdm-util'
+    umask '0077'
 }
 
 main "${@}"
