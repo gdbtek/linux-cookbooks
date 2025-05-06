@@ -5,6 +5,7 @@ function install()
     umask '0022'
     checkExistURL "${DOCKER_DOWNLOAD_URL}"
     curl -L "${DOCKER_DOWNLOAD_URL}" --retry 12 --retry-delay 5 | bash -e
+    systemctl status 'docker'
     umask '0077'
 }
 
