@@ -6,6 +6,7 @@ function main()
 
     "$(dirname "${BASH_SOURCE[0]}")/../../cookbooks/ansible/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../../cookbooks/cqlsh/recipes/install.bash"
+    "$(dirname "${BASH_SOURCE[0]}")/../../cookbooks/docker/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../../cookbooks/zdm-proxy-automation/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../../cookbooks/zdm-util/recipes/install.bash"
 
