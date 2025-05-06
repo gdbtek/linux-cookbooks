@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-function install()
+function installPython()
 {
     umask '0022'
     add-apt-repository -y 'ppa:deadsnakes/ppa'
