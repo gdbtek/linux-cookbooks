@@ -8,11 +8,12 @@ function main()
     header 'INSTALLING ZDM-PROXY-AUTOMATION'
 
     checkRequireLinuxSystem
-    checkRequireNonRootUser
+    checkRequireRootUser
 
     umask '0022'
     initializeFolder "${ZDM_PROXY_AUTOMATION_INSTALL_FOLDER_PATH}"
     unzipRemoteFile "${ZDM_PROXY_AUTOMATION_DOWNLOAD_URL}" "${ZDM_PROXY_AUTOMATION_INSTALL_FOLDER_PATH}"
+    chown -R 'ubuntu:ubuntu' "${ZDM_PROXY_AUTOMATION_INSTALL_FOLDER_PATH}"
     umask '0077'
 }
 
