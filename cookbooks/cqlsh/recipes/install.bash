@@ -3,7 +3,7 @@
 function installPython()
 {
     umask '0022'
-    add-apt-repository -y 'ppa:deadsnakes/ppa'
+    add-apt-repository --yes --update 'ppa:deadsnakes/ppa'
     apt-get update -m
     installPackages "${CQLSH_PYTHON_VERSION}"
     createFileFromTemplate \
