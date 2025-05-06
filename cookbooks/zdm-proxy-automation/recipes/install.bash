@@ -12,7 +12,7 @@ function main()
 
     umask '0022'
     initializeFolder "${ZDM_PROXY_AUTOMATION_INSTALL_FOLDER_PATH}"
-    curl -L "${ZDM_PROXY_AUTOMATION_DOWNLOAD_URL}" --retry 12 --retry-delay 5 | tar -C "${ZDM_PROXY_AUTOMATION_INSTALL_FOLDER_PATH}" -x -z
+    unzipRemoteFile "${ZDM_PROXY_AUTOMATION_DOWNLOAD_URL}" "${ZDM_PROXY_AUTOMATION_INSTALL_FOLDER_PATH}"
     # mv ${ZDM_PROXY_AUTOMATION_INSTALL_FOLDER_PATH}/zdm-util-v* "${ZDM_PROXY_AUTOMATION_INSTALL_FOLDER_PATH}/zdm-util"
     # rm -f '/usr/bin/zdm-util'
     # ln -f -s "${ZDM_PROXY_AUTOMATION_INSTALL_FOLDER_PATH}/zdm-util" '/usr/bin/zdm-util'
