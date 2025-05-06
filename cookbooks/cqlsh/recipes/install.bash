@@ -15,6 +15,7 @@ function main()
     unzipRemoteFile "${CQLSH_DOWNLOAD_URL}" "${CQLSH_INSTALL_FOLDER_PATH}"
     rm -f '/usr/bin/cqlsh'
     ln -f -s "${CQLSH_INSTALL_FOLDER_PATH}/bin/cqlsh" '/usr/bin/cqlsh'
+    '/usr/bin/cqlsh' --version
 }
 
 main "${@}"
