@@ -5,7 +5,9 @@ function installPython()
     umask '0022'
     add-apt-repository -y 'ppa:deadsnakes/ppa'
     apt-get update -m
-    installPackages 'python3.8'
+    installPackages "${CQLSH_PYTHON_VERSION}"
+    rm -f '/usr/bin/python3'
+    ln -s -f "/usr/bin/${CQLSH_PYTHON_VERSION}" '/usr/bin/python3'
     umask '0077'
 }
 
