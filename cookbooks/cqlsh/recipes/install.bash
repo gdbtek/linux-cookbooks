@@ -21,6 +21,7 @@ function installCQLSH()
     unzipRemoteFile "${CQLSH_DOWNLOAD_URL}" "${CQLSH_INSTALL_FOLDER_PATH}"
     rm -f '/usr/bin/cqlsh'
     ln -f -s "${CQLSH_INSTALL_FOLDER_PATH}/bin/cqlsh" '/usr/bin/cqlsh'
+    source '/etc/profile.d/cqlsh.sh'
     '/usr/bin/cqlsh' --version
     umask '0077'
 }
