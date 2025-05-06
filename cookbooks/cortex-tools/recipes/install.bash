@@ -5,7 +5,7 @@ function main()
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
     source "$(dirname "${BASH_SOURCE[0]}")/../attributes/default.bash"
 
-    header 'INSTALLING CQLSH'
+    header 'INSTALLING CORTEX-TOOLS'
 
     checkRequireLinuxSystem
     checkRequireRootUser
