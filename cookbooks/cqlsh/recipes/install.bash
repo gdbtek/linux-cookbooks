@@ -9,7 +9,7 @@ function install()
     umask '0077'
 }
 
-functon installCQLSH()
+function installCQLSH()
 {
     umask '0022'
     initializeFolder "${CQLSH_INSTALL_FOLDER_PATH}"
