@@ -12,6 +12,7 @@ function main()
     installPackages 'software-properties-common'
     add-apt-repository --yes --update ppa:ansible/ansible
     installPackages 'ansible'
+    ansible --version
 }
 
 main "${@}"
