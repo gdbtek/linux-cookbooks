@@ -6,8 +6,11 @@ function installPython()
     add-apt-repository -y 'ppa:deadsnakes/ppa'
     apt-get update -m
     installPackages "${CQLSH_PYTHON_VERSION}"
-    rm -f '/usr/bin/python3'
-    ln -s -f "/usr/bin/${CQLSH_PYTHON_VERSION}" '/usr/bin/python3'
+    createFileFromTemplate \
+        "$(dirname "${BASH_SOURCE[0]}")/../templates/cqlsh.sh.profile" \
+        '/etc/profile.d/cqlsh.sh' \
+        '__PYTHON_INTERPRETER_FILE_PATH__' \
+        "/usr/bin/${CQLSH_PYTHON_VERSION}"
     umask '0077'
 }
 

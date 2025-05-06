@@ -1,0 +1,3 @@
+#!/bin/bash -e
+
+export CQLSH_PYTHON='__PYTHON_INTERPRETER_FILE_PATH__'
