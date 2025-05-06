@@ -9,10 +9,13 @@ function main()
     checkRequireLinuxSystem
     checkRequireRootUser
 
-    installPackages 'software-properties-common'
-    add-apt-repository --yes --update ppa:ansible/ansible
-    installPackages 'ansible'
-    ansible --version
+    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    then
+        installPackages 'software-properties-common'
+        add-apt-repository --yes --update ppa:ansible/ansible
+        installPackages 'ansible'
+        ansible --version
+    fi
 }
 
 main "${@}"
