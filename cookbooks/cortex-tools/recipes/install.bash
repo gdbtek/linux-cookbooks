@@ -10,9 +10,9 @@ function main()
     checkRequireLinuxSystem
     checkRequireRootUser
 
-    curl -fSL -o '/usr/bin/cortextool' "https://github.com/grafana/cortex-tools/releases/download/v0.11.3/cortextool_v0.11.3_Linux_x86_64"
+    curl -fSL -o '/usr/bin/cortextool' "${CORTEX_TOOLS_DOWNLOAD_URL}"
     chmod 755 '/usr/bin/cortextool'
-    cortexttool version
+    '/usr/bin/cortextool' 'version'
 }
 
 main "${@}"
