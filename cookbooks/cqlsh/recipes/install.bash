@@ -6,6 +6,11 @@ function installPython()
     then
         umask '0022'
         amazon-linux-extras install -y "${CQLSH_PYTHON_VERSION}"
+        createFileFromTemplate \
+            "$(dirname "${BASH_SOURCE[0]}")/../templates/cqlsh.sh.profile" \
+            '/etc/profile.d/cqlsh.sh' \
+            '__PYTHON_INTERPRETER_FILE_PATH__' \
+            "/usr/bin/${CQLSH_PYTHON_VERSION}"
         umask '0077'
     elif [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
