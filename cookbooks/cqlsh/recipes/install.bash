@@ -2,7 +2,12 @@
 
 function installPython()
 {
-    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    if [[ "$(isAmazonLinuxDistributor)" = 'true' ]]
+    then
+        umask '0022'
+        amazon-linux-extras install -y "${CQLSH_PYTHON_VERSION}"
+        umask '0077'
+    elif [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         umask '0022'
         add-apt-repository --yes --update 'ppa:deadsnakes/ppa'
@@ -14,6 +19,8 @@ function installPython()
             '__PYTHON_INTERPRETER_FILE_PATH__' \
             "/usr/bin/${CQLSH_PYTHON_VERSION}"
         umask '0077'
+    else
+        fatal 'FATAL : only support Amazon-Linux, or Ubuntu OS'
     fi
 }
 
