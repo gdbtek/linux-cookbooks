@@ -9,12 +9,17 @@ function main()
     checkRequireLinuxSystem
     checkRequireRootUser
 
-    if [[ "$(isUbuntuDistributor)" = 'true' ]]
+    if [[ "$(isAmazonLinuxDistributor)" = 'true' ]]
+    then
+        amazon-linux-extras install -y 'ansible2'
+    elif [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         installPackages 'software-properties-common'
         add-apt-repository --yes --update ppa:ansible/ansible
         installPackages 'ansible'
         ansible --version
+    else
+        fatal 'FATAL : only support Amazon-Linux'
     fi
 }
 
