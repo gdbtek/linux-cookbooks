@@ -20,7 +20,7 @@ function main()
         installPackages 'ansible'
         ansible --version
     else
-        fatal 'FATAL : only support Amazon-Linux, or Ubuntu'
+        fatal 'FATAL : only support Amazon-Linux, or Ubuntu OS'
     fi
 }
 
