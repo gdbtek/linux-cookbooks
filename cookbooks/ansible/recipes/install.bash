@@ -12,6 +12,7 @@ function main()
     if [[ "$(isAmazonLinuxDistributor)" = 'true' ]]
     then
         amazon-linux-extras install -y 'ansible2'
+        ansible --version
     elif [[ "$(isUbuntuDistributor)" = 'true' ]]
     then
         installPackages 'software-properties-common'
