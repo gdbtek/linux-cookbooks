@@ -52,6 +52,27 @@ function getStackIDByName()
 # EC2 UTILITIES #
 #################
 
+function associateAvailableElasticPublicIPWithInstanceID()
+{
+    local -r instanceID="${1}"
+    local -r region="${2}"
+    local -r elasticPublicIPs=("${@:3}")
+
+    local -r availableElasticPublicIP="$(getAvailableElasticPublicIP "${elasticPublicIPs[@]}")"
+
+    if [[ "$(isEmptyString "${availableElasticPublicIP}")" = 'false' ]]
+    then
+        associateElasticPublicIPWithInstanceID "${availableElasticPublicIP}" "${instanceID}" "${region}"
+    fi
+}
+
+function associateAvailableElasticPublicIPWithThisInstanceID()
+{
+    local -r elasticPublicIPs=("${@}")
+
+    associateAvailableElasticPublicIPWithInstanceID "$(getInstanceID 'false')" '' "${elasticPublicIPs[@]}"
+}
+
 function associateElasticPublicIPWithInstanceID()
 {
     local -r elasticPublicIP="${1}"
@@ -89,6 +110,23 @@ function associateElasticPublicIPWithThisInstanceID()
     local -r elasticPublicIP="${1}"
 
     associateElasticPublicIPWithInstanceID "${elasticPublicIP}" "$(getInstanceID 'false')"
+}
+
+function getAvailableElasticPublicIP()
+{
+    local -r elasticPublicIPs=("${@}")
+
+    local i=0
+
+    for ((i = 0; i < ${#elasticPublicIPs[@]}; i = i + 1))
+    do
+        if [[ "$(getEC2ElasticAllocationIDByElasticPublicIP "${elasticPublicIPs[i]}")" != '' &&
+              "$(getEC2ElasticAssociationIDByElasticPublicIP "${elasticPublicIPs[i]}")" = '' ]]
+        then
+            echo "${elasticPublicIPs[i]}"
+            i="$((${#elasticPublicIPs[@]}))"
+        fi
+    done
 }
 
 function getEC2ElasticAllocationIDByElasticPublicIP()
