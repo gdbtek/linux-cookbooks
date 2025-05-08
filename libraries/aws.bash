@@ -30,6 +30,46 @@ function getAutoScaleGroupNameByStackName()
         .["ResourceId"] // empty'
 }
 
+function getInstanceOrderIndexInAutoScaleInstances()
+{
+    local -r stackName="${1}"
+    local -r instanceID="${2}"
+
+    checkNonEmptyString "${stackName}" 'undefined stack name'
+    checkNonEmptyString "${instanceID}" 'undefined instance id'
+
+    local -r autoScaleGroupName="$(getAutoScaleGroupNameByStackName "${stackName}")"
+
+    checkNonEmptyString "${autoScaleGroupName}" 'undefined auto scale group name'
+
+    local -r autoScaleInstances=($(
+        aws autoscaling describe-auto-scaling-instances \
+            --no-cli-pager \
+            --output 'text' \
+            --query "AutoScalingInstances[?AutoScalingGroupName=='${autoScaleGroupName}'].[InstanceId]"
+    ))
+
+    # Find Order Index
+
+    local i=0
+
+    for ((i = 0; i < ${#autoScaleInstances[@]}; i = i + 1))
+    do
+        if [[ "${autoScaleInstances[i]}" = "${instanceID}" ]]
+        then
+            echo "${i}"
+            i="$((${#autoScaleInstances[@]}))"
+        fi
+    done
+}
+
+function getThisInstanceOrderIndexInAutoScaleInstances()
+{
+    local -r stackName="${1}"
+
+    getInstanceOrderIndexInAutoScaleInstances "${stackName}" "$(getInstanceID 'false')"
+}
+
 #############################
 # CLOUD-FORMATION UTILITIES #
 #############################
