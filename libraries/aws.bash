@@ -54,10 +54,14 @@ function getInstanceOrderIndexInAutoScaleInstances()
     checkNonEmptyString "${autoScaleGroupName}" 'undefined auto scale group name'
 
     local -r autoScaleInstances=($(
-        aws autoscaling describe-auto-scaling-instances \
+        aws ec2 describe-instances \
+            --filters \
+                'Name=instance-state-name,Values=pending,running' \
+                "Name=tag:aws:autoscaling:groupName,Values=${autoScaleGroupName}" \
+                "Name=tag:aws:cloudformation:stack-name,Values=${stackName}" \
             --no-cli-pager \
             --output 'text' \
-            --query "AutoScalingInstances[?AutoScalingGroupName=='${autoScaleGroupName}'].[InstanceId]"
+            --query 'sort_by(Reservations[*].Instances[], &LaunchTime)[*].[InstanceId]'
     ))
 
     local i=0
