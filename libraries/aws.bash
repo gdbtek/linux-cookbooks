@@ -33,10 +33,21 @@ function getAutoScaleGroupNameByStackName()
 function getInstanceOrderIndexInAutoScaleInstances()
 {
     local -r stackName="${1}"
-    local -r instanceID="${2}"
+    local instanceID="${2}"
+
+    # Set Default Value
+
+    if [[ "$(isEmptyString "${instanceID}")" = 'true' ]]
+    then
+        instanceID="$(getInstanceID 'false')"
+    fi
+
+    # Validate Values
 
     checkNonEmptyString "${stackName}" 'undefined stack name'
     checkNonEmptyString "${instanceID}" 'undefined instance id'
+
+    # Find Order Index
 
     local -r autoScaleGroupName="$(getAutoScaleGroupNameByStackName "${stackName}")"
 
@@ -49,8 +60,6 @@ function getInstanceOrderIndexInAutoScaleInstances()
             --query "AutoScalingInstances[?AutoScalingGroupName=='${autoScaleGroupName}'].[InstanceId]"
     ))
 
-    # Find Order Index
-
     local i=0
 
     for ((i = 0; i < ${#autoScaleInstances[@]}; i = i + 1))
@@ -61,13 +70,6 @@ function getInstanceOrderIndexInAutoScaleInstances()
             i="$((${#autoScaleInstances[@]}))"
         fi
     done
-}
-
-function getThisInstanceOrderIndexInAutoScaleInstances()
-{
-    local -r stackName="${1}"
-
-    getInstanceOrderIndexInAutoScaleInstances "${stackName}" "$(getInstanceID 'false')"
 }
 
 #############################
@@ -92,32 +94,25 @@ function getStackIDByName()
 # EC2 UTILITIES #
 #################
 
-function associateAvailableElasticPublicIPWithInstanceID()
+function associateAvailableElasticPublicIPToInstanceID()
 {
-    local -r instanceID="${1}"
-    local -r region="${2}"
+    local -r region="${1}"
+    local -r instanceID="${2}"
     local -r elasticPublicIPs=("${@:3}")
 
-    local -r availableElasticPublicIP="$(getAvailableElasticPublicIP "${elasticPublicIPs[@]}")"
+    local -r availableElasticPublicIP="$(getAvailableElasticPublicIP "${region}" "${elasticPublicIPs[@]}")"
 
     if [[ "$(isEmptyString "${availableElasticPublicIP}")" = 'false' ]]
     then
-        associateElasticPublicIPWithInstanceID "${availableElasticPublicIP}" "${instanceID}" "${region}"
+        associateElasticPublicIPToInstanceID "${region}" "${instanceID}" "${availableElasticPublicIP}"
     fi
 }
 
-function associateAvailableElasticPublicIPWithThisInstanceID()
+function associateElasticPublicIPToInstanceID()
 {
-    local -r elasticPublicIPs=("${@}")
-
-    associateAvailableElasticPublicIPWithInstanceID "$(getInstanceID 'false')" '' "${elasticPublicIPs[@]}"
-}
-
-function associateElasticPublicIPWithInstanceID()
-{
-    local -r elasticPublicIP="${1}"
-    local -r instanceID="${2}"
-    local region="${3}"
+    local region="${1}"
+    local instanceID="${2}"
+    local -r elasticPublicIP="${3}"
 
     # Set Default Value
 
@@ -126,14 +121,20 @@ function associateElasticPublicIPWithInstanceID()
         region="$(getInstanceRegion 'false')"
     fi
 
+    if [[ "$(isEmptyString "${instanceID}")" = 'true' ]]
+    then
+        instanceID="$(getInstanceID 'false')"
+    fi
+
     # Validate Values
 
-    checkNonEmptyString "${elasticPublicIP}" 'undefined elastic public ip'
+    checkValidRegion "${region}"
     checkNonEmptyString "${instanceID}" 'undefined instance id'
+    checkNonEmptyString "${elasticPublicIP}" 'undefined elastic public ip'
 
     # Associate Elastic Public IP
 
-    local -r allocationID="$(getEC2ElasticAllocationIDByElasticPublicIP "${elasticPublicIP}" "${region}")"
+    local -r allocationID="$(getEC2ElasticAllocationIDByElasticPublicIP "${region}" "${elasticPublicIP}")"
 
     checkNonEmptyString "${allocationID}" 'undefined allocation id'
 
@@ -145,23 +146,17 @@ function associateElasticPublicIPWithInstanceID()
         --region "${region}"
 }
 
-function associateElasticPublicIPWithThisInstanceID()
-{
-    local -r elasticPublicIP="${1}"
-
-    associateElasticPublicIPWithInstanceID "${elasticPublicIP}" "$(getInstanceID 'false')"
-}
-
 function getAvailableElasticPublicIP()
 {
-    local -r elasticPublicIPs=("${@}")
+    local -r region="${1}"
+    local -r elasticPublicIPs=("${@:2}")
 
     local i=0
 
     for ((i = 0; i < ${#elasticPublicIPs[@]}; i = i + 1))
     do
-        if [[ "$(getEC2ElasticAllocationIDByElasticPublicIP "${elasticPublicIPs[i]}")" != '' &&
-              "$(getEC2ElasticAssociationIDByElasticPublicIP "${elasticPublicIPs[i]}")" = '' ]]
+        if [[ "$(getEC2ElasticAllocationIDByElasticPublicIP "${region}" "${elasticPublicIPs[i]}")" != '' &&
+              "$(getEC2ElasticAssociationIDByElasticPublicIP "${region}" "${elasticPublicIPs[i]}")" = '' ]]
         then
             echo "${elasticPublicIPs[i]}"
             i="$((${#elasticPublicIPs[@]}))"
@@ -171,8 +166,8 @@ function getAvailableElasticPublicIP()
 
 function getEC2ElasticAllocationIDByElasticPublicIP()
 {
-    local -r elasticPublicIP="${1}"
-    local region="${3}"
+    local region="${1}"
+    local -r elasticPublicIP="${2}"
 
     # Set Default Value
 
@@ -181,6 +176,9 @@ function getEC2ElasticAllocationIDByElasticPublicIP()
         region="$(getInstanceRegion 'false')"
     fi
 
+    # Validate Values
+
+    checkValidRegion "${region}"
     checkNonEmptyString "${elasticPublicIP}" 'undefined elastic public ip'
 
     # Get EC2 Elastic Allocation ID
@@ -196,8 +194,8 @@ function getEC2ElasticAllocationIDByElasticPublicIP()
 
 function getEC2ElasticAssociationIDByElasticPublicIP()
 {
-    local -r elasticPublicIP="${1}"
-    local region="${3}"
+    local region="${1}"
+    local -r elasticPublicIP="${2}"
 
     # Set Default Value
 
@@ -206,6 +204,9 @@ function getEC2ElasticAssociationIDByElasticPublicIP()
         region="$(getInstanceRegion 'false')"
     fi
 
+    # Validate Values
+
+    checkValidRegion "${region}"
     checkNonEmptyString "${elasticPublicIP}" 'undefined elastic public ip'
 
     # Get EC2 Elastic Association ID
@@ -222,8 +223,8 @@ function getEC2ElasticAssociationIDByElasticPublicIP()
 
 function getEC2PrivateIpAddressByInstanceID()
 {
-    local -r instanceID="${1}"
-    local region="${2}"
+    local region="${1}"
+    local -r instanceID="${2}"
 
     # Set Default Value
 
