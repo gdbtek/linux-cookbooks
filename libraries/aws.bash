@@ -60,8 +60,15 @@ function getInstanceOrderIndexInAutoScaleInstances()
                 "Name=tag:aws:autoscaling:groupName,Values=${autoScaleGroupName}" \
                 "Name=tag:aws:cloudformation:stack-name,Values=${stackName}" \
             --no-cli-pager \
-            --output 'text' \
-            --query 'sort_by(Reservations[*].Instances[], &LaunchTime)[*].[InstanceId]'
+            --output 'json' \
+            --query 'sort_by(Reservations[*].Instances[], &LaunchTime)[*].{
+                "InstanceId": InstanceId,
+                "PublicIpAddress": PublicIpAddress
+            }' |
+        jq \
+            --compact-output \
+            --raw-output \
+            '.[] | select(.["PublicIpAddress"] == null) | .["InstanceId"] // empty'
     ))
 
     local i=0
