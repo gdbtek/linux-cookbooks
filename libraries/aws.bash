@@ -34,6 +34,7 @@ function getInstanceOrderIndexInAutoScaleInstances()
 {
     local -r stackName="${1}"
     local instanceID="${2}"
+    local -r elasticPublicIPs=("${@:3}")
 
     # Set Default Value
 
@@ -66,9 +67,10 @@ function getInstanceOrderIndexInAutoScaleInstances()
                 "PublicIpAddress": PublicIpAddress
             }' |
         jq \
+            --argjson jqElasticPublicIPs "$(printf '%s\n' "${elasticPublicIPs[@]}" | jq -R | jq -s)" \
             --compact-output \
             --raw-output \
-            '.[] | select(.["PublicIpAddress"] == null) | .["InstanceId"] // empty'
+            '.[] | select(.["PublicIpAddress"] | IN($jqElasticPublicIPs[])) | .["InstanceId"] // empty'
     ))
 
     local i=0
