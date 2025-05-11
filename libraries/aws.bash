@@ -70,7 +70,7 @@ function getInstanceOrderIndexInAutoScaleInstances()
             --argjson jqElasticPublicIPs "$(printf '%s\n' "${elasticPublicIPs[@]}" | jq -R | jq -s)" \
             --compact-output \
             --raw-output \
-            '.[] | select(.["PublicIpAddress"] | IN($jqElasticPublicIPs[])) | .["InstanceId"] // empty'
+            '.[] | select(.["PublicIpAddress"] | IN($jqElasticPublicIPs[]) | not) | .["InstanceId"] // empty'
     ))
 
     local i=0
