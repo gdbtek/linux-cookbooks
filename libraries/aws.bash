@@ -30,7 +30,7 @@ function getAutoScaleGroupNameByStackName()
         .["ResourceId"] // empty'
 }
 
-function getInstanceOrderIndexInAutoScaleInstances()
+function getInstanceOrderIndexInAutoScaleInstancesByEIPs()
 {
     local -r stackName="${1}"
     local instanceID="${2}"
@@ -47,6 +47,7 @@ function getInstanceOrderIndexInAutoScaleInstances()
 
     checkNonEmptyString "${stackName}" 'undefined stack name'
     checkNonEmptyString "${instanceID}" 'undefined instance id'
+    checkNonEmptyArray 'undefined elastic public ips' "${elasticPublicIPs[@]}"
 
     # Find Order Index
 
@@ -54,7 +55,7 @@ function getInstanceOrderIndexInAutoScaleInstances()
 
     checkNonEmptyString "${autoScaleGroupName}" 'undefined auto scale group name'
 
-    local -r autoScaleInstances=($(
+    local -r autoScaleInstanceIDs=($(
         aws ec2 describe-instances \
             --filters \
                 'Name=instance-state-name,Values=pending,running' \
@@ -75,12 +76,65 @@ function getInstanceOrderIndexInAutoScaleInstances()
 
     local i=0
 
-    for ((i = 0; i < ${#autoScaleInstances[@]}; i = i + 1))
+    for ((i = 0; i < ${#autoScaleInstanceIDs[@]}; i = i + 1))
     do
-        if [[ "${autoScaleInstances[i]}" = "${instanceID}" ]]
+        if [[ "${autoScaleInstanceIDs[i]}" = "${instanceID}" ]]
         then
             echo "${i}"
-            i="$((${#autoScaleInstances[@]}))"
+            i="$((${#autoScaleInstanceIDs[@]}))"
+        fi
+    done
+}
+
+function getInstanceOrderIndexInAutoScaleInstancesByENIs()
+{
+    local -r stackName="${1}"
+    local instanceID="${2}"
+    local -r elasticNetworkInterfaceIDs=("${@:3}")
+
+    # Set Default Value
+
+    if [[ "$(isEmptyString "${instanceID}")" = 'true' ]]
+    then
+        instanceID="$(getInstanceID 'false')"
+    fi
+
+    # Validate Values
+
+    checkNonEmptyString "${stackName}" 'undefined stack name'
+    checkNonEmptyString "${instanceID}" 'undefined instance id'
+    checkNonEmptyArray 'undefined elastic network interface ids' "${elasticNetworkInterfaceIDs[@]}"
+
+    # Find Order Index
+
+    local -r autoScaleGroupName="$(getAutoScaleGroupNameByStackName "${stackName}")"
+
+    checkNonEmptyString "${autoScaleGroupName}" 'undefined auto scale group name'
+
+    local -r autoScaleInstanceIDs=($(
+        aws ec2 describe-instances \
+            --filters \
+                'Name=instance-state-name,Values=pending,running' \
+                "Name=tag:aws:autoscaling:groupName,Values=${autoScaleGroupName}" \
+                "Name=tag:aws:cloudformation:stack-name,Values=${stackName}" \
+            --no-cli-pager \
+            --output 'json' \
+            --query 'sort_by(Reservations[*].Instances[], &LaunchTime)[*]' |
+        jq \
+            --argjson jqElasticNetworkInterfaceIDs "$(printf '%s\n' "${elasticNetworkInterfaceIDs[@]}" | jq -R | jq -s)" \
+            --compact-output \
+            --raw-output \
+            '.[] | select(.["NetworkInterfaces"] | all(.["NetworkInterfaceId"] != ($jqElasticNetworkInterfaceIDs[]))) | .["InstanceId"] // empty'
+    ))
+
+    local i=0
+
+    for ((i = 0; i < ${#autoScaleInstanceIDs[@]}; i = i + 1))
+    do
+        if [[ "${autoScaleInstanceIDs[i]}" = "${instanceID}" ]]
+        then
+            echo "${i}"
+            i="$((${#autoScaleInstanceIDs[@]}))"
         fi
     done
 }
