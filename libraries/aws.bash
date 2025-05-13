@@ -106,6 +106,7 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
     checkNonEmptyArray 'undefined elastic network interface ids' "${elasticNetworkInterfaceIDs[@]}"
 
     # Filter Network Interface IDs By :
+    #     Status Available
     #     Instance Subnet ID
     #     Within Network Interface ID List From Configurations
 
@@ -115,7 +116,9 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
 
     local -r filterElasticNetworkInterfaceIDs=($(
         aws ec2 describe-network-interfaces \
-            --filters "Name=subnet-id,Values=${instanceSubnetID}" \
+            --filters \
+                'Name=status,Values=available' \
+                "Name=subnet-id,Values=${instanceSubnetID}" \
             --no-cli-pager \
             --output 'json' \
             --query 'sort_by(NetworkInterfaces[*], &NetworkInterfaceId)[*]' |
@@ -161,7 +164,7 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
     do
         if [[ "${autoScaleInstanceIDs[i]}" = "${instanceID}" ]]
         then
-            echo "${i}"
+            echo "${i}:$(arrayToStringWithDelimiter ' ' "${filterElasticNetworkInterfaceIDs[@]}")"
             i="$((${#autoScaleInstanceIDs[@]}))"
         fi
     done
@@ -239,6 +242,46 @@ function associateElasticPublicIPToInstanceID()
         --instance-id "${instanceID}" \
         --no-cli-pager \
         --region "${region}"
+}
+
+function attachNetworkInterfaceIDToInstanceID()
+{
+    local instanceID="${1}"
+    local -r elasticNetworkInterfaceIDs=("${@:2}")
+
+    # Set Default Value
+
+    if [[ "$(isEmptyString "${instanceID}")" = 'true' ]]
+    then
+        instanceID="$(getInstanceID 'false')"
+    fi
+
+    # Validate Values
+
+    checkNonEmptyString "${instanceID}" 'undefined instance id'
+    checkNonEmptyArray 'undefined elastic network interface ids' "${elasticNetworkInterfaceIDs[@]}"
+
+    # Attach Network Interface
+
+    local -r elasticNetworkInterfaceID="$(
+        aws ec2 describe-network-interfaces \
+            --filters 'Name=status,Values=available' \
+            --network-interface-ids "${elasticNetworkInterfaceIDs[@]}" \
+            --no-cli-pager \
+            --output 'json' |
+        jq \
+            --compact-output \
+            --raw-output \
+            '.["NetworkInterfaces"] | first | .["NetworkInterfaceId"] // empty'
+    )"
+
+    checkNonEmptyString "${elasticNetworkInterfaceID}" 'undefined elastic network interface id'
+
+    aws ec2 attach-network-interface \
+        --device-index '1' \
+        --instance-id "${instanceID}" \
+        --network-interface-id "${elasticNetworkInterfaceID}" \
+        --no-cli-pager
 }
 
 function getAvailableElasticPublicIP()
