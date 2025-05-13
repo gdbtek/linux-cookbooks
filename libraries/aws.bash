@@ -126,7 +126,11 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
             '.[] | select(.["NetworkInterfaceId"] | IN($jqElasticNetworkInterfaceIDs[])) | .["NetworkInterfaceId"] // empty'
     ))
 
-    # Find Instance Order Index
+    # Get Instance ID List Has :
+    #     Instance Subnet ID
+    #     Auto Scale Group Name
+    #     Stack Name
+    #     NOT IN Filter Elastic Network Interface IDs
 
     local -r autoScaleGroupName="$(getAutoScaleGroupNameByStackName "${stackName}")"
 
@@ -148,6 +152,8 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
             --raw-output \
             '.[] | select(.["NetworkInterfaces"] | all(.["NetworkInterfaceId"] != ($jqFilterElasticNetworkInterfaceIDs[]))) | .["InstanceId"] // empty'
     ))
+
+    # Find Instance Order Index
 
     local i=0
 
