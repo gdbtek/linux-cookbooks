@@ -105,7 +105,28 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
     checkNonEmptyString "${instanceID}" 'undefined instance id'
     checkNonEmptyArray 'undefined elastic network interface ids' "${elasticNetworkInterfaceIDs[@]}"
 
-    # Find Order Index
+    # Filter Network Interface IDs By :
+    #     Instance Subnet ID
+    #     Within Network Interface ID List From Configurations
+
+    local -r instanceSubnetID="$(getInstanceSubnetID)"
+
+    checkNonEmptyString "${instanceSubnetID}" 'undefined instance subnet id'
+
+    local -r filterElasticNetworkInterfaceIDs=($(
+        aws ec2 describe-network-interfaces \
+            --filters "Name=subnet-id,Values=${instanceSubnetID}" \
+            --no-cli-pager \
+            --output 'json' \
+            --query 'sort_by(NetworkInterfaces[*], &NetworkInterfaceId)[*]' |
+        jq \
+            --argjson jqElasticNetworkInterfaceIDs "$(printf '%s\n' "${elasticNetworkInterfaceIDs[@]}" | jq -R | jq -s)" \
+            --compact-output \
+            --raw-output \
+            '.[] | select(.["NetworkInterfaceId"] | IN($jqElasticNetworkInterfaceIDs[])) | .["NetworkInterfaceId"] // empty'
+    ))
+
+    # Find Instance Order Index
 
     local -r autoScaleGroupName="$(getAutoScaleGroupNameByStackName "${stackName}")"
 
@@ -115,16 +136,17 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
         aws ec2 describe-instances \
             --filters \
                 'Name=instance-state-name,Values=pending,running' \
+                "Name=network-interface.subnet-id,Values=${instanceSubnetID}" \
                 "Name=tag:aws:autoscaling:groupName,Values=${autoScaleGroupName}" \
                 "Name=tag:aws:cloudformation:stack-name,Values=${stackName}" \
             --no-cli-pager \
             --output 'json' \
             --query 'sort_by(Reservations[*].Instances[], &LaunchTime)[*]' |
         jq \
-            --argjson jqElasticNetworkInterfaceIDs "$(printf '%s\n' "${elasticNetworkInterfaceIDs[@]}" | jq -R | jq -s)" \
+            --argjson jqFilterElasticNetworkInterfaceIDs "$(printf '%s\n' "${filterElasticNetworkInterfaceIDs[@]}" | jq -R | jq -s)" \
             --compact-output \
             --raw-output \
-            '.[] | select(.["NetworkInterfaces"] | all(.["NetworkInterfaceId"] != ($jqElasticNetworkInterfaceIDs[]))) | .["InstanceId"] // empty'
+            '.[] | select(.["NetworkInterfaces"] | all(.["NetworkInterfaceId"] != ($jqFilterElasticNetworkInterfaceIDs[]))) | .["InstanceId"] // empty'
     ))
 
     local i=0
