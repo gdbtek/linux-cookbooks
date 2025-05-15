@@ -12,6 +12,7 @@ function main()
 
     if [[ "$(isAmazonLinuxDistributor)" = 'true' ]]
     then
+        amazon-linux-extras install -y "${ANSIBLE_PYTHON_VERSION}"
         amazon-linux-extras install -y "${ANSIBLE_VERSION_AMAZON_LINUX}"
         ansible --version
     elif [[ "$(isUbuntuDistributor)" = 'true' ]]
