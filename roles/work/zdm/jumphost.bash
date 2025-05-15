@@ -11,10 +11,6 @@ function main()
     "$(dirname "${BASH_SOURCE[0]}")/../../../cookbooks/zdm-proxy-automation/recipes/install.bash"
     "$(dirname "${BASH_SOURCE[0]}")/../../../cookbooks/zdm-util/recipes/install.bash"
 
-    installPackages 'python3-jmespath'
-    ansible-galaxy collection install 'community.docker'
-    ansible-galaxy collection install 'community.general'
-
     postUpMessage
 }
 
