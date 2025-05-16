@@ -4,7 +4,10 @@ function main()
 {
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
-    installPackages 'libselinux-python'
+    if [[ "$(isAmazonLinuxDistributor)" = 'true' ]]
+    then
+        installPackages 'libselinux-python'
+    fi
 
     postUpMessage
 }
