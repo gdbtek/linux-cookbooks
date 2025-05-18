@@ -5,7 +5,7 @@ function main()
     source "$(dirname "${BASH_SOURCE[0]}")/../../../libraries/util.bash"
 
     apt-get update -m
-    installPackages 'aptitude' 'curl' 'software-properties-common' 'python3-pip' 'virtualenv' 'python3-setuptools' 'docker-ce'
+    installPackages 'aptitude' 'curl' 'software-properties-common' 'python3-pip' 'virtualenv' 'python3-setuptools'
 
     "$(dirname "${BASH_SOURCE[0]}")/../../../cookbooks/docker/recipes/install.bash"
 
