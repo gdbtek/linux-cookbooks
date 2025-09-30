@@ -1762,7 +1762,7 @@ function printTable()
                 line="$(sed "${i}q;d" <<< "${tableData}")"
 
                 local numberOfColumns=0
-                numberOfColumns="$(awk -F "${delimiter}" '{print NF}' <<< "${line}")"
+                numberOfColumns="$(awk -F "${delimiter}" '{ print NF }' <<< "${line}")"
 
                 # Add Line Delimiter
 
@@ -1779,7 +1779,7 @@ function printTable()
 
                 for ((j = 1; j <= "${numberOfColumns}"; j = j + 1))
                 do
-                    table="${table}$(printf '#|  %s' "$(cut -d "${delimiter}" -f "${j}" <<< "${line}")")"
+                    table="${table}$(printf '#|  %s' "$(awk -F "${delimiter}" "{ print \$${j} }" <<< "${line}")")"
                 done
 
                 table="${table}#|\n"
