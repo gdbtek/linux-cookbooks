@@ -1688,6 +1688,16 @@ function formatPath()
     sed -e 's/\/$//g' <<< "${path}"
 }
 
+function footer()
+{
+    local -r title="${1}"
+
+    if [[ "$(isEmptyString "${title}")" = 'false' ]]
+    then
+        echo -e "\n\033[1;33m>>>>>>>>>> \033[1;4;34m${title}\033[0m \033[1;33m<<<<<<<<<<\033[0m\n"
+    fi
+}
+
 function header()
 {
     local -r title="${1}"
