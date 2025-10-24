@@ -4,6 +4,13 @@
 # ARRAY UTILITIES #
 ###################
 
+function arrayToAppleScriptList()
+{
+    local -r array=("${@}")
+
+    printf '"%s",' "${array[@]}" | sed 's/,$//'
+}
+
 function arrayToParameters()
 {
     local -r array=("${@}")
