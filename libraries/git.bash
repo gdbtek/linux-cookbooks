@@ -454,6 +454,44 @@ function getGitUserRepositoryObjectKey()
     echo "${results}" | sort -f
 }
 
+function isGitRepositoryExist()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local gitURL="${3}"
+    local -r orgName="${4}"
+    local -r repository="${5}"
+
+    # Default Values
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
+
+    # Check Status
+
+    local -r statusCode="$(
+        curl \
+            --fail \
+            --location "${gitURL}/repos/${orgName}/${repository}" \
+            --output '/dev/null' \
+            --request 'GET' \
+            --retry '12' \
+            --retry-delay '5' \
+            --silent \
+            --user "${user}:${token}" \
+            --write-out "%{http_code}"
+    )"
+
+    if [[ "${statusCode}" = '200' ]]
+    then
+        echo 'true' && return 0
+    else
+        echo 'false' && return 1
+    fi
+}
+
 function isGitUserSuspended()
 {
     local -r user="${1}"
