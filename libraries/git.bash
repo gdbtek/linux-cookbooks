@@ -80,87 +80,33 @@ function getGitOrganizationMembersRoles()
     local -r orgName="${3}"
     local gitURL="${4}"
 
-    # Default Values
+    local -r memberLogins=($(
+        jq \
+            --compact-output \
+            --raw-output \
+            '.[] | .["login"] // empty' <<< "$(getGitOrganizationMembers "${user}" "${token}" "${orgName}" "${gitURL}")" |
+        sort -f -u
+    ))
 
-    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
-    then
-        gitURL='https://api.github.com'
-    fi
+    local memberLogin=''
 
-    # Validation
-
-    checkValidGitToken "${user}" "${token}" "${gitURL}"
-
-    # Pagination
-
-    local members='[]'
-    local page=1
-    local exitCount=0
-
-    for ((page = 1; page > exitCount; page = page + 1))
+    for memberLogin in "${memberLogins[@]}"
     do
-        local currentMembers=''
-        currentMembers="$(
+        local memberRole="$(
             curl \
                 -s \
                 -X 'GET' \
                 -u "${user}:${token}" \
-                -L "${gitURL}/orgs/${orgName}/members?page=${page}&per_page=100" \
+                -L "${gitURL}/orgs/${orgName}/memberships/${memberLogin}" \
                 --retry 12 \
                 --retry-delay 5 |
             jq \
                 --compact-output \
                 --raw-output \
-                '. // empty'
+                '.["role"] // empty'
         )"
 
-        if [[ "${currentMembers}" = '[]' ]]
-        then
-            exitCount="$((page + 1))"
-
-            # Each Member Login
-
-            local memberLogins=($(
-                jq \
-                    --compact-output \
-                    --raw-output \
-                    '.[] | .["login"] // empty' \
-                <<< "${members}" |
-                sort -f -u
-            ))
-
-
-            local memberLogin=''
-
-            for memberLogin in "${memberLogins[@]}"
-            do
-                local memberRole="$(
-                    curl \
-                        -s \
-                        -X 'GET' \
-                        -u "${user}:${token}" \
-                        -L "${gitURL}/orgs/${orgName}/memberships/${memberLogin}" \
-                        --retry 12 \
-                        --retry-delay 5 |
-                    jq \
-                        --compact-output \
-                        --raw-output \
-                        '.["role"] // empty'
-                )"
-
-                echo "${memberLogin}:${memberRole}"
-            done
-        else
-            local members="$(
-                jq \
-                    -S \
-                    --compact-output \
-                    --raw-output \
-                    --argjson jqCurrentUsers "${currentMembers}" \
-                    --argjson jqUsers "${members}" \
-                    -n '$jqCurrentUsers + $jqUsers | unique_by(.["id"]) // empty'
-            )"
-        fi
+        echo "${memberLogin}:${memberRole}"
     done
 }
 
