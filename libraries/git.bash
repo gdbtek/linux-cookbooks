@@ -57,8 +57,99 @@ function getGitOrganizationMembers()
 
         if [[ "${currentMembers}" = '[]' ]]
         then
-            echo "${members}"
             exitCount="$((page + 1))"
+            echo "${members}"
+        else
+            local members="$(
+                jq \
+                    -S \
+                    --compact-output \
+                    --raw-output \
+                    --argjson jqCurrentUsers "${currentMembers}" \
+                    --argjson jqUsers "${members}" \
+                    -n '$jqCurrentUsers + $jqUsers | unique_by(.["id"]) // empty'
+            )"
+        fi
+    done
+}
+
+function getGitOrganizationMembersRoles()
+{
+    local -r user="${1}"
+    local -r token="${2}"
+    local -r orgName="${3}"
+    local gitURL="${4}"
+
+    # Default Values
+
+    if [[ "$(isEmptyString "${gitURL}")" = 'true' ]]
+    then
+        gitURL='https://api.github.com'
+    fi
+
+    # Validation
+
+    checkValidGitToken "${user}" "${token}" "${gitURL}"
+
+    # Pagination
+
+    local members='[]'
+    local page=1
+    local exitCount=0
+
+    for ((page = 1; page > exitCount; page = page + 1))
+    do
+        local currentMembers=''
+        currentMembers="$(
+            curl \
+                -s \
+                -X 'GET' \
+                -u "${user}:${token}" \
+                -L "${gitURL}/orgs/${orgName}/members?page=${page}&per_page=100" \
+                --retry 12 \
+                --retry-delay 5 |
+            jq \
+                --compact-output \
+                --raw-output \
+                '. // empty'
+        )"
+
+        if [[ "${currentMembers}" = '[]' ]]
+        then
+            exitCount="$((page + 1))"
+
+            # Each Member Login
+
+            local memberLogins=($(
+                jq \
+                    --compact-output \
+                    --raw-output \
+                    '.[] | .["login"] // empty' \
+                <<< "${members}" |
+                sort -f -u
+            ))
+
+
+            local memberLogin=''
+
+            for memberLogin in "${memberLogins[@]}"
+            do
+                local memberRole="$(
+                    curl \
+                        -s \
+                        -X 'GET' \
+                        -u "${user}:${token}" \
+                        -L "${gitURL}/orgs/${orgName}/memberships/${memberLogin}" \
+                        --retry 12 \
+                        --retry-delay 5 |
+                    jq \
+                        --compact-output \
+                        --raw-output \
+                        '.["role"] // empty'
+                )"
+
+                echo "${memberLogin}:${memberRole}"
+            done
         else
             local members="$(
                 jq \
@@ -117,8 +208,8 @@ function getGitOrganizationTeams()
 
         if [[ "${currentTeams}" = '[]' ]]
         then
-            echo "${teams}"
             exitCount="$((page + 1))"
+            echo "${teams}"
         else
             local teams="$(
                 jq \
@@ -198,8 +289,8 @@ function getGitRepositoryCollaborators()
 
         if [[ "${currentUsers}" = '[]' ]]
         then
-            echo "${users}"
             exitCount="$((page + 1))"
+            echo "${users}"
         else
             local users="$(
                 jq \
