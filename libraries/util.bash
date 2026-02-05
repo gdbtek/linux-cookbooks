@@ -159,7 +159,7 @@ function secondsToReadableTime()
     local day="$((time / 60 / 60 / 24 % 7))"
     local hour="$((time / 60 / 60 % 24))"
     local minute="$((time / 60 % 60))"
-    local -r second="$((time % 60))"
+    local second="$((time % 60))"
 
     # Normalize
 
@@ -191,6 +191,12 @@ function secondsToReadableTime()
     then
         hour="$((hour + 1))"
         minute='0'
+    fi
+
+    if [[ "${second}" = '60' ]]
+    then
+        minute="$((minute + 1))"
+        second='0'
     fi
 
     # Display
