@@ -163,24 +163,44 @@ function secondsToReadableTime()
 
     if [[ "${year}" -gt '0' ]]
     then
-        [[ "${year}" -eq '1' ]] && printf '%d year' "${year}" || printf '%d years' "${year}"
+        printf '%d year%s' "${year}" "$([[ "${year}" -eq '1' ]] || echo 's')"
+
+        if [[ "${month}" -gt '0' ]]
+        then
+            printf ' and %d month%s' "${month}" "$([[ "${month}" -eq '1' ]] || echo 's')"
+        fi
     elif [[ "${month}" -gt '0' ]]
     then
-        [[ "${month}" -eq '1' ]] && printf '%d month' "${month}" || printf '%d months' "${month}"
+        printf '%d month%s' "${month}" "$([[ "${month}" -eq '1' ]] || echo 's')"
+
+        if [[ "${week}" -gt '0' ]]
+        then
+            printf ' and %d week%s' "${week}" "$([[ "${week}" -eq '1' ]] || echo 's')"
+        fi
     elif [[ "${week}" -gt '0' ]]
     then
-        [[ "${week}" -eq '1' ]] && printf '%d week' "${week}" || printf '%d weeks' "${week}"
+        printf '%d week%s' "${week}" "$([[ "${week}" -eq '1' ]] || echo 's')"
+
+        if [[ "${day}" -gt '0' ]]
+        then
+            printf ' and %d day%s' "${day}" "$([[ "${day}" -eq '1' ]] || echo 's')"
+        fi
     elif [[ "${day}" -gt '0' ]]
     then
-        [[ "${day}" -eq '1' ]] && printf '%d day' "${day}" || printf '%d days' "${day}"
+        printf '%d day%s' "${day}" "$([[ "${day}" -eq '1' ]] || echo 's')"
+
+        if [[ "${hour}" -gt '0' ]]
+        then
+            printf ' and %d hour%s' "${hour}" "$([[ "${hour}" -eq '1' ]] || echo 's')"
+        fi
     elif [[ "${hour}" -gt '0' ]]
     then
-        [[ "${hour}" -eq '1' ]] && printf '%d hour' "${hour}" || printf '%d hours' "${hour}"
+        printf '%d hour%s' "${hour}" "$([[ "${hour}" -eq '1' ]] || echo 's')"
     elif [[ "${minute}" -gt '0' ]]
     then
-        [[ "${minute}" -eq '1' ]] && printf '%d minute' "${minute}" || printf '%d minutes' "${minute}"
+        printf '%d minute%s' "${minute}" "$([[ "${minute}" -eq '1' ]] || echo 's')"
     else
-        [[ "${second}" -eq '1' ]] && printf '%d second' "${second}" || printf '%d seconds' "${second}"
+        printf '%d second%s' "${second}" "$([[ "${second}" -eq '1' ]] || echo 's')"
     fi
 }
 
