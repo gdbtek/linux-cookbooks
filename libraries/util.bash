@@ -153,32 +153,34 @@ function secondsToReadableTime()
 {
     local -r time="${1}"
 
-    local -r day="$((time / 60 / 60 / 24))"
+    local -r year="$((time / 60 / 60 / 24 / 365))"
+    local -r month="$((time / 60 / 60 / 24 % 365 / 30))"
+    local -r week="$((time / 60 / 60 / 24 % 30 / 7))"
+    local -r day="$((time / 60 / 60 / 24 % 7))"
     local -r hour="$((time / 60 / 60 % 24))"
     local -r minute="$((time / 60 % 60))"
     local -r second="$((time % 60))"
 
-    if [[ "${day}" = '0' ]]
+    if [[ "${year}" -gt '0' ]]
     then
-        if [[ "${hour}" = '0' ]]
-        then
-            if [[ "${minute}" -gt '1' ]]
-            then
-                printf '%02d minutes' "${minute}"
-            else
-                printf '%02d minute' "${minute}"
-            fi
-        elif [[ "${hour}" = '1' ]]
-        then
-            printf '%02d hour' "${hour}"
-        else
-            printf '%02d hours' "${hour}"
-        fi
-    elif [[ "${day}" = '1' ]]
+        [[ "${year}" -eq '1' ]] && printf '%d year' "${year}" || printf '%d years' "${year}"
+    elif [[ "${month}" -gt '0' ]]
     then
-        printf '%d day' "${day}"
+        [[ "${month}" -eq '1' ]] && printf '%d month' "${month}" || printf '%d months' "${month}"
+    elif [[ "${week}" -gt '0' ]]
+    then
+        [[ "${week}" -eq '1' ]] && printf '%d week' "${week}" || printf '%d weeks' "${week}"
+    elif [[ "${day}" -gt '0' ]]
+    then
+        [[ "${day}" -eq '1' ]] && printf '%d day' "${day}" || printf '%d days' "${day}"
+    elif [[ "${hour}" -gt '0' ]]
+    then
+        [[ "${hour}" -eq '1' ]] && printf '%d hour' "${hour}" || printf '%d hours' "${hour}"
+    elif [[ "${minute}" -gt '0' ]]
+    then
+        [[ "${minute}" -eq '1' ]] && printf '%d minute' "${minute}" || printf '%d minutes' "${minute}"
     else
-        printf '%d days' "${day}"
+        [[ "${second}" -eq '1' ]] && printf '%d second' "${second}" || printf '%d seconds' "${second}"
     fi
 }
 
