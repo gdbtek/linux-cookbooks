@@ -160,12 +160,25 @@ function secondsToReadableTime()
 
     if [[ "${day}" = '0' ]]
     then
-        printf '%02d:%02d:%02d' "${hour}" "${minute}" "${second}"
+        if [[ "${hour}" = '0' ]]
+        then
+            if [[ "${minute}" -gt '1' ]]
+            then
+                printf '%02d minutes' "${minute}"
+            else
+                printf '%02d minute' "${minute}"
+            fi
+        elif [[ "${hour}" = '1' ]]
+        then
+            printf '%02d hour' "${hour}"
+        else
+            printf '%02d hours' "${hour}"
+        fi
     elif [[ "${day}" = '1' ]]
     then
-        printf '%d day and %02d:%02d:%02d' "${day}" "${hour}" "${minute}" "${second}"
+        printf '%d day' "${day}"
     else
-        printf '%d days and %02d:%02d:%02d' "${day}" "${hour}" "${minute}" "${second}"
+        printf '%d days' "${day}"
     fi
 }
 
