@@ -153,19 +153,47 @@ function secondsToReadableTime()
 {
     local -r time="${1}"
 
-    local totalDays="$((time / 86400))"
-
-    local -r year="$((totalDays / 365))"
-    totalDays="$((totalDays % 365))"
-
-    local -r month="$((totalDays / 30))"
-    totalDays="$((totalDays % 30))"
-
-    local -r week="$((totalDays / 7))"
-    local -r day="$((totalDays % 7))"
-    local -r hour="$((time / 3600 % 24))"
-    local -r minute="$((time / 60 % 60))"
+    local year="$((time / 60 / 60 / 24 / 365))"
+    local month="$((time / 60 / 60 / 24 % 365 / 30))"
+    local week="$((time / 60 / 60 / 24 % 30 / 7))"
+    local day="$((time / 60 / 60 / 24 % 7))"
+    local hour="$((time / 60 / 60 % 24))"
+    local minute="$((time / 60 % 60))"
     local -r second="$((time % 60))"
+
+    # Normalize
+
+    if [[ "${month}" = '12' ]]
+    then
+        year="$((year + 1))"
+        month='0'
+    fi
+
+    if [[ "${week}" = '4' ]]
+    then
+        month="$((month + 1))"
+        week='0'
+    fi
+
+    if [[ "${day}" = '7' ]]
+    then
+        week="$((week + 1))"
+        day='0'
+    fi
+
+    if [[ "${hour}" = '24' ]]
+    then
+        day="$((day + 1))"
+        hour='0'
+    fi
+
+    if [[ "${minute}" = '60' ]]
+    then
+        hour="$((hour + 1))"
+        minute='0'
+    fi
+
+    # Display
 
     if [[ "${year}" -gt '0' ]]
     then
