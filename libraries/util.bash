@@ -153,94 +153,97 @@ function secondsToReadableTime()
 {
     local -r time="${1}"
 
-    local year="$((time / 60 / 60 / 24 / 365))"
-    local month="$((time / 60 / 60 / 24 % 365 / 30))"
-    local week="$((time / 60 / 60 / 24 % 30 / 7))"
-    local day="$((time / 60 / 60 / 24 % 7))"
-    local hour="$((time / 60 / 60 % 24))"
-    local minute="$((time / 60 % 60))"
-    local second="$((time % 60))"
-
-    # Normalize
-
-    if [[ "${month}" = '12' ]]
+    if [[ "$(isEmptyString "${time}")" = 'false' ]]
     then
-        year="$((year + 1))"
-        month='0'
-    fi
+        local year="$((time / 60 / 60 / 24 / 365))"
+        local month="$((time / 60 / 60 / 24 % 365 / 30))"
+        local week="$((time / 60 / 60 / 24 % 30 / 7))"
+        local day="$((time / 60 / 60 / 24 % 7))"
+        local hour="$((time / 60 / 60 % 24))"
+        local minute="$((time / 60 % 60))"
+        local second="$((time % 60))"
 
-    if [[ "${week}" = '4' ]]
-    then
-        month="$((month + 1))"
-        week='0'
-    fi
+        # Normalize
 
-    if [[ "${day}" = '7' ]]
-    then
-        week="$((week + 1))"
-        day='0'
-    fi
-
-    if [[ "${hour}" = '24' ]]
-    then
-        day="$((day + 1))"
-        hour='0'
-    fi
-
-    if [[ "${minute}" = '60' ]]
-    then
-        hour="$((hour + 1))"
-        minute='0'
-    fi
-
-    if [[ "${second}" = '60' ]]
-    then
-        minute="$((minute + 1))"
-        second='0'
-    fi
-
-    # Display
-
-    if [[ "${year}" -gt '0' ]]
-    then
-        printf '%d year%s' "${year}" "$([[ "${year}" -eq '1' ]] || echo 's')"
-
-        if [[ "${month}" -gt '0' ]]
+        if [[ "${month}" = '12' ]]
         then
-            printf ' and %d month%s' "${month}" "$([[ "${month}" -eq '1' ]] || echo 's')"
+            year="$((year + 1))"
+            month='0'
         fi
-    elif [[ "${month}" -gt '0' ]]
-    then
-        printf '%d month%s' "${month}" "$([[ "${month}" -eq '1' ]] || echo 's')"
 
-        if [[ "${week}" -gt '0' ]]
+        if [[ "${week}" = '4' ]]
         then
-            printf ' and %d week%s' "${week}" "$([[ "${week}" -eq '1' ]] || echo 's')"
+            month="$((month + 1))"
+            week='0'
         fi
-    elif [[ "${week}" -gt '0' ]]
-    then
-        printf '%d week%s' "${week}" "$([[ "${week}" -eq '1' ]] || echo 's')"
 
-        if [[ "${day}" -gt '0' ]]
+        if [[ "${day}" = '7' ]]
         then
-            printf ' and %d day%s' "${day}" "$([[ "${day}" -eq '1' ]] || echo 's')"
+            week="$((week + 1))"
+            day='0'
         fi
-    elif [[ "${day}" -gt '0' ]]
-    then
-        printf '%d day%s' "${day}" "$([[ "${day}" -eq '1' ]] || echo 's')"
 
-        if [[ "${hour}" -gt '0' ]]
+        if [[ "${hour}" = '24' ]]
         then
-            printf ' and %d hour%s' "${hour}" "$([[ "${hour}" -eq '1' ]] || echo 's')"
+            day="$((day + 1))"
+            hour='0'
         fi
-    elif [[ "${hour}" -gt '0' ]]
-    then
-        printf '%d hour%s' "${hour}" "$([[ "${hour}" -eq '1' ]] || echo 's')"
-    elif [[ "${minute}" -gt '0' ]]
-    then
-        printf '%d minute%s' "${minute}" "$([[ "${minute}" -eq '1' ]] || echo 's')"
-    else
-        printf '%d second%s' "${second}" "$([[ "${second}" -eq '1' ]] || echo 's')"
+
+        if [[ "${minute}" = '60' ]]
+        then
+            hour="$((hour + 1))"
+            minute='0'
+        fi
+
+        if [[ "${second}" = '60' ]]
+        then
+            minute="$((minute + 1))"
+            second='0'
+        fi
+
+        # Display
+
+        if [[ "${year}" -gt '0' ]]
+        then
+            printf '%d year%s' "${year}" "$([[ "${year}" -eq '1' ]] || echo 's')"
+
+            if [[ "${month}" -gt '0' ]]
+            then
+                printf ' and %d month%s' "${month}" "$([[ "${month}" -eq '1' ]] || echo 's')"
+            fi
+        elif [[ "${month}" -gt '0' ]]
+        then
+            printf '%d month%s' "${month}" "$([[ "${month}" -eq '1' ]] || echo 's')"
+
+            if [[ "${week}" -gt '0' ]]
+            then
+                printf ' and %d week%s' "${week}" "$([[ "${week}" -eq '1' ]] || echo 's')"
+            fi
+        elif [[ "${week}" -gt '0' ]]
+        then
+            printf '%d week%s' "${week}" "$([[ "${week}" -eq '1' ]] || echo 's')"
+
+            if [[ "${day}" -gt '0' ]]
+            then
+                printf ' and %d day%s' "${day}" "$([[ "${day}" -eq '1' ]] || echo 's')"
+            fi
+        elif [[ "${day}" -gt '0' ]]
+        then
+            printf '%d day%s' "${day}" "$([[ "${day}" -eq '1' ]] || echo 's')"
+
+            if [[ "${hour}" -gt '0' ]]
+            then
+                printf ' and %d hour%s' "${hour}" "$([[ "${hour}" -eq '1' ]] || echo 's')"
+            fi
+        elif [[ "${hour}" -gt '0' ]]
+        then
+            printf '%d hour%s' "${hour}" "$([[ "${hour}" -eq '1' ]] || echo 's')"
+        elif [[ "${minute}" -gt '0' ]]
+        then
+            printf '%d minute%s' "${minute}" "$([[ "${minute}" -eq '1' ]] || echo 's')"
+        else
+            printf '%d second%s' "${second}" "$([[ "${second}" -eq '1' ]] || echo 's')"
+        fi
     fi
 }
 
