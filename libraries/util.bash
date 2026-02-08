@@ -153,7 +153,7 @@ function secondsToReadableTime()
 {
     local -r time="${1}"
 
-    if [[ "$(isEmptyString "${time}")" = 'false' || "${time}" -le '0' ]]
+    if [[ "$(isEmptyString "${time}")" = 'false' || "${time}" -gt '0' ]]
     then
         local year="$((time / 60 / 60 / 24 / 365))"
         local month="$((time / 60 / 60 / 24 % 365 / 30))"
