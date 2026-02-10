@@ -8,7 +8,10 @@ function arrayToAppleScriptList()
 {
     local -r array=("${@}")
 
-    printf '"%s",' "${array[@]}" | sed 's/,$//'
+    if [[ "${#array[@]}" -gt '0' ]]
+    then
+        printf '"%s",' "${array[@]}" | sed 's/,$//'
+    fi
 }
 
 function arrayToParameters()
