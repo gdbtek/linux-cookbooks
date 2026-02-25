@@ -2221,6 +2221,12 @@ function isPortOpen()
     echo 'true' && return 0
 }
 
+function pause()
+{
+  read -n 1 -p $'\n\033[1;36mPRESS ANY KEY TO CONTINUE ...\033[0m ' -r -s
+  echo
+}
+
 function redirectJDKTMPDir()
 {
     local -r option="_JAVA_OPTIONS='-Djava.io.tmpdir=/var/tmp'"
