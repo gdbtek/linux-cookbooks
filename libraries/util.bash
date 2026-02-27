@@ -1794,7 +1794,10 @@ function indentString()
     local -r indentString="$(escapeSearchPattern "${1}")"
     local -r string="$(escapeSearchPattern "${2}")"
 
-    sed "s@^@${indentString}@g" <<< "${string}"
+    if [[ "$(isEmptyString "${string}")" = 'false' ]]
+    then
+        sed "s@^@${indentString}@g" <<< "${string}"
+    fi
 }
 
 function info()
