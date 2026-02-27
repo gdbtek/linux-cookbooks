@@ -14,6 +14,16 @@ function arrayToAppleScriptList()
     fi
 }
 
+function arrayToJMESPathList()
+{
+    local -r array=("${@}")
+
+    if [[ "${#array[@]}" -gt '0' ]]
+    then
+        printf "'%s'," "${array[@]}" | sed 's/,$//'
+    fi
+}
+
 function arrayToParameters()
 {
     local -r array=("${@}")
