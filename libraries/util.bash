@@ -996,6 +996,11 @@ function installPortableBinary()
 # MAC UTILITIES #
 #################
 
+function clearTerminal()
+{
+    clear && printf '\e[3J'
+}
+
 function closeMacApplications()
 {
     local -r headerMessage="${1}"
