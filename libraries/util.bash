@@ -506,18 +506,14 @@ function getFileExtension()
 {
     local -r string="${1}"
 
-    local -r fullFileName="$(basename "${string}")"
-
-    echo "${fullFileName##*.}"
+    echo "$(basename "${string##*.}")"
 }
 
 function getFileName()
 {
     local -r string="${1}"
 
-    local -r fullFileName="$(basename "${string}")"
-
-    echo "${fullFileName%.*}"
+    echo "$(basename "${string%.*}")"
 }
 
 function getTemporaryFile()
