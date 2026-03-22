@@ -284,6 +284,22 @@ function attachNetworkInterfaceIDToInstanceID()
         --no-cli-pager
 }
 
+function getAutoScalingGroupName()
+{
+    curl \
+        --header "X-aws-ec2-metadata-token: $(curl \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
+            --request 'PUT' \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/api/token')" \
+        --retry 12 \
+        --retry-delay 5 \
+        --silent \
+        'http://instance-data/latest/meta-data/tags/instance/aws:autoscaling:groupName'
+}
+
 function getAvailableElasticPublicIP()
 {
     local -r region="${1}"
