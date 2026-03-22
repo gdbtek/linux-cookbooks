@@ -375,7 +375,18 @@ function getEC2PrivateIpAddressByInstanceID()
 
     if [[ "$(isEmptyString "${instanceID}")" = 'true' ]]
     then
-        curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/local-ipv4'
+        curl \
+            --header "X-aws-ec2-metadata-token: $(curl \
+                --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+                --request 'PUT' \
+                --retry 12 \
+                --retry-delay 5 \
+                --silent \
+                'http://instance-data/latest/api/token')" \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/meta-data/local-ipv4'
     else
         aws ec2 describe-instances \
             --instance-id "${instanceID}" \
@@ -1033,12 +1044,34 @@ function existIAMRole()
 
 function getInstanceAvailabilityZone()
 {
-    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/placement/availability-zone'
+    curl \
+        --header "X-aws-ec2-metadata-token: $(curl \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --request 'PUT' \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/api/token')" \
+        --retry 12 \
+        --retry-delay 5 \
+        --silent \
+        'http://instance-data/latest/meta-data/placement/availability-zone'
 }
 
 function getInstanceIAMRole()
 {
-    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/iam/info' |
+    curl \
+        --header "X-aws-ec2-metadata-token: $(curl \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --request 'PUT' \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/api/token')" \
+        --retry 12 \
+        --retry-delay 5 \
+        --silent \
+        'http://instance-data/latest/meta-data/iam/info' |
     jq \
         --compact-output \
         --raw-output \
@@ -1051,7 +1084,19 @@ function getInstanceID()
 {
     local -r idOnly="${1}"
 
-    local -r fullInstanceID="$(curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/instance-id')"
+    local -r fullInstanceID="$(curl \
+        --header "X-aws-ec2-metadata-token: $(curl \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --request 'PUT' \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/api/token')" \
+        --retry 12 \
+        --retry-delay 5 \
+        --silent \
+        'http://instance-data/latest/meta-data/instance-id'
+    )"
 
     if [[ "${idOnly}" = 'true' ]]
     then
@@ -1063,12 +1108,34 @@ function getInstanceID()
 
 function getInstanceMACAddress()
 {
-    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/mac'
+    curl \
+        --header "X-aws-ec2-metadata-token: $(curl \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --request 'PUT' \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/api/token')" \
+        --retry 12 \
+        --retry-delay 5 \
+        --silent \
+        'http://instance-data/latest/meta-data/mac'
 }
 
 function getInstancePublicIPV4()
 {
-    curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/meta-data/public-ipv4'
+    curl \
+        --header "X-aws-ec2-metadata-token: $(curl \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --request 'PUT' \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/api/token')" \
+        --retry 12 \
+        --retry-delay 5 \
+        --silent \
+        'http://instance-data/latest/meta-data/public-ipv4'
 }
 
 function getInstanceRegion()
@@ -1091,7 +1158,18 @@ function getInstanceRegion()
 
 function getInstanceSubnetID()
 {
-    curl -s --retry 12 --retry-delay 5 "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/subnet-id"
+    curl \
+        --header "X-aws-ec2-metadata-token: $(curl \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --request 'PUT' \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/api/token')" \
+        --retry 12 \
+        --retry-delay 5 \
+        --silent \
+        "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/subnet-id"
 }
 
 function getInstanceUserDataValue()
@@ -1099,7 +1177,18 @@ function getInstanceUserDataValue()
     local -r key="$(escapeGrepSearchPattern "${1}")"
 
     trimString "$(
-        curl -s --retry 12 --retry-delay 5 'http://instance-data/latest/user-data' |
+        curl \
+            --header "X-aws-ec2-metadata-token: $(curl \
+                --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+                --request 'PUT' \
+                --retry 12 \
+                --retry-delay 5 \
+                --silent \
+                'http://instance-data/latest/api/token')" \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/user-data' |
         grep -E -o "^\s*${key}\s*=\s*.*$" |
         tail -1 |
         awk -F '=' '{ print $2 }'
@@ -1108,7 +1197,18 @@ function getInstanceUserDataValue()
 
 function getInstanceVPCID()
 {
-    curl -s --retry 12 --retry-delay 5 "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-id"
+    curl \
+        --header "X-aws-ec2-metadata-token: $(curl \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --request 'PUT' \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/api/token')" \
+        --retry 12 \
+        --retry-delay 5 \
+        --silent \
+        "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-id"
 }
 
 ###########################
@@ -1473,7 +1573,18 @@ function getAvailabilityZonesByVPCName()
 
 function getCurrentVPCCIDRBlock()
 {
-    curl -s --retry 12 --retry-delay 5 "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-ipv4-cidr-block"
+    curl \
+        --header "X-aws-ec2-metadata-token: $(curl \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --request 'PUT' \
+            --retry 12 \
+            --retry-delay 5 \
+            --silent \
+            'http://instance-data/latest/api/token')" \
+        --retry 12 \
+        --retry-delay 5 \
+        --silent \
+        "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-ipv4-cidr-block"
 }
 
 function getIPV4CIDRByVPCName()
