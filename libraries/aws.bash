@@ -377,7 +377,7 @@ function getEC2PrivateIpAddressByInstanceID()
     then
         curl \
             --header "X-aws-ec2-metadata-token: $(curl \
-                --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+                --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
                 --request 'PUT' \
                 --retry 12 \
                 --retry-delay 5 \
@@ -1046,7 +1046,7 @@ function getInstanceAvailabilityZone()
 {
     curl \
         --header "X-aws-ec2-metadata-token: $(curl \
-            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
             --request 'PUT' \
             --retry 12 \
             --retry-delay 5 \
@@ -1062,7 +1062,7 @@ function getInstanceIAMRole()
 {
     curl \
         --header "X-aws-ec2-metadata-token: $(curl \
-            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
             --request 'PUT' \
             --retry 12 \
             --retry-delay 5 \
@@ -1086,7 +1086,7 @@ function getInstanceID()
 
     local -r fullInstanceID="$(curl \
         --header "X-aws-ec2-metadata-token: $(curl \
-            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
             --request 'PUT' \
             --retry 12 \
             --retry-delay 5 \
@@ -1110,7 +1110,7 @@ function getInstanceMACAddress()
 {
     curl \
         --header "X-aws-ec2-metadata-token: $(curl \
-            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
             --request 'PUT' \
             --retry 12 \
             --retry-delay 5 \
@@ -1126,7 +1126,7 @@ function getInstancePublicIPV4()
 {
     curl \
         --header "X-aws-ec2-metadata-token: $(curl \
-            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
             --request 'PUT' \
             --retry 12 \
             --retry-delay 5 \
@@ -1160,7 +1160,7 @@ function getInstanceSubnetID()
 {
     curl \
         --header "X-aws-ec2-metadata-token: $(curl \
-            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
             --request 'PUT' \
             --retry 12 \
             --retry-delay 5 \
@@ -1179,7 +1179,7 @@ function getInstanceUserDataValue()
     trimString "$(
         curl \
             --header "X-aws-ec2-metadata-token: $(curl \
-                --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+                --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
                 --request 'PUT' \
                 --retry 12 \
                 --retry-delay 5 \
@@ -1199,7 +1199,7 @@ function getInstanceVPCID()
 {
     curl \
         --header "X-aws-ec2-metadata-token: $(curl \
-            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
             --request 'PUT' \
             --retry 12 \
             --retry-delay 5 \
@@ -1575,7 +1575,7 @@ function getCurrentVPCCIDRBlock()
 {
     curl \
         --header "X-aws-ec2-metadata-token: $(curl \
-            --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' \
+            --header 'X-aws-ec2-metadata-token-ttl-seconds: 60' \
             --request 'PUT' \
             --retry 12 \
             --retry-delay 5 \
