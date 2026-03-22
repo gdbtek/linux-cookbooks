@@ -6,35 +6,10 @@ source "$(dirname "${BASH_SOURCE[0]}")/util.bash"
 # AUTO SCALE GROUP UTILITIES #
 ##############################
 
-function getAutoScaleGroupNameByStackName()
-{
-    local -r stackName="${1}"
-
-    checkNonEmptyString "${stackName}" 'undefined stack name'
-
-    aws autoscaling describe-auto-scaling-groups \
-        --no-cli-pager \
-        --output 'json' |
-    jq \
-        --arg jqStackName "${stackName}" \
-        --compact-output \
-        --raw-output \
-        --sort-keys \
-        '.["AutoScalingGroups"] |
-        .[] |
-        .["Tags"] |
-        .[] |
-        select(.["ResourceType"] == "auto-scaling-group") |
-        select(.["Key"] == "aws:cloudformation:stack-name") |
-        select(.["Value"] == $jqStackName) |
-        .["ResourceId"] // empty'
-}
-
 function getInstanceOrderIndexInAutoScaleInstancesByEIPs()
 {
-    local -r stackName="${1}"
-    local instanceID="${2}"
-    local -r elasticPublicIPs=("${@:3}")
+    local instanceID="${1}"
+    local -r elasticPublicIPs=("${@:2}")
 
     # Set Default Value
 
@@ -45,13 +20,12 @@ function getInstanceOrderIndexInAutoScaleInstancesByEIPs()
 
     # Validate Values
 
-    checkNonEmptyString "${stackName}" 'undefined stack name'
     checkNonEmptyString "${instanceID}" 'undefined instance id'
     checkNonEmptyArray 'undefined elastic public ips' "${elasticPublicIPs[@]}"
 
     # Find Order Index
 
-    local -r autoScaleGroupName="$(getAutoScaleGroupNameByStackName "${stackName}")"
+    local -r autoScaleGroupName="$(getAutoScalingGroupName)"
 
     checkNonEmptyString "${autoScaleGroupName}" 'undefined auto scale group name'
 
@@ -60,7 +34,6 @@ function getInstanceOrderIndexInAutoScaleInstancesByEIPs()
             --filters \
                 'Name=instance-state-name,Values=pending,running' \
                 "Name=tag:aws:autoscaling:groupName,Values=${autoScaleGroupName}" \
-                "Name=tag:aws:cloudformation:stack-name,Values=${stackName}" \
             --no-cli-pager \
             --output 'json' \
             --query 'sort_by(Reservations[*].Instances[], &LaunchTime)[*].{
@@ -88,9 +61,8 @@ function getInstanceOrderIndexInAutoScaleInstancesByEIPs()
 
 function getInstanceOrderIndexInAutoScaleInstancesByENIs()
 {
-    local -r stackName="${1}"
-    local instanceID="${2}"
-    local -r elasticNetworkInterfaceIDs=("${@:3}")
+    local instanceID="${1}"
+    local -r elasticNetworkInterfaceIDs=("${@:2}")
 
     # Set Default Value
 
@@ -101,7 +73,6 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
 
     # Validate Values
 
-    checkNonEmptyString "${stackName}" 'undefined stack name'
     checkNonEmptyString "${instanceID}" 'undefined instance id'
     checkNonEmptyArray 'undefined elastic network interface ids' "${elasticNetworkInterfaceIDs[@]}"
 
@@ -135,7 +106,7 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
     #     Stack Name
     #     NOT IN Filter Elastic Network Interface IDs
 
-    local -r autoScaleGroupName="$(getAutoScaleGroupNameByStackName "${stackName}")"
+    local -r autoScaleGroupName="$(getAutoScalingGroupName)"
 
     checkNonEmptyString "${autoScaleGroupName}" 'undefined auto scale group name'
 
@@ -145,7 +116,6 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
                 'Name=instance-state-name,Values=pending,running' \
                 "Name=network-interface.subnet-id,Values=${instanceSubnetID}" \
                 "Name=tag:aws:autoscaling:groupName,Values=${autoScaleGroupName}" \
-                "Name=tag:aws:cloudformation:stack-name,Values=${stackName}" \
             --no-cli-pager \
             --output 'json' \
             --query 'sort_by(Reservations[*].Instances[], &LaunchTime)[*]' |
