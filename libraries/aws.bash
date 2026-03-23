@@ -103,7 +103,6 @@ function getInstanceOrderIndexInAutoScaleInstancesByENIs()
     # Get Instance ID List Has :
     #     Instance Subnet ID
     #     Auto Scale Group Name
-    #     Stack Name
     #     NOT IN Filter Elastic Network Interface IDs
 
     local -r autoScaleGroupName="$(getAutoScalingGroupName)"
