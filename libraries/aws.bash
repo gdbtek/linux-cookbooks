@@ -253,6 +253,35 @@ function attachNetworkInterfaceIDToInstanceID()
         --no-cli-pager
 }
 
+function disassociateElasticPublicIPFromInstanceID
+{
+    local instanceID="${1}"
+
+    # Set Default Value
+
+    if [[ "$(isEmptyString "${instanceID}")" = 'true' ]]
+    then
+        instanceID="$(getInstanceID 'false')"
+    fi
+
+    # Disassociate Elastic Public IP
+
+    local -r associationID="$(
+        aws ec2 describe-addresses \
+            --filters "Name=instance-id,Values=${instanceID}" \
+            --no-cli-pager \
+            --output 'text' \
+            --query 'Addresses[].AssociationId'
+    )"
+
+    if [[ "$(isEmptyString "${associationID}")" = 'false' ]]
+    then
+        aws ec2 disassociate-address --association-id "${associationID}"
+    else
+        info 'This machine has not been associated with an elastic ip'
+    fi
+}
+
 function getAutoScalingGroupName()
 {
     curl \
@@ -262,11 +291,11 @@ function getAutoScalingGroupName()
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/api/token')" \
+            'http://169.254.169.254/latest/api/token')" \
         --retry 12 \
         --retry-delay 5 \
         --silent \
-        'http://instance-data/latest/meta-data/tags/instance/aws:autoscaling:groupName'
+        'http://169.254.169.254/latest/meta-data/tags/instance/aws:autoscaling:groupName'
 }
 
 function getAvailableElasticPublicIP()
@@ -367,11 +396,11 @@ function getEC2PrivateIpAddressByInstanceID()
                 --retry 12 \
                 --retry-delay 5 \
                 --silent \
-                'http://instance-data/latest/api/token')" \
+                'http://169.254.169.254/latest/api/token')" \
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/meta-data/local-ipv4'
+            'http://169.254.169.254/latest/meta-data/local-ipv4'
     else
         aws ec2 describe-instances \
             --instance-id "${instanceID}" \
@@ -1036,11 +1065,11 @@ function getInstanceAvailabilityZone()
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/api/token')" \
+            'http://169.254.169.254/latest/api/token')" \
         --retry 12 \
         --retry-delay 5 \
         --silent \
-        'http://instance-data/latest/meta-data/placement/availability-zone'
+        'http://169.254.169.254/latest/meta-data/placement/availability-zone'
 }
 
 function getInstanceIAMRole()
@@ -1052,11 +1081,11 @@ function getInstanceIAMRole()
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/api/token')" \
+            'http://169.254.169.254/latest/api/token')" \
         --retry 12 \
         --retry-delay 5 \
         --silent \
-        'http://instance-data/latest/meta-data/iam/info' |
+        'http://169.254.169.254/latest/meta-data/iam/info' |
     jq \
         --compact-output \
         --raw-output \
@@ -1076,11 +1105,11 @@ function getInstanceID()
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/api/token')" \
+            'http://169.254.169.254/latest/api/token')" \
         --retry 12 \
         --retry-delay 5 \
         --silent \
-        'http://instance-data/latest/meta-data/instance-id'
+        'http://169.254.169.254/latest/meta-data/instance-id'
     )"
 
     if [[ "${idOnly}" = 'true' ]]
@@ -1100,11 +1129,11 @@ function getInstanceMACAddress()
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/api/token')" \
+            'http://169.254.169.254/latest/api/token')" \
         --retry 12 \
         --retry-delay 5 \
         --silent \
-        'http://instance-data/latest/meta-data/mac'
+        'http://169.254.169.254/latest/meta-data/mac'
 }
 
 function getInstancePublicIPV4()
@@ -1116,11 +1145,11 @@ function getInstancePublicIPV4()
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/api/token')" \
+            'http://169.254.169.254/latest/api/token')" \
         --retry 12 \
         --retry-delay 5 \
         --silent \
-        'http://instance-data/latest/meta-data/public-ipv4'
+        'http://169.254.169.254/latest/meta-data/public-ipv4'
 }
 
 function getInstanceRegion()
@@ -1150,11 +1179,11 @@ function getInstanceSubnetID()
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/api/token')" \
+            'http://169.254.169.254/latest/api/token')" \
         --retry 12 \
         --retry-delay 5 \
         --silent \
-        "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/subnet-id"
+        "http://169.254.169.254/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/subnet-id"
 }
 
 function getInstanceUserDataValue()
@@ -1169,11 +1198,11 @@ function getInstanceUserDataValue()
                 --retry 12 \
                 --retry-delay 5 \
                 --silent \
-                'http://instance-data/latest/api/token')" \
+                'http://169.254.169.254/latest/api/token')" \
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/user-data' |
+            'http://169.254.169.254/latest/user-data' |
         grep -E -o "^\s*${key}\s*=\s*.*$" |
         tail -1 |
         awk -F '=' '{ print $2 }'
@@ -1189,11 +1218,11 @@ function getInstanceVPCID()
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/api/token')" \
+            'http://169.254.169.254/latest/api/token')" \
         --retry 12 \
         --retry-delay 5 \
         --silent \
-        "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-id"
+        "http://169.254.169.254/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-id"
 }
 
 ###########################
@@ -1565,11 +1594,11 @@ function getCurrentVPCCIDRBlock()
             --retry 12 \
             --retry-delay 5 \
             --silent \
-            'http://instance-data/latest/api/token')" \
+            'http://169.254.169.254/latest/api/token')" \
         --retry 12 \
         --retry-delay 5 \
         --silent \
-        "http://instance-data/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-ipv4-cidr-block"
+        "http://169.254.169.254/latest/meta-data/network/interfaces/macs/$(getInstanceMACAddress)/vpc-ipv4-cidr-block"
 }
 
 function getIPV4CIDRByVPCName()
