@@ -1854,7 +1854,7 @@ function postUpMessage()
 
 function postSadMessage()
 {
-    echo -e "\n\033[1;31m¯\_(;_;)_/¯\033[0m"
+    echo -e "\n\033[1;31m¯\_(;_;)_/¯\033[0m" 1>&2
 }
 
 function printTable()
