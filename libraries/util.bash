@@ -1852,6 +1852,11 @@ function postUpMessage()
     echo -e "\n\033[1;32m¯\_(ツ)_/¯\033[0m"
 }
 
+function postSadMessage()
+{
+    echo -e "\n\033[1;31m¯\_(;_;)_/¯\033[0m"
+}
+
 function printTable()
 {
     local -r delimiter="${1}"
