@@ -373,6 +373,38 @@ function getEC2ElasticAssociationIDByElasticPublicIP()
     grep -i -v '^None$'
 }
 
+function getEC2ElasticPublicIP()
+{
+    local region="${1}"
+    local instanceID="${2}"
+
+    # Set Default Value
+
+    if [[ "$(isEmptyString "${region}")" = 'true' ]]
+    then
+        region="$(getInstanceRegion 'false')"
+    fi
+
+    if [[ "$(isEmptyString "${instanceID}")" = 'true' ]]
+    then
+        instanceID="$(getInstanceID 'false')"
+    fi
+
+    # Get Instance Elastic IP
+
+    aws ec2 describe-instances \
+        --instance-ids "${instanceID}" \
+        --no-cli-pager \
+        --output 'text' \
+        --query 'Reservations[0].Instances[0].{
+            _: (
+                NetworkInterfaces[0].Association.IpOwnerId != `amazon` &&
+                NetworkInterfaces[0].Association.PublicIp
+            ) || ``
+        }' \
+        --region "${region}"
+}
+
 function getEC2PrivateIpAddressByInstanceID()
 {
     local region="${1}"
